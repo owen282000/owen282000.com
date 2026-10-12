@@ -1,0 +1,116 @@
+<!--
+title: Export Samsung Health data to your own server | Life Dashboard
+description: Life Dashboard Companion exports Samsung Health and Galaxy Watch data from Health Connect to your own server, n8n flow or script, as signed JSON on every sync.
+primary query: samsung health export
+secondary queries: export samsung health data, samsung health api, galaxy watch data export, samsung health to database, samsung health json, samsung health n8n, samsung health postgres, samsung health webhook, galaxy watch api
+-->
+
+<h1>How do I export Samsung Health data to my own server?</h1>
+
+<p>Switch on Samsung Health's sync with Health Connect, then let Life Dashboard Companion, an open-source Android app, post the data to a URL you choose as JSON. Every sync sends the new Samsung Health and Galaxy Watch records to your database, n8n flow or script, and a backfill sends up to a year of what's in Health Connect.</p>
+
+<p class="flow-line"><span>Galaxy Watch</span><span>Samsung Health</span><span>Health Connect</span><span>Life Dashboard Companion</span><span>Your server</span></p>
+
+<h2>Why it goes through Health Connect</h2>
+
+<p>Samsung Health has no cloud API you can connect to, and Samsung's own data SDK is open only to <a href="https://developer.samsung.com/health/data/guide/app-verification.html">registered partners</a>. Samsung Health does sync with Health Connect on the phone, in both directions. Health Connect has no web API either, so an app on the phone reads it and sends it on. More on that in <a href="../health-data-api/">a web API for Health Connect or Apple Health</a>.</p>
+
+<h2>What you need</h2>
+
+<ul>
+  <li>An Android phone with Android 9 or newer, Health Connect and Samsung Health. Pair your Galaxy Watch with Samsung Health for its data.</li>
+  <li><a href="../android/">Life Dashboard Companion for Android</a>. {{status:android}}</li>
+  <li>A server that accepts a JSON POST over HTTPS, with a body limit of at least 10 MB. Plain HTTP on your own network needs <strong>Allow plain HTTP webhooks</strong> under <strong>Advanced</strong>.</li>
+</ul>
+
+<h2>Set it up</h2>
+
+<ol>
+  <li>In Samsung Health, go to <strong>Settings</strong> &gt; <strong>Health Connect</strong>, tap <strong>Get started</strong>, choose the data and tap <strong>Allow</strong>. Reading and writing are granted separately.</li>
+  <li>In Life Dashboard Companion, on the <strong>Health</strong> tab, open <strong>Webhook</strong> and add your URL under <strong>Webhook URLs</strong>.</li>
+  <li>Under <strong>HMAC signing secret (optional)</strong>, tap <strong>Generate</strong> and put the same value on your server.</li>
+  <li>Tap <strong>Test ping</strong>, then <strong>Save Changes</strong>.</li>
+  <li>Tap <strong>Grant</strong> and allow your data types and reading in the background. Switch on the types you want under <strong>Data Types</strong>.</li>
+  <li>Keep Android from stopping the syncs: <strong>Settings</strong> &gt; <strong>Apps</strong> &gt; <strong>Life Dashboard</strong> &gt; <strong>Battery</strong>, set to <strong>Unrestricted</strong>, and add <strong>Life Dashboard</strong> to <strong>Never sleeping apps</strong> under <strong>Settings</strong> &gt; <strong>Battery</strong> &gt; <strong>Background usage limits</strong>.</li>
+  <li>Tap <strong>Sync Now</strong>. For older data, tap <strong>Backfill</strong> and pick <strong>30d</strong>, <strong>90d</strong> or <strong>365d</strong>.</li>
+</ol>
+
+<!-- IMG: Webhook settings with HMAC (A6-webhook.png) -->
+
+<h2>What you get</h2>
+
+<p>From Samsung's list of what it syncs with Health Connect, these are the types the app passes on:</p>
+
+<table>
+  <thead>
+    <tr><th>Area</th><th>Types</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Activity</td><td>Steps, exercise sessions, total calories and distance from exercise, VO2 max from exercise</td></tr>
+    <tr><td>Sleep</td><td>Sleep sessions with stages</td></tr>
+    <tr><td>Heart and blood</td><td>Heart rate, blood pressure, blood glucose, oxygen saturation</td></tr>
+    <tr><td>Body</td><td>Weight, body fat, height, basal metabolic rate</td></tr>
+    <tr><td>Food</td><td>Nutrition</td></tr>
+  </tbody>
+</table>
+
+<p>Each request is a <code>POST</code> with one JSON object. Shortened, and without the <code>uuid</code> and <code>source</code> every record carries:</p>
+
+<pre><code>{
+  "timestamp": "2026-10-04T07:15:02.481Z",
+  "app_version": "1.23.0",
+  "source": "health_connect",
+  "sequence": 1842,
+  "daily_totals": [
+    { "date": "2026-10-04", "steps": 1204, "distance_meters": 911.6 }
+  ],
+  "sleep": [
+    {
+      "session_end_time": "2026-10-04T06:30:00Z",
+      "duration_seconds": 28800,
+      "stages": [
+        { "stage": "deep", "start_time": "2026-10-03T23:00:00Z",
+          "end_time": "2026-10-04T01:00:00Z", "duration_seconds": 7200 }
+      ]
+    }
+  ]
+}</code></pre>
+
+<p>Store records keyed on <code>uuid</code>, which stays the same when a record is sent again, and use <code>daily_totals</code> for steps, distance and calories, so a walk counted by phone and watch counts once. The <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md">payload reference</a> documents every field.</p>
+
+<h2>What Samsung keeps to itself</h2>
+
+<p>Not in Samsung's list as of October 2026: stress, ECG, Energy Score, heart rate variability, skin temperature, respiratory rate, resting heart rate and cycle tracking. What Samsung Health shares can change with any version, so check on your own phone under Health Connect's app permissions for Samsung Health.</p>
+
+<h2>A live sync, not a one-off file</h2>
+
+<p>This isn't a CSV of everything Samsung Health ever stored. The first sync sends the last 7 days, and every sync after that sends what's new or changed, every 60 minutes by default or at fixed times. A backfill reaches up to a year back, as far as Health Connect holds data. Your receiver decides the format: rows in Postgres, a CSV file, or anything else.</p>
+
+<p>Whether your older Samsung Health history is in Health Connect is up to Samsung Health, and Samsung doesn't say. Its <a href="https://developer.samsung.com/health/blog/en/accessing-samsung-health-data-through-health-connect">guide</a> only says that once you connect the two, new or updated data is shared. To see what Health Connect holds, run a 365d backfill after <strong>Grant history access</strong>: it sends everything Health Connect has in that year for the types you switched on, so the oldest day that reaches your receiver is how far back your data goes.</p>
+
+<p>Receivers that work: <a href="../grafana/">the Life Dashboard stack</a> with Postgres and Grafana, an n8n Webhook node, Node-RED, or a short script. The <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md#receiver-in-python-flask">payload reference</a> has a Python and a Node.js receiver to start from.</p>
+
+<!-- IMG: Logs tab (A7-logs.png) -->
+
+<h2>Limits</h2>
+
+<ul>
+  <li>Watch data reaches Health Connect after it reaches the phone: when the watch reconnects, or when you open or pull down the Samsung Health home screen. Samsung holds back continuous heart rate for a while to save battery.</li>
+  <li>Data from more than 30 days before you first gave the app access needs Health Connect's history permission, which the backfill dialog asks for with <strong>Grant history access</strong>.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Is there a Samsung Health API I can call from my server?</summary>
+    <p>Not for your own data. Samsung has no cloud API you can connect to, and its data SDK is for registered partners. Health Connect on the phone is the open route.</p>
+  </details>
+  <details>
+    <summary>Can I get a CSV file?</summary>
+    <p>Not from the app. Health data leaves it as JSON, and your receiver can write CSV if you want that. <strong>Export</strong> on the <strong>Health</strong> tab shares what the next sync would send, as JSON.</p>
+  </details>
+  <details>
+    <summary>Can I send it to Home Assistant as well?</summary>
+    <p>Yes. Pair the <a href="../health-connect-home-assistant/">Life Dashboard integration</a> and each payload goes to both. It counts as delivered once one of them accepts it, so a destination that's down at that moment misses it.</p>
+  </details>
+</section>

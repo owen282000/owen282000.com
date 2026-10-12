@@ -1,0 +1,102 @@
+<!--
+title: Smart scale in Home Assistant to Samsung Health | Life Dashboard
+description: Life Dashboard Companion writes smart scale readings from Home Assistant into Health Connect, where Samsung Health and Google Health read weight and body fat.
+primary query: smart scale to samsung health
+secondary queries: smart scale home assistant, home assistant weight to health connect, home assistant scale samsung health, home assistant blood pressure health connect, xiaomi scale samsung health, renpho home assistant health connect, home assistant to google health weight
+-->
+
+<h1>How do I get smart scale readings from Home Assistant into Samsung Health?</h1>
+
+<p class="signpost">Want your watch's Samsung Health data in Home Assistant instead? See <a href="../health-connect-home-assistant/">Samsung Health and Health Connect in Home Assistant</a>.</p>
+
+<p>Map the scale's entities in the Life Dashboard integration and switch on <strong>Receive</strong> in Life Dashboard Companion, the open-source Android app that pairs with it. At the next sync, the integration hands each new reading to the app, and the app writes it into Health Connect with the time it was measured. Samsung Health and Google Health read weight and body fat from Health Connect, so the weight and body fat from a scale that only talks to Home Assistant end up in those apps. The same works for a blood pressure monitor, though whether an app shows that reading is up to the app.</p>
+
+<h2>What you need</h2>
+
+<ul>
+  <li>An Android phone with Health Connect and Life Dashboard Companion, paired with the <a href="../home-assistant/">Life Dashboard integration</a> 0.7.0 or newer. The <a href="../health-connect-home-assistant/">Health Connect guide</a> covers the pairing. The iPhone app doesn't receive measurements, and MQTT can't carry them.</li>
+  <li>The scale's readings as sensors in Home Assistant. A Bluetooth scale needs Bluetooth within a few meters: an adapter on the Home Assistant machine, or an ESPHome Bluetooth proxy near the bathroom.</li>
+</ul>
+
+<p>Common routes into Home Assistant are Xiaomi BLE with bodymiscale for Xiaomi scales, ble-scale-sync for Renpho, Eufy, Yunmai and others, and the Withings integration. The <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/recipes/scale-to-health-connect.md">scale recipe</a> says which entity to map for each, and has the templates some routes need.</p>
+
+<h2>Set it up</h2>
+
+<ol>
+  <li>In Home Assistant, open Settings &gt; Devices &amp; services &gt; Life Dashboard and choose <strong>Configure</strong> for the phone. Pick one entity per type. Each type has an optional <strong>Measured at</strong> slot for a timestamp sensor that holds when the weighing happened.</li>
+  <li>In the app, on the <strong>Health</strong> tab, open <strong>Receive</strong> and switch on <strong>Receive measurements from Home Assistant</strong>.</li>
+  <li>Switch on each type you mapped. Each one asks Health Connect for permission to write that type. If you refuse, the switch stays off.</li>
+  <li>Step on the scale, then tap <strong>Sync Now</strong> or wait for the next sync. The <strong>Logs</strong> tab shows a row from Home Assistant with every reading and whether it was written.</li>
+</ol>
+
+<!-- IMG: Receive settings (A5-receive.png) -->
+
+<h2>What it writes</h2>
+
+<table>
+  <thead>
+    <tr><th>Type</th><th>Accepted range</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Weight</td><td>1 to 500 kg</td></tr>
+    <tr><td>Body fat</td><td>1 to 80 %</td></tr>
+    <tr><td>Lean body mass</td><td>1 to 300 kg</td></tr>
+    <tr><td>Bone mass</td><td>0.1 to 30 kg</td></tr>
+    <tr><td>Body water mass</td><td>1 to 300 kg</td></tr>
+    <tr><td>Height</td><td>0.3 to 2.8 m</td></tr>
+    <tr><td>Blood pressure</td><td>Systolic 30 to 300, diastolic 10 to 250 mmHg</td></tr>
+  </tbody>
+</table>
+
+<p>Units are converted, so pounds and stones work. BMI, muscle mass, visceral fat and metabolic age have no Health Connect record, so they stay in Home Assistant. Most scales give body water as a percentage; the recipe has a template that turns it into kilograms.</p>
+
+<h2>How readings are handled</h2>
+
+<ul>
+  <li><strong>The time is the weighing time.</strong> A weigh-in at 07:00 that syncs at 09:00 shows as 07:00 in Health Connect.</li>
+  <li><strong>One weighing is one reading.</strong> The same value within ten minutes counts as the same measurement, and a different value for the same moment replaces the earlier record.</li>
+  <li><strong>Signed both ways.</strong> The readings ride back in the integration's signed response to the request the app already makes. There's no second channel or second secret.</li>
+  <li><strong>Nothing echoes back.</strong> What the app writes is left out of what it sends, so your weight doesn't come back to Home Assistant as a second sensor.</li>
+  <li><strong>A warning about doubles.</strong> If the scale's own app already writes the same type to Health Connect, the app warns you as you switch it on. Keep one source, or every weighing lands twice.</li>
+</ul>
+
+<h2>What Samsung Health and Google Health show</h2>
+
+<p>The app can only promise that a reading reaches Health Connect. The rest is up to each app.</p>
+
+<table>
+  <thead>
+    <tr><th>App</th><th>What it picks up from Health Connect</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Samsung Health</td><td>Weight and body fat. Lean body mass, bone mass and body water usually don't appear, and blood pressure from other apps is unverified.</td></tr>
+    <tr><td>Google Health</td><td>Weight and body fat. It doesn't read blood pressure.</td></tr>
+    <tr><td>Garmin Connect</td><td>No weight from Health Connect.</td></tr>
+  </tbody>
+</table>
+
+<p>A reading with <strong>Written</strong> in the <strong>Logs</strong> tab is in Health Connect, listed under its type with Life Dashboard as the source.</p>
+
+<h2>Older measurements</h2>
+
+<p>Readings older than 30 days are refused unless <strong>Accept older measurements</strong> is on in the app. The integration's <strong>Send history to phone</strong> button queues up to 30 days, as far back as Home Assistant's recorder keeps states (10 days by default). The <code>life_dashboard.queue_history</code> action reaches back up to 90 days. A reading the phone refused isn't offered again, so switch on <strong>Accept older measurements</strong> before you send history.</p>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Why does my weight show up twice in Samsung Health?</summary>
+    <p>The scale's own app, such as Zepp, Mi Fitness or Withings, also writes to Health Connect. Switch the type off under <strong>Receive</strong>, or stop the other app from writing weight in its own settings.</p>
+  </details>
+  <details>
+    <summary>Does this work with an iPhone and Apple Health?</summary>
+    <p>No. The iPhone app only reads Apple Health and doesn't write readings back.</p>
+  </details>
+  <details>
+    <summary>How long until a weighing shows up?</summary>
+    <p>Until the phone's next sync, every 60 minutes by default and 15 at the shortest. <strong>Sync Now</strong> fetches it right away.</p>
+  </details>
+  <details>
+    <summary>Do the readings pass through a cloud service?</summary>
+    <p>Not on the Life Dashboard side: they go from Home Assistant to the phone in the response to its own request. A cloud scale integration in Home Assistant still fetches from the vendor's cloud, and without a timestamp sensor its readings get the time Home Assistant fetched them.</p>
+  </details>
+</section>

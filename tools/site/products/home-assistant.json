@@ -1,0 +1,192 @@
+{
+  "slug": "home-assistant",
+  "nav_name": "Home Assistant",
+  "title": "Home Assistant health integration (HACS) | Life Dashboard",
+  "description": "The Life Dashboard integration for Home Assistant turns Health Connect or Apple Health data into sensors and long-term statistics, paired by QR code.",
+  "kicker": "Home Assistant integration",
+  "h1": "A Home Assistant integration for your phone's health data",
+  "lead": "The Life Dashboard integration is an open-source Home Assistant integration, installed through HACS, for the Life Dashboard Companion apps on Android and iPhone. One QR code pairs a phone, and every day lands in long-term statistics. No broker and no YAML.",
+  "hero_image": "H1-dashboard",
+  "highlights": [
+    {
+      "title": "Sensors for today",
+      "text": "Day totals for steps, distance and calories, and the latest heart rate, sleep, weight and blood pressure, each with its source app."
+    },
+    {
+      "title": "A year in long-term statistics",
+      "text": "Every day lands on its own date, so a backfill from the phone fills a year of the Statistics graph card."
+    },
+    {
+      "title": "Paired by QR code",
+      "text": "One code per phone holds a webhook URL and a signing secret. The phone never gets a Home Assistant login or token."
+    },
+    {
+      "title": "Signed, always",
+      "text": "HMAC-SHA256 on every payload, checked in constant time before parsing. There's no switch to turn signing off."
+    },
+    {
+      "title": "Nothing counted twice",
+      "text": "The apps re-send on purpose. A repeat leaves sensors, day totals and sessions as they were; a correction replaces the old figure."
+    },
+    {
+      "title": "Back into Health Connect",
+      "text": "Map a scale or blood pressure entity, and the Android app writes each new reading into Health Connect."
+    }
+  ],
+  "sections": [
+    {
+      "kicker": "Sensors and statistics",
+      "h2": "Sleep, steps and heart rate sensors, with history behind them",
+      "text": "Sensors appear the first time their type arrives, so you only get what you sync. A sensor holds the latest value; long-term statistics hold the past, each value on the date it happened.",
+      "bullets": [
+        {
+          "main": "Day totals",
+          "sub": "Steps, distance, active and total calories, from Health Connect's or HealthKit's deduplicated figures."
+        },
+        {
+          "main": "Latest readings",
+          "sub": "Heart rate, resting heart rate, HRV, last sleep, weight, blood pressure, glucose, SpO2, VO2 max and more, with measured_at and source."
+        },
+        {
+          "main": "One value per day",
+          "sub": "Steps, distance, calories, sleep, exercise and mindfulness minutes, hydration and screen time."
+        },
+        {
+          "main": "Mean, minimum and maximum per hour",
+          "sub": "Heart rate, weight, blood pressure and the other measurements."
+        }
+      ],
+      "image": "H3-history",
+      "link": {
+        "href": "https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md",
+        "text": "Every sensor, statistic and attribute"
+      }
+    },
+    {
+      "kicker": "Pairing and security",
+      "h2": "One QR code per phone, and a signature on every payload",
+      "text": "Add the integration once per phone, and it shows a QR code with a webhook URL and a secret it generated: 64 hex characters. A payload without a valid HMAC-SHA256 signature gets a 401 and is logged without its contents. <a href=\"../health-connect-home-assistant/\">How to add Health Connect to Home Assistant</a> walks through the pairing.",
+      "bullets": [
+        {
+          "main": "Home address, public address or Home Assistant Cloud",
+          "sub": "A home address keeps the data on your network, over plain HTTP unless you add TLS. A cloudhook syncs from anywhere without port forwarding, through Home Assistant Cloud's servers."
+        },
+        {
+          "main": "Signed responses",
+          "sub": "Readings sent back to the phone are signed and bound to the request, so nobody on the network can slip one in."
+        },
+        {
+          "main": "Rotate the secret any time",
+          "sub": "Reconfigure has Generate a new secret. The phone syncs again once it has the new code."
+        },
+        {
+          "main": "Diagnostics without health data",
+          "sub": "Download diagnostics redacts the secret and the webhook ID, and holds no health data."
+        }
+      ],
+      "image": "H2-qr",
+      "link": {
+        "href": "https://github.com/owen282000/life-dashboard-ha/blob/main/docs/how-it-works.md#security",
+        "text": "The security design"
+      }
+    },
+    {
+      "kicker": "Example dashboard",
+      "h2": "A health data dashboard to start from",
+      "text": "<code>examples/dashboard.yaml</code> is a view for one phone in three sections. Paste it into a new dashboard's raw configuration editor and put in your phone's name.",
+      "bullets": [
+        {
+          "main": "Today",
+          "sub": "Tiles for steps, distance, calories, screen time, heart rate and last sleep, a body card and the two sync times."
+        },
+        {
+          "main": "On the phone",
+          "sub": "The most used app, the top apps of the day and screen time per day. Android only."
+        },
+        {
+          "main": "History",
+          "sub": "Steps per week and heart rate per day, from long-term statistics."
+        },
+        {
+          "main": "A sensor per app",
+          "sub": "Created disabled, up to 50 per phone, for automations such as a time limit on one game."
+        }
+      ],
+      "image": "H1-dashboard",
+      "link": {
+        "href": "https://github.com/owen282000/life-dashboard-ha/blob/main/examples/dashboard.yaml",
+        "text": "The example dashboard YAML"
+      },
+      "image2": "H4-apps"
+    }
+  ],
+  "requirements": "Home Assistant 2026.3 or newer with HACS, where you add the integration as a custom repository of type Integration until it's in the default list. On each phone, Life Dashboard Companion for Android or for iPhone. Screen time, the sensors per app and Receive need the Android app; the sensors per app need integration 0.9.0 or newer.",
+  "faq": [
+    {
+      "q": "Should I use MQTT or this integration?",
+      "a": "Pick one; running both gives you two devices with the same numbers. MQTT Discovery creates the same sensors and suits a setup that already has a broker and only wants current values. Only the integration has backfilled history, a screen time sensor per app and readings back to the phone."
+    },
+    {
+      "q": "Can several phones share one Home Assistant?",
+      "a": "Yes. Add the integration once per phone, Android and iPhone alike. Each gets its own webhook ID, secret, device and statistics, and the entity IDs follow the name you give it, such as <code>sensor.owen_s_pixel_steps_today</code>."
+    },
+    {
+      "q": "Which data gets no sensor?",
+      "a": "Nine of the 33 Health Connect types are events: workouts, meals, mindfulness sessions and the six cycle tracking types. Exercise and mindfulness still count as minutes per day in the statistics. For the raw records, add a second webhook in the app that points at <a href=\"../health-connect-webhook/\">your own backend</a>."
+    },
+    {
+      "q": "Can Home Assistant send a scale reading to the phone?",
+      "a": "Yes, on Android. <strong>Configure</strong> maps one entity per type: weight, body fat, lean body mass, bone mass, body water mass, height and blood pressure. The app writes each new value into Health Connect; <a href=\"../smart-scale-to-samsung-health/\">Smart scale to Samsung Health</a> has the setup."
+    },
+    {
+      "q": "Does Home Assistant poll the phone or a cloud?",
+      "a": "No. The phone pushes a signed payload on its own schedule, and nothing in Home Assistant polls. A payload that fails while Home Assistant restarts waits in the app's outbox and goes out with the next sync."
+    },
+    {
+      "q": "What happens when I remove a phone?",
+      "a": "Deleting the entry removes the device and its sensors, deletes its cloudhook if it had one, and deletes the phone's files in <code>.storage</code>. Its long-term statistics stay in the recorder, as they do for any integration you remove."
+    }
+  ],
+  "guides": [
+    "health-connect-home-assistant",
+    "screen-time-home-assistant",
+    "smart-scale-to-samsung-health"
+  ],
+  "compare": {
+    "title": "Next to the Home Assistant companion app",
+    "intro": "Keep the companion app for presence, notifications and device sensors. The two run side by side; this is what the integration adds for health data.",
+    "head": [
+      "",
+      "Home Assistant companion app",
+      "Life Dashboard"
+    ],
+    "rows": [
+      [
+        "Health Connect",
+        "26 sensors",
+        "33 types; 24 become sensors, the rest go to a webhook in full"
+      ],
+      [
+        "History",
+        "From the day you enable a sensor, with today's value filed at sync time",
+        "A backfill of up to a year, every value filed on the date it happened"
+      ],
+      [
+        "Screen time",
+        "Last used app",
+        "Minutes per app, with a day boundary you choose"
+      ],
+      [
+        "Into Health Connect",
+        "No",
+        "Scale and blood pressure readings from Home Assistant"
+      ],
+      [
+        "Other destinations",
+        "Home Assistant",
+        "Also MQTT, any webhook and a Grafana stack"
+      ]
+    ],
+    "source": "From the companion app's <a href=\"https://companion.home-assistant.io/docs/core/sensors\">sensor documentation</a> and its code, as of release 2026.8.4. The <a href=\"https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/features.md#how-this-compares-to-the-home-assistant-companion-app\">full comparison</a> goes row by row."
+  }
+}

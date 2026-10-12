@@ -1,0 +1,157 @@
+{
+  "slug": "grafana",
+  "nav_name": "Grafana stack",
+  "title": "Self-hosted Grafana health dashboard | Life Dashboard",
+  "description": "The Life Dashboard stack is a self-hosted Docker Compose setup with Postgres and six Grafana dashboards for Health Connect, Apple Health and screen time data.",
+  "kicker": "Self-hosted stack",
+  "h1": "A self-hosted Grafana dashboard for your health data",
+  "lead": "The Life Dashboard stack is an open-source Docker Compose setup for both apps: a receiver that checks signatures, Postgres and six Grafana dashboards. It's for people who want their records in SQL rather than in Home Assistant.",
+  "hero_image": "g-overview",
+  "highlights": [
+    {
+      "title": "Six dashboards",
+      "text": "Overview, Activity, Sleep, Heart and body, Screen time, and Data and sync, provisioned in a Life Dashboard folder."
+    },
+    {
+      "title": "Try it without a phone",
+      "text": "The demo profile posts 60 days of made-up data for two phones through the real receiver."
+    },
+    {
+      "title": "Every record in Postgres",
+      "text": "One records table with a JSONB column holds all 33 Android types and 28 iPhone types without schema changes."
+    },
+    {
+      "title": "SQL views for your own queries",
+      "text": "The dash schema turns raw records into days, nights, hours and apps in your time zone."
+    },
+    {
+      "title": "A receiver that checks signatures",
+      "text": "It verifies the X-Signature HMAC, applies a repeated payload once, and removes the records the phone reports as deleted."
+    },
+    {
+      "title": "Android and iPhone side by side",
+      "text": "Each phone gets its own label in the webhook URL and shows up as its own Phone in every dashboard."
+    }
+  ],
+  "sections": [
+    {
+      "kicker": "Dashboards",
+      "h2": "Sleep, activity, heart and screen time in Grafana",
+      "text": "Every dashboard has a <strong>Phone</strong> picker and links to the other five that keep the time range. Each panel has an info icon that says where its figure comes from.",
+      "bullets": [
+        {
+          "main": "Life Dashboard overview",
+          "sub": "How today and last night went, and this week against the four before it."
+        },
+        {
+          "main": "Activity and Sleep",
+          "sub": "Steps by hour, workout minutes against the WHO guideline of 150, a hypnogram, bedtime and wake time."
+        },
+        {
+          "main": "Heart and body",
+          "sub": "Heart rate per hour, resting heart rate, HRV, SpO2, breathing rate and weight with its 7-day mean."
+        },
+        {
+          "main": "Screen time, Data and sync",
+          "sub": "Minutes per app and per day, the last use before sleep, and when each phone last sent data."
+        }
+      ],
+      "image": "g-sleep",
+      "link": {
+        "href": "https://github.com/owen282000/life-dashboard-stack#dashboards",
+        "text": "All six dashboards"
+      }
+    },
+    {
+      "kicker": "How it counts",
+      "h2": "No scores, and a gap where data is missing",
+      "text": "Nothing is colored as good or bad. Goals are dashed lines you can change at the top of a dashboard.",
+      "bullets": [
+        {
+          "main": "Steps counted once",
+          "sub": "Steps, distance and calories come from the phone's daily totals, so a walk recorded by phone and watch counts once."
+        },
+        {
+          "main": "Local days in your time zone",
+          "sub": "A night belongs to the morning you wake up. Today is marked “so far” and left out of averages."
+        },
+        {
+          "main": "HRV kept apart",
+          "sub": "RMSSD from an Android watch and SDNN from an Apple Watch are different measures, so they're never mixed."
+        },
+        {
+          "main": "Gaps, not zeros",
+          "sub": "A missing day shows as a gap. The only red is a phone that sent nothing for 24 hours."
+        }
+      ],
+      "image": "g-activity"
+    },
+    {
+      "kicker": "Postgres and SQL",
+      "h2": "Your health data in Postgres, ready for your own queries",
+      "text": "The <code>dash</code> views hold one row per day, night, hour or app, with local days already worked out. Query them with <code>psql</code> or in a Grafana panel of your own.",
+      "bullets": [
+        {
+          "main": "<code>dash.activity_days</code>",
+          "sub": "Steps per day, counted once, per phone."
+        },
+        {
+          "main": "<code>dash.sleep_nights</code>",
+          "sub": "Hours asleep, deep and REM per night."
+        },
+        {
+          "main": "<code>dash.screen_apps</code>",
+          "sub": "Minutes per app per day."
+        },
+        {
+          "main": "A read-only Grafana user",
+          "sub": "<code>grafana_ro</code> can only read the records and views, and its queries stop after 30 seconds."
+        }
+      ],
+      "image": "g-data",
+      "link": {
+        "href": "https://github.com/owen282000/life-dashboard-stack/blob/main/docs/views.md",
+        "text": "Every view, column and unit"
+      }
+    }
+  ],
+  "requirements": "Docker with Compose, on a machine your phone can reach on the same network or over a VPN. On each phone, Life Dashboard Companion for Android or for iPhone, pointed at the receiver's webhook URL on port 8080 with a label for that phone, and the same secret as <code>WEBHOOK_SECRET</code>. To reach the receiver from outside, put a reverse proxy with TLS in front of it. The stack is offered as a starting point you can change, not as a finished product. Set a <code>WEBHOOK_SECRET</code>: without one the receiver accepts unsigned payloads.",
+  "faq": [
+    {
+      "q": "Can I try it before I connect a phone?",
+      "a": "Yes, if you can run Docker. The demo profile starts the stack with 60 days of made-up data for two phones, under its own name and ports. The commands are under <a href=\"#get\">Run the stack</a>. Without Docker, the screenshots on this page show the same dashboards."
+    },
+    {
+      "q": "Can I put it on the internet?",
+      "a": "Put a reverse proxy with TLS in front of the receiver only, and allow request bodies of 32 MB. Keep Grafana on your own network or behind a VPN: anyone who can view a dashboard can read every health record through the data source. On your own network, change <code>GRAFANA_PASSWORD</code> and <code>GRAFANA_DB_PASSWORD</code> in <code>.env</code> before the first start: Grafana's admin password defaults to <code>lifedash</code>, and both Grafana and the receiver listen on every interface of the machine. The Postgres owner's password is fixed in <code>docker-compose.yml</code>; Postgres publishes no port, so only the receiver reaches it."
+    },
+    {
+      "q": "Can I use it next to Home Assistant?",
+      "a": "Yes, as a second home for the data, with two things to know today. The app keeps one signing secret per tab, and pairing with Home Assistant sets it, so a stack with its own secret then refuses the payloads: run the stack without a secret or with the same one, or send one phone to each. And a payload counts as delivered once one destination takes it, so if the stack is down at that moment, it misses that payload."
+    },
+    {
+      "q": "How do I back it up?",
+      "a": "One <code>pg_dump</code> line writes a dump, and one <code>pg_restore</code> line puts it into a fresh stack. Restart the receiver afterward so it rebuilds the views and the <code>grafana_ro</code> grants."
+    },
+    {
+      "q": "Can I change the dashboards?",
+      "a": "Yes. They're provisioned from <code>grafana/dashboards/life-dashboard/</code>, so Grafana won't save changes over them: use <strong>Save as</strong> for a copy, or edit the JSON file. Keep views of your own in the <code>public</code> schema, because the receiver rebuilds <code>dash</code> at every start."
+    },
+    {
+      "q": "What doesn't it do yet?",
+      "a": "Series sent per time window are stored, but only the heart rate panels read them, so leave <strong>Data Resolution</strong> on <strong>Every record</strong>. Days follow the stack's one time zone, and a backfill doesn't remove records the phone no longer has. The <a href=\"https://github.com/owen282000/life-dashboard-stack#known-gaps\">known gaps</a> list the rest."
+    },
+    {
+      "q": "I already run Grafana. Can I use mine?",
+      "a": "Yes. Run the receiver and Postgres from the stack, and in your own Grafana add a PostgreSQL data source for the stack's database with the read-only user <code>grafana_ro</code> and your <code>GRAFANA_DB_PASSWORD</code>. Then import the six dashboard files from <a href=\"https://github.com/owen282000/life-dashboard-stack/tree/main/grafana/dashboards/life-dashboard\"><code>grafana/dashboards/life-dashboard/</code></a> and pick that data source. <code>grafana_ro</code> can read the records, the buckets and the <code>dash</code> views, and nothing else."
+    }
+  ],
+  "guides": [
+    "health-connect-webhook"
+  ],
+  "commands": {
+    "title": "Try it with demo data",
+    "code": "git clone https://github.com/owen282000/life-dashboard-stack\ncd life-dashboard-stack\nRECEIVER_PORT=18080 GRAFANA_PORT=13000 \\\n  docker compose -p lifedash-demo \\\n  --profile demo up -d --build",
+    "after": "Give it a minute, then open <code>http://localhost:13000</code> and log in as <code>admin</code> with the demo password <code>lifedash</code>. For your own data: <code>cp .env.example .env</code>, set four values, then <code>docker compose up -d --build</code>; the <a href=\"https://github.com/owen282000/life-dashboard-stack#quick-start\">quick start</a> has the details."
+  }
+}

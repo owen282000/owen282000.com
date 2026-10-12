@@ -1,0 +1,167 @@
+{
+  "slug": "android",
+  "nav_name": "Android app",
+  "title": "Life Dashboard Companion for Android: Health Connect export",
+  "description": "Life Dashboard Companion for Android exports Health Connect data and screen time per app to Home Assistant, MQTT or your own webhook. Open source, no cloud.",
+  "kicker": "Android app",
+  "h1": "Health Connect and screen time, sent to your own server",
+  "lead": "Life Dashboard Companion is an open-source Android app that sends Health Connect data and screen time per app to Home Assistant, MQTT or your own webhook, with no cloud and no account. It reads what Samsung Health, Google Health, Garmin Connect, Oura, Withings and others write to Health Connect.",
+  "hero_image": "A1-health",
+  "highlights": [
+    {
+      "title": "33 Health Connect types",
+      "text": "Steps, sleep stages, heart rate, HRV, weight, blood pressure, glucose, workouts, nutrition and cycle tracking, each with its own switch."
+    },
+    {
+      "title": "Every record, with its source",
+      "text": "Each record goes out with a stable ID and the app that wrote it. Daily totals count a walk once."
+    },
+    {
+      "title": "A year of history",
+      "text": "Backfill 30, 90 or 365 days. In Home Assistant each day lands on its own date in long-term statistics."
+    },
+    {
+      "title": "Screen time per app",
+      "text": "Foreground minutes for every app, with a day boundary you choose and a filter that keeps the apps you pick out of what's sent."
+    },
+    {
+      "title": "Three ways out",
+      "text": "The Life Dashboard integration, MQTT with Home Assistant Discovery, or any webhook that accepts a JSON POST. Several at once works too."
+    },
+    {
+      "title": "Receive into Health Connect",
+      "text": "Scale and blood pressure readings from Home Assistant go into Health Connect, where Samsung Health and Google Health read weight."
+    }
+  ],
+  "sections": [
+    {
+      "kicker": "Home Assistant and MQTT",
+      "h2": "Health Connect in Home Assistant, with or without a broker",
+      "text": "The Life Dashboard integration pairs with one QR code and keeps every day in long-term statistics. MQTT with Home Assistant Discovery suits a setup that already runs a broker and only needs current values.",
+      "bullets": [
+        {
+          "main": "Sensors for 24 of the 33 types",
+          "sub": "Today's steps, distance and calories, and the latest heart rate, sleep, weight, blood pressure, glucose and more."
+        },
+        {
+          "main": "Screen time in total and per app",
+          "sub": "Both routes get the totals. The sensor per app comes with the integration."
+        },
+        {
+          "main": "Two phones on one broker",
+          "sub": "Give each a Phone name under Advanced, and each gets its own device and topics."
+        },
+        {
+          "main": "Pick one route",
+          "sub": "Running both gives you two devices with the same numbers."
+        }
+      ],
+      "image": "A2-pair",
+      "link": {
+        "href": "../health-connect-home-assistant/",
+        "text": "How to add Health Connect to Home Assistant"
+      }
+    },
+    {
+      "kicker": "Webhooks",
+      "h2": "Every record as JSON, to a server you run",
+      "text": "Point the app at n8n, Node-RED, the Grafana stack or a short script. A webhook also gets what no sensor holds: single meals, cycle tracking entries and workout details.",
+      "bullets": [
+        {
+          "main": "HMAC-SHA256 signatures",
+          "sub": "An X-Signature header your server can check. Generate creates a secret of 32 random bytes."
+        },
+        {
+          "main": "Client certificates (mTLS)",
+          "sub": "Picked from Android's credential store, for a server behind a reverse proxy that requires one."
+        },
+        {
+          "main": "An outbox on the phone",
+          "sub": "Up to 700 payloads wait while your server is down, and the next sync sends them first."
+        },
+        {
+          "main": "Deletions reported",
+          "sub": "A record deleted in Health Connect is named in the next payload, so your receiver can drop it too."
+        }
+      ],
+      "image": "A6-webhook",
+      "link": {
+        "href": "../health-connect-webhook/",
+        "text": "Send Health Connect data to your own webhook"
+      }
+    },
+    {
+      "kicker": "Screen time",
+      "h2": "Android screen time per app, next to your health data",
+      "text": "The app reads foreground time per app from Android's usage statistics, the same numbers Digital Wellbeing uses. Screen time has its own schedule and webhooks, and works without Health Connect on Android 8.0 or newer.",
+      "bullets": [
+        {
+          "main": "A day boundary of your own",
+          "sub": "On by default at 04:00, so phone use after midnight counts toward the day before."
+        },
+        {
+          "main": "All, All except or Only",
+          "sub": "An app you filter out is not named in what's sent; the day's total still counts its time."
+        },
+        {
+          "main": "The last 7 days in every sync",
+          "sub": "A day that was still running at one sync is corrected by the next."
+        },
+        {
+          "main": "A sensor per app in Home Assistant",
+          "sub": "Created disabled, so you enable only the apps you want to automate on."
+        }
+      ],
+      "image": "A4-screen-time",
+      "link": {
+        "href": "../screen-time-home-assistant/",
+        "text": "Android screen time in Home Assistant"
+      }
+    }
+  ],
+  "requirements": "Health data needs Android 9 or newer with Health Connect, which is built into Android 14 and later and comes from Google Play on Android 9 through 13. Screen time works on Android 8.0 and newer. The Life Dashboard integration needs Home Assistant 2026.3 or newer with HACS. MQTT needs a broker, and a webhook needs a server that accepts a JSON POST.",
+  "faq": [
+    {
+      "q": "Which Health Connect types become Home Assistant sensors?",
+      "a": "24 of the 33, through the integration or MQTT. The other nine (exercise, nutrition, mindfulness and six cycle tracking types) are events rather than values, so they get no sensor; the integration counts workout and mindfulness minutes per day. A <a href=\"../health-connect-webhook/\">webhook of your own</a> gets those records in full."
+    },
+    {
+      "q": "Can it send to Home Assistant and a webhook at the same time?",
+      "a": "Yes, with two things to know today. Each tab keeps one signing secret, and pairing with Home Assistant sets it, so a second receiver that checks signatures must use the same secret or none. And a payload counts as delivered once one destination takes it, so a destination that's down at that moment misses it. Health Connect and Screen Time can each send to several webhooks and to MQTT at once. Giving every destination its own secret and delivery is planned."
+    },
+    {
+      "q": "What happens when my server is down?",
+      "a": "Each sync writes its payload to the phone first and deletes it only once a webhook has accepted it. The outbox holds up to 700 Health Connect payloads, about a week of syncs at the 15-minute interval, and the next sync that gets through delivers them first."
+    },
+    {
+      "q": "Can it sync at fixed times instead of an interval?",
+      "a": "Yes. Each tab has its own <strong>Sync Schedule</strong>: every 15 minutes or longer, or a list of times, on the days you pick, with quiet hours. A Quick Settings tile, Tasker and MacroDroid can start a sync too."
+    },
+    {
+      "q": "Does Receive work over MQTT?",
+      "a": "No. Readings come back in the integration's signed response to the webhook call the app already makes, so Receive needs the Life Dashboard integration. <a href=\"../smart-scale-to-samsung-health/\">Smart scale to Samsung Health</a> walks through the setup."
+    },
+    {
+      "q": "How does the app store my secrets?",
+      "a": "Auth headers, signing secrets and MQTT passwords are encrypted with AES-256-GCM, with a key the Android Keystore holds. Android's own backup leaves them out, along with the webhook logs."
+    },
+    {
+      "q": "How much battery does it use?",
+      "a": "Between syncs the app does nothing: no service keeps running and no connection stays open. Each sync is a short job that Android starts on your schedule. On Samsung, Xiaomi and similar phones, set the app's battery usage to <strong>Unrestricted</strong>, or Android stops the scheduled syncs; the <a href=\"https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/usage.md#let-the-app-run-in-the-background\">setup guide</a> has the paths per brand."
+    },
+    {
+      "q": "What does the app ask for, and what leaves the phone?",
+      "a": "Health Connect read permissions for the types you switch on, write permissions only for the Receive types you switch on, usage access for screen time, the camera only while you scan a pairing code, internet access, and notifications for failed syncs and backfill progress. Data goes only to the addresses you enter. The <a href=\"https://github.com/owen282000/life-dashboard-companion-app/blob/main/PRIVACY.md#permissions\">privacy policy</a> lists every permission and every field."
+    },
+    {
+      "q": "Can I switch between GitHub, Obtainium, F-Droid and Google Play later?",
+      "a": "Yes. Every build has the same package name and is signed with the same key, so one installs over the other and your settings stay."
+    }
+  ],
+  "guides": [
+    "health-connect-home-assistant",
+    "health-connect-webhook",
+    "screen-time-home-assistant",
+    "smart-scale-to-samsung-health"
+  ]
+}

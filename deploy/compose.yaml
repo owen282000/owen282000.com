@@ -1,0 +1,44 @@
+# owen282000.com: the static site and a Cloudflare Tunnel, nothing else.
+# The web container sits on an internal network with no route out;
+# only cloudflared can reach it, and only cloudflared has outbound access (to Cloudflare).
+#
+#   cp .env.example .env   # put the tunnel token in it
+#   docker compose up -d --build
+services:
+  web:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    read_only: true
+    user: "65532:65532"
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    tmpfs: ["/data", "/config"]
+    networks: [site]
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:8080/"]
+      interval: 60s
+      timeout: 5s
+    restart: unless-stopped
+
+  cloudflared:
+    # Pin a version (cloudflare/cloudflared:<version>) and update it on purpose.
+    image: cloudflare/cloudflared:latest
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${TUNNEL_TOKEN:?set TUNNEL_TOKEN in .env}
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    networks: [site, egress]
+    depends_on: [web]
+    restart: unless-stopped
+
+networks:
+  site:
+    internal: true
+  egress:
+    # A fixed subnet, so a host firewall can match it.
+    ipam:
+      config:
+        - subnet: 172.31.250.0/24

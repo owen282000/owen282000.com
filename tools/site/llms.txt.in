@@ -1,0 +1,78 @@
+# Life Dashboard
+
+> Life Dashboard is an MIT-licensed project by Owen Vogelaar in four parts: Life Dashboard Companion for Android (Health Connect and screen time per app), Life Dashboard Companion for iPhone (Apple Health), the Life Dashboard integration for Home Assistant, and the Life Dashboard stack (Postgres and Grafana). Both apps send the data on the phone to Home Assistant, MQTT or your own webhook, with no cloud and no account.
+
+Names: "Life Dashboard" is the project. "Life Dashboard Companion" is the Android app (home screen name "Life Dashboard", package com.owen282000.lifedashboard). "The Life Dashboard integration" is the Home Assistant part. The project is not related to other apps or templates named Life Dashboard.
+
+## Facts
+
+- Health Connect has no web API. It stores data on the phone, so an app on the phone has to read it and send it on. Life Dashboard Companion does that on a schedule: every 60 minutes by default, every 15 at the shortest, or at fixed times.
+- It reads 33 Health Connect data types, each with its own switch: steps, distance, calories, sleep with stages, heart rate, resting heart rate, HRV, weight and body composition, blood pressure, blood glucose, SpO2, VO2 max, workouts, nutrition, hydration, mindfulness, cycle tracking, skin temperature and more.
+- It works with any app that writes to Health Connect, including Samsung Health, Google Health (Fitbit and Pixel Watch), Garmin Connect (Android 14 or newer), Oura, Withings and Gadgetbridge. No vendor login, API token or cloud project is involved.
+- Every record carries a stable uuid and the package name of the app that wrote it. Daily totals for steps, distance and calories come from Health Connect itself, so a walk recorded by phone and watch counts once.
+- Screen time: foreground minutes per app from Android's usage statistics, the same numbers Digital Wellbeing shows, with a day boundary you choose and a filter for apps you leave out. It works on Android 8.0 or newer and does not need Health Connect.
+- Home Assistant: the Life Dashboard integration installs through HACS as a custom repository and pairs with the app by QR code, with no broker and no YAML. It needs Home Assistant 2026.3 or newer. It creates sensors for 24 of the 33 types plus screen time in total and per app, stores every day in long-term statistics, and a backfill adds 30, 90 or 365 days of history.
+- MQTT: with Home Assistant MQTT Discovery, the same sensors appear without YAML, from the first sync on, without the sensors per app.
+- Webhooks: an HTTPS POST with a JSON body to any URL, such as n8n, Node-RED or a small script. Optional HMAC-SHA256 signature in an X-Signature header, custom headers and client certificates (mTLS). Failed payloads wait in an outbox on the phone (up to 700 payloads) and go out first at the next sync. Records deleted in Health Connect are reported.
+- Receive: with the integration, readings from a smart scale or blood pressure monitor in Home Assistant are written into Health Connect, where Samsung Health and Google Health read weight and body fat.
+- Next to the Home Assistant companion app: keep the companion app for presence, notifications and device sensors. Its 26 Health Connect sensors each show the latest value or a daily total, and their history starts the day you enable them, with no backfill. Life Dashboard Companion reads 33 types and keeps every day in long-term statistics.
+- Your own AI: the apps contain no AI and never talk to a model. Once the data is in Home Assistant or the stack, a local model can read the history through a read-only MCP server; a recipe covers both routes.
+- Privacy: there is no Life Dashboard server and no account. The app has no analytics, ads, crash reporting or tracking SDKs, and contacts only the addresses you enter.
+- iPhone: Life Dashboard Companion for iPhone reads Apple Health (28 types, 20 of them as Home Assistant sensors) and sends the same payload to the same integration, broker or webhook. It needs iOS 17 or newer. With a free Apple Account, an app built with Xcode has to be run from Xcode again every 7 days. It reads Apple Health only and does not write to it. iOS does not let apps send screen time.
+- Requirements: health data needs Android 9 or newer with Health Connect, which is built into Android 14 and later and comes from Google Play on Android 9 through 13. The app is in English, German and Dutch.
+- Get the Android app: {{status:android}}
+- Get the iPhone app: {{status:ios}}
+
+## Product pages
+
+- [Life Dashboard Companion for Android](https://owen282000.com/life-dashboard/android/): Health Connect and screen time per app
+- [Life Dashboard Companion for iPhone](https://owen282000.com/life-dashboard/ios/): Apple Health in Home Assistant, MQTT or a webhook
+- [The Life Dashboard integration for Home Assistant](https://owen282000.com/life-dashboard/home-assistant/): QR pairing, sensors, long-term statistics, Receive; installs through HACS
+- [The Life Dashboard stack](https://owen282000.com/life-dashboard/grafana/): a self-hosted receiver with Postgres and six Grafana dashboards
+
+## Guides
+
+- [Health Connect in Home Assistant](https://owen282000.com/life-dashboard/health-connect-home-assistant/): sensors, long-term statistics and a year of history, with Samsung Health, Garmin, Fitbit, Oura or Withings data
+- [Send Health Connect data to your own webhook](https://owen282000.com/life-dashboard/health-connect-webhook/): the JSON payload, HMAC signatures, retries, outbox and receivers for n8n, Node-RED and Grafana
+- [Android screen time in Home Assistant](https://owen282000.com/life-dashboard/screen-time-home-assistant/): minutes per app as sensors, limits you set yourself, several phones
+- [Smart scale in Home Assistant to Samsung Health](https://owen282000.com/life-dashboard/smart-scale-to-samsung-health/): from a scale in Home Assistant into Health Connect, Samsung Health and Google Health
+- [Is there a web API for Health Connect or Apple Health?](https://owen282000.com/life-dashboard/health-data-api/): no; why, and how an app on the phone gets the data to your server
+- [Samsung Health to your own server](https://owen282000.com/life-dashboard/samsung-health-export/): Galaxy Watch data as JSON in your own database, n8n flow or script
+- [Fitbit and Pixel Watch in Home Assistant](https://owen282000.com/life-dashboard/fitbit-home-assistant/): through Health Connect, with no Fitbit Web API
+- [Ask your own AI about your health data](https://owen282000.com/life-dashboard/health-data-own-ai/): a local model reads your history through a read-only MCP server
+
+## Projects
+
+- [Android app (Life Dashboard Companion)](https://github.com/owen282000/life-dashboard-companion-app): source, releases and docs
+- [iPhone app (Life Dashboard Companion for iPhone)](https://github.com/owen282000/life-dashboard-companion-app-ios): Apple Health, built with Xcode
+- [Home Assistant integration](https://github.com/owen282000/life-dashboard-ha): QR pairing, sensors, long-term statistics, Receive
+- [Life Dashboard stack](https://github.com/owen282000/life-dashboard-stack): an example Docker Compose backend with a receiver that checks the signature, Postgres 18 and six Grafana dashboards
+
+## Docs
+
+- [README](https://raw.githubusercontent.com/owen282000/life-dashboard-companion-app/main/README.md)
+- [Setup guide](https://raw.githubusercontent.com/owen282000/life-dashboard-companion-app/main/docs/usage.md)
+- [All features](https://raw.githubusercontent.com/owen282000/life-dashboard-companion-app/main/docs/features.md)
+- [Payload reference](https://raw.githubusercontent.com/owen282000/life-dashboard-companion-app/main/docs/webhook.md)
+- [JSON Schema of the payload](https://raw.githubusercontent.com/owen282000/life-dashboard-companion-app/main/docs/webhook-schema.json)
+- [Privacy policy](https://raw.githubusercontent.com/owen282000/life-dashboard-companion-app/main/PRIVACY.md)
+- [iPhone app README](https://raw.githubusercontent.com/owen282000/life-dashboard-companion-app-ios/main/README.md)
+- [Integration README](https://raw.githubusercontent.com/owen282000/life-dashboard-ha/main/README.md)
+- [Stack README](https://raw.githubusercontent.com/owen282000/life-dashboard-stack/main/README.md)
+
+## Site
+
+- [Life Dashboard](https://owen282000.com/life-dashboard/): the landing page, with a FAQ
+- [Owen Vogelaar](https://owen282000.com/): the developer page
+
+## Optional
+
+- [Brand guides overview](https://raw.githubusercontent.com/owen282000/life-dashboard-companion-app/main/docs/brands/README.md)
+- [Samsung Health and Galaxy Watch](https://raw.githubusercontent.com/owen282000/life-dashboard-companion-app/main/docs/brands/samsung.md)
+- [Garmin](https://raw.githubusercontent.com/owen282000/life-dashboard-companion-app/main/docs/brands/garmin.md)
+- [Fitbit, Pixel Watch and Google Health](https://raw.githubusercontent.com/owen282000/life-dashboard-companion-app/main/docs/brands/fitbit.md)
+- [Oura](https://raw.githubusercontent.com/owen282000/life-dashboard-companion-app/main/docs/brands/oura.md)
+- [Withings](https://raw.githubusercontent.com/owen282000/life-dashboard-companion-app/main/docs/brands/withings.md)
+- [Gadgetbridge](https://raw.githubusercontent.com/owen282000/life-dashboard-companion-app/main/docs/brands/gadgetbridge.md)
+- [What each source app writes](https://raw.githubusercontent.com/owen282000/life-dashboard-companion-app/main/docs/DATA_SOURCES.md)
+- [Recipes](https://raw.githubusercontent.com/owen282000/life-dashboard-companion-app/main/docs/recipes/README.md)

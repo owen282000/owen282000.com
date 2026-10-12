@@ -1,0 +1,90 @@
+<!--
+title: Health Connect and Apple Health have no web API | Life Dashboard
+description: Health Connect and Apple Health have no web API. Life Dashboard Companion reads them on the phone and posts signed JSON to your server or Home Assistant.
+primary query: health connect api
+secondary queries: apple health api, health connect web api, apple health rest api, get health connect data on server, health connect rest api, healthkit web api, google health api, fitbit web api shutdown, samsung health api
+-->
+
+<h1>Is there a web API for Health Connect or Apple Health?</h1>
+
+<p>No. Health Connect and Apple Health are stores on the phone that apps read through Android or iOS, and neither offers an endpoint your server can call. To get the data onto a server, an app on the phone has to read it and send it on, which is what Life Dashboard Companion does on Android and on the iPhone.</p>
+
+<p class="flow-line"><span>Watch, ring or scale</span><span>Its app</span><span>Health Connect or Apple Health</span><span>Life Dashboard Companion</span><span>Your server</span></p>
+
+<h2>Health Connect is an Android API on the phone</h2>
+
+<p>Health Connect is Android's shared store for health data. Samsung Health, Garmin Connect, Google Health, Oura and Withings write into it, and other apps read from it with Health Connect's Android API, one permission per data type.</p>
+
+<p>There's no server side. The records live on the phone, and only code running on that phone can read them. Health Connect also limits how far back an app can read: anything from more than 30 days before you first gave it access needs a separate history permission.</p>
+
+<h2>Apple Health is HealthKit on the iPhone</h2>
+
+<p>Apple Health works the same way. The data sits on the iPhone, apps read it through HealthKit after you allow each type, and Apple offers no web API for your Health data. iOS also encrypts Apple Health while the iPhone is locked, so even an app on the phone has to wait for you to unlock it.</p>
+
+<h2>The cloud routes that do exist</h2>
+
+<p>For data in a Google account, such as from a Fitbit or a Pixel Watch, Google offers the Google Health API in its cloud. It needs a Google Cloud project and an OAuth client, and it only sees what reaches your Google account. The older Fitbit Web API lost support on September 30, 2026 and turns off on October 30, 2026; tools built on it, such as Home Assistant's Fitbit integration, stop syncing then. <a href="../fitbit-home-assistant/">Fitbit and Pixel Watch in Home Assistant</a> covers the route through the phone.</p>
+
+<p>Samsung Health has no cloud API you can connect to, and Samsung's own data SDK is open only to registered partners. Health Connect is the open route there too; see <a href="../samsung-health-export/">Samsung Health to your own server</a>.</p>
+
+<h2>What you need</h2>
+
+<ul>
+  <li>An Android phone with Android 9 or newer and Health Connect, or an iPhone on iOS 17 or newer.</li>
+  <li><a href="../android/">Life Dashboard Companion for Android</a>. {{status:android}}</li>
+  <li>Or <a href="../ios/">Life Dashboard Companion for iPhone</a>. {{status:ios}}</li>
+  <li>Somewhere to send the data: a server that accepts a JSON POST over HTTPS, <a href="../home-assistant/">Home Assistant</a>, an MQTT broker, or <a href="../grafana/">the Life Dashboard stack</a>.</li>
+</ul>
+
+<h2>Set it up</h2>
+
+<p>For your own server, on Android:</p>
+
+<ol>
+  <li>Open the app. At <strong>Where should your data go?</strong>, pick <strong>Webhook</strong> and enter your URL.</li>
+  <li>On the <strong>Health</strong> tab, open <strong>Webhook</strong>. Under <strong>HMAC signing secret (optional)</strong>, tap <strong>Generate</strong> and put the same value on your server.</li>
+  <li>Tap <strong>Test ping</strong>, then <strong>Save Changes</strong>.</li>
+  <li>Tap <strong>Grant</strong>, allow your data types and reading in the background, then tap <strong>Sync Now</strong>.</li>
+  <li>For older data, tap <strong>Backfill</strong> and pick <strong>30d</strong>, <strong>90d</strong> or <strong>365d</strong>.</li>
+</ol>
+
+<p>The iPhone app has the same settings on its own <strong>Health</strong> tab. <a href="../health-connect-webhook/">Health Connect to a webhook</a> has the full receiver guide.</p>
+
+<!-- IMG: Webhook settings with HMAC (A6-webhook.png) -->
+
+<h2>What you get</h2>
+
+<ul>
+  <li><strong>Every record as JSON.</strong> Up to 33 types from Health Connect, or 28 from Apple Health, each with a stable <code>uuid</code> and the app that wrote it.</li>
+  <li><strong>Daily totals that count a walk once.</strong> Steps, distance and calories come from the store's own deduplicated figures, so phone and watch don't add up to twice the number.</li>
+  <li><strong>One format for both phones.</strong> The iPhone app sends the same keys with <code>"source": "healthkit_ios"</code>, so one receiver takes both.</li>
+  <li><strong>A signature.</strong> With a secret set, every request carries <code>X-Signature: sha256=&lt;hex&gt;</code>, an HMAC-SHA256 of the body.</li>
+</ul>
+
+<h2>Limits</h2>
+
+<ul>
+  <li>Your server can't ask the phone for a date range. It receives what the phone sends, and you start a backfill on the phone.</li>
+  <li>Data leaves the phone when the app syncs: every 60 minutes by default on Android, every 15 at the shortest. On the iPhone, iOS decides the exact moment.</li>
+  <li>You only get what the vendor's app writes into the store.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Can my server pull data from Health Connect?</summary>
+    <p>No. Health Connect has no network interface. An app on the phone has to read it and push it out, as Life Dashboard Companion does.</p>
+  </details>
+  <details>
+    <summary>Is there an Apple Health REST API?</summary>
+    <p>No. Apps read Apple Health through HealthKit on the iPhone. <a href="../ios/">Life Dashboard Companion for iPhone</a> reads it there and posts the same JSON as the Android app.</p>
+  </details>
+  <details>
+    <summary>Should I use the Google Health API instead?</summary>
+    <p>It fits if all your data is in a Google account, from a Fitbit or a Pixel Watch, and you're fine with a Google Cloud project and an OAuth client. Health Connect on the phone also holds what Samsung Health, Garmin Connect, Oura and Withings write, and Life Dashboard Companion sends all of it in one payload.</p>
+  </details>
+  <details>
+    <summary>Does my data pass through a cloud on the way?</summary>
+    <p>No. There's no Life Dashboard server, and the app sends only to the destinations you enter. If you use Home Assistant Cloud to sync away from home, that's a path you chose.</p>
+  </details>
+</section>

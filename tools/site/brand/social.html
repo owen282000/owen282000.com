@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<!--
+  Source for site/life-dashboard/img/social.png, the share image (og:image) of the site.
+  Render from the repository root with:
+
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new \
+      --allow-file-access-from-files --hide-scrollbars --force-device-scale-factor=1 \
+      --window-size=1280,640 --screenshot=site/life-dashboard/img/social.png \
+      "file://$PWD/tools/site/brand/social.html"
+-->
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1280px; height: 640px; overflow: hidden; }
+  body { background: radial-gradient(120% 120% at 25% 20%, #171D21 0%, #14181C 45%, #101C1C 100%); color: #E8EDEF;
+         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; position: relative; }
+  .grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(48,183,126,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(48,183,126,0.06) 1px, transparent 1px);
+          background-size: 48px 48px; -webkit-mask-image: radial-gradient(90% 90% at 70% 50%, #000 30%, transparent 80%); }
+  .left { position: absolute; left: 80px; top: 86px; width: 640px; }
+  h1 { font-size: 64px; font-weight: 700; letter-spacing: -2.5px; line-height: 1; }
+  h1 span { color: #30B77E; display: block; }
+  .sub { margin-top: 24px; font-size: 27px; line-height: 1.3; color: #C9D2D6; }
+  svg.beat { display: block; margin-top: 30px; width: 420px; }
+  .foot { position: absolute; left: 80px; bottom: 64px; font-size: 24px; font-weight: 700; color: #30B77E; }
+  .foot b { color: #7E8B91; font-weight: 400; margin: 0 10px; }
+  .card { position: absolute; left: 760px; width: 440px; border-radius: 18px; overflow: hidden; background: #111518; border: 1.5px solid rgba(255,255,255,0.14);
+          box-shadow: 0 30px 60px -20px rgba(0,0,0,0.8); }
+  .card .cap { display: flex; justify-content: space-between; padding: 12px 18px; background: #161b1f; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 19px; }
+  .card .cap b { color: #E8EDEF; } .card .cap i { font-style: normal; color: #909CA2; font-size: 16px; padding-top: 2px; }
+  .card img { display: block; width: 100%; object-fit: cover; object-position: top; }
+  .ha { top: 56px; border-color: rgba(48,183,126,0.6); box-shadow: 0 0 0 6px rgba(48,183,126,0.07), 0 30px 60px -20px rgba(0,0,0,0.8); }
+  .ha img { height: 150px; object-position: 50% 12%; }
+  .gr { top: 278px; } .gr img { height: 112px; }
+  .js { top: 462px; }
+  .js pre { padding: 14px 18px; font: 15px/1.6 "SF Mono", Menlo, monospace; color: #cdd6da; }
+  .k { color: #8fd3b4; } .s { color: #e6c07b; } .n { color: #b9a2fb; }
+</style>
+</head>
+<body>
+<div class="grid"></div>
+<div class="left">
+  <h1>Life Dashboard<span>on your own server</span></h1>
+  <p class="sub">Health Connect and Apple Health, sent to Home Assistant, Grafana, MQTT or a webhook. No cloud, no account.</p>
+  <svg class="beat" viewBox="0 0 560 90">
+  <defs><filter id="g" x="-10%" y="-60%" width="120%" height="220%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+  <g filter="url(#g)" stroke="#30B77E" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="6">
+    <path d="M4 45 H210 L232 12 L258 80 L276 30 L290 45 H420"/>
+    <circle cx="420" cy="45" r="8" fill="#30B77E" stroke="none"/>
+    <path d="M446 30 A22 22 0 0 1 446 60" opacity=".85"/><path d="M466 18 A40 40 0 0 1 466 72" opacity=".5"/>
+  </g>
+</svg>
+</div>
+
+<p class="foot">Android<b>·</b>iPhone<b>·</b>Open source</p>
+<div class="card ha"><div class="cap"><b>Home Assistant</b><i>Sensors and history</i></div><img src="../../../site/life-dashboard/img/H1-dashboard.webp" alt=""></div>
+<div class="card gr"><div class="cap"><b>Grafana stack</b><i>Postgres on your machine</i></div><img src="../../../site/life-dashboard/img/g-overview.webp" alt=""></div>
+<div class="card js"><div class="cap"><b>Your own server</b><i>Signed JSON</i></div>
+<pre>{ <span class="k">"steps"</span>: [{ <span class="k">"count"</span>: <span class="n">412</span>,
+    <span class="k">"source"</span>: <span class="s">"com.sec.android.app.shealth"</span> }] }</pre></div>
+</body>
+</html>

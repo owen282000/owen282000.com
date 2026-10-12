@@ -1,0 +1,132 @@
+<!--
+title: Samsung Health and Health Connect in Home Assistant | Life Dashboard
+description: Life Dashboard Companion sends Health Connect data from Samsung Health, Garmin, Fitbit, Oura and Withings to Home Assistant as sensors, with a year of history.
+primary query: health connect home assistant
+secondary queries: samsung health home assistant, galaxy watch home assistant, garmin home assistant health connect, fitbit home assistant, oura home assistant, withings home assistant, home assistant steps sensor, home assistant sleep sensor, home assistant heart rate sensor, health connect home assistant integration
+-->
+
+<h1>How do I get Samsung Health and other Health Connect data into Home Assistant?</h1>
+
+<p>Install the Life Dashboard integration in Home Assistant and Life Dashboard Companion, an open-source Android app, on your phone, then pair the two with a QR code. Your watch's data then arrives as sensors, and every day is kept in long-term statistics.</p>
+
+<p>It works with anything that writes to Health Connect: Samsung Health, Garmin Connect, Google Health (Fitbit and Pixel Watch), Oura, Withings and more. A backfill adds up to a year of history. Both parts are MIT licensed, nothing runs on a Life Dashboard server, and Home Assistant never needs your Samsung, Garmin or Google login.</p>
+
+<p class="flow-line"><span>Watch</span><span>Its app, such as Samsung Health</span><span>Health Connect</span><span>Life Dashboard Companion</span><span>Home Assistant</span></p>
+
+<h2>What you need</h2>
+
+<ul>
+  <li>Android 9 or newer. Health Connect is part of Android 14 and later; on Android 9 through 13 it comes from Google Play.</li>
+  <li>An app that writes into Health Connect, such as Samsung Health, Garmin Connect or Google Health. Garmin Connect only does this on Android 14 or newer.</li>
+  <li>Home Assistant 2026.3 or newer, with <a href="https://hacs.xyz">HACS</a>, for the <a href="../home-assistant/">Life Dashboard integration</a>.</li>
+  <li><a href="../android/">Life Dashboard Companion for Android</a>. The <a href="../android/#get">install options</a> list GitHub Releases and Obtainium, and the store listings that are on the way.</li>
+</ul>
+
+<p>Plan on 15 to 30 minutes the first time, most of it in Home Assistant. Set up Home Assistant first: the app's setup scans the QR code the integration shows.</p>
+
+<h2>Set it up</h2>
+
+<ol>
+  <li>In HACS, add <code>https://github.com/owen282000/life-dashboard-ha</code> as a custom repository of type <strong>Integration</strong> (it isn't in the default list yet), or use <a href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in HACS</a>. Download <strong>Life Dashboard</strong> and restart Home Assistant.</li>
+  <li>Go to <strong>Settings</strong> &gt; <strong>Devices &amp; services</strong> &gt; <strong>Add integration</strong>, search for <strong>Life Dashboard</strong> and name the phone. Check the <strong>Home Assistant address</strong> field: it holds the address the phone sends to. Use Home Assistant's IP address, such as <code>http://192.168.1.20:8123</code>, not <code>homeassistant.local</code>, which Android often can't resolve. Home Assistant shows its IP address under <strong>Settings</strong> &gt; <strong>System</strong> &gt; <strong>Network</strong>, in the <strong>Network adapter</strong> section. Plain <code>http://</code> isn't encrypted. On your own home Wi-Fi that's fine; on any network you don't fully trust, use HTTPS or Home Assistant Cloud instead. The dialog then shows a QR code.</li>
+  <!-- IMG: the QR code in Home Assistant (H2-qr.png) -->
+  <li>Let your watch's app write to Health Connect. In Samsung Health that's <strong>Settings</strong> &gt; <strong>Health Connect</strong>: tap <strong>Get started</strong>, choose the data and tap <strong>Allow</strong>. The table below has the path for other apps.</li>
+  <li>Install and open <a href="../android/#get">Life Dashboard Companion</a> on the phone. Android may warn you before it installs an APK from outside the Play Store: it does that for every app from another source, and every release is signed with the same key and carries a build attestation (<a href="../android/#get">install options</a>). At <strong>Where should your data go?</strong>, tap <strong>Scan a code from Home Assistant</strong>, scan the code and tap <strong>Pair</strong>. A test ping confirms the connection.</li>
+  <!-- IMG: pair dialog (A2-pair.png) -->
+  <li>On the <strong>Health</strong> tab, tap <strong>Grant</strong>, allow your data types, and allow reading in the background for scheduled syncs. The setup's <strong>The essentials</strong> preset turns on steps, sleep, heart rate, resting heart rate, distance, calories and weight; switch on any other type under <strong>Data Types</strong>. Samsung Health and Garmin Connect don't share resting heart rate or HRV with Health Connect, so with those watches that sensor never appears; the <a href="#your-watch-s-app-and-health-connect">table below</a> lists what each app keeps.</li>
+  <li>On Samsung, Xiaomi and similar phones, keep Android from stopping the syncs: <strong>Settings</strong> &gt; <strong>Apps</strong> &gt; <strong>Life Dashboard</strong> &gt; <strong>Battery</strong>, set to <strong>Unrestricted</strong>. On Samsung, also add <strong>Life Dashboard</strong> to <strong>Never sleeping apps</strong> under <strong>Settings</strong> &gt; <strong>Battery</strong> &gt; <strong>Background usage limits</strong>. Other brands are in the <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/usage.md#let-the-app-run-in-the-background">setup guide</a>.</li>
+  <li>Tap <strong>Sync Now</strong>. The phone appears under <strong>Settings</strong> &gt; <strong>Devices &amp; services</strong> &gt; <strong>Life Dashboard</strong>.</li>
+  <li>For older data, tap <strong>Backfill</strong> and pick <strong>30d</strong>, <strong>90d</strong> or <strong>365d</strong>. Beyond 30 days before your first grant, tap <strong>Grant history access</strong> first.</li>
+</ol>
+
+<!-- IMG: Health tab (A1-health.png) -->
+
+<h2>Your watch's app and Health Connect</h2>
+
+<p>What arrives depends on what each app shares with Health Connect. None of these needs a developer account, an API token or a cloud login.</p>
+
+<table>
+  <thead>
+    <tr><th>App</th><th>Where to switch it on</th><th>What stays with the vendor</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Samsung Health (Galaxy Watch)</td><td><strong>Settings</strong> &gt; <strong>Health Connect</strong></td><td>HRV, resting heart rate, stress, skin temperature, cycle tracking</td></tr>
+    <tr><td>Garmin Connect 5.14.1 or later, on Android 14 or later (<a href="../garmin-home-assistant/">Garmin guide</a>)</td><td><strong>Settings</strong> &gt; <strong>Connected Apps</strong> &gt; <strong>Health Connect</strong></td><td>Body Battery, stress, HRV, resting heart rate</td></tr>
+    <tr><td>Google Health (Fitbit, Pixel Watch)</td><td><strong>Connections</strong> &gt; <strong>Partner apps</strong> &gt; <strong>Sync your favorite health apps</strong></td><td>SpO2 and active calories, as of October 2026</td></tr>
+    <tr><td>Oura (Gen2, or Gen3 and later with a membership)</td><td><strong>Settings</strong> &gt; <strong>Data Sharing</strong> &gt; <strong>Health Connect</strong></td><td>Readiness, Sleep and Activity scores</td></tr>
+    <tr><td>Withings</td><td><strong>Export health data to Health Connect</strong></td><td>Scores and ECG recordings</td></tr>
+  </tbody>
+</table>
+
+<p>The <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/brands/README.md">brand guides</a> list every type each app writes.</p>
+
+<h2>What you get</h2>
+
+<ul>
+  <li><strong>Sensors</strong> for 24 of the 33 types: today's steps, distance and calories (such as <code>sensor.pixel_8_steps_today</code>), and the latest heart rate, resting heart rate, HRV, last sleep, weight, blood pressure, glucose and more. Latest values name the app that wrote them. Which ones you get depends on your watch's app; see the table above.</li>
+  <li><strong>History</strong> in long-term statistics: one value per day for steps, distance, calories, sleep, exercise and mindfulness minutes, hydration and screen time, and an hourly mean, minimum and maximum for heart rate, weight and other measurements. Use the <strong>Statistics graph</strong> card; <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md">Sensors and statistics</a> lists every entity.</li>
+  <li><strong>No double counting.</strong> Steps, distance and calories use Health Connect's daily totals, so a walk recorded by phone and watch counts once.</li>
+  <li><strong>An example dashboard</strong> in <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/examples/dashboard.yaml">examples/dashboard.yaml</a>. The setup needs no YAML; the example dashboard is an optional YAML file you paste into a new dashboard's raw configuration editor.</li>
+</ul>
+
+<!-- IMG: HA example dashboard on a phone (H1-dashboard.png) -->
+
+<p>Syncs run every 60 minutes by default, every 15 minutes at the shortest, or at fixed times of day.</p>
+
+<!-- IMG: HA history graphs on a phone (H3-history.png) -->
+
+<h2>Put a tile on your dashboard</h2>
+
+<p>To show a value on the dashboard you already have, open it, choose <strong>Edit dashboard</strong>, then <strong>Add card</strong> &gt; <strong>Tile</strong>, and pick the sensor. With a phone named Pixel 8, today's steps are <code>sensor.pixel_8_steps_today</code> and last night's sleep is <code>sensor.pixel_8_last_sleep_duration</code>, in minutes.</p>
+
+<h2>Limits</h2>
+
+<ul>
+  <li>Workouts, meals, mindfulness and cycle tracking are events and get no sensor, though the integration counts workout and mindfulness minutes per day. The full records go only to a <a href="../health-connect-webhook/">webhook of your own</a>.</li>
+  <li>Data arrives after the vendor's app writes it to Health Connect, usually once the watch syncs with the phone.</li>
+  <li>A home network address only syncs at home; data from away waits on the phone. A public HTTPS address or Home Assistant Cloud works everywhere. With Home Assistant Cloud, your payloads pass through its servers on the way.</li>
+</ul>
+
+<h2>MQTT as the alternative</h2>
+
+<p>With an MQTT broker already running, switch on <strong>Enable MQTT publishing</strong> under <strong>MQTT</strong> on the <strong>Health</strong> tab instead. The same sensors appear under a device named Life Dashboard Companion, with no YAML. Pick one route; running both gives you two devices with the same numbers.</p>
+
+<table>
+  <thead>
+    <tr><th></th><th>Life Dashboard integration</th><th>MQTT</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Setup</td><td>HACS, then a QR code</td><td>Enter your broker</td></tr>
+    <tr><td>History</td><td>Every day, up to a year back</td><td>From the first sync on</td></tr>
+    <tr><td>Screen time sensor per app</td><td>Yes</td><td>No</td></tr>
+    <tr><td>Scale readings into Health Connect</td><td>Yes</td><td>No</td></tr>
+  </tbody>
+</table>
+
+<h2>Next to the Home Assistant companion app</h2>
+
+<p>Keep the companion app for presence, notifications and device sensors. It also has 26 Health Connect sensors, each with the latest value or a daily total, and their history starts the day you enable them. It has no backfill, and values are not filed on the date they happened. Life Dashboard Companion reads 33 types, keeps every day in long-term statistics, writes scale readings back into Health Connect and adds <a href="../screen-time-home-assistant/">screen time per app</a>. The two run side by side.</p>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Does this need a cloud account?</summary>
+    <p>No. The phone posts straight to your Home Assistant, and there is no Life Dashboard server. Home Assistant Cloud is optional, for syncing away from home; its relay then carries the payloads.</p>
+  </details>
+  <details>
+    <summary>I paired, but no watch data arrives. What's wrong?</summary>
+    <p>Usually the watch's app isn't writing to Health Connect yet: switch it on as in the table above, then open the watch's app so it syncs. Also check that the type is switched on under <strong>Data Types</strong> on the <strong>Health</strong> tab, and that its permission is granted.</p>
+  </details>
+  <details>
+    <summary>Does Home Assistant's Fitbit integration still work?</summary>
+    <p>It uses the legacy Fitbit Web API, which Google shuts down on October 30, 2026. Fitbit and Pixel Watch data reach Health Connect through the Google Health app, so this route doesn't depend on that API.</p>
+  </details>
+  <details>
+    <summary>Does it work on an iPhone?</summary>
+    <p>Yes, with <a href="../ios/">Life Dashboard Companion for iPhone</a>, which reads Apple Health and sends to the same integration. There's no App Store build yet; you build it with Xcode.</p>
+  </details>
+  <details>
+    <summary>Can Home Assistant send data to the phone?</summary>
+    <p>Yes, from scales and blood pressure monitors. See <a href="../smart-scale-to-samsung-health/">smart scale readings into Samsung Health</a>.</p>
+  </details>
+</section>

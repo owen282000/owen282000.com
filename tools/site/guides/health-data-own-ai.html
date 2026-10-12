@@ -1,0 +1,107 @@
+<!--
+title: Ask a local AI about your health data, no cloud | Life Dashboard
+description: Life Dashboard Companion sends your health data to Home Assistant or Postgres; a read-only MCP server lets a local model on Ollama answer questions about it.
+primary query: ask ai about my health data self hosted
+secondary queries: health connect mcp, apple health mcp, health data local llm, home assistant mcp health, ollama health data, health data mcp server, local llm sleep data, self-hosted health ai
+-->
+
+<h1>How do I ask my own AI about my health data, without a cloud?</h1>
+
+<p>Send your data with Life Dashboard Companion to Home Assistant, the Life Dashboard stack or a Postgres database you already run, put a read-only MCP server on top, and connect a model that runs on your own hardware through Ollama. The app itself contains no AI and never talks to a model. This is a recipe on the receiver side, where the model reads what your receiver already stores, through a connection that can't change anything.</p>
+
+<p class="flow-line"><span>Phone</span><span>Home Assistant, the stack or your Postgres</span><span>Read-only MCP server</span><span>Your model</span></p>
+
+<h2>How it fits together</h2>
+
+<p><a href="https://modelcontextprotocol.io">MCP</a> is the standard way for a model to call tools, and a read-only MCP server on the receiver gives the model tools to look up your history. The <a href="../ios/">iPhone app</a> sends to the same integration and the same stack, so every route works for Apple Health data too.</p>
+
+<p>Use route 1 if you send to the Life Dashboard integration, route 2 if you run the stack, and route 3 if n8n or a receiver of your own already writes to a Postgres you run.</p>
+
+<h2>What you need</h2>
+
+<ul>
+  <li><strong>A local model with tool support.</strong> <a href="https://ollama.com">Ollama</a> runs it, with a model such as <code>qwen3</code> (8B or 14B) or <code>gpt-oss:20b</code>. Pick one without a <code>-cloud</code> tag: those run on Ollama's servers. An 8B model wants 16 GB of memory; 20 to 30B wants a 24 GB graphics card or a Mac with 32 GB or more.</li>
+  <li><strong>A chat client that speaks MCP</strong>, such as Open WebUI or LM Studio, unless you use Home Assistant's own assistant. Ollama itself has no MCP client.</li>
+  <li><strong>History to ask about.</strong> <strong>Backfill</strong> on the <strong>Health</strong> tab sends up to a year.</li>
+</ul>
+
+<h2>Set it up</h2>
+
+<h3>Route 1: Home Assistant with ha-mcp</h3>
+
+<p>The integration keeps your history in long-term statistics, with IDs like <code>life_dashboard:&lt;entry&gt;_steps</code>. Home Assistant's built-in MCP server only offers current states, so it can answer “how many steps today” but not how this month compares with the last. <a href="https://github.com/homeassistant-ai/ha-mcp">ha-mcp</a>, a community project, has a history tool that reads long-term statistics.</p>
+
+<ol>
+  <li>In HACS, add <code>homeassistant-ai/ha-mcp-integration</code> as a custom repository and install it. It needs Home Assistant 2026.8 or later. Restart, then add <strong>HA-MCP Custom Component</strong> under <strong>Add integration</strong> and choose <strong>HA-MCP Server</strong>.</li>
+  <li>In the <strong>HA-MCP</strong> panel in the sidebar, switch on <strong>Read Only Mode</strong>.</li>
+  <li>Under <strong>Configure</strong>, turn off <strong>Remote access via webhook</strong> and set <strong>Network access</strong> to <code>127.0.0.1</code>, unless a client on another machine needs it.</li>
+  <li>Connect a model. Inside Home Assistant, add the Ollama integration, create a conversation agent with a tool-capable model and choose ha-mcp under <strong>Control Home Assistant</strong>. Or add ha-mcp's URL in Open WebUI or LM Studio, and switch on its tool search in the <strong>HA-MCP</strong> panel. Treat that URL as an administrator password.</li>
+  <li>Give the model the statistic ID, which <strong>Developer tools</strong> &gt; <strong>Statistics</strong> lists, and ask for monthly averages with <code>ha_get_history</code>.</li>
+</ol>
+
+<h3>Route 2: the stack with its read-only database role</h3>
+
+<p><a href="../grafana/">The Life Dashboard stack</a> stores every record in Postgres, in one table, <code>records</code>, with the record as JSON. Its <code>dash</code> views turn those records into days, nights and workouts in your time zone, so a model doesn't have to write SQL against nested JSON.</p>
+
+<ol>
+  <li>Use the read-only role the stack already has, <code>grafana_ro</code>. It can read <code>records</code>, <code>buckets</code> and the <code>dash</code> views and nothing else, it's read-only by default, and its queries stop after 30 seconds. The receiver grants it again at every start, after it rebuilds the views. Its password is <code>GRAFANA_DB_PASSWORD</code> in <code>.env</code>.</li>
+  <li>Add <a href="https://github.com/bytebase/dbhub">DBHub</a> as an MCP server in <code>docker-compose.override.yml</code>, bound to <code>127.0.0.1:8081</code>. Its config defines a read-only SQL tool and three ready-made ones that read <code>dash.activity_days</code>, <code>dash.sleep_nights</code> and <code>dash.workouts</code>.</li>
+  <li>Start it with <code>docker compose up -d dbhub</code> and add <code>http://127.0.0.1:8081/mcp</code> in Open WebUI or LM Studio.</li>
+  <li>Ask: “Using <code>sleep_nights</code> and <code>workouts</code>, how did my deep sleep compare in weeks with three or more runs against weeks with fewer?”</li>
+</ol>
+
+<p>The stack keeps series sent per time window in its <code>buckets</code> table, but only its heart rate views read them. Leave <strong>Data Resolution</strong> on the <strong>Health</strong> tab at <strong>Every record</strong>, the default, for the types you want to ask about. The <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/recipes/ask-your-own-llm.md">full recipe</a> has the Compose service and the DBHub config, checked against the stack on October 7, 2026.</p>
+
+<h3>Route 3: your own Postgres</h3>
+
+<p>If n8n or a receiver of your own already stores the payloads in a Postgres you run, the same pattern works there.</p>
+
+<ol>
+  <li>Store records keyed on <code>uuid</code> as text, <code>daily_totals</code> as one row per date, and apply <code>deleted_records</code>, so a model can't count a walk twice or read a record you deleted. <a href="../health-connect-webhook/#store-it-in-postgres">Store it in Postgres</a> has the details.</li>
+  <li>Create a role that can only read those tables:
+<pre><code>CREATE ROLE llm_ro LOGIN PASSWORD 'change-me';
+ALTER ROLE llm_ro SET default_transaction_read_only = on;
+ALTER ROLE llm_ro SET statement_timeout = '30s';
+GRANT CONNECT ON DATABASE health TO llm_ro;
+GRANT USAGE ON SCHEMA public TO llm_ro;
+GRANT SELECT ON records, daily_totals TO llm_ro;</code></pre>
+  Use your own table and database names, and grant <code>SELECT</code> on every view you add later.</li>
+  <li>Run DBHub in a folder of its own. Route 2's Compose service waits for the stack's receiver and needs the stack's <code>.env</code>, so it doesn't start without the stack; the recipe has a separate <code>docker-compose.yml</code> and <code>dbhub.toml</code> for this route.</li>
+  <li>Add views with one row per day and per night. A model answers far better from those than from sleep sessions as JSON. The stack's <a href="https://github.com/owen282000/life-dashboard-stack/blob/main/receiver/views.sql"><code>views.sql</code></a> is a template: adapt its table and column names to yours.</li>
+</ol>
+
+<p>The stack's documentation doesn't cover running only its receiver against a Postgres you already run. The receiver does take its database from <code>DATABASE_URL</code>, and at every start it runs its migrations, rebuilds the <code>dash</code> schema and sets up the <code>grafana_ro</code> role, so if you try it, give it a database of its own and a user that may create roles.</p>
+
+<h2>What you get</h2>
+
+<ul>
+  <li>Answers about your own history, such as monthly step averages or your sleep in weeks you trained more, from a model on your own hardware.</li>
+  <li>Read-only access. With a read-only role or <strong>Read Only Mode</strong>, the model can't change a setting, delete a record or switch a device.</li>
+</ul>
+
+<h2>Limits</h2>
+
+<ul>
+  <li>ha-mcp works with an administrator's access. Everyone who can talk to its conversation agent can ask about your health data, so give it its own agent, outside shared voice pipelines.</li>
+  <li>A question asked by voice also goes through your speech engine, which with Home Assistant Cloud isn't local.</li>
+  <li>The stack starts with default passwords for Grafana, the database and <code>grafana_ro</code>. Change them before you add another way in.</li>
+  <li>Types you didn't switch on, or days the phone didn't sync, aren't there to read. Screen time history only comes from Android phones.</li>
+  <li>Types your watch's app doesn't share with Health Connect aren't there either, and they decide which questions a model can answer. Samsung Health keeps HRV, resting heart rate and respiratory rate to itself, and Garmin Connect writes no HRV to Health Connect at all and keeps resting heart rate to itself.</li>
+  <li>A model isn't a doctor. It can sum your steps correctly and still draw a wrong conclusion.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Does Life Dashboard Companion send my data to an AI?</summary>
+    <p>No. The app contains no AI and never talks to a model. It sends only to the destinations you set up; the model reads from your receiver.</p>
+  </details>
+  <details>
+    <summary>Can I use a cloud model instead?</summary>
+    <p>You can point one at the same server, but then your questions, every query result and the answers go to the provider. A connector in a web app also needs your server reachable from the internet.</p>
+  </details>
+  <details>
+    <summary>Why not Home Assistant's built-in MCP server?</summary>
+    <p>It gives a model the current state of the entities you exposed to Assist, with no tool for history or statistics. It can answer questions about today, not about last month.</p>
+  </details>
+</section>

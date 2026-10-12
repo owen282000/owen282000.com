@@ -1,0 +1,170 @@
+{
+  "slug": "ios",
+  "nav_name": "iPhone app",
+  "title": "Apple Health in Home Assistant from iPhone | Life Dashboard",
+  "description": "Life Dashboard Companion for iPhone sends Apple Health data to Home Assistant, MQTT or your own webhook as signed JSON. Open source, no cloud and no account.",
+  "kicker": "iPhone app",
+  "h1": "Apple Health, sent from your iPhone to your own server",
+  "lead": "Life Dashboard Companion for iPhone is an open-source app that reads 28 Apple Health types and sends them to Home Assistant, an MQTT broker or your own webhook. It sends the same payload as the Android app, so both phones can share one server.",
+  "hero_image": "ios-health",
+  "highlights": [
+    {
+      "title": "28 Apple Health types",
+      "text": "Steps, sleep stages, heart rate, HRV, weight, blood pressure, glucose, VO2 max, workouts, nutrition and cycle tracking. Each starts off."
+    },
+    {
+      "title": "Every record, plus daily totals",
+      "text": "Each record names the app or device that wrote it. Daily totals count a walk recorded by iPhone and Watch once."
+    },
+    {
+      "title": "A year of history",
+      "text": "Backfill 30, 90 or 365 days. A record you delete in Apple Health is reported to your server at the next sync."
+    },
+    {
+      "title": "Same payload as Android",
+      "text": "The Android app's keys, units and signing, so one Home Assistant or one receiver takes both phones."
+    },
+    {
+      "title": "Syncs in the background",
+      "text": "An interval or fixed times, with quiet hours. iOS picks the moment; a Shortcuts automation gives you an exact time."
+    },
+    {
+      "title": "Widget, Control Center, Siri",
+      "text": "See the last sync on your home screen, and sync from there, from Control Center on iOS 18, or with Siri."
+    }
+  ],
+  "sections": [
+    {
+      "kicker": "Home Assistant and MQTT",
+      "h2": "Apple Health in Home Assistant, by QR code or over MQTT",
+      "text": "The Life Dashboard integration pairs with one QR code and keeps every day in long-term statistics. Over MQTT, Home Assistant Discovery sets the sensors up without YAML, from the first sync on.",
+      "bullets": [
+        {
+          "main": "20 of the 28 types as sensors",
+          "sub": "Today's steps, distance and calories, and the latest heart rate, HRV, sleep, weight, blood pressure, glucose and VO2 max."
+        },
+        {
+          "main": "Up to a year of history",
+          "sub": "With the integration, backfilled days land on their own date. Workouts and mindfulness count as minutes per day."
+        },
+        {
+          "main": "Its own MQTT device and base topic",
+          "sub": "lifedashboard-ios, so an iPhone never collides with an Android phone on the same broker."
+        },
+        {
+          "main": "A second iPhone",
+          "sub": "Give it a phone name, and it gets its own device and topics."
+        }
+      ],
+      "image": "ios-mqtt",
+      "link": {
+        "href": "https://github.com/owen282000/life-dashboard-companion-app-ios/blob/main/docs/usage.md#phone-to-home-assistant",
+        "text": "Setup for the integration and MQTT"
+      }
+    },
+    {
+      "kicker": "Webhooks",
+      "h2": "An Apple Health webhook with signed JSON",
+      "text": "Any server that accepts a JSON POST can receive the data: n8n, Node-RED, the Grafana stack or a script. Every record carries a <code>uuid</code> to deduplicate on and a <code>source</code> that names the app or device that wrote it.",
+      "bullets": [
+        {
+          "main": "HMAC-SHA256 signing",
+          "sub": "An optional X-Signature header, the same scheme as the Android app."
+        },
+        {
+          "main": "Client certificates (mTLS)",
+          "sub": "Import a .p12 file into this iPhone's Keychain, for a server behind a reverse proxy that requires one."
+        },
+        {
+          "main": "A retry queue on the phone",
+          "sub": "Every payload is queued before it's sent, so a sync that iOS cuts off loses nothing. It holds up to 700."
+        },
+        {
+          "main": "Sync history on the Logs tab",
+          "sub": "Success rate, deliveries and records, and the latest failures grouped by receiver and error."
+        }
+      ],
+      "image": "ios-logs",
+      "link": {
+        "href": "../health-connect-webhook/",
+        "text": "The payload both apps send"
+      }
+    },
+    {
+      "kicker": "Background sync",
+      "h2": "Runs in the background, within what iOS allows",
+      "text": "HealthKit wakes the app when an enabled type has new data, and iOS runs background tasks when it sees fit. A fixed time means “not before”. For an exact minute, a Shortcuts automation runs <strong>Sync Health Data</strong>.",
+      "bullets": [
+        {
+          "main": "An interval or fixed times",
+          "sub": "At least 15 minutes, 60 by default, on the weekdays you pick."
+        },
+        {
+          "main": "Quiet hours",
+          "sub": "No sync between two times. Queued payloads wait too."
+        },
+        {
+          "main": "A locked iPhone can't be read",
+          "sub": "iOS encrypts Apple Health while the iPhone is locked, so a sync waits until the iPhone is unlocked."
+        },
+        {
+          "main": "Shortcuts, widget and Control Center",
+          "sub": "All three run Sync Health Data, together at most once a minute."
+        }
+      ],
+      "image": "ios-schedule",
+      "link": {
+        "href": "https://github.com/owen282000/life-dashboard-companion-app-ios/blob/main/docs/features.md#what-ios-does-differently",
+        "text": "What iOS does differently"
+      }
+    }
+  ],
+  "requirements": "An iPhone on iOS 17 or newer. To build it today: a Mac with Xcode 26 (macOS 26.2 for the newest Xcode, or Xcode 26.3 on macOS 15.6) and an Apple Account; about an hour the first time. With a free account the app stops opening after 7 days until you run it from Xcode again; a paid developer account signs it for a year. The Life Dashboard integration needs Home Assistant 2026.3 or newer with HACS. Want to skip the build? The public TestFlight beta is next.",
+  "faq": [
+    {
+      "q": "What does building it take?",
+      "id": "building",
+      "open": true,
+      "a": "About an hour the first time, if you've never used Xcode. You need a Mac with Xcode 26 (the newest Xcode needs macOS 26.2; on macOS 15.6, Xcode 26.3 works) and an Apple Account. Then: <strong>1.</strong> Clone the repository and open the project in Xcode. <strong>2.</strong> Pick your own team for the app and the widget. <strong>3.</strong> Give both your own bundle identifiers. <strong>4.</strong> Replace the app group in three places (the two targets' capabilities and one line in <code>SharedSyncStatus.swift</code>). <strong>5.</strong> Run it on your iPhone and allow Developer Mode once. The <a href=\"https://github.com/owen282000/life-dashboard-companion-app-ios/blob/main/docs/usage.md#build-and-install\">setup guide</a> shows each screen. With a free Apple Account you run it from Xcode again every 7 days; a paid developer account signs it for a year."
+    },
+    {
+      "q": "Does it work with an Apple Watch?",
+      "a": "Yes. The app reads what the Watch writes to Apple Health, and total calories arrive only on days with resting energy, which usually takes a Watch. HRV is SDNN, the measure Apple Health stores, so it isn't the same number as RMSSD from an Android watch."
+    },
+    {
+      "q": "Does it send Screen Time?",
+      "a": "No. Apple's Screen Time API shows usage only inside a report extension that runs in a sandbox with no network access, so no iOS app can send it anywhere. Screen time per app is in the <a href=\"../android/\">Android app</a>."
+    },
+    {
+      "q": "Can it write a scale reading into Apple Health?",
+      "a": "No. The app asks Apple Health for read access only. Writing scale and blood pressure readings from Home Assistant into Health Connect is an Android feature."
+    },
+    {
+      "q": "How is it different from the Home Assistant companion app's Apple Health sensors?",
+      "a": "Keep the companion app for presence and notifications. Its Apple Health sensors show today's total or the newest reading, and their history starts the day you switch them on. This app sends every record of 28 types, backfills up to a year, and also sends to MQTT or a webhook."
+    },
+    {
+      "q": "Can an iPhone and an Android phone share one Home Assistant?",
+      "a": "Yes. Each phone gets its own device in the integration, and on MQTT the iPhone uses its own base topic. A settings backup moves between the two apps too."
+    },
+    {
+      "q": "Can it send to Home Assistant and a webhook at the same time?",
+      "a": "Yes, with two things to know today. The app keeps one signing secret, and pairing with Home Assistant sets it, so a second receiver that checks signatures must use the same secret or none. And a payload counts as delivered once one destination takes it, so a destination that's down at that moment misses it. The app can send to several webhooks and to MQTT at once."
+    },
+    {
+      "q": "When does it come to TestFlight or the App Store?",
+      "a": "{{status:ios}} Until then you build it with Xcode and install it on your own iPhone. To update, pull the repository and run it again; your settings stay. Watch the <a href=\"https://github.com/owen282000/life-dashboard-companion-app-ios/releases\">releases on GitHub</a> to hear when the beta opens."
+    },
+    {
+      "q": "I don't have a Mac. Can I still use it?",
+      "a": "Not yet: building the app needs Xcode, which runs only on a Mac. The public TestFlight beta is the next step and needs no Mac. Until then, an Android phone or the <a href=\"../android/\">Android app</a> on a tablet is the way in."
+    },
+    {
+      "q": "What happens after 7 days with a free Apple Account?",
+      "a": "The app stops opening until you run it from Xcode again. Your settings and the data already sent stay; payloads that couldn't be sent wait on the iPhone. A paid developer account signs it for a year."
+    }
+  ],
+  "guides": [
+    "health-connect-webhook"
+  ]
+}

@@ -1,0 +1,108 @@
+<!--
+title: Fitbit in Home Assistant after the API shutdown | Life Dashboard
+description: Life Dashboard Companion sends Fitbit and Pixel Watch data from Health Connect to Home Assistant, without the Fitbit Web API that turns off October 30, 2026.
+primary query: fitbit home assistant
+secondary queries: fitbit api shutdown home assistant, pixel watch home assistant, fitbit web api deprecated, google health home assistant, fitbit health connect, fitbit integration stopped working, pixel watch health connect, fitbit sleep home assistant
+-->
+
+<h1>How do I get Fitbit and Pixel Watch data into Home Assistant after the Fitbit Web API shuts down?</h1>
+
+<p>Let the Google Health app write to Health Connect on your Android phone, then let Life Dashboard Companion, an open-source Android app, send it to the Life Dashboard integration in Home Assistant. This route reads your data on the phone, so it doesn't use the Fitbit Web API that Google turns off on October 30, 2026, and it needs no Google Cloud project or OAuth client.</p>
+
+<p class="flow-line"><span>Fitbit or Pixel Watch</span><span>Google Health app</span><span>Health Connect</span><span>Life Dashboard Companion</span><span>Home Assistant</span></p>
+
+<h2>What changes on October 30, 2026</h2>
+
+<p>Home Assistant's Fitbit integration uses the legacy Fitbit Web API. Google ended support for that API on September 30, 2026 and shuts it down on October 30, 2026, after which the integration no longer syncs (<a href="https://developers.google.com/health/release-notes">Google's release notes</a>). The Google Health app, called the Fitbit app until May 2026, keeps writing to Health Connect, which doesn't depend on that API.</p>
+
+<h2>What you need</h2>
+
+<ul>
+  <li>An Android phone with Android 9 or newer and Health Connect. Google asks for Android 9 or later and an adult Google Account for the Health Connect sync.</li>
+  <li>The Google Health app, paired with your Fitbit or Pixel Watch.</li>
+  <li>Home Assistant 2026.3 or newer, with <a href="https://hacs.xyz">HACS</a>, for the <a href="../home-assistant/">Life Dashboard integration</a>.</li>
+  <li><a href="../android/">Life Dashboard Companion for Android</a>. {{status:android}}</li>
+</ul>
+
+<h2>Set it up</h2>
+
+<ol>
+  <li>In the Google Health app, tap <strong>Connections</strong> &gt; <strong>Partner apps</strong> at the top left. Under <strong>Add connections</strong>, tap <strong>Sync your favorite health apps</strong> &gt; <strong>Set up</strong>, accept, choose the data types and tap <strong>Allow</strong>.</li>
+  <li>In HACS, add <code>https://github.com/owen282000/life-dashboard-ha</code> as a custom repository of type <strong>Integration</strong>, download <strong>Life Dashboard</strong> and restart Home Assistant.</li>
+  <li>Go to <strong>Settings</strong> &gt; <strong>Devices &amp; services</strong> &gt; <strong>Add integration</strong>, search for <strong>Life Dashboard</strong> and name the phone. Put Home Assistant's IP address in the <strong>Home Assistant address</strong> field, such as <code>http://192.168.1.20:8123</code>; Home Assistant shows it under <strong>Settings</strong> &gt; <strong>System</strong> &gt; <strong>Network</strong>, in the <strong>Network adapter</strong> section. The dialog then shows a QR code.</li>
+  <!-- IMG: the QR code in Home Assistant (H2-qr.png) -->
+  <li>Install <a href="../android/#get">Life Dashboard Companion</a>: open the free APK from GitHub on the phone and allow installs from your browser once, or add it in Obtainium. Android may warn you before it installs an APK from outside the Play Store; it does that for every app from another source. Open the app, and at <strong>Where should your data go?</strong>, tap <strong>Scan a code from Home Assistant</strong>, scan the code and tap <strong>Pair</strong>.</li>
+  <li>On the <strong>Health</strong> tab, tap <strong>Grant</strong> and allow your data types and reading in the background. <strong>The essentials</strong> preset covers steps, sleep, heart rate, resting heart rate, distance, calories and weight; switch on HRV, respiratory rate, skin temperature and the rest under <strong>Data Types</strong>.</li>
+  <li>Tap <strong>Sync Now</strong>. For older data, tap <strong>Backfill</strong> and pick <strong>30d</strong>, <strong>90d</strong> or <strong>365d</strong>, after <strong>Grant history access</strong> if the dialog shows it.</li>
+</ol>
+
+<!-- IMG: Health tab (A1-health.png) -->
+
+<h2>What you get</h2>
+
+<p>From Google's list of what Google Health writes to Health Connect, the app passes on:</p>
+
+<table>
+  <thead>
+    <tr><th>Area</th><th>Types</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Activity</td><td>Steps, distance, total calories, exercise sessions, VO2 max</td></tr>
+    <tr><td>Sleep</td><td>Sleep sessions with stages</td></tr>
+    <tr><td>Heart and breathing</td><td>Heart rate, resting heart rate, heart rate variability, respiratory rate</td></tr>
+    <tr><td>Body</td><td>Weight, body fat, body temperature, skin temperature, blood glucose</td></tr>
+    <tr><td>Food and drink</td><td>Hydration, nutrition</td></tr>
+    <tr><td>Cycle tracking</td><td>Menstruation period, menstruation flow, intermenstrual bleeding</td></tr>
+  </tbody>
+</table>
+
+<p>Daily totals and the latest readings become sensors, and each day is stored in long-term statistics on its own date. A backfill sends whatever history Google Health has written to Health Connect, up to a year.</p>
+
+<p>Not in Google's list as of October 2026: SpO2 and active calories. One user did see Fitbit's nightly SpO2 arrive, so check on your own phone under Health Connect's app permissions.</p>
+
+<!-- IMG: HA example dashboard on a phone (H1-dashboard.png) -->
+
+<h2>Next to the Google Health integration</h2>
+
+<p>Home Assistant 2026.8 added a <a href="https://www.home-assistant.io/integrations/google_health/">Google Health integration</a>. It reads Google's cloud with the new Google Health API, the one that keeps working after the Fitbit Web API is gone. Both can run side by side.</p>
+
+<table>
+  <thead>
+    <tr><th></th><th>Google Health integration</th><th>Life Dashboard</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Setup</td><td>Google Cloud project, OAuth client, account link</td><td>Install, scan a QR code</td></tr>
+    <tr><td>Where the data comes from</td><td>Google's cloud, polled every 15 minutes or hourly</td><td>Your phone, pushed by the app</td></tr>
+    <tr><td>History</td><td>Current values</td><td>Every day in long-term statistics, backfill up to a year</td></tr>
+    <tr><td>HRV, respiratory rate, skin temperature</td><td>No sensor</td><td>Yes</td></tr>
+    <tr><td>Other brands</td><td>Fitbit and Pixel Watch only</td><td>Any app that writes to Health Connect</td></tr>
+  </tbody>
+</table>
+
+<h2>Limits</h2>
+
+<ul>
+  <li>Nightly metrics such as sleep, HRV and respiratory rate reach Health Connect when the Google Health app syncs after you wake up, often an hour or more later. The next sync picks them up.</li>
+  <li>Health Connect is part of Android, so this route needs an Android phone.</li>
+  <li>A home network address only syncs at home. A public HTTPS address or Home Assistant Cloud works everywhere.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Will Home Assistant's Fitbit integration keep working?</summary>
+    <p>No. It uses the legacy Fitbit Web API, which Google shuts down on October 30, 2026. After that it no longer syncs.</p>
+  </details>
+  <details>
+    <summary>Do I need a Google Cloud project or a Fitbit developer account?</summary>
+    <p>No. Life Dashboard Companion reads Health Connect on the phone and sends straight to Home Assistant. The only Google setting is the Health Connect sync in the Google Health app.</p>
+  </details>
+  <details>
+    <summary>Can I send it somewhere other than Home Assistant?</summary>
+    <p>Yes. The same data can go to an MQTT broker or to any URL that accepts a JSON POST. See <a href="../health-connect-webhook/">Health Connect to a webhook</a>.</p>
+  </details>
+  <details>
+    <summary>Can a scale in Home Assistant reach Google Health?</summary>
+    <p>Yes, for weight and body fat. The app writes those readings into Health Connect, and Google Health reads them from there. Google Health doesn't read blood pressure from Health Connect. See <a href="../smart-scale-to-samsung-health/">smart scale readings into Samsung Health</a>.</p>
+  </details>
+</section>

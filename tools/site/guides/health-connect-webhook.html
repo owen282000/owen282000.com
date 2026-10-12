@@ -1,0 +1,150 @@
+<!--
+title: Send Health Connect data to your own webhook | Life Dashboard
+description: Life Dashboard Companion, an open-source Android app, sends Health Connect data to your own webhook as signed JSON, from Samsung Health, Garmin and more.
+primary query: health connect webhook
+secondary queries: health connect export to server, health connect json, health connect n8n, health connect node-red, health connect grafana, health connect influxdb, export health connect data, self-hosted health data
+-->
+
+<h1>How do I send Health Connect data to my own webhook as JSON?</h1>
+
+<p>Life Dashboard Companion, an open-source Android app, reads Health Connect on a schedule and sends every new record to the URLs you enter, as an HTTPS POST with a JSON body. Each payload holds the records of the types you switched on (33 in all, from steps and sleep stages to heart rate, weight and blood pressure), each with a stable <code>uuid</code> and the app that wrote it, plus daily totals that count a walk once.</p>
+
+<p>With a secret set, every request is signed with HMAC-SHA256 in an <code>X-Signature</code> header, and payloads that can't be delivered wait in an outbox on the phone for the next sync. Any receiver that accepts JSON works, including n8n, Node-RED, a small script or an example Postgres and Grafana stack.</p>
+
+<h2>Why it takes an app on the phone</h2>
+
+<p>Health Connect has no web API. It's a store on the phone that apps read through Android, so something on the phone has to read it and send it on. Life Dashboard Companion does that and posts straight to your URL, with no cloud service or Google account in the path. One payload holds every source: what Samsung Health, Google Health (Fitbit and Pixel Watch), Garmin Connect, Oura and Withings write to Health Connect, each record tagged with the app that wrote it. Google's cloud route, the Google Health API, needs a Google Cloud project and an OAuth client, and only sees what reaches your Google account.</p>
+
+<h2>What you need</h2>
+
+<ul>
+  <li>Android 9 or newer with Health Connect, and an app that writes to it, such as Samsung Health, Garmin Connect or Google Health.</li>
+  <li><a href="../android/">Life Dashboard Companion for Android</a>, from GitHub Releases or Obtainium. The <a href="../android/#get">install options</a> list every source.</li>
+  <li>A server that accepts a JSON POST over HTTPS, with a body limit of at least 10 MB. Plain HTTP on your own network needs <strong>Allow plain HTTP webhooks</strong> under <strong>Advanced</strong>.</li>
+</ul>
+
+<h2>Set it up</h2>
+
+<ol>
+  <li>On the <strong>Health</strong> tab, open <strong>Webhook</strong> and add your URL under <strong>Webhook URLs</strong>. The <strong>Screen Time</strong> tab has its own list.</li>
+  <li>Optional: add an <code>Authorization</code> header or API key under <strong>Webhook Headers</strong>.</li>
+  <li>Under <strong>HMAC signing secret (optional)</strong>, tap <strong>Generate</strong> and put the same value on your server.</li>
+  <li>Tap <strong>Test ping</strong> to check that your server accepts the request, then <strong>Save Changes</strong>.</li>
+  <li>Grant the Health Connect permissions and tap <strong>Sync Now</strong>. <strong>Backfill</strong> sends the last 30, 90 or 365 days.</li>
+</ol>
+
+<!-- IMG: Webhook settings with HMAC (A6-webhook.png) -->
+
+<h2>What the POST looks like</h2>
+
+<p>Every request is a <code>POST</code> with <code>Content-Type: application/json; charset=utf-8</code>. A sync payload with steps and heart rate, shortened:</p>
+
+<pre><code>{
+  "timestamp": "2026-10-04T07:15:02.481Z",
+  "app_version": "1.23.0",
+  "source": "health_connect",
+  "sequence": 1842,
+  "daily_totals": [
+    {
+      "date": "2026-10-04",
+      "steps": 1204,
+      "distance_meters": 911.6,
+      "active_calories": 58.2,
+      "total_calories": 702.9
+    }
+  ],
+  "steps": [
+    {
+      "uuid": "eb52b2c4-e3f7-49f3-8f92-34ca86640305",
+      "source": "com.fitbit.FitbitMobile",
+      "count": 412,
+      "start_time": "2026-10-04T06:00:00Z",
+      "end_time": "2026-10-04T07:00:00Z"
+    }
+  ],
+  "heart_rate": [
+    {
+      "uuid": "708a76cb-45d3-45ea-9f8b-26d6d55d2692#1791097080000",
+      "source": "com.fitbit.FitbitMobile",
+      "bpm": 61,
+      "time": "2026-10-04T06:58:00Z"
+    }
+  ]
+}</code></pre>
+
+<p>A record's <code>source</code> is the package name of the app that wrote it. The <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md">payload reference</a> documents every type, and a <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook-schema.json">JSON Schema</a> lets you validate what arrives.</p>
+
+<h2>Check the signature</h2>
+
+<p>With a secret set, each request carries <code>X-Signature: sha256=&lt;hex&gt;</code>, the HMAC-SHA256 of the raw body. Use the secret as UTF-8 text, without decoding it, and compute the HMAC over the bytes as they arrived, before you parse them. Compare in constant time and respond 401 to a mismatch:</p>
+
+<pre><code>expected = "sha256=" + hmac.new(SECRET, body, hashlib.sha256).hexdigest()
+valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
+
+<p>For a reverse proxy that requires a client certificate, install it in Android's settings and pick it under <strong>Advanced</strong> &gt; <strong>Client certificate (mTLS)</strong>.</p>
+
+<h2>Retries, outbox and deletions</h2>
+
+<ul>
+  <li><strong>Retries.</strong> Any 2xx counts as delivered. A timeout, network error, 408, 429 or 5xx gets 3 attempts. A 400, 413 or 422 is not retried: the app offers that payload again on every sync for a week, then drops it, while later payloads go out as usual. The app waits at most 10 seconds, so respond first and store afterward.</li>
+  <li><strong>Outbox.</strong> A failed payload stays on the phone and goes out first on the next sync. The outbox holds up to 700 Health Connect payloads, a week of 15-minute syncs. After a 401 or 404, later payloads wait until you fix the setup, then arrive in order.</li>
+  <li><strong>Duplicates and late payloads.</strong> A record can arrive again after a retry or in a backfill, so store records keyed on <code>uuid</code>. A payload that waited in the outbox, or one your receiver refused and gets again later, can arrive after a newer one and still holds records no later payload repeats: apply its records as well. Use <code>sequence</code>, which only goes up, only to settle conflicts: a record that a payload with a higher number named in <code>deleted_records</code> stays deleted, and <code>daily_totals</code> for a date come from the payload with the highest number that carried that date.</li>
+  <li><strong>Deletions.</strong> A record deleted in Health Connect is named in the next payload's <code>deleted_records</code>, with its <code>type</code> and <code>uuid</code>. Tracking starts when the app first syncs a type, and a type the phone can't vouch for on a sync is listed in <code>deletions_unavailable</code>; reconcile those with a backfill.</li>
+</ul>
+
+<h2>Receivers that work</h2>
+
+<ul>
+  <li><strong>life-dashboard-stack.</strong> A Docker Compose setup with a receiver that checks <code>X-Signature</code>, Postgres 18 and Grafana 13.2 with six dashboards. Point the app at <code>http://&lt;host&gt;:8080/webhook/&lt;label&gt;</code>. See <a href="../grafana/">the Life Dashboard stack</a>.</li>
+  <li><strong>n8n.</strong> A Webhook node with method <code>POST</code> in a published workflow, with <strong>Raw Body</strong> on. A <strong>Crypto</strong> node and an <strong>If</strong> node check the signature, and each branch ends in a <strong>Respond to Webhook</strong> node: 204 on the true branch, before the slow part, and 401 on the false one. Set the Webhook node's <strong>Respond</strong> to <strong>Using 'Respond to Webhook' Node</strong>. With <strong>Respond</strong> on <strong>Immediately</strong>, n8n responds with 200 before the check runs, so a payload with a bad signature still counts as delivered. The payload reference has the <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md#n8n-and-node-red">n8n steps node by node</a>.</li>
+  <li><strong>Node-RED.</strong> An <strong>http in</strong> node with <strong>Do not parse request body</strong> on (Node-RED 4.1 or later) gives the raw bytes for the HMAC.</li>
+  <li><strong>Home Assistant.</strong> The <a href="../health-connect-home-assistant/">Life Dashboard integration</a> turns the payload into sensors and long-term statistics.</li>
+  <li><strong>InfluxDB or anything else.</strong> There's no ready-made InfluxDB receiver, so write a small script. The payload reference has a <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md#receiver-in-python-flask">Python</a> and a <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md#receiver-in-nodejs-express">Node.js</a> receiver to start from.</li>
+</ul>
+
+<h2>Store it in Postgres</h2>
+
+<p>Whatever receives the POST, n8n or a script, the storage pattern is the same:</p>
+
+<ul>
+  <li>Upsert each record on its <code>uuid</code>, in a <code>text</code> column. Heart rate and skin temperature samples carry a <code>#</code> and a time after the record's ID, so it isn't a Postgres <code>uuid</code>.</li>
+  <li>Keep <code>daily_totals</code> as one row per date, replaced only by a payload with a higher <code>sequence</code>: today's is a running total.</li>
+  <li>Delete what <code>deleted_records</code> names, by <code>type</code> and <code>uuid</code>. For a heart rate or skin temperature record, delete every sample whose <code>uuid</code> starts with that <code>uuid</code> and a <code>#</code>.</li>
+</ul>
+
+<p>The receiver of <a href="../grafana/">the Life Dashboard stack</a> does all three, if you'd rather not build it yourself.</p>
+
+<h2>The iPhone app sends the same payload</h2>
+
+<p><a href="../ios/">Life Dashboard Companion for iPhone</a> posts Apple Health data with the same keys, units and signature, and <code>"source": "healthkit_ios"</code>, so one receiver takes both phones. It sends the same <code>sequence</code> counter, and its HRV is SDNN where Android sends RMSSD, so keep the two apart. {{status:ios}} See <a href="../ios/#get">how to get it</a>.</p>
+
+<h2>Limits</h2>
+
+<ul>
+  <li>With several URLs, a payload counts as delivered once one accepts it, and the others don't get it again. The <strong>Logs</strong> tab shows each result.</li>
+  <li>Data from more than 30 days before you first gave the app access needs Health Connect's history permission, which the backfill dialog asks for.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Can I use the Google Health API instead?</summary>
+    <p>For data in your Google account, such as Fitbit and Pixel Watch, Google offers the Google Health API in its cloud, which needs a Google Cloud project and an OAuth client. Health Connect itself has no web API. Life Dashboard Companion reads it on the phone, so Samsung Health, Garmin Connect, Oura and Withings data arrive in the same payload, and nothing passes through a Google account on the way.</p>
+  </details>
+  <details>
+    <summary>Can I see a real payload before I write a receiver?</summary>
+    <p>Yes. <strong>View</strong> on the <strong>Health</strong> tab shows what the next sync would send, and <strong>Export</strong> shares it as JSON.</p>
+  </details>
+  <details>
+    <summary>Does it send screen time too?</summary>
+    <p>Yes, as a separate payload with <code>"source": "screen_time"</code>, minutes per app per day for the last 7 days. See <a href="../screen-time-home-assistant/">screen time per app</a>.</p>
+  </details>
+  <details>
+    <summary>How do I avoid counting steps twice?</summary>
+    <p>Use <code>daily_totals</code> for steps, distance and calories. Adding up raw records counts a walk once per device that recorded it.</p>
+  </details>
+  <details>
+    <summary>Is there a CSV export?</summary>
+    <p>No. Health data leaves the app as JSON, and your receiver stores it in any format it likes.</p>
+  </details>
+</section>
