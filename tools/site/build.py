@@ -39,7 +39,19 @@ OUT = SITE / "life-dashboard"
 DOMAIN = "https://owen282000.com/"
 BASE = DOMAIN + "life-dashboard/"
 UPDATED = "2026-10-06"
-UPDATED_TEXT = "October 6, 2026"
+MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September",
+          "October", "November", "December"]
+
+
+def date_text(iso):
+    """2026-10-12 as October 12, 2026, for the byline."""
+    y, m, d = (int(x) for x in iso.split("-"))
+    return f"{MONTHS[m - 1]} {d}, {y}"
+
+
+# The date each page last changed, so a lastmod in the sitemap means something: a page without
+# an `updated:` line (guides) or "updated" field (products) keeps UPDATED, the site's launch day.
+PAGE_DATES = {}
 
 REPO = "https://github.com/owen282000/life-dashboard-companion-app"
 REPO_IOS = "https://github.com/owen282000/life-dashboard-companion-app-ios"
@@ -217,7 +229,7 @@ NEXT = {
 
 # Structured data for the project and its four parts, written into the landing page and, for
 # each part, into its own product page.
-ME = {"@type": "Person", "@id": f"{BASE}#owen", "name": "Owen Vogelaar", "url": "https://github.com/owen282000",
+ME = {"@type": "Person", "@id": f"{BASE}#owen", "name": "Owen Vogelaar", "url": DOMAIN,
       "sameAs": ["https://github.com/owen282000"]}
 WEBSITE = {"@type": "WebSite", "@id": f"{BASE}#website", "url": BASE, "name": "Life Dashboard", "inLanguage": "en"}
 PROJECT = {"@type": "CreativeWorkSeries", "@id": f"{BASE}#project", "name": "Life Dashboard", "url": BASE,
@@ -253,16 +265,25 @@ ENTITIES = {
     "home-assistant": {
         "@type": "SoftwareApplication", "@id": f"{BASE}#integration", "name": "Life Dashboard integration for Home Assistant",
         "description": "The Life Dashboard integration is an open-source Home Assistant custom integration, installed through HACS, that turns data from the Life Dashboard Companion apps into sensors and long-term statistics, paired by QR code.",
-        "applicationCategory": "Home Assistant integration", "url": f"{BASE}home-assistant/",
+        "applicationCategory": "UtilitiesApplication", "applicationSubCategory": "Home Assistant integration",
+        "operatingSystem": "Home Assistant 2026.3 or newer", "url": f"{BASE}home-assistant/",
         "license": "https://opensource.org/licenses/MIT", "isPartOf": {"@id": f"{BASE}#project"},
         "author": {"@id": f"{BASE}#owen"}, "sameAs": [REPO_HA]},
     "grafana": {
         "@type": "SoftwareApplication", "@id": f"{BASE}#stack", "name": "Life Dashboard stack",
         "description": "The Life Dashboard stack is an open-source Docker Compose setup with a receiver, Postgres and six Grafana dashboards for data from the Life Dashboard Companion apps.",
-        "applicationCategory": "Self-hosted backend", "url": f"{BASE}grafana/",
+        "applicationCategory": "UtilitiesApplication", "applicationSubCategory": "Self-hosted backend",
+        "operatingSystem": "Linux, macOS or Windows with Docker", "url": f"{BASE}grafana/",
         "license": "https://opensource.org/licenses/MIT", "isPartOf": {"@id": f"{BASE}#project"},
         "author": {"@id": f"{BASE}#owen"}, "sameAs": [REPO_STACK]},
 }
+ENTITY_NAME = {ENTITY_ID[k]: e["name"] for k, e in ENTITIES.items()}
+
+# Every part is free to download today (the APK, the source, HACS, Compose). The paid Google
+# Play listing gets an Offer of its own once it is live.
+FREE = {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}
+for _e in ENTITIES.values():
+    _e["offers"] = FREE
 SOURCE_CODE = {"@type": "SoftwareSourceCode", "codeRepository": REPO, "programmingLanguage": "Kotlin",
                "license": "https://opensource.org/licenses/MIT", "targetProduct": {"@id": f"{BASE}#android"}}
 
@@ -532,7 +553,9 @@ def head(title, desc, url, prefix, og_type="website", og_title=None, ld=None):
 <title>{html.escape(title)}</title>
 <meta name="description" content="{html.escape(desc)}">
 <link rel="canonical" href="{url}">
+<meta name="robots" content="max-image-preview:large">
 <meta name="theme-color" content="#101418">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" type="image/png" sizes="32x32" href="{prefix}img/icon-32.png">
 <link rel="apple-touch-icon" href="{prefix}img/icon-180.png">
 <link rel="stylesheet" href="{prefix}site.css">
@@ -602,6 +625,11 @@ def page(head_html, body, comment):
 # ---------------------------------------------------------------------------------------------
 # Guides
 
+def opt_meta(src, key):
+    m = re.search(rf"^\s*{key}:\s*(.+)$", src, re.M)
+    return m.group(1).strip() if m else None
+
+
 def meta(src, key):
     m = re.search(rf"^\s*{key}:\s*(.+)$", src, re.M)
     if not m:
@@ -646,6 +674,8 @@ def enhance(body, short):
 def build_guide(slug, short):
     src = tokens((HERE / "guides" / f"{slug}.html").read_text())
     title, desc = meta(src, "title"), meta(src, "description")
+    updated = opt_meta(src, "updated") or UPDATED
+    PAGE_DATES[f"{slug}/"] = updated
     body = re.sub(r"<!--.*?-->", lambda m: m.group(0) if "IMG" in m.group(0) else "", src, count=1, flags=re.S)
     body = re.sub(r"<!--\s*IMG:[^>]*?\(?([A-Za-z]\d?-[a-z-]+)(?:\.png|\.webp)?\)?[^>]*-->", figure, body)
     body = re.sub(r"</li>(\s*)(<figure\b.*?</figure>)", r"\1\2</li>", body, flags=re.S)
@@ -653,7 +683,7 @@ def build_guide(slug, short):
     text, buttons = NEXT[slug]
     btns = "\n".join(f'  <a class="btn {c}" href="{h}">{t}</a>' for c, h, t in buttons)
     body = body.replace('<section class="faq">', f'<div class="next">\n  <p>{text}</p>\n{btns}\n</div>\n\n<section class="faq">', 1)
-    body = re.sub(r"(</h1>)", rf'\1\n<p class="byline">By <a href="https://github.com/owen282000">Owen Vogelaar</a>, who maintains Life Dashboard. Updated {UPDATED_TEXT}.</p>', body, count=1)
+    body = re.sub(r"(</h1>)", rf'\1\n<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated {date_text(updated)}.</p>', body, count=1)
     first_btn = buttons[0]
     body = re.sub(r'(<p class="byline">.*?</p>\s*<p>.*?</p>)', lambda m: m.group(1) + f'\n<p class="guide-cta"><a class="btn btn-primary btn-store" href="{first_btn[1]}">{first_btn[2]}</a></p>', body, count=1, flags=re.S)
     h1 = strip_tags(re.search(r"<h1>(.*?)</h1>", body, re.S).group(1))
@@ -661,11 +691,12 @@ def build_guide(slug, short):
     url = f"{BASE}{slug}/"
     graph = [
         {"@type": "TechArticle", "headline": h1, "description": desc, "url": url, "inLanguage": "en",
-         "author": {"@type": "Person", "@id": f"{BASE}#owen", "name": "Owen Vogelaar", "url": "https://github.com/owen282000"},
-         "about": [{"@id": f"{BASE}{i}"} for i in GUIDE_ABOUT[slug]],
-         "datePublished": UPDATED, "dateModified": UPDATED, "image": f"{BASE}img/social.png",
+         "author": {"@id": f"{BASE}#owen"},
+         "about": [{"@type": "SoftwareApplication", "@id": f"{BASE}{i}", "name": ENTITY_NAME[i]} for i in GUIDE_ABOUT[slug]],
+         "datePublished": UPDATED, "dateModified": updated, "image": f"{BASE}img/social.png",
          "isPartOf": {"@id": f"{BASE}#website"}},
         breadcrumb(short, url),
+        ME, WEBSITE,
     ]
     if qa:
         graph.append(faq_entity(qa))
@@ -795,8 +826,10 @@ def build_product(slug):
     graph = [breadcrumb(d["nav_name"], url),
              {"@type": "WebPage", "@id": url, "url": url, "name": d["title"], "description": d["description"],
               "about": {"@id": f"{BASE}{ENTITY_ID[slug]}"}, "mainEntity": entity,
-              "isPartOf": WEBSITE, "inLanguage": "en", "dateModified": UPDATED},
-             faq_entity([(f["q"], strip_tags(f["a"])) for f in d["faq"]])]
+              "isPartOf": WEBSITE, "inLanguage": "en", "dateModified": d.get("updated", UPDATED)},
+             faq_entity([(f["q"], strip_tags(f["a"])) for f in d["faq"]]), ME,
+             {k: v for k, v in PROJECT.items() if k != "hasPart"}]
+    PAGE_DATES[f"{slug}/"] = d.get("updated", UPDATED)
     guides_section = f"""<section class="section tight band">
   <div class="wrap">
     <div class="section-head"><div class="kicker">Guides</div><h2>Setup guides</h2></div>
@@ -960,6 +993,14 @@ def build_hub():
     assert (SITE / "index.html").exists(), "site/index.html (the developer page) is missing"
 
 
+def build_404():
+    p = SITE / "404.html"
+    pages = [("/life-dashboard/", "Life Dashboard")] + [(f"/life-dashboard/{s}/", PARTS[s]["name"]) for s in ORDER] \
+        + [(f"/life-dashboard/{g[0]}/", g[1]) for g in GUIDES] + [("/", "Owen Vogelaar, the developer page"), ("/privacy/", "Privacy")]
+    items = "\n".join(f'      <li><a href="{u}">{html.escape(n)}</a></li>' for u, n in pages)
+    p.write_text(fill(p.read_text(), "pages", f'<ul class="ticks">\n{items}\n    </ul>'))
+
+
 def build_llms():
     text = tokens((HERE / "llms.txt.in").read_text())
     for p in (SITE / "llms.txt", OUT / "llms.txt"):
@@ -967,7 +1008,7 @@ def build_llms():
 
 
 def build_sitemap():
-    urls = [("", UPDATED)] + [(f"{s}/", UPDATED) for s in ORDER] + [(f"{g[0]}/", UPDATED) for g in GUIDES] + [("ios/privacy/", "2026-10-03")]
+    urls = [("", UPDATED)] + [(f"{s}/", PAGE_DATES[f"{s}/"]) for s in ORDER] + [(f"{g[0]}/", PAGE_DATES[f"{g[0]}/"]) for g in GUIDES] + [("ios/privacy/", "2026-10-03")]
     lines = f"  <url><loc>{DOMAIN}</loc><lastmod>{UPDATED}</lastmod></url>\n  <url><loc>{DOMAIN}privacy/</loc><lastmod>{UPDATED}</lastmod></url>\n" + "\n".join(f"  <url><loc>{BASE}{u}</loc><lastmod>{d}</lastmod></url>" for u, d in urls)
     (SITE / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{lines}\n</urlset>\n')
 
@@ -987,6 +1028,8 @@ def check():
     for badge, (fname, _) in BADGES.items():
         if badge in live and not (OUT / "img" / "badges" / fname).exists():
             problems.append(f"{badge} is live but img/badges/{fname} is missing")
+    llms = (SITE / "llms.txt").read_text()
+    problems += [f"llms.txt: the guide {g[0]} is missing" for g in GUIDES if f"{BASE}{g[0]}/" not in llms]
     if problems:
         sys.exit("build check failed:\n  " + "\n  ".join(problems))
 
@@ -998,6 +1041,7 @@ if __name__ == "__main__":
     for g in GUIDES:
         build_guide(g[0], g[1])
     build_landing()
+    build_404()
     build_llms()
     build_sitemap()
     check()

@@ -17,7 +17,6 @@
 		Referrer-Policy "strict-origin-when-cross-origin"
 		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
 		Cross-Origin-Opener-Policy "same-origin"
-		Cross-Origin-Resource-Policy "same-origin"
 		-Server
 	}
 }
@@ -29,10 +28,14 @@
 	import security_headers
 
 	# Images and the stylesheet change rarely; pages are short-lived so a deploy shows quickly.
-	@assets path *.css *.webp *.png *.svg
+	@assets path *.css *.webp *.png *.svg *.ico
 	header @assets Cache-Control "public, max-age=604800"
-	@pages not path *.css *.webp *.png *.svg
+	# Search engines show a large preview of an image straight from this server, in a page of
+	# theirs, which same-origin would block. Pages stay same-origin.
+	header @assets Cross-Origin-Resource-Policy "cross-origin"
+	@pages not path *.css *.webp *.png *.svg *.ico
 	header @pages Cache-Control "public, max-age=600"
+	header @pages Cross-Origin-Resource-Policy "same-origin"
 
 	@txt path *.txt
 	header @txt Content-Type "text/plain; charset=utf-8"
@@ -43,6 +46,7 @@
 		@missing expression {err.status_code} == 404
 		handle @missing {
 			import security_headers
+			header Cross-Origin-Resource-Policy "same-origin"
 			rewrite * /404.html
 			file_server
 		}

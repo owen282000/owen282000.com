@@ -7,7 +7,9 @@
 <title>Samsung Health and Health Connect in Home Assistant | Life Dashboard</title>
 <meta name="description" content="Life Dashboard Companion sends Health Connect data from Samsung Health, Garmin, Fitbit, Oura and Withings to Home Assistant as sensors, with a year of history.">
 <link rel="canonical" href="https://owen282000.com/life-dashboard/health-connect-home-assistant/">
+<meta name="robots" content="max-image-preview:large">
 <meta name="theme-color" content="#101418">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png">
 <link rel="apple-touch-icon" href="../img/icon-180.png">
 <link rel="stylesheet" href="../site.css">
@@ -32,21 +34,22 @@
       "url": "https://owen282000.com/life-dashboard/health-connect-home-assistant/",
       "inLanguage": "en",
       "author": {
-        "@type": "Person",
-        "@id": "https://owen282000.com/life-dashboard/#owen",
-        "name": "Owen Vogelaar",
-        "url": "https://github.com/owen282000"
+        "@id": "https://owen282000.com/life-dashboard/#owen"
       },
       "about": [
         {
-          "@id": "https://owen282000.com/life-dashboard/#android"
+          "@type": "SoftwareApplication",
+          "@id": "https://owen282000.com/life-dashboard/#android",
+          "name": "Life Dashboard Companion"
         },
         {
-          "@id": "https://owen282000.com/life-dashboard/#integration"
+          "@type": "SoftwareApplication",
+          "@id": "https://owen282000.com/life-dashboard/#integration",
+          "name": "Life Dashboard integration for Home Assistant"
         }
       ],
       "datePublished": "2026-10-06",
-      "dateModified": "2026-10-06",
+      "dateModified": "2026-10-12",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -68,6 +71,22 @@
           "item": "https://owen282000.com/life-dashboard/health-connect-home-assistant/"
         }
       ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://owen282000.com/life-dashboard/#owen",
+      "name": "Owen Vogelaar",
+      "url": "https://owen282000.com/",
+      "sameAs": [
+        "https://github.com/owen282000"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://owen282000.com/life-dashboard/#website",
+      "url": "https://owen282000.com/life-dashboard/",
+      "name": "Life Dashboard",
+      "inLanguage": "en"
     },
     {
       "@type": "FAQPage",
@@ -151,7 +170,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Samsung Health and Health Connect in Home Assistant</span></nav>
 <h1>How do I get Samsung Health and other Health Connect data into Home Assistant?</h1>
-<p class="byline">By <a href="https://github.com/owen282000">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 6, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 12, 2026.</p>
 
 <p>Install the Life Dashboard integration in Home Assistant and Life Dashboard Companion, an open-source Android app, on your phone, then pair the two with a QR code. Your watch's data then arrives as sensors, and every day is kept in long-term statistics.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in HACS</a></p>
@@ -227,7 +246,7 @@ Your watch&#x27;s app and Health Connect"><table>
   <tbody>
     <tr><th scope="row">Samsung Health (Galaxy Watch)</th><td><strong>Settings</strong> &gt; <strong>Health Connect</strong></td><td>HRV, resting heart rate, stress, skin temperature, cycle tracking</td></tr>
     <tr><th scope="row">Garmin Connect 5.14.1 or later, on Android 14 or later (<a href="../garmin-home-assistant/">Garmin guide</a>)</th><td><strong>Settings</strong> &gt; <strong>Connected Apps</strong> &gt; <strong>Health Connect</strong></td><td>Body Battery, stress, HRV, resting heart rate</td></tr>
-    <tr><th scope="row">Google Health (Fitbit, Pixel Watch)</th><td><strong>Connections</strong> &gt; <strong>Partner apps</strong> &gt; <strong>Sync your favorite health apps</strong></td><td>SpO2 and active calories, as of October 2026</td></tr>
+    <tr><th scope="row">Google Health (Fitbit, Pixel Watch) (<a href="../fitbit-home-assistant/">Fitbit guide</a>)</th><td><strong>Connections</strong> &gt; <strong>Partner apps</strong> &gt; <strong>Sync your favorite health apps</strong></td><td>SpO2 and active calories, as of October 2026</td></tr>
     <tr><th scope="row">Oura (Gen2, or Gen3 and later with a membership)</th><td><strong>Settings</strong> &gt; <strong>Data Sharing</strong> &gt; <strong>Health Connect</strong></td><td>Readiness, Sleep and Activity scores</td></tr>
     <tr><th scope="row">Withings</th><td><strong>Export health data to Health Connect</strong></td><td>Scores and ECG recordings</td></tr>
   </tbody>
@@ -305,7 +324,7 @@ What arrives depends on what each app shares with Health Connect. None of these 
   
     Samsung Health (Galaxy Watch)Settings &gt; Health ConnectHRV, resting heart rate, stress, skin temperature, cycle tracking
     Garmin Connect 5.14.1 or later, on Android 14 or later (Garmin guide)Settings &gt; Connected Apps &gt; Health ConnectBody Battery, stress, HRV, resting heart rate
-    Google Health (Fitbit, Pixel Watch)Connections &gt; Partner apps &gt; Sync your favorite health appsSpO2 and active calories, as of October 2026
+    Google Health (Fitbit, Pixel Watch) (Fitbit guide)Connections &gt; Partner apps &gt; Sync your favorite health appsSpO2 and active calories, as of October 2026
     Oura (Gen2, or Gen3 and later with a membership)Settings &gt; Data Sharing &gt; Health ConnectReadiness, Sleep and Activity scores
     WithingsExport health data to Health ConnectScores and ECG recordings
   

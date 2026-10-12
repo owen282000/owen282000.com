@@ -7,7 +7,9 @@
 <title>Send Health Connect data to your own webhook | Life Dashboard</title>
 <meta name="description" content="Life Dashboard Companion, an open-source Android app, sends Health Connect data to your own webhook as signed JSON, from Samsung Health, Garmin and more.">
 <link rel="canonical" href="https://owen282000.com/life-dashboard/health-connect-webhook/">
+<meta name="robots" content="max-image-preview:large">
 <meta name="theme-color" content="#101418">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png">
 <link rel="apple-touch-icon" href="../img/icon-180.png">
 <link rel="stylesheet" href="../site.css">
@@ -32,17 +34,18 @@
       "url": "https://owen282000.com/life-dashboard/health-connect-webhook/",
       "inLanguage": "en",
       "author": {
-        "@type": "Person",
-        "@id": "https://owen282000.com/life-dashboard/#owen",
-        "name": "Owen Vogelaar",
-        "url": "https://github.com/owen282000"
+        "@id": "https://owen282000.com/life-dashboard/#owen"
       },
       "about": [
         {
-          "@id": "https://owen282000.com/life-dashboard/#android"
+          "@type": "SoftwareApplication",
+          "@id": "https://owen282000.com/life-dashboard/#android",
+          "name": "Life Dashboard Companion"
         },
         {
-          "@id": "https://owen282000.com/life-dashboard/#ios"
+          "@type": "SoftwareApplication",
+          "@id": "https://owen282000.com/life-dashboard/#ios",
+          "name": "Life Dashboard Companion for iPhone"
         }
       ],
       "datePublished": "2026-10-06",
@@ -68,6 +71,22 @@
           "item": "https://owen282000.com/life-dashboard/health-connect-webhook/"
         }
       ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://owen282000.com/life-dashboard/#owen",
+      "name": "Owen Vogelaar",
+      "url": "https://owen282000.com/",
+      "sameAs": [
+        "https://github.com/owen282000"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://owen282000.com/life-dashboard/#website",
+      "url": "https://owen282000.com/life-dashboard/",
+      "name": "Life Dashboard",
+      "inLanguage": "en"
     },
     {
       "@type": "FAQPage",
@@ -151,7 +170,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Health Connect to a webhook</span></nav>
 <h1>How do I send Health Connect data to my own webhook as JSON?</h1>
-<p class="byline">By <a href="https://github.com/owen282000">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 6, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 6, 2026.</p>
 
 <p>Life Dashboard Companion, an open-source Android app, reads Health Connect on a schedule and sends every new record to the URLs you enter, as an HTTPS POST with a JSON body. Each payload holds the records of the types you switched on (33 in all, from steps and sleep stages to heart rate, weight and blood pressure), each with a stable <code>uuid</code> and the app that wrote it, plus daily totals that count a walk once.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="../android/#get">Get the Android app</a></p>

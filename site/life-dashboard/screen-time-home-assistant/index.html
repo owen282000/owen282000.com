@@ -7,7 +7,9 @@
 <title>Android screen time in Home Assistant | Life Dashboard</title>
 <meta name="description" content="Life Dashboard Companion sends Android screen time per app to Home Assistant: daily minutes, top apps and a sensor per app for automations.">
 <link rel="canonical" href="https://owen282000.com/life-dashboard/screen-time-home-assistant/">
+<meta name="robots" content="max-image-preview:large">
 <meta name="theme-color" content="#101418">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png">
 <link rel="apple-touch-icon" href="../img/icon-180.png">
 <link rel="stylesheet" href="../site.css">
@@ -32,17 +34,18 @@
       "url": "https://owen282000.com/life-dashboard/screen-time-home-assistant/",
       "inLanguage": "en",
       "author": {
-        "@type": "Person",
-        "@id": "https://owen282000.com/life-dashboard/#owen",
-        "name": "Owen Vogelaar",
-        "url": "https://github.com/owen282000"
+        "@id": "https://owen282000.com/life-dashboard/#owen"
       },
       "about": [
         {
-          "@id": "https://owen282000.com/life-dashboard/#android"
+          "@type": "SoftwareApplication",
+          "@id": "https://owen282000.com/life-dashboard/#android",
+          "name": "Life Dashboard Companion"
         },
         {
-          "@id": "https://owen282000.com/life-dashboard/#integration"
+          "@type": "SoftwareApplication",
+          "@id": "https://owen282000.com/life-dashboard/#integration",
+          "name": "Life Dashboard integration for Home Assistant"
         }
       ],
       "datePublished": "2026-10-06",
@@ -68,6 +71,22 @@
           "item": "https://owen282000.com/life-dashboard/screen-time-home-assistant/"
         }
       ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://owen282000.com/life-dashboard/#owen",
+      "name": "Owen Vogelaar",
+      "url": "https://owen282000.com/",
+      "sameAs": [
+        "https://github.com/owen282000"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://owen282000.com/life-dashboard/#website",
+      "url": "https://owen282000.com/life-dashboard/",
+      "name": "Life Dashboard",
+      "inLanguage": "en"
     },
     {
       "@type": "FAQPage",
@@ -143,7 +162,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Screen time in Home Assistant</span></nav>
 <h1>How do I get Android screen time per app into Home Assistant?</h1>
-<p class="byline">By <a href="https://github.com/owen282000">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 6, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 6, 2026.</p>
 
 <p>Life Dashboard Companion, an open-source Android app, reads Android's usage statistics, the same numbers Digital Wellbeing shows, and sends the minutes per app to Home Assistant on a schedule. With the Life Dashboard integration you get today's and yesterday's screen time, the most used app, the top five apps, a sensor per app if you want one, and every day in long-term statistics. Over MQTT you get the same totals without the sensors per app. Automations can then warn you when you pass a limit you set yourself.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="../android/#get">Get the Android app</a></p>

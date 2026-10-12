@@ -146,8 +146,11 @@
       "a": "Yes. Run the receiver and Postgres from the stack, and in your own Grafana add a PostgreSQL data source for the stack's database with the read-only user <code>grafana_ro</code> and your <code>GRAFANA_DB_PASSWORD</code>. Then import the six dashboard files from <a href=\"https://github.com/owen282000/life-dashboard-stack/tree/main/grafana/dashboards/life-dashboard\"><code>grafana/dashboards/life-dashboard/</code></a> and pick that data source. <code>grafana_ro</code> can read the records, the buckets and the <code>dash</code> views, and nothing else."
     }
   ],
+  "updated": "2026-10-12",
   "guides": [
-    "health-connect-webhook"
+    "health-connect-webhook",
+    "health-data-own-ai",
+    "health-data-api"
   ],
   "commands": {
     "title": "Try it with demo data",
