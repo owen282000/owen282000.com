@@ -555,7 +555,6 @@ def head(title, desc, url, prefix, og_type="website", og_title=None, ld=None):
 <link rel="canonical" href="{url}">
 <meta name="robots" content="max-image-preview:large">
 <meta name="theme-color" content="#101418">
-<link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" type="image/png" sizes="32x32" href="{prefix}img/icon-32.png">
 <link rel="apple-touch-icon" href="{prefix}img/icon-180.png">
 <link rel="stylesheet" href="{prefix}site.css">
