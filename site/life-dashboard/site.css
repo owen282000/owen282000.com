@@ -77,6 +77,8 @@ code { font-family: var(--mono); font-size: 0.88em; background: rgba(255,255,255
 .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.95rem; }
 .nav-links a:hover { color: var(--text); }
 .nav-cta { display: flex; gap: 10px; align-items: center; }
+/* Pages without a link row (the developer page, privacy) still keep the buttons on the right. */
+.brand + .nav-cta { margin-left: auto; }
 @media (max-width: 920px) {
   .nav .wrap { flex-wrap: wrap; height: auto; row-gap: 0; padding-top: 12px; }
   .nav-cta { margin-left: auto; }
