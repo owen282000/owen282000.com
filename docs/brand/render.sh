@@ -2,8 +2,8 @@
 # Renders the developer brand from the HTML sources in this folder:
 #   developer-icon.png    512 x 512, 24-bit PNG without transparency (Google Play)
 #   developer-header.jpg  4096 x 2304, JPEG under 1 MB (Google Play)
-# and from the same sources the developer page's assets in site/:
-#   site/favicon.ico, site/img/ov-32.png, ov-68.png, ov-180.png  the ov icon
+# and the developer page's assets in site/:
+#   site/favicon.ico, site/img/ov-32.png, ov-68.png, ov-180.png  the ov mark (mark.html), transparent
 #   site/img/social.png                                          its share image, 1200 x 630
 # Needs Google Chrome and ffmpeg. Run from anywhere.
 set -euo pipefail
@@ -17,11 +17,13 @@ ffmpeg -loglevel error -y -i .icon.png -pix_fmt rgb24 developer-icon.png
 shot developer-header.html 2048,1152 2 .header.png
 ffmpeg -loglevel error -y -i .header.png -q:v 3 developer-header.jpg
 SITE=../../site
-ffmpeg -loglevel error -y -i developer-icon.png -vf scale=48:48 "$SITE/favicon.ico"
-for s in 32 68 180; do ffmpeg -loglevel error -y -i developer-icon.png -vf scale=$s:$s -pix_fmt rgb24 "$SITE/img/ov-$s.png"; done
+"$CHROME" --headless=new --hide-scrollbars --default-background-color=00000000 --window-size=512,512 \
+  --screenshot="$PWD/.mark.png" "file://$PWD/mark.html" >/dev/null 2>&1
+ffmpeg -loglevel error -y -i .mark.png -vf scale=48:48 "$SITE/favicon.ico"
+for s in 32 68 180; do ffmpeg -loglevel error -y -i .mark.png -vf scale=$s:$s -pix_fmt rgba "$SITE/img/ov-$s.png"; done
 shot hub-social.html 1200,630 1 .social.png
 ffmpeg -loglevel error -y -i .social.png -pix_fmt rgb24 "$SITE/img/social.png"
-rm -f .icon.png .header.png .social.png
+rm -f .icon.png .header.png .social.png .mark.png
 for f in developer-icon.png developer-header.jpg "$SITE/img/social.png"; do
   printf '%s: %s, %s bytes\n' "$f" "$(ffprobe -v error -show_entries stream=width,height,pix_fmt -of csv=p=0 "$f")" "$(stat -f %z "$f")"
 done

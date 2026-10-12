@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<!--
+  Source for the ov mark at small sizes: the navigation and the favicons of the developer page
+  (site/favicon.ico, site/img/ov-32.png, ov-68.png, ov-180.png). The same tile as the Life
+  Dashboard app icon, with the monogram large and centred; the Play icon (developer-icon.html)
+  keeps the heartbeat line, which is too thin to read at these sizes. Rendered on a transparent
+  background by ./render.sh.
+-->
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 512px; height: 512px; overflow: hidden; background: transparent; }
+  body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; position: relative; }
+  .tile { position: absolute; inset: 16px; border-radius: 112px; overflow: hidden;
+          background: radial-gradient(120% 120% at 30% 25%, #1B2328 0%, #14181C 50%, #101418 100%);
+          border: 4px solid rgba(255,255,255,0.10); }
+  .grid { position: absolute; inset: 0;
+          background-image: linear-gradient(rgba(48,183,126,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(48,183,126,0.06) 1px, transparent 1px);
+          background-size: 40px 40px; }
+  .mark { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+  .mark b { font-size: 300px; font-weight: 700; letter-spacing: -18px; color: #E8EDEF; line-height: 1;
+            transform: translate(var(--dx, 0px), var(--dy, 0px)); }
+  .mark b span { color: #30B77E; text-shadow: 0 0 40px rgba(48,183,126,0.55); }
+</style>
+</head>
+<body>
+<div class="tile"><div class="grid"></div></div>
+<div class="mark"><b style="--dx: -13px; --dy: -36px">o<span>v</span></b></div>
+</body>
+</html>

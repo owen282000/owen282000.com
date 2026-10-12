@@ -1013,12 +1013,15 @@ def build_sitemap():
 
 
 def version_css():
-    """Every page links site.css with a hash of its content, so a changed stylesheet is a new URL:
+    """Every page links site.css, and the root's images, with a hash of their content, so a changed stylesheet is a new URL:
     Cloudflare and browsers keep the old one for a week otherwise (Cache-Control in the Caddyfile)."""
     v = hashlib.sha256((OUT / "site.css").read_bytes()).hexdigest()[:8]
     for f in SITE.rglob("*.html"):
         t = f.read_text()
         n = re.sub(r'(href="[^"]*site\.css)(\?v=[0-9a-f]+)?"', rf'\1?v={v}"', t)
+        # The developer page's own images and favicon, linked from the root, get the same treatment.
+        n = re.sub(r'((?:href|src)="(/img/[^"?]+|/favicon\.ico))(\?v=[0-9a-f]+)?"',
+                   lambda m: f'{m.group(1)}?v={hashlib.sha256((SITE / m.group(2).lstrip("/")).read_bytes()).hexdigest()[:8]}"', n)
         if n != t:
             f.write_text(n)
 
