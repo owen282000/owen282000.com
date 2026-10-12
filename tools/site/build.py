@@ -29,7 +29,7 @@ Launch day for Google Play or the App Store:
 3. Update STATUS_TEXT, run the script. It refuses to build while a page still says the store is
    coming. Live stores then lead every hero and install card with their official badge.
 """
-import html, json, re, sys
+import hashlib, html, json, re, sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -1012,6 +1012,17 @@ def build_sitemap():
     (SITE / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{lines}\n</urlset>\n')
 
 
+def version_css():
+    """Every page links site.css with a hash of its content, so a changed stylesheet is a new URL:
+    Cloudflare and browsers keep the old one for a week otherwise (Cache-Control in the Caddyfile)."""
+    v = hashlib.sha256((OUT / "site.css").read_bytes()).hexdigest()[:8]
+    for f in SITE.rglob("*.html"):
+        t = f.read_text()
+        n = re.sub(r'(href="[^"]*site\.css)(\?v=[0-9a-f]+)?"', rf'\1?v={v}"', t)
+        if n != t:
+            f.write_text(n)
+
+
 def check():
     """Refuse a site that says a live store is still coming, or contains a dash we never use."""
     live = {it["id"] for s in ORDER for it in PARTS[s]["get"] if it["status"] == "live"}
@@ -1043,5 +1054,6 @@ if __name__ == "__main__":
     build_404()
     build_llms()
     build_sitemap()
+    version_css()
     check()
     print("ok")
