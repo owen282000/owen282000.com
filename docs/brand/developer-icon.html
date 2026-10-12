@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<!--
+  Source for developer-icon.png: the developer icon on the Google Play developer page
+  (512 x 512, 24-bit PNG without transparency). Render with ./render.sh from this folder.
+-->
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 512px; height: 512px; overflow: hidden; }
+  body { background: radial-gradient(120% 120% at 30% 25%, #1B2328 0%, #14181C 50%, #101418 100%);
+         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; position: relative; }
+  .grid { position: absolute; inset: 0;
+          background-image: linear-gradient(rgba(48,183,126,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(48,183,126,0.07) 1px, transparent 1px);
+          background-size: 32px 32px; -webkit-mask-image: radial-gradient(70% 70% at 50% 50%, #000 35%, transparent 85%); }
+  .mark { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+  .mark b { font-size: 228px; font-weight: 700; letter-spacing: -14px; color: #E8EDEF; line-height: 1; margin-top: -26px; transform: translate(-10px, -50px); }
+  .mark b span { color: #30B77E; text-shadow: 0 0 36px rgba(48,183,126,0.45); }
+  svg { position: absolute; left: 96px; bottom: 154px; width: 320px; }
+</style>
+</head>
+<body>
+<div class="grid"></div>
+<div class="mark"><b>o<span>v</span></b></div>
+<svg viewBox="0 0 320 40" fill="none" stroke="#30B77E" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M4 20 H130 L146 4 L166 36 L180 12 L190 20 H316" opacity=".9"/>
+</svg>
+</body>
+</html>
