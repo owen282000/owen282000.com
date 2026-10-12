@@ -7,7 +7,9 @@
 <title>Home Assistant health integration (HACS) | Life Dashboard</title>
 <meta name="description" content="The Life Dashboard integration for Home Assistant turns Health Connect or Apple Health data into sensors and long-term statistics, paired by QR code.">
 <link rel="canonical" href="https://owen282000.com/life-dashboard/home-assistant/">
+<meta name="robots" content="max-image-preview:large">
 <meta name="theme-color" content="#101418">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png">
 <link rel="apple-touch-icon" href="../img/icon-180.png">
 <link rel="stylesheet" href="../site.css">
@@ -56,7 +58,9 @@
         "@id": "https://owen282000.com/life-dashboard/#integration",
         "name": "Life Dashboard integration for Home Assistant",
         "description": "The Life Dashboard integration is an open-source Home Assistant custom integration, installed through HACS, that turns data from the Life Dashboard Companion apps into sensors and long-term statistics, paired by QR code.",
-        "applicationCategory": "Home Assistant integration",
+        "applicationCategory": "UtilitiesApplication",
+        "applicationSubCategory": "Home Assistant integration",
+        "operatingSystem": "Home Assistant 2026.3 or newer",
         "url": "https://owen282000.com/life-dashboard/home-assistant/",
         "license": "https://opensource.org/licenses/MIT",
         "isPartOf": {
@@ -67,7 +71,12 @@
         },
         "sameAs": [
           "https://github.com/owen282000/life-dashboard-ha"
-        ]
+        ],
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "EUR"
+        }
       },
       "isPartOf": {
         "@type": "WebSite",
@@ -77,7 +86,7 @@
         "inLanguage": "en"
       },
       "inLanguage": "en",
-      "dateModified": "2026-10-06"
+      "dateModified": "2026-10-12"
     },
     {
       "@type": "FAQPage",
@@ -131,6 +140,25 @@
           }
         }
       ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://owen282000.com/life-dashboard/#owen",
+      "name": "Owen Vogelaar",
+      "url": "https://owen282000.com/",
+      "sameAs": [
+        "https://github.com/owen282000"
+      ]
+    },
+    {
+      "@type": "CreativeWorkSeries",
+      "@id": "https://owen282000.com/life-dashboard/#project",
+      "name": "Life Dashboard",
+      "url": "https://owen282000.com/life-dashboard/",
+      "description": "Open-source project by Owen Vogelaar: apps for Android and iPhone that send health data to Home Assistant, MQTT or a webhook, a Home Assistant integration and a self-hosted Grafana stack.",
+      "author": {
+        "@id": "https://owen282000.com/life-dashboard/#owen"
+      }
     }
   ]
 }
@@ -319,10 +347,11 @@
 <section class="section tight band">
   <div class="wrap">
     <div class="section-head"><div class="kicker">Guides</div><h2>Setup guides</h2></div>
-    <div class="family three">
+    <div class="family">
       <a class="part" href="../health-connect-home-assistant/"><span class="tag">Home Assistant</span><h3>Samsung Health and Health Connect in Home Assistant</h3><p>Samsung Health, Garmin, Fitbit, Oura and Withings data as sensors, with a year of history.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="../fitbit-home-assistant/"><span class="tag">Fitbit</span><h3>Fitbit and Pixel Watch in Home Assistant</h3><p>Through Health Connect, with no Fitbit Web API and no Google Cloud project.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="../garmin-home-assistant/"><span class="tag">Garmin</span><h3>Garmin in Home Assistant</h3><p>Steps, sleep and heart rate from Garmin Connect, with no Garmin login in Home Assistant.</p><span class="go">Read the guide</span></a>
       <a class="part" href="../screen-time-home-assistant/"><span class="tag">Screen time</span><h3>Screen time in Home Assistant</h3><p>Minutes per app as sensors, limits you set yourself, and several phones.</p><span class="go">Read the guide</span></a>
-      <a class="part" href="../smart-scale-to-samsung-health/"><span class="tag">Smart scale</span><h3>Smart scale to Samsung Health</h3><p>Weight, body fat and blood pressure from Home Assistant into Health Connect.</p><span class="go">Read the guide</span></a>
     </div>
   </div>
 </section>

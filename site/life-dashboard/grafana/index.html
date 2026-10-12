@@ -7,7 +7,9 @@
 <title>Self-hosted Grafana health dashboard | Life Dashboard</title>
 <meta name="description" content="The Life Dashboard stack is a self-hosted Docker Compose setup with Postgres and six Grafana dashboards for Health Connect, Apple Health and screen time data.">
 <link rel="canonical" href="https://owen282000.com/life-dashboard/grafana/">
+<meta name="robots" content="max-image-preview:large">
 <meta name="theme-color" content="#101418">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png">
 <link rel="apple-touch-icon" href="../img/icon-180.png">
 <link rel="stylesheet" href="../site.css">
@@ -56,7 +58,9 @@
         "@id": "https://owen282000.com/life-dashboard/#stack",
         "name": "Life Dashboard stack",
         "description": "The Life Dashboard stack is an open-source Docker Compose setup with a receiver, Postgres and six Grafana dashboards for data from the Life Dashboard Companion apps.",
-        "applicationCategory": "Self-hosted backend",
+        "applicationCategory": "UtilitiesApplication",
+        "applicationSubCategory": "Self-hosted backend",
+        "operatingSystem": "Linux, macOS or Windows with Docker",
         "url": "https://owen282000.com/life-dashboard/grafana/",
         "license": "https://opensource.org/licenses/MIT",
         "isPartOf": {
@@ -67,7 +71,12 @@
         },
         "sameAs": [
           "https://github.com/owen282000/life-dashboard-stack"
-        ]
+        ],
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "EUR"
+        }
       },
       "isPartOf": {
         "@type": "WebSite",
@@ -77,7 +86,7 @@
         "inLanguage": "en"
       },
       "inLanguage": "en",
-      "dateModified": "2026-10-06"
+      "dateModified": "2026-10-12"
     },
     {
       "@type": "FAQPage",
@@ -139,6 +148,25 @@
           }
         }
       ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://owen282000.com/life-dashboard/#owen",
+      "name": "Owen Vogelaar",
+      "url": "https://owen282000.com/",
+      "sameAs": [
+        "https://github.com/owen282000"
+      ]
+    },
+    {
+      "@type": "CreativeWorkSeries",
+      "@id": "https://owen282000.com/life-dashboard/#project",
+      "name": "Life Dashboard",
+      "url": "https://owen282000.com/life-dashboard/",
+      "description": "Open-source project by Owen Vogelaar: apps for Android and iPhone that send health data to Home Assistant, MQTT or a webhook, a Home Assistant integration and a self-hosted Grafana stack.",
+      "author": {
+        "@id": "https://owen282000.com/life-dashboard/#owen"
+      }
     }
   ]
 }
@@ -320,10 +348,20 @@ RECEIVER_PORT=18080 GRAFANA_PORT=13000 \
         <p>Yes. Run the receiver and Postgres from the stack, and in your own Grafana add a PostgreSQL data source for the stack's database with the read-only user <code>grafana_ro</code> and your <code>GRAFANA_DB_PASSWORD</code>. Then import the six dashboard files from <a href="https://github.com/owen282000/life-dashboard-stack/tree/main/grafana/dashboards/life-dashboard"><code>grafana/dashboards/life-dashboard/</code></a> and pick that data source. <code>grafana_ro</code> can read the records, the buckets and the <code>dash</code> views, and nothing else.</p>
       </details>
     </div>
-    <p class="faq-more">What the stack receives, step by step: <a class="link-arrow" href="../health-connect-webhook/">Health Connect to a webhook</a></p>
+    
   </div>
 </section>
 
+<section class="section tight band">
+  <div class="wrap">
+    <div class="section-head"><div class="kicker">Guides</div><h2>Setup guides</h2></div>
+    <div class="family three">
+      <a class="part" href="../health-connect-webhook/"><span class="tag">Webhooks</span><h3>Health Connect to a webhook</h3><p>The JSON payload, signatures, retries and receivers for n8n and Node-RED.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="../health-data-own-ai/"><span class="tag">Your own AI</span><h3>Ask your own AI about your health data</h3><p>A local model reads your history through a read-only MCP server. No cloud.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="../health-data-api/"><span class="tag">API</span><h3>A web API for Health Connect or Apple Health</h3><p>Why neither has one, and how to get the data onto your server anyway.</p><span class="go">Read the guide</span></a>
+    </div>
+  </div>
+</section>
 
 <section class="section tight">
   <div class="wrap">

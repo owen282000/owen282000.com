@@ -7,7 +7,9 @@
 <title>Ask a local AI about your health data, no cloud | Life Dashboard</title>
 <meta name="description" content="Life Dashboard Companion sends your health data to Home Assistant or Postgres; a read-only MCP server lets a local model on Ollama answer questions about it.">
 <link rel="canonical" href="https://owen282000.com/life-dashboard/health-data-own-ai/">
+<meta name="robots" content="max-image-preview:large">
 <meta name="theme-color" content="#101418">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png">
 <link rel="apple-touch-icon" href="../img/icon-180.png">
 <link rel="stylesheet" href="../site.css">
@@ -32,17 +34,18 @@
       "url": "https://owen282000.com/life-dashboard/health-data-own-ai/",
       "inLanguage": "en",
       "author": {
-        "@type": "Person",
-        "@id": "https://owen282000.com/life-dashboard/#owen",
-        "name": "Owen Vogelaar",
-        "url": "https://github.com/owen282000"
+        "@id": "https://owen282000.com/life-dashboard/#owen"
       },
       "about": [
         {
-          "@id": "https://owen282000.com/life-dashboard/#integration"
+          "@type": "SoftwareApplication",
+          "@id": "https://owen282000.com/life-dashboard/#integration",
+          "name": "Life Dashboard integration for Home Assistant"
         },
         {
-          "@id": "https://owen282000.com/life-dashboard/#stack"
+          "@type": "SoftwareApplication",
+          "@id": "https://owen282000.com/life-dashboard/#stack",
+          "name": "Life Dashboard stack"
         }
       ],
       "datePublished": "2026-10-06",
@@ -68,6 +71,22 @@
           "item": "https://owen282000.com/life-dashboard/health-data-own-ai/"
         }
       ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://owen282000.com/life-dashboard/#owen",
+      "name": "Owen Vogelaar",
+      "url": "https://owen282000.com/",
+      "sameAs": [
+        "https://github.com/owen282000"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://owen282000.com/life-dashboard/#website",
+      "url": "https://owen282000.com/life-dashboard/",
+      "name": "Life Dashboard",
+      "inLanguage": "en"
     },
     {
       "@type": "FAQPage",
@@ -135,7 +154,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Ask your own AI about your health data</span></nav>
 <h1>How do I ask my own AI about my health data, without a cloud?</h1>
-<p class="byline">By <a href="https://github.com/owen282000">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 6, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 6, 2026.</p>
 
 <p>Send your data with Life Dashboard Companion to Home Assistant, the Life Dashboard stack or a Postgres database you already run, put a read-only MCP server on top, and connect a model that runs on your own hardware through Ollama. The app itself contains no AI and never talks to a model. This is a recipe on the receiver side, where the model reads what your receiver already stores, through a connection that can't change anything.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="../home-assistant/">The Home Assistant route</a></p>

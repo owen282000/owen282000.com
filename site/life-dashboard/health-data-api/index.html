@@ -7,7 +7,9 @@
 <title>Health Connect and Apple Health have no web API | Life Dashboard</title>
 <meta name="description" content="Health Connect and Apple Health have no web API. Life Dashboard Companion reads them on the phone and posts signed JSON to your server or Home Assistant.">
 <link rel="canonical" href="https://owen282000.com/life-dashboard/health-data-api/">
+<meta name="robots" content="max-image-preview:large">
 <meta name="theme-color" content="#101418">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png">
 <link rel="apple-touch-icon" href="../img/icon-180.png">
 <link rel="stylesheet" href="../site.css">
@@ -32,17 +34,18 @@
       "url": "https://owen282000.com/life-dashboard/health-data-api/",
       "inLanguage": "en",
       "author": {
-        "@type": "Person",
-        "@id": "https://owen282000.com/life-dashboard/#owen",
-        "name": "Owen Vogelaar",
-        "url": "https://github.com/owen282000"
+        "@id": "https://owen282000.com/life-dashboard/#owen"
       },
       "about": [
         {
-          "@id": "https://owen282000.com/life-dashboard/#android"
+          "@type": "SoftwareApplication",
+          "@id": "https://owen282000.com/life-dashboard/#android",
+          "name": "Life Dashboard Companion"
         },
         {
-          "@id": "https://owen282000.com/life-dashboard/#ios"
+          "@type": "SoftwareApplication",
+          "@id": "https://owen282000.com/life-dashboard/#ios",
+          "name": "Life Dashboard Companion for iPhone"
         }
       ],
       "datePublished": "2026-10-06",
@@ -68,6 +71,22 @@
           "item": "https://owen282000.com/life-dashboard/health-data-api/"
         }
       ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://owen282000.com/life-dashboard/#owen",
+      "name": "Owen Vogelaar",
+      "url": "https://owen282000.com/",
+      "sameAs": [
+        "https://github.com/owen282000"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://owen282000.com/life-dashboard/#website",
+      "url": "https://owen282000.com/life-dashboard/",
+      "name": "Life Dashboard",
+      "inLanguage": "en"
     },
     {
       "@type": "FAQPage",
@@ -143,7 +162,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">A web API for Health Connect or Apple Health</span></nav>
 <h1>Is there a web API for Health Connect or Apple Health?</h1>
-<p class="byline">By <a href="https://github.com/owen282000">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 6, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 6, 2026.</p>
 
 <p>No. Health Connect and Apple Health are stores on the phone that apps read through Android or iOS, and neither offers an endpoint your server can call. To get the data onto a server, an app on the phone has to read it and send it on, which is what Life Dashboard Companion does on Android and on the iPhone.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="../android/#get">Get the Android app</a></p>

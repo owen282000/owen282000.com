@@ -7,7 +7,9 @@
 <title>Life Dashboard Companion for Android: Health Connect export</title>
 <meta name="description" content="Life Dashboard Companion for Android exports Health Connect data and screen time per app to Home Assistant, MQTT or your own webhook. Open source, no cloud.">
 <link rel="canonical" href="https://owen282000.com/life-dashboard/android/">
+<meta name="robots" content="max-image-preview:large">
 <meta name="theme-color" content="#101418">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png">
 <link rel="apple-touch-icon" href="../img/icon-180.png">
 <link rel="stylesheet" href="../site.css">
@@ -89,7 +91,12 @@
         "sameAs": [
           "https://github.com/owen282000/life-dashboard-companion-app"
         ],
-        "screenshot": "https://owen282000.com/life-dashboard/img/A1-health.webp"
+        "screenshot": "https://owen282000.com/life-dashboard/img/A1-health.webp",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "EUR"
+        }
       },
       "isPartOf": {
         "@type": "WebSite",
@@ -99,7 +106,7 @@
         "inLanguage": "en"
       },
       "inLanguage": "en",
-      "dateModified": "2026-10-06"
+      "dateModified": "2026-10-12"
     },
     {
       "@type": "FAQPage",
@@ -177,6 +184,25 @@
           }
         }
       ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://owen282000.com/life-dashboard/#owen",
+      "name": "Owen Vogelaar",
+      "url": "https://owen282000.com/",
+      "sameAs": [
+        "https://github.com/owen282000"
+      ]
+    },
+    {
+      "@type": "CreativeWorkSeries",
+      "@id": "https://owen282000.com/life-dashboard/#project",
+      "name": "Life Dashboard",
+      "url": "https://owen282000.com/life-dashboard/",
+      "description": "Open-source project by Owen Vogelaar: apps for Android and iPhone that send health data to Home Assistant, MQTT or a webhook, a Home Assistant integration and a self-hosted Grafana stack.",
+      "author": {
+        "@id": "https://owen282000.com/life-dashboard/#owen"
+      }
     }
   ]
 }
@@ -374,6 +400,10 @@
       <a class="part" href="../health-connect-webhook/"><span class="tag">Webhooks</span><h3>Health Connect to a webhook</h3><p>The JSON payload, signatures, retries and receivers for n8n and Node-RED.</p><span class="go">Read the guide</span></a>
       <a class="part" href="../screen-time-home-assistant/"><span class="tag">Screen time</span><h3>Screen time in Home Assistant</h3><p>Minutes per app as sensors, limits you set yourself, and several phones.</p><span class="go">Read the guide</span></a>
       <a class="part" href="../smart-scale-to-samsung-health/"><span class="tag">Smart scale</span><h3>Smart scale to Samsung Health</h3><p>Weight, body fat and blood pressure from Home Assistant into Health Connect.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="../fitbit-home-assistant/"><span class="tag">Fitbit</span><h3>Fitbit and Pixel Watch in Home Assistant</h3><p>Through Health Connect, with no Fitbit Web API and no Google Cloud project.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="../garmin-home-assistant/"><span class="tag">Garmin</span><h3>Garmin in Home Assistant</h3><p>Steps, sleep and heart rate from Garmin Connect, with no Garmin login in Home Assistant.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="../samsung-health-export/"><span class="tag">Export</span><h3>Samsung Health to your own server</h3><p>Galaxy Watch data as JSON in your own database, n8n flow or script.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="../health-data-api/"><span class="tag">API</span><h3>A web API for Health Connect or Apple Health</h3><p>Why neither has one, and how to get the data onto your server anyway.</p><span class="go">Read the guide</span></a>
     </div>
   </div>
 </section>
