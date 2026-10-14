@@ -2,7 +2,8 @@
 <!--
   Source for developer-header.jpg: the header image on the Google Play developer page
   (4096 x 2304, JPEG under 1 MB). Laid out at 2048 x 1152 and rendered at scale 2.
-  Play crops the sides on small screens, so everything that matters sits in the middle.
+  On a desktop Play shows only a band through the middle, about 4.7 times as wide as it is high,
+  so everything sits inside that band; a phone shows more of the dark grid around it.
   Render with ./render.sh from this folder.
 -->
 <html>
@@ -16,32 +17,31 @@
   .grid { position: absolute; inset: 0;
           background-image: linear-gradient(rgba(48,183,126,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(48,183,126,0.06) 1px, transparent 1px);
           background-size: 64px 64px; -webkit-mask-image: radial-gradient(75% 85% at 50% 50%, #000 30%, transparent 85%); }
-  .center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -56%); width: 1940px; text-align: center; }
-  .eyebrow { display: inline-flex; gap: 22px; margin-bottom: 56px; }
-  .eyebrow span { font-size: 44px; font-weight: 600; color: #6FD7A6; border: 2px solid rgba(48,183,126,0.45);
-                  background: rgba(48,183,126,0.08); border-radius: 999px; padding: 14px 40px; }
-  h1 { font-size: 158px; font-weight: 700; letter-spacing: -6px; line-height: 1.0; }
+  /* The band Play shows on a desktop: the middle 436 of 1152 px. Everything stays inside it. */
+  .band { position: absolute; left: 0; right: 0; top: 358px; height: 436px; display: flex; align-items: center; justify-content: center; gap: 72px; }
+  h1 { font-size: 112px; font-weight: 700; letter-spacing: -4px; line-height: 1.0; }
   h1 span { color: #30B77E; display: block; }
-  .sub { margin: 36px auto 0; width: 1040px; font-size: 38px; line-height: 1.35; color: #C9D2D6; }
-  svg.beat { display: block; margin: 56px auto 0; width: 900px; }
-  .foot { position: absolute; left: 0; right: 0; bottom: 96px; text-align: center; font-size: 56px; font-weight: 700; color: #30B77E; }
-  .foot b { color: #7E8B91; font-weight: 400; margin: 0 22px; }
+  .side { display: flex; flex-direction: column; gap: 28px; }
+  svg.beat { display: block; width: 520px; }
+  .foot { font-size: 34px; font-weight: 700; color: #30B77E; }
+  .foot b { color: #7E8B91; font-weight: 400; margin: 0 12px; }
 </style>
 </head>
 <body>
 <div class="grid"></div>
-<div class="center">
-  <div class="eyebrow"><span>Open source</span><span>Self-hosted</span><span>No cloud</span></div>
+<div class="band">
   <h1>Your data,<span>on hardware you own</span></h1>
-  <svg class="beat" viewBox="0 0 560 90">
-    <defs><filter id="g" x="-10%" y="-60%" width="120%" height="220%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-    <g filter="url(#g)" stroke="#30B77E" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="6">
-      <path d="M4 45 H210 L232 12 L258 80 L276 30 L290 45 H420"/>
-      <circle cx="420" cy="45" r="8" fill="#30B77E" stroke="none"/>
-      <path d="M446 30 A22 22 0 0 1 446 60" opacity=".85"/><path d="M466 18 A40 40 0 0 1 466 72" opacity=".5"/>
-    </g>
-  </svg>
+  <div class="side">
+    <svg class="beat" viewBox="0 0 560 90">
+      <defs><filter id="g" x="-10%" y="-60%" width="120%" height="220%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+      <g filter="url(#g)" stroke="#30B77E" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="6">
+        <path d="M4 45 H210 L232 12 L258 80 L276 30 L290 45 H420"/>
+        <circle cx="420" cy="45" r="8" fill="#30B77E" stroke="none"/>
+        <path d="M446 30 A22 22 0 0 1 446 60" opacity=".85"/><path d="M466 18 A40 40 0 0 1 466 72" opacity=".5"/>
+      </g>
+    </svg>
+    <p class="foot">Open source<b>·</b>Self-hosted<b>·</b>No cloud</p>
+  </div>
 </div>
-<p class="foot">Owen Vogelaar<b>·</b>owen282000.com</p>
 </body>
 </html>
