@@ -11,7 +11,7 @@ Names: "Life Dashboard" is the project. "Life Dashboard Companion" is the Androi
 - It works with any app that writes to Health Connect, including Samsung Health, Google Health (Fitbit and Pixel Watch), Garmin Connect (Android 14 or newer), Oura, Withings and Gadgetbridge. No vendor login, API token or cloud project is involved.
 - Every record carries a stable uuid and the package name of the app that wrote it. Daily totals for steps, distance and calories come from Health Connect itself, so a walk recorded by phone and watch counts once.
 - Screen time: foreground minutes per app from Android's usage statistics, the same numbers Digital Wellbeing shows, with a day boundary you choose and a filter for apps you leave out. It works on Android 8.0 or newer and does not need Health Connect.
-- Home Assistant: the Life Dashboard integration installs through HACS as a custom repository and pairs with the app by QR code, with no broker and no YAML. It needs Home Assistant 2026.3 or newer. It creates sensors for 24 of the 33 types plus screen time in total and per app, stores every day in long-term statistics, and a backfill adds 30, 90 or 365 days of history.
+- Home Assistant: the Life Dashboard integration installs through HACS as a custom repository and pairs with the app by QR code, with no broker and no YAML. It needs Home Assistant 2026.3 or newer. It creates sensors for 25 of the 33 types (the last workout and exercise minutes since 0.10.0) plus screen time in total and per app, stores every day in long-term statistics, and a backfill adds 30, 90 or 365 days of history.
 - MQTT: with Home Assistant MQTT Discovery, the same sensors appear without YAML, from the first sync on, without the sensors per app.
 - Webhooks: an HTTPS POST with a JSON body to any URL, such as n8n, Node-RED or a small script. Optional HMAC-SHA256 signature in an X-Signature header, custom headers and client certificates (mTLS). Failed payloads wait in an outbox on the phone (up to 700 payloads) and go out first at the next sync. Records deleted in Health Connect are reported.
 - Receive: with the integration, readings from a smart scale or blood pressure monitor in Home Assistant are written into Health Connect, where Samsung Health and Google Health read weight and body fat.
@@ -33,14 +33,18 @@ Names: "Life Dashboard" is the project. "Life Dashboard Companion" is the Androi
 ## Guides
 
 - [Health Connect in Home Assistant](https://owen282000.com/life-dashboard/health-connect-home-assistant/): sensors, long-term statistics and a year of history, with Samsung Health, Garmin, Fitbit, Oura or Withings data
+- [Samsung Health and Galaxy Watch in Home Assistant](https://owen282000.com/life-dashboard/samsung-health-home-assistant/): steps, sleep, heart rate and workouts from Samsung Health through Health Connect, with no Samsung login in Home Assistant
+- [Is the Home Assistant companion app enough for Health Connect?](https://owen282000.com/life-dashboard/companion-app-health-connect/): its 26 sensors show the latest value; what Life Dashboard adds (33 types, a year of history on the right dates, write-back, screen time per app), and running both
 - [Send Health Connect data to your own webhook](https://owen282000.com/life-dashboard/health-connect-webhook/): the JSON payload, HMAC signatures, retries, outbox and receivers for n8n, Node-RED and Grafana
+- [Health Connect and Apple Health to n8n](https://owen282000.com/life-dashboard/health-connect-n8n/): a Webhook node with Raw Body, an HMAC check in a Code node, upserts on uuid, deleted_records, Google Sheets and Telegram
+- [Health Connect data types, app by app](https://owen282000.com/life-dashboard/health-connect-data-types/): all 33 types with payload keys and units, Android and iPhone, and which types Samsung Health, Garmin Connect, Google Health, Oura, Withings and Gadgetbridge write
 - [Android screen time in Home Assistant](https://owen282000.com/life-dashboard/screen-time-home-assistant/): minutes per app as sensors, limits you set yourself, several phones
 - [Smart scale in Home Assistant to Samsung Health](https://owen282000.com/life-dashboard/smart-scale-to-samsung-health/): from a scale in Home Assistant into Health Connect, Samsung Health and Google Health
 - [Is there a web API for Health Connect or Apple Health?](https://owen282000.com/life-dashboard/health-data-api/): no; why, and how an app on the phone gets the data to your server
 - [Samsung Health to your own server](https://owen282000.com/life-dashboard/samsung-health-export/): Galaxy Watch data as JSON in your own database, n8n flow or script
 - [Fitbit and Pixel Watch in Home Assistant](https://owen282000.com/life-dashboard/fitbit-home-assistant/): through Health Connect, with no Fitbit Web API
 - [Garmin in Home Assistant](https://owen282000.com/life-dashboard/garmin-home-assistant/): steps, sleep and heart rate from Garmin Connect through Health Connect, with no Garmin login in Home Assistant
-- [Ask your own AI about your health data](https://owen282000.com/life-dashboard/health-data-own-ai/): a local model reads your history through a read-only MCP server
+- [Health Connect data over MCP, for your own AI](https://owen282000.com/life-dashboard/health-data-own-ai/): a read-only MCP server lets a local model or Claude read your history; works in Europe, where the assistants' own health connectors are US-only (October 2026)
 
 ## Projects
 

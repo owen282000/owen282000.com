@@ -11,7 +11,7 @@
 <meta name="theme-color" content="#101418">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png">
 <link rel="apple-touch-icon" href="../img/icon-180.png">
-<link rel="stylesheet" href="../site.css?v=030e9273">
+<link rel="stylesheet" href="../site.css?v=6484c23a">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="How do I send Health Connect data to my own webhook as JSON?">
@@ -48,7 +48,7 @@
         }
       ],
       "datePublished": "2026-10-06",
-      "dateModified": "2026-10-06",
+      "dateModified": "2026-10-14",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -169,7 +169,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Health Connect to a webhook</span></nav>
 <h1>How do I send Health Connect data to my own webhook as JSON?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 6, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 14, 2026.</p>
 
 <p>Life Dashboard Companion, an open-source Android app, reads Health Connect on a schedule and sends every new record to the URLs you enter, as an HTTPS POST with a JSON body. Each payload holds the records of the types you switched on (33 in all, from steps and sleep stages to heart rate, weight and blood pressure), each with a stable <code>uuid</code> and the app that wrote it, plus daily totals that count a walk once.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="../android/#get">Get the Android app</a></p>
@@ -191,7 +191,7 @@
 <h2 id="set-it-up">Set it up</h2>
 
 <ol>
-  <li>On the <strong>Health</strong> tab, open <strong>Webhook</strong> and add your URL under <strong>Webhook URLs</strong>. The <strong>Screen Time</strong> tab has its own list.</li>
+  <li>On the <strong>Health</strong> tab, open <strong>Webhook</strong>, paste your URL in the address field and tap the add button. The <strong>Screen Time</strong> tab has its own list.</li>
   <li>Optional: add an <code>Authorization</code> header or API key under <strong>Webhook Headers</strong>.</li>
   <li>Under <strong>HMAC signing secret (optional)</strong>, tap <strong>Generate</strong> and put the same value on your server.</li>
   <li>Tap <strong>Test ping</strong> to check that your server accepts the request, then <strong>Save Changes</strong>.</li>
@@ -261,7 +261,7 @@ valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
 
 <ul>
   <li><strong>life-dashboard-stack.</strong> A Docker Compose setup with a receiver that checks <code>X-Signature</code>, Postgres 18 and Grafana 13.2 with six dashboards. Point the app at <code>http://&lt;host&gt;:8080/webhook/&lt;label&gt;</code>. See <a href="../grafana/">the Life Dashboard stack</a>.</li>
-  <li><strong>n8n.</strong> A Webhook node with method <code>POST</code> in a published workflow, with <strong>Raw Body</strong> on. A <strong>Crypto</strong> node and an <strong>If</strong> node check the signature, and each branch ends in a <strong>Respond to Webhook</strong> node: 204 on the true branch, before the slow part, and 401 on the false one. Set the Webhook node's <strong>Respond</strong> to <strong>Using 'Respond to Webhook' Node</strong>. With <strong>Respond</strong> on <strong>Immediately</strong>, n8n responds with 200 before the check runs, so a payload with a bad signature still counts as delivered. The payload reference has the <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md#n8n-and-node-red">n8n steps node by node</a>.</li>
+  <li><strong>n8n.</strong> A Webhook node with <strong>Raw Body</strong> on, a signature check, and a <strong>Respond to Webhook</strong> node that answers 204 or 401. <a href="../health-connect-n8n/">Health Connect to n8n</a> has the whole workflow, and the payload reference has the <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md#n8n-and-node-red">steps with a Crypto node</a>.</li>
   <li><strong>Node-RED.</strong> An <strong>http in</strong> node with <strong>Do not parse request body</strong> on (Node-RED 4.1 or later) gives the raw bytes for the HMAC.</li>
   <li><strong>Home Assistant.</strong> The <a href="../health-connect-home-assistant/">Life Dashboard integration</a> turns the payload into sensors and long-term statistics.</li>
   <li><strong>InfluxDB or anything else.</strong> There's no ready-made InfluxDB receiver, so write a small script. The payload reference has a <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md#receiver-in-python-flask">Python</a> and a <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md#receiver-in-nodejs-express">Node.js</a> receiver to start from.</li>
@@ -272,7 +272,7 @@ valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
 <p>Whatever receives the POST, n8n or a script, the storage pattern is the same:</p>
 
 <ul>
-  <li>Upsert each record on its <code>uuid</code>, in a <code>text</code> column. Heart rate and skin temperature samples carry a <code>#</code> and a time after the record's ID, so it isn't a Postgres <code>uuid</code>.</li>
+  <li>Upsert each record on its payload key and <code>uuid</code>, in a <code>text</code> column. Heart rate and skin temperature samples carry a <code>#</code> and a time after the record's ID, so it isn't a Postgres <code>uuid</code>.</li>
   <li>Keep <code>daily_totals</code> as one row per date, replaced only by a payload with a higher <code>sequence</code>: today's is a running total.</li>
   <li>Delete what <code>deleted_records</code> names, by <code>type</code> and <code>uuid</code>. For a heart rate or skin temperature record, delete every sample whose <code>uuid</code> starts with that <code>uuid</code> and a <code>#</code>.</li>
 </ul>
@@ -330,15 +330,19 @@ valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
       <nav class="box" aria-label="Guides">
         <h2>Guides</h2>
         <ul>
-          <li><a href="../health-connect-home-assistant/">Samsung Health and Health Connect in Home Assistant</a></li>
+          <li><a href="../health-connect-home-assistant/">Health Connect in Home Assistant</a></li>
+          <li><a href="../samsung-health-home-assistant/">Samsung Health and Galaxy Watch in Home Assistant</a></li>
+          <li><a href="../companion-app-health-connect/">The companion app and Health Connect</a></li>
           <li><a href="../health-connect-webhook/" aria-current="page">Health Connect to a webhook</a></li>
           <li><a href="../screen-time-home-assistant/">Screen time in Home Assistant</a></li>
           <li><a href="../smart-scale-to-samsung-health/">Smart scale to Samsung Health</a></li>
+          <li><a href="../health-connect-n8n/">Health Connect to n8n</a></li>
+          <li><a href="../health-connect-data-types/">Health Connect data types, app by app</a></li>
           <li><a href="../health-data-api/">A web API for Health Connect or Apple Health</a></li>
           <li><a href="../samsung-health-export/">Samsung Health to your own server</a></li>
           <li><a href="../fitbit-home-assistant/">Fitbit and Pixel Watch in Home Assistant</a></li>
           <li><a href="../garmin-home-assistant/">Garmin in Home Assistant</a></li>
-          <li><a href="../health-data-own-ai/">Ask your own AI about your health data</a></li>
+          <li><a href="../health-data-own-ai/">Health Connect data over MCP, for your own AI</a></li>
         </ul>
       </nav>
       <div class="box">
@@ -372,15 +376,19 @@ valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
       <div>
         <h2 class="foot-h">Guides</h2>
         <ul>
-          <li><a href="../health-connect-home-assistant/">Samsung Health and Health Connect in Home Assistant</a></li>
+          <li><a href="../health-connect-home-assistant/">Health Connect in Home Assistant</a></li>
+          <li><a href="../samsung-health-home-assistant/">Samsung Health and Galaxy Watch in Home Assistant</a></li>
+          <li><a href="../companion-app-health-connect/">The companion app and Health Connect</a></li>
           <li><a href="../health-connect-webhook/">Health Connect to a webhook</a></li>
           <li><a href="../screen-time-home-assistant/">Screen time in Home Assistant</a></li>
           <li><a href="../smart-scale-to-samsung-health/">Smart scale to Samsung Health</a></li>
+          <li><a href="../health-connect-n8n/">Health Connect to n8n</a></li>
+          <li><a href="../health-connect-data-types/">Health Connect data types, app by app</a></li>
           <li><a href="../health-data-api/">A web API for Health Connect or Apple Health</a></li>
           <li><a href="../samsung-health-export/">Samsung Health to your own server</a></li>
           <li><a href="../fitbit-home-assistant/">Fitbit and Pixel Watch in Home Assistant</a></li>
           <li><a href="../garmin-home-assistant/">Garmin in Home Assistant</a></li>
-          <li><a href="../health-data-own-ai/">Ask your own AI about your health data</a></li>
+          <li><a href="../health-data-own-ai/">Health Connect data over MCP, for your own AI</a></li>
         </ul>
       </div>
       <div>

@@ -11,7 +11,7 @@
 <meta name="theme-color" content="#101418">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png">
 <link rel="apple-touch-icon" href="../img/icon-180.png">
-<link rel="stylesheet" href="../site.css?v=030e9273">
+<link rel="stylesheet" href="../site.css?v=6484c23a">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="How do I get smart scale readings from Home Assistant into Samsung Health?">
@@ -48,7 +48,7 @@
         }
       ],
       "datePublished": "2026-10-06",
-      "dateModified": "2026-10-06",
+      "dateModified": "2026-10-14",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -161,9 +161,9 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Smart scale to Samsung Health</span></nav>
 <h1>How do I get smart scale readings from Home Assistant into Samsung Health?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 6, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 14, 2026.</p>
 
-<p class="signpost">Want your watch's Samsung Health data in Home Assistant instead? See <a href="../health-connect-home-assistant/">Samsung Health and Health Connect in Home Assistant</a>.</p>
+<p class="signpost">Want your watch's Samsung Health data in Home Assistant instead? See <a href="../samsung-health-home-assistant/">Samsung Health and Galaxy Watch in Home Assistant</a>.</p>
 
 <p>Map the scale's entities in the Life Dashboard integration and switch on <strong>Receive</strong> in Life Dashboard Companion, the open-source Android app that pairs with it. At the next sync, the integration hands each new reading to the app, and the app writes it into Health Connect with the time it was measured. Samsung Health and Google Health read weight and body fat from Health Connect, so the weight and body fat from a scale that only talks to Home Assistant end up in those apps. The same works for a blood pressure monitor, though whether an app shows that reading is up to the app.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in HACS</a></p>
@@ -190,27 +190,7 @@
 
 <h2 id="what-it-writes">What it writes</h2>
 
-<div class="table-wrap" tabindex="0" role="region" aria-label="What you need
-
-
-  An Android phone with Health Connect and Life Dashboard Companion, paired with the Life Dashboard integration 0.7.0 or newer. The Health Connect guide covers the pairing. The iPhone app doesn&#x27;t receive measurements, and MQTT can&#x27;t carry them.
-  The scale&#x27;s readings as sensors in Home Assistant. A Bluetooth scale needs Bluetooth within a few meters: an adapter on the Home Assistant machine, or an ESPHome Bluetooth proxy near the bathroom.
-
-
-Common routes into Home Assistant are Xiaomi BLE with bodymiscale for Xiaomi scales, ble-scale-sync for Renpho, Eufy, Yunmai and others, and the Withings integration. The scale recipe says which entity to map for each, and has the templates some routes need.
-
-Set it up
-
-
-  In Home Assistant, open Settings &gt; Devices &amp; services &gt; Life Dashboard and choose Configure for the phone. Pick one entity per type. Each type has an optional Measured at slot for a timestamp sensor that holds when the weighing happened.
-  In the app, on the Health tab, open Receive and switch on Receive measurements from Home Assistant.
-  Switch on each type you mapped. Each one asks Health Connect for permission to write that type. If you refuse, the switch stays off.
-  Step on the scale, then tap Sync Now or wait for the next sync. The Logs tab shows a row from Home Assistant with every reading and whether it was written.
-
-
-
-
-What it writes"><table>
+<div class="table-wrap" tabindex="0" role="region" aria-label="What it writes"><table>
   <thead>
     <tr><th scope="col">Type</th><th scope="col">Accepted range</th></tr>
   </thead>
@@ -241,56 +221,7 @@ What it writes"><table>
 
 <p>The app can only promise that a reading reaches Health Connect. The rest is up to each app.</p>
 
-<div class="table-wrap" tabindex="0" role="region" aria-label="What you need
-
-
-  An Android phone with Health Connect and Life Dashboard Companion, paired with the Life Dashboard integration 0.7.0 or newer. The Health Connect guide covers the pairing. The iPhone app doesn&#x27;t receive measurements, and MQTT can&#x27;t carry them.
-  The scale&#x27;s readings as sensors in Home Assistant. A Bluetooth scale needs Bluetooth within a few meters: an adapter on the Home Assistant machine, or an ESPHome Bluetooth proxy near the bathroom.
-
-
-Common routes into Home Assistant are Xiaomi BLE with bodymiscale for Xiaomi scales, ble-scale-sync for Renpho, Eufy, Yunmai and others, and the Withings integration. The scale recipe says which entity to map for each, and has the templates some routes need.
-
-Set it up
-
-
-  In Home Assistant, open Settings &gt; Devices &amp; services &gt; Life Dashboard and choose Configure for the phone. Pick one entity per type. Each type has an optional Measured at slot for a timestamp sensor that holds when the weighing happened.
-  In the app, on the Health tab, open Receive and switch on Receive measurements from Home Assistant.
-  Switch on each type you mapped. Each one asks Health Connect for permission to write that type. If you refuse, the switch stays off.
-  Step on the scale, then tap Sync Now or wait for the next sync. The Logs tab shows a row from Home Assistant with every reading and whether it was written.
-
-
-
-
-What it writes
-
-
-  
-    TypeAccepted range
-  
-  
-    Weight1 to 500 kg
-    Body fat1 to 80 %
-    Lean body mass1 to 300 kg
-    Bone mass0.1 to 30 kg
-    Body water mass1 to 300 kg
-    Height0.3 to 2.8 m
-    Blood pressureSystolic 30 to 300, diastolic 10 to 250 mmHg
-  
-
-
-Units are converted, so pounds and stones work. BMI, muscle mass, visceral fat and metabolic age have no Health Connect record, so they stay in Home Assistant. Most scales give body water as a percentage; the recipe has a template that turns it into kilograms.
-
-How readings are handled
-
-
-  The time is the weighing time. A weigh-in at 07:00 that syncs at 09:00 shows as 07:00 in Health Connect.
-  One weighing is one reading. The same value within ten minutes counts as the same measurement, and a different value for the same moment replaces the earlier record.
-  Signed both ways. The readings ride back in the integration&#x27;s signed response to the request the app already makes. There&#x27;s no second channel or second secret.
-  Nothing echoes back. What the app writes is left out of what it sends, so your weight doesn&#x27;t come back to Home Assistant as a second sensor.
-  A warning about doubles. If the scale&#x27;s own app already writes the same type to Health Connect, the app warns you as you switch it on. Keep one source, or every weighing lands twice.
-
-
-What Samsung Health and Google Health show"><table>
+<div class="table-wrap" tabindex="0" role="region" aria-label="What Samsung Health and Google Health show"><table>
   <thead>
     <tr><th scope="col">App</th><th scope="col">What it picks up from Health Connect</th></tr>
   </thead>
@@ -343,15 +274,19 @@ What Samsung Health and Google Health show"><table>
       <nav class="box" aria-label="Guides">
         <h2>Guides</h2>
         <ul>
-          <li><a href="../health-connect-home-assistant/">Samsung Health and Health Connect in Home Assistant</a></li>
+          <li><a href="../health-connect-home-assistant/">Health Connect in Home Assistant</a></li>
+          <li><a href="../samsung-health-home-assistant/">Samsung Health and Galaxy Watch in Home Assistant</a></li>
+          <li><a href="../companion-app-health-connect/">The companion app and Health Connect</a></li>
           <li><a href="../health-connect-webhook/">Health Connect to a webhook</a></li>
           <li><a href="../screen-time-home-assistant/">Screen time in Home Assistant</a></li>
           <li><a href="../smart-scale-to-samsung-health/" aria-current="page">Smart scale to Samsung Health</a></li>
+          <li><a href="../health-connect-n8n/">Health Connect to n8n</a></li>
+          <li><a href="../health-connect-data-types/">Health Connect data types, app by app</a></li>
           <li><a href="../health-data-api/">A web API for Health Connect or Apple Health</a></li>
           <li><a href="../samsung-health-export/">Samsung Health to your own server</a></li>
           <li><a href="../fitbit-home-assistant/">Fitbit and Pixel Watch in Home Assistant</a></li>
           <li><a href="../garmin-home-assistant/">Garmin in Home Assistant</a></li>
-          <li><a href="../health-data-own-ai/">Ask your own AI about your health data</a></li>
+          <li><a href="../health-data-own-ai/">Health Connect data over MCP, for your own AI</a></li>
         </ul>
       </nav>
       <div class="box">
@@ -385,15 +320,19 @@ What Samsung Health and Google Health show"><table>
       <div>
         <h2 class="foot-h">Guides</h2>
         <ul>
-          <li><a href="../health-connect-home-assistant/">Samsung Health and Health Connect in Home Assistant</a></li>
+          <li><a href="../health-connect-home-assistant/">Health Connect in Home Assistant</a></li>
+          <li><a href="../samsung-health-home-assistant/">Samsung Health and Galaxy Watch in Home Assistant</a></li>
+          <li><a href="../companion-app-health-connect/">The companion app and Health Connect</a></li>
           <li><a href="../health-connect-webhook/">Health Connect to a webhook</a></li>
           <li><a href="../screen-time-home-assistant/">Screen time in Home Assistant</a></li>
           <li><a href="../smart-scale-to-samsung-health/">Smart scale to Samsung Health</a></li>
+          <li><a href="../health-connect-n8n/">Health Connect to n8n</a></li>
+          <li><a href="../health-connect-data-types/">Health Connect data types, app by app</a></li>
           <li><a href="../health-data-api/">A web API for Health Connect or Apple Health</a></li>
           <li><a href="../samsung-health-export/">Samsung Health to your own server</a></li>
           <li><a href="../fitbit-home-assistant/">Fitbit and Pixel Watch in Home Assistant</a></li>
           <li><a href="../garmin-home-assistant/">Garmin in Home Assistant</a></li>
-          <li><a href="../health-data-own-ai/">Ask your own AI about your health data</a></li>
+          <li><a href="../health-data-own-ai/">Health Connect data over MCP, for your own AI</a></li>
         </ul>
       </div>
       <div>

@@ -2,7 +2,8 @@
 title: Send Health Connect data to your own webhook | Life Dashboard
 description: Life Dashboard Companion, an open-source Android app, sends Health Connect data to your own webhook as signed JSON, from Samsung Health, Garmin and more.
 primary query: health connect webhook
-secondary queries: health connect export to server, health connect json, health connect n8n, health connect node-red, health connect grafana, health connect influxdb, export health connect data, self-hosted health data
+secondary queries: health connect export to server, health connect json, health connect node-red, health connect grafana, health connect influxdb, export health connect data, self-hosted health data
+updated: 2026-10-14
 -->
 
 <h1>How do I send Health Connect data to my own webhook as JSON?</h1>
@@ -26,7 +27,7 @@ secondary queries: health connect export to server, health connect json, health 
 <h2>Set it up</h2>
 
 <ol>
-  <li>On the <strong>Health</strong> tab, open <strong>Webhook</strong> and add your URL under <strong>Webhook URLs</strong>. The <strong>Screen Time</strong> tab has its own list.</li>
+  <li>On the <strong>Health</strong> tab, open <strong>Webhook</strong>, paste your URL in the address field and tap the add button. The <strong>Screen Time</strong> tab has its own list.</li>
   <li>Optional: add an <code>Authorization</code> header or API key under <strong>Webhook Headers</strong>.</li>
   <li>Under <strong>HMAC signing secret (optional)</strong>, tap <strong>Generate</strong> and put the same value on your server.</li>
   <li>Tap <strong>Test ping</strong> to check that your server accepts the request, then <strong>Save Changes</strong>.</li>
@@ -96,7 +97,7 @@ valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
 
 <ul>
   <li><strong>life-dashboard-stack.</strong> A Docker Compose setup with a receiver that checks <code>X-Signature</code>, Postgres 18 and Grafana 13.2 with six dashboards. Point the app at <code>http://&lt;host&gt;:8080/webhook/&lt;label&gt;</code>. See <a href="../grafana/">the Life Dashboard stack</a>.</li>
-  <li><strong>n8n.</strong> A Webhook node with method <code>POST</code> in a published workflow, with <strong>Raw Body</strong> on. A <strong>Crypto</strong> node and an <strong>If</strong> node check the signature, and each branch ends in a <strong>Respond to Webhook</strong> node: 204 on the true branch, before the slow part, and 401 on the false one. Set the Webhook node's <strong>Respond</strong> to <strong>Using 'Respond to Webhook' Node</strong>. With <strong>Respond</strong> on <strong>Immediately</strong>, n8n responds with 200 before the check runs, so a payload with a bad signature still counts as delivered. The payload reference has the <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md#n8n-and-node-red">n8n steps node by node</a>.</li>
+  <li><strong>n8n.</strong> A Webhook node with <strong>Raw Body</strong> on, a signature check, and a <strong>Respond to Webhook</strong> node that answers 204 or 401. <a href="../health-connect-n8n/">Health Connect to n8n</a> has the whole workflow, and the payload reference has the <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md#n8n-and-node-red">steps with a Crypto node</a>.</li>
   <li><strong>Node-RED.</strong> An <strong>http in</strong> node with <strong>Do not parse request body</strong> on (Node-RED 4.1 or later) gives the raw bytes for the HMAC.</li>
   <li><strong>Home Assistant.</strong> The <a href="../health-connect-home-assistant/">Life Dashboard integration</a> turns the payload into sensors and long-term statistics.</li>
   <li><strong>InfluxDB or anything else.</strong> There's no ready-made InfluxDB receiver, so write a small script. The payload reference has a <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md#receiver-in-python-flask">Python</a> and a <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md#receiver-in-nodejs-express">Node.js</a> receiver to start from.</li>
@@ -107,7 +108,7 @@ valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
 <p>Whatever receives the POST, n8n or a script, the storage pattern is the same:</p>
 
 <ul>
-  <li>Upsert each record on its <code>uuid</code>, in a <code>text</code> column. Heart rate and skin temperature samples carry a <code>#</code> and a time after the record's ID, so it isn't a Postgres <code>uuid</code>.</li>
+  <li>Upsert each record on its payload key and <code>uuid</code>, in a <code>text</code> column. Heart rate and skin temperature samples carry a <code>#</code> and a time after the record's ID, so it isn't a Postgres <code>uuid</code>.</li>
   <li>Keep <code>daily_totals</code> as one row per date, replaced only by a payload with a higher <code>sequence</code>: today's is a running total.</li>
   <li>Delete what <code>deleted_records</code> names, by <code>type</code> and <code>uuid</code>. For a heart rate or skin temperature record, delete every sample whose <code>uuid</code> starts with that <code>uuid</code> and a <code>#</code>.</li>
 </ul>
