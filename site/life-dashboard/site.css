@@ -458,6 +458,7 @@ main { position: relative; }
 .prose h1 + p, .prose .byline + p { font-size: 1.15rem; color: var(--text); line-height: 1.6; }
 .prose h1 + p.byline { font-size: 0.88rem; color: var(--dim); line-height: 1.5; }
 .prose h2 { font-size: 1.6rem; letter-spacing: -0.02em; margin: 52px 0 16px; scroll-margin-top: 16px; }
+.prose h3[id] { scroll-margin-top: 16px; }
 .prose h3 { font-size: 1.2rem; margin: 32px 0 12px; }
 .prose p, .prose li { color: #c9d2d6; }
 .prose strong { color: var(--text); }
@@ -470,6 +471,7 @@ main { position: relative; }
 .prose table { display: table; width: 100%; border-collapse: separate; border-spacing: 0; margin: 0; font-size: 0.95rem; }
 .prose tbody th { font-weight: 400; color: var(--muted); text-align: left; }
 .prose .table-wrap:focus-visible { outline-offset: 2px; }
+.prose .table-wrap tbody th[scope=row] { position: sticky; left: 0; z-index: 1; background: var(--bg); }
 .prose th, .prose td { padding: 11px 14px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
 .prose thead th { background: rgba(255,255,255,0.03); color: var(--muted); font-size: 0.86rem; }
 .prose tr:last-child td { border-bottom: 0; }

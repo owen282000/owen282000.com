@@ -11,7 +11,7 @@
 <meta name="theme-color" content="#101418">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png">
 <link rel="apple-touch-icon" href="../img/icon-180.png">
-<link rel="stylesheet" href="../site.css?v=030e9273">
+<link rel="stylesheet" href="../site.css?v=6484c23a">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="A self-hosted Grafana dashboard for your health data">
@@ -273,7 +273,7 @@
           <li><code>dash.activity_days</code> <span>Steps per day, counted once, per phone.</span></li>
           <li><code>dash.sleep_nights</code> <span>Hours asleep, deep and REM per night.</span></li>
           <li><code>dash.screen_apps</code> <span>Minutes per app per day.</span></li>
-          <li>A read-only Grafana user <span><code>grafana_ro</code> can only read the records and views, and its queries stop after 30 seconds.</span></li>
+          <li>A read-only Grafana user <span><code>grafana_ro</code> can only read the records and views, and its queries stop after 30 seconds. The same role can <a href="../health-data-own-ai/">serve your own AI over MCP</a>.</span></li>
         </ul>
         <a class="link-arrow" href="https://github.com/owen282000/life-dashboard-stack/blob/main/docs/views.md">Every view, column and unit</a>
       </div>
@@ -356,7 +356,7 @@ RECEIVER_PORT=18080 GRAFANA_PORT=13000 \
     <div class="section-head"><div class="kicker">Guides</div><h2>Setup guides</h2></div>
     <div class="family three">
       <a class="part" href="../health-connect-webhook/"><span class="tag">Webhooks</span><h3>Health Connect to a webhook</h3><p>The JSON payload, signatures, retries and receivers for n8n and Node-RED.</p><span class="go">Read the guide</span></a>
-      <a class="part" href="../health-data-own-ai/"><span class="tag">Your own AI</span><h3>Ask your own AI about your health data</h3><p>A local model reads your history through a read-only MCP server. No cloud.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="../health-data-own-ai/"><span class="tag">MCP</span><h3>Health Connect data over MCP, for your own AI</h3><p>A read-only MCP server lets a local model or Claude read your history. Works in Europe too.</p><span class="go">Read the guide</span></a>
       <a class="part" href="../health-data-api/"><span class="tag">API</span><h3>A web API for Health Connect or Apple Health</h3><p>Why neither has one, and how to get the data onto your server anyway.</p><span class="go">Read the guide</span></a>
     </div>
   </div>
@@ -396,15 +396,19 @@ RECEIVER_PORT=18080 GRAFANA_PORT=13000 \
       <div>
         <h2 class="foot-h">Guides</h2>
         <ul>
-          <li><a href="../health-connect-home-assistant/">Samsung Health and Health Connect in Home Assistant</a></li>
+          <li><a href="../health-connect-home-assistant/">Health Connect in Home Assistant</a></li>
+          <li><a href="../samsung-health-home-assistant/">Samsung Health and Galaxy Watch in Home Assistant</a></li>
+          <li><a href="../companion-app-health-connect/">The companion app and Health Connect</a></li>
           <li><a href="../health-connect-webhook/">Health Connect to a webhook</a></li>
           <li><a href="../screen-time-home-assistant/">Screen time in Home Assistant</a></li>
           <li><a href="../smart-scale-to-samsung-health/">Smart scale to Samsung Health</a></li>
+          <li><a href="../health-connect-n8n/">Health Connect to n8n</a></li>
+          <li><a href="../health-connect-data-types/">Health Connect data types, app by app</a></li>
           <li><a href="../health-data-api/">A web API for Health Connect or Apple Health</a></li>
           <li><a href="../samsung-health-export/">Samsung Health to your own server</a></li>
           <li><a href="../fitbit-home-assistant/">Fitbit and Pixel Watch in Home Assistant</a></li>
           <li><a href="../garmin-home-assistant/">Garmin in Home Assistant</a></li>
-          <li><a href="../health-data-own-ai/">Ask your own AI about your health data</a></li>
+          <li><a href="../health-data-own-ai/">Health Connect data over MCP, for your own AI</a></li>
         </ul>
       </div>
       <div>

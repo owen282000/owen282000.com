@@ -146,14 +146,22 @@ BADGES = {"play": ("google-play.svg", "Get it on Google Play"),
           "appstore": ("app-store.svg", "Download on the App Store")}
 
 GUIDES = [
-    ("health-connect-home-assistant", "Samsung Health and Health Connect in Home Assistant", "Home Assistant",
+    ("health-connect-home-assistant", "Health Connect in Home Assistant", "Home Assistant",
      "Samsung Health, Garmin, Fitbit, Oura and Withings data as sensors, with a year of history."),
+    ("samsung-health-home-assistant", "Samsung Health and Galaxy Watch in Home Assistant", "Samsung",
+     "Steps, sleep, heart rate and workouts through Health Connect, with no Samsung login."),
+    ("companion-app-health-connect", "The companion app and Health Connect", "Companion app",
+     "When its 26 sensors are enough, and what history, backfill and 33 types add."),
     ("health-connect-webhook", "Health Connect to a webhook", "Webhooks",
      "The JSON payload, signatures, retries and receivers for n8n and Node-RED."),
     ("screen-time-home-assistant", "Screen time in Home Assistant", "Screen time",
      "Minutes per app as sensors, limits you set yourself, and several phones."),
     ("smart-scale-to-samsung-health", "Smart scale to Samsung Health", "Smart scale",
      "Weight, body fat and blood pressure from Home Assistant into Health Connect."),
+    ("health-connect-n8n", "Health Connect to n8n", "n8n",
+     "A Webhook node, an HMAC check in a Code node, then Postgres, Sheets or Telegram."),
+    ("health-connect-data-types", "Health Connect data types, app by app", "Data types",
+     "All 33 types with keys and units, and what Samsung, Garmin, Fitbit and Oura write."),
     ("health-data-api", "A web API for Health Connect or Apple Health", "API",
      "Why neither has one, and how to get the data onto your server anyway."),
     ("samsung-health-export", "Samsung Health to your own server", "Export",
@@ -162,12 +170,16 @@ GUIDES = [
      "Through Health Connect, with no Fitbit Web API and no Google Cloud project."),
     ("garmin-home-assistant", "Garmin in Home Assistant", "Garmin",
      "Steps, sleep and heart rate from Garmin Connect, with no Garmin login in Home Assistant."),
-    ("health-data-own-ai", "Ask your own AI about your health data", "Your own AI",
-     "A local model reads your history through a read-only MCP server. No cloud."),
+    ("health-data-own-ai", "Health Connect data over MCP, for your own AI", "MCP",
+     "A read-only MCP server lets a local model or Claude read your history. Works in Europe too."),
 ]
 GUIDES = [g for g in GUIDES if (Path(__file__).resolve().parent / "guides" / f"{g[0]}.html").exists()]
 GUIDE_NAMES = {g[0]: g[1] for g in GUIDES}
 GUIDE_ABOUT = {
+    "health-connect-n8n": ["#android", "#ios"],
+    "health-connect-data-types": ["#android", "#ios"],
+    "samsung-health-home-assistant": ["#android", "#integration"],
+    "companion-app-health-connect": ["#android", "#integration"],
     "health-data-api": ["#android", "#ios"],
     "samsung-health-export": ["#android"],
     "fitbit-home-assistant": ["#android", "#integration"],
@@ -207,6 +219,14 @@ IMAGES = {
 CUT = {"H5-today"}
 
 NEXT = {
+    "health-connect-n8n": ("Install the app, put the production URL of your published workflow in it and tap <strong>Test ping</strong>. The payload reference has the same check with a Crypto node.",
+        [("btn-primary btn-store", "../android/#get", "Get the Android app"), ("btn-ghost", f"{REPO}/blob/main/docs/webhook.md#n8n-and-node-red", "n8n in the payload reference")]),
+    "health-connect-data-types": ("Pick your types under <strong>Data Types</strong> on the <strong>Health</strong> tab and tap <strong>View</strong> to see what the next sync would send.",
+        [("btn-primary btn-store", "../android/#get", "Get the Android app"), ("btn-ghost", f"{REPO}/blob/main/docs/webhook.md#health-connect-data-types", "Payload reference")]),
+    "samsung-health-home-assistant": ("Two installs: the integration from HACS and the app on your phone. After that, switch on Health Connect in Samsung Health and pair with one QR code.",
+        [("btn-primary btn-store", HACS, "Open in HACS"), ("btn-ghost", "../android/#get", "Get the Android app")]),
+    "companion-app-health-connect": ("Keep the companion app. Add the integration from HACS and the app on your phone, pair with one QR code, then run a backfill.",
+        [("btn-primary btn-store", HACS, "Open in HACS"), ("btn-ghost", "../android/#get", "Get the Android app")]),
     "health-data-api": ("Install the app on the phone and point it at your URL. The payload reference has every field and a receiver in Python and Node.js.",
         [("btn-primary btn-store", "../android/#get", "Get the Android app"), ("btn-ghost", "../ios/#get", "Get the iPhone app")]),
     "samsung-health-export": ("Switch on Health Connect in Samsung Health, install the app, and tap <strong>Test ping</strong> against your URL.",
@@ -656,8 +676,8 @@ def slugify(text):
 def enhance(body, short):
     """Accessible tables and code blocks, ids on headings, the guide FAQ heading."""
     def table(m):
-        cap = re.search(r"<h[23][^>]*>(.*?)</h[23]>(?![\s\S]*<h[23])", body[:m.start()], re.S)
-        label = strip_tags(cap.group(1)) if cap else "Table"
+        caps = re.findall(r"<h[23][^>]*>(.*?)</h[23]>", body[:m.start()], re.S)
+        label = strip_tags(caps[-1]) if caps else "Table"
         t = m.group(0)
         t = re.sub(r"<th></th>", '<th scope="col">Feature</th>', t)
         t = re.sub(r"<thead>(.*?)</thead>", lambda x: "<thead>" + x.group(1).replace("<th>", '<th scope="col">') + "</thead>", t, flags=re.S)
@@ -666,6 +686,7 @@ def enhance(body, short):
     body = re.sub(r"<table>.*?</table>", table, body, flags=re.S)
     body = body.replace("<pre><code>", '<pre tabindex="0"><code>')
     body = re.sub(r"<h2>(.*?)</h2>", lambda m: f'<h2 id="{slugify(m.group(1))}">{m.group(1)}</h2>', body)
+    body = re.sub(r"<h3>(.*?)</h3>", lambda m: f'<h3 id="{slugify(m.group(1))}">{m.group(1)}</h3>', body)
     body = body.replace('<h2 id="faq">FAQ</h2>', '<h2 id="faq">Common questions</h2>')
     return body
 
@@ -692,7 +713,7 @@ def build_guide(slug, short):
         {"@type": "TechArticle", "headline": h1, "description": desc, "url": url, "inLanguage": "en",
          "author": {"@id": f"{BASE}#owen"},
          "about": [{"@type": "SoftwareApplication", "@id": f"{BASE}{i}", "name": ENTITY_NAME[i]} for i in GUIDE_ABOUT[slug]],
-         "datePublished": UPDATED, "dateModified": updated, "image": f"{BASE}img/social.png",
+         "datePublished": opt_meta(src, "published") or UPDATED, "dateModified": updated, "image": f"{BASE}img/social.png",
          "isPartOf": {"@id": f"{BASE}#website"}},
         breadcrumb(short, url),
         ME, WEBSITE,
@@ -1007,7 +1028,7 @@ def build_llms():
 
 
 def build_sitemap():
-    urls = [("", UPDATED)] + [(f"{s}/", PAGE_DATES[f"{s}/"]) for s in ORDER] + [(f"{g[0]}/", PAGE_DATES[f"{g[0]}/"]) for g in GUIDES] + [("ios/privacy/", "2026-10-03")]
+    urls = [("", max(PAGE_DATES.values()))] + [(f"{s}/", PAGE_DATES[f"{s}/"]) for s in ORDER] + [(f"{g[0]}/", PAGE_DATES[f"{g[0]}/"]) for g in GUIDES] + [("ios/privacy/", "2026-10-03")]
     lines = f"  <url><loc>{DOMAIN}</loc><lastmod>{UPDATED}</lastmod></url>\n  <url><loc>{DOMAIN}privacy/</loc><lastmod>{UPDATED}</lastmod></url>\n" + "\n".join(f"  <url><loc>{BASE}{u}</loc><lastmod>{d}</lastmod></url>" for u, d in urls)
     (SITE / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{lines}\n</urlset>\n')
 

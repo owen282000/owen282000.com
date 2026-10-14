@@ -1,7 +1,7 @@
 {
   "slug": "android",
   "nav_name": "Android app",
-  "title": "Life Dashboard Companion for Android: Health Connect export",
+  "title": "Health Connect export app for Android | Life Dashboard",
   "description": "Life Dashboard Companion for Android exports Health Connect data and screen time per app to Home Assistant, MQTT or your own webhook. Open source, no cloud.",
   "kicker": "Android app",
   "h1": "Health Connect and screen time, sent to your own server",
@@ -36,12 +36,12 @@
   "sections": [
     {
       "kicker": "Home Assistant and MQTT",
-      "h2": "Health Connect in Home Assistant, with or without a broker",
+      "h2": "Into Home Assistant, with or without a broker",
       "text": "The Life Dashboard integration pairs with one QR code and keeps every day in long-term statistics. MQTT with Home Assistant Discovery suits a setup that already runs a broker and only needs current values.",
       "bullets": [
         {
-          "main": "Sensors for 24 of the 33 types",
-          "sub": "Today's steps, distance and calories, and the latest heart rate, sleep, weight, blood pressure, glucose and more."
+          "main": "Sensors for 25 of the 33 types",
+          "sub": "Today's steps, distance and calories, the latest heart rate, sleep, weight, blood pressure, glucose and more, and the last workout. MQTT gets 24, without the workout."
         },
         {
           "main": "Screen time in total and per app",
@@ -65,7 +65,7 @@
     {
       "kicker": "Webhooks",
       "h2": "Every record as JSON, to a server you run",
-      "text": "Point the app at n8n, Node-RED, the Grafana stack or a short script. A webhook also gets what no sensor holds: single meals, cycle tracking entries and workout details.",
+      "text": "Point the app at <a href=\"../health-connect-n8n/\">n8n</a>, Node-RED, the Grafana stack or a short script. A webhook also gets what no sensor holds: single meals, cycle tracking entries and workout details.",
       "bullets": [
         {
           "main": "HMAC-SHA256 signatures",
@@ -123,7 +123,7 @@
   "faq": [
     {
       "q": "Which Health Connect types become Home Assistant sensors?",
-      "a": "24 of the 33, through the integration or MQTT. The other nine (exercise, nutrition, mindfulness and six cycle tracking types) are events rather than values, so they get no sensor; the integration counts workout and mindfulness minutes per day. A <a href=\"../health-connect-webhook/\">webhook of your own</a> gets those records in full."
+      "a": "25 of the 33 through the integration, 24 over MQTT. The other eight (nutrition, mindfulness, sexual activity and five cycle tracking types) are events rather than values, so they get no sensor; the integration counts mindfulness minutes per day. Workouts get a last workout sensor and the minutes of today and yesterday in the integration. A <a href=\"../health-connect-webhook/\">webhook of your own</a> gets those records in full."
     },
     {
       "q": "Can it send to Home Assistant and a webhook at the same time?",
@@ -158,7 +158,7 @@
       "a": "Yes. Every build has the same package name and is signed with the same key, so one installs over the other and your settings stay."
     }
   ],
-  "updated": "2026-10-12",
+  "updated": "2026-10-14",
   "guides": [
     "health-connect-home-assistant",
     "health-connect-webhook",

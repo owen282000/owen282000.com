@@ -4,14 +4,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Life Dashboard Companion for Android: Health Connect export</title>
+<title>Health Connect export app for Android | Life Dashboard</title>
 <meta name="description" content="Life Dashboard Companion for Android exports Health Connect data and screen time per app to Home Assistant, MQTT or your own webhook. Open source, no cloud.">
 <link rel="canonical" href="https://owen282000.com/life-dashboard/android/">
 <meta name="robots" content="max-image-preview:large">
 <meta name="theme-color" content="#101418">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png">
 <link rel="apple-touch-icon" href="../img/icon-180.png">
-<link rel="stylesheet" href="../site.css?v=030e9273">
+<link rel="stylesheet" href="../site.css?v=6484c23a">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="Health Connect and screen time, sent to your own server">
@@ -47,7 +47,7 @@
       "@type": "WebPage",
       "@id": "https://owen282000.com/life-dashboard/android/",
       "url": "https://owen282000.com/life-dashboard/android/",
-      "name": "Life Dashboard Companion for Android: Health Connect export",
+      "name": "Health Connect export app for Android | Life Dashboard",
       "description": "Life Dashboard Companion for Android exports Health Connect data and screen time per app to Home Assistant, MQTT or your own webhook. Open source, no cloud.",
       "about": {
         "@id": "https://owen282000.com/life-dashboard/#android"
@@ -105,7 +105,7 @@
         "inLanguage": "en"
       },
       "inLanguage": "en",
-      "dateModified": "2026-10-12"
+      "dateModified": "2026-10-14"
     },
     {
       "@type": "FAQPage",
@@ -115,7 +115,7 @@
           "name": "Which Health Connect types become Home Assistant sensors?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "24 of the 33, through the integration or MQTT. The other nine (exercise, nutrition, mindfulness and six cycle tracking types) are events rather than values, so they get no sensor; the integration counts workout and mindfulness minutes per day. A webhook of your own gets those records in full."
+            "text": "25 of the 33 through the integration, 24 over MQTT. The other eight (nutrition, mindfulness, sexual activity and five cycle tracking types) are events rather than values, so they get no sensor; the integration counts mindfulness minutes per day. Workouts get a last workout sensor and the minutes of today and yesterday in the integration. A webhook of your own gets those records in full."
           }
         },
         {
@@ -275,10 +275,10 @@
       <div class="show-media"><div class="stage green-glow"></div><div class="phone solo" style="aspect-ratio: 720 / 1540"><img src="../img/A2-pair.webp" alt="The Pair with a receiver dialog in the Android app" width="720" height="1540" loading="lazy"></div></div>
       <div>
         <div class="kicker">Home Assistant and MQTT</div>
-        <h2>Health Connect in Home Assistant, with or without a broker</h2>
+        <h2>Into Home Assistant, with or without a broker</h2>
         <p>The Life Dashboard integration pairs with one QR code and keeps every day in long-term statistics. MQTT with Home Assistant Discovery suits a setup that already runs a broker and only needs current values.</p>
         <ul class="ticks">
-          <li>Sensors for 24 of the 33 types <span>Today's steps, distance and calories, and the latest heart rate, sleep, weight, blood pressure, glucose and more.</span></li>
+          <li>Sensors for 25 of the 33 types <span>Today's steps, distance and calories, the latest heart rate, sleep, weight, blood pressure, glucose and more, and the last workout. MQTT gets 24, without the workout.</span></li>
           <li>Screen time in total and per app <span>Both routes get the totals. The sensor per app comes with the integration.</span></li>
           <li>Two phones on one broker <span>Give each a Phone name under Advanced, and each gets its own device and topics.</span></li>
           <li>Pick one route <span>Running both gives you two devices with the same numbers.</span></li>
@@ -290,7 +290,7 @@
       <div>
         <div class="kicker">Webhooks</div>
         <h2>Every record as JSON, to a server you run</h2>
-        <p>Point the app at n8n, Node-RED, the Grafana stack or a short script. A webhook also gets what no sensor holds: single meals, cycle tracking entries and workout details.</p>
+        <p>Point the app at <a href="../health-connect-n8n/">n8n</a>, Node-RED, the Grafana stack or a short script. A webhook also gets what no sensor holds: single meals, cycle tracking entries and workout details.</p>
         <ul class="ticks">
           <li>HMAC-SHA256 signatures <span>An X-Signature header your server can check. Generate creates a secret of 32 random bytes.</span></li>
           <li>Client certificates (mTLS) <span>Picked from Android's credential store, for a server behind a reverse proxy that requires one.</span></li>
@@ -352,7 +352,7 @@
     <div class="faq">
       <details>
         <summary>Which Health Connect types become Home Assistant sensors?</summary>
-        <p>24 of the 33, through the integration or MQTT. The other nine (exercise, nutrition, mindfulness and six cycle tracking types) are events rather than values, so they get no sensor; the integration counts workout and mindfulness minutes per day. A <a href="../health-connect-webhook/">webhook of your own</a> gets those records in full.</p>
+        <p>25 of the 33 through the integration, 24 over MQTT. The other eight (nutrition, mindfulness, sexual activity and five cycle tracking types) are events rather than values, so they get no sensor; the integration counts mindfulness minutes per day. Workouts get a last workout sensor and the minutes of today and yesterday in the integration. A <a href="../health-connect-webhook/">webhook of your own</a> gets those records in full.</p>
       </details>
       <details>
         <summary>Can it send to Home Assistant and a webhook at the same time?</summary>
@@ -395,7 +395,7 @@
   <div class="wrap">
     <div class="section-head"><div class="kicker">Guides</div><h2>Setup guides</h2></div>
     <div class="family">
-      <a class="part" href="../health-connect-home-assistant/"><span class="tag">Home Assistant</span><h3>Samsung Health and Health Connect in Home Assistant</h3><p>Samsung Health, Garmin, Fitbit, Oura and Withings data as sensors, with a year of history.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="../health-connect-home-assistant/"><span class="tag">Home Assistant</span><h3>Health Connect in Home Assistant</h3><p>Samsung Health, Garmin, Fitbit, Oura and Withings data as sensors, with a year of history.</p><span class="go">Read the guide</span></a>
       <a class="part" href="../health-connect-webhook/"><span class="tag">Webhooks</span><h3>Health Connect to a webhook</h3><p>The JSON payload, signatures, retries and receivers for n8n and Node-RED.</p><span class="go">Read the guide</span></a>
       <a class="part" href="../screen-time-home-assistant/"><span class="tag">Screen time</span><h3>Screen time in Home Assistant</h3><p>Minutes per app as sensors, limits you set yourself, and several phones.</p><span class="go">Read the guide</span></a>
       <a class="part" href="../smart-scale-to-samsung-health/"><span class="tag">Smart scale</span><h3>Smart scale to Samsung Health</h3><p>Weight, body fat and blood pressure from Home Assistant into Health Connect.</p><span class="go">Read the guide</span></a>
@@ -441,15 +441,19 @@
       <div>
         <h2 class="foot-h">Guides</h2>
         <ul>
-          <li><a href="../health-connect-home-assistant/">Samsung Health and Health Connect in Home Assistant</a></li>
+          <li><a href="../health-connect-home-assistant/">Health Connect in Home Assistant</a></li>
+          <li><a href="../samsung-health-home-assistant/">Samsung Health and Galaxy Watch in Home Assistant</a></li>
+          <li><a href="../companion-app-health-connect/">The companion app and Health Connect</a></li>
           <li><a href="../health-connect-webhook/">Health Connect to a webhook</a></li>
           <li><a href="../screen-time-home-assistant/">Screen time in Home Assistant</a></li>
           <li><a href="../smart-scale-to-samsung-health/">Smart scale to Samsung Health</a></li>
+          <li><a href="../health-connect-n8n/">Health Connect to n8n</a></li>
+          <li><a href="../health-connect-data-types/">Health Connect data types, app by app</a></li>
           <li><a href="../health-data-api/">A web API for Health Connect or Apple Health</a></li>
           <li><a href="../samsung-health-export/">Samsung Health to your own server</a></li>
           <li><a href="../fitbit-home-assistant/">Fitbit and Pixel Watch in Home Assistant</a></li>
           <li><a href="../garmin-home-assistant/">Garmin in Home Assistant</a></li>
-          <li><a href="../health-data-own-ai/">Ask your own AI about your health data</a></li>
+          <li><a href="../health-data-own-ai/">Health Connect data over MCP, for your own AI</a></li>
         </ul>
       </div>
       <div>

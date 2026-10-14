@@ -3,11 +3,12 @@ title: Smart scale in Home Assistant to Samsung Health | Life Dashboard
 description: Life Dashboard Companion writes smart scale readings from Home Assistant into Health Connect, where Samsung Health and Google Health read weight and body fat.
 primary query: smart scale to samsung health
 secondary queries: smart scale home assistant, home assistant weight to health connect, home assistant scale samsung health, home assistant blood pressure health connect, xiaomi scale samsung health, renpho home assistant health connect, home assistant to google health weight
+updated: 2026-10-14
 -->
 
 <h1>How do I get smart scale readings from Home Assistant into Samsung Health?</h1>
 
-<p class="signpost">Want your watch's Samsung Health data in Home Assistant instead? See <a href="../health-connect-home-assistant/">Samsung Health and Health Connect in Home Assistant</a>.</p>
+<p class="signpost">Want your watch's Samsung Health data in Home Assistant instead? See <a href="../samsung-health-home-assistant/">Samsung Health and Galaxy Watch in Home Assistant</a>.</p>
 
 <p>Map the scale's entities in the Life Dashboard integration and switch on <strong>Receive</strong> in Life Dashboard Companion, the open-source Android app that pairs with it. At the next sync, the integration hands each new reading to the app, and the app writes it into Health Connect with the time it was measured. Samsung Health and Google Health read weight and body fat from Health Connect, so the weight and body fat from a scale that only talks to Home Assistant end up in those apps. The same works for a blood pressure monitor, though whether an app shows that reading is up to the app.</p>
 

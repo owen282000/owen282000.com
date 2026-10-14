@@ -45,7 +45,7 @@
         },
         {
           "main": "Latest readings",
-          "sub": "Heart rate, resting heart rate, HRV, last sleep, weight, blood pressure, glucose, SpO2, VO2 max and more, with measured_at and source."
+          "sub": "Heart rate, resting heart rate, HRV, last sleep, weight, blood pressure, glucose, SpO2, VO2 max, the last workout and more, with measured_at and source."
         },
         {
           "main": "One value per day",
@@ -132,7 +132,7 @@
     },
     {
       "q": "Which data gets no sensor?",
-      "a": "Nine of the 33 Health Connect types are events: workouts, meals, mindfulness sessions and the six cycle tracking types. Exercise and mindfulness still count as minutes per day in the statistics. For the raw records, add a second webhook in the app that points at <a href=\"../health-connect-webhook/\">your own backend</a>."
+      "a": "Eight of the 33 Health Connect types are events: meals, mindfulness sessions, sexual activity and the five cycle tracking types. Workouts get a last workout sensor and the minutes of today and yesterday, and mindfulness counts as minutes per day in the statistics. For the raw records, add a second webhook in the app that points at <a href=\"../health-connect-webhook/\">your own backend</a>."
     },
     {
       "q": "Can Home Assistant send a scale reading to the phone?",
@@ -147,7 +147,7 @@
       "a": "Deleting the entry removes the device and its sensors, deletes its cloudhook if it had one, and deletes the phone's files in <code>.storage</code>. Its long-term statistics stay in the recorder, as they do for any integration you remove."
     }
   ],
-  "updated": "2026-10-12",
+  "updated": "2026-10-14",
   "guides": [
     "health-connect-home-assistant",
     "fitbit-home-assistant",
@@ -166,7 +166,7 @@
       [
         "Health Connect",
         "26 sensors",
-        "33 types; 24 become sensors, the rest go to a webhook in full"
+        "33 types; 25 become sensors, and a webhook gets every record"
       ],
       [
         "History",
@@ -189,6 +189,6 @@
         "Also MQTT, any webhook and a Grafana stack"
       ]
     ],
-    "source": "From the companion app's <a href=\"https://companion.home-assistant.io/docs/core/sensors\">sensor documentation</a> and its code, as of release 2026.8.4. The <a href=\"https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/features.md#how-this-compares-to-the-home-assistant-companion-app\">full comparison</a> goes row by row."
+    "source": "From the companion app's <a href=\"https://companion.home-assistant.io/docs/core/sensors\">sensor documentation</a> and its code, as of release 2026.8.4. <a href=\"../companion-app-health-connect/\">The companion app and Health Connect</a> goes row by row."
   }
 }

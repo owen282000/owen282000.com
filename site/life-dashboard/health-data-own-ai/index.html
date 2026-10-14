@@ -4,18 +4,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ask a local AI about your health data, no cloud | Life Dashboard</title>
-<meta name="description" content="Life Dashboard Companion sends your health data to Home Assistant or Postgres; a read-only MCP server lets a local model on Ollama answer questions about it.">
+<title>Health Connect data over MCP, for your own AI | Life Dashboard</title>
+<meta name="description" content="A read-only MCP server lets Claude or a local model read your Health Connect and Apple Health history, also in Europe. Life Dashboard Companion sends the data.">
 <link rel="canonical" href="https://owen282000.com/life-dashboard/health-data-own-ai/">
 <meta name="robots" content="max-image-preview:large">
 <meta name="theme-color" content="#101418">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png">
 <link rel="apple-touch-icon" href="../img/icon-180.png">
-<link rel="stylesheet" href="../site.css?v=030e9273">
+<link rel="stylesheet" href="../site.css?v=6484c23a">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Life Dashboard">
-<meta property="og:title" content="How do I ask my own AI about my health data, without a cloud?">
-<meta property="og:description" content="Life Dashboard Companion sends your health data to Home Assistant or Postgres; a read-only MCP server lets a local model on Ollama answer questions about it.">
+<meta property="og:title" content="How do I ask my own AI about my Health Connect or Apple Health data over MCP?">
+<meta property="og:description" content="A read-only MCP server lets Claude or a local model read your Health Connect and Apple Health history, also in Europe. Life Dashboard Companion sends the data.">
 <meta property="og:url" content="https://owen282000.com/life-dashboard/health-data-own-ai/">
 <meta property="og:image" content="https://owen282000.com/life-dashboard/img/social.png">
 <meta property="og:image:width" content="1280">
@@ -28,8 +28,8 @@
   "@graph": [
     {
       "@type": "TechArticle",
-      "headline": "How do I ask my own AI about my health data, without a cloud?",
-      "description": "Life Dashboard Companion sends your health data to Home Assistant or Postgres; a read-only MCP server lets a local model on Ollama answer questions about it.",
+      "headline": "How do I ask my own AI about my Health Connect or Apple Health data over MCP?",
+      "description": "A read-only MCP server lets Claude or a local model read your Health Connect and Apple Health history, also in Europe. Life Dashboard Companion sends the data.",
       "url": "https://owen282000.com/life-dashboard/health-data-own-ai/",
       "inLanguage": "en",
       "author": {
@@ -48,7 +48,7 @@
         }
       ],
       "datePublished": "2026-10-06",
-      "dateModified": "2026-10-06",
+      "dateModified": "2026-10-14",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -66,7 +66,7 @@
         {
           "@type": "ListItem",
           "position": 2,
-          "name": "Ask your own AI about your health data",
+          "name": "Health Connect data over MCP, for your own AI",
           "item": "https://owen282000.com/life-dashboard/health-data-own-ai/"
         }
       ]
@@ -100,10 +100,26 @@
         },
         {
           "@type": "Question",
-          "name": "Can I use a cloud model instead?",
+          "name": "Can I use a cloud model such as Claude instead?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "You can point one at the same server, but then your questions, every query result and the answers go to the provider. A connector in a web app also needs your server reachable from the internet."
+            "text": "You can point one at the same server, but then your questions, every query result and the answers go to the provider. Claude Desktop can run an MCP server on your own computer. A custom connector in Claude, or a connector in another web app, connects from the provider's cloud and needs your server reachable from the internet."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I connect Health Connect to Claude or ChatGPT in Europe?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not with their own health connectors. As of October 2026, Claude's Apple Health and Health Connect integration and Health in ChatGPT are only for users in the US, and ChatGPT's help page names Apple Health, not Health Connect. Your own MCP server works anywhere: the model reads the history you keep in Home Assistant or Postgres."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is there a Health Connect MCP server?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Health Connect has no web API: it lives on the phone, so a server can't read it directly. Life Dashboard Companion sends the data to Home Assistant or Postgres, and an MCP server there, such as ha-mcp or DBHub in read-only mode, gives a model your history. That works for Samsung Health, Fitbit, Garmin and any other app that writes to Health Connect, for the types each app shares there."
           }
         },
         {
@@ -111,7 +127,7 @@
           "name": "Why not Home Assistant's built-in MCP server?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "It gives a model the current state of the entities you exposed to Assist, with no tool for history or statistics. It can answer questions about today, not about last month."
+            "text": "With the Assist API, it gives a model the current state of the entities you exposed to Assist, with no tool for history or statistics. It can answer questions about today, not about last month."
           }
         }
       ]
@@ -151,12 +167,14 @@
   <div class="guide-hero"><div class="grid-bg"></div></div>
   <div class="wrap guide-layout">
     <article class="prose">
-      <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Ask your own AI about your health data</span></nav>
-<h1>How do I ask my own AI about my health data, without a cloud?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 6, 2026.</p>
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Health Connect data over MCP, for your own AI</span></nav>
+<h1>How do I ask my own AI about my Health Connect or Apple Health data over MCP?</h1>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 14, 2026.</p>
 
-<p>Send your data with Life Dashboard Companion to Home Assistant, the Life Dashboard stack or a Postgres database you already run, put a read-only MCP server on top, and connect a model that runs on your own hardware through Ollama. The app itself contains no AI and never talks to a model. This is a recipe on the receiver side, where the model reads what your receiver already stores, through a connection that can't change anything.</p>
+<p>Send your data with Life Dashboard Companion to Home Assistant, the Life Dashboard stack or a Postgres database you already run, put a read-only MCP server on top, and connect a model that can use MCP tools. A local model through Ollama keeps everything on your own hardware, and a cloud model such as Claude can use the same server. It works for Health Connect data from Samsung Health, Fitbit, Garmin and other apps, for Apple Health data from the iPhone app, and in Europe, where the health connectors of Claude and ChatGPT aren't available.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="../home-assistant/">The Home Assistant route</a></p>
+
+<p>The app itself contains no AI and never talks to a model. This is a recipe on the receiver side: you run the MCP server, and the model reads what your receiver already stores, through a connection that can't change anything.</p>
 
 <p class="flow-line"><span>Phone</span><span>Home Assistant, the stack or your Postgres</span><span>Read-only MCP server</span><span>Your model</span></p>
 
@@ -166,29 +184,48 @@
 
 <p>Use route 1 if you send to the Life Dashboard integration, route 2 if you run the stack, and route 3 if n8n or a receiver of your own already writes to a Postgres you run.</p>
 
+<h2 id="in-europe-where-the-official-health-connectors-aren-t-available">In Europe, where the official health connectors aren't available</h2>
+
+<p>As of October 2026, the health connectors that Claude and ChatGPT offer themselves are for users in the US only:</p>
+
+<ul>
+  <li><strong>Claude</strong> reads Apple Health and Health Connect in its iPhone and Android apps. It's in beta on Pro and Max plans and "currently limited to users in the US", according to Anthropic's help pages for <a href="https://support.claude.com/en/articles/11869629-use-claude-with-android-apps">Android</a> and <a href="https://support.claude.com/en/articles/11869619-use-claude-with-ios-apps">iPhone</a>. On Android it needs Android 14 or later.</li>
+  <li><strong>Health in ChatGPT</strong> is for logged-in users in the US aged 18 or older, on the web and iOS. It connects Apple Health on an iPhone, and the help page doesn't mention Health Connect or Android (<a href="https://help.openai.com/en/articles/20001036-health-in-chatgpt">OpenAI's help page</a>). For the early access in January 2026, OpenAI left out the European Economic Area, Switzerland and the United Kingdom (<a href="https://openai.com/index/introducing-chatgpt-health/">OpenAI's announcement</a>).</li>
+</ul>
+
+<p>So outside the US, the EEA, the UK and Switzerland included, neither assistant reads your Health Connect or Apple Health data by itself. The route on this page doesn't depend on where you live:</p>
+
+<ol>
+  <li>Your data sits in your own Home Assistant or Postgres, sent there by the app.</li>
+  <li>You run a read-only MCP server on top of it.</li>
+  <li>Any model that can use MCP tools reads it. That can be a local model, or Claude: Claude Desktop runs MCP servers on your own computer, and a custom connector in Claude connects from Anthropic's cloud, so that server must be reachable from the internet (<a href="https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp">Anthropic's help page</a>).</li>
+</ol>
+
+<p>The app doesn't come with an MCP server and doesn't talk to any AI. You run the server and decide which model may read it. With a cloud model, your questions and the query results go to its provider.</p>
+
 <h2 id="what-you-need">What you need</h2>
 
 <ul>
-  <li><strong>A local model with tool support.</strong> <a href="https://ollama.com">Ollama</a> runs it, with a model such as <code>qwen3</code> (8B or 14B) or <code>gpt-oss:20b</code>. Pick one without a <code>-cloud</code> tag: those run on Ollama's servers. An 8B model wants 16 GB of memory; 20 to 30B wants a 24 GB graphics card or a Mac with 32 GB or more.</li>
-  <li><strong>A chat client that speaks MCP</strong>, such as Open WebUI or LM Studio, unless you use Home Assistant's own assistant. Ollama itself has no MCP client.</li>
+  <li><strong>A model with tool support.</strong> The routes below use a local one, which <a href="https://ollama.com">Ollama</a> runs, with a model such as <code>qwen3</code> (8B or 14B) or <code>gpt-oss:20b</code>. Pick one without a <code>-cloud</code> tag: those run on Ollama's servers. An 8B model wants 16 GB of memory; 20 to 30B wants a 24 GB graphics card or a Mac with 32 GB or more.</li>
+  <li><strong>A chat client that speaks MCP</strong>, such as Open WebUI or LM Studio, unless you use Home Assistant's own assistant. Ollama runs the model; the chat client makes the MCP connection.</li>
   <li><strong>History to ask about.</strong> <strong>Backfill</strong> on the <strong>Health</strong> tab sends up to a year.</li>
 </ul>
 
 <h2 id="set-it-up">Set it up</h2>
 
-<h3>Route 1: Home Assistant with ha-mcp</h3>
+<h3 id="route-1-home-assistant-with-ha-mcp">Route 1: Home Assistant with ha-mcp</h3>
 
-<p>The integration keeps your history in long-term statistics, with IDs like <code>life_dashboard:&lt;entry&gt;_steps</code>. Home Assistant's built-in MCP server only offers current states, so it can answer “how many steps today” but not how this month compares with the last. <a href="https://github.com/homeassistant-ai/ha-mcp">ha-mcp</a>, a community project, has a history tool that reads long-term statistics.</p>
+<p>The integration keeps your history in long-term statistics, with IDs like <code>life_dashboard:&lt;entry&gt;_steps</code>. With its Assist API, Home Assistant's built-in MCP server only offers current states, so it can answer “how many steps today” but not how this month compares with the last. <a href="https://github.com/homeassistant-ai/ha-mcp">ha-mcp</a>, a community project, has a history tool that reads long-term statistics.</p>
 
 <ol>
   <li>In HACS, add <code>homeassistant-ai/ha-mcp-integration</code> as a custom repository and install it. It needs Home Assistant 2026.8 or later. Restart, then add <strong>HA-MCP Custom Component</strong> under <strong>Add integration</strong> and choose <strong>HA-MCP Server</strong>.</li>
   <li>In the <strong>HA-MCP</strong> panel in the sidebar, switch on <strong>Read Only Mode</strong>.</li>
   <li>Under <strong>Configure</strong>, turn off <strong>Remote access via webhook</strong> and set <strong>Network access</strong> to <code>127.0.0.1</code>, unless a client on another machine needs it.</li>
-  <li>Connect a model. Inside Home Assistant, add the Ollama integration, create a conversation agent with a tool-capable model and choose ha-mcp under <strong>Control Home Assistant</strong>. Or add ha-mcp's URL in Open WebUI or LM Studio, and switch on its tool search in the <strong>HA-MCP</strong> panel. Treat that URL as an administrator password.</li>
-  <li>Give the model the statistic ID, which <strong>Developer tools</strong> &gt; <strong>Statistics</strong> lists, and ask for monthly averages with <code>ha_get_history</code>.</li>
+  <li>Connect a model. Inside Home Assistant, add the Ollama integration, create a conversation agent with a tool-capable model and choose <strong>HA-MCP Server (tool search)</strong> under <strong>Control Home Assistant</strong>. Or add ha-mcp's URL in Open WebUI or LM Studio, and switch on its tool search in the <strong>HA-MCP</strong> panel. Treat that URL as an administrator password.</li>
+  <li>Give the model the statistic ID, which <strong>Developer tools</strong> &gt; <strong>Statistics</strong> lists, and ask for monthly averages with <code>ha_get_history</code> from its statistics.</li>
 </ol>
 
-<h3>Route 2: the stack with its read-only database role</h3>
+<h3 id="route-2-the-stack-with-its-read-only-database-role">Route 2: the stack with its read-only database role</h3>
 
 <p><a href="../grafana/">The Life Dashboard stack</a> stores every record in Postgres, in one table, <code>records</code>, with the record as JSON. Its <code>dash</code> views turn those records into days, nights and workouts in your time zone, so a model doesn't have to write SQL against nested JSON.</p>
 
@@ -199,9 +236,9 @@
   <li>Ask: “Using <code>sleep_nights</code> and <code>workouts</code>, how did my deep sleep compare in weeks with three or more runs against weeks with fewer?”</li>
 </ol>
 
-<p>The stack keeps series sent per time window in its <code>buckets</code> table, but only its heart rate views read them. Leave <strong>Data Resolution</strong> on the <strong>Health</strong> tab at <strong>Every record</strong>, the default, for the types you want to ask about. The <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/recipes/ask-your-own-llm.md">full recipe</a> has the Compose service and the DBHub config, checked against the stack on October 7, 2026.</p>
+<p>The stack keeps series sent per time window in its <code>buckets</code> table, but only its heart rate views read them. Leave <strong>Data Resolution</strong> on the <strong>Health</strong> tab at <strong>Every record</strong>, the default, for the types you want to ask about. The <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/recipes/ask-your-own-llm.md">full recipe</a> has the Compose service and the DBHub config.</p>
 
-<h3>Route 3: your own Postgres</h3>
+<h3 id="route-3-your-own-postgres">Route 3: your own Postgres</h3>
 
 <p>If n8n or a receiver of your own already stores the payloads in a Postgres you run, the same pattern works there.</p>
 
@@ -224,7 +261,7 @@ GRANT SELECT ON records, daily_totals TO llm_ro;</code></pre>
 <h2 id="what-you-get">What you get</h2>
 
 <ul>
-  <li>Answers about your own history, such as monthly step averages or your sleep in weeks you trained more, from a model on your own hardware.</li>
+  <li>Answers about your own history, such as monthly step averages or your sleep in weeks you trained more, from a model you choose, on your own hardware if you like.</li>
   <li>Read-only access. With a read-only role or <strong>Read Only Mode</strong>, the model can't change a setting, delete a record or switch a device.</li>
 </ul>
 
@@ -252,12 +289,20 @@ GRANT SELECT ON records, daily_totals TO llm_ro;</code></pre>
     <p>No. The app contains no AI and never talks to a model. It sends only to the destinations you set up; the model reads from your receiver.</p>
   </details>
   <details>
-    <summary>Can I use a cloud model instead?</summary>
-    <p>You can point one at the same server, but then your questions, every query result and the answers go to the provider. A connector in a web app also needs your server reachable from the internet.</p>
+    <summary>Can I use a cloud model such as Claude instead?</summary>
+    <p>You can point one at the same server, but then your questions, every query result and the answers go to the provider. Claude Desktop can run an MCP server on your own computer. A custom connector in Claude, or a connector in another web app, connects from the provider's cloud and needs your server reachable from the internet.</p>
+  </details>
+  <details>
+    <summary>Can I connect Health Connect to Claude or ChatGPT in Europe?</summary>
+    <p>Not with their own health connectors. As of October 2026, Claude's Apple Health and Health Connect integration and Health in ChatGPT are only for users in the US, and ChatGPT's help page names Apple Health, not Health Connect. Your own MCP server works anywhere: the model reads the history you keep in Home Assistant or Postgres.</p>
+  </details>
+  <details>
+    <summary>Is there a Health Connect MCP server?</summary>
+    <p>Health Connect has no web API: it lives on the phone, so a server can't read it directly. Life Dashboard Companion sends the data to Home Assistant or Postgres, and an MCP server there, such as ha-mcp or DBHub in read-only mode, gives a model your history. That works for Samsung Health, Fitbit, Garmin and any other app that writes to Health Connect, for the types each app shares there.</p>
   </details>
   <details>
     <summary>Why not Home Assistant's built-in MCP server?</summary>
-    <p>It gives a model the current state of the entities you exposed to Assist, with no tool for history or statistics. It can answer questions about today, not about last month.</p>
+    <p>With the Assist API, it gives a model the current state of the entities you exposed to Assist, with no tool for history or statistics. It can answer questions about today, not about last month.</p>
   </details>
 </section>
     </article>
@@ -271,15 +316,19 @@ GRANT SELECT ON records, daily_totals TO llm_ro;</code></pre>
       <nav class="box" aria-label="Guides">
         <h2>Guides</h2>
         <ul>
-          <li><a href="../health-connect-home-assistant/">Samsung Health and Health Connect in Home Assistant</a></li>
+          <li><a href="../health-connect-home-assistant/">Health Connect in Home Assistant</a></li>
+          <li><a href="../samsung-health-home-assistant/">Samsung Health and Galaxy Watch in Home Assistant</a></li>
+          <li><a href="../companion-app-health-connect/">The companion app and Health Connect</a></li>
           <li><a href="../health-connect-webhook/">Health Connect to a webhook</a></li>
           <li><a href="../screen-time-home-assistant/">Screen time in Home Assistant</a></li>
           <li><a href="../smart-scale-to-samsung-health/">Smart scale to Samsung Health</a></li>
+          <li><a href="../health-connect-n8n/">Health Connect to n8n</a></li>
+          <li><a href="../health-connect-data-types/">Health Connect data types, app by app</a></li>
           <li><a href="../health-data-api/">A web API for Health Connect or Apple Health</a></li>
           <li><a href="../samsung-health-export/">Samsung Health to your own server</a></li>
           <li><a href="../fitbit-home-assistant/">Fitbit and Pixel Watch in Home Assistant</a></li>
           <li><a href="../garmin-home-assistant/">Garmin in Home Assistant</a></li>
-          <li><a href="../health-data-own-ai/" aria-current="page">Ask your own AI about your health data</a></li>
+          <li><a href="../health-data-own-ai/" aria-current="page">Health Connect data over MCP, for your own AI</a></li>
         </ul>
       </nav>
       <div class="box">
@@ -313,15 +362,19 @@ GRANT SELECT ON records, daily_totals TO llm_ro;</code></pre>
       <div>
         <h2 class="foot-h">Guides</h2>
         <ul>
-          <li><a href="../health-connect-home-assistant/">Samsung Health and Health Connect in Home Assistant</a></li>
+          <li><a href="../health-connect-home-assistant/">Health Connect in Home Assistant</a></li>
+          <li><a href="../samsung-health-home-assistant/">Samsung Health and Galaxy Watch in Home Assistant</a></li>
+          <li><a href="../companion-app-health-connect/">The companion app and Health Connect</a></li>
           <li><a href="../health-connect-webhook/">Health Connect to a webhook</a></li>
           <li><a href="../screen-time-home-assistant/">Screen time in Home Assistant</a></li>
           <li><a href="../smart-scale-to-samsung-health/">Smart scale to Samsung Health</a></li>
+          <li><a href="../health-connect-n8n/">Health Connect to n8n</a></li>
+          <li><a href="../health-connect-data-types/">Health Connect data types, app by app</a></li>
           <li><a href="../health-data-api/">A web API for Health Connect or Apple Health</a></li>
           <li><a href="../samsung-health-export/">Samsung Health to your own server</a></li>
           <li><a href="../fitbit-home-assistant/">Fitbit and Pixel Watch in Home Assistant</a></li>
           <li><a href="../garmin-home-assistant/">Garmin in Home Assistant</a></li>
-          <li><a href="../health-data-own-ai/">Ask your own AI about your health data</a></li>
+          <li><a href="../health-data-own-ai/">Health Connect data over MCP, for your own AI</a></li>
         </ul>
       </div>
       <div>
