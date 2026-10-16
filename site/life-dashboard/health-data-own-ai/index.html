@@ -5,17 +5,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Health Connect data over MCP, for your own AI | Life Dashboard</title>
-<meta name="description" content="A read-only MCP server lets Claude or a local model read your Health Connect and Apple Health history, also in Europe. Life Dashboard Companion sends the data.">
+<meta name="description" content="The Life Dashboard stack has a read-only MCP server, so Claude or a local model can read your Health Connect and Apple Health history, also in Europe.">
 <link rel="canonical" href="https://owen282000.com/life-dashboard/health-data-own-ai/">
 <meta name="robots" content="max-image-preview:large">
 <meta name="theme-color" content="#101418">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png">
 <link rel="apple-touch-icon" href="../img/icon-180.png">
-<link rel="stylesheet" href="../site.css?v=53e7e5c2">
+<link rel="stylesheet" href="../site.css?v=8618951c">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="How do I ask my own AI about my Health Connect or Apple Health data over MCP?">
-<meta property="og:description" content="A read-only MCP server lets Claude or a local model read your Health Connect and Apple Health history, also in Europe. Life Dashboard Companion sends the data.">
+<meta property="og:description" content="The Life Dashboard stack has a read-only MCP server, so Claude or a local model can read your Health Connect and Apple Health history, also in Europe.">
 <meta property="og:url" content="https://owen282000.com/life-dashboard/health-data-own-ai/">
 <meta property="og:image" content="https://owen282000.com/life-dashboard/img/social.png">
 <meta property="og:image:width" content="1280">
@@ -29,7 +29,7 @@
     {
       "@type": "TechArticle",
       "headline": "How do I ask my own AI about my Health Connect or Apple Health data over MCP?",
-      "description": "A read-only MCP server lets Claude or a local model read your Health Connect and Apple Health history, also in Europe. Life Dashboard Companion sends the data.",
+      "description": "The Life Dashboard stack has a read-only MCP server, so Claude or a local model can read your Health Connect and Apple Health history, also in Europe.",
       "url": "https://owen282000.com/life-dashboard/health-data-own-ai/",
       "inLanguage": "en",
       "author": {
@@ -38,17 +38,17 @@
       "about": [
         {
           "@type": "SoftwareApplication",
-          "@id": "https://owen282000.com/life-dashboard/#integration",
-          "name": "Life Dashboard integration for Home Assistant"
+          "@id": "https://owen282000.com/life-dashboard/#stack",
+          "name": "Life Dashboard stack"
         },
         {
           "@type": "SoftwareApplication",
-          "@id": "https://owen282000.com/life-dashboard/#stack",
-          "name": "Life Dashboard stack"
+          "@id": "https://owen282000.com/life-dashboard/#integration",
+          "name": "Life Dashboard integration for Home Assistant"
         }
       ],
       "datePublished": "2026-10-06",
-      "dateModified": "2026-10-14",
+      "dateModified": "2026-10-16",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -95,7 +95,7 @@
           "name": "Does Life Dashboard Companion send my data to an AI?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. The app contains no AI and never talks to a model. It sends only to the destinations you set up; the model reads from your receiver."
+            "text": "No. The app contains no AI and never talks to a model, and the stack sends nothing to any AI by itself. The app sends only to the destinations you set up; a model reads from your receiver once you connect one."
           }
         },
         {
@@ -103,7 +103,7 @@
           "name": "Can I use a cloud model such as Claude instead?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "You can point one at the same server, but then your questions, every query result and the answers go to the provider. Claude Desktop can run an MCP server on your own computer. A custom connector in Claude, or a connector in another web app, connects from the provider's cloud and needs your server reachable from the internet."
+            "text": "Yes. Claude Desktop can start the stack's MCP server on your own computer over stdio, and any client that speaks Streamable HTTP can use it with the token. Then your questions, every tool result and the answers go to the provider. A custom connector in Claude, or a connector in another web app, connects from the provider's cloud and needs your server reachable from the internet."
           }
         },
         {
@@ -111,7 +111,7 @@
           "name": "Can I connect Health Connect to Claude or ChatGPT in Europe?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Not with their own health connectors. As of October 2026, Claude's Apple Health and Health Connect integration and Health in ChatGPT are only for users in the US, and ChatGPT's help page names Apple Health, not Health Connect. Your own MCP server works anywhere: the model reads the history you keep in Home Assistant or Postgres."
+            "text": "Not with their own health connectors. As of October 2026, Claude's Apple Health and Health Connect integration and Health in ChatGPT are only for users in the US, and ChatGPT's help page names Apple Health, not Health Connect. Your own MCP server works anywhere: the model reads the history you keep in the stack, Home Assistant or Postgres."
           }
         },
         {
@@ -119,7 +119,7 @@
           "name": "Is there a Health Connect MCP server?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Health Connect has no web API: it lives on the phone, so a server can't read it directly. Life Dashboard Companion sends the data to Home Assistant or Postgres, and an MCP server there, such as ha-mcp or DBHub in read-only mode, gives a model your history. That works for Samsung Health, Fitbit, Garmin and any other app that writes to Health Connect, for the types each app shares there."
+            "text": "Not on the phone: Health Connect has no web API, so a server can't read it directly. Life Dashboard Companion sends the data to a server of your own, and the Life Dashboard stack has an MCP server built in, with six read-only tools for days, nights, workouts, trends and screen time. In Home Assistant, ha-mcp reads the integration's history, and on a Postgres of your own, DBHub in read-only mode does. That works for Samsung Health, Fitbit, Garmin and any other app that writes to Health Connect, for the types each app shares there."
           }
         },
         {
@@ -169,20 +169,20 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Health Connect data over MCP, for your own AI</span></nav>
 <h1>How do I ask my own AI about my Health Connect or Apple Health data over MCP?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 14, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 16, 2026.</p>
 
-<p>Send your data with Life Dashboard Companion to Home Assistant, the Life Dashboard stack or a Postgres database you already run, put a read-only MCP server on top, and connect a model that can use MCP tools. A local model through Ollama keeps everything on your own hardware, and a cloud model such as Claude can use the same server. It works for Health Connect data from Samsung Health, Fitbit, Garmin and other apps, for Apple Health data from the iPhone app, and in Europe, where the health connectors of Claude and ChatGPT aren't available.</p>
-<p class="guide-cta"><a class="btn btn-primary btn-store" href="../home-assistant/">The Home Assistant route</a></p>
+<p>Send your data with Life Dashboard Companion to the Life Dashboard stack, start the stack's built-in MCP server, and connect a model that can use MCP tools. A local model through Ollama keeps everything on your own hardware, and Claude Desktop or another cloud client can use the same server. If your data goes to Home Assistant instead, ha-mcp reads its history; if it goes to a Postgres of your own, DBHub does. It works for Health Connect data from Samsung Health, Fitbit, Garmin and other apps, for Apple Health data from the iPhone app, and in Europe, where the health connectors of Claude and ChatGPT aren't available.</p>
+<p class="guide-cta"><a class="btn btn-primary btn-store" href="../grafana/#your-own-ai">The stack's MCP server</a></p>
 
-<p>The app itself contains no AI and never talks to a model. This is a recipe on the receiver side: you run the MCP server, and the model reads what your receiver already stores, through a connection that can't change anything.</p>
+<p>The app itself contains no AI and never talks to a model, and neither does the stack. The MCP server only answers a client you connect, and the model reads what your receiver already stores, through a connection that can't change anything.</p>
 
-<p class="flow-line"><span>Phone</span><span>Home Assistant, the stack or your Postgres</span><span>Read-only MCP server</span><span>Your model</span></p>
+<p class="flow-line"><span>Phone</span><span>The stack, Home Assistant or your Postgres</span><span>Read-only MCP server</span><span>Your model</span></p>
 
 <h2 id="how-it-fits-together">How it fits together</h2>
 
-<p><a href="https://modelcontextprotocol.io">MCP</a> is the standard way for a model to call tools, and a read-only MCP server on the receiver gives the model tools to look up your history. The <a href="../ios/">iPhone app</a> sends to the same integration and the same stack, so every route works for Apple Health data too.</p>
+<p><a href="https://modelcontextprotocol.io">MCP</a> is the standard way for a model to call tools, and a read-only MCP server on the receiver gives the model tools to look up your history. The <a href="../ios/">iPhone app</a> sends to the same stack and the same integration, so every route works for Apple Health data too.</p>
 
-<p>Use route 1 if you send to the Life Dashboard integration, route 2 if you run the stack, and route 3 if n8n or a receiver of your own already writes to a Postgres you run.</p>
+<p>Use route 1 if you run <a href="../grafana/">the Life Dashboard stack</a>: its MCP server is part of it. Use route 2 if you send to the Life Dashboard integration in Home Assistant, and route 3 if n8n or a receiver of your own already writes to a Postgres you run.</p>
 
 <h2 id="in-europe-where-the-official-health-connectors-aren-t-available">In Europe, where the official health connectors aren't available</h2>
 
@@ -196,24 +196,69 @@
 <p>So outside the US, the EEA, the UK and Switzerland included, neither assistant reads your Health Connect or Apple Health data by itself. The route on this page doesn't depend on where you live:</p>
 
 <ol>
-  <li>Your data sits in your own Home Assistant or Postgres, sent there by the app.</li>
-  <li>You run a read-only MCP server on top of it.</li>
+  <li>Your data sits in your own stack, Home Assistant or Postgres, sent there by the app.</li>
+  <li>A read-only MCP server runs on top of it: the stack's own, ha-mcp or DBHub.</li>
   <li>Any model that can use MCP tools reads it. That can be a local model, or Claude: Claude Desktop runs MCP servers on your own computer, and a custom connector in Claude connects from Anthropic's cloud, so that server must be reachable from the internet (<a href="https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp">Anthropic's help page</a>).</li>
 </ol>
 
-<p>The app doesn't come with an MCP server and doesn't talk to any AI. You run the server and decide which model may read it. With a cloud model, your questions and the query results go to its provider.</p>
+<p>You run the server and decide which model may read it. With a cloud model, your questions and the tool results go to its provider.</p>
 
 <h2 id="what-you-need">What you need</h2>
 
 <ul>
-  <li><strong>A model with tool support.</strong> The routes below use a local one, which <a href="https://ollama.com">Ollama</a> runs, with a model such as <code>qwen3</code> (8B or 14B) or <code>gpt-oss:20b</code>. Pick one without a <code>-cloud</code> tag: those run on Ollama's servers. An 8B model wants 16 GB of memory; 20 to 30B wants a 24 GB graphics card or a Mac with 32 GB or more.</li>
-  <li><strong>A chat client that speaks MCP</strong>, such as Open WebUI or LM Studio, unless you use Home Assistant's own assistant. Ollama runs the model; the chat client makes the MCP connection.</li>
+  <li><strong>A model with tool support.</strong> For a local one, <a href="https://ollama.com">Ollama</a> runs a model such as <code>qwen3</code> (8B or 14B) or <code>gpt-oss:20b</code>. Pick one without a <code>-cloud</code> tag: those run on Ollama's servers. An 8B model wants 16 GB of memory; 20 to 30B wants a 24 GB graphics card or a Mac with 32 GB or more.</li>
+  <li><strong>A chat client that speaks MCP</strong>, such as Open WebUI, LM Studio or Claude Desktop, unless you use Home Assistant's own assistant. Ollama runs the model; the chat client makes the MCP connection.</li>
   <li><strong>History to ask about.</strong> <strong>Backfill</strong> on the <strong>Health</strong> tab sends up to a year.</li>
 </ul>
 
 <h2 id="set-it-up">Set it up</h2>
 
-<h3 id="route-1-home-assistant-with-ha-mcp">Route 1: Home Assistant with ha-mcp</h3>
+<h3 id="route-1-the-stack-s-own-mcp-server">Route 1: the stack's own MCP server</h3>
+
+<p>The stack has an optional MCP server as a fourth image, next to the receiver, Postgres and Grafana. It reads the stack's <code>dash</code> views, which already turn records into days, nights and workouts in your time zone, so a model never has to write SQL against nested JSON.</p>
+
+<ol>
+  <li>In the stack's <code>.env</code>, set <code>MCP_TOKEN</code> to a long random string, different from <code>API_TOKEN</code>. The server refuses to start without one:
+<pre tabindex="0"><code>echo "MCP_TOKEN=$(openssl rand -hex 32)" &gt;&gt; .env</code></pre></li>
+  <li>Start it with its profile. A plain <code>docker compose up</code> leaves it out, so add <code>COMPOSE_PROFILES=mcp</code> to <code>.env</code> if upgrades should include it:
+<pre tabindex="0"><code>docker compose --profile mcp up -d</code></pre></li>
+  <li>Connect a client over Streamable HTTP, at <code>http://&lt;address of this machine&gt;:8090/mcp</code> with the header <code>Authorization: Bearer &lt;MCP_TOKEN&gt;</code>. In Open WebUI, add it under <strong>Admin settings</strong> &gt; <strong>Integrations</strong> &gt; <strong>External tool servers</strong> as the type MCP (Streamable HTTP), with the token as bearer authentication, then switch the tools on in a chat with your Ollama model. In LM Studio, add the URL and the header to <code>mcp.json</code>.</li>
+  <li>Or use Claude Desktop on the same machine, over stdio, without the port or the token. Under <strong>Settings</strong> &gt; <strong>Developer</strong> &gt; <strong>Edit Config</strong>, add the stack, with the folder of your <code>docker-compose.yml</code> as the path, and restart Claude Desktop:
+<pre tabindex="0"><code>{
+  "mcpServers": {
+    "life-dashboard": {
+      "command": "docker",
+      "args": ["compose", "--project-directory", "/path/to/life-dashboard",
+               "--profile", "mcp", "run", "--rm", "--no-deps", "-T",
+               "mcp", "python", "server.py", "--stdio"]
+    }
+  }
+}</code></pre>
+  Fetch the image once first with <code>docker compose --profile mcp pull mcp</code>.</li>
+  <li>Ask a direct question with a period: “Use trend for sleep_h over 28 days, then workouts for the same period, and tell me whether I slept longer on days I worked out.”</li>
+</ol>
+
+<p>The six tools:</p>
+
+<div class="table-wrap" tabindex="0" role="region" aria-label="Route 1: the stack&#x27;s own MCP server"><table>
+  <thead>
+    <tr><th scope="col">Tool</th><th scope="col">What it returns</th></tr>
+  </thead>
+  <tbody>
+    <tr><th scope="row"><code>list_phones</code></th><td>The phones, their last sync and the first and last day with data, plus the time zone and today's date. The model should call it first.</td></tr>
+    <tr><th scope="row"><code>daily_summary</code></th><td>One row per phone and day: steps, distance, calories, sleep, workouts, screen time, resting heart rate and weight. Up to 92 days.</td></tr>
+    <tr><th scope="row"><code>sleep_nights</code></th><td>One night per phone: bedtime, wake time, hours asleep and in bed, deep, light, REM and awake, and the overnight low heart rate.</td></tr>
+    <tr><th scope="row"><code>workouts</code></th><td>Every workout with its activity, start, end and minutes.</td></tr>
+    <tr><th scope="row"><code>trend</code></th><td>One metric, such as steps, sleep or resting heart rate, over the last 7 to 365 days against the same number of days before.</td></tr>
+    <tr><th scope="row"><code>screen_time</code></th><td>Screen time on one day, with the top 10 apps. Android only.</td></tr>
+  </tbody>
+</table></div>
+
+<p>Every tool reads as <code>dash_ro</code>, a database user that can only read the <code>dash</code> views, in read-only sessions that stop after 15 seconds. There's no tool that writes and none that takes SQL, so a model can't change or delete anything, and it can't read the raw records. Six tools with fixed parameters are also far easier for a small model than SQL. On Kubernetes, the stack's Helm chart runs the same server with <code>mcp.enabled</code>; the <a href="https://github.com/owen282000/life-dashboard-stack/blob/main/docs/mcp.md">MCP documentation</a> has every client and parameter.</p>
+
+<p>For a script rather than a model, the stack's receiver serves the same queries as a read-only JSON API under <code>/api/</code>, once you set <code>API_TOKEN</code>: days, nights, workouts, screen time, one metric as a series, and a trend. The <a href="https://github.com/owen282000/life-dashboard-stack/blob/main/docs/api.md">API documentation</a> lists every endpoint.</p>
+
+<h3 id="route-2-home-assistant-with-ha-mcp">Route 2: Home Assistant with ha-mcp</h3>
 
 <p>The integration keeps your history in long-term statistics, with IDs like <code>life_dashboard:&lt;entry&gt;_steps</code>. With its Assist API, Home Assistant's built-in MCP server only offers current states, so it can answer “how many steps today” but not how this month compares with the last. <a href="https://github.com/homeassistant-ai/ha-mcp">ha-mcp</a>, a community project, has a history tool that reads long-term statistics.</p>
 
@@ -225,22 +270,9 @@
   <li>Give the model the statistic ID, which <strong>Developer tools</strong> &gt; <strong>Statistics</strong> lists, and ask for monthly averages with <code>ha_get_history</code> from its statistics.</li>
 </ol>
 
-<h3 id="route-2-the-stack-with-its-read-only-database-role">Route 2: the stack with its read-only database role</h3>
+<h3 id="route-3-your-own-postgres-with-dbhub">Route 3: your own Postgres with DBHub</h3>
 
-<p><a href="../grafana/">The Life Dashboard stack</a> stores every record in Postgres, in one table, <code>records</code>, with the record as JSON. Its <code>dash</code> views turn those records into days, nights and workouts in your time zone, so a model doesn't have to write SQL against nested JSON.</p>
-
-<ol>
-  <li>Use the read-only role the stack already has, <code>grafana_ro</code>. It can read <code>records</code>, <code>buckets</code> and the <code>dash</code> views and nothing else, it's read-only by default, and its queries stop after 30 seconds. The receiver grants it again at every start, after it rebuilds the views. Its password is <code>GRAFANA_DB_PASSWORD</code> in <code>.env</code>.</li>
-  <li>Add <a href="https://github.com/bytebase/dbhub">DBHub</a> as an MCP server in <code>docker-compose.override.yml</code>, bound to <code>127.0.0.1:8081</code>. Its config defines a read-only SQL tool and three ready-made ones that read <code>dash.activity_days</code>, <code>dash.sleep_nights</code> and <code>dash.workouts</code>.</li>
-  <li>Start it with <code>docker compose up -d dbhub</code> and add <code>http://127.0.0.1:8081/mcp</code> in Open WebUI or LM Studio.</li>
-  <li>Ask: “Using <code>sleep_nights</code> and <code>workouts</code>, how did my deep sleep compare in weeks with three or more runs against weeks with fewer?”</li>
-</ol>
-
-<p>The stack keeps series sent per time window in its <code>buckets</code> table, but only its heart rate views read them. Leave <strong>Data Resolution</strong> on the <strong>Health</strong> tab at <strong>Every record</strong>, the default, for the types you want to ask about. The <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/recipes/ask-your-own-llm.md">full recipe</a> has the Compose service and the DBHub config.</p>
-
-<h3 id="route-3-your-own-postgres">Route 3: your own Postgres</h3>
-
-<p>If n8n or a receiver of your own already stores the payloads in a Postgres you run, the same pattern works there.</p>
+<p>If n8n or a receiver of your own already stores the payloads in a Postgres you run, a generic database MCP server such as <a href="https://github.com/bytebase/dbhub">DBHub</a> can give a model read-only access to it.</p>
 
 <ol>
   <li>Store records keyed on <code>uuid</code> as text, <code>daily_totals</code> as one row per date, and apply <code>deleted_records</code>, so a model can't count a walk twice or read a record you deleted. <a href="../health-connect-webhook/#store-it-in-postgres">Store it in Postgres</a> has the details.</li>
@@ -252,53 +284,55 @@ GRANT CONNECT ON DATABASE health TO llm_ro;
 GRANT USAGE ON SCHEMA public TO llm_ro;
 GRANT SELECT ON records, daily_totals TO llm_ro;</code></pre>
   Use your own table and database names, and grant <code>SELECT</code> on every view you add later.</li>
-  <li>Run DBHub in a folder of its own. Route 2's Compose service waits for the stack's receiver and needs the stack's <code>.env</code>, so it doesn't start without the stack; the recipe has a separate <code>docker-compose.yml</code> and <code>dbhub.toml</code> for this route.</li>
+  <li>Run DBHub in read-only mode, connected as that role, and add its URL in Open WebUI or LM Studio. The <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/recipes/ask-your-own-llm.md#route-3-your-own-postgres">recipe for this route</a> has a <code>docker-compose.yml</code> and a <code>dbhub.toml</code>.</li>
   <li>Add views with one row per day and per night. A model answers far better from those than from sleep sessions as JSON. The stack's <a href="https://github.com/owen282000/life-dashboard-stack/blob/main/receiver/views.sql"><code>views.sql</code></a> is a template: adapt its table and column names to yours.</li>
 </ol>
 
-<p>The stack's documentation doesn't cover running only its receiver against a Postgres you already run. The receiver does take its database from <code>DATABASE_URL</code>, and at every start it runs its migrations, rebuilds the <code>dash</code> schema and sets up the <code>grafana_ro</code> role, so if you try it, give it a database of its own and a user that may create roles.</p>
+<p>On Kubernetes, the stack's Helm chart can also use a Postgres 18 you already run, with a database of its own (its external mode), and then route 1 works there. With Docker Compose, running the stack against your own database isn't covered by its documentation.</p>
 
 <h2 id="what-you-get">What you get</h2>
 
 <ul>
   <li>Answers about your own history, such as monthly step averages or your sleep in weeks you trained more, from a model you choose, on your own hardware if you like.</li>
-  <li>Read-only access. With a read-only role or <strong>Read Only Mode</strong>, the model can't change a setting, delete a record or switch a device.</li>
+  <li>Read-only access. With the stack's tools, a read-only role or <strong>Read Only Mode</strong>, the model can't change a setting, delete a record or switch a device.</li>
 </ul>
 
 <h2 id="limits">Limits</h2>
 
 <ul>
-  <li>ha-mcp works with an administrator's access. Everyone who can talk to its conversation agent can ask about your health data, so give it its own agent, outside shared voice pipelines.</li>
-  <li>A question asked by voice also goes through your speech engine, which with Home Assistant Cloud isn't local.</li>
-  <li>The stack starts with default passwords for Grafana, the database and <code>grafana_ro</code>. Change them before you add another way in.</li>
-  <li>Types you didn't switch on, or days the phone didn't sync, aren't there to read. Screen time history only comes from Android phones.</li>
+  <li>With a cloud model, Claude Desktop included, your questions, every tool result it asks for and its answers go to the provider, under its retention and training settings. Claude Desktop runs the stack's server on your computer, but the conversation goes to Anthropic.</li>
+  <li>The stack's tools answer per day, per night and per workout, for up to 92 days per call, and a trend over up to 365. They don't hand out single readings or raw records.</li>
+  <li>Docker publishes the stack's MCP port on every network interface of the machine, and over plain HTTP the token and every answer cross your network readable. Set <code>MCP_PORT=127.0.0.1:8090</code> to keep it to the machine, and use TLS or a VPN beyond your own network. A custom connector in a web app calls from the provider's cloud and would need the server on the internet; the stack's documentation doesn't cover that.</li>
+  <li>The stack's <code>.env</code> starts with default passwords for Grafana and the two read-only users. Change them before you add another way in.</li>
+  <li>ha-mcp works with an administrator's access. Everyone who can talk to its conversation agent can ask about your health data, so give it its own agent, outside shared voice pipelines. A question asked by voice also goes through your speech engine, which with Home Assistant Cloud isn't local.</li>
+  <li>Types you didn't switch on, or days the phone didn't sync, aren't there to read. Screen time history only comes from Android phones. The stack keeps series sent per time window apart, and only its heart rate views read them, so leave <strong>Data Resolution</strong> on <strong>Every record</strong>, the default.</li>
   <li>Types your watch's app doesn't share with Health Connect aren't there either, and they decide which questions a model can answer. Samsung Health keeps HRV, resting heart rate and respiratory rate to itself, and Garmin Connect writes no HRV to Health Connect at all and keeps resting heart rate to itself.</li>
   <li>A model isn't a doctor. It can sum your steps correctly and still draw a wrong conclusion.</li>
 </ul>
 
 <div class="next">
-  <p>Start with the data: the integration or the stack, and a backfill of up to a year from the app.</p>
-  <a class="btn btn-primary btn-store" href="../home-assistant/">The Home Assistant route</a>
-  <a class="btn btn-ghost" href="../grafana/">The stack route</a>
+  <p>Start with the data: the stack or the integration, and a backfill of up to a year from the app.</p>
+  <a class="btn btn-primary btn-store" href="../grafana/#your-own-ai">The stack's MCP server</a>
+  <a class="btn btn-ghost" href="../home-assistant/">The Home Assistant route</a>
 </div>
 
 <section class="faq">
   <h2 id="faq">Common questions</h2>
   <details>
     <summary>Does Life Dashboard Companion send my data to an AI?</summary>
-    <p>No. The app contains no AI and never talks to a model. It sends only to the destinations you set up; the model reads from your receiver.</p>
+    <p>No. The app contains no AI and never talks to a model, and the stack sends nothing to any AI by itself. The app sends only to the destinations you set up; a model reads from your receiver once you connect one.</p>
   </details>
   <details>
     <summary>Can I use a cloud model such as Claude instead?</summary>
-    <p>You can point one at the same server, but then your questions, every query result and the answers go to the provider. Claude Desktop can run an MCP server on your own computer. A custom connector in Claude, or a connector in another web app, connects from the provider's cloud and needs your server reachable from the internet.</p>
+    <p>Yes. Claude Desktop can start the stack's MCP server on your own computer over stdio, and any client that speaks Streamable HTTP can use it with the token. Then your questions, every tool result and the answers go to the provider. A custom connector in Claude, or a connector in another web app, connects from the provider's cloud and needs your server reachable from the internet.</p>
   </details>
   <details>
     <summary>Can I connect Health Connect to Claude or ChatGPT in Europe?</summary>
-    <p>Not with their own health connectors. As of October 2026, Claude's Apple Health and Health Connect integration and Health in ChatGPT are only for users in the US, and ChatGPT's help page names Apple Health, not Health Connect. Your own MCP server works anywhere: the model reads the history you keep in Home Assistant or Postgres.</p>
+    <p>Not with their own health connectors. As of October 2026, Claude's Apple Health and Health Connect integration and Health in ChatGPT are only for users in the US, and ChatGPT's help page names Apple Health, not Health Connect. Your own MCP server works anywhere: the model reads the history you keep in the stack, Home Assistant or Postgres.</p>
   </details>
   <details>
     <summary>Is there a Health Connect MCP server?</summary>
-    <p>Health Connect has no web API: it lives on the phone, so a server can't read it directly. Life Dashboard Companion sends the data to Home Assistant or Postgres, and an MCP server there, such as ha-mcp or DBHub in read-only mode, gives a model your history. That works for Samsung Health, Fitbit, Garmin and any other app that writes to Health Connect, for the types each app shares there.</p>
+    <p>Not on the phone: Health Connect has no web API, so a server can't read it directly. Life Dashboard Companion sends the data to a server of your own, and the Life Dashboard stack has an MCP server built in, with six read-only tools for days, nights, workouts, trends and screen time. In Home Assistant, ha-mcp reads the integration's history, and on a Postgres of your own, DBHub in read-only mode does. That works for Samsung Health, Fitbit, Garmin and any other app that writes to Health Connect, for the types each app shares there.</p>
   </details>
   <details>
     <summary>Why not Home Assistant's built-in MCP server?</summary>
