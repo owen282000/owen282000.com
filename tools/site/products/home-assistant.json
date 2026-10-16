@@ -143,11 +143,15 @@
       "a": "No. The phone pushes a signed payload on its own schedule, and nothing in Home Assistant polls. A payload that fails while Home Assistant restarts waits in the app's outbox and goes out with the next sync."
     },
     {
+      "q": "Can an AI read the history?",
+      "a": "Yes, a model you choose, through ha-mcp, a community MCP server for Home Assistant with a history tool that reads long-term statistics. Home Assistant's built-in MCP server only offers current states. With a local model nothing leaves your network; with a cloud model, your questions and the results go to its provider. <a href=\"../health-data-own-ai/\">Health Connect data over MCP</a> has the setup, and the stack's own MCP server if you'd rather keep the data in Postgres."
+    },
+    {
       "q": "What happens when I remove a phone?",
       "a": "Deleting the entry removes the device and its sensors, deletes its cloudhook if it had one, and deletes the phone's files in <code>.storage</code>. Its long-term statistics stay in the recorder, as they do for any integration you remove."
     }
   ],
-  "updated": "2026-10-14",
+  "updated": "2026-10-16",
   "guides": [
     "health-connect-home-assistant",
     "fitbit-home-assistant",
@@ -186,7 +190,7 @@
       [
         "Other destinations",
         "Home Assistant",
-        "Also MQTT, any webhook and a Grafana stack"
+        "Also MQTT, any webhook and <a href=\"../grafana/\">the Grafana stack</a>"
       ]
     ],
     "source": "From the companion app's <a href=\"https://companion.home-assistant.io/docs/core/sensors\">sensor documentation</a> and its code, as of release 2026.8.4. <a href=\"../companion-app-health-connect/\">The companion app and Health Connect</a> goes row by row."

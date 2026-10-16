@@ -9,7 +9,8 @@ anywhere after changing any page or any data below:
 
 What it writes:
 - products/<slug>.json becomes site/life-dashboard/<slug>/index.html (Android, iPhone,
-  Home Assistant, Grafana).
+  Home Assistant, Grafana). Each section shows an "image", or a "code" window ({"title",
+  "code"}) instead.
 - guides/<slug>.html becomes site/life-dashboard/<slug>/index.html. Each guide starts
   with a comment holding its title and description; screenshot placeholders like
   <!-- IMG: pair dialog (A2-pair.png) --> become figures.
@@ -115,16 +116,18 @@ PARTS = {
     },
     "grafana": {
         "name": "Grafana stack", "full": "Life Dashboard stack",
-        "line": "Postgres and Grafana dashboards, self-hosted",
+        "line": "Postgres, Grafana, an API and MCP, self-hosted",
         "glyph": '<path d="M4 20h16"/><path d="M6.5 16v-4"/><path d="M11 16V7"/><path d="M15.5 16v-6"/><path d="M20 16V4"/>',
-        "get_title": "Run the stack", "req_short": "Docker with Compose.",
+        "get_title": "Run the stack", "req_short": "Docker with Compose, or Kubernetes.",
         "get": [
             {"id": "compose", "kind": "store", "name": "Docker Compose", "status": "live", "href": REPO_STACK + "#quick-start", "cta": "Run with Docker Compose",
-             "note": "Clone the repository, set four values in .env, then docker compose up -d --build."},
+             "note": "Download docker-compose.yml and the example .env from the latest release, set the secret, your time zone, the address and the passwords, then docker compose up -d. Nothing to clone or build."},
             {"id": "demo", "name": "Demo data", "status": "live", "href": REPO_STACK + "#try-it-without-a-phone",
-             "note": "60 days of made-up data for two phones, before any phone of yours is involved."},
+             "note": "60 days of made-up data for two phones, from the same compose file, before any phone of yours is involved."},
+            {"id": "helm", "name": "Helm chart for Kubernetes", "status": "live", "href": REPO_STACK + "/blob/main/docs/kubernetes.md",
+             "note": "The same images on a cluster of your own, with Postgres from CloudNativePG, a bundled StatefulSet or a database you already run."},
         ],
-        "requires": "Docker with Compose on a machine your phone can reach.",
+        "requires": "Docker with Compose on a machine your phone can reach, or a Kubernetes cluster with Helm.",
     },
 }
 ORDER = ["android", "ios", "home-assistant", "grafana"]
@@ -171,7 +174,7 @@ GUIDES = [
     ("garmin-home-assistant", "Garmin in Home Assistant", "Garmin",
      "Steps, sleep and heart rate from Garmin Connect, with no Garmin login in Home Assistant."),
     ("health-data-own-ai", "Health Connect data over MCP, for your own AI", "MCP",
-     "A read-only MCP server lets a local model or Claude read your history. Works in Europe too."),
+     "The stack's read-only MCP server lets a local model or Claude read your history. Works in Europe too."),
 ]
 GUIDES = [g for g in GUIDES if (Path(__file__).resolve().parent / "guides" / f"{g[0]}.html").exists()]
 GUIDE_NAMES = {g[0]: g[1] for g in GUIDES}
@@ -184,7 +187,7 @@ GUIDE_ABOUT = {
     "samsung-health-export": ["#android"],
     "fitbit-home-assistant": ["#android", "#integration"],
     "garmin-home-assistant": ["#android", "#integration"],
-    "health-data-own-ai": ["#integration", "#stack"],
+    "health-data-own-ai": ["#stack", "#integration"],
     "health-connect-home-assistant": ["#android", "#integration"],
     "health-connect-webhook": ["#android", "#ios"],
     "screen-time-home-assistant": ["#android", "#integration"],
@@ -235,8 +238,8 @@ NEXT = {
         [("btn-primary btn-store", HACS, "Open in HACS"), ("btn-ghost", "../android/#get", "Get the Android app")]),
     "garmin-home-assistant": ("Two installs: the integration from HACS and the app on your phone. After that, switch on Health Connect in Garmin Connect and pair with one QR code.",
         [("btn-primary btn-store", HACS, "Open in HACS"), ("btn-ghost", "../android/#get", "Get the Android app")]),
-    "health-data-own-ai": ("Start with the data: the integration or the stack, and a backfill of up to a year from the app.",
-        [("btn-primary btn-store", "../home-assistant/", "The Home Assistant route"), ("btn-ghost", "../grafana/", "The stack route")]),
+    "health-data-own-ai": ("Start with the data: the stack or the integration, and a backfill of up to a year from the app.",
+        [("btn-primary btn-store", "../grafana/#your-own-ai", "The stack's MCP server"), ("btn-ghost", "../home-assistant/", "The Home Assistant route")]),
     "health-connect-home-assistant": ("Two installs: the integration from HACS and the app on your phone. After that, pairing takes a minute.",
         [("btn-primary btn-store", HACS, "Open in HACS"), ("btn-ghost", "../android/#get", "Get the Android app")]),
     "health-connect-webhook": ("Install the app, point it at your URL and tap <strong>Test ping</strong>. The payload reference has every field and a receiver in Python and Node.js.",
@@ -291,9 +294,12 @@ ENTITIES = {
         "author": {"@id": f"{BASE}#owen"}, "sameAs": [REPO_HA]},
     "grafana": {
         "@type": "SoftwareApplication", "@id": f"{BASE}#stack", "name": "Life Dashboard stack",
-        "description": "The Life Dashboard stack is an open-source Docker Compose setup with a receiver, Postgres and six Grafana dashboards for data from the Life Dashboard Companion apps.",
+        "description": "The Life Dashboard stack is an open-source, self-hosted backend for the Life Dashboard Companion apps: a receiver, Postgres and six Grafana dashboards, with a read-only API and an optional MCP server, installed with Docker Compose or a Helm chart.",
         "applicationCategory": "UtilitiesApplication", "applicationSubCategory": "Self-hosted backend",
-        "operatingSystem": "Linux, macOS or Windows with Docker", "url": f"{BASE}grafana/",
+        "featureList": ["Published images for amd64 and arm64, installed with one docker-compose.yml",
+                        "Pairing by QR code", "Six Grafana dashboards", "A read-only JSON API",
+                        "An MCP server with six read-only tools", "A Helm chart for Kubernetes with CloudNativePG"],
+        "operatingSystem": "Linux, macOS or Windows with Docker, or Kubernetes", "url": f"{BASE}grafana/",
         "license": "https://opensource.org/licenses/MIT", "isPartOf": {"@id": f"{BASE}#project"},
         "author": {"@id": f"{BASE}#owen"}, "sameAs": [REPO_STACK]},
 }
@@ -323,6 +329,7 @@ ICONS = {
     "ha-setup": '<path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6h.01M4 12h.01M4 18h.01"/>',
     "compose": '<rect x="3.5" y="9" width="17" height="10" rx="2"/><path d="M7 9V6h4v3M13 9V6h4v3"/>',
     "demo": '<path d="M4 19V5m0 14h16M8 15v-3m4 3V9m4 6v-5m4 5V7"/>',
+    "helm": '<circle cx="12" cy="12" r="6.5"/><circle cx="12" cy="12" r="2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/>',
 }
 
 
@@ -421,7 +428,7 @@ def get_section(prefix):
     return f"""<div class="section-head">
       <div class="kicker">Get it</div>
       <h2>Pick your phone, then pick where the data goes</h2>
-      <p>Using Home Assistant? Add the integration first; the app scans its QR code.</p>
+      <p>Using Home Assistant or the stack? Set that up first; the app scans its QR code.</p>
     </div>
     <div class="get-grid">
       {cards}
@@ -512,7 +519,7 @@ def parts_strip(prefix):
     phones = "".join(cell(f"{prefix}{s}/", PARTS[s]["glyph"], PARTS[s]["name"], short[s]) for s in ("android", "ios"))
     webhook_glyph = '<path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/>'
     dests = (cell(f"{prefix}home-assistant/", PARTS["home-assistant"]["glyph"], "Home Assistant", "Sensors and history")
-             + cell(f"{prefix}grafana/", PARTS["grafana"]["glyph"], "Grafana stack", "Postgres and dashboards")
+             + cell(f"{prefix}grafana/", PARTS["grafana"]["glyph"], "Grafana stack", "Dashboards, API and MCP")
              + cell(f"{prefix}#own-server", webhook_glyph, "Your own server", "MQTT or JSON"))
     return f"""<nav class="parts-strip" aria-label="The apps and where the data goes"><div class="wrap">
     <div class="ps-group"><span class="ps-label">On your phone</span><div class="ps-cells two">{phones}</div></div>
@@ -789,12 +796,18 @@ def build_product(slug):
     for i, s in enumerate(d["sections"]):
         bullets = "\n          ".join(
             f'<li>{b["main"]}' + (f' <span>{b["sub"]}</span>' if b.get("sub") else "") + "</li>" for b in s["bullets"])
-        kind = IMAGES[s["image"]][0]
-        stage = "purple-glow" if s["image"] in PURPLE else "green-glow"
-        tone = " purple" if s["image"] in PURPLE else ""
-        media = (f'<div class="show-media{" is-wide" if kind == "wide" else ""}{" has-card" if kind == "card" else ""}"><div class="stage {stage}"></div>'
-                 + (f'{image(s["image"], prefix, "p1")}{image(s["image2"], prefix, "p2")}' if s.get("image2") else image(s["image"], prefix, "solo"))
-                 + '</div>')
+        if s.get("code"):
+            # A section can show a code window instead of a screenshot.
+            tone = ""
+            media = (f'<div class="show-code"><div class="code-window"><div class="code-bar"><i></i><i></i><i></i><span>{html.escape(s["code"]["title"])}</span></div>'
+                     f'<pre tabindex="0"><code>{html.escape(s["code"]["code"])}</code></pre></div></div>')
+        else:
+            kind = IMAGES[s["image"]][0]
+            stage = "purple-glow" if s["image"] in PURPLE else "green-glow"
+            tone = " purple" if s["image"] in PURPLE else ""
+            media = (f'<div class="show-media{" is-wide" if kind == "wide" else ""}{" has-card" if kind == "card" else ""}"><div class="stage {stage}"></div>'
+                     + (f'{image(s["image"], prefix, "p1")}{image(s["image2"], prefix, "p2")}' if s.get("image2") else image(s["image"], prefix, "solo"))
+                     + '</div>')
         link = f'<a class="link-arrow" href="{s["link"]["href"]}">{html.escape(s["link"]["text"])}</a>' if s.get("link") else ""
         rows.append(f"""<div class="show{" flip" if i % 2 else ""}" id="{slugify(s["kicker"])}">
       {media}

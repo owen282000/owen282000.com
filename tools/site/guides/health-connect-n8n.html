@@ -3,7 +3,7 @@ title: Health Connect and Apple Health to n8n | Life Dashboard
 description: A working n8n workflow for Health Connect and Apple Health data: a Webhook node, an HMAC check in a Code node, then Postgres, Google Sheets or Telegram.
 primary query: health connect n8n
 secondary queries: samsung health n8n, apple health n8n, health connect webhook n8n, n8n health data, garmin n8n, n8n webhook hmac signature, n8n webhook raw body
-updated: 2026-10-14
+updated: 2026-10-16
 published: 2026-10-14
 -->
 
@@ -156,6 +156,8 @@ return (p?.deleted_records ?? []).map(d =&gt; ({ json: { type: d.type, uuid: d.u
 WHERE type = $1 AND (uuid = $2 OR starts_with(uuid, $2 || '#'));</code></pre>
 
 <p>The second half deletes the samples of a heart rate or skin temperature record from Android. From an iPhone, a sleep deletion names one stage of the night, not the night, so this query leaves the night in place. A type listed in <code>deletions_unavailable</code> can't be vouched for on that sync: run a backfill from the app to reconcile it.</p>
+
+<p>Once the records are in Postgres, a model can read them through a read-only role and an MCP server: <a href="../health-data-own-ai/">Health Connect data over MCP</a> has that route. If you'd rather not build the storage yourself, the receiver of <a href="../grafana/">the Life Dashboard stack</a> deduplicates and deletes the same way, with dashboards, a read-only API and an MCP server on top.</p>
 
 <h2>Google Sheets or Telegram instead</h2>
 

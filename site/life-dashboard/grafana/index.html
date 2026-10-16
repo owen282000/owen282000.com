@@ -4,18 +4,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Self-hosted Grafana health dashboard | Life Dashboard</title>
-<meta name="description" content="The Life Dashboard stack is a self-hosted Docker Compose setup with Postgres and six Grafana dashboards for Health Connect, Apple Health and screen time data.">
+<title>Self-hosted Grafana health stack with MCP | Life Dashboard</title>
+<meta name="description" content="Postgres, six Grafana dashboards, a read-only API and an MCP server for your Health Connect and Apple Health data. One compose file, or Helm on Kubernetes.">
 <link rel="canonical" href="https://owen282000.com/life-dashboard/grafana/">
 <meta name="robots" content="max-image-preview:large">
 <meta name="theme-color" content="#101418">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png">
 <link rel="apple-touch-icon" href="../img/icon-180.png">
-<link rel="stylesheet" href="../site.css?v=53e7e5c2">
+<link rel="stylesheet" href="../site.css?v=8618951c">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Life Dashboard">
-<meta property="og:title" content="A self-hosted Grafana dashboard for your health data">
-<meta property="og:description" content="The Life Dashboard stack is a self-hosted Docker Compose setup with Postgres and six Grafana dashboards for Health Connect, Apple Health and screen time data.">
+<meta property="og:title" content="Your health data in your own Postgres and Grafana">
+<meta property="og:description" content="Postgres, six Grafana dashboards, a read-only API and an MCP server for your Health Connect and Apple Health data. One compose file, or Helm on Kubernetes.">
 <meta property="og:url" content="https://owen282000.com/life-dashboard/grafana/">
 <meta property="og:image" content="https://owen282000.com/life-dashboard/img/social.png">
 <meta property="og:image:width" content="1280">
@@ -47,8 +47,8 @@
       "@type": "WebPage",
       "@id": "https://owen282000.com/life-dashboard/grafana/",
       "url": "https://owen282000.com/life-dashboard/grafana/",
-      "name": "Self-hosted Grafana health dashboard | Life Dashboard",
-      "description": "The Life Dashboard stack is a self-hosted Docker Compose setup with Postgres and six Grafana dashboards for Health Connect, Apple Health and screen time data.",
+      "name": "Self-hosted Grafana health stack with MCP | Life Dashboard",
+      "description": "Postgres, six Grafana dashboards, a read-only API and an MCP server for your Health Connect and Apple Health data. One compose file, or Helm on Kubernetes.",
       "about": {
         "@id": "https://owen282000.com/life-dashboard/#stack"
       },
@@ -56,10 +56,18 @@
         "@type": "SoftwareApplication",
         "@id": "https://owen282000.com/life-dashboard/#stack",
         "name": "Life Dashboard stack",
-        "description": "The Life Dashboard stack is an open-source Docker Compose setup with a receiver, Postgres and six Grafana dashboards for data from the Life Dashboard Companion apps.",
+        "description": "The Life Dashboard stack is an open-source, self-hosted backend for the Life Dashboard Companion apps: a receiver, Postgres and six Grafana dashboards, with a read-only API and an optional MCP server, installed with Docker Compose or a Helm chart.",
         "applicationCategory": "UtilitiesApplication",
         "applicationSubCategory": "Self-hosted backend",
-        "operatingSystem": "Linux, macOS or Windows with Docker",
+        "featureList": [
+          "Published images for amd64 and arm64, installed with one docker-compose.yml",
+          "Pairing by QR code",
+          "Six Grafana dashboards",
+          "A read-only JSON API",
+          "An MCP server with six read-only tools",
+          "A Helm chart for Kubernetes with CloudNativePG"
+        ],
+        "operatingSystem": "Linux, macOS or Windows with Docker, or Kubernetes",
         "url": "https://owen282000.com/life-dashboard/grafana/",
         "license": "https://opensource.org/licenses/MIT",
         "isPartOf": {
@@ -85,7 +93,7 @@
         "inLanguage": "en"
       },
       "inLanguage": "en",
-      "dateModified": "2026-10-12"
+      "dateModified": "2026-10-16"
     },
     {
       "@type": "FAQPage",
@@ -95,7 +103,39 @@
           "name": "Can I try it before I connect a phone?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes, if you can run Docker. The demo profile starts the stack with 60 days of made-up data for two phones, under its own name and ports. The commands are under Run the stack. Without Docker, the screenshots on this page show the same dashboards."
+            "text": "Yes, if you can run Docker. The demo profile in the same compose file starts the stack with 60 days of made-up data for two phones, under its own name and ports. The commands are under Run the stack. Without Docker, the screenshots on this page show the same dashboards."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to clone the repository?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Each release has a docker-compose.yml and an example .env, and the receiver, Postgres, Grafana and the MCP server are published images for amd64 and arm64. A clone is only for changing the receiver, the views or the dashboards themselves: a second compose file then builds the images from it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my data sent anywhere?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. There's no Life Dashboard server and no account: the phones send to your receiver, and the data stays in your Postgres. Grafana's usage reporting and update checks are switched off. Data only leaves when you connect something yourself, such as a cloud model over MCP, a script with the API token, or a reverse proxy you open to the internet."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can my AI read the data?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Only if you let it. Start the optional MCP server with an MCP_TOKEN, and a model you connect gets six read-only tools for phones, days, nights, workouts, trends and screen time. It reads as dash_ro, so it can't write, delete or run SQL of its own. With a local model through Ollama, everything stays on your hardware; with a cloud model, Claude Desktop included, your questions and every tool result go to that provider. Health Connect data over MCP has the setup."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does it run on Kubernetes?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, with a Helm chart for Helm 3 or 4. By default Postgres runs as a CloudNativePG cluster, with replicas if you want them and backups to object storage through the Barman Cloud plugin. Without CloudNativePG, the chart runs Postgres as one bundled pod or uses a Postgres you already run. The pods meet the restricted Pod Security Standard, and NetworkPolicies, an Ingress and Gateway API routes are optional. docs/kubernetes.md has the steps."
           }
         },
         {
@@ -103,7 +143,7 @@
           "name": "Can I put it on the internet?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Put a reverse proxy with TLS in front of the receiver only, and allow request bodies of 32 MB. Keep Grafana on your own network or behind a VPN: anyone who can view a dashboard can read every health record through the data source. On your own network, change GRAFANA_PASSWORD and GRAFANA_DB_PASSWORD in .env before the first start: Grafana's admin password defaults to lifedash, and both Grafana and the receiver listen on every interface of the machine. The Postgres owner's password is fixed in docker-compose.yml; Postgres publishes no port, so only the receiver reaches it."
+            "text": "Put a reverse proxy with TLS in front of the receiver, forward only /webhook, and allow request bodies of 32 MB. The API shares the receiver's port, and /pair shows the signing secret: the receiver answers /pair only to your own network and never through a proxy, but a proxy that adds no forwarding header, or Docker Desktop's port forwarding, can make an outside request look local, so block it there or set PAIRING_PAGE=0. Keep Grafana and the MCP server on your own network or behind a VPN: anyone who can view a dashboard can read every health record. Before the first start, change GRAFANA_PASSWORD, GRAFANA_DB_PASSWORD and DASH_DB_PASSWORD in .env. Postgres publishes no port, so only the stack's own services reach it."
           }
         },
         {
@@ -111,7 +151,15 @@
           "name": "Can I use it next to Home Assistant?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes, as a second home for the data, with two things to know today. The app keeps one signing secret per tab, and pairing with Home Assistant sets it, so a stack with its own secret then refuses the payloads: run the stack without a secret or with the same one, or send one phone to each. And a payload counts as delivered once one destination takes it, so if the stack is down at that moment, it misses that payload."
+            "text": "Yes, as a second home for the data, with two things to know. The Android app has one signing secret per tab (Health, Screen Time), the iPhone app one for all its webhooks. Pairing adds the receiver's URL and replaces that secret, and the dialog names the URLs that get signed with the new one, so pairing with the stack after Home Assistant gives Home Assistant payloads it refuses. Pair with Home Assistant, add the stack's webhook URL by hand, and set WEBHOOK_SECRET in the stack's .env to the same secret; or send one phone to each. A secret per destination is planned. And a payload counts as delivered once one destination takes it, so if the stack is down at that moment, it misses that payload."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I upgrade?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Set LIFEDASH_VERSION in .env to the new release, then run docker compose pull && docker compose up -d. Set it to the major version alone, and every pull follows the releases that keep compatibility. Within a major version, the payloads, the database, the dash views, the read-only users, the settings and the ports stay the same, as docs/compatibility.md lists. An older install from a clone moves its data over once with a script that leaves the old volume untouched; the README has the steps."
           }
         },
         {
@@ -119,7 +167,7 @@
           "name": "How do I back it up?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "One pg_dump line writes a dump, and one pg_restore line puts it into a fresh stack. Restart the receiver afterward so it rebuilds the views and the grafana_ro grants."
+            "text": "With Docker Compose, one pg_dump line writes a dump, and one pg_restore line puts it into a fresh stack. Restart the receiver afterward so it rebuilds the views and the grants of the read-only users. On Kubernetes with CloudNativePG, backups go to object storage on a schedule, and a restore starts a new cluster from them."
           }
         },
         {
@@ -127,15 +175,7 @@
           "name": "Can I change the dashboards?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. They're provisioned from grafana/dashboards/life-dashboard/, so Grafana won't save changes over them: use Save as for a copy, or edit the JSON file. Keep views of your own in the public schema, because the receiver rebuilds dash at every start."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What doesn't it do yet?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Series sent per time window are stored, but only the heart rate panels read them, so leave Data Resolution on Every record. Days follow the stack's one time zone, and a backfill doesn't remove records the phone no longer has. The known gaps list the rest."
+            "text": "Yes. They're built into the Grafana image, so Grafana won't save changes over them, and an upgrade brings their new versions along. Use Save as for a copy of your own, which an upgrade leaves alone. To change the originals, edit the JSON in a clone and build the images from it. Keep views of your own in the public schema, because the receiver rebuilds dash at every start."
           }
         },
         {
@@ -144,6 +184,14 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Yes. Run the receiver and Postgres from the stack, and in your own Grafana add a PostgreSQL data source for the stack's database with the read-only user grafana_ro and your GRAFANA_DB_PASSWORD. Then import the six dashboard files from grafana/dashboards/life-dashboard/ and pick that data source. grafana_ro can read the records, the buckets and the dash views, and nothing else."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What doesn't it do yet?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Series sent per time window are stored, but only the heart rate panels read them, so leave Data Resolution on Every record. Days follow the stack's one time zone, and a backfill doesn't remove records the phone no longer has. The API and the MCP server answer per day, night and workout, not with raw records. The known gaps list the rest."
           }
         }
       ]
@@ -206,12 +254,12 @@
     <div>
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Grafana stack</span></nav>
       <div class="eyebrow"><span>Open source</span><span>No cloud</span><span>No account</span></div>
-      <h1>A self-hosted Grafana dashboard for your health data</h1>
-      <p class="lead">The Life Dashboard stack is an open-source Docker Compose setup for both apps: a receiver that checks signatures, Postgres and six Grafana dashboards. It&#x27;s for people who want their records in SQL rather than in Home Assistant.</p>
+      <h1>Your health data in your own Postgres and Grafana</h1>
+      <p class="lead">The Life Dashboard stack is an open-source backend for both apps: a receiver that checks signatures, Postgres and six Grafana dashboards. One compose file installs it, each phone pairs by QR code, and a read-only API and an MCP server give the data back to your scripts and to an AI you choose.</p>
       <div class="cta-row stores">
         <a class="btn btn-primary btn-store" href="https://github.com/owen282000/life-dashboard-stack#quick-start"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="9" width="17" height="10" rx="2"/><path d="M7 9V6h4v3M13 9V6h4v3"/></svg>Run with Docker Compose</a>
       </div>
-      <p class="fineprint"><a class="nowrap" href="https://github.com/owen282000/life-dashboard-stack#try-it-without-a-phone">Demo data</a></p>
+      <p class="fineprint"><a class="nowrap" href="https://github.com/owen282000/life-dashboard-stack#try-it-without-a-phone">Demo data</a> · <a class="nowrap" href="https://github.com/owen282000/life-dashboard-stack/blob/main/docs/kubernetes.md">Helm chart for Kubernetes</a></p>
     </div>
     <div class="product-visual is-wide">
       <div class="wide-shot hero-shot"><div class="wide-bar"><i></i><i></i><i></i></div><a class="shot-link" href="../img/g-overview.webp" aria-label="The overview dashboard of the Grafana stack with demo data, full size"><img src="../img/g-overview.webp" alt="The overview dashboard of the Grafana stack with demo data" width="1400" height="728" fetchpriority="high"></a></div>
@@ -223,12 +271,12 @@
   <div class="wrap">
     <h2 class="sr-only">What it does</h2>
     <div class="highlights">
-        <div class="hl"><h3>Six dashboards</h3><p>Overview, Activity, Sleep, Heart and body, Screen time, and Data and sync, provisioned in a Life Dashboard folder.</p></div>
-        <div class="hl"><h3>Try it without a phone</h3><p>The demo profile posts 60 days of made-up data for two phones through the real receiver.</p></div>
-        <div class="hl"><h3>Every record in Postgres</h3><p>One records table with a JSONB column holds all 33 Android types and 28 iPhone types without schema changes.</p></div>
-        <div class="hl"><h3>SQL views for your own queries</h3><p>The dash schema turns raw records into days, nights, hours and apps in your time zone.</p></div>
-        <div class="hl"><h3>A receiver that checks signatures</h3><p>It verifies the X-Signature HMAC, applies a repeated payload once, and removes the records the phone reports as deleted.</p></div>
-        <div class="hl"><h3>Android and iPhone side by side</h3><p>Each phone gets its own label in the webhook URL and shows up as its own Phone in every dashboard.</p></div>
+        <div class="hl"><h3>One file to install</h3><p>A docker-compose.yml and an example .env from the release. The images are published for amd64 and arm64, so nothing is cloned or built.</p></div>
+        <div class="hl"><h3>Paired by QR code</h3><p>Like the Home Assistant integration: the receiver shows a code, the app scans it, and you type neither the address nor the secret.</p></div>
+        <div class="hl"><h3>Six dashboards</h3><p>Overview, Activity, Sleep, Heart and body, Screen time, and Data and sync, in a Life Dashboard folder, with a Phone picker on each.</p></div>
+        <div class="hl"><h3>Every record in Postgres</h3><p>The receiver checks the X-Signature HMAC, applies a repeated payload once and removes what the phone reports as deleted.</p></div>
+        <div class="hl"><h3>Your data back</h3><p>A read-only JSON API with a token of its own, for a script, a widget or a spreadsheet: days, nights, workouts, screen time and trends.</p></div>
+        <div class="hl"><h3>Ask your own AI</h3><p>An optional MCP server with six read-only tools, for a local model or Claude. No tool writes, and none takes SQL.</p></div>
     </div>
   </div>
 </section>
@@ -249,7 +297,28 @@
         </ul>
         <a class="link-arrow" href="https://github.com/owen282000/life-dashboard-stack#dashboards">All six dashboards</a>
       </div>
-    </div><div class="show flip" id="how-it-counts">
+    </div><div class="show flip" id="install-and-pairing">
+      <div class="show-code"><div class="code-window"><div class="code-bar"><i></i><i></i><i></i><span>Install</span></div><pre tabindex="0"><code>mkdir life-dashboard &amp;&amp; cd life-dashboard
+GH=https://github.com/owen282000/life-dashboard-stack
+R=$GH/releases/latest/download
+curl -fsSLO $R/docker-compose.yml
+curl -fsSL -o .env $R/env.example
+# in .env: WEBHOOK_SECRET, TZ, PUBLIC_URL, passwords
+docker compose up -d
+docker compose logs receiver   # the pairing code</code></pre></div></div>
+      <div>
+        <div class="kicker">Install and pairing</div>
+        <h2>One compose file, and a QR&nbsp;code for each phone</h2>
+        <p>Each release has a <code>docker-compose.yml</code> and an example <code>.env</code>. The receiver, Postgres and Grafana come as published images, so two downloads and one command start the stack.</p>
+        <ul class="ticks">
+          <li>On a home server or a Raspberry Pi <span>Any machine with Docker and Compose that your phone can reach. The images are published for amd64 and arm64, so a Raspberry Pi with a 64-bit OS can run them; 32-bit is not supported.</span></li>
+          <li>Paired like Home Assistant <span>With <code>PUBLIC_URL</code> set, the receiver prints a QR code in its log, and <code>/pair</code> shows it as a page to your own network only.</span></li>
+          <li>A label per phone <span>Every phone gets its own code and its own <strong>Phone</strong> in the dashboards, so an Android phone and an iPhone sit side by side.</span></li>
+          <li>Upgrades that keep working <span>Set <code>LIFEDASH_VERSION</code> to the new release, then pull and start again. Within a major version, your own queries, panels and <code>.env</code> keep working.</span></li>
+        </ul>
+        <a class="link-arrow" href="https://github.com/owen282000/life-dashboard-stack#quick-start">The quick start</a>
+      </div>
+    </div><div class="show" id="how-it-counts">
       <div class="show-media is-wide"><div class="stage green-glow"></div><div class="wide-shot solo"><div class="wide-bar"><i></i><i></i><i></i></div><a class="shot-link" href="../img/g-activity.webp" aria-label="The activity dashboard of the Grafana stack, full size"><img src="../img/g-activity.webp" alt="The activity dashboard of the Grafana stack" width="1400" height="1260" loading="lazy"></a></div></div>
       <div>
         <div class="kicker">How it counts</div>
@@ -263,19 +332,57 @@
         </ul>
         
       </div>
-    </div><div class="show" id="postgres-and-sql">
+    </div><div class="show flip" id="sql-and-api">
       <div class="show-media is-wide"><div class="stage green-glow"></div><div class="wide-shot solo"><div class="wide-bar"><i></i><i></i><i></i></div><a class="shot-link" href="../img/g-data.webp" aria-label="The data and sync dashboard of the Grafana stack, full size"><img src="../img/g-data.webp" alt="The data and sync dashboard of the Grafana stack" width="1400" height="1260" loading="lazy"></a></div></div>
       <div>
-        <div class="kicker">Postgres and SQL</div>
-        <h2>Your health data in Postgres, ready for your own queries</h2>
-        <p>The <code>dash</code> views hold one row per day, night, hour or app, with local days already worked out. Query them with <code>psql</code> or in a Grafana panel of your own.</p>
+        <div class="kicker">SQL and API</div>
+        <h2>Your data back, in SQL or as JSON</h2>
+        <p>The <code>dash</code> views hold one row per day, night, hour or app, with local days already worked out. Query them with <code>psql</code>, in a Grafana panel of your own, or through the read-only API. <a href="https://github.com/owen282000/life-dashboard-stack/blob/main/docs/views.md">Every view, column and unit</a> is documented.</p>
         <ul class="ticks">
-          <li><code>dash.activity_days</code> <span>Steps per day, counted once, per phone.</span></li>
-          <li><code>dash.sleep_nights</code> <span>Hours asleep, deep and REM per night.</span></li>
-          <li><code>dash.screen_apps</code> <span>Minutes per app per day.</span></li>
-          <li>A read-only Grafana user <span><code>grafana_ro</code> can only read the records and views, and its queries stop after 30 seconds. The same role can <a href="../health-data-own-ai/">serve your own AI over MCP</a>.</span></li>
+          <li><code>dash.activity_days</code> and <code>dash.sleep_nights</code> <span>Steps per day, counted once, and hours asleep, deep and REM per night, per phone.</span></li>
+          <li>A read-only JSON API <span>With <code>API_TOKEN</code> set, <code>/api/</code> answers with days, nights, workouts, screen time, one metric as a series, or a trend against the period before.</span></li>
+          <li>Read-only users <span>Grafana reads as <code>grafana_ro</code>, the API and the MCP server as <code>dash_ro</code>. Neither can write, and their queries stop after 30 and 15 seconds.</span></li>
+          <li>Off until you want it <span>Without a token, every path under <code>/api/</code> is a 404. Behind a reverse proxy, forward only <code>/webhook</code> if you don't need the API outside.</span></li>
         </ul>
-        <a class="link-arrow" href="https://github.com/owen282000/life-dashboard-stack/blob/main/docs/views.md">Every view, column and unit</a>
+        <a class="link-arrow" href="https://github.com/owen282000/life-dashboard-stack/blob/main/docs/api.md">Every endpoint of the API</a>
+      </div>
+    </div><div class="show" id="your-own-ai">
+      <div class="show-code"><div class="code-window"><div class="code-bar"><i></i><i></i><i></i><span>Start the MCP server</span></div><pre tabindex="0"><code>echo &quot;MCP_TOKEN=$(openssl rand -hex 32)&quot; &gt;&gt; .env
+docker compose --profile mcp up -d
+
+# then, in your MCP client:
+# URL     http://&lt;this machine&gt;:8090/mcp
+# Header  Authorization: Bearer &lt;MCP_TOKEN&gt;</code></pre></div></div>
+      <div>
+        <div class="kicker">Your own AI</div>
+        <h2>Ask your own AI, through a read-only MCP server</h2>
+        <p>An optional fourth image gives a model you choose six read-only tools: <code>list_phones</code>, <code>daily_summary</code>, <code>sleep_nights</code>, <code>workouts</code>, <code>trend</code> and <code>screen_time</code>. It speaks Streamable HTTP with a bearer token, for Open WebUI, LM Studio or any MCP client, and stdio for Claude Desktop on the same machine.</p>
+        <ul class="ticks">
+          <li>Read-only all the way <span>The tools read the <code>dash</code> views as <code>dash_ro</code>. There's no tool that writes and none that takes SQL, so a model can't change or delete anything.</span></li>
+          <li>A local model keeps it at home <span>With Ollama and a chat client that speaks MCP, the questions, the data and the answers stay on your hardware.</span></li>
+          <li>A cloud model sees what it asks for <span>With Claude or ChatGPT, Claude Desktop included, your questions and every tool result go to that provider.</span></li>
+          <li>Nothing by itself <span>The stack sends nothing to any AI. The server only answers a client you connect with your <code>MCP_TOKEN</code>.</span></li>
+        </ul>
+        <a class="link-arrow" href="../health-data-own-ai/">Connect a model, step by step</a>
+      </div>
+    </div><div class="show flip" id="kubernetes">
+      <div class="show-code"><div class="code-window"><div class="code-bar"><i></i><i></i><i></i><span>Install with Helm</span></div><pre tabindex="0"><code># CloudNativePG first, once per cluster
+helm install lifedash \
+  oci://ghcr.io/owen282000/charts/life-dashboard \
+  -n life-dashboard --create-namespace \
+  -f my-values.yaml --wait --timeout 10m
+helm test lifedash -n life-dashboard --logs</code></pre></div></div>
+      <div>
+        <div class="kicker">Kubernetes</div>
+        <h2>A Helm chart for a cluster of your own</h2>
+        <p>The chart runs the same images. Postgres comes from <a href="https://cloudnative-pg.io">CloudNativePG</a> by default, with replicas, failover and backups to object storage. Without the operator, a bundled StatefulSet or a Postgres you already run works too.</p>
+        <ul class="ticks">
+          <li>Secrets made once <span>Generated at the first install and kept on every upgrade, or taken from a Secret of your own, such as from Sealed Secrets, External Secrets or SOPS.</span></li>
+          <li>Pod Security <code>restricted</code> <span>Non-root pods with a read-only root file system and no service account token. NetworkPolicies are there when you switch them on.</span></li>
+          <li>Backups to object storage <span>Through CloudNativePG's Barman Cloud plugin: a base backup on a schedule and the WAL in between, so a restore can go back to a moment.</span></li>
+          <li>Only <code>/webhook</code> outside <span>The Ingress or Gateway API route opens only <code>/webhook</code> by default. <code>helm test</code> checks the receiver, the dashboards, the API and the MCP server.</span></li>
+        </ul>
+        <a class="link-arrow" href="https://github.com/owen282000/life-dashboard-stack/blob/main/docs/kubernetes.md">The chart, from CloudNativePG to uninstall</a>
       </div>
     </div>
   </div>
@@ -289,23 +396,24 @@
     </div>
     <div class="get-split">
       <article class="get-card" id="get-grafana">
-        <header><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M6.5 16v-4"/><path d="M11 16V7"/><path d="M15.5 16v-6"/><path d="M20 16V4"/></svg></span><div><h3><a href="../grafana/">Life Dashboard stack</a></h3><p>Postgres and Grafana dashboards, self-hosted</p></div></header>
+        <header><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M6.5 16v-4"/><path d="M11 16V7"/><path d="M15.5 16v-6"/><path d="M20 16V4"/></svg></span><div><h3><a href="../grafana/">Life Dashboard stack</a></h3><p>Postgres, Grafana, an API and MCP, self-hosted</p></div></header>
         <a class="btn btn-primary btn-store" href="https://github.com/owen282000/life-dashboard-stack#quick-start"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="9" width="17" height="10" rx="2"/><path d="M7 9V6h4v3M13 9V6h4v3"/></svg>Run with Docker Compose</a>
-        <p class="store-note">Clone the repository, set four values in .env, then docker compose up -d --build.</p>
+        <p class="store-note">Download docker-compose.yml and the example .env from the latest release, set the secret, your time zone, the address and the passwords, then docker compose up -d. Nothing to clone or build.</p>
         <ul class="get-list">
-          <li><svg class="li-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V5m0 14h16M8 15v-3m4 3V9m4 6v-5m4 5V7"/></svg><span><b><a href="https://github.com/owen282000/life-dashboard-stack#try-it-without-a-phone">Demo data</a></b> <span class="status live">Available</span><small>60 days of made-up data for two phones, before any phone of yours is involved.</small></span></li>
+          <li><svg class="li-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V5m0 14h16M8 15v-3m4 3V9m4 6v-5m4 5V7"/></svg><span><b><a href="https://github.com/owen282000/life-dashboard-stack#try-it-without-a-phone">Demo data</a></b> <span class="status live">Available</span><small>60 days of made-up data for two phones, from the same compose file, before any phone of yours is involved.</small></span></li><li><svg class="li-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="6.5"/><circle cx="12" cy="12" r="2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></svg><span><b><a href="https://github.com/owen282000/life-dashboard-stack/blob/main/docs/kubernetes.md">Helm chart for Kubernetes</a></b> <span class="status live">Available</span><small>The same images on a cluster of your own, with Postgres from CloudNativePG, a bundled StatefulSet or a database you already run.</small></span></li>
         </ul>
         
       </article>
       <div class="get-side">
         <h3>What you need</h3>
-        <p>Docker with Compose, on a machine your phone can reach on the same network or over a VPN. On each phone, Life Dashboard Companion for Android or for iPhone, pointed at the receiver's webhook URL on port 8080 with a label for that phone, and the same secret as <code>WEBHOOK_SECRET</code>. To reach the receiver from outside, put a reverse proxy with TLS in front of it. The stack is offered as a starting point you can change, not as a finished product. Set a <code>WEBHOOK_SECRET</code>: without one the receiver accepts unsigned payloads.</p>
+        <p>Docker with Compose, on a machine your phone can reach on the same network or over a VPN: a home server, a NAS or a Raspberry Pi with a 64-bit OS, as the images are published for amd64 and arm64 only. Or a Kubernetes cluster with Helm 3 or 4, with CloudNativePG for the default Postgres. On each phone, Life Dashboard Companion for Android or for iPhone, paired by QR code or pointed at the receiver's webhook URL on port 8080 with a label for that phone and the same secret as <code>WEBHOOK_SECRET</code>. Set that secret: without one the receiver accepts unsigned payloads and shows no pairing code. To reach the receiver from outside, put a reverse proxy with TLS in front of it. The stack is offered as a starting point you can change, not as a finished product.</p>
         <p class="fineprint">Receives from <a href="../android/">Life Dashboard Companion for Android</a> and <a href="../ios/">for iPhone</a>.</p>
-        <div class="code-window"><div class="code-bar"><i></i><i></i><i></i><span>Try it with demo data</span></div><pre tabindex="0"><code>git clone https://github.com/owen282000/life-dashboard-stack
-cd life-dashboard-stack
+        <div class="code-window"><div class="code-bar"><i></i><i></i><i></i><span>Try it with demo data</span></div><pre tabindex="0"><code>mkdir lifedash-demo &amp;&amp; cd lifedash-demo
+GH=https://github.com/owen282000/life-dashboard-stack
+curl -fsSLO $GH/releases/latest/download/docker-compose.yml
 RECEIVER_PORT=18080 GRAFANA_PORT=13000 \
   docker compose -p lifedash-demo \
-  --profile demo up -d --build</code></pre></div><p class="fineprint">Give it a minute, then open <code>http://localhost:13000</code> and log in as <code>admin</code> with the demo password <code>lifedash</code>. For your own data: <code>cp .env.example .env</code>, set four values, then <code>docker compose up -d --build</code>; the <a href="https://github.com/owen282000/life-dashboard-stack#quick-start">quick start</a> has the details.</p>
+  --profile demo up -d</code></pre></div><p class="fineprint">Give it a minute, then open <code>http://localhost:13000</code> and log in as <code>admin</code> with the demo password <code>lifedash</code>. <code>docker compose -p lifedash-demo --profile demo down -v</code> removes all of it. For your own data, the <a href="https://github.com/owen282000/life-dashboard-stack#quick-start">quick start</a> has the two downloads and the settings.</p>
       </div>
     </div>
   </div>
@@ -320,31 +428,51 @@ RECEIVER_PORT=18080 GRAFANA_PORT=13000 \
     <div class="faq">
       <details>
         <summary>Can I try it before I connect a phone?</summary>
-        <p>Yes, if you can run Docker. The demo profile starts the stack with 60 days of made-up data for two phones, under its own name and ports. The commands are under <a href="#get">Run the stack</a>. Without Docker, the screenshots on this page show the same dashboards.</p>
+        <p>Yes, if you can run Docker. The demo profile in the same compose file starts the stack with 60 days of made-up data for two phones, under its own name and ports. The commands are under <a href="#get">Run the stack</a>. Without Docker, the screenshots on this page show the same dashboards.</p>
+      </details>
+      <details>
+        <summary>Do I need to clone the repository?</summary>
+        <p>No. Each release has a <code>docker-compose.yml</code> and an example <code>.env</code>, and the receiver, Postgres, Grafana and the MCP server are published images for amd64 and arm64. A clone is only for changing the receiver, the views or the dashboards themselves: a second compose file then builds the images from it.</p>
+      </details>
+      <details>
+        <summary>Is my data sent anywhere?</summary>
+        <p>No. There's no Life Dashboard server and no account: the phones send to your receiver, and the data stays in your Postgres. Grafana's usage reporting and update checks are switched off. Data only leaves when you connect something yourself, such as a cloud model over MCP, a script with the API token, or a reverse proxy you open to the internet.</p>
+      </details>
+      <details>
+        <summary>Can my AI read the data?</summary>
+        <p>Only if you let it. Start the optional MCP server with an <code>MCP_TOKEN</code>, and a model you connect gets six read-only tools for phones, days, nights, workouts, trends and screen time. It reads as <code>dash_ro</code>, so it can't write, delete or run SQL of its own. With a local model through Ollama, everything stays on your hardware; with a cloud model, Claude Desktop included, your questions and every tool result go to that provider. <a href="../health-data-own-ai/">Health Connect data over MCP</a> has the setup.</p>
+      </details>
+      <details>
+        <summary>Does it run on Kubernetes?</summary>
+        <p>Yes, with a Helm chart for Helm 3 or 4. By default Postgres runs as a CloudNativePG cluster, with replicas if you want them and backups to object storage through the Barman Cloud plugin. Without CloudNativePG, the chart runs Postgres as one bundled pod or uses a Postgres you already run. The pods meet the <code>restricted</code> Pod Security Standard, and NetworkPolicies, an Ingress and Gateway API routes are optional. <a href="https://github.com/owen282000/life-dashboard-stack/blob/main/docs/kubernetes.md">docs/kubernetes.md</a> has the steps.</p>
       </details>
       <details>
         <summary>Can I put it on the internet?</summary>
-        <p>Put a reverse proxy with TLS in front of the receiver only, and allow request bodies of 32 MB. Keep Grafana on your own network or behind a VPN: anyone who can view a dashboard can read every health record through the data source. On your own network, change <code>GRAFANA_PASSWORD</code> and <code>GRAFANA_DB_PASSWORD</code> in <code>.env</code> before the first start: Grafana's admin password defaults to <code>lifedash</code>, and both Grafana and the receiver listen on every interface of the machine. The Postgres owner's password is fixed in <code>docker-compose.yml</code>; Postgres publishes no port, so only the receiver reaches it.</p>
+        <p>Put a reverse proxy with TLS in front of the receiver, forward only <code>/webhook</code>, and allow request bodies of 32 MB. The API shares the receiver's port, and <code>/pair</code> shows the signing secret: the receiver answers <code>/pair</code> only to your own network and never through a proxy, but a proxy that adds no forwarding header, or Docker Desktop's port forwarding, can make an outside request look local, so block it there or set <code>PAIRING_PAGE=0</code>. Keep Grafana and the MCP server on your own network or behind a VPN: anyone who can view a dashboard can read every health record. Before the first start, change <code>GRAFANA_PASSWORD</code>, <code>GRAFANA_DB_PASSWORD</code> and <code>DASH_DB_PASSWORD</code> in <code>.env</code>. Postgres publishes no port, so only the stack's own services reach it.</p>
       </details>
       <details>
         <summary>Can I use it next to Home Assistant?</summary>
-        <p>Yes, as a second home for the data, with two things to know today. The app keeps one signing secret per tab, and pairing with Home Assistant sets it, so a stack with its own secret then refuses the payloads: run the stack without a secret or with the same one, or send one phone to each. And a payload counts as delivered once one destination takes it, so if the stack is down at that moment, it misses that payload.</p>
+        <p>Yes, as a second home for the data, with two things to know. The Android app has one signing secret per tab (Health, Screen Time), the iPhone app one for all its webhooks. Pairing adds the receiver's URL and replaces that secret, and the dialog names the URLs that get signed with the new one, so pairing with the stack after Home Assistant gives Home Assistant payloads it refuses. Pair with Home Assistant, add the stack's webhook URL by hand, and set <code>WEBHOOK_SECRET</code> in the stack's <code>.env</code> to the same secret; or send one phone to each. A secret per destination is planned. And a payload counts as delivered once one destination takes it, so if the stack is down at that moment, it misses that payload.</p>
+      </details>
+      <details>
+        <summary>How do I upgrade?</summary>
+        <p>Set <code>LIFEDASH_VERSION</code> in <code>.env</code> to the new release, then run <code>docker compose pull &amp;&amp; docker compose up -d</code>. Set it to the major version alone, and every pull follows the releases that keep compatibility. Within a major version, the payloads, the database, the <code>dash</code> views, the read-only users, the settings and the ports stay the same, as <a href="https://github.com/owen282000/life-dashboard-stack/blob/main/docs/compatibility.md">docs/compatibility.md</a> lists. An older install from a clone moves its data over once with a script that leaves the old volume untouched; the <a href="https://github.com/owen282000/life-dashboard-stack#upgrading">README</a> has the steps.</p>
       </details>
       <details>
         <summary>How do I back it up?</summary>
-        <p>One <code>pg_dump</code> line writes a dump, and one <code>pg_restore</code> line puts it into a fresh stack. Restart the receiver afterward so it rebuilds the views and the <code>grafana_ro</code> grants.</p>
+        <p>With Docker Compose, one <code>pg_dump</code> line writes a dump, and one <code>pg_restore</code> line puts it into a fresh stack. Restart the receiver afterward so it rebuilds the views and the grants of the read-only users. On Kubernetes with CloudNativePG, backups go to object storage on a schedule, and a restore starts a new cluster from them.</p>
       </details>
       <details>
         <summary>Can I change the dashboards?</summary>
-        <p>Yes. They're provisioned from <code>grafana/dashboards/life-dashboard/</code>, so Grafana won't save changes over them: use <strong>Save as</strong> for a copy, or edit the JSON file. Keep views of your own in the <code>public</code> schema, because the receiver rebuilds <code>dash</code> at every start.</p>
-      </details>
-      <details>
-        <summary>What doesn&#x27;t it do yet?</summary>
-        <p>Series sent per time window are stored, but only the heart rate panels read them, so leave <strong>Data Resolution</strong> on <strong>Every record</strong>. Days follow the stack's one time zone, and a backfill doesn't remove records the phone no longer has. The <a href="https://github.com/owen282000/life-dashboard-stack#known-gaps">known gaps</a> list the rest.</p>
+        <p>Yes. They're built into the Grafana image, so Grafana won't save changes over them, and an upgrade brings their new versions along. Use <strong>Save as</strong> for a copy of your own, which an upgrade leaves alone. To change the originals, edit the JSON in a clone and build the images from it. Keep views of your own in the <code>public</code> schema, because the receiver rebuilds <code>dash</code> at every start.</p>
       </details>
       <details>
         <summary>I already run Grafana. Can I use mine?</summary>
         <p>Yes. Run the receiver and Postgres from the stack, and in your own Grafana add a PostgreSQL data source for the stack's database with the read-only user <code>grafana_ro</code> and your <code>GRAFANA_DB_PASSWORD</code>. Then import the six dashboard files from <a href="https://github.com/owen282000/life-dashboard-stack/tree/main/grafana/dashboards/life-dashboard"><code>grafana/dashboards/life-dashboard/</code></a> and pick that data source. <code>grafana_ro</code> can read the records, the buckets and the <code>dash</code> views, and nothing else.</p>
+      </details>
+      <details>
+        <summary>What doesn&#x27;t it do yet?</summary>
+        <p>Series sent per time window are stored, but only the heart rate panels read them, so leave <strong>Data Resolution</strong> on <strong>Every record</strong>. Days follow the stack's one time zone, and a backfill doesn't remove records the phone no longer has. The API and the MCP server answer per day, night and workout, not with raw records. The <a href="https://github.com/owen282000/life-dashboard-stack#known-gaps">known gaps</a> list the rest.</p>
       </details>
     </div>
     
@@ -355,8 +483,8 @@ RECEIVER_PORT=18080 GRAFANA_PORT=13000 \
   <div class="wrap">
     <div class="section-head"><div class="kicker">Guides</div><h2>Setup guides</h2></div>
     <div class="family three">
+      <a class="part" href="../health-data-own-ai/"><span class="tag">MCP</span><h3>Health Connect data over MCP, for your own AI</h3><p>The stack's read-only MCP server lets a local model or Claude read your history. Works in Europe too.</p><span class="go">Read the guide</span></a>
       <a class="part" href="../health-connect-webhook/"><span class="tag">Webhooks</span><h3>Health Connect to a webhook</h3><p>The JSON payload, signatures, retries and receivers for n8n and Node-RED.</p><span class="go">Read the guide</span></a>
-      <a class="part" href="../health-data-own-ai/"><span class="tag">MCP</span><h3>Health Connect data over MCP, for your own AI</h3><p>A read-only MCP server lets a local model or Claude read your history. Works in Europe too.</p><span class="go">Read the guide</span></a>
       <a class="part" href="../health-data-api/"><span class="tag">API</span><h3>A web API for Health Connect or Apple Health</h3><p>Why neither has one, and how to get the data onto your server anyway.</p><span class="go">Read the guide</span></a>
     </div>
   </div>

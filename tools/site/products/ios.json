@@ -149,7 +149,7 @@
     },
     {
       "q": "Can it send to Home Assistant and a webhook at the same time?",
-      "a": "Yes, with two things to know today. The app keeps one signing secret, and pairing with Home Assistant sets it, so a second receiver that checks signatures must use the same secret or none. And a payload counts as delivered once one destination takes it, so a destination that's down at that moment misses it. The app can send to several webhooks and to MQTT at once."
+      "a": "Yes, with two things to know today. The app keeps one signing secret, and pairing with Home Assistant sets it, so give a second receiver the same secret. And a payload counts as delivered once one destination takes it, so a destination that's down at that moment misses it. The app can send to several webhooks and to MQTT at once."
     },
     {
       "q": "When does it come to TestFlight or the App Store?",

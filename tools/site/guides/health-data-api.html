@@ -3,6 +3,7 @@ title: Health Connect and Apple Health have no web API | Life Dashboard
 description: Health Connect and Apple Health have no web API. Life Dashboard Companion reads them on the phone and posts signed JSON to your server or Home Assistant.
 primary query: health connect api
 secondary queries: apple health api, health connect web api, apple health rest api, get health connect data on server, health connect rest api, healthkit web api, google health api, fitbit web api shutdown, samsung health api
+updated: 2026-10-16
 -->
 
 <h1>Is there a web API for Health Connect or Apple Health?</h1>
@@ -59,6 +60,7 @@ secondary queries: apple health api, health connect web api, apple health rest a
   <li><strong>Daily totals that count a walk once.</strong> Steps, distance and calories come from the store's own deduplicated figures, so phone and watch don't add up to twice the number.</li>
   <li><strong>One format for both phones.</strong> The iPhone app sends the same keys with <code>"source": "healthkit_ios"</code>, so one receiver takes both.</li>
   <li><strong>A signature.</strong> With a secret set, every request carries <code>X-Signature: sha256=&lt;hex&gt;</code>, an HMAC-SHA256 of the body.</li>
+  <li><strong>An API of your own, if you want one.</strong> <a href="../grafana/">The Life Dashboard stack</a> stores the data in Postgres and serves it back as read-only JSON under <code>/api/</code>, per day, night, workout or metric, behind a token. Its MCP server gives the same to <a href="../health-data-own-ai/">a model you choose</a>.</li>
 </ul>
 
 <h2>Limits</h2>

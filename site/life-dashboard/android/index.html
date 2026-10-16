@@ -11,7 +11,7 @@
 <meta name="theme-color" content="#101418">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png">
 <link rel="apple-touch-icon" href="../img/icon-180.png">
-<link rel="stylesheet" href="../site.css?v=53e7e5c2">
+<link rel="stylesheet" href="../site.css?v=8618951c">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="Health Connect and screen time, sent to your own server">
@@ -123,7 +123,7 @@
           "name": "Can it send to Home Assistant and a webhook at the same time?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes, with two things to know today. Each tab keeps one signing secret, and pairing with Home Assistant sets it, so a second receiver that checks signatures must use the same secret or none. And a payload counts as delivered once one destination takes it, so a destination that's down at that moment misses it. Health Connect and Screen Time can each send to several webhooks and to MQTT at once. Giving every destination its own secret and delivery is planned."
+            "text": "Yes, with two things to know today. Each tab keeps one signing secret, and pairing with Home Assistant sets it, so give a second receiver the same secret. And a payload counts as delivered once one destination takes it, so a destination that's down at that moment misses it. Health Connect and Screen Time can each send to several webhooks and to MQTT at once. Giving every destination its own secret and delivery is planned."
           }
         },
         {
@@ -356,7 +356,7 @@
       </details>
       <details>
         <summary>Can it send to Home Assistant and a webhook at the same time?</summary>
-        <p>Yes, with two things to know today. Each tab keeps one signing secret, and pairing with Home Assistant sets it, so a second receiver that checks signatures must use the same secret or none. And a payload counts as delivered once one destination takes it, so a destination that's down at that moment misses it. Health Connect and Screen Time can each send to several webhooks and to MQTT at once. Giving every destination its own secret and delivery is planned.</p>
+        <p>Yes, with two things to know today. Each tab keeps one signing secret, and pairing with Home Assistant sets it, so give a second receiver the same secret. And a payload counts as delivered once one destination takes it, so a destination that's down at that moment misses it. Health Connect and Screen Time can each send to several webhooks and to MQTT at once. Giving every destination its own secret and delivery is planned.</p>
       </details>
       <details>
         <summary>What happens when my server is down?</summary>
@@ -413,7 +413,7 @@
     <div class="family three">
       <a class="part" href="../ios/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg></span><h3>Life Dashboard Companion for iPhone</h3><p>Apple Health, with the same payload</p><span class="go">Learn more</span></a>
       <a class="part" href="../home-assistant/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 11 12 3.5l8.5 7.5"/><path d="M5.5 9.5V20h13V9.5"/><circle cx="12" cy="13.5" r="2"/><path d="M12 15.5V20"/></svg></span><h3>Life Dashboard integration for Home Assistant</h3><p>Sensors, statistics and a year of history</p><span class="go">Learn more</span></a>
-      <a class="part" href="../grafana/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M6.5 16v-4"/><path d="M11 16V7"/><path d="M15.5 16v-6"/><path d="M20 16V4"/></svg></span><h3>Life Dashboard stack</h3><p>Postgres and Grafana dashboards, self-hosted</p><span class="go">Learn more</span></a>
+      <a class="part" href="../grafana/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M6.5 16v-4"/><path d="M11 16V7"/><path d="M15.5 16v-6"/><path d="M20 16V4"/></svg></span><h3>Life Dashboard stack</h3><p>Postgres, Grafana, an API and MCP, self-hosted</p><span class="go">Learn more</span></a>
     </div>
   </div>
 </section>

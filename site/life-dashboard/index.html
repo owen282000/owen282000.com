@@ -19,7 +19,7 @@
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="icon" type="image/png" sizes="32x32" href="img/icon-32.png">
 <link rel="apple-touch-icon" href="img/icon-180.png">
-<link rel="stylesheet" href="site.css?v=53e7e5c2">
+<link rel="stylesheet" href="site.css?v=8618951c">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="Life Dashboard: your phone's health data, on your own server">
@@ -180,10 +180,18 @@
       "@type": "SoftwareApplication",
       "@id": "https://owen282000.com/life-dashboard/#stack",
       "name": "Life Dashboard stack",
-      "description": "The Life Dashboard stack is an open-source Docker Compose setup with a receiver, Postgres and six Grafana dashboards for data from the Life Dashboard Companion apps.",
+      "description": "The Life Dashboard stack is an open-source, self-hosted backend for the Life Dashboard Companion apps: a receiver, Postgres and six Grafana dashboards, with a read-only API and an optional MCP server, installed with Docker Compose or a Helm chart.",
       "applicationCategory": "UtilitiesApplication",
       "applicationSubCategory": "Self-hosted backend",
-      "operatingSystem": "Linux, macOS or Windows with Docker",
+      "featureList": [
+        "Published images for amd64 and arm64, installed with one docker-compose.yml",
+        "Pairing by QR code",
+        "Six Grafana dashboards",
+        "A read-only JSON API",
+        "An MCP server with six read-only tools",
+        "A Helm chart for Kubernetes with CloudNativePG"
+      ],
+      "operatingSystem": "Linux, macOS or Windows with Docker, or Kubernetes",
       "url": "https://owen282000.com/life-dashboard/grafana/",
       "license": "https://opensource.org/licenses/MIT",
       "isPartOf": {
@@ -219,6 +227,14 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "No. Home Assistant gets the most out of it, with the integration's sensors and history, but both apps also send to the Grafana stack, to any MQTT broker, and to any URL that accepts a JSON POST, such as n8n, Node-RED or a script of your own. The webhook guide shows the payload."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I ask an AI about my data?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, with a model you choose, once the data is on your server. The apps contain no AI and never talk to a model. The Grafana stack has a read-only MCP server, and in Home Assistant a community server, ha-mcp, reads the history. With a local model nothing leaves your network; with a cloud model such as Claude, your questions and the results go to its provider. Health Connect data over MCP has the steps."
           }
         },
         {
@@ -331,7 +347,7 @@
           <path class="arc a2" d="M466 18 A40 40 0 0 1 466 72" opacity=".5"/>
         </g>
       </svg>
-      <p class="lead">Life Dashboard Companion sends what your watch, ring or scale records to a server you already run at home: Home Assistant, a Grafana stack, MQTT or your own webhook. The charts live there; the app itself only reads and sends.</p>
+      <p class="lead">Life Dashboard Companion sends what your watch, ring or scale records to a server of your own: Home Assistant, the Grafana stack, MQTT or your own webhook. The charts live there; the app itself only reads and sends.</p>
       <div class="hero-stores">
 <!-- BUILD:hero-stores -->
 <div class="cta-row stores">
@@ -374,7 +390,7 @@
 <!-- BUILD:parts -->
 <nav class="parts-strip" aria-label="The apps and where the data goes"><div class="wrap">
     <div class="ps-group"><span class="ps-label">On your phone</span><div class="ps-cells two"><a href="android/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span><span><b>Android app</b><small>Health Connect, screen time</small></span></a><a href="ios/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg></span><span><b>iPhone app</b><small>Apple Health</small></span></a></div></div>
-    <div class="ps-group"><span class="ps-label">On your server</span><div class="ps-cells three"><a href="home-assistant/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 11 12 3.5l8.5 7.5"/><path d="M5.5 9.5V20h13V9.5"/><circle cx="12" cy="13.5" r="2"/><path d="M12 15.5V20"/></svg></span><span><b>Home Assistant</b><small>Sensors and history</small></span></a><a href="grafana/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M6.5 16v-4"/><path d="M11 16V7"/><path d="M15.5 16v-6"/><path d="M20 16V4"/></svg></span><span><b>Grafana stack</b><small>Postgres and dashboards</small></span></a><a href="#own-server"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg></span><span><b>Your own server</b><small>MQTT or JSON</small></span></a></div></div>
+    <div class="ps-group"><span class="ps-label">On your server</span><div class="ps-cells three"><a href="home-assistant/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 11 12 3.5l8.5 7.5"/><path d="M5.5 9.5V20h13V9.5"/><circle cx="12" cy="13.5" r="2"/><path d="M12 15.5V20"/></svg></span><span><b>Home Assistant</b><small>Sensors and history</small></span></a><a href="grafana/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M6.5 16v-4"/><path d="M11 16V7"/><path d="M15.5 16v-6"/><path d="M20 16V4"/></svg></span><span><b>Grafana stack</b><small>Dashboards, API and MCP</small></span></a><a href="#own-server"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg></span><span><b>Your own server</b><small>MQTT or JSON</small></span></a></div></div>
   </div></nav>
 <!-- /BUILD:parts -->
 
@@ -430,7 +446,7 @@
     </div>
     <div class="steps three">
       <div class="step"><h3>Pick where it goes</h3><p>Home Assistant, the Grafana stack, or your own broker or URL.</p></div>
-      <div class="step"><h3>Install the app</h3><p>Scan the integration's QR code, or enter an address.</p></div>
+      <div class="step"><h3>Install the app</h3><p>Scan the QR code of Home Assistant or the stack, or enter an address.</p></div>
       <div class="step"><h3>Sync</h3><p>Pick your data, tap <strong>Sync Now</strong>, and the schedule does the rest.</p></div>
     </div>
   </div>
@@ -508,7 +524,13 @@
       <div>
         <div class="kicker">Self-hosted</div>
         <h2>Postgres and Grafana on your own machine</h2>
-        <p>A Docker Compose backend for both apps, with six dashboards. Its demo shows 60 days of made-up data before you install anything on a phone.</p>
+        <p>A receiver, Postgres and six Grafana dashboards for both apps, on a home server, a Raspberry Pi or Kubernetes. Its demo shows 60 days of made-up data before you install anything on a phone.</p>
+        <ul class="ticks">
+          <li>One compose file with published images, nothing to build</li>
+          <li>Each phone pairs by QR code, as with Home Assistant</li>
+          <li>A read-only API and an MCP server for <a href="health-data-own-ai/">your own AI</a></li>
+          <li>A Helm chart, with Postgres from CloudNativePG</li>
+        </ul>
         <a class="link-arrow" href="grafana/">More about the Grafana stack</a>
       </div>
     </div>
@@ -592,7 +614,7 @@
 <div class="section-head">
       <div class="kicker">Get it</div>
       <h2>Pick your phone, then pick where the data goes</h2>
-      <p>Using Home Assistant? Add the integration first; the app scans its QR code.</p>
+      <p>Using Home Assistant or the stack? Set that up first; the app scans its QR code.</p>
     </div>
     <div class="get-grid">
       <article class="get-card compact" id="get-android">
@@ -611,9 +633,9 @@
         <p class="get-alt"><a class="nowrap" href="health-connect-home-assistant/#set-it-up">Setup steps</a> · <a class="nowrap" href="https://github.com/owen282000/life-dashboard-ha">Source on GitHub</a></p>
       </article>
       <article class="get-card compact" id="get-grafana">
-        <header><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M6.5 16v-4"/><path d="M11 16V7"/><path d="M15.5 16v-6"/><path d="M20 16V4"/></svg></span><div><h3><a href="grafana/">Life Dashboard stack</a></h3><p>Docker with Compose.</p></div></header>
+        <header><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M6.5 16v-4"/><path d="M11 16V7"/><path d="M15.5 16v-6"/><path d="M20 16V4"/></svg></span><div><h3><a href="grafana/">Life Dashboard stack</a></h3><p>Docker with Compose, or Kubernetes.</p></div></header>
         <a class="btn btn-primary btn-store" href="https://github.com/owen282000/life-dashboard-stack#quick-start"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="9" width="17" height="10" rx="2"/><path d="M7 9V6h4v3M13 9V6h4v3"/></svg>Run with Docker Compose</a>
-        <p class="get-alt"><a class="nowrap" href="https://github.com/owen282000/life-dashboard-stack#try-it-without-a-phone">Demo data</a></p>
+        <p class="get-alt"><a class="nowrap" href="https://github.com/owen282000/life-dashboard-stack#try-it-without-a-phone">Demo data</a> · <a class="nowrap" href="https://github.com/owen282000/life-dashboard-stack/blob/main/docs/kubernetes.md">Helm chart for Kubernetes</a></p>
       </article>
     </div>
 <!-- /BUILD:get -->
@@ -658,6 +680,10 @@
       <details>
         <summary>Do I need Home Assistant?</summary>
         <p>No. Home Assistant gets the most out of it, with the integration's sensors and history, but both apps also send to the <a href="grafana/">Grafana stack</a>, to any MQTT broker, and to any URL that accepts a JSON POST, such as n8n, Node-RED or a script of your own. The <a href="health-connect-webhook/">webhook guide</a> shows the payload.</p>
+      </details>
+      <details>
+        <summary>Can I ask an AI about my data?</summary>
+        <p>Yes, with a model you choose, once the data is on your server. The apps contain no AI and never talk to a model. The <a href="grafana/">Grafana stack</a> has a read-only MCP server, and in Home Assistant a community server, ha-mcp, reads the history. With a local model nothing leaves your network; with a cloud model such as Claude, your questions and the results go to its provider. <a href="health-data-own-ai/">Health Connect data over MCP</a> has the steps.</p>
       </details>
       <details>
         <summary>Why a separate app instead of the Home Assistant companion app?</summary>
