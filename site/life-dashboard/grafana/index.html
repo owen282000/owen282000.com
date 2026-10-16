@@ -151,7 +151,7 @@
           "name": "Can I use it next to Home Assistant?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes, as a second home for the data, with two things to know. Each tab of the app has one signing secret for all its webhooks, and pairing sets it, so pairing with the stack after Home Assistant gives Home Assistant payloads it refuses. Pair with Home Assistant, then add the stack's webhook URL by hand and run the stack with the same secret or without one; or send one phone to each. And a payload counts as delivered once one destination takes it, so if the stack is down at that moment, it misses that payload."
+            "text": "Yes, as a second home for the data, with two things to know. The Android app has one signing secret per tab (Health, Screen Time), the iPhone app one for all its webhooks. Pairing adds the receiver's URL and replaces that secret, and the dialog names the URLs that get signed with the new one, so pairing with the stack after Home Assistant gives Home Assistant payloads it refuses. Pair with Home Assistant, add the stack's webhook URL by hand, and set WEBHOOK_SECRET in the stack's .env to the same secret; or send one phone to each. A secret per destination is planned. And a payload counts as delivered once one destination takes it, so if the stack is down at that moment, it misses that payload."
           }
         },
         {
@@ -311,7 +311,7 @@ docker compose logs receiver   # the pairing code</code></pre></div></div>
         <h2>One compose file, and a QR&nbsp;code for each phone</h2>
         <p>Each release has a <code>docker-compose.yml</code> and an example <code>.env</code>. The receiver, Postgres and Grafana come as published images, so two downloads and one command start the stack.</p>
         <ul class="ticks">
-          <li>On a home server or a Raspberry Pi <span>Any machine with Docker and Compose that your phone can reach. The images are built for amd64 and arm64; a Raspberry Pi needs a 64-bit system.</span></li>
+          <li>On a home server or a Raspberry Pi <span>Any machine with Docker and Compose that your phone can reach. The images are published for amd64 and arm64, so a Raspberry Pi with a 64-bit OS can run them; 32-bit is not supported.</span></li>
           <li>Paired like Home Assistant <span>With <code>PUBLIC_URL</code> set, the receiver prints a QR code in its log, and <code>/pair</code> shows it as a page to your own network only.</span></li>
           <li>A label per phone <span>Every phone gets its own code and its own <strong>Phone</strong> in the dashboards, so an Android phone and an iPhone sit side by side.</span></li>
           <li>Upgrades that keep working <span>Set <code>LIFEDASH_VERSION</code> to the new release, then pull and start again. Within a major version, your own queries, panels and <code>.env</code> keep working.</span></li>
@@ -406,7 +406,7 @@ helm test lifedash -n life-dashboard --logs</code></pre></div></div>
       </article>
       <div class="get-side">
         <h3>What you need</h3>
-        <p>Docker with Compose, on a machine your phone can reach on the same network or over a VPN: a home server, a NAS or a Raspberry Pi with a 64-bit system. Or a Kubernetes cluster with Helm 3 or 4, with CloudNativePG for the default Postgres. On each phone, Life Dashboard Companion for Android or for iPhone, paired by QR code or pointed at the receiver's webhook URL on port 8080 with a label for that phone and the same secret as <code>WEBHOOK_SECRET</code>. Set that secret: without one the receiver accepts unsigned payloads and shows no pairing code. To reach the receiver from outside, put a reverse proxy with TLS in front of it. The stack is offered as a starting point you can change, not as a finished product.</p>
+        <p>Docker with Compose, on a machine your phone can reach on the same network or over a VPN: a home server, a NAS or a Raspberry Pi with a 64-bit OS, as the images are published for amd64 and arm64 only. Or a Kubernetes cluster with Helm 3 or 4, with CloudNativePG for the default Postgres. On each phone, Life Dashboard Companion for Android or for iPhone, paired by QR code or pointed at the receiver's webhook URL on port 8080 with a label for that phone and the same secret as <code>WEBHOOK_SECRET</code>. Set that secret: without one the receiver accepts unsigned payloads and shows no pairing code. To reach the receiver from outside, put a reverse proxy with TLS in front of it. The stack is offered as a starting point you can change, not as a finished product.</p>
         <p class="fineprint">Receives from <a href="../android/">Life Dashboard Companion for Android</a> and <a href="../ios/">for iPhone</a>.</p>
         <div class="code-window"><div class="code-bar"><i></i><i></i><i></i><span>Try it with demo data</span></div><pre tabindex="0"><code>mkdir lifedash-demo &amp;&amp; cd lifedash-demo
 GH=https://github.com/owen282000/life-dashboard-stack
@@ -452,7 +452,7 @@ RECEIVER_PORT=18080 GRAFANA_PORT=13000 \
       </details>
       <details>
         <summary>Can I use it next to Home Assistant?</summary>
-        <p>Yes, as a second home for the data, with two things to know. Each tab of the app has one signing secret for all its webhooks, and pairing sets it, so pairing with the stack after Home Assistant gives Home Assistant payloads it refuses. Pair with Home Assistant, then add the stack's webhook URL by hand and run the stack with the same secret or without one; or send one phone to each. And a payload counts as delivered once one destination takes it, so if the stack is down at that moment, it misses that payload.</p>
+        <p>Yes, as a second home for the data, with two things to know. The Android app has one signing secret per tab (Health, Screen Time), the iPhone app one for all its webhooks. Pairing adds the receiver's URL and replaces that secret, and the dialog names the URLs that get signed with the new one, so pairing with the stack after Home Assistant gives Home Assistant payloads it refuses. Pair with Home Assistant, add the stack's webhook URL by hand, and set <code>WEBHOOK_SECRET</code> in the stack's <code>.env</code> to the same secret; or send one phone to each. A secret per destination is planned. And a payload counts as delivered once one destination takes it, so if the stack is down at that moment, it misses that payload.</p>
       </details>
       <details>
         <summary>How do I upgrade?</summary>

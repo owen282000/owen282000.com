@@ -127,7 +127,7 @@
     },
     {
       "q": "Can it send to Home Assistant and a webhook at the same time?",
-      "a": "Yes, with two things to know today. Each tab keeps one signing secret, and pairing with Home Assistant sets it, so a second receiver that checks signatures must use the same secret or none. And a payload counts as delivered once one destination takes it, so a destination that's down at that moment misses it. Health Connect and Screen Time can each send to several webhooks and to MQTT at once. Giving every destination its own secret and delivery is planned."
+      "a": "Yes, with two things to know today. Each tab keeps one signing secret, and pairing with Home Assistant sets it, so give a second receiver the same secret. And a payload counts as delivered once one destination takes it, so a destination that's down at that moment misses it. Health Connect and Screen Time can each send to several webhooks and to MQTT at once. Giving every destination its own secret and delivery is planned."
     },
     {
       "q": "What happens when my server is down?",

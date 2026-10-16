@@ -69,7 +69,7 @@
       "bullets": [
         {
           "main": "On a home server or a Raspberry Pi",
-          "sub": "Any machine with Docker and Compose that your phone can reach. The images are built for amd64 and arm64; a Raspberry Pi needs a 64-bit system."
+          "sub": "Any machine with Docker and Compose that your phone can reach. The images are published for amd64 and arm64, so a Raspberry Pi with a 64-bit OS can run them; 32-bit is not supported."
         },
         {
           "main": "Paired like Home Assistant",
@@ -208,7 +208,7 @@
       }
     }
   ],
-  "requirements": "Docker with Compose, on a machine your phone can reach on the same network or over a VPN: a home server, a NAS or a Raspberry Pi with a 64-bit system. Or a Kubernetes cluster with Helm 3 or 4, with CloudNativePG for the default Postgres. On each phone, Life Dashboard Companion for Android or for iPhone, paired by QR code or pointed at the receiver's webhook URL on port 8080 with a label for that phone and the same secret as <code>WEBHOOK_SECRET</code>. Set that secret: without one the receiver accepts unsigned payloads and shows no pairing code. To reach the receiver from outside, put a reverse proxy with TLS in front of it. The stack is offered as a starting point you can change, not as a finished product.",
+  "requirements": "Docker with Compose, on a machine your phone can reach on the same network or over a VPN: a home server, a NAS or a Raspberry Pi with a 64-bit OS, as the images are published for amd64 and arm64 only. Or a Kubernetes cluster with Helm 3 or 4, with CloudNativePG for the default Postgres. On each phone, Life Dashboard Companion for Android or for iPhone, paired by QR code or pointed at the receiver's webhook URL on port 8080 with a label for that phone and the same secret as <code>WEBHOOK_SECRET</code>. Set that secret: without one the receiver accepts unsigned payloads and shows no pairing code. To reach the receiver from outside, put a reverse proxy with TLS in front of it. The stack is offered as a starting point you can change, not as a finished product.",
   "faq": [
     {
       "q": "Can I try it before I connect a phone?",
@@ -236,7 +236,7 @@
     },
     {
       "q": "Can I use it next to Home Assistant?",
-      "a": "Yes, as a second home for the data, with two things to know. Each tab of the app has one signing secret for all its webhooks, and pairing sets it, so pairing with the stack after Home Assistant gives Home Assistant payloads it refuses. Pair with Home Assistant, then add the stack's webhook URL by hand and run the stack with the same secret or without one; or send one phone to each. And a payload counts as delivered once one destination takes it, so if the stack is down at that moment, it misses that payload."
+      "a": "Yes, as a second home for the data, with two things to know. The Android app has one signing secret per tab (Health, Screen Time), the iPhone app one for all its webhooks. Pairing adds the receiver's URL and replaces that secret, and the dialog names the URLs that get signed with the new one, so pairing with the stack after Home Assistant gives Home Assistant payloads it refuses. Pair with Home Assistant, add the stack's webhook URL by hand, and set <code>WEBHOOK_SECRET</code> in the stack's <code>.env</code> to the same secret; or send one phone to each. A secret per destination is planned. And a payload counts as delivered once one destination takes it, so if the stack is down at that moment, it misses that payload."
     },
     {
       "q": "How do I upgrade?",
