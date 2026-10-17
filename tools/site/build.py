@@ -1041,7 +1041,7 @@ def build_llms():
 
 
 def build_sitemap():
-    urls = [("", max(PAGE_DATES.values()))] + [(f"{s}/", PAGE_DATES[f"{s}/"]) for s in ORDER] + [(f"{g[0]}/", PAGE_DATES[f"{g[0]}/"]) for g in GUIDES] + [("ios/privacy/", "2026-10-03")]
+    urls = [("", max(PAGE_DATES.values()))] + [(f"{s}/", PAGE_DATES[f"{s}/"]) for s in ORDER] + [(f"{g[0]}/", PAGE_DATES[f"{g[0]}/"]) for g in GUIDES] + [("ios/privacy/", "2026-10-18")]
     lines = f"  <url><loc>{DOMAIN}</loc><lastmod>{UPDATED}</lastmod></url>\n  <url><loc>{DOMAIN}privacy/</loc><lastmod>{UPDATED}</lastmod></url>\n" + "\n".join(f"  <url><loc>{BASE}{u}</loc><lastmod>{d}</lastmod></url>" for u, d in urls)
     (SITE / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{lines}\n</urlset>\n')
 
