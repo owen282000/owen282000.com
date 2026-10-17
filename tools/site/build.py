@@ -974,10 +974,10 @@ def fill(src, name, content):
 
 PROOF = {
     # Update when it changes; the numbers are floors, so they stay true.
-    "facts": [("45+", "Android releases since February 2026"), ("3", "outside contributors"), ("4", "parts, all MIT licensed")],
+    "facts": [("45+", "Android releases since February 2026"), ("5", "outside contributors"), ("4", "parts, all MIT licensed")],
     "projects": [
         ("Health Assistant", "https://github.com/health-assistant-io/health-assistant",
-         "A self-hosted health record. Its webhook integration reads the Life Dashboard payload and calls the app \u201cHighly Recommended for Android Users\u201d."),
+         "A self-hosted health record. Its webhook integration has a parser for the Life Dashboard payload and calls the app \u201cHighly Recommended for Android Users\u201d."),
         ("HealthQuery", "https://github.com/nikira-studio/healthquery",
          "A personal health dashboard in SQLite, with reports and an MCP server. Its data comes from Life Dashboard Companion."),
     ],
