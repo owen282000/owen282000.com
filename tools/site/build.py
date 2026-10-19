@@ -175,6 +175,8 @@ GUIDES = [
      "Steps, sleep and heart rate from Garmin Connect, with no Garmin login in Home Assistant."),
     ("health-data-own-ai", "Health Connect data over MCP, for your own AI", "MCP",
      "The stack's read-only MCP server lets a local model or Claude read your history. Works in Europe too."),
+    ("troubleshooting", "Troubleshooting: syncs, sensors and pairing", "Troubleshooting",
+     "Syncs that stop in the background, Health Connect permissions, missing sensors and pairing, step by step."),
 ]
 GUIDES = [g for g in GUIDES if (Path(__file__).resolve().parent / "guides" / f"{g[0]}.html").exists()]
 GUIDE_NAMES = {g[0]: g[1] for g in GUIDES}
@@ -192,6 +194,7 @@ GUIDE_ABOUT = {
     "health-connect-webhook": ["#android", "#ios"],
     "screen-time-home-assistant": ["#android", "#integration"],
     "smart-scale-to-samsung-health": ["#integration", "#android"],
+    "troubleshooting": ["#android", "#integration", "#ios"],
 }
 
 IMAGES = {
@@ -222,6 +225,8 @@ IMAGES = {
 CUT = {"H5-today"}
 
 NEXT = {
+    "troubleshooting": ("Still stuck? Ask in Discussions and include the row from the <strong>Logs</strong> tab; the setup guide has the full list of known problems.",
+        [("btn-primary", f"{REPO}/discussions", "Ask in Discussions"), ("btn-ghost", f"{REPO}/blob/main/docs/usage.md#troubleshooting", "Full troubleshooting list")]),
     "health-connect-n8n": ("Install the app, put the production URL of your published workflow in it and tap <strong>Test ping</strong>. The payload reference has the same check with a Crypto node.",
         [("btn-primary btn-store", "../android/#get", "Get the Android app"), ("btn-ghost", f"{REPO}/blob/main/docs/webhook.md#n8n-and-node-red", "n8n in the payload reference")]),
     "health-connect-data-types": ("Pick your types under <strong>Data Types</strong> on the <strong>Health</strong> tab and tap <strong>View</strong> to see what the next sync would send.",
