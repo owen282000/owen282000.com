@@ -39,8 +39,14 @@ F-Droid goes live (once https://f-droid.org/packages/com.owen282000.lifedashboar
 instead of a 404): in PARTS, set the "fdroid" entry's "status" to "live". That one line turns
 the framed "Accepted, live with F-Droid's next build" badge into a linked one everywhere, and
 the STALE check then refuses any page that still says F-Droid is pending.
+
+Live GitHub numbers: stats.py writes tools/site/stats.json (not in git). With a recent one, the
+landing page shows the stars, contributors and Android releases, and every product page its
+repo's stars, forks and contributors (the integration and the stack also their downloads, see
+stats.py for how they are counted). Without it, the landing page keeps the floors in PROOF
+and the product pages show no numbers. The server runs stats.py and this script every hour.
 """
-import hashlib, html, json, re, sys
+import hashlib, html, json, re, sys, time
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -1023,6 +1029,7 @@ def build_product(slug):
       <p class="lead">{html.escape(d["lead"])}</p>
       {hero_top}
       {hero_alt}
+      {repo_stats(slug)}
     </div>
     <div class="product-visual{" is-wide" if hero_kind == "wide" else ""}">
       {image(d["hero_image"], prefix, "hero-shot", eager=True)}
@@ -1116,8 +1123,45 @@ PROOF = {
 }
 
 
+def load_stats():
+    """The numbers from stats.py, or None when there are none from the last two days."""
+    try:
+        s = json.loads((HERE / "stats.json").read_text())
+    except (OSError, ValueError):
+        return None
+    return s if time.time() - s.get("fetched", 0) < 2 * 86400 else None
+
+
+STATS = load_stats()
+STATS_NOTE = "Live from GitHub, updated every hour"
+
+
+def repo_stats(slug):
+    """Stars, forks and contributors of one part's repo, under its hero. A zero is left out."""
+    s = STATS and STATS["repos"].get(slug)
+    if not s:
+        return ""
+    words = [("stars", "star", "stars"), ("forks", "fork", "forks"), ("contributors", "contributor", "contributors")]
+    items = ", ".join(f"<b>{s[k]}</b> {one if s[k] == 1 else many}" for k, one, many in words if s[k])
+    use = ""
+    if s.get("active"):
+        use = f' <b>{s["active"]}</b> active installations in Home Assistant\u2019s opt-in analytics.'
+    elif s.get("downloads") and slug == "home-assistant":
+        use = f' <b>{s["downloads"]}</b> downloads through HACS.'
+    elif s.get("downloads") and slug == "grafana":
+        use = f' <b>{s["downloads"]}</b> pulls of the database image.'
+    return (f'<p class="repo-stats"><a href="https://github.com/{s["repo"]}">On GitHub</a>: {items}.{use} '
+            f'<span>Updated every hour.</span></p>')
+
+
 def proof_section():
-    facts = "".join(f"<li><b>{n}</b> {t}</li>" for n, t in PROOF["facts"])
+    facts = PROOF["facts"]
+    if STATS:
+        facts = [(STATS["stars"], "stars on GitHub across the four repos"),
+                 (STATS["contributors"], "contributors"),
+                 (STATS["repos"]["android"]["releases"], "Android releases since February 2026"), facts[2]]
+    note = f'\n    <p class="stats-note">{STATS_NOTE}.</p>' if STATS else ""
+    facts = "".join(f"<li><b>{n}</b> {t}</li>" for n, t in facts)
     cards = "\n      ".join(
         f'<a class="part proj" href="{u}"><span class="tag">Built on it</span><h3>{n}</h3><p>{d}</p><span class="go">On GitHub</span></a>'
         for n, u, d in PROOF["projects"])
@@ -1126,7 +1170,7 @@ def proof_section():
     return f"""<div class="section-head">
       <h2>Other open-source projects build on it</h2>
     </div>
-    <ul class="proof-facts">{facts}</ul>
+    <ul class="proof-facts">{facts}</ul>{note}
     <div class="family three">
       {cards}
     </div>"""
