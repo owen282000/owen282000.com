@@ -11,7 +11,7 @@
 <meta name="theme-color" content="#101418">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png">
 <link rel="apple-touch-icon" href="../img/icon-180.png">
-<link rel="stylesheet" href="../site.css?v=8618951c">
+<link rel="stylesheet" href="../site.css?v=31fb76ce">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="How do I get Health Connect data into n8n?">
@@ -158,7 +158,7 @@
         <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
         GitHub
       </a>
-      <a class="btn btn-primary btn-sm" href="../#get">Install</a>
+      <a class="btn btn-primary btn-sm" href="../#get">Install options</a>
     </div>
   </div>
 </header>
@@ -181,7 +181,7 @@
 <h2 id="what-you-need">What you need</h2>
 
 <ul>
-  <li><a href="../android/">Life Dashboard Companion for Android</a> on Android 9 or newer with Health Connect, or <a href="../ios/">the iPhone app</a>. Today you build it from source with Xcode on a Mac. A public TestFlight beta is next.</li>
+  <li><a href="../android/">Life Dashboard Companion for Android</a> on Android 9 or newer with Health Connect, or <a href="../ios/">the iPhone app</a>. Today you build it from source with Xcode on a Mac, for free. Version 1.9.0 is in App Store review, as a paid app: €6.99 once, no subscription.</li>
   <li>n8n, on n8n Cloud or self-hosted, reachable from the phone. Use HTTPS. Plain HTTP on your own network needs <strong>Allow plain HTTP webhooks</strong> under <strong>Advanced</strong> in the Android app; the iPhone app allows plain HTTP only to an IP address, a <code>.local</code> name or a name without a dot.</li>
   <li>Room for large requests. Allow at least 10 MB per request. n8n takes up to 16 MB by default, but a reverse proxy in front of it must allow that too: nginx allows 1 MB by default.</li>
   <li>The <code>crypto</code> module in the Code node. n8n Cloud provides it. On self-hosted n8n, set <code>NODE_FUNCTION_ALLOW_BUILTIN=crypto</code>, on the task runner if you run one.</li>
@@ -189,7 +189,7 @@
 
 <h2 id="the-workflow-at-a-glance">The workflow at a glance</h2>
 
-<pre tabindex="0"><code>Webhook (POST, Raw Body)
+<pre tabindex="0" role="region" aria-label="Code: The workflow at a glance"><code>Webhook (POST, Raw Body)
   -> Code: check signature
   -> If: valid is true
        true  -> Respond to Webhook (204)
@@ -216,7 +216,7 @@
 
 <p>Every request carries <code>X-Signature: sha256=&lt;hex&gt;</code>, the HMAC-SHA256 of the raw body with your secret as the key. Add a <strong>Code</strong> node in JavaScript, mode <strong>Run Once for All Items</strong>:</p>
 
-<pre tabindex="0"><code>const crypto = require('crypto');
+<pre tabindex="0" role="region" aria-label="Code: Check the signature in a Code node"><code>const crypto = require('crypto');
 
 // The secret as the app shows it. Use it as text: don't hex-decode it.
 const SECRET = 'paste-the-secret-from-the-app';
@@ -255,7 +255,7 @@ return [{ json: { valid, payload: valid ? JSON.parse(raw.toString('utf8')) : nul
 
 <p>After the 204, a second Code node turns the payload into one item per record:</p>
 
-<pre tabindex="0"><code>const p = $input.first().json.payload;
+<pre tabindex="0" role="region" aria-label="Code: Turn the payload into rows"><code>const p = $input.first().json.payload;
 if (!p || p.test) return [];
 
 const rows = [];
@@ -280,7 +280,7 @@ return rows;</code></pre>
 
 <p>The same record can arrive more than once: after a retry, when its source edits it, and in every backfill. Key the table on <code>type</code> and <code>uuid</code>, both as <code>text</code>:</p>
 
-<pre tabindex="0"><code>CREATE TABLE health_records (
+<pre tabindex="0" role="region" aria-label="Code: Store it in Postgres, deduplicated on uuid"><code>CREATE TABLE health_records (
   type   text NOT NULL,
   uuid   text NOT NULL,
   source text,
@@ -291,14 +291,14 @@ return rows;</code></pre>
 
 <p>Add a <strong>Postgres</strong> node with the operation <strong>Execute Query</strong>:</p>
 
-<pre tabindex="0"><code>INSERT INTO health_records (type, uuid, source, time, data)
+<pre tabindex="0" role="region" aria-label="Code: Store it in Postgres, deduplicated on uuid"><code>INSERT INTO health_records (type, uuid, source, time, data)
 VALUES ($1, $2, $3, $4::timestamptz, $5::jsonb)
 ON CONFLICT (type, uuid) DO UPDATE
 SET source = EXCLUDED.source, time = EXCLUDED.time, data = EXCLUDED.data;</code></pre>
 
 <p>Under <strong>Options</strong>, add <strong>Query Parameters</strong> with this expression:</p>
 
-<pre tabindex="0"><code>{{ [ $json.type, $json.uuid, $json.source, $json.time, JSON.stringify($json.data) ] }}</code></pre>
+<pre tabindex="0" role="region" aria-label="Code: Store it in Postgres, deduplicated on uuid"><code>{{ [ $json.type, $json.uuid, $json.source, $json.time, JSON.stringify($json.data) ] }}</code></pre>
 
 <ul>
   <li>Pass values as Query Parameters, never as <code>{{ }}</code> inside the SQL. n8n pastes an expression in the SQL as plain text, so a quote in a value breaks the query.</li>
@@ -310,12 +310,12 @@ SET source = EXCLUDED.source, time = EXCLUDED.time, data = EXCLUDED.data;</code>
 
 <p>A record deleted in Health Connect or Apple Health is named in a later payload's <code>deleted_records</code>, with its <code>type</code> and <code>uuid</code>. A third Code node, also after the 204:</p>
 
-<pre tabindex="0"><code>const p = $input.first().json.payload;
+<pre tabindex="0" role="region" aria-label="Code: Apply deleted_records"><code>const p = $input.first().json.payload;
 return (p?.deleted_records ?? []).map(d =&gt; ({ json: { type: d.type, uuid: d.uuid } }));</code></pre>
 
 <p>Then a Postgres node with <strong>Execute Query</strong> and the Query Parameters <code>{{ [ $json.type, $json.uuid ] }}</code>:</p>
 
-<pre tabindex="0"><code>DELETE FROM health_records
+<pre tabindex="0" role="region" aria-label="Code: Apply deleted_records"><code>DELETE FROM health_records
 WHERE type = $1 AND (uuid = $2 OR starts_with(uuid, $2 || '#'));</code></pre>
 
 <p>The second half deletes the samples of a heart rate or skin temperature record from Android. From an iPhone, a sleep deletion names one stage of the night, not the night, so this query leaves the night in place. A type listed in <code>deletions_unavailable</code> can't be vouched for on that sync: run a backfill from the app to reconcile it.</p>
@@ -326,7 +326,7 @@ WHERE type = $1 AND (uuid = $2 OR starts_with(uuid, $2 || '#'));</code></pre>
 
 <p><strong>One row per day in Google Sheets.</strong> A Code node after the 204 takes the daily totals, which count a walk once even when phone and watch both recorded it:</p>
 
-<pre tabindex="0"><code>const p = $input.first().json.payload;
+<pre tabindex="0" role="region" aria-label="Code: Google Sheets or Telegram instead"><code>const p = $input.first().json.payload;
 return (p?.daily_totals ?? []).map(d =&gt; ({ json: d }));</code></pre>
 
 <p>Then a <strong>Google Sheets</strong> node with <strong>Append or Update Row</strong>, a sheet with the columns <code>date</code>, <code>steps</code>, <code>distance_meters</code>, <code>active_calories</code> and <code>total_calories</code>, and <code>date</code> as the column to match on. Today's row is a running total and updates with every sync. A field is missing on a day without data for that type.</p>
@@ -385,7 +385,7 @@ return (p?.daily_totals ?? []).map(d =&gt; ({ json: d }));</code></pre>
         <h2>Life Dashboard Companion</h2>
         <p>The open-source Android app this guide uses. No account and no cloud. <a href="../android/">More about the app</a>.</p>
         <a class="btn btn-primary btn-store" href="https://github.com/owen282000/life-dashboard-companion-app/releases/latest/download/app-release.apk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14"/></svg>Download the free APK</a>
-        <p class="aside-alt"><span class="soon-tag">Google Play: coming, as a paid listing of the same app</span> · <a class="nowrap" href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/owen282000/life-dashboard-companion-app">Obtainium</a> · <span class="soon-tag">F&#8209;Droid: coming</span></p>
+        <p class="aside-alt"><span class="soon-tag">Google Play: coming, as a paid listing of the same app</span> · <a class="nowrap" href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/owen282000/life-dashboard-companion-app">Obtainium</a> · <span class="soon-tag">F&#8209;Droid: accepted, the listing goes live with its next build</span></p>
       </div>
       <nav class="box" aria-label="Guides">
         <h2>Guides</h2>
@@ -469,6 +469,7 @@ return (p?.daily_totals ?? []).map(d =&gt; ({ json: d }));</code></pre>
       </div>
     </div>
     <p class="legal">Home Assistant is a trademark of the Open Home Foundation. Health Connect, Google Play, Google Health, Fitbit and Pixel Watch are trademarks of Google LLC. Apple, Apple Health, Apple Watch, iPhone, Xcode and TestFlight are trademarks of Apple Inc. App Store is a service mark of Apple Inc. Grafana is a trademark of Grafana Labs. Samsung Health, Garmin Connect, Oura and Withings belong to their owners. Life Dashboard is an independent project and is not affiliated with or endorsed by any of them. Screenshots show made-up data.</p>
+    <p class="legal credits">Badges: Google Play and App Store as published by Google and Apple; "Get it on F&#8209;Droid" by the <a href="https://gitlab.com/fdroid/artwork">F&#8209;Droid project</a> and "Get it on GitHub" by <a href="https://github.com/Kunzisoft/Github-badge">Kunzisoft</a>, both <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>; Obtainium from the <a href="https://github.com/ImranR98/Obtainium">Obtainium project</a>; the HACS, Artifact Hub and Docker Compose badges are drawn for this site in Roboto (SIL OFL), around the icons of the <a href="https://github.com/hacs/integration">HACS project</a> (MIT) and the <a href="https://github.com/artifacthub/hub">Artifact Hub project</a> (Apache 2.0) and Docker's logo from its media kit; the AlternativeTo badge is their compact badge on a black panel. GitHub is a trademark of GitHub, Inc. Docker, Docker Compose and the Docker logo are trademarks of Docker, Inc. Helm is a trademark of The Linux Foundation.</p>
   </div>
 </footer>
 </body>

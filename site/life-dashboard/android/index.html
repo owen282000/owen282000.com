@@ -11,7 +11,7 @@
 <meta name="theme-color" content="#101418">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png">
 <link rel="apple-touch-icon" href="../img/icon-180.png">
-<link rel="stylesheet" href="../site.css?v=8618951c">
+<link rel="stylesheet" href="../site.css?v=31fb76ce">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="Health Connect and screen time, sent to your own server">
@@ -229,7 +229,7 @@
         <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
         GitHub
       </a>
-      <a class="btn btn-primary btn-sm" href="#get">Install</a>
+      <a class="btn btn-primary btn-sm" href="#get">Install options</a>
     </div>
   </div>
 </header>
@@ -241,13 +241,13 @@
   <div class="wrap">
     <div>
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Android app</span></nav>
-      <div class="eyebrow"><span>Open source</span><span>No cloud</span><span>No account</span></div>
       <h1>Health Connect and screen time, sent to your own server</h1>
       <p class="lead">Life Dashboard Companion is an open-source Android app that sends Health Connect data and screen time per app to Home Assistant, MQTT or your own webhook, with no cloud and no account. It reads what Samsung Health, Google Health, Garmin Connect, Oura, Withings and others write to Health Connect.</p>
       <div class="cta-row stores">
         <a class="btn btn-primary btn-store" href="https://github.com/owen282000/life-dashboard-companion-app/releases/latest/download/app-release.apk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14"/></svg>Download the free APK</a>
       </div>
-      <p class="fineprint"><span class="soon-tag">Google Play: coming, as a paid listing of the same app</span> · <a class="nowrap" href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/owen282000/life-dashboard-companion-app">Obtainium</a> · <span class="soon-tag">F&#8209;Droid: coming</span></p>
+      <div class="badge-rows"><div class="badges"><a class="badge-link" href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/owen282000/life-dashboard-companion-app"><img class="badge-img" src="../img/badges/obtainium.png" alt="Get it on Obtainium" width="564" height="168" loading="lazy"></a></div><div class="badges"><span class="badge-soon"><img class="badge-img" src="../img/badges/google-play.png" alt="Get it on Google Play" width="564" height="168" loading="lazy"><small><b>Coming soon.</b> <span>Closed testing</span></small></span><span class="badge-soon"><img class="badge-img" src="../img/badges/f-droid.svg" alt="Get it on F-Droid" width="564" height="168" loading="lazy"><small><b>Coming soon.</b> <span>Accepted, live with F&#8209;Droid's next build</span></small></span></div></div>
+      
     </div>
     <div class="product-visual">
       <div class="phone hero-shot" style="aspect-ratio: 720 / 1476"><img src="../img/A1-health.webp" alt="The Health tab of the Android app" width="720" height="1476" fetchpriority="high"></div>
@@ -259,12 +259,8 @@
   <div class="wrap">
     <h2 class="sr-only">What it does</h2>
     <div class="highlights">
-        <div class="hl"><h3>33 Health Connect types</h3><p>Steps, sleep stages, heart rate, HRV, weight, blood pressure, glucose, workouts, nutrition and cycle tracking, each with its own switch.</p></div>
-        <div class="hl"><h3>Every record, with its source</h3><p>Each record goes out with a stable ID and the app that wrote it. Daily totals count a walk once.</p></div>
-        <div class="hl"><h3>A year of history</h3><p>Backfill 30, 90 or 365 days. In Home Assistant each day lands on its own date in long-term statistics.</p></div>
-        <div class="hl"><h3>Screen time per app</h3><p>Foreground minutes for every app, with a day boundary you choose and a filter that keeps the apps you pick out of what&#x27;s sent.</p></div>
-        <div class="hl"><h3>Three ways out</h3><p>The Life Dashboard integration, MQTT with Home Assistant Discovery, or any webhook that accepts a JSON POST. Several at once works too.</p></div>
-        <div class="hl"><h3>Receive into Health Connect</h3><p>Scale and blood pressure readings from Home Assistant go into Health Connect, where Samsung Health and Google Health read weight.</p></div>
+        <div class="hl-lead"><h3>33 Health Connect types</h3><p>Steps, sleep stages, heart rate, HRV, weight, blood pressure, glucose, workouts, nutrition and cycle tracking, each with its own switch.</p></div>
+        <ul class="hl-list"><li><h3>Every record, with its source</h3><p>Each record goes out with a stable ID and the app that wrote it. Daily totals count a walk once.</p></li><li><h3>A year of history</h3><p>Backfill 30, 90 or 365 days. In Home Assistant each day lands on its own date in long-term statistics.</p></li><li><h3>Screen time per app</h3><p>Foreground minutes for every app, with a day boundary you choose and a filter that keeps the apps you pick out of what&#x27;s sent.</p></li><li><h3>Three ways out</h3><p>The Life Dashboard integration, MQTT with Home Assistant Discovery, or any webhook that accepts a JSON POST. Several at once works too.</p></li><li><h3>Receive into Health Connect</h3><p>Scale and blood pressure readings from Home Assistant go into Health Connect, where Samsung Health and Google Health read weight.</p></li></ul>
     </div>
   </div>
 </section>
@@ -274,35 +270,32 @@
     <div class="show" id="home-assistant-and-mqtt">
       <div class="show-media"><div class="stage green-glow"></div><div class="phone solo" style="aspect-ratio: 720 / 1540"><img src="../img/A2-pair.webp" alt="The Pair with a receiver dialog in the Android app" width="720" height="1540" loading="lazy"></div></div>
       <div>
-        <div class="kicker">Home Assistant and MQTT</div>
         <h2>Into Home Assistant, with or without a broker</h2>
         <p>The Life Dashboard integration pairs with one QR code and keeps every day in long-term statistics. MQTT with Home Assistant Discovery suits a setup that already runs a broker and only needs current values.</p>
         <ul class="ticks">
           <li>Sensors for 25 of the 33 types <span>Today's steps, distance and calories, the latest heart rate, sleep, weight, blood pressure, glucose and more, and the last workout. MQTT gets 24, without the workout.</span></li>
           <li>Screen time in total and per app <span>Both routes get the totals. The sensor per app comes with the integration.</span></li>
           <li>Two phones on one broker <span>Give each a Phone name under Advanced, and each gets its own device and topics.</span></li>
-          <li>Pick one route <span>Running both gives you two devices with the same numbers.</span></li>
         </ul>
         <a class="link-arrow" href="../health-connect-home-assistant/">How to add Health Connect to Home Assistant</a>
       </div>
-    </div><div class="show flip" id="webhooks">
-      <div class="show-media"><div class="stage green-glow"></div><div class="phone solo" style="aspect-ratio: 720 / 1540"><img src="../img/A6-webhook.webp" alt="The Webhook settings with an HMAC signing secret" width="720" height="1540" loading="lazy"></div></div>
-      <div>
-        <div class="kicker">Webhooks</div>
-        <h2>Every record as JSON, to a server you run</h2>
-        <p>Point the app at <a href="../health-connect-n8n/">n8n</a>, Node-RED, the Grafana stack or a short script. A webhook also gets what no sensor holds: single meals, cycle tracking entries and workout details.</p>
+    </div><div class="show stack" id="webhooks">
+      <div class="stack-text">
+        <div><h2>Every record as JSON, to a server you run</h2></div>
+        <div><p>Point the app at <a href="../health-connect-n8n/">n8n</a>, Node-RED, the Grafana stack or a short script. A webhook also gets what no sensor holds: single meals, cycle tracking entries and workout details.</p>
         <ul class="ticks">
           <li>HMAC-SHA256 signatures <span>An X-Signature header your server can check. Generate creates a secret of 32 random bytes.</span></li>
           <li>Client certificates (mTLS) <span>Picked from Android's credential store, for a server behind a reverse proxy that requires one.</span></li>
           <li>An outbox on the phone <span>Up to 700 payloads wait while your server is down, and the next sync sends them first.</span></li>
           <li>Deletions reported <span>A record deleted in Health Connect is named in the next payload, so your receiver can drop it too.</span></li>
         </ul>
-        <a class="link-arrow" href="../health-connect-webhook/">Send Health Connect data to your own webhook</a>
+        <a class="link-arrow" href="../health-connect-webhook/">Send Health Connect data to your own webhook</a></div>
       </div>
+      <div class="show-media"><div class="stage green-glow"></div><div class="phone solo" style="aspect-ratio: 720 / 1540"><img src="../img/A6-webhook.webp" alt="The Webhook settings with an HMAC signing secret" width="720" height="1540" loading="lazy"></div></div>
     </div><div class="show" id="screen-time">
       <div class="show-media"><div class="stage purple-glow"></div><div class="phone solo" style="aspect-ratio: 720 / 1540"><img src="../img/A4-screen-time.webp" alt="The Screen Time tab of the Android app" width="720" height="1540" loading="lazy"></div></div>
       <div>
-        <div class="kicker purple">Screen time</div>
+        <p class="label purple">Screen time</p>
         <h2>Android screen time per app, next to your health data</h2>
         <p>The app reads foreground time per app from Android's usage statistics, the same numbers Digital Wellbeing uses. Screen time has its own schedule and webhooks, and works without Health Connect on Android 8.0 or newer.</p>
         <ul class="ticks purple-ticks">
@@ -320,16 +313,15 @@
 <section class="section tight band" id="get">
   <div class="wrap">
     <div class="section-head">
-      <div class="kicker">Install</div>
       <h2>Get the Android app</h2>
     </div>
     <div class="get-split">
       <article class="get-card" id="get-android">
         <header><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span><div><h3><a href="../android/">Life Dashboard Companion for Android</a></h3><p>Health Connect and screen time per app</p></div></header>
-        <a class="btn btn-primary btn-store" href="https://github.com/owen282000/life-dashboard-companion-app/releases/latest/download/app-release.apk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14"/></svg>Download the free APK</a>
+        <a class="badge-link" href="https://github.com/owen282000/life-dashboard-companion-app/releases/latest"><img class="badge-img" src="../img/badges/github.svg" alt="Get it on GitHub" width="564" height="168" loading="lazy"></a>
         <p class="store-note">Open it on your phone and allow installs from your browser once. Each new release is on GitHub, or Obtainium updates it for you.</p>
         <ul class="get-list">
-          <li><svg class="li-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"/></svg><span><b>Google Play</b> <span class="status soon">Coming</span><small>In closed testing now. It will be a paid listing; the APK on GitHub stays free.</small></span></li><li><svg class="li-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 4v4.5h-4.5"/></svg><span><b><a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/owen282000/life-dashboard-companion-app">Obtainium</a></b> <span class="status live">Available</span><small>An app updater for GitHub apps: installs the same APK and keeps it up to date. Open this link on your phone.</small></span></li><li><svg class="li-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="8" width="16" height="11" rx="2.5"/><path d="M8 8 6.5 5M16 8l1.5-3"/><circle cx="9.5" cy="13" r="1"/><circle cx="14.5" cy="13" r="1"/></svg><span><b>F-Droid</b> <span class="status soon">Coming</span><small>Submitted and in review.</small></span></li>
+          <li class="with-badge"><a class="badge-link" href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/owen282000/life-dashboard-companion-app"><img class="badge-img" src="../img/badges/obtainium.png" alt="Get it on Obtainium" width="564" height="168" loading="lazy"></a><small>An app updater for GitHub apps: installs the same APK and keeps it up to date. Open this link on your phone.</small></li><li class="with-badge"><span class="badge-soon"><img class="badge-img" src="../img/badges/google-play.png" alt="Get it on Google Play" width="564" height="168" loading="lazy"><small><b>Coming soon.</b> <span>Closed testing</span></small></span><small>In closed testing now. It will be a paid listing; the APK on GitHub stays free.</small></li><li class="with-badge"><span class="badge-soon"><img class="badge-img" src="../img/badges/f-droid.svg" alt="Get it on F-Droid" width="564" height="168" loading="lazy"><small><b>Coming soon.</b> <span>Accepted, live with F&#8209;Droid's next build</span></small></span><small>Accepted by F-Droid: the listing goes live with F-Droid's next build.</small></li>
         </ul>
         
       </article>
@@ -338,7 +330,7 @@
         <p>Health data needs Android 9 or newer with Health Connect, which is built into Android 14 and later and comes from Google Play on Android 9 through 13. Screen time works on Android 8.0 and newer. The Life Dashboard integration needs Home Assistant 2026.3 or newer with HACS. MQTT needs a broker, and a webhook needs a server that accepts a JSON POST.</p>
         <p class="fineprint">Sends to <a href="../home-assistant/">the Home Assistant integration</a>, <a href="../grafana/">the Grafana stack</a>, an MQTT broker or any webhook.</p>
         
-        <p class="listed"><a href="https://alternativeto.net/software/life-dashboard-companion/about/"><img src="../img/badges/alternativeto.svg" alt="Life Dashboard Companion on AlternativeTo" width="141" height="48"></a></p>
+        <p class="listed badges"><a class="badge-link" href="https://alternativeto.net/software/life-dashboard-companion/about/"><img class="badge-img" src="../img/badges/alternativeto.svg" alt="Life Dashboard Companion on AlternativeTo" width="229" height="77" loading="lazy"></a></p>
       </div>
     </div>
   </div>
@@ -347,7 +339,6 @@
 <section class="section tight" id="faq">
   <div class="wrap">
     <div class="section-head">
-      <div class="kicker">FAQ</div>
       <h2>Questions about the Android app</h2>
     </div>
     <div class="faq">
@@ -394,27 +385,27 @@
 
 <section class="section tight band">
   <div class="wrap">
-    <div class="section-head"><div class="kicker">Guides</div><h2>Setup guides</h2></div>
+    <div class="section-head"><h2>Setup guides</h2></div>
     <div class="family">
-      <a class="part" href="../health-connect-home-assistant/"><span class="tag">Home Assistant</span><h3>Health Connect in Home Assistant</h3><p>Samsung Health, Garmin, Fitbit, Oura and Withings data as sensors, with a year of history.</p><span class="go">Read the guide</span></a>
-      <a class="part" href="../health-connect-webhook/"><span class="tag">Webhooks</span><h3>Health Connect to a webhook</h3><p>The JSON payload, signatures, retries and receivers for n8n and Node-RED.</p><span class="go">Read the guide</span></a>
-      <a class="part" href="../screen-time-home-assistant/"><span class="tag">Screen time</span><h3>Screen time in Home Assistant</h3><p>Minutes per app as sensors, limits you set yourself, and several phones.</p><span class="go">Read the guide</span></a>
-      <a class="part" href="../smart-scale-to-samsung-health/"><span class="tag">Smart scale</span><h3>Smart scale to Samsung Health</h3><p>Weight, body fat and blood pressure from Home Assistant into Health Connect.</p><span class="go">Read the guide</span></a>
-      <a class="part" href="../fitbit-home-assistant/"><span class="tag">Fitbit</span><h3>Fitbit and Pixel Watch in Home Assistant</h3><p>Through Health Connect, with no Fitbit Web API and no Google Cloud project.</p><span class="go">Read the guide</span></a>
-      <a class="part" href="../garmin-home-assistant/"><span class="tag">Garmin</span><h3>Garmin in Home Assistant</h3><p>Steps, sleep and heart rate from Garmin Connect, with no Garmin login in Home Assistant.</p><span class="go">Read the guide</span></a>
-      <a class="part" href="../samsung-health-export/"><span class="tag">Export</span><h3>Samsung Health to your own server</h3><p>Galaxy Watch data as JSON in your own database, n8n flow or script.</p><span class="go">Read the guide</span></a>
-      <a class="part" href="../health-data-api/"><span class="tag">API</span><h3>A web API for Health Connect or Apple Health</h3><p>Why neither has one, and how to get the data onto your server anyway.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="../health-connect-home-assistant/"><h3>Health Connect in Home Assistant</h3><p>Samsung Health, Garmin, Fitbit, Oura and Withings data as sensors, with a year of history.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="../health-connect-webhook/"><h3>Health Connect to a webhook</h3><p>The JSON payload, signatures, retries and receivers for n8n and Node-RED.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="../screen-time-home-assistant/"><h3>Screen time in Home Assistant</h3><p>Minutes per app as sensors, limits you set yourself, and several phones.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="../smart-scale-to-samsung-health/"><h3>Smart scale to Samsung Health</h3><p>Weight, body fat and blood pressure from Home Assistant into Health Connect.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="../fitbit-home-assistant/"><h3>Fitbit and Pixel Watch in Home Assistant</h3><p>Through Health Connect, with no Fitbit Web API and no Google Cloud project.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="../garmin-home-assistant/"><h3>Garmin in Home Assistant</h3><p>Steps, sleep and heart rate from Garmin Connect, with no Garmin login in Home Assistant.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="../samsung-health-export/"><h3>Samsung Health to your own server</h3><p>Galaxy Watch data as JSON in your own database, n8n flow or script.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="../health-data-api/"><h3>A web API for Health Connect or Apple Health</h3><p>Why neither has one, and how to get the data onto your server anyway.</p><span class="go">Read the guide</span></a>
     </div>
   </div>
 </section>
 
 <section class="section tight">
   <div class="wrap">
-    <div class="section-head"><div class="kicker">Life Dashboard</div><h2>The other parts</h2><p>Both apps send the same payload, so an Android phone and an iPhone can share one Home Assistant or one stack.</p></div>
+    <div class="section-head"><h2>The other parts</h2><p>Both apps send the same payload, so an Android phone and an iPhone can share one Home Assistant or one stack.</p></div>
     <div class="family three">
-      <a class="part" href="../ios/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg></span><h3>Life Dashboard Companion for iPhone</h3><p>Apple Health, with the same payload</p><span class="go">Learn more</span></a>
-      <a class="part" href="../home-assistant/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 11 12 3.5l8.5 7.5"/><path d="M5.5 9.5V20h13V9.5"/><circle cx="12" cy="13.5" r="2"/><path d="M12 15.5V20"/></svg></span><h3>Life Dashboard integration for Home Assistant</h3><p>Sensors, statistics and a year of history</p><span class="go">Learn more</span></a>
-      <a class="part" href="../grafana/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M6.5 16v-4"/><path d="M11 16V7"/><path d="M15.5 16v-6"/><path d="M20 16V4"/></svg></span><h3>Life Dashboard stack</h3><p>Postgres, Grafana, an API and MCP, self-hosted</p><span class="go">Learn more</span></a>
+      <a class="part" href="../ios/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg></span><h3>Life Dashboard Companion for iPhone</h3><p>Apple Health, with the same payload</p><span class="go">See the iPhone app</span></a>
+      <a class="part" href="../home-assistant/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 11 12 3.5l8.5 7.5"/><path d="M5.5 9.5V20h13V9.5"/><circle cx="12" cy="13.5" r="2"/><path d="M12 15.5V20"/></svg></span><h3>Life Dashboard integration for Home Assistant</h3><p>Sensors, statistics and a year of history</p><span class="go">See the integration</span></a>
+      <a class="part" href="../grafana/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M6.5 16v-4"/><path d="M11 16V7"/><path d="M15.5 16v-6"/><path d="M20 16V4"/></svg></span><h3>Life Dashboard stack</h3><p>Postgres, Grafana, an API and MCP, self-hosted</p><span class="go">See the stack</span></a>
     </div>
   </div>
 </section>
@@ -474,6 +465,7 @@
       </div>
     </div>
     <p class="legal">Home Assistant is a trademark of the Open Home Foundation. Health Connect, Google Play, Google Health, Fitbit and Pixel Watch are trademarks of Google LLC. Apple, Apple Health, Apple Watch, iPhone, Xcode and TestFlight are trademarks of Apple Inc. App Store is a service mark of Apple Inc. Grafana is a trademark of Grafana Labs. Samsung Health, Garmin Connect, Oura and Withings belong to their owners. Life Dashboard is an independent project and is not affiliated with or endorsed by any of them. Screenshots show made-up data.</p>
+    <p class="legal credits">Badges: Google Play and App Store as published by Google and Apple; "Get it on F&#8209;Droid" by the <a href="https://gitlab.com/fdroid/artwork">F&#8209;Droid project</a> and "Get it on GitHub" by <a href="https://github.com/Kunzisoft/Github-badge">Kunzisoft</a>, both <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>; Obtainium from the <a href="https://github.com/ImranR98/Obtainium">Obtainium project</a>; the HACS, Artifact Hub and Docker Compose badges are drawn for this site in Roboto (SIL OFL), around the icons of the <a href="https://github.com/hacs/integration">HACS project</a> (MIT) and the <a href="https://github.com/artifacthub/hub">Artifact Hub project</a> (Apache 2.0) and Docker's logo from its media kit; the AlternativeTo badge is their compact badge on a black panel. GitHub is a trademark of GitHub, Inc. Docker, Docker Compose and the Docker logo are trademarks of Docker, Inc. Helm is a trademark of The Linux Foundation.</p>
   </div>
 </footer>
 </body>

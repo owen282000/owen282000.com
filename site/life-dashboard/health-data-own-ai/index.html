@@ -11,7 +11,7 @@
 <meta name="theme-color" content="#101418">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png">
 <link rel="apple-touch-icon" href="../img/icon-180.png">
-<link rel="stylesheet" href="../site.css?v=8618951c">
+<link rel="stylesheet" href="../site.css?v=31fb76ce">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="How do I ask my own AI about my Health Connect or Apple Health data over MCP?">
@@ -158,7 +158,7 @@
         <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
         GitHub
       </a>
-      <a class="btn btn-primary btn-sm" href="../#get">Install</a>
+      <a class="btn btn-primary btn-sm" href="../#get">Install options</a>
     </div>
   </div>
 </header>
@@ -219,12 +219,12 @@
 
 <ol>
   <li>In the stack's <code>.env</code>, set <code>MCP_TOKEN</code> to a long random string, different from <code>API_TOKEN</code>. The server refuses to start without one:
-<pre tabindex="0"><code>echo "MCP_TOKEN=$(openssl rand -hex 32)" &gt;&gt; .env</code></pre></li>
+<pre tabindex="0" role="region" aria-label="Code: Route 1: the stack&#x27;s own MCP server"><code>echo "MCP_TOKEN=$(openssl rand -hex 32)" &gt;&gt; .env</code></pre></li>
   <li>Start it with its profile. A plain <code>docker compose up</code> leaves it out, so add <code>COMPOSE_PROFILES=mcp</code> to <code>.env</code> if upgrades should include it:
-<pre tabindex="0"><code>docker compose --profile mcp up -d</code></pre></li>
+<pre tabindex="0" role="region" aria-label="Code: Route 1: the stack&#x27;s own MCP server"><code>docker compose --profile mcp up -d</code></pre></li>
   <li>Connect a client over Streamable HTTP, at <code>http://&lt;address of this machine&gt;:8090/mcp</code> with the header <code>Authorization: Bearer &lt;MCP_TOKEN&gt;</code>. In Open WebUI, add it under <strong>Admin settings</strong> &gt; <strong>Integrations</strong> &gt; <strong>External tool servers</strong> as the type MCP (Streamable HTTP), with the token as bearer authentication, then switch the tools on in a chat with your Ollama model. In LM Studio, add the URL and the header to <code>mcp.json</code>.</li>
   <li>Or use Claude Desktop on the same machine, over stdio, without the port or the token. Under <strong>Settings</strong> &gt; <strong>Developer</strong> &gt; <strong>Edit Config</strong>, add the stack, with the folder of your <code>docker-compose.yml</code> as the path, and restart Claude Desktop:
-<pre tabindex="0"><code>{
+<pre tabindex="0" role="region" aria-label="Code: Route 1: the stack&#x27;s own MCP server"><code>{
   "mcpServers": {
     "life-dashboard": {
       "command": "docker",
@@ -277,7 +277,7 @@
 <ol>
   <li>Store records keyed on <code>uuid</code> as text, <code>daily_totals</code> as one row per date, and apply <code>deleted_records</code>, so a model can't count a walk twice or read a record you deleted. <a href="../health-connect-webhook/#store-it-in-postgres">Store it in Postgres</a> has the details.</li>
   <li>Create a role that can only read those tables:
-<pre tabindex="0"><code>CREATE ROLE llm_ro LOGIN PASSWORD 'change-me';
+<pre tabindex="0" role="region" aria-label="Code: Route 3: your own Postgres with DBHub"><code>CREATE ROLE llm_ro LOGIN PASSWORD 'change-me';
 ALTER ROLE llm_ro SET default_transaction_read_only = on;
 ALTER ROLE llm_ro SET statement_timeout = '30s';
 GRANT CONNECT ON DATABASE health TO llm_ro;
@@ -345,7 +345,7 @@ GRANT SELECT ON records, daily_totals TO llm_ro;</code></pre>
         <h2>Life Dashboard Companion</h2>
         <p>The open-source Android app this guide uses. No account and no cloud. <a href="../android/">More about the app</a>.</p>
         <a class="btn btn-primary btn-store" href="https://github.com/owen282000/life-dashboard-companion-app/releases/latest/download/app-release.apk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14"/></svg>Download the free APK</a>
-        <p class="aside-alt"><span class="soon-tag">Google Play: coming, as a paid listing of the same app</span> · <a class="nowrap" href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/owen282000/life-dashboard-companion-app">Obtainium</a> · <span class="soon-tag">F&#8209;Droid: coming</span></p>
+        <p class="aside-alt"><span class="soon-tag">Google Play: coming, as a paid listing of the same app</span> · <a class="nowrap" href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/owen282000/life-dashboard-companion-app">Obtainium</a> · <span class="soon-tag">F&#8209;Droid: accepted, the listing goes live with its next build</span></p>
       </div>
       <nav class="box" aria-label="Guides">
         <h2>Guides</h2>
@@ -429,6 +429,7 @@ GRANT SELECT ON records, daily_totals TO llm_ro;</code></pre>
       </div>
     </div>
     <p class="legal">Home Assistant is a trademark of the Open Home Foundation. Health Connect, Google Play, Google Health, Fitbit and Pixel Watch are trademarks of Google LLC. Apple, Apple Health, Apple Watch, iPhone, Xcode and TestFlight are trademarks of Apple Inc. App Store is a service mark of Apple Inc. Grafana is a trademark of Grafana Labs. Samsung Health, Garmin Connect, Oura and Withings belong to their owners. Life Dashboard is an independent project and is not affiliated with or endorsed by any of them. Screenshots show made-up data.</p>
+    <p class="legal credits">Badges: Google Play and App Store as published by Google and Apple; "Get it on F&#8209;Droid" by the <a href="https://gitlab.com/fdroid/artwork">F&#8209;Droid project</a> and "Get it on GitHub" by <a href="https://github.com/Kunzisoft/Github-badge">Kunzisoft</a>, both <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>; Obtainium from the <a href="https://github.com/ImranR98/Obtainium">Obtainium project</a>; the HACS, Artifact Hub and Docker Compose badges are drawn for this site in Roboto (SIL OFL), around the icons of the <a href="https://github.com/hacs/integration">HACS project</a> (MIT) and the <a href="https://github.com/artifacthub/hub">Artifact Hub project</a> (Apache 2.0) and Docker's logo from its media kit; the AlternativeTo badge is their compact badge on a black panel. GitHub is a trademark of GitHub, Inc. Docker, Docker Compose and the Docker logo are trademarks of Docker, Inc. Helm is a trademark of The Linux Foundation.</p>
   </div>
 </footer>
 </body>
