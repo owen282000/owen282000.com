@@ -841,6 +841,10 @@ def build_product(slug):
         "home-assistant": 'Pairs with <a href="../android/">Life Dashboard Companion for Android</a> and <a href="../ios/">for iPhone</a>.',
         "grafana": 'Receives from <a href="../android/">Life Dashboard Companion for Android</a> and <a href="../ios/">for iPhone</a>.',
     }[slug]
+    # Listings elsewhere, each with its badge saved in img/badges/ like the store badges.
+    listed = {
+        "android": '<p class="listed"><a href="https://alternativeto.net/software/life-dashboard-companion/about/"><img src="img/badges/alternativeto.svg" alt="Life Dashboard Companion on AlternativeTo" width="141" height="48"></a></p>',
+    }.get(slug, "")
     entity = ENTITIES[slug]
     compare = ""
     if d.get("compare"):
@@ -930,6 +934,7 @@ def build_product(slug):
         <p>{d["requirements"]}</p>
         <p class="fineprint">{works_with}</p>
         {commands}
+        {listed}
       </div>
     </div>
   </div>
