@@ -48,7 +48,7 @@
         }
       ],
       "datePublished": "2026-10-06",
-      "dateModified": "2026-10-14",
+      "dateModified": "2026-10-19",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -161,7 +161,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Garmin in Home Assistant</span></nav>
 <h1>How do I get Garmin data into Home Assistant?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 14, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 19, 2026.</p>
 
 <p>Let Garmin Connect write to Health Connect on your Android phone, then let Life Dashboard Companion, an open-source Android app, send it to the Life Dashboard integration in Home Assistant. Home Assistant never needs your Garmin username, password or MFA code, so a change to Garmin's login can't break it.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in HACS</a></p>
@@ -196,7 +196,7 @@
 
 <ol>
   <li>In Garmin Connect, go to <strong>Settings</strong> &gt; <strong>Connected Apps</strong> &gt; <strong>Health Connect</strong> and allow the data types.</li>
-  <li>In HACS, add <code>https://github.com/owen282000/life-dashboard-ha</code> as a custom repository of type <strong>Integration</strong>, download <strong>Life Dashboard</strong> and restart Home Assistant.</li>
+  <li>In HACS, search for <strong>Life Dashboard</strong>, download it and restart Home Assistant.</li>
   <li>Go to <strong>Settings</strong> &gt; <strong>Devices &amp; services</strong> &gt; <strong>Add integration</strong>, search for <strong>Life Dashboard</strong> and name the phone. Put Home Assistant's IP address in the <strong>Home Assistant address</strong> field, such as <code>http://192.168.1.20:8123</code>; Home Assistant shows it under <strong>Settings</strong> &gt; <strong>System</strong> &gt; <strong>Network</strong>, in the <strong>Network adapter</strong> section. The dialog then shows a QR code.
   <figure class="shot wide"><a class="shot-link" href="../img/H2-qr.webp" aria-label="The Life Dashboard integration in Home Assistant showing a pairing QR code, full size"><img src="../img/H2-qr.webp" alt="The Life Dashboard integration in Home Assistant showing a pairing QR code" width="800" height="668" loading="lazy"></a></figure></li>
   <li>Install <a href="../android/#get">Life Dashboard Companion</a>: open the free APK from GitHub on the phone and allow installs from your browser once, or add it in Obtainium. Android may warn you before it installs an APK from outside the Play Store; it does that for every app from another source. Open the app, and at <strong>Where should your data go?</strong>, tap <strong>Scan a code from Home Assistant</strong>, scan the code and tap <strong>Pair</strong>.</li>

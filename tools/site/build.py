@@ -106,7 +106,7 @@ PARTS = {
         "get_title": "Install the integration", "req_short": "Home Assistant 2026.3 or newer.",
         "get": [
             {"id": "hacs", "kind": "store", "name": "HACS", "status": "live", "href": HACS, "cta": "Open in HACS",
-             "note": "As a custom repository for now; the default HACS list is pending. Restart Home Assistant after the download."},
+             "note": "In the default HACS list: search for Life Dashboard. Restart Home Assistant after the download."},
             {"id": "ha-setup", "name": "Setup steps", "status": "live", "href": "health-connect-home-assistant/#set-it-up", "rel": True,
              "note": "Add the integration, check the address the phone should use, scan the QR code."},
             {"id": "ha-source", "name": "Source on GitHub", "status": "live", "href": REPO_HA,

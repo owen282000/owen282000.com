@@ -3,7 +3,7 @@ title: Fitbit in Home Assistant after the API shutdown | Life Dashboard
 description: Google turns off the Fitbit Web API on October 30, 2026. Life Dashboard Companion gets Fitbit and Pixel Watch data into Home Assistant through Health Connect.
 primary query: fitbit home assistant
 secondary queries: fitbit api shutdown home assistant, fitbit integration stopped working home assistant, fitbit web api october 30 2026, pixel watch home assistant, fitbit web api deprecated, google health home assistant, fitbit health connect, fitbit integration unavailable, pixel watch health connect, fitbit sleep home assistant
-updated: 2026-10-14
+updated: 2026-10-19
 
 AFTER 30 OCT: switch these sentences to the past tense and set the updated line to the day you do it.
 - First paragraph: "Google turns off the Fitbit Web API on October 30, 2026." becomes "Google turned off the Fitbit Web API on October 30, 2026."
@@ -63,7 +63,7 @@ AFTER 30 OCT: switch these sentences to the past tense and set the updated line 
 
 <ol>
   <li>In the Google Health app, tap <strong>Connections</strong> at the top left, then <strong>Partner apps</strong>. Under <strong>Add connections</strong>, tap <strong>Sync your favorite health apps</strong> &gt; <strong>Set up</strong>, accept, choose the data types and tap <strong>Allow</strong>. Google's <a href="https://support.google.com/googlehealth/answer/14506680">help page</a> has the same steps.</li>
-  <li>In HACS, add <code>https://github.com/owen282000/life-dashboard-ha</code> as a custom repository of type <strong>Integration</strong>, download <strong>Life Dashboard</strong> and restart Home Assistant.</li>
+  <li>In HACS, search for <strong>Life Dashboard</strong>, download it and restart Home Assistant.</li>
   <li>Go to <strong>Settings</strong> &gt; <strong>Devices &amp; services</strong> &gt; <strong>Add integration</strong>, search for <strong>Life Dashboard</strong> and name the phone. Put Home Assistant's IP address in the <strong>Home Assistant address</strong> field, such as <code>http://192.168.1.20:8123</code>; Home Assistant shows it under <strong>Settings</strong> &gt; <strong>System</strong> &gt; <strong>Network</strong>, in the <strong>Network adapter</strong> section. The dialog then shows a QR code.</li>
   <!-- IMG: the QR code in Home Assistant (H2-qr.png) -->
   <li>Install <a href="../android/#get">Life Dashboard Companion</a>: open the free APK from GitHub on the phone and allow installs from your browser once, or add it in Obtainium. Android may warn you before it installs an APK from outside the Play Store; it does that for every app from another source. Open the app, and at <strong>Where should your data go?</strong>, tap <strong>Scan a code from Home Assistant</strong>, scan the code and tap <strong>Pair</strong>.</li>
