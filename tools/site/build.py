@@ -843,7 +843,7 @@ def build_product(slug):
     }[slug]
     # Listings elsewhere, each with its badge saved in img/badges/ like the store badges.
     listed = {
-        "android": '<p class="listed"><a href="https://alternativeto.net/software/life-dashboard-companion/about/"><img src="img/badges/alternativeto.svg" alt="Life Dashboard Companion on AlternativeTo" width="141" height="48"></a></p>',
+        "android": '<p class="listed"><a href="https://alternativeto.net/software/life-dashboard-companion/about/"><img src="../img/badges/alternativeto.svg" alt="Life Dashboard Companion on AlternativeTo" width="141" height="48"></a></p>',
     }.get(slug, "")
     entity = ENTITIES[slug]
     compare = ""
