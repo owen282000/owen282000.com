@@ -22,13 +22,23 @@ What it writes:
 Store status lives in PARTS only. Text anywhere can say {{status:android}} or {{status:ios}}
 and gets the current sentence from STATUS_TEXT.
 
+Store badges: every route with an entry in BADGES shows its official badge, saved once in
+site/life-dashboard/img/badges/ (never hotlinked, never recolored, cropped or faded). A live
+route links its badge; a route that is still "soon" shows the same unaltered badge unlinked,
+inside a dashed "Coming soon" frame with the caption from BADGES. Routes without a badge keep
+the text links (alt_links). GitHub has no official badge, so the APK stays a plain button.
+
 Launch day for Google Play or the App Store:
-1. Download the official badge (Google's Partner Marketing Hub, Apple's Marketing Tools) into
-   site/life-dashboard/img/badges/ under the name in BADGES. Never hotlink or embed it,
-   never recolor or crop it.
+1. The official badge is already in img/badges/ (Google's badge page, Apple's Marketing Tools),
+   shown as "Coming soon" until now. Never replace it with a recolored or cropped copy.
 2. In PARTS, set that entry's "status" to "live" (check its "href" and "note").
 3. Update STATUS_TEXT, run the script. It refuses to build while a page still says the store is
    coming. Live stores then lead every hero and install card with their official badge.
+
+F-Droid goes live (once https://f-droid.org/packages/com.owen282000.lifedashboard/ answers
+instead of a 404): in PARTS, set the "fdroid" entry's "status" to "live". That one line turns
+the framed "Accepted, live with F-Droid's next build" badge into a linked one everywhere, and
+the STALE check then refuses any page that still says F-Droid is pending.
 """
 import hashlib, html, json, re, sys
 from pathlib import Path
@@ -68,6 +78,7 @@ PARTS = {
     "android": {
         "name": "Android app", "full": "Life Dashboard Companion for Android",
         "line": "Health Connect and screen time per app",
+        "more": "See the Android app",
         "glyph": '<rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/>',
         "get_title": "Get the Android app", "req_short": "Android 8.0 or newer; health data from Android 9.",
         "get": [
@@ -80,28 +91,30 @@ PARTS = {
              "href": "https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/" + REPO,
              "note": "An app updater for GitHub apps: installs the same APK and keeps it up to date. Open this link on your phone."},
             {"id": "fdroid", "name": "F-Droid", "status": "soon", "href": "https://f-droid.org/packages/com.owen282000.lifedashboard/",
-             "note": "Submitted and in review."},
+             "soon_text": "F-Droid: accepted, the listing goes live with its next build",
+             "note": "Accepted by F-Droid: the listing goes live with F-Droid's next build."},
         ],
         "requires": "Android 9 or newer with Health Connect for health data; Android 8.0 or newer for screen time.",
     },
     "ios": {
         "name": "iPhone app", "full": "Life Dashboard Companion for iPhone",
         "line": "Apple Health, with the same payload",
+        "more": "See the iPhone app",
         "glyph": '<rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/>',
         "get_title": "Get the iPhone app", "req_short": "iOS 17 or newer. Building it takes a Mac and about an hour.",
         "get": [
-            {"id": "appstore", "kind": "store", "name": "App Store", "status": "soon", "href": "", "pill": "TestFlight beta next", "pill_icon": "testflight",
-             "note": "Planned after the TestFlight beta."},
+            {"id": "appstore", "kind": "store", "name": "App Store", "status": "soon", "href": "", "pill": "In App Store review",
+             "soon_text": "App Store: in Apple's review",
+             "note": "Version 1.9.0 has been in App Store review since 19 October. It will be a paid app: €6.99 once (US$5.99), no subscription. Building it with Xcode stays free."},
             {"id": "xcode", "name": "Build with Xcode", "status": "live", "href": REPO_IOS + "#build-and-install", "primary": True, "cta": "Build with Xcode",
              "note": "From source, on a Mac with Xcode: about an hour the first time. Your settings stay when you run a newer version."},
-            {"id": "testflight", "name": "TestFlight", "status": "soon", "href": "",
-             "note": "A public beta is next. No Mac needed then."},
         ],
         "requires": "iOS 17 or newer. Building it needs a Mac with Xcode; with a free Apple Account you run it from Xcode again every 7 days.",
     },
     "home-assistant": {
         "name": "Home Assistant integration", "nav": "Home Assistant", "full": "Life Dashboard integration for Home Assistant",
         "line": "Sensors, statistics and a year of history",
+        "more": "See the integration",
         "glyph": '<path d="M3.5 11 12 3.5l8.5 7.5"/><path d="M5.5 9.5V20h13V9.5"/><circle cx="12" cy="13.5" r="2"/><path d="M12 15.5V20"/>',
         "get_title": "Install the integration", "req_short": "Home Assistant 2026.3 or newer.",
         "get": [
@@ -117,6 +130,7 @@ PARTS = {
     "grafana": {
         "name": "Grafana stack", "full": "Life Dashboard stack",
         "line": "Postgres, Grafana, an API and MCP, self-hosted",
+        "more": "See the stack",
         "glyph": '<path d="M4 20h16"/><path d="M6.5 16v-4"/><path d="M11 16V7"/><path d="M15.5 16v-6"/><path d="M20 16V4"/>',
         "get_title": "Run the stack", "req_short": "Docker with Compose, or Kubernetes.",
         "get": [
@@ -134,19 +148,55 @@ ORDER = ["android", "ios", "home-assistant", "grafana"]
 
 # One sentence per app about where to get it, used through {{status:android}} and {{status:ios}}.
 STATUS_TEXT = {
-    "android": "Today you install the signed APK from GitHub, or through Obtainium, which keeps it up to date. Google Play is in closed testing, and F-Droid is reviewing the app.",
-    "ios": "Today you build it from source with Xcode on a Mac. A public TestFlight beta is next.",
+    "android": "Today you install the signed APK from GitHub, or through Obtainium, which keeps it up to date. Google Play is in closed testing, and F-Droid has accepted the app: the listing goes live with F-Droid's next build.",
+    "ios": "Today you build it from source with Xcode on a Mac, for free. Version 1.9.0 is in App Store review, as a paid app: €6.99 once, no subscription.",
 }
 # Phrases that must be gone once a store is live (checked on every build).
 STALE = {"play": ["coming to Google Play", "Google Play is in closed testing", "will be a paid listing"],
-         "appstore": ["App Store release is planned", "no App Store", "Planned after the TestFlight beta"],
-         "testflight": ["TestFlight beta is next", "TestFlight beta next", "A public beta is next"],
-         "fdroid": ["F-Droid is reviewing"],
+         "appstore": ["App Store release is planned", "no App Store", "Planned after the TestFlight beta",
+                      "TestFlight beta is next", "TestFlight beta next", "A public beta is next",
+                      "in App Store review", "In App Store review", "in Apple's review", "in Apple&#x27;s review"],
+         "fdroid": ["F-Droid is reviewing", "F-Droid has accepted", "Accepted by F-Droid", "listing goes live with"],
          "play_paid": []}
 
-# Official badge artwork, stored in img/badges/ (the site loads nothing from anyone else).
-BADGES = {"play": ("google-play.svg", "Get it on Google Play"),
-          "appstore": ("app-store.svg", "Download on the App Store")}
+# Official badge artwork, stored in img/badges/ (the site loads nothing from anyone else), keyed
+# by the PARTS route id: file, alt text, the file's own pixel size, and the caption shown while
+# the route is "soon". Sources: Google Play from play.google.com/intl/en_us/badges, the App
+# Store from toolbox.marketingtools.apple.com, F-Droid from F-Droid's artwork repository
+# (fdroid.gitlab.io/artwork/badge/get-it-on.svg), Obtainium from its repository
+# (assets/graphics/badge_obtainium.png). HACS, Artifact Hub and Docker Compose have no store
+# badge, so hacs.svg, artifact-hub.svg and docker-compose.svg are drawn in the shape of the
+# F-Droid and GitHub badges, around the official HACS and Artifact Hub icons, unaltered (the
+# sources are named inside each file), and the official Docker logo from Docker's media kit,
+# unaltered. Their lettering is Roboto (SIL OFL) converted to outlines, so it renders the same
+# everywhere. AlternativeTo has no black badge, so alternativeto.svg is their compact badge on the
+# shared black frame, with their logo mark and lettering unchanged.
+# Every file is cropped to the edge of its visible badge (the transparent margin of the Play,
+# F-Droid, Obtainium and GitHub files is cut from these copies; the artwork is untouched), so one
+# CSS height gives every badge the same visible height (.badge-img in site.css).
+BADGES = {"play": ("google-play.png", "Get it on Google Play", (564, 168), "Closed testing"),
+          "appstore": ("app-store.svg", "Download on the App Store", (120, 40), "In App Store review"),
+          "fdroid": ("f-droid.svg", "Get it on F-Droid", (564, 168), "Accepted, live with F-Droid's next build"),
+          "obtainium": ("obtainium.png", "Get it on Obtainium", (564, 168), ""),
+          "hacs": ("hacs.svg", "Get it on HACS", (564, 168), ""),
+          "compose": ("docker-compose.svg", "Run with Docker Compose", (877, 168), ""),
+          "helm": ("artifact-hub.svg", "Helm chart on Artifact Hub", (684, 168), ""),
+          "apk": ("github.svg", "Get it on GitHub", (564, 168), "")}
+# GitHub has no official badge; this one is the open-source "Get it on GitHub" badge from
+# github.com/Kunzisoft/Github-badge (CC BY-SA 3.0, made from F-Droid's badge template), credited
+# in the footer like the F-Droid badge (CC BY-SA 3.0). It links to the release page, not the file.
+BADGE_HREF = {"apk": REPO + "/releases/latest",
+              "helm": "https://artifacthub.io/packages/helm/life-dashboard/life-dashboard"}
+
+# The landing page groups the guides under these headings; every guide sits in exactly one.
+GUIDE_GROUPS = [
+    ("Home Assistant", ["health-connect-home-assistant", "companion-app-health-connect",
+                        "screen-time-home-assistant", "smart-scale-to-samsung-health"]),
+    ("Watch brands", ["samsung-health-home-assistant", "fitbit-home-assistant", "garmin-home-assistant",
+                      "samsung-health-export"]),
+    ("Your own server", ["health-connect-webhook", "health-connect-n8n", "health-data-api", "health-data-own-ai"]),
+    ("Reference", ["health-connect-data-types", "troubleshooting"]),
+]
 
 GUIDES = [
     ("health-connect-home-assistant", "Health Connect in Home Assistant", "Home Assistant",
@@ -320,7 +370,10 @@ SOURCE_CODE = {"@type": "SoftwareSourceCode", "codeRepository": REPO, "programmi
 
 GH = '<svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>'
 
-# Plain glyphs for the buttons. Not the stores' logos: a live store gets its official badge.
+# Plain glyphs for the buttons. Not the stores' logos: a store gets its official badge.
+# Why this style: drawn by hand on a 24 grid with a 2 px round-capped stroke, the same line as the
+# heartbeat mark in the app icon, so they read as part of that mark; each one draws the thing it
+# labels (a phone, a house, chart bars, a download arrow) and none comes from an icon library.
 ICONS = {
     "play": '<path d="M7 4.5v15l12-7.5z"/>',
     "appstore": '<rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/><path d="M9 16l3-8 3 8M10.2 13h3.6"/>',
@@ -343,18 +396,40 @@ def svg(path, cls=""):
     return f'<svg{c} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{path}</svg>'
 
 
+def badge(item, prefix=""):
+    """The official badge of a route. Live: a link. Pending: the same unaltered badge, not a
+    link, in a dashed frame with a "Coming soon" caption (stores forbid recoloring or fading)."""
+    f, alt, (w, h), soon = BADGES[item["id"]]
+    img = f'<img class="badge-img" src="{prefix}img/badges/{f}" alt="{alt}" width="{w}" height="{h}" loading="lazy">'
+    if item["status"] == "live":
+        return f'<a class="badge-link" href="{BADGE_HREF.get(item["id"]) or href_of(item, prefix)}">{img}</a>'
+    detail = f' <span>{soon.replace("F-Droid", "F&#8209;Droid")}</span>' if soon else ""
+    return f'<span class="badge-soon">{img}<small><b>Coming soon.</b>{detail}</small></span>'
+
+
+def has_badge(item):
+    return item["id"] in BADGES
+
+
+def badge_row(items, prefix=""):
+    """The live badges in one row, the ones still coming in a row of their own under it, each in
+    PARTS order, so a framed "Coming soon" badge never sits between two plain ones."""
+    rows = []
+    for live in (True, False):
+        shown = [badge(it, prefix) for it in items if has_badge(it) and (it["status"] == "live") == live]
+        if shown:
+            rows.append(f'<div class="badges">{"".join(shown)}</div>')
+    if len(rows) == 2:
+        return f'<div class="badge-rows">{"".join(rows)}</div>'
+    return rows[0] if rows else ""
+
+
 def store_button(item, fallback, prefix=""):
-    """Live Google Play or App Store: the official badge. Live HACS or Compose: a store-style
-    button. Pending: a dashed text button that leads to the install section."""
-    live = item["status"] == "live"
-    if live and item["id"] in BADGES:
-        f, alt = BADGES[item["id"]]
-        return f'<a class="store-badge" href="{item["href"]}"><img src="{prefix}img/badges/{f}" alt="{alt}" height="48"></a>'
-    if live:
-        return lead_button(dict(item, kind=""), prefix)
-    top = "Coming soon to the" if item["id"] == "appstore" else "Coming soon to"
-    return (f'<a class="store-btn soon" href="{fallback}">{svg(ICONS[item["id"]])}'
-            f'<span><small>{top}</small><b>{item["name"]}</b></span></a>')
+    """A route with an official badge shows the badge (linked when live, framed as coming soon
+    otherwise). A live route without one (Compose) gets a store-style button."""
+    if has_badge(item):
+        return badge(item, prefix)
+    return lead_button(dict(item, kind=""), prefix)
 
 
 def store_of(slug):
@@ -395,10 +470,14 @@ def get_card_compact(slug, prefix):
     p = PARTS[slug]
     lead = lead_item(slug)
     rest = [it for it in p["get"] if it is not lead]
+    plain = [it for it in rest if not has_badge(it)]
+    alt = f'\n        <p class="get-alt">{alt_links(plain, prefix)}</p>' if plain else ""
+    # An install card with a badged lead (the APK on GitHub, HACS) shows one row of badges, so the
+    # same download never appears twice side by side; heroes keep the plain primary button.
+    top = badge_row([lead] + rest, prefix) if has_badge(lead) else lead_button(lead, prefix) + "\n        " + badge_row(rest, prefix)
     return f"""<article class="get-card compact" id="get-{slug}">
         <header><span class="part-ico">{svg(p["glyph"])}</span><div><h3><a href="{prefix}{slug}/">{p["full"]}</a></h3><p>{p["req_short"]}</p></div></header>
-        {lead_button(lead, prefix)}
-        <p class="get-alt">{alt_links(rest, prefix)}</p>
+        {top}{alt}
       </article>"""
 
 
@@ -407,10 +486,13 @@ def get_card(slug, prefix, req=True):
     page = f"{prefix}{slug}/"
     lead = lead_item(slug)
     rows = []
-    for it in p["get"]:
+    for it in sorted(p["get"], key=lambda it: has_badge(it) and it["status"] != "live"):
         if it is lead:
             continue
         live = it["status"] == "live"
+        if has_badge(it):
+            rows.append(f'<li class="with-badge">{badge(it, prefix)}<small>{it["note"]}</small></li>')
+            continue
         tag = '<span class="status live">Available</span>' if live else '<span class="status soon">Coming</span>'
         name = f'<a href="{href_of(it, prefix)}">{it["name"]}</a>' if live else it["name"]
         rows.append(f'<li>{svg(ICONS[it["id"]], "li-ico")}<span><b>{name}</b> {tag}<small>{it["note"]}</small></span></li>')
@@ -419,7 +501,7 @@ def get_card(slug, prefix, req=True):
     title = f'<a href="{page}">{p["full"]}</a>'
     return f"""<article class="get-card" id="get-{slug}">
         <header><span class="part-ico">{svg(p["glyph"])}</span><div><h3>{title}</h3><p>{p["line"]}</p></div></header>
-        {lead_button(lead, prefix)}
+        {badge(lead, prefix) if has_badge(lead) else lead_button(lead, prefix)}
         {note}
         <ul class="get-list">
           {"".join(rows)}
@@ -430,11 +512,16 @@ def get_card(slug, prefix, req=True):
 
 def get_section(prefix):
     cards = "\n      ".join(get_card_compact(s, prefix) for s in ORDER)
+    # The three steps that used to sit under the flow diagram, told once, here where they happen.
     return f"""<div class="section-head">
-      <div class="kicker">Get it</div>
       <h2>Pick your phone, then pick where the data goes</h2>
       <p>Using Home Assistant or the stack? Set that up first; the app scans its QR code.</p>
     </div>
+    <ol class="get-steps">
+      <li><b>Pick where it goes</b> Home Assistant, the Grafana stack, or your own broker or URL.</li>
+      <li><b>Install the app</b> Scan the QR code of Home Assistant or the stack, or enter an address.</li>
+      <li><b>Sync</b> Pick your data, tap <strong>Sync Now</strong>, and the schedule does the rest.</li>
+    </ol>
     <div class="get-grid">
       {cards}
     </div>"""
@@ -452,8 +539,8 @@ def android_coming():
 def hero_stores(prefix):
     """Landing hero and final call to action: live stores lead with their official badges.
     While Google Play is pending, a working "Install today" button leads, a demo needs no phone,
-    and one line per phone says how to get it today and what is coming. Once Google Play is live,
-    small pills say what is still coming."""
+    the stores still to come show their badges in a "Coming soon" frame, and one line per phone
+    says how to get it today."""
     stores = {s: store_of(s) for s in ("android", "ios")}
     live = [s for s in ("ios", "android") if stores[s]["status"] == "live"]  # Apple: App Store badge first
     btns = [store_button(stores[s], "", prefix) for s in live]
@@ -461,22 +548,13 @@ def hero_stores(prefix):
         btns.insert(0, f'<a class="btn btn-primary btn-store" href="{prefix}#get">Install today</a>')
         btns.insert(1, f'<a class="btn btn-ghost btn-store" href="{prefix}grafana/#dashboards">See the demo dashboards</a>')
     out = '<div class="cta-row stores">\n        ' + "\n        ".join(btns) + "\n      </div>"
+    out += "\n      " + badge_row([stores[s] for s in ("ios", "android") if s not in live], prefix)
     if stores["android"]["status"] != "live":
         out += ('\n      <ul class="install-paths">'
                 f'<li>{svg(PARTS["android"]["glyph"])}<span><b>Android</b> Free APK today. {android_coming()}</span></li>'
-                f'<li>{svg(PARTS["ios"]["glyph"])}<span><b>iPhone</b> <a href="{prefix}ios/#building">Build it with Xcode</a> on a Mac, about an hour. TestFlight beta next.</span></li>'
+                f'<li>{svg(PARTS["ios"]["glyph"])}<span><b>iPhone</b> <a href="{prefix}ios/#building">Build it with Xcode</a> on a Mac, about an hour. In App Store review.</span></li>'
                 '</ul>')
-        return out
-    pills = [f'<a class="soon-pill" href="{"#get-" + s if not prefix else prefix + s + "/#get"}">'
-             f'{svg(ICONS[stores[s].get("pill_icon", stores[s]["id"])])}{stores[s].get("pill", "Coming soon to " + stores[s]["name"])}</a>'
-             for s in ("android", "ios") if s not in live]
-    if pills:
-        out += '\n      <div class="soon-row">\n        ' + "\n        ".join(pills) + "\n      </div>"
     return out
-
-
-def status_line():
-    return "Coming to Google Play and F-Droid. On iPhone, a TestFlight beta is next."
 
 
 def nav(prefix, active=None):
@@ -509,7 +587,7 @@ def nav(prefix, active=None):
         {GH}
         GitHub
       </a>
-      <a class="btn btn-primary btn-sm" href="{install}">Install</a>
+      <a class="btn btn-primary btn-sm" href="{install}">Install options</a>
     </div>
   </div>
 </header>"""
@@ -573,6 +651,7 @@ def footer(prefix):
       </div>
     </div>
     <p class="legal">Home Assistant is a trademark of the Open Home Foundation. Health Connect, Google Play, Google Health, Fitbit and Pixel Watch are trademarks of Google LLC. Apple, Apple Health, Apple Watch, iPhone, Xcode and TestFlight are trademarks of Apple Inc. App Store is a service mark of Apple Inc. Grafana is a trademark of Grafana Labs. Samsung Health, Garmin Connect, Oura and Withings belong to their owners. Life Dashboard is an independent project and is not affiliated with or endorsed by any of them. Screenshots show made-up data.</p>
+    <p class="legal credits">Badges: Google Play and App Store as published by Google and Apple; "Get it on F&#8209;Droid" by the <a href="https://gitlab.com/fdroid/artwork">F&#8209;Droid project</a> and "Get it on GitHub" by <a href="https://github.com/Kunzisoft/Github-badge">Kunzisoft</a>, both <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>; Obtainium from the <a href="https://github.com/ImranR98/Obtainium">Obtainium project</a>; the HACS, Artifact Hub and Docker Compose badges are drawn for this site in Roboto (SIL OFL), around the icons of the <a href="https://github.com/hacs/integration">HACS project</a> (MIT) and the <a href="https://github.com/artifacthub/hub">Artifact Hub project</a> (Apache 2.0) and Docker's logo from its media kit; the AlternativeTo badge is their compact badge on a black panel. GitHub is a trademark of GitHub, Inc. Docker, Docker Compose and the Docker logo are trademarks of Docker, Inc. Helm is a trademark of The Linux Foundation.</p>
   </div>
 </footer>"""
 
@@ -620,7 +699,7 @@ def image(name, prefix, cls="", eager=False):
         return f'<div class="phone {cls}" style="aspect-ratio: {w} / {h}">{img}</div>'
     if kind == "card":
         return f'<figure class="qr-card {cls}">{img}</figure>'
-    return (f'<div class="wide-shot {cls}"><div class="wide-bar"><i></i><i></i><i></i></div>'
+    return (f'<div class="wide-shot {cls}">'
             f'<a class="shot-link" href="{prefix}img/{name}.webp" aria-label="{alt}, full size">{img}</a></div>')
 
 
@@ -696,7 +775,13 @@ def enhance(body, short):
         t = re.sub(r"(<tbody>.*?</tbody>)", lambda x: re.sub(r"<tr>\s*<td>(.*?)</td>", r'<tr><th scope="row">\1</th>', x.group(1), flags=re.S), t, flags=re.S)
         return f'<div class="table-wrap" tabindex="0" role="region" aria-label="{html.escape(label)}">{t}</div>'
     body = re.sub(r"<table>.*?</table>", table, body, flags=re.S)
-    body = body.replace("<pre><code>", '<pre tabindex="0"><code>')
+
+    def pre(m):
+        # A focusable code block needs a name: "Code: <the heading it sits under>".
+        caps = re.findall(r"<h[23][^>]*>(.*?)</h[23]>", body[:m.start()], re.S)
+        label = "Code: " + (strip_tags(caps[-1]) if caps else "example")
+        return f'<pre tabindex="0" role="region" aria-label="{html.escape(label)}"><code>'
+    body = re.sub(r"<pre><code>", pre, body)
     body = re.sub(r"<h2>(.*?)</h2>", lambda m: f'<h2 id="{slugify(m.group(1))}">{m.group(1)}</h2>', body)
     body = re.sub(r"<h3>(.*?)</h3>", lambda m: f'<h3 id="{slugify(m.group(1))}">{m.group(1)}</h3>', body)
     body = body.replace('<h2 id="faq">FAQ</h2>', '<h2 id="faq">Common questions</h2>')
@@ -782,9 +867,21 @@ def build_guide(slug, short):
 def guide_card(g, prefix, compact=False):
     slug, name, tag, desc = next(x for x in GUIDES if x[0] == g)
     if compact:
-        return f'<a class="guide-link" href="{prefix}{slug}/"><span class="tag">{tag}</span><b>{name}</b></a>'
-    return (f'<a class="part" href="{prefix}{slug}/"><span class="tag">{tag}</span><h3>{name}</h3>'
+        return f'<li><a class="guide-link" href="{prefix}{slug}/">{name}</a></li>'
+    return (f'<a class="part" href="{prefix}{slug}/"><h3>{name}</h3>'
             f'<p>{desc}</p><span class="go">Read the guide</span></a>')
+
+
+def guide_groups(prefix):
+    """The landing page's guides, under a few real headings instead of a tag per card."""
+    listed = [s for _, slugs in GUIDE_GROUPS for s in slugs]
+    missing = [g[0] for g in GUIDES if g[0] not in listed]
+    assert not missing and len(listed) == len(set(listed)), f"GUIDE_GROUPS: missing {missing} or a guide listed twice"
+    cols = []
+    for title, slugs in GUIDE_GROUPS:
+        items = "".join(guide_card(s, prefix, compact=True) for s in slugs if s in GUIDE_NAMES)
+        cols.append(f'<div class="guide-group"><h3>{title}</h3><ul>{items}</ul></div>')
+    return '<div class="guide-groups">\n      ' + "\n      ".join(cols) + "\n    </div>"
 
 
 def build_product(slug):
@@ -795,35 +892,58 @@ def build_product(slug):
     lead = lead_item(slug)
     rest = [it for it in p["get"] if it is not lead]
     hero_kind = IMAGES[d["hero_image"]][0]
-    highlights = "\n        ".join(
-        f'<div class="hl"><h3>{html.escape(h["title"])}</h3><p>{html.escape(h["text"])}</p></div>' for h in d["highlights"])
+    # The first highlight is what the part is for, so it gets the large cell; the rest follow
+    # as a plain list, as many as the JSON holds.
+    hl = d["highlights"]
+    highlights = (f'<div class="hl-lead"><h3>{html.escape(hl[0]["title"])}</h3><p>{html.escape(hl[0]["text"])}</p></div>'
+                  + '\n        <ul class="hl-list">' + "".join(
+                      f'<li><h3>{html.escape(h["title"])}</h3><p>{html.escape(h["text"])}</p></li>' for h in hl[1:]) + '</ul>')
     rows = []
+    # Rhythm: the zigzag breaks at least once per page. A wide screenshot gets a full-width row
+    # under its text; a page without one stacks its second section the same way.
+    any_wide = any(IMAGES[s["image"]][0] == "wide" for s in d["sections"] if s.get("image"))
     for i, s in enumerate(d["sections"]):
         bullets = "\n          ".join(
             f'<li>{b["main"]}' + (f' <span>{b["sub"]}</span>' if b.get("sub") else "") + "</li>" for b in s["bullets"])
+        stack = False
         if s.get("code"):
             # A section can show a code window instead of a screenshot.
             tone = ""
-            media = (f'<div class="show-code"><div class="code-window"><div class="code-bar"><i></i><i></i><i></i><span>{html.escape(s["code"]["title"])}</span></div>'
-                     f'<pre tabindex="0"><code>{html.escape(s["code"]["code"])}</code></pre></div></div>')
+            title = html.escape(s["code"]["title"])
+            media = (f'<div class="show-code"><div class="code-window"><div class="code-bar"><span>{title}</span></div>'
+                     f'<pre tabindex="0" role="region" aria-label="{title}"><code>{html.escape(s["code"]["code"])}</code></pre></div></div>')
         else:
             kind = IMAGES[s["image"]][0]
+            stack = kind == "wide" or (not any_wide and i == 1)
             stage = "purple-glow" if s["image"] in PURPLE else "green-glow"
             tone = " purple" if s["image"] in PURPLE else ""
             media = (f'<div class="show-media{" is-wide" if kind == "wide" else ""}{" has-card" if kind == "card" else ""}"><div class="stage {stage}"></div>'
                      + (f'{image(s["image"], prefix, "p1")}{image(s["image2"], prefix, "p2")}' if s.get("image2") else image(s["image"], prefix, "solo"))
                      + '</div>')
         link = f'<a class="link-arrow" href="{s["link"]["href"]}">{html.escape(s["link"]["text"])}</a>' if s.get("link") else ""
-        rows.append(f"""<div class="show{" flip" if i % 2 else ""}" id="{slugify(s["kicker"])}">
-      {media}
-      <div>
-        <div class="kicker{tone}">{html.escape(s["kicker"])}</div>
-        <h2>{s["h2"].replace("QR code", "QR&nbsp;code")}</h2>
-        <p>{s["text"]}</p>
+        # Only the screen time label carries meaning (purple means screen time); the others
+        # repeated their heading and are gone. The id stays, since links point at it.
+        label = f'<p class="label{tone}">{html.escape(s["kicker"])}</p>\n        ' if tone else ""
+        h2 = s["h2"].replace("QR code", "QR&nbsp;code")
+        body = f"""<p>{s["text"]}</p>
         <ul class="ticks{" purple-ticks" if tone else ""}">
           {bullets}
         </ul>
-        {link}
+        {link}"""
+        if stack:
+            rows.append(f"""<div class="show stack" id="{slugify(s["kicker"])}">
+      <div class="stack-text">
+        <div>{label}<h2>{h2}</h2></div>
+        <div>{body}</div>
+      </div>
+      {media}
+    </div>""")
+            continue
+        rows.append(f"""<div class="show{" flip" if i % 2 else ""}" id="{slugify(s["kicker"])}">
+      {media}
+      <div>
+        {label}<h2>{h2}</h2>
+        {body}
       </div>
     </div>""")
     faq = "\n      ".join(f'<details{" id=" + chr(34) + f["id"] + chr(34) if f.get("id") else ""}{" open" if f.get("open") else ""}>\n        <summary>{html.escape(f["q"])}</summary>\n        <p>{f["a"]}</p>\n      </details>' for f in d["faq"])
@@ -833,7 +953,7 @@ def build_product(slug):
                     "grafana": "What the stack receives, step by step"}.get(slug, "Step by step")
     single_guide = (f'<p class="faq-more">{single_label}: <a class="link-arrow" href="../{gl[0]}/">{GUIDE_NAMES[gl[0]]}</a></p>' if len(gl) == 1 else "")
     siblings = "\n      ".join(
-        f'<a class="part" href="../{s}/"><span class="part-ico">{svg(PARTS[s]["glyph"])}</span><h3>{PARTS[s]["full"]}</h3><p>{PARTS[s]["line"]}</p><span class="go">Learn more</span></a>'
+        f'<a class="part" href="../{s}/"><span class="part-ico">{svg(PARTS[s]["glyph"])}</span><h3>{PARTS[s]["full"]}</h3><p>{PARTS[s]["line"]}</p><span class="go">{PARTS[s]["more"]}</span></a>'
         for s in ORDER if s != slug)
     works_with = {
         "android": 'Sends to <a href="../home-assistant/">the Home Assistant integration</a>, <a href="../grafana/">the Grafana stack</a>, an MQTT broker or any webhook.',
@@ -843,7 +963,7 @@ def build_product(slug):
     }[slug]
     # Listings elsewhere, each with its badge saved in img/badges/ like the store badges.
     listed = {
-        "android": '<p class="listed"><a href="https://alternativeto.net/software/life-dashboard-companion/about/"><img src="../img/badges/alternativeto.svg" alt="Life Dashboard Companion on AlternativeTo" width="141" height="48"></a></p>',
+        "android": '<p class="listed badges"><a class="badge-link" href="https://alternativeto.net/software/life-dashboard-companion/about/"><img class="badge-img" src="../img/badges/alternativeto.svg" alt="Life Dashboard Companion on AlternativeTo" width="229" height="77" loading="lazy"></a></p>',
     }.get(slug, "")
     entity = ENTITIES[slug]
     compare = ""
@@ -853,7 +973,7 @@ def build_product(slug):
         cbody = "".join("<tr><th scope=\"row\">" + r[0] + "</th>" + "".join(f"<td>{x}</td>" for x in r[1:]) + "</tr>" for r in c["rows"])
         compare = f"""<section class="section tight" id="compare">
   <div class="wrap">
-    <div class="section-head"><div class="kicker">Compared</div><h2>{c["title"]}</h2><p>{c["intro"]}</p></div>
+    <div class="section-head"><h2>{c["title"]}</h2><p>{c["intro"]}</p></div>
     <div class="table-wrap compare-wrap" tabindex="0" role="region" aria-label="{html.escape(c["title"])}"><table class="compare"><thead><tr>{chead}</tr></thead><tbody>{cbody}</tbody></table></div>
     <p class="fineprint">{c["source"]}</p>
   </div>
@@ -862,8 +982,9 @@ def build_product(slug):
 """
     commands = ""
     if d.get("commands"):
-        commands = (f'<div class="code-window"><div class="code-bar"><i></i><i></i><i></i><span>{html.escape(d["commands"]["title"])}</span></div>'
-                    f'<pre tabindex="0"><code>{html.escape(d["commands"]["code"])}</code></pre></div>'
+        ctitle = html.escape(d["commands"]["title"])
+        commands = (f'<div class="code-window"><div class="code-bar"><span>{ctitle}</span></div>'
+                    f'<pre tabindex="0" role="region" aria-label="{ctitle}"><code>{html.escape(d["commands"]["code"])}</code></pre></div>'
                     f'<p class="fineprint">{d["commands"]["after"]}</p>')
     graph = [breadcrumb(d["nav_name"], url),
              {"@type": "WebPage", "@id": url, "url": url, "name": d["title"], "description": d["description"],
@@ -874,7 +995,7 @@ def build_product(slug):
     PAGE_DATES[f"{slug}/"] = d.get("updated", UPDATED)
     guides_section = f"""<section class="section tight band">
   <div class="wrap">
-    <div class="section-head"><div class="kicker">Guides</div><h2>Setup guides</h2></div>
+    <div class="section-head"><h2>Setup guides</h2></div>
     <div class="family{" three" if len(gl) == 3 else ""}">
       {guides}
     </div>
@@ -883,6 +1004,12 @@ def build_product(slug):
 """ if len(gl) > 1 else ""
     faq_title = {"android": "Questions about the Android app", "ios": "Questions about the iPhone app",
                  "home-assistant": "Questions about the integration", "grafana": "Questions about the stack"}[slug]
+    plain = [it for it in rest if not has_badge(it)]
+    hero_alt = f'<p class="fineprint">{alt_links(plain, prefix)}</p>' if plain else ""
+    # A badge-led part (HACS, Docker Compose) shows its badges in one row; the apps keep their
+    # plain primary button with the store badges under it.
+    hero_top = (badge_row([lead] + rest, prefix) if lead.get("kind") == "store" and has_badge(lead) else
+                f'<div class="cta-row stores">\n        {lead_button(lead, prefix)}\n      </div>\n      {badge_row(rest, prefix)}')
     main = f"""{nav(prefix, slug)}
 
 <main id="main">
@@ -892,13 +1019,10 @@ def build_product(slug):
   <div class="wrap">
     <div>
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">{d["nav_name"]}</span></nav>
-      <div class="eyebrow"><span>Open source</span><span>No cloud</span><span>No account</span></div>
       <h1>{html.escape(d["h1"])}</h1>
       <p class="lead">{html.escape(d["lead"])}</p>
-      <div class="cta-row stores">
-        {lead_button(lead, prefix)}
-      </div>
-      <p class="fineprint">{alt_links(rest, prefix)}</p>
+      {hero_top}
+      {hero_alt}
     </div>
     <div class="product-visual{" is-wide" if hero_kind == "wide" else ""}">
       {image(d["hero_image"], prefix, "hero-shot", eager=True)}
@@ -924,7 +1048,6 @@ def build_product(slug):
 {compare}<section class="section tight band" id="get">
   <div class="wrap">
     <div class="section-head">
-      <div class="kicker">Install</div>
       <h2>{p["get_title"]}</h2>
     </div>
     <div class="get-split">
@@ -943,7 +1066,6 @@ def build_product(slug):
 <section class="section tight" id="faq">
   <div class="wrap">
     <div class="section-head">
-      <div class="kicker">FAQ</div>
       <h2>{faq_title}</h2>
     </div>
     <div class="faq">
@@ -956,7 +1078,7 @@ def build_product(slug):
 {guides_section}
 <section class="section tight">
   <div class="wrap">
-    <div class="section-head"><div class="kicker">Life Dashboard</div><h2>The other parts</h2><p>Both apps send the same payload, so an Android phone and an iPhone can share one Home Assistant or one stack.</p></div>
+    <div class="section-head"><h2>The other parts</h2><p>Both apps send the same payload, so an Android phone and an iPhone can share one Home Assistant or one stack.</p></div>
     <div class="family three">
       {siblings}
     </div>
@@ -1002,7 +1124,6 @@ def proof_section():
     cards += (f'\n      <a class="part proj-cta" href="{REPO}/discussions"><span class="tag">Your project</span><h3>Built something on the payload?</h3>'
               f'<p>Tell me in Discussions, and it can join this list.</p><span class="go">Open Discussions</span></a>')
     return f"""<div class="section-head">
-      <div class="kicker">In use</div>
       <h2>Other open-source projects build on it</h2>
     </div>
     <ul class="proof-facts">{facts}</ul>
@@ -1016,7 +1137,7 @@ def build_landing():
     src = p.read_text()
     src = fill(src, "nav", nav(""))
     src = fill(src, "proof", proof_section())
-    src = fill(src, "guides", '<div class="guide-grid">\n      ' + "\n      ".join(guide_card(g[0], "", compact=True) for g in GUIDES) + "\n    </div>")
+    src = fill(src, "guides", guide_groups(""))
     src = fill(src, "parts", parts_strip(""))
     src = fill(src, "hero-stores", hero_stores(""))
     src = fill(src, "get", get_section(""))
@@ -1041,7 +1162,7 @@ def build_404():
     pages = [("/life-dashboard/", "Life Dashboard")] + [(f"/life-dashboard/{s}/", PARTS[s]["name"]) for s in ORDER] \
         + [(f"/life-dashboard/{g[0]}/", g[1]) for g in GUIDES] + [("/", "Owen Vogelaar, the developer page"), ("/privacy/", "Privacy")]
     items = "\n".join(f'      <li><a href="{u}">{html.escape(n)}</a></li>' for u, n in pages)
-    p.write_text(fill(p.read_text(), "pages", f'<ul class="ticks">\n{items}\n    </ul>'))
+    p.write_text(fill(p.read_text(), "pages", f'<ul class="ticks page-list">\n{items}\n    </ul>'))
 
 
 def build_llms():
@@ -1082,9 +1203,13 @@ def check():
                 problems += [f"{f.relative_to(ROOT)}: says '{ph}' but {store} is live" for ph in phrases if ph in t]
         if "\u2014" in t or "\u2013" in t:
             problems.append(f"{f.relative_to(ROOT)}: contains an em or en dash")
-    for badge, (fname, _) in BADGES.items():
-        if badge in live and not (OUT / "img" / "badges" / fname).exists():
-            problems.append(f"{badge} is live but img/badges/{fname} is missing")
+    # Every badge is shown, linked or as "Coming soon", so every file must be there.
+    problems += [f"img/badges/{b[0]} is missing" for b in BADGES.values() if not (OUT / "img" / "badges" / b[0]).exists()]
+    # Every page with the navigation bar gets a skip link past it.
+    for f in [SITE / "404.html", SITE / "index.html"] + list(OUT.rglob("*.html")):
+        t = f.read_text()
+        if '<header class="nav">' in t and ('class="skip" href="#main"' not in t or 'id="main"' not in t):
+            problems.append(f"{f.relative_to(ROOT)}: needs the skip link and id=\"main\"")
     llms = (SITE / "llms.txt").read_text()
     problems += [f"llms.txt: the guide {g[0]} is missing" for g in GUIDES if f"{BASE}{g[0]}/" not in llms]
     if problems:

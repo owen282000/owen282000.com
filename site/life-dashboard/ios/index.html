@@ -11,7 +11,7 @@
 <meta name="theme-color" content="#101418">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png">
 <link rel="apple-touch-icon" href="../img/icon-180.png">
-<link rel="stylesheet" href="../site.css?v=8618951c">
+<link rel="stylesheet" href="../site.css?v=31fb76ce">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="Apple Health, sent from your iPhone to your own server">
@@ -91,7 +91,7 @@
         "inLanguage": "en"
       },
       "inLanguage": "en",
-      "dateModified": "2026-10-12"
+      "dateModified": "2026-10-19"
     },
     {
       "@type": "FAQPage",
@@ -154,10 +154,10 @@
         },
         {
           "@type": "Question",
-          "name": "When does it come to TestFlight or the App Store?",
+          "name": "When does it come to the App Store?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Today you build it from source with Xcode on a Mac. A public TestFlight beta is next. Until then you build it with Xcode and install it on your own iPhone. To update, pull the repository and run it again; your settings stay. Watch the releases on GitHub to hear when the beta opens."
+            "text": "Today you build it from source with Xcode on a Mac, for free. Version 1.9.0 is in App Store review, as a paid app: €6.99 once, no subscription. Until then you build it with Xcode and install it on your own iPhone. To update, pull the repository and run it again; your settings stay. Watch the releases on GitHub to hear when it's live."
           }
         },
         {
@@ -165,7 +165,7 @@
           "name": "I don't have a Mac. Can I still use it?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Not yet: building the app needs Xcode, which runs only on a Mac. The public TestFlight beta is the next step and needs no Mac. Until then, an Android phone or the Android app on a tablet is the way in."
+            "text": "Not yet: building the app needs Xcode, which runs only on a Mac. The App Store version needs no Mac, and it's in Apple's review now. Until then, an Android phone or the Android app on a tablet is the way in."
           }
         },
         {
@@ -223,7 +223,7 @@
         <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
         GitHub
       </a>
-      <a class="btn btn-primary btn-sm" href="#get">Install</a>
+      <a class="btn btn-primary btn-sm" href="#get">Install options</a>
     </div>
   </div>
 </header>
@@ -235,13 +235,13 @@
   <div class="wrap">
     <div>
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">iPhone app</span></nav>
-      <div class="eyebrow"><span>Open source</span><span>No cloud</span><span>No account</span></div>
       <h1>Apple Health, sent from your iPhone to your own server</h1>
       <p class="lead">Life Dashboard Companion for iPhone is an open-source app that reads 28 Apple Health types and sends them to Home Assistant, an MQTT broker or your own webhook. It sends the same payload as the Android app, so both phones can share one server.</p>
       <div class="cta-row stores">
         <a class="btn btn-primary btn-store" href="https://github.com/owen282000/life-dashboard-companion-app-ios#build-and-install"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg>Build with Xcode</a>
       </div>
-      <p class="fineprint"><span class="soon-tag">App Store: coming</span> · <span class="soon-tag">TestFlight: coming</span></p>
+      <div class="badges"><span class="badge-soon"><img class="badge-img" src="../img/badges/app-store.svg" alt="Download on the App Store" width="120" height="40" loading="lazy"><small><b>Coming soon.</b> <span>In App Store review</span></small></span></div>
+      
     </div>
     <div class="product-visual">
       <div class="phone hero-shot" style="aspect-ratio: 720 / 1464"><img src="../img/ios-health.webp" alt="The Health tab of the iPhone app with Apple Health types" width="720" height="1464" fetchpriority="high"></div>
@@ -253,12 +253,8 @@
   <div class="wrap">
     <h2 class="sr-only">What it does</h2>
     <div class="highlights">
-        <div class="hl"><h3>28 Apple Health types</h3><p>Steps, sleep stages, heart rate, HRV, weight, blood pressure, glucose, VO2 max, workouts, nutrition and cycle tracking. Each starts off.</p></div>
-        <div class="hl"><h3>Every record, plus daily totals</h3><p>Each record names the app or device that wrote it. Daily totals count a walk recorded by iPhone and Watch once.</p></div>
-        <div class="hl"><h3>A year of history</h3><p>Backfill 30, 90 or 365 days. A record you delete in Apple Health is reported to your server at the next sync.</p></div>
-        <div class="hl"><h3>Same payload as Android</h3><p>The Android app&#x27;s keys, units and signing, so one Home Assistant or one receiver takes both phones.</p></div>
-        <div class="hl"><h3>Syncs in the background</h3><p>An interval or fixed times, with quiet hours. iOS picks the moment; a Shortcuts automation gives you an exact time.</p></div>
-        <div class="hl"><h3>Widget, Control Center, Siri</h3><p>See the last sync on your home screen, and sync from there, from Control Center on iOS 18, or with Siri.</p></div>
+        <div class="hl-lead"><h3>28 Apple Health types</h3><p>Steps, sleep stages, heart rate, HRV, weight, blood pressure, glucose, VO2 max, workouts, nutrition and cycle tracking. Each starts off.</p></div>
+        <ul class="hl-list"><li><h3>Every record, plus daily totals</h3><p>Each record names the app or device that wrote it. Daily totals count a walk recorded by iPhone and Watch once.</p></li><li><h3>A year of history</h3><p>Backfill 30, 90 or 365 days. A record you delete in Apple Health is reported to your server at the next sync.</p></li><li><h3>Same payload as Android</h3><p>The Android app&#x27;s keys, units and signing, so one Home Assistant or one receiver takes both phones.</p></li><li><h3>Syncs in the background</h3><p>An interval or fixed times, with quiet hours. iOS picks the moment; a Shortcuts automation gives you an exact time.</p></li><li><h3>Widget, Control Center, Siri</h3><p>See the last sync on your home screen, and sync from there, from Control Center on iOS 18, or with Siri.</p></li></ul>
     </div>
   </div>
 </section>
@@ -268,35 +264,31 @@
     <div class="show" id="home-assistant-and-mqtt">
       <div class="show-media"><div class="stage green-glow"></div><div class="phone solo" style="aspect-ratio: 720 / 1464"><img src="../img/ios-mqtt.webp" alt="Webhook and MQTT settings in the iPhone app" width="720" height="1464" loading="lazy"></div></div>
       <div>
-        <div class="kicker">Home Assistant and MQTT</div>
         <h2>Apple Health in Home Assistant, by QR&nbsp;code or over MQTT</h2>
         <p>The Life Dashboard integration pairs with one QR code and keeps every day in long-term statistics. Over MQTT, Home Assistant Discovery sets the sensors up without YAML, from the first sync on.</p>
         <ul class="ticks">
           <li>20 of the 28 types as sensors <span>Today's steps, distance and calories, and the latest heart rate, HRV, sleep, weight, blood pressure, glucose and VO2 max.</span></li>
           <li>Up to a year of history <span>With the integration, backfilled days land on their own date. Workouts and mindfulness count as minutes per day.</span></li>
           <li>Its own MQTT device and base topic <span>lifedashboard-ios, so an iPhone never collides with an Android phone on the same broker.</span></li>
-          <li>A second iPhone <span>Give it a phone name, and it gets its own device and topics.</span></li>
         </ul>
         <a class="link-arrow" href="https://github.com/owen282000/life-dashboard-companion-app-ios/blob/main/docs/usage.md#phone-to-home-assistant">Setup for the integration and MQTT</a>
       </div>
-    </div><div class="show flip" id="webhooks">
-      <div class="show-media"><div class="stage green-glow"></div><div class="phone solo" style="aspect-ratio: 720 / 1464"><img src="../img/ios-logs.webp" alt="The sync history of the iPhone app" width="720" height="1464" loading="lazy"></div></div>
-      <div>
-        <div class="kicker">Webhooks</div>
-        <h2>An Apple Health webhook with signed JSON</h2>
-        <p>Any server that accepts a JSON POST can receive the data: <a href="../health-connect-n8n/">n8n</a>, Node-RED, the Grafana stack or a script. Every record carries a <code>uuid</code> to deduplicate on and a <code>source</code> that names the app or device that wrote it.</p>
+    </div><div class="show stack" id="webhooks">
+      <div class="stack-text">
+        <div><h2>An Apple Health webhook with signed JSON</h2></div>
+        <div><p>Any server that accepts a JSON POST can receive the data: <a href="../health-connect-n8n/">n8n</a>, Node-RED, the Grafana stack or a script. Every record carries a <code>uuid</code> to deduplicate on and a <code>source</code> that names the app or device that wrote it.</p>
         <ul class="ticks">
           <li>HMAC-SHA256 signing <span>An optional X-Signature header, the same scheme as the Android app.</span></li>
           <li>Client certificates (mTLS) <span>Import a .p12 file into this iPhone's Keychain, for a server behind a reverse proxy that requires one.</span></li>
           <li>A retry queue on the phone <span>Every payload is queued before it's sent, so a sync that iOS cuts off loses nothing. It holds up to 700.</span></li>
           <li>Sync history on the Logs tab <span>Success rate, deliveries and records, and the latest failures grouped by receiver and error.</span></li>
         </ul>
-        <a class="link-arrow" href="../health-connect-webhook/">The payload both apps send</a>
+        <a class="link-arrow" href="../health-connect-webhook/">The payload both apps send</a></div>
       </div>
+      <div class="show-media"><div class="stage green-glow"></div><div class="phone solo" style="aspect-ratio: 720 / 1464"><img src="../img/ios-logs.webp" alt="The sync history of the iPhone app" width="720" height="1464" loading="lazy"></div></div>
     </div><div class="show" id="background-sync">
       <div class="show-media"><div class="stage green-glow"></div><div class="phone solo" style="aspect-ratio: 720 / 1464"><img src="../img/ios-schedule.webp" alt="The sync schedule of the iPhone app at fixed times with quiet hours" width="720" height="1464" loading="lazy"></div></div>
       <div>
-        <div class="kicker">Background sync</div>
         <h2>Runs in the background, within what iOS allows</h2>
         <p>HealthKit wakes the app when an enabled type has new data, and iOS runs background tasks when it sees fit. A fixed time means “not before”. For an exact minute, a Shortcuts automation runs <strong>Sync Health Data</strong>.</p>
         <ul class="ticks">
@@ -314,7 +306,6 @@
 <section class="section tight band" id="get">
   <div class="wrap">
     <div class="section-head">
-      <div class="kicker">Install</div>
       <h2>Get the iPhone app</h2>
     </div>
     <div class="get-split">
@@ -323,13 +314,13 @@
         <a class="btn btn-primary btn-store" href="https://github.com/owen282000/life-dashboard-companion-app-ios#build-and-install"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg>Build with Xcode</a>
         <p class="store-note">From source, on a Mac with Xcode: about an hour the first time. Your settings stay when you run a newer version.</p>
         <ul class="get-list">
-          <li><svg class="li-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/><path d="M9 16l3-8 3 8M10.2 13h3.6"/></svg><span><b>App Store</b> <span class="status soon">Coming</span><small>Planned after the TestFlight beta.</small></span></li><li><svg class="li-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 3 10 14"/><path d="M21 3l-7 18-4-7-7-4z"/></svg><span><b>TestFlight</b> <span class="status soon">Coming</span><small>A public beta is next. No Mac needed then.</small></span></li>
+          <li class="with-badge"><span class="badge-soon"><img class="badge-img" src="../img/badges/app-store.svg" alt="Download on the App Store" width="120" height="40" loading="lazy"><small><b>Coming soon.</b> <span>In App Store review</span></small></span><small>Version 1.9.0 has been in App Store review since 19 October. It will be a paid app: €6.99 once (US$5.99), no subscription. Building it with Xcode stays free.</small></li>
         </ul>
         
       </article>
       <div class="get-side">
         <h3>What you need</h3>
-        <p>An iPhone on iOS 17 or newer. To build it today: a Mac with Xcode 26 (macOS 26.2 for the newest Xcode, or Xcode 26.3 on macOS 15.6) and an Apple Account; about an hour the first time. With a free account the app stops opening after 7 days until you run it from Xcode again; a paid developer account signs it for a year. The Life Dashboard integration needs Home Assistant 2026.3 or newer with HACS. Want to skip the build? The public TestFlight beta is next.</p>
+        <p>An iPhone on iOS 17 or newer. To build it today: a Mac with Xcode 26 (macOS 26.2 for the newest Xcode, or Xcode 26.3 on macOS 15.6) and an Apple Account; about an hour the first time. With a free account the app stops opening after 7 days until you run it from Xcode again; a paid developer account signs it for a year. The Life Dashboard integration needs Home Assistant 2026.3 or newer with HACS. Want to skip the build? Version 1.9.0 is in App Store review, as a paid app: €6.99 once, no subscription.</p>
         <p class="fineprint">Sends to <a href="../home-assistant/">the Home Assistant integration</a>, <a href="../grafana/">the Grafana stack</a>, an MQTT broker or any webhook.</p>
         
         
@@ -341,7 +332,6 @@
 <section class="section tight" id="faq">
   <div class="wrap">
     <div class="section-head">
-      <div class="kicker">FAQ</div>
       <h2>Questions about the iPhone app</h2>
     </div>
     <div class="faq">
@@ -374,12 +364,12 @@
         <p>Yes, with two things to know today. The app keeps one signing secret, and pairing with Home Assistant sets it, so give a second receiver the same secret. And a payload counts as delivered once one destination takes it, so a destination that's down at that moment misses it. The app can send to several webhooks and to MQTT at once.</p>
       </details>
       <details>
-        <summary>When does it come to TestFlight or the App Store?</summary>
-        <p>Today you build it from source with Xcode on a Mac. A public TestFlight beta is next. Until then you build it with Xcode and install it on your own iPhone. To update, pull the repository and run it again; your settings stay. Watch the <a href="https://github.com/owen282000/life-dashboard-companion-app-ios/releases">releases on GitHub</a> to hear when the beta opens.</p>
+        <summary>When does it come to the App Store?</summary>
+        <p>Today you build it from source with Xcode on a Mac, for free. Version 1.9.0 is in App Store review, as a paid app: €6.99 once, no subscription. Until then you build it with Xcode and install it on your own iPhone. To update, pull the repository and run it again; your settings stay. Watch the <a href="https://github.com/owen282000/life-dashboard-companion-app-ios/releases">releases on GitHub</a> to hear when it's live.</p>
       </details>
       <details>
         <summary>I don&#x27;t have a Mac. Can I still use it?</summary>
-        <p>Not yet: building the app needs Xcode, which runs only on a Mac. The public TestFlight beta is the next step and needs no Mac. Until then, an Android phone or the <a href="../android/">Android app</a> on a tablet is the way in.</p>
+        <p>Not yet: building the app needs Xcode, which runs only on a Mac. The App Store version needs no Mac, and it's in Apple's review now. Until then, an Android phone or the <a href="../android/">Android app</a> on a tablet is the way in.</p>
       </details>
       <details>
         <summary>What happens after 7 days with a free Apple Account?</summary>
@@ -392,22 +382,22 @@
 
 <section class="section tight band">
   <div class="wrap">
-    <div class="section-head"><div class="kicker">Guides</div><h2>Setup guides</h2></div>
+    <div class="section-head"><h2>Setup guides</h2></div>
     <div class="family three">
-      <a class="part" href="../health-connect-webhook/"><span class="tag">Webhooks</span><h3>Health Connect to a webhook</h3><p>The JSON payload, signatures, retries and receivers for n8n and Node-RED.</p><span class="go">Read the guide</span></a>
-      <a class="part" href="../health-data-api/"><span class="tag">API</span><h3>A web API for Health Connect or Apple Health</h3><p>Why neither has one, and how to get the data onto your server anyway.</p><span class="go">Read the guide</span></a>
-      <a class="part" href="../health-data-own-ai/"><span class="tag">MCP</span><h3>Health Connect data over MCP, for your own AI</h3><p>The stack's read-only MCP server lets a local model or Claude read your history. Works in Europe too.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="../health-connect-webhook/"><h3>Health Connect to a webhook</h3><p>The JSON payload, signatures, retries and receivers for n8n and Node-RED.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="../health-data-api/"><h3>A web API for Health Connect or Apple Health</h3><p>Why neither has one, and how to get the data onto your server anyway.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="../health-data-own-ai/"><h3>Health Connect data over MCP, for your own AI</h3><p>The stack's read-only MCP server lets a local model or Claude read your history. Works in Europe too.</p><span class="go">Read the guide</span></a>
     </div>
   </div>
 </section>
 
 <section class="section tight">
   <div class="wrap">
-    <div class="section-head"><div class="kicker">Life Dashboard</div><h2>The other parts</h2><p>Both apps send the same payload, so an Android phone and an iPhone can share one Home Assistant or one stack.</p></div>
+    <div class="section-head"><h2>The other parts</h2><p>Both apps send the same payload, so an Android phone and an iPhone can share one Home Assistant or one stack.</p></div>
     <div class="family three">
-      <a class="part" href="../android/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span><h3>Life Dashboard Companion for Android</h3><p>Health Connect and screen time per app</p><span class="go">Learn more</span></a>
-      <a class="part" href="../home-assistant/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 11 12 3.5l8.5 7.5"/><path d="M5.5 9.5V20h13V9.5"/><circle cx="12" cy="13.5" r="2"/><path d="M12 15.5V20"/></svg></span><h3>Life Dashboard integration for Home Assistant</h3><p>Sensors, statistics and a year of history</p><span class="go">Learn more</span></a>
-      <a class="part" href="../grafana/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M6.5 16v-4"/><path d="M11 16V7"/><path d="M15.5 16v-6"/><path d="M20 16V4"/></svg></span><h3>Life Dashboard stack</h3><p>Postgres, Grafana, an API and MCP, self-hosted</p><span class="go">Learn more</span></a>
+      <a class="part" href="../android/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span><h3>Life Dashboard Companion for Android</h3><p>Health Connect and screen time per app</p><span class="go">See the Android app</span></a>
+      <a class="part" href="../home-assistant/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 11 12 3.5l8.5 7.5"/><path d="M5.5 9.5V20h13V9.5"/><circle cx="12" cy="13.5" r="2"/><path d="M12 15.5V20"/></svg></span><h3>Life Dashboard integration for Home Assistant</h3><p>Sensors, statistics and a year of history</p><span class="go">See the integration</span></a>
+      <a class="part" href="../grafana/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M6.5 16v-4"/><path d="M11 16V7"/><path d="M15.5 16v-6"/><path d="M20 16V4"/></svg></span><h3>Life Dashboard stack</h3><p>Postgres, Grafana, an API and MCP, self-hosted</p><span class="go">See the stack</span></a>
     </div>
   </div>
 </section>
@@ -467,6 +457,7 @@
       </div>
     </div>
     <p class="legal">Home Assistant is a trademark of the Open Home Foundation. Health Connect, Google Play, Google Health, Fitbit and Pixel Watch are trademarks of Google LLC. Apple, Apple Health, Apple Watch, iPhone, Xcode and TestFlight are trademarks of Apple Inc. App Store is a service mark of Apple Inc. Grafana is a trademark of Grafana Labs. Samsung Health, Garmin Connect, Oura and Withings belong to their owners. Life Dashboard is an independent project and is not affiliated with or endorsed by any of them. Screenshots show made-up data.</p>
+    <p class="legal credits">Badges: Google Play and App Store as published by Google and Apple; "Get it on F&#8209;Droid" by the <a href="https://gitlab.com/fdroid/artwork">F&#8209;Droid project</a> and "Get it on GitHub" by <a href="https://github.com/Kunzisoft/Github-badge">Kunzisoft</a>, both <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>; Obtainium from the <a href="https://github.com/ImranR98/Obtainium">Obtainium project</a>; the HACS, Artifact Hub and Docker Compose badges are drawn for this site in Roboto (SIL OFL), around the icons of the <a href="https://github.com/hacs/integration">HACS project</a> (MIT) and the <a href="https://github.com/artifacthub/hub">Artifact Hub project</a> (Apache 2.0) and Docker's logo from its media kit; the AlternativeTo badge is their compact badge on a black panel. GitHub is a trademark of GitHub, Inc. Docker, Docker Compose and the Docker logo are trademarks of Docker, Inc. Helm is a trademark of The Linux Foundation.</p>
   </div>
 </footer>
 </body>

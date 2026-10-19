@@ -41,7 +41,7 @@
 <body>
 <main>
   <h1>Privacy policy</h1>
-  <p class="muted">Life Dashboard Companion for iPhone (shown as Life Dashboard on the home screen) · Last updated 18 October 2026, for version 1.8.0</p>
+  <p class="muted">Life Dashboard Companion for iPhone (shown as Life Dashboard on the home screen) · Last updated 19 October 2026, for version 1.9.0</p>
 
   <p class="lead">Life Dashboard Companion is a self-hosting tool. It reads the Apple Health types
     you switch on and sends them only to servers you set up yourself: your webhooks, your Home
@@ -68,8 +68,9 @@
   <section>
     <h2>Where it goes</h2>
     <p>Only to the destinations you enter or pair. The app contacts no other server. Besides the
-      records of the types you switch on, a payload carries the sync time, the app version, a counter,
-      daily totals and the <code>uuid</code> of records deleted in Apple Health. Each record carries
+      records of the types you switch on, a payload carries the sync time, the iPhone's time zone (such
+      as Europe/Amsterdam), the app version, a counter, daily totals and the <code>uuid</code> of
+      records deleted in Apple Health. Each record carries
       its <code>uuid</code> and the name of the app or device that wrote it. On an iPhone that name
       often includes your own name. No device model or identifier of your iPhone is sent.</p>
     <p>MQTT is unencrypted unless you switch on TLS. States are published retained, so the broker
@@ -81,7 +82,7 @@
     <h2>What the developer can receive</h2>
     <p>The app itself sends nothing to the developer. Apple can share some things with the developer
       through App Store Connect, under <a href="https://www.apple.com/legal/privacy/">Apple's privacy policy</a>:
-      in the TestFlight beta, crash reports and any feedback you send through TestFlight with the
+      from a TestFlight build, crash reports and any feedback you send through TestFlight with the
       screenshot you attach; once the app is on the App Store, sales and usage reports. Apart from
       what you write or attach yourself, none of this carries your health data, your settings or
       the addresses you send to.</p>

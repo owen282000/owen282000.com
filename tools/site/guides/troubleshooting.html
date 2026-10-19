@@ -89,11 +89,11 @@ updated: 2026-10-19
   <h2>FAQ</h2>
   <details>
     <summary>Does the app drain the battery?</summary>
-    <p>No. Between syncs it does nothing: no service runs and no connection stays open. Each sync is a short job Android starts on your schedule, once an hour by default. A backfill uses more while it runs.</p>
+    <p>Very little. Between syncs it does nothing: no service runs and no connection stays open. Each sync is a short job Android starts on your schedule, once an hour by default. A backfill uses more while it runs.</p>
   </details>
   <details>
     <summary>Is data lost when a sync fails?</summary>
-    <p>No. A payload that wasn't delivered stays on the phone and goes out with the next sync that reaches your server, oldest first. The <strong>Logs</strong> tab shows each attempt.</p>
+    <p>Rarely. A payload that wasn't delivered stays on the phone and goes out with the next sync that reaches your server, oldest first. The <strong>Logs</strong> tab shows each attempt. Data is lost in two cases. The phone holds up to 700 payloads, about a week of 15-minute syncs; past that, the oldest one goes, with a row in <strong>Logs</strong> and a notification. And a payload your server refuses with 400, 413 or 422 is offered again on every sync for a week, then dropped, with a row in <strong>Logs</strong>. While your server can't be reached at all, nothing is dropped for its age.</p>
   </details>
   <details>
     <summary>Where do I ask if this page doesn't help?</summary>

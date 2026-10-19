@@ -11,7 +11,7 @@
 <meta name="theme-color" content="#101418">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png">
 <link rel="apple-touch-icon" href="../img/icon-180.png">
-<link rel="stylesheet" href="../site.css?v=8618951c">
+<link rel="stylesheet" href="../site.css?v=31fb76ce">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="A Home Assistant integration for your phone&#x27;s health data">
@@ -193,7 +193,7 @@
         <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
         GitHub
       </a>
-      <a class="btn btn-primary btn-sm" href="#get">Install</a>
+      <a class="btn btn-primary btn-sm" href="#get">Install options</a>
     </div>
   </div>
 </header>
@@ -205,12 +205,9 @@
   <div class="wrap">
     <div>
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Home Assistant</span></nav>
-      <div class="eyebrow"><span>Open source</span><span>No cloud</span><span>No account</span></div>
       <h1>A Home Assistant integration for your phone&#x27;s health data</h1>
       <p class="lead">The Life Dashboard integration is an open-source Home Assistant integration, installed through HACS, for the Life Dashboard Companion apps on Android and iPhone. One QR code pairs a phone, and every day lands in long-term statistics. No broker and no YAML.</p>
-      <div class="cta-row stores">
-        <a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 11 12 3.5l8.5 7.5"/><path d="M5.5 9.5V20h13V9.5"/></svg>Open in HACS</a>
-      </div>
+      <div class="badges"><a class="badge-link" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration"><img class="badge-img" src="../img/badges/hacs.svg" alt="Get it on HACS" width="564" height="168" loading="lazy"></a></div>
       <p class="fineprint"><a class="nowrap" href="../health-connect-home-assistant/#set-it-up">Setup steps</a> · <a class="nowrap" href="https://github.com/owen282000/life-dashboard-ha">Source on GitHub</a></p>
     </div>
     <div class="product-visual">
@@ -223,12 +220,8 @@
   <div class="wrap">
     <h2 class="sr-only">What it does</h2>
     <div class="highlights">
-        <div class="hl"><h3>Sensors for today</h3><p>Day totals for steps, distance and calories, and the latest heart rate, sleep, weight and blood pressure, each with its source app.</p></div>
-        <div class="hl"><h3>A year in long-term statistics</h3><p>Every day lands on its own date, so a backfill from the phone fills a year of the Statistics graph card.</p></div>
-        <div class="hl"><h3>Paired by QR code</h3><p>One code per phone holds a webhook URL and a signing secret. The phone never gets a Home Assistant login or token.</p></div>
-        <div class="hl"><h3>Signed, always</h3><p>HMAC-SHA256 on every payload, checked in constant time before parsing. There&#x27;s no switch to turn signing off.</p></div>
-        <div class="hl"><h3>Nothing counted twice</h3><p>The apps re-send on purpose. A repeat leaves sensors, day totals and sessions as they were; a correction replaces the old figure.</p></div>
-        <div class="hl"><h3>Back into Health Connect</h3><p>Map a scale or blood pressure entity, and the Android app writes each new reading into Health Connect.</p></div>
+        <div class="hl-lead"><h3>Sensors for today</h3><p>Day totals for steps, distance and calories, and the latest heart rate, sleep, weight and blood pressure, each with its source app.</p></div>
+        <ul class="hl-list"><li><h3>A year in long-term statistics</h3><p>Every day lands on its own date, so a backfill from the phone fills a year of the Statistics graph card.</p></li><li><h3>Paired by QR code</h3><p>One code per phone holds a webhook URL and a signing secret. The phone never gets a Home Assistant login or token.</p></li><li><h3>Signed, always</h3><p>HMAC-SHA256 on every payload, checked in constant time before parsing. There&#x27;s no switch to turn signing off.</p></li><li><h3>Nothing counted twice</h3><p>The apps re-send on purpose. A repeat leaves sensors, day totals and sessions as they were; a correction replaces the old figure.</p></li><li><h3>Back into Health Connect</h3><p>Map a scale or blood pressure entity, and the Android app writes each new reading into Health Connect.</p></li></ul>
     </div>
   </div>
 </section>
@@ -238,7 +231,6 @@
     <div class="show" id="sensors-and-statistics">
       <div class="show-media"><div class="stage green-glow"></div><div class="phone solo" style="aspect-ratio: 720 / 1598"><img src="../img/H3-history.webp" alt="History graphs in Home Assistant on a phone" width="720" height="1598" loading="lazy"></div></div>
       <div>
-        <div class="kicker">Sensors and statistics</div>
         <h2>Sleep, steps and heart rate sensors, with history behind them</h2>
         <p>Sensors appear the first time their type arrives, so you only get what you sync. A sensor holds the latest value; long-term statistics hold the past, each value on the date it happened.</p>
         <ul class="ticks">
@@ -249,24 +241,21 @@
         </ul>
         <a class="link-arrow" href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md">Every sensor, statistic and attribute</a>
       </div>
-    </div><div class="show flip" id="pairing-and-security">
-      <div class="show-media has-card"><div class="stage green-glow"></div><figure class="qr-card solo"><img src="../img/H2-qr.webp" alt="The Life Dashboard integration in Home Assistant showing a pairing QR code" width="800" height="668" loading="lazy"></figure></div>
-      <div>
-        <div class="kicker">Pairing and security</div>
-        <h2>One QR&nbsp;code per phone, and a signature on every payload</h2>
-        <p>Add the integration once per phone, and it shows a QR code with a webhook URL and a secret it generated: 64 hex characters. A payload without a valid HMAC-SHA256 signature gets a 401 and is logged without its contents. <a href="../health-connect-home-assistant/">How to add Health Connect to Home Assistant</a> walks through the pairing.</p>
+    </div><div class="show stack" id="pairing-and-security">
+      <div class="stack-text">
+        <div><h2>One QR&nbsp;code per phone, and a signature on every payload</h2></div>
+        <div><p>Add the integration once per phone, and it shows a QR code with a webhook URL and a secret it generated: 64 hex characters. A payload without a valid HMAC-SHA256 signature gets a 401 and is logged without its contents. <a href="../health-connect-home-assistant/">How to add Health Connect to Home Assistant</a> walks through the pairing.</p>
         <ul class="ticks">
           <li>Home address, public address or Home Assistant Cloud <span>A home address keeps the data on your network, over plain HTTP unless you add TLS. A cloudhook syncs from anywhere without port forwarding, through Home Assistant Cloud's servers.</span></li>
           <li>Signed responses <span>Readings sent back to the phone are signed and bound to the request, so nobody on the network can slip one in.</span></li>
-          <li>Rotate the secret any time <span>Reconfigure has Generate a new secret. The phone syncs again once it has the new code.</span></li>
           <li>Diagnostics without health data <span>Download diagnostics redacts the secret and the webhook ID, and holds no health data.</span></li>
         </ul>
-        <a class="link-arrow" href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/how-it-works.md#security">The security design</a>
+        <a class="link-arrow" href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/how-it-works.md#security">The security design</a></div>
       </div>
+      <div class="show-media has-card"><div class="stage green-glow"></div><figure class="qr-card solo"><img src="../img/H2-qr.webp" alt="The Life Dashboard integration in Home Assistant showing a pairing QR code" width="800" height="668" loading="lazy"></figure></div>
     </div><div class="show" id="example-dashboard">
       <div class="show-media"><div class="stage green-glow"></div><div class="phone p1" style="aspect-ratio: 720 / 1598"><img src="../img/H1-dashboard.webp" alt="The example dashboard in Home Assistant on a phone" width="720" height="1598" loading="lazy"></div><div class="phone p2" style="aspect-ratio: 720 / 1598"><img src="../img/H4-apps.webp" alt="Screen time per app in Home Assistant on a phone" width="720" height="1598" loading="lazy"></div></div>
       <div>
-        <div class="kicker">Example dashboard</div>
         <h2>A health data dashboard to start from</h2>
         <p><code>examples/dashboard.yaml</code> is a view for one phone in three sections. Paste it into a new dashboard's raw configuration editor and put in your phone's name.</p>
         <ul class="ticks">
@@ -283,7 +272,7 @@
 
 <section class="section tight" id="compare">
   <div class="wrap">
-    <div class="section-head"><div class="kicker">Compared</div><h2>Next to the Home Assistant companion app</h2><p>Keep the companion app for presence, notifications and device sensors. The two run side by side; this is what the integration adds for health data.</p></div>
+    <div class="section-head"><h2>Next to the Home Assistant companion app</h2><p>Keep the companion app for presence, notifications and device sensors. The two run side by side; this is what the integration adds for health data.</p></div>
     <div class="table-wrap compare-wrap" tabindex="0" role="region" aria-label="Next to the Home Assistant companion app"><table class="compare"><thead><tr><th scope="col">Feature</th><th scope="col">Home Assistant companion app</th><th scope="col">Life Dashboard</th></tr></thead><tbody><tr><th scope="row">Health Connect</th><td>26 sensors</td><td>33 types; 25 become sensors, and a webhook gets every record</td></tr><tr><th scope="row">History</th><td>From the day you enable a sensor, with today's value filed at sync time</td><td>A backfill of up to a year, every value filed on the date it happened</td></tr><tr><th scope="row">Screen time</th><td>Last used app</td><td>Minutes per app, with a day boundary you choose</td></tr><tr><th scope="row">Into Health Connect</th><td>No</td><td>Scale and blood pressure readings from Home Assistant</td></tr><tr><th scope="row">Other destinations</th><td>Home Assistant</td><td>Also MQTT, any webhook and <a href="../grafana/">the Grafana stack</a></td></tr></tbody></table></div>
     <p class="fineprint">From the companion app's <a href="https://companion.home-assistant.io/docs/core/sensors">sensor documentation</a> and its code, as of release 2026.8.4. <a href="../companion-app-health-connect/">The companion app and Health Connect</a> goes row by row.</p>
   </div>
@@ -292,13 +281,12 @@
 <section class="section tight band" id="get">
   <div class="wrap">
     <div class="section-head">
-      <div class="kicker">Install</div>
       <h2>Install the integration</h2>
     </div>
     <div class="get-split">
       <article class="get-card" id="get-home-assistant">
         <header><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 11 12 3.5l8.5 7.5"/><path d="M5.5 9.5V20h13V9.5"/><circle cx="12" cy="13.5" r="2"/><path d="M12 15.5V20"/></svg></span><div><h3><a href="../home-assistant/">Life Dashboard integration for Home Assistant</a></h3><p>Sensors, statistics and a year of history</p></div></header>
-        <a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 11 12 3.5l8.5 7.5"/><path d="M5.5 9.5V20h13V9.5"/></svg>Open in HACS</a>
+        <a class="badge-link" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration"><img class="badge-img" src="../img/badges/hacs.svg" alt="Get it on HACS" width="564" height="168" loading="lazy"></a>
         <p class="store-note">In the default HACS list: search for Life Dashboard. Restart Home Assistant after the download.</p>
         <ul class="get-list">
           <li><svg class="li-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6h.01M4 12h.01M4 18h.01"/></svg><span><b><a href="../health-connect-home-assistant/#set-it-up">Setup steps</a></b> <span class="status live">Available</span><small>Add the integration, check the address the phone should use, scan the QR code.</small></span></li><li><svg class="li-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5"/></svg><span><b><a href="https://github.com/owen282000/life-dashboard-ha">Source on GitHub</a></b> <span class="status live">Available</span><small>Release notes and the manual install.</small></span></li>
@@ -319,7 +307,6 @@
 <section class="section tight" id="faq">
   <div class="wrap">
     <div class="section-head">
-      <div class="kicker">FAQ</div>
       <h2>Questions about the integration</h2>
     </div>
     <div class="faq">
@@ -358,23 +345,23 @@
 
 <section class="section tight band">
   <div class="wrap">
-    <div class="section-head"><div class="kicker">Guides</div><h2>Setup guides</h2></div>
+    <div class="section-head"><h2>Setup guides</h2></div>
     <div class="family">
-      <a class="part" href="../health-connect-home-assistant/"><span class="tag">Home Assistant</span><h3>Health Connect in Home Assistant</h3><p>Samsung Health, Garmin, Fitbit, Oura and Withings data as sensors, with a year of history.</p><span class="go">Read the guide</span></a>
-      <a class="part" href="../fitbit-home-assistant/"><span class="tag">Fitbit</span><h3>Fitbit and Pixel Watch in Home Assistant</h3><p>Through Health Connect, with no Fitbit Web API and no Google Cloud project.</p><span class="go">Read the guide</span></a>
-      <a class="part" href="../garmin-home-assistant/"><span class="tag">Garmin</span><h3>Garmin in Home Assistant</h3><p>Steps, sleep and heart rate from Garmin Connect, with no Garmin login in Home Assistant.</p><span class="go">Read the guide</span></a>
-      <a class="part" href="../screen-time-home-assistant/"><span class="tag">Screen time</span><h3>Screen time in Home Assistant</h3><p>Minutes per app as sensors, limits you set yourself, and several phones.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="../health-connect-home-assistant/"><h3>Health Connect in Home Assistant</h3><p>Samsung Health, Garmin, Fitbit, Oura and Withings data as sensors, with a year of history.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="../fitbit-home-assistant/"><h3>Fitbit and Pixel Watch in Home Assistant</h3><p>Through Health Connect, with no Fitbit Web API and no Google Cloud project.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="../garmin-home-assistant/"><h3>Garmin in Home Assistant</h3><p>Steps, sleep and heart rate from Garmin Connect, with no Garmin login in Home Assistant.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="../screen-time-home-assistant/"><h3>Screen time in Home Assistant</h3><p>Minutes per app as sensors, limits you set yourself, and several phones.</p><span class="go">Read the guide</span></a>
     </div>
   </div>
 </section>
 
 <section class="section tight">
   <div class="wrap">
-    <div class="section-head"><div class="kicker">Life Dashboard</div><h2>The other parts</h2><p>Both apps send the same payload, so an Android phone and an iPhone can share one Home Assistant or one stack.</p></div>
+    <div class="section-head"><h2>The other parts</h2><p>Both apps send the same payload, so an Android phone and an iPhone can share one Home Assistant or one stack.</p></div>
     <div class="family three">
-      <a class="part" href="../android/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span><h3>Life Dashboard Companion for Android</h3><p>Health Connect and screen time per app</p><span class="go">Learn more</span></a>
-      <a class="part" href="../ios/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg></span><h3>Life Dashboard Companion for iPhone</h3><p>Apple Health, with the same payload</p><span class="go">Learn more</span></a>
-      <a class="part" href="../grafana/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M6.5 16v-4"/><path d="M11 16V7"/><path d="M15.5 16v-6"/><path d="M20 16V4"/></svg></span><h3>Life Dashboard stack</h3><p>Postgres, Grafana, an API and MCP, self-hosted</p><span class="go">Learn more</span></a>
+      <a class="part" href="../android/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span><h3>Life Dashboard Companion for Android</h3><p>Health Connect and screen time per app</p><span class="go">See the Android app</span></a>
+      <a class="part" href="../ios/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg></span><h3>Life Dashboard Companion for iPhone</h3><p>Apple Health, with the same payload</p><span class="go">See the iPhone app</span></a>
+      <a class="part" href="../grafana/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M6.5 16v-4"/><path d="M11 16V7"/><path d="M15.5 16v-6"/><path d="M20 16V4"/></svg></span><h3>Life Dashboard stack</h3><p>Postgres, Grafana, an API and MCP, self-hosted</p><span class="go">See the stack</span></a>
     </div>
   </div>
 </section>
@@ -434,6 +421,7 @@
       </div>
     </div>
     <p class="legal">Home Assistant is a trademark of the Open Home Foundation. Health Connect, Google Play, Google Health, Fitbit and Pixel Watch are trademarks of Google LLC. Apple, Apple Health, Apple Watch, iPhone, Xcode and TestFlight are trademarks of Apple Inc. App Store is a service mark of Apple Inc. Grafana is a trademark of Grafana Labs. Samsung Health, Garmin Connect, Oura and Withings belong to their owners. Life Dashboard is an independent project and is not affiliated with or endorsed by any of them. Screenshots show made-up data.</p>
+    <p class="legal credits">Badges: Google Play and App Store as published by Google and Apple; "Get it on F&#8209;Droid" by the <a href="https://gitlab.com/fdroid/artwork">F&#8209;Droid project</a> and "Get it on GitHub" by <a href="https://github.com/Kunzisoft/Github-badge">Kunzisoft</a>, both <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>; Obtainium from the <a href="https://github.com/ImranR98/Obtainium">Obtainium project</a>; the HACS, Artifact Hub and Docker Compose badges are drawn for this site in Roboto (SIL OFL), around the icons of the <a href="https://github.com/hacs/integration">HACS project</a> (MIT) and the <a href="https://github.com/artifacthub/hub">Artifact Hub project</a> (Apache 2.0) and Docker's logo from its media kit; the AlternativeTo badge is their compact badge on a black panel. GitHub is a trademark of GitHub, Inc. Docker, Docker Compose and the Docker logo are trademarks of Docker, Inc. Helm is a trademark of The Linux Foundation.</p>
   </div>
 </footer>
 </body>

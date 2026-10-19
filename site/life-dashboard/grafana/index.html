@@ -11,7 +11,7 @@
 <meta name="theme-color" content="#101418">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png">
 <link rel="apple-touch-icon" href="../img/icon-180.png">
-<link rel="stylesheet" href="../site.css?v=8618951c">
+<link rel="stylesheet" href="../site.css?v=31fb76ce">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="Your health data in your own Postgres and Grafana">
@@ -241,7 +241,7 @@
         <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
         GitHub
       </a>
-      <a class="btn btn-primary btn-sm" href="#get">Install</a>
+      <a class="btn btn-primary btn-sm" href="#get">Install options</a>
     </div>
   </div>
 </header>
@@ -253,16 +253,13 @@
   <div class="wrap">
     <div>
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Grafana stack</span></nav>
-      <div class="eyebrow"><span>Open source</span><span>No cloud</span><span>No account</span></div>
       <h1>Your health data in your own Postgres and Grafana</h1>
       <p class="lead">The Life Dashboard stack is an open-source backend for both apps: a receiver that checks signatures, Postgres and six Grafana dashboards. One compose file installs it, each phone pairs by QR code, and a read-only API and an MCP server give the data back to your scripts and to an AI you choose.</p>
-      <div class="cta-row stores">
-        <a class="btn btn-primary btn-store" href="https://github.com/owen282000/life-dashboard-stack#quick-start"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="9" width="17" height="10" rx="2"/><path d="M7 9V6h4v3M13 9V6h4v3"/></svg>Run with Docker Compose</a>
-      </div>
-      <p class="fineprint"><a class="nowrap" href="https://github.com/owen282000/life-dashboard-stack#try-it-without-a-phone">Demo data</a> · <a class="nowrap" href="https://github.com/owen282000/life-dashboard-stack/blob/main/docs/kubernetes.md">Helm chart for Kubernetes</a></p>
+      <div class="badges"><a class="badge-link" href="https://github.com/owen282000/life-dashboard-stack#quick-start"><img class="badge-img" src="../img/badges/docker-compose.svg" alt="Run with Docker Compose" width="877" height="168" loading="lazy"></a><a class="badge-link" href="https://artifacthub.io/packages/helm/life-dashboard/life-dashboard"><img class="badge-img" src="../img/badges/artifact-hub.svg" alt="Helm chart on Artifact Hub" width="684" height="168" loading="lazy"></a></div>
+      <p class="fineprint"><a class="nowrap" href="https://github.com/owen282000/life-dashboard-stack#try-it-without-a-phone">Demo data</a></p>
     </div>
     <div class="product-visual is-wide">
-      <div class="wide-shot hero-shot"><div class="wide-bar"><i></i><i></i><i></i></div><a class="shot-link" href="../img/g-overview.webp" aria-label="The overview dashboard of the Grafana stack with demo data, full size"><img src="../img/g-overview.webp" alt="The overview dashboard of the Grafana stack with demo data" width="1400" height="728" fetchpriority="high"></a></div>
+      <div class="wide-shot hero-shot"><a class="shot-link" href="../img/g-overview.webp" aria-label="The overview dashboard of the Grafana stack with demo data, full size"><img src="../img/g-overview.webp" alt="The overview dashboard of the Grafana stack with demo data" width="1400" height="728" fetchpriority="high"></a></div>
     </div>
   </div>
 </section>
@@ -271,34 +268,29 @@
   <div class="wrap">
     <h2 class="sr-only">What it does</h2>
     <div class="highlights">
-        <div class="hl"><h3>One file to install</h3><p>A docker-compose.yml and an example .env from the release. The images are published for amd64 and arm64, so nothing is cloned or built.</p></div>
-        <div class="hl"><h3>Paired by QR code</h3><p>Like the Home Assistant integration: the receiver shows a code, the app scans it, and you type neither the address nor the secret.</p></div>
-        <div class="hl"><h3>Six dashboards</h3><p>Overview, Activity, Sleep, Heart and body, Screen time, and Data and sync, in a Life Dashboard folder, with a Phone picker on each.</p></div>
-        <div class="hl"><h3>Every record in Postgres</h3><p>The receiver checks the X-Signature HMAC, applies a repeated payload once and removes what the phone reports as deleted.</p></div>
-        <div class="hl"><h3>Your data back</h3><p>A read-only JSON API with a token of its own, for a script, a widget or a spreadsheet: days, nights, workouts, screen time and trends.</p></div>
-        <div class="hl"><h3>Ask your own AI</h3><p>An optional MCP server with six read-only tools, for a local model or Claude. No tool writes, and none takes SQL.</p></div>
+        <div class="hl-lead"><h3>One file to install</h3><p>A docker-compose.yml and an example .env from the release. The images are published for amd64 and arm64, so nothing is cloned or built.</p></div>
+        <ul class="hl-list"><li><h3>Paired by QR code</h3><p>Like the Home Assistant integration: the receiver shows a code, the app scans it, and you type neither the address nor the secret.</p></li><li><h3>Six dashboards</h3><p>Overview, Activity, Sleep, Heart and body, Screen time, and Data and sync, in a Life Dashboard folder, with a Phone picker on each.</p></li><li><h3>Every record in Postgres</h3><p>The receiver checks the X-Signature HMAC, applies a repeated payload once and removes what the phone reports as deleted.</p></li><li><h3>Your data back</h3><p>A read-only JSON API with a token of its own, for a script, a widget or a spreadsheet: days, nights, workouts, screen time and trends.</p></li><li><h3>Ask your own AI</h3><p>An optional MCP server with six read-only tools, for a local model or Claude. No tool writes, and none takes SQL.</p></li></ul>
     </div>
   </div>
 </section>
 
 <section class="section">
   <div class="wrap">
-    <div class="show" id="dashboards">
-      <div class="show-media is-wide"><div class="stage green-glow"></div><div class="wide-shot solo"><div class="wide-bar"><i></i><i></i><i></i></div><a class="shot-link" href="../img/g-sleep.webp" aria-label="The sleep dashboard of the Grafana stack, full size"><img src="../img/g-sleep.webp" alt="The sleep dashboard of the Grafana stack" width="1400" height="895" loading="lazy"></a></div></div>
-      <div>
-        <div class="kicker">Dashboards</div>
-        <h2>Sleep, activity, heart and screen time in Grafana</h2>
-        <p>Every dashboard has a <strong>Phone</strong> picker and links to the other five that keep the time range. Each panel has an info icon that says where its figure comes from.</p>
+    <div class="show stack" id="dashboards">
+      <div class="stack-text">
+        <div><h2>Sleep, activity, heart and screen time in Grafana</h2></div>
+        <div><p>Every dashboard has a <strong>Phone</strong> picker and links to the other five that keep the time range. Each panel has an info icon that says where its figure comes from.</p>
         <ul class="ticks">
           <li>Life Dashboard overview <span>How today and last night went, and this week against the four before it.</span></li>
           <li>Activity and Sleep <span>Steps by hour, workout minutes against the WHO guideline of 150, a hypnogram, bedtime and wake time.</span></li>
           <li>Heart and body <span>Heart rate per hour, resting heart rate, HRV, SpO2, breathing rate and weight with its 7-day mean.</span></li>
           <li>Screen time, Data and sync <span>Minutes per app and per day, the last use before sleep, and when each phone last sent data.</span></li>
         </ul>
-        <a class="link-arrow" href="https://github.com/owen282000/life-dashboard-stack#dashboards">All six dashboards</a>
+        <a class="link-arrow" href="https://github.com/owen282000/life-dashboard-stack#dashboards">All six dashboards</a></div>
       </div>
+      <div class="show-media is-wide"><div class="stage green-glow"></div><div class="wide-shot solo"><a class="shot-link" href="../img/g-sleep.webp" aria-label="The sleep dashboard of the Grafana stack, full size"><img src="../img/g-sleep.webp" alt="The sleep dashboard of the Grafana stack" width="1400" height="895" loading="lazy"></a></div></div>
     </div><div class="show flip" id="install-and-pairing">
-      <div class="show-code"><div class="code-window"><div class="code-bar"><i></i><i></i><i></i><span>Install</span></div><pre tabindex="0"><code>mkdir life-dashboard &amp;&amp; cd life-dashboard
+      <div class="show-code"><div class="code-window"><div class="code-bar"><span>Install</span></div><pre tabindex="0" role="region" aria-label="Install"><code>mkdir life-dashboard &amp;&amp; cd life-dashboard
 GH=https://github.com/owen282000/life-dashboard-stack
 R=$GH/releases/latest/download
 curl -fsSLO $R/docker-compose.yml
@@ -307,7 +299,6 @@ curl -fsSL -o .env $R/env.example
 docker compose up -d
 docker compose logs receiver   # the pairing code</code></pre></div></div>
       <div>
-        <div class="kicker">Install and pairing</div>
         <h2>One compose file, and a QR&nbsp;code for each phone</h2>
         <p>Each release has a <code>docker-compose.yml</code> and an example <code>.env</code>. The receiver, Postgres and Grafana come as published images, so two downloads and one command start the stack.</p>
         <ul class="ticks">
@@ -318,43 +309,40 @@ docker compose logs receiver   # the pairing code</code></pre></div></div>
         </ul>
         <a class="link-arrow" href="https://github.com/owen282000/life-dashboard-stack#quick-start">The quick start</a>
       </div>
-    </div><div class="show" id="how-it-counts">
-      <div class="show-media is-wide"><div class="stage green-glow"></div><div class="wide-shot solo"><div class="wide-bar"><i></i><i></i><i></i></div><a class="shot-link" href="../img/g-activity.webp" aria-label="The activity dashboard of the Grafana stack, full size"><img src="../img/g-activity.webp" alt="The activity dashboard of the Grafana stack" width="1400" height="1260" loading="lazy"></a></div></div>
-      <div>
-        <div class="kicker">How it counts</div>
-        <h2>No scores, and a gap where data is missing</h2>
-        <p>Nothing is colored as good or bad. Goals are dashed lines you can change at the top of a dashboard.</p>
+    </div><div class="show stack" id="how-it-counts">
+      <div class="stack-text">
+        <div><h2>No scores, and a gap where data is missing</h2></div>
+        <div><p>Nothing is colored as good or bad. Goals are dashed lines you can change at the top of a dashboard.</p>
         <ul class="ticks">
           <li>Steps counted once <span>Steps, distance and calories come from the phone's daily totals, so a walk recorded by phone and watch counts once.</span></li>
           <li>Local days in your time zone <span>A night belongs to the morning you wake up. Today is marked “so far” and left out of averages.</span></li>
           <li>HRV kept apart <span>RMSSD from an Android watch and SDNN from an Apple Watch are different measures, so they're never mixed.</span></li>
           <li>Gaps, not zeros <span>A missing day shows as a gap. The only red is a phone that sent nothing for 24 hours.</span></li>
         </ul>
-        
+        </div>
       </div>
-    </div><div class="show flip" id="sql-and-api">
-      <div class="show-media is-wide"><div class="stage green-glow"></div><div class="wide-shot solo"><div class="wide-bar"><i></i><i></i><i></i></div><a class="shot-link" href="../img/g-data.webp" aria-label="The data and sync dashboard of the Grafana stack, full size"><img src="../img/g-data.webp" alt="The data and sync dashboard of the Grafana stack" width="1400" height="1260" loading="lazy"></a></div></div>
-      <div>
-        <div class="kicker">SQL and API</div>
-        <h2>Your data back, in SQL or as JSON</h2>
-        <p>The <code>dash</code> views hold one row per day, night, hour or app, with local days already worked out. Query them with <code>psql</code>, in a Grafana panel of your own, or through the read-only API. <a href="https://github.com/owen282000/life-dashboard-stack/blob/main/docs/views.md">Every view, column and unit</a> is documented.</p>
+      <div class="show-media is-wide"><div class="stage green-glow"></div><div class="wide-shot solo"><a class="shot-link" href="../img/g-activity.webp" aria-label="The activity dashboard of the Grafana stack, full size"><img src="../img/g-activity.webp" alt="The activity dashboard of the Grafana stack" width="1400" height="1260" loading="lazy"></a></div></div>
+    </div><div class="show stack" id="sql-and-api">
+      <div class="stack-text">
+        <div><h2>Your data back, in SQL or as JSON</h2></div>
+        <div><p>The <code>dash</code> views hold one row per day, night, hour or app, with local days already worked out. Query them with <code>psql</code>, in a Grafana panel of your own, or through the read-only API. <a href="https://github.com/owen282000/life-dashboard-stack/blob/main/docs/views.md">Every view, column and unit</a> is documented.</p>
         <ul class="ticks">
           <li><code>dash.activity_days</code> and <code>dash.sleep_nights</code> <span>Steps per day, counted once, and hours asleep, deep and REM per night, per phone.</span></li>
           <li>A read-only JSON API <span>With <code>API_TOKEN</code> set, <code>/api/</code> answers with days, nights, workouts, screen time, one metric as a series, or a trend against the period before.</span></li>
           <li>Read-only users <span>Grafana reads as <code>grafana_ro</code>, the API and the MCP server as <code>dash_ro</code>. Neither can write, and their queries stop after 30 and 15 seconds.</span></li>
           <li>Off until you want it <span>Without a token, every path under <code>/api/</code> is a 404. Behind a reverse proxy, forward only <code>/webhook</code> if you don't need the API outside.</span></li>
         </ul>
-        <a class="link-arrow" href="https://github.com/owen282000/life-dashboard-stack/blob/main/docs/api.md">Every endpoint of the API</a>
+        <a class="link-arrow" href="https://github.com/owen282000/life-dashboard-stack/blob/main/docs/api.md">Every endpoint of the API</a></div>
       </div>
+      <div class="show-media is-wide"><div class="stage green-glow"></div><div class="wide-shot solo"><a class="shot-link" href="../img/g-data.webp" aria-label="The data and sync dashboard of the Grafana stack, full size"><img src="../img/g-data.webp" alt="The data and sync dashboard of the Grafana stack" width="1400" height="1260" loading="lazy"></a></div></div>
     </div><div class="show" id="your-own-ai">
-      <div class="show-code"><div class="code-window"><div class="code-bar"><i></i><i></i><i></i><span>Start the MCP server</span></div><pre tabindex="0"><code>echo &quot;MCP_TOKEN=$(openssl rand -hex 32)&quot; &gt;&gt; .env
+      <div class="show-code"><div class="code-window"><div class="code-bar"><span>Start the MCP server</span></div><pre tabindex="0" role="region" aria-label="Start the MCP server"><code>echo &quot;MCP_TOKEN=$(openssl rand -hex 32)&quot; &gt;&gt; .env
 docker compose --profile mcp up -d
 
 # then, in your MCP client:
 # URL     http://&lt;this machine&gt;:8090/mcp
 # Header  Authorization: Bearer &lt;MCP_TOKEN&gt;</code></pre></div></div>
       <div>
-        <div class="kicker">Your own AI</div>
         <h2>Ask your own AI, through a read-only MCP server</h2>
         <p>An optional fourth image gives a model you choose six read-only tools: <code>list_phones</code>, <code>daily_summary</code>, <code>sleep_nights</code>, <code>workouts</code>, <code>trend</code> and <code>screen_time</code>. It speaks Streamable HTTP with a bearer token, for Open WebUI, LM Studio or any MCP client, and stdio for Claude Desktop on the same machine.</p>
         <ul class="ticks">
@@ -366,14 +354,13 @@ docker compose --profile mcp up -d
         <a class="link-arrow" href="../health-data-own-ai/">Connect a model, step by step</a>
       </div>
     </div><div class="show flip" id="kubernetes">
-      <div class="show-code"><div class="code-window"><div class="code-bar"><i></i><i></i><i></i><span>Install with Helm</span></div><pre tabindex="0"><code># CloudNativePG first, once per cluster
+      <div class="show-code"><div class="code-window"><div class="code-bar"><span>Install with Helm</span></div><pre tabindex="0" role="region" aria-label="Install with Helm"><code># CloudNativePG first, once per cluster
 helm install lifedash \
   oci://ghcr.io/owen282000/charts/life-dashboard \
   -n life-dashboard --create-namespace \
   -f my-values.yaml --wait --timeout 10m
 helm test lifedash -n life-dashboard --logs</code></pre></div></div>
       <div>
-        <div class="kicker">Kubernetes</div>
         <h2>A Helm chart for a cluster of your own</h2>
         <p>The chart runs the same images. Postgres comes from <a href="https://cloudnative-pg.io">CloudNativePG</a> by default, with replicas, failover and backups to object storage. Without the operator, a bundled StatefulSet or a Postgres you already run works too.</p>
         <ul class="ticks">
@@ -391,16 +378,15 @@ helm test lifedash -n life-dashboard --logs</code></pre></div></div>
 <section class="section tight band" id="get">
   <div class="wrap">
     <div class="section-head">
-      <div class="kicker">Install</div>
       <h2>Run the stack</h2>
     </div>
     <div class="get-split">
       <article class="get-card" id="get-grafana">
         <header><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M6.5 16v-4"/><path d="M11 16V7"/><path d="M15.5 16v-6"/><path d="M20 16V4"/></svg></span><div><h3><a href="../grafana/">Life Dashboard stack</a></h3><p>Postgres, Grafana, an API and MCP, self-hosted</p></div></header>
-        <a class="btn btn-primary btn-store" href="https://github.com/owen282000/life-dashboard-stack#quick-start"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="9" width="17" height="10" rx="2"/><path d="M7 9V6h4v3M13 9V6h4v3"/></svg>Run with Docker Compose</a>
+        <a class="badge-link" href="https://github.com/owen282000/life-dashboard-stack#quick-start"><img class="badge-img" src="../img/badges/docker-compose.svg" alt="Run with Docker Compose" width="877" height="168" loading="lazy"></a>
         <p class="store-note">Download docker-compose.yml and the example .env from the latest release, set the secret, your time zone, the address and the passwords, then docker compose up -d. Nothing to clone or build.</p>
         <ul class="get-list">
-          <li><svg class="li-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V5m0 14h16M8 15v-3m4 3V9m4 6v-5m4 5V7"/></svg><span><b><a href="https://github.com/owen282000/life-dashboard-stack#try-it-without-a-phone">Demo data</a></b> <span class="status live">Available</span><small>60 days of made-up data for two phones, from the same compose file, before any phone of yours is involved.</small></span></li><li><svg class="li-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="6.5"/><circle cx="12" cy="12" r="2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></svg><span><b><a href="https://github.com/owen282000/life-dashboard-stack/blob/main/docs/kubernetes.md">Helm chart for Kubernetes</a></b> <span class="status live">Available</span><small>The same images on a cluster of your own, with Postgres from CloudNativePG, a bundled StatefulSet or a database you already run.</small></span></li>
+          <li><svg class="li-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V5m0 14h16M8 15v-3m4 3V9m4 6v-5m4 5V7"/></svg><span><b><a href="https://github.com/owen282000/life-dashboard-stack#try-it-without-a-phone">Demo data</a></b> <span class="status live">Available</span><small>60 days of made-up data for two phones, from the same compose file, before any phone of yours is involved.</small></span></li><li class="with-badge"><a class="badge-link" href="https://artifacthub.io/packages/helm/life-dashboard/life-dashboard"><img class="badge-img" src="../img/badges/artifact-hub.svg" alt="Helm chart on Artifact Hub" width="684" height="168" loading="lazy"></a><small>The same images on a cluster of your own, with Postgres from CloudNativePG, a bundled StatefulSet or a database you already run.</small></li>
         </ul>
         
       </article>
@@ -408,7 +394,7 @@ helm test lifedash -n life-dashboard --logs</code></pre></div></div>
         <h3>What you need</h3>
         <p>Docker with Compose, on a machine your phone can reach on the same network or over a VPN: a home server, a NAS or a Raspberry Pi with a 64-bit OS, as the images are published for amd64 and arm64 only. Or a Kubernetes cluster with Helm 3 or 4, with CloudNativePG for the default Postgres. On each phone, Life Dashboard Companion for Android or for iPhone, paired by QR code or pointed at the receiver's webhook URL on port 8080 with a label for that phone and the same secret as <code>WEBHOOK_SECRET</code>. Set that secret: without one the receiver accepts unsigned payloads and shows no pairing code. To reach the receiver from outside, put a reverse proxy with TLS in front of it. The stack is offered as a starting point you can change, not as a finished product.</p>
         <p class="fineprint">Receives from <a href="../android/">Life Dashboard Companion for Android</a> and <a href="../ios/">for iPhone</a>.</p>
-        <div class="code-window"><div class="code-bar"><i></i><i></i><i></i><span>Try it with demo data</span></div><pre tabindex="0"><code>mkdir lifedash-demo &amp;&amp; cd lifedash-demo
+        <div class="code-window"><div class="code-bar"><span>Try it with demo data</span></div><pre tabindex="0" role="region" aria-label="Try it with demo data"><code>mkdir lifedash-demo &amp;&amp; cd lifedash-demo
 GH=https://github.com/owen282000/life-dashboard-stack
 curl -fsSLO $GH/releases/latest/download/docker-compose.yml
 RECEIVER_PORT=18080 GRAFANA_PORT=13000 \
@@ -423,7 +409,6 @@ RECEIVER_PORT=18080 GRAFANA_PORT=13000 \
 <section class="section tight" id="faq">
   <div class="wrap">
     <div class="section-head">
-      <div class="kicker">FAQ</div>
       <h2>Questions about the stack</h2>
     </div>
     <div class="faq">
@@ -482,22 +467,22 @@ RECEIVER_PORT=18080 GRAFANA_PORT=13000 \
 
 <section class="section tight band">
   <div class="wrap">
-    <div class="section-head"><div class="kicker">Guides</div><h2>Setup guides</h2></div>
+    <div class="section-head"><h2>Setup guides</h2></div>
     <div class="family three">
-      <a class="part" href="../health-data-own-ai/"><span class="tag">MCP</span><h3>Health Connect data over MCP, for your own AI</h3><p>The stack's read-only MCP server lets a local model or Claude read your history. Works in Europe too.</p><span class="go">Read the guide</span></a>
-      <a class="part" href="../health-connect-webhook/"><span class="tag">Webhooks</span><h3>Health Connect to a webhook</h3><p>The JSON payload, signatures, retries and receivers for n8n and Node-RED.</p><span class="go">Read the guide</span></a>
-      <a class="part" href="../health-data-api/"><span class="tag">API</span><h3>A web API for Health Connect or Apple Health</h3><p>Why neither has one, and how to get the data onto your server anyway.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="../health-data-own-ai/"><h3>Health Connect data over MCP, for your own AI</h3><p>The stack's read-only MCP server lets a local model or Claude read your history. Works in Europe too.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="../health-connect-webhook/"><h3>Health Connect to a webhook</h3><p>The JSON payload, signatures, retries and receivers for n8n and Node-RED.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="../health-data-api/"><h3>A web API for Health Connect or Apple Health</h3><p>Why neither has one, and how to get the data onto your server anyway.</p><span class="go">Read the guide</span></a>
     </div>
   </div>
 </section>
 
 <section class="section tight">
   <div class="wrap">
-    <div class="section-head"><div class="kicker">Life Dashboard</div><h2>The other parts</h2><p>Both apps send the same payload, so an Android phone and an iPhone can share one Home Assistant or one stack.</p></div>
+    <div class="section-head"><h2>The other parts</h2><p>Both apps send the same payload, so an Android phone and an iPhone can share one Home Assistant or one stack.</p></div>
     <div class="family three">
-      <a class="part" href="../android/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span><h3>Life Dashboard Companion for Android</h3><p>Health Connect and screen time per app</p><span class="go">Learn more</span></a>
-      <a class="part" href="../ios/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg></span><h3>Life Dashboard Companion for iPhone</h3><p>Apple Health, with the same payload</p><span class="go">Learn more</span></a>
-      <a class="part" href="../home-assistant/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 11 12 3.5l8.5 7.5"/><path d="M5.5 9.5V20h13V9.5"/><circle cx="12" cy="13.5" r="2"/><path d="M12 15.5V20"/></svg></span><h3>Life Dashboard integration for Home Assistant</h3><p>Sensors, statistics and a year of history</p><span class="go">Learn more</span></a>
+      <a class="part" href="../android/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span><h3>Life Dashboard Companion for Android</h3><p>Health Connect and screen time per app</p><span class="go">See the Android app</span></a>
+      <a class="part" href="../ios/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg></span><h3>Life Dashboard Companion for iPhone</h3><p>Apple Health, with the same payload</p><span class="go">See the iPhone app</span></a>
+      <a class="part" href="../home-assistant/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 11 12 3.5l8.5 7.5"/><path d="M5.5 9.5V20h13V9.5"/><circle cx="12" cy="13.5" r="2"/><path d="M12 15.5V20"/></svg></span><h3>Life Dashboard integration for Home Assistant</h3><p>Sensors, statistics and a year of history</p><span class="go">See the integration</span></a>
     </div>
   </div>
 </section>
@@ -557,6 +542,7 @@ RECEIVER_PORT=18080 GRAFANA_PORT=13000 \
       </div>
     </div>
     <p class="legal">Home Assistant is a trademark of the Open Home Foundation. Health Connect, Google Play, Google Health, Fitbit and Pixel Watch are trademarks of Google LLC. Apple, Apple Health, Apple Watch, iPhone, Xcode and TestFlight are trademarks of Apple Inc. App Store is a service mark of Apple Inc. Grafana is a trademark of Grafana Labs. Samsung Health, Garmin Connect, Oura and Withings belong to their owners. Life Dashboard is an independent project and is not affiliated with or endorsed by any of them. Screenshots show made-up data.</p>
+    <p class="legal credits">Badges: Google Play and App Store as published by Google and Apple; "Get it on F&#8209;Droid" by the <a href="https://gitlab.com/fdroid/artwork">F&#8209;Droid project</a> and "Get it on GitHub" by <a href="https://github.com/Kunzisoft/Github-badge">Kunzisoft</a>, both <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>; Obtainium from the <a href="https://github.com/ImranR98/Obtainium">Obtainium project</a>; the HACS, Artifact Hub and Docker Compose badges are drawn for this site in Roboto (SIL OFL), around the icons of the <a href="https://github.com/hacs/integration">HACS project</a> (MIT) and the <a href="https://github.com/artifacthub/hub">Artifact Hub project</a> (Apache 2.0) and Docker's logo from its media kit; the AlternativeTo badge is their compact badge on a black panel. GitHub is a trademark of GitHub, Inc. Docker, Docker Compose and the Docker logo are trademarks of Docker, Inc. Helm is a trademark of The Linux Foundation.</p>
   </div>
 </footer>
 </body>

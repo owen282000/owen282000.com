@@ -19,7 +19,7 @@
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="icon" type="image/png" sizes="32x32" href="img/icon-32.png">
 <link rel="apple-touch-icon" href="img/icon-180.png">
-<link rel="stylesheet" href="site.css?v=8618951c">
+<link rel="stylesheet" href="site.css?v=31fb76ce">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="Life Dashboard: your phone's health data, on your own server">
@@ -258,7 +258,7 @@
           "name": "What does it cost?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "All four parts are MIT licensed and free. The signed APK on GitHub is free, Obtainium installs that same APK, and the F-Droid build will be free once it's listed. The Google Play version will be a paid listing of the same app, built from the same source and signed with the same key, for people who'd rather install from Play and want to support the project that way. The iPhone app is free to build with Xcode."
+            "text": "All four parts are MIT licensed and free. The signed APK on GitHub is free, Obtainium installs that same APK, and the F-Droid build will be free once it's listed. The Google Play version will be a paid listing of the same app, built from the same source and signed with the same key, for people who'd rather install from Play and want to support the project that way. The iPhone app is free to build with Xcode. The App Store version, in Apple's review now, will cost €6.99 once (US$5.99), with no subscription."
           }
         },
         {
@@ -323,7 +323,7 @@
         <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
         GitHub
       </a>
-      <a class="btn btn-primary btn-sm" href="#get">Install</a>
+      <a class="btn btn-primary btn-sm" href="#get">Install options</a>
     </div>
   </div>
 </header>
@@ -336,7 +336,6 @@
   <div class="grid-bg"></div>
   <div class="wrap">
     <div>
-      <div class="eyebrow"><span>Open source</span><span>No cloud</span><span>No account</span></div>
       <h1>Health Connect and Apple Health <span class="accent">in Home Assistant or on your own&nbsp;server</span></h1>
       <svg class="hero-beat" viewBox="0 0 560 90" aria-hidden="true">
         <defs><filter id="hb" x="-10%" y="-60%" width="120%" height="220%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
@@ -348,13 +347,15 @@
         </g>
       </svg>
       <p class="lead">Life Dashboard Companion sends what your watch, ring or scale records to a server of your own: Home Assistant, the Grafana stack, MQTT or your own webhook. The charts live there; the app itself only reads and sends.</p>
+      <p class="claims">Open source, no cloud, no account.</p>
       <div class="hero-stores">
 <!-- BUILD:hero-stores -->
 <div class="cta-row stores">
         <a class="btn btn-primary btn-store" href="#get">Install today</a>
         <a class="btn btn-ghost btn-store" href="grafana/#dashboards">See the demo dashboards</a>
       </div>
-      <ul class="install-paths"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg><span><b>Android</b> Free APK today. Google Play (paid) and F&#8209;Droid are coming.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg><span><b>iPhone</b> <a href="ios/#building">Build it with Xcode</a> on a Mac, about an hour. TestFlight beta next.</span></li></ul>
+      <div class="badges"><span class="badge-soon"><img class="badge-img" src="img/badges/app-store.svg" alt="Download on the App Store" width="120" height="40" loading="lazy"><small><b>Coming soon.</b> <span>In App Store review</span></small></span><span class="badge-soon"><img class="badge-img" src="img/badges/google-play.png" alt="Get it on Google Play" width="564" height="168" loading="lazy"><small><b>Coming soon.</b> <span>Closed testing</span></small></span></div>
+      <ul class="install-paths"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg><span><b>Android</b> Free APK today. Google Play (paid) and F&#8209;Droid are coming.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg><span><b>iPhone</b> <a href="ios/#building">Build it with Xcode</a> on a Mac, about an hour. In App Store review.</span></li></ul>
 <!-- /BUILD:hero-stores -->
       </div>
     </div>
@@ -398,7 +399,6 @@
 <section class="section" id="how-it-works">
   <div class="wrap">
     <div class="section-head">
-      <div class="kicker">How it works</div>
       <h2>From your watch to your server</h2>
       <p>Health Connect and Apple Health keep their data on the phone, with no web API. Life Dashboard Companion reads it there on your schedule and sends only what's new.</p>
     </div>
@@ -444,11 +444,6 @@
         <ul><li><a href="home-assistant/">Home Assistant</a></li><li><a href="grafana/">The Grafana stack</a></li><li><a href="#own-server">MQTT or any webhook</a></li></ul>
       </div>
     </div>
-    <div class="steps three">
-      <div class="step"><h3>Pick where it goes</h3><p>Home Assistant, the Grafana stack, or your own broker or URL.</p></div>
-      <div class="step"><h3>Install the app</h3><p>Scan the QR code of Home Assistant or the stack, or enter an address.</p></div>
-      <div class="step"><h3>Sync</h3><p>Pick your data, tap <strong>Sync Now</strong>, and the schedule does the rest.</p></div>
-    </div>
   </div>
 </section>
 
@@ -465,8 +460,7 @@
         </figure>
       </div>
       <div>
-        <div class="kicker">Home Assistant</div>
-        <h2>A Home Assistant integration, paired with one QR&nbsp;code</h2>
+          <h2>A Home Assistant integration, paired with one QR&nbsp;code</h2>
         <p>Installs through HACS. No YAML, no broker, and the phone never gets a Home Assistant login.</p>
         <ul class="ticks">
           <li>Sensors for steps, sleep, heart rate, weight and more</li>
@@ -485,7 +479,7 @@
     <div class="show flip">
       <div class="code-col">
         <div class="code-window" role="figure" aria-label="An example request the app sends to a webhook">
-          <div class="code-bar"><i></i><i></i><i></i><span>POST https://n8n.example.com/webhook/life-dashboard</span></div>
+          <div class="code-bar"><span>POST https://n8n.example.com/webhook/life-dashboard</span></div>
 <pre tabindex="0" role="region" aria-label="Example request"><code><span class="h">X-Signature: sha256=9f2c4e…</span>
 
 {
@@ -499,8 +493,7 @@
         </div>
       </div>
       <div>
-        <div class="kicker">Webhooks and MQTT</div>
-        <h2>Your own server, database or tool</h2>
+          <h2>Your own server, database or tool</h2>
         <p>Any URL that takes JSON: n8n, Node-RED or a script of your own. Or an MQTT broker you already run. Once the data is in your own database, <a href="health-data-own-ai/">a model on your own network can read it</a> too.</p>
         <ul class="ticks">
           <li>Every record in full, signed with HMAC-SHA256 if you set a secret</li>
@@ -513,25 +506,26 @@
   </div>
 </section>
 
-<!-- Grafana -->
+<!-- Grafana: the one full-width row, so the dashboard is readable -->
 <section class="section band" id="grafana">
   <div class="wrap">
-    <div class="show">
-      <div class="show-media is-wide">
-        <div class="stage green-glow"></div>
-        <div class="wide-shot solo"><div class="wide-bar"><i></i><i></i><i></i></div><img src="img/g-overview.webp" alt="The overview dashboard of the Grafana stack with demo data" width="1400" height="728" loading="lazy"></div>
+    <div class="show stack">
+      <div class="stack-text">
+        <div><h2>Postgres and Grafana on your own machine</h2></div>
+        <div>
+          <p>A receiver, Postgres and six Grafana dashboards for both apps, on a home server, a Raspberry Pi or Kubernetes. Its demo shows 60 days of made-up data before you install anything on a phone.</p>
+          <ul class="ticks">
+            <li>One compose file with published images, nothing to build</li>
+            <li>Each phone pairs by QR code, as with Home Assistant</li>
+            <li>A read-only API and an MCP server for <a href="health-data-own-ai/">your own AI</a></li>
+            <li>A Helm chart, with Postgres from CloudNativePG</li>
+          </ul>
+          <a class="link-arrow" href="grafana/">More about the Grafana stack</a>
+        </div>
       </div>
-      <div>
-        <div class="kicker">Self-hosted</div>
-        <h2>Postgres and Grafana on your own machine</h2>
-        <p>A receiver, Postgres and six Grafana dashboards for both apps, on a home server, a Raspberry Pi or Kubernetes. Its demo shows 60 days of made-up data before you install anything on a phone.</p>
-        <ul class="ticks">
-          <li>One compose file with published images, nothing to build</li>
-          <li>Each phone pairs by QR code, as with Home Assistant</li>
-          <li>A read-only API and an MCP server for <a href="health-data-own-ai/">your own AI</a></li>
-          <li>A Helm chart, with Postgres from CloudNativePG</li>
-        </ul>
-        <a class="link-arrow" href="grafana/">More about the Grafana stack</a>
+      <div class="show-media is-wide full">
+        <div class="stage green-glow"></div>
+        <div class="wide-shot solo"><a class="shot-link" href="img/g-overview.webp" aria-label="The overview dashboard of the Grafana stack with demo data, full size"><img src="img/g-overview.webp" alt="The overview dashboard of the Grafana stack with demo data" width="1400" height="728" loading="lazy"></a></div>
       </div>
     </div>
   </div>
@@ -547,12 +541,11 @@
         <div class="phone p2"><img src="img/ios-health.webp" alt="The Health tab of the iPhone app" width="720" height="1464" loading="lazy"></div>
       </div>
       <div>
-        <div class="kicker">The apps</div>
-        <h2>One payload, from Android and iPhone</h2>
+          <h2>One payload, from Android and iPhone</h2>
         <p>Both apps send the same JSON, so an Android phone and an iPhone can share one Home Assistant or one stack.</p>
         <div class="apps-duo">
           <a href="android/"><b>Android</b><span>33 Health Connect types, screen time per app, and scale readings back into Samsung Health.</span></a>
-          <a href="ios/"><b>iPhone</b><span>28 Apple Health types, with a widget and Shortcuts. Today you build it with Xcode on a Mac, and a free Apple Account needs a rebuild every 7 days; TestFlight is next.</span></a>
+          <a href="ios/"><b>iPhone</b><span>28 Apple Health types, with a widget and Shortcuts. Today you build it with Xcode on a Mac, and a free Apple Account needs a rebuild every 7 days. The App Store version is in Apple's review.</span></a>
         </div>
       </div>
     </div>
@@ -564,7 +557,6 @@
   <div class="wrap">
 <!-- BUILD:proof -->
 <div class="section-head">
-      <div class="kicker">In use</div>
       <h2>Other open-source projects build on it</h2>
     </div>
     <ul class="proof-facts"><li><b>45+</b> Android releases since February 2026</li><li><b>5</b> outside contributors</li><li><b>4</b> parts, all MIT licensed</li></ul>
@@ -582,7 +574,6 @@
   <div class="wrap who">
     <img class="who-mark" src="img/icon-180.png" alt="" width="72" height="72">
     <div>
-      <div class="kicker">Who builds this</div>
       <h2>Built for my own dashboard first</h2>
       <p>I'm Owen Vogelaar. I started this app to feed a personal dashboard of my own, a private project that pulls my health and phone data together in one place. Getting that data off the phone turned out to be the hard part, so the app became a project of its own.</p>
       <p>Most people who want this already run Home Assistant, so I built the integration; for anyone who'd rather have plain Postgres and Grafana, the stack. The app runs on my own phone every day.</p>
@@ -595,7 +586,6 @@
 <section class="section privacy" id="privacy">
   <div class="grid-bg"></div>
   <div class="wrap">
-    <div class="kicker">Privacy and trust</div>
     <h2>Your data goes only to the addresses you enter</h2>
     <div class="trust">
       <div class="card"><h3>No account</h3><p>Nothing to sign up for.</p></div>
@@ -612,30 +602,33 @@
   <div class="wrap">
 <!-- BUILD:get -->
 <div class="section-head">
-      <div class="kicker">Get it</div>
       <h2>Pick your phone, then pick where the data goes</h2>
       <p>Using Home Assistant or the stack? Set that up first; the app scans its QR code.</p>
     </div>
+    <ol class="get-steps">
+      <li><b>Pick where it goes</b> Home Assistant, the Grafana stack, or your own broker or URL.</li>
+      <li><b>Install the app</b> Scan the QR code of Home Assistant or the stack, or enter an address.</li>
+      <li><b>Sync</b> Pick your data, tap <strong>Sync Now</strong>, and the schedule does the rest.</li>
+    </ol>
     <div class="get-grid">
       <article class="get-card compact" id="get-android">
         <header><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span><div><h3><a href="android/">Life Dashboard Companion for Android</a></h3><p>Android 8.0 or newer; health data from Android 9.</p></div></header>
-        <a class="btn btn-primary btn-store" href="https://github.com/owen282000/life-dashboard-companion-app/releases/latest/download/app-release.apk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14"/></svg>Download the free APK</a>
-        <p class="get-alt"><span class="soon-tag">Google Play: coming, as a paid listing of the same app</span> · <a class="nowrap" href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/owen282000/life-dashboard-companion-app">Obtainium</a> · <span class="soon-tag">F&#8209;Droid: coming</span></p>
+        <div class="badge-rows"><div class="badges"><a class="badge-link" href="https://github.com/owen282000/life-dashboard-companion-app/releases/latest"><img class="badge-img" src="img/badges/github.svg" alt="Get it on GitHub" width="564" height="168" loading="lazy"></a><a class="badge-link" href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/owen282000/life-dashboard-companion-app"><img class="badge-img" src="img/badges/obtainium.png" alt="Get it on Obtainium" width="564" height="168" loading="lazy"></a></div><div class="badges"><span class="badge-soon"><img class="badge-img" src="img/badges/google-play.png" alt="Get it on Google Play" width="564" height="168" loading="lazy"><small><b>Coming soon.</b> <span>Closed testing</span></small></span><span class="badge-soon"><img class="badge-img" src="img/badges/f-droid.svg" alt="Get it on F-Droid" width="564" height="168" loading="lazy"><small><b>Coming soon.</b> <span>Accepted, live with F&#8209;Droid's next build</span></small></span></div></div>
       </article>
       <article class="get-card compact" id="get-ios">
         <header><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg></span><div><h3><a href="ios/">Life Dashboard Companion for iPhone</a></h3><p>iOS 17 or newer. Building it takes a Mac and about an hour.</p></div></header>
         <a class="btn btn-primary btn-store" href="https://github.com/owen282000/life-dashboard-companion-app-ios#build-and-install"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg>Build with Xcode</a>
-        <p class="get-alt"><span class="soon-tag">App Store: coming</span> · <span class="soon-tag">TestFlight: coming</span></p>
+        <div class="badges"><span class="badge-soon"><img class="badge-img" src="img/badges/app-store.svg" alt="Download on the App Store" width="120" height="40" loading="lazy"><small><b>Coming soon.</b> <span>In App Store review</span></small></span></div>
       </article>
       <article class="get-card compact" id="get-home-assistant">
         <header><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 11 12 3.5l8.5 7.5"/><path d="M5.5 9.5V20h13V9.5"/><circle cx="12" cy="13.5" r="2"/><path d="M12 15.5V20"/></svg></span><div><h3><a href="home-assistant/">Life Dashboard integration for Home Assistant</a></h3><p>Home Assistant 2026.3 or newer.</p></div></header>
-        <a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 11 12 3.5l8.5 7.5"/><path d="M5.5 9.5V20h13V9.5"/></svg>Open in HACS</a>
+        <div class="badges"><a class="badge-link" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration"><img class="badge-img" src="img/badges/hacs.svg" alt="Get it on HACS" width="564" height="168" loading="lazy"></a></div>
         <p class="get-alt"><a class="nowrap" href="health-connect-home-assistant/#set-it-up">Setup steps</a> · <a class="nowrap" href="https://github.com/owen282000/life-dashboard-ha">Source on GitHub</a></p>
       </article>
       <article class="get-card compact" id="get-grafana">
         <header><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M6.5 16v-4"/><path d="M11 16V7"/><path d="M15.5 16v-6"/><path d="M20 16V4"/></svg></span><div><h3><a href="grafana/">Life Dashboard stack</a></h3><p>Docker with Compose, or Kubernetes.</p></div></header>
-        <a class="btn btn-primary btn-store" href="https://github.com/owen282000/life-dashboard-stack#quick-start"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="9" width="17" height="10" rx="2"/><path d="M7 9V6h4v3M13 9V6h4v3"/></svg>Run with Docker Compose</a>
-        <p class="get-alt"><a class="nowrap" href="https://github.com/owen282000/life-dashboard-stack#try-it-without-a-phone">Demo data</a> · <a class="nowrap" href="https://github.com/owen282000/life-dashboard-stack/blob/main/docs/kubernetes.md">Helm chart for Kubernetes</a></p>
+        <div class="badges"><a class="badge-link" href="https://github.com/owen282000/life-dashboard-stack#quick-start"><img class="badge-img" src="img/badges/docker-compose.svg" alt="Run with Docker Compose" width="877" height="168" loading="lazy"></a><a class="badge-link" href="https://artifacthub.io/packages/helm/life-dashboard/life-dashboard"><img class="badge-img" src="img/badges/artifact-hub.svg" alt="Helm chart on Artifact Hub" width="684" height="168" loading="lazy"></a></div>
+        <p class="get-alt"><a class="nowrap" href="https://github.com/owen282000/life-dashboard-stack#try-it-without-a-phone">Demo data</a></p>
       </article>
     </div>
 <!-- /BUILD:get -->
@@ -646,25 +639,14 @@
 <section class="section tight" id="guides">
   <div class="wrap">
     <div class="section-head">
-      <div class="kicker">Guides</div>
       <h2>Step by step</h2>
     </div>
 <!-- BUILD:guides -->
-<div class="guide-grid">
-      <a class="guide-link" href="health-connect-home-assistant/"><span class="tag">Home Assistant</span><b>Health Connect in Home Assistant</b></a>
-      <a class="guide-link" href="samsung-health-home-assistant/"><span class="tag">Samsung</span><b>Samsung Health and Galaxy Watch in Home Assistant</b></a>
-      <a class="guide-link" href="companion-app-health-connect/"><span class="tag">Companion app</span><b>The companion app and Health Connect</b></a>
-      <a class="guide-link" href="health-connect-webhook/"><span class="tag">Webhooks</span><b>Health Connect to a webhook</b></a>
-      <a class="guide-link" href="screen-time-home-assistant/"><span class="tag">Screen time</span><b>Screen time in Home Assistant</b></a>
-      <a class="guide-link" href="smart-scale-to-samsung-health/"><span class="tag">Smart scale</span><b>Smart scale to Samsung Health</b></a>
-      <a class="guide-link" href="health-connect-n8n/"><span class="tag">n8n</span><b>Health Connect to n8n</b></a>
-      <a class="guide-link" href="health-connect-data-types/"><span class="tag">Data types</span><b>Health Connect data types, app by app</b></a>
-      <a class="guide-link" href="health-data-api/"><span class="tag">API</span><b>A web API for Health Connect or Apple Health</b></a>
-      <a class="guide-link" href="samsung-health-export/"><span class="tag">Export</span><b>Samsung Health to your own server</b></a>
-      <a class="guide-link" href="fitbit-home-assistant/"><span class="tag">Fitbit</span><b>Fitbit and Pixel Watch in Home Assistant</b></a>
-      <a class="guide-link" href="garmin-home-assistant/"><span class="tag">Garmin</span><b>Garmin in Home Assistant</b></a>
-      <a class="guide-link" href="health-data-own-ai/"><span class="tag">MCP</span><b>Health Connect data over MCP, for your own AI</b></a>
-      <a class="guide-link" href="troubleshooting/"><span class="tag">Troubleshooting</span><b>Troubleshooting: syncs, sensors and pairing</b></a>
+<div class="guide-groups">
+      <div class="guide-group"><h3>Home Assistant</h3><ul><li><a class="guide-link" href="health-connect-home-assistant/">Health Connect in Home Assistant</a></li><li><a class="guide-link" href="companion-app-health-connect/">The companion app and Health Connect</a></li><li><a class="guide-link" href="screen-time-home-assistant/">Screen time in Home Assistant</a></li><li><a class="guide-link" href="smart-scale-to-samsung-health/">Smart scale to Samsung Health</a></li></ul></div>
+      <div class="guide-group"><h3>Watch brands</h3><ul><li><a class="guide-link" href="samsung-health-home-assistant/">Samsung Health and Galaxy Watch in Home Assistant</a></li><li><a class="guide-link" href="fitbit-home-assistant/">Fitbit and Pixel Watch in Home Assistant</a></li><li><a class="guide-link" href="garmin-home-assistant/">Garmin in Home Assistant</a></li><li><a class="guide-link" href="samsung-health-export/">Samsung Health to your own server</a></li></ul></div>
+      <div class="guide-group"><h3>Your own server</h3><ul><li><a class="guide-link" href="health-connect-webhook/">Health Connect to a webhook</a></li><li><a class="guide-link" href="health-connect-n8n/">Health Connect to n8n</a></li><li><a class="guide-link" href="health-data-api/">A web API for Health Connect or Apple Health</a></li><li><a class="guide-link" href="health-data-own-ai/">Health Connect data over MCP, for your own AI</a></li></ul></div>
+      <div class="guide-group"><h3>Reference</h3><ul><li><a class="guide-link" href="health-connect-data-types/">Health Connect data types, app by app</a></li><li><a class="guide-link" href="troubleshooting/">Troubleshooting: syncs, sensors and pairing</a></li></ul></div>
     </div>
 <!-- /BUILD:guides -->
   </div>
@@ -674,7 +656,6 @@
 <section class="section tight band" id="faq">
   <div class="wrap">
     <div class="section-head">
-      <div class="kicker">FAQ</div>
       <h2>Common questions</h2>
     </div>
     <div class="faq">
@@ -696,7 +677,7 @@
       </details>
       <details>
         <summary>What does it cost?</summary>
-        <p>All four parts are MIT licensed and free. The signed APK on GitHub is free, Obtainium installs that same APK, and the F-Droid build will be free once it's listed. The Google Play version will be a paid listing of the same app, built from the same source and signed with the same key, for people who'd rather install from Play and want to support the project that way. The iPhone app is free to build with Xcode.</p>
+        <p>All four parts are MIT licensed and free. The signed APK on GitHub is free, Obtainium installs that same APK, and the F-Droid build will be free once it's listed. The Google Play version will be a paid listing of the same app, built from the same source and signed with the same key, for people who'd rather install from Play and want to support the project that way. The iPhone app is free to build with Xcode. The App Store version, in Apple's review now, will cost €6.99 once (US$5.99), with no subscription.</p>
       </details>
       <details>
         <summary>What do these words mean?</summary>
@@ -721,6 +702,14 @@
 <!-- Final CTA -->
 <section class="final">
   <div class="wrap">
+    <svg class="beat" viewBox="0 0 560 90" aria-hidden="true">
+      <g stroke="#30B77E" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 45 H210 L232 12 L258 80 L276 30 L290 45 H420"/>
+        <circle cx="420" cy="45" r="7" fill="#30B77E" stroke="none"/>
+        <path d="M446 30 A22 22 0 0 1 446 60" opacity=".85"/>
+        <path d="M466 18 A40 40 0 0 1 466 72" opacity=".5"/>
+      </g>
+    </svg>
     <h2>Your health data, your server</h2>
     <div class="final-stores">
 <!-- BUILD:hero-stores -->
@@ -728,7 +717,8 @@
         <a class="btn btn-primary btn-store" href="#get">Install today</a>
         <a class="btn btn-ghost btn-store" href="grafana/#dashboards">See the demo dashboards</a>
       </div>
-      <ul class="install-paths"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg><span><b>Android</b> Free APK today. Google Play (paid) and F&#8209;Droid are coming.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg><span><b>iPhone</b> <a href="ios/#building">Build it with Xcode</a> on a Mac, about an hour. TestFlight beta next.</span></li></ul>
+      <div class="badges"><span class="badge-soon"><img class="badge-img" src="img/badges/app-store.svg" alt="Download on the App Store" width="120" height="40" loading="lazy"><small><b>Coming soon.</b> <span>In App Store review</span></small></span><span class="badge-soon"><img class="badge-img" src="img/badges/google-play.png" alt="Get it on Google Play" width="564" height="168" loading="lazy"><small><b>Coming soon.</b> <span>Closed testing</span></small></span></div>
+      <ul class="install-paths"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg><span><b>Android</b> Free APK today. Google Play (paid) and F&#8209;Droid are coming.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg><span><b>iPhone</b> <a href="ios/#building">Build it with Xcode</a> on a Mac, about an hour. In App Store review.</span></li></ul>
 <!-- /BUILD:hero-stores -->
     </div>
     <p class="fineprint">Source, issues and <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">discussions</a> on <a href="https://github.com/owen282000/life-dashboard-companion-app">GitHub</a>. New versions in the <a href="https://github.com/owen282000/life-dashboard-companion-app/releases.atom">release feed</a>.</p>
@@ -791,6 +781,7 @@
       </div>
     </div>
     <p class="legal">Home Assistant is a trademark of the Open Home Foundation. Health Connect, Google Play, Google Health, Fitbit and Pixel Watch are trademarks of Google LLC. Apple, Apple Health, Apple Watch, iPhone, Xcode and TestFlight are trademarks of Apple Inc. App Store is a service mark of Apple Inc. Grafana is a trademark of Grafana Labs. Samsung Health, Garmin Connect, Oura and Withings belong to their owners. Life Dashboard is an independent project and is not affiliated with or endorsed by any of them. Screenshots show made-up data.</p>
+    <p class="legal credits">Badges: Google Play and App Store as published by Google and Apple; "Get it on F&#8209;Droid" by the <a href="https://gitlab.com/fdroid/artwork">F&#8209;Droid project</a> and "Get it on GitHub" by <a href="https://github.com/Kunzisoft/Github-badge">Kunzisoft</a>, both <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>; Obtainium from the <a href="https://github.com/ImranR98/Obtainium">Obtainium project</a>; the HACS, Artifact Hub and Docker Compose badges are drawn for this site in Roboto (SIL OFL), around the icons of the <a href="https://github.com/hacs/integration">HACS project</a> (MIT) and the <a href="https://github.com/artifacthub/hub">Artifact Hub project</a> (Apache 2.0) and Docker's logo from its media kit; the AlternativeTo badge is their compact badge on a black panel. GitHub is a trademark of GitHub, Inc. Docker, Docker Compose and the Docker logo are trademarks of Docker, Inc. Helm is a trademark of The Linux Foundation.</p>
   </div>
 </footer>
 <!-- /BUILD:footer -->
