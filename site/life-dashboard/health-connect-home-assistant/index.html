@@ -48,7 +48,7 @@
         }
       ],
       "datePublished": "2026-10-06",
-      "dateModified": "2026-10-14",
+      "dateModified": "2026-10-19",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -169,7 +169,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Health Connect in Home Assistant</span></nav>
 <h1>How do I get Health Connect data into Home Assistant?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 14, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 19, 2026.</p>
 
 <p>Install the Life Dashboard integration in Home Assistant and Life Dashboard Companion, an open-source Android app, on your phone, then pair the two with a QR code. Your watch's data then arrives as sensors, and every day is kept in long-term statistics.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in HACS</a></p>
@@ -192,7 +192,7 @@
 <h2 id="set-it-up">Set it up</h2>
 
 <ol>
-  <li>In HACS, add <code>https://github.com/owen282000/life-dashboard-ha</code> as a custom repository of type <strong>Integration</strong> (it isn't in the default list yet), or use <a href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in HACS</a>. Download <strong>Life Dashboard</strong> and restart Home Assistant.</li>
+  <li>In HACS, search for <strong>Life Dashboard</strong>, or use <a href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in HACS</a>. Download it and restart Home Assistant.</li>
   <li>Go to <strong>Settings</strong> &gt; <strong>Devices &amp; services</strong> &gt; <strong>Add integration</strong>, search for <strong>Life Dashboard</strong> and name the phone. Check the <strong>Home Assistant address</strong> field: it holds the address the phone sends to. Use Home Assistant's IP address, such as <code>http://192.168.1.20:8123</code>, not <code>homeassistant.local</code>, which Android often can't resolve. Home Assistant shows its IP address under <strong>Settings</strong> &gt; <strong>System</strong> &gt; <strong>Network</strong>, in the <strong>Network adapter</strong> section. Plain <code>http://</code> isn't encrypted. On your own home Wi-Fi that's fine; on any network you don't fully trust, use HTTPS or Home Assistant Cloud instead. The dialog then shows a QR code.
   <figure class="shot wide"><a class="shot-link" href="../img/H2-qr.webp" aria-label="The Life Dashboard integration in Home Assistant showing a pairing QR code, full size"><img src="../img/H2-qr.webp" alt="The Life Dashboard integration in Home Assistant showing a pairing QR code" width="800" height="668" loading="lazy"></a></figure></li>
   <li>Let your watch's app write to Health Connect. In Samsung Health that's <strong>Settings</strong> &gt; <strong>Health Connect</strong>: tap <strong>Get started</strong>, choose the data and tap <strong>Allow</strong>. The table below has the path for other apps.</li>
