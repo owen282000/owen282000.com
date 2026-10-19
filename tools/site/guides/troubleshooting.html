@@ -1,0 +1,102 @@
+<!--
+title: Health Connect sync not working? Troubleshooting | Life Dashboard
+description: Syncs that stop in the background, missing Health Connect data, no sensors in Home Assistant, pairing and certificate errors: what to check, step by step.
+primary query: health connect sync not working
+secondary queries: health connect background sync stops, samsung battery kills app, home assistant health sensors missing, health connect permissions, life dashboard troubleshooting
+published: 2026-10-19
+updated: 2026-10-19
+-->
+
+<h1>Why isn't my health data arriving?</h1>
+
+<p>Most problems with Life Dashboard Companion come down to four things: the phone stops the app in the background, the watch app doesn't write into Health Connect, a permission is missing, or the phone can't reach the address it sends to. This page goes through them in the order worth checking. The first place to look is always the app's <strong>Logs</strong> tab: it shows every sync and delivery with the server's answer, and a tap on a row gives the details.</p>
+
+<h2>Syncs stop when the app is closed</h2>
+
+<p>If the app only syncs when you open it, the phone is stopping its background jobs to save battery. Samsung, Xiaomi, OnePlus, Huawei and other brands do this, often without telling you. Change these settings once, right after installing:</p>
+
+<ul>
+  <li><strong>Samsung:</strong> Settings &gt; Apps &gt; Life Dashboard &gt; Battery, set to <strong>Unrestricted</strong>. Then Settings &gt; Battery (on some versions under Device care) &gt; Background usage limits &gt; <strong>Never sleeping apps</strong>, and add Life Dashboard.</li>
+  <li><strong>Xiaomi, Redmi and POCO:</strong> switch on autostart for Life Dashboard (on newer versions <strong>Background autostart</strong> under the app's permissions), and set its battery saver to <strong>No restrictions</strong>. Locking the app in the recent apps screen, with a long press and the padlock, keeps it from being cleared too.</li>
+  <li><strong>Pixel and other phones close to stock Android:</strong> Settings &gt; Apps &gt; Life Dashboard &gt; App battery usage, set to <strong>Unrestricted</strong>.</li>
+  <li><strong>OnePlus, Oppo, Huawei and other brands:</strong> set the app's battery usage to <strong>Unrestricted</strong> or <strong>No restrictions</strong> under Settings &gt; Apps &gt; Life Dashboard, and look for a separate autostart or startup manager. The menus move between versions; <a href="https://dontkillmyapp.com">dontkillmyapp.com</a> keeps the current steps per brand.</li>
+</ul>
+
+<p>Then check that background reading is still allowed in Health Connect (see the next section): without it, only <strong>Sync Now</strong> works. Even with every setting right, Android runs a background job at most every 15 minutes, and can wait longer when the phone lies idle. The <strong>Logs</strong> tab shows when syncs actually ran.</p>
+
+<h2>Health Connect is empty or the app can't read it</h2>
+
+<ol>
+  <li><strong>Health Connect is there.</strong> On Android 14 and newer it's part of the system settings; search the settings for "Health Connect" (on Samsung it's under Security and privacy). On Android 9 to 13, the card on the app's <strong>Health</strong> tab offers to install or update it. Android 8 doesn't support it; screen time still works there.</li>
+  <li><strong>Your watch app writes into it.</strong> That's a setting in the other app. In Samsung Health it's Settings &gt; Health Connect; in Garmin Connect it's Settings &gt; Connected Apps &gt; Health Connect, on Android 14 or newer. The <a href="../samsung-health-home-assistant/">Samsung</a>, <a href="../garmin-home-assistant/">Garmin</a> and <a href="../fitbit-home-assistant/">Fitbit</a> guides have the details. <strong>Open App</strong> on the Health tab opens Health Connect, so you can see whether the data is there at all.</li>
+  <li><strong>The app may read it.</strong> Tap <strong>Grant</strong> on the Health tab. Health Connect asks for read access per data type and for <strong>reading in the background</strong>; scheduled syncs need the second one. A dimmed type under <strong>Data Types</strong> has no permission yet: switch it off and on to ask again.</li>
+  <li><strong>Older history needs one more permission.</strong> Health Connect only lets an app read data from up to 30 days before it first got access. For more, the backfill dialog asks for history access.</li>
+</ol>
+
+<h2>Sync Now says "No new data"</h2>
+
+<p>Each sync sends only what's new since the last one, and the very first sync reads the last 7 days. <strong>View</strong> on the Health tab shows what the next sync would send. For older data, run a backfill. Also check that the watch synced with the phone: Garmin Connect writes into Health Connect after the watch syncs, and Samsung Health once the watch connects or when you open Samsung Health.</p>
+
+<p>Nightly values such as HRV, respiratory rate and sleep often arrive hours after you wake up. Watch apps write the night into Health Connect only when they sync in the morning. The app sends it with the first sync after that; nothing is lost.</p>
+
+<h2>No sensors in Home Assistant</h2>
+
+<ul>
+  <li><strong>With the integration:</strong> Settings &gt; Devices &amp; services &gt; Life Dashboard, then the phone's device. A sensor appears once the phone has sent that type. The entity IDs start with the phone's name, such as <code>sensor.owens_pixel_steps_today</code>. The screen time sensors per app are created disabled: show the disabled entities on the device and enable the apps you want.</li>
+  <li><strong>The history</strong> isn't in the sensors but in the long-term statistics. Add a <strong>Statistics graph</strong> card and pick the phone's statistics from the list.</li>
+  <li><strong>With MQTT:</strong> Settings &gt; Devices &amp; services &gt; MQTT, device <strong>Life Dashboard Companion</strong>.</li>
+  <li><strong>Nothing at all:</strong> check the <strong>Logs</strong> tab. A failed delivery means the phone couldn't reach Home Assistant; see the next section.</li>
+</ul>
+
+<h2>The phone can't reach Home Assistant</h2>
+
+<p>The phone sends to the address in the pairing code, so that address has to work from the phone.</p>
+
+<ul>
+  <li><strong><code>homeassistant.local</code> often fails on Android,</strong> which doesn't reliably look up <code>.local</code> names. Use the IP address of Home Assistant instead, such as <code>http://192.168.1.10:8123</code>; it's under Settings &gt; System &gt; Network.</li>
+  <li><strong>A home network address</strong> only works on your home Wi-Fi. Syncs away from home fail, the phone keeps the data, and the first sync back home sends it. A notification about failed syncs while you're out is this.</li>
+  <li><strong>A public address,</strong> such as a Home Assistant Cloud URL or your own <code>https://</code> domain, works everywhere.</li>
+  <li><strong>"Plain HTTP is blocked":</strong> the address starts with <code>http://</code>. Switch on <strong>Allow plain HTTP webhooks</strong> under <strong>Advanced</strong> for a server on your own network or VPN; the data then travels unencrypted on that network.</li>
+  <li><strong>A certificate error on <code>https://</code>:</strong> your server uses a certificate from your own CA, or a self-signed one. Under <strong>Advanced &gt; Server certificates</strong> (app 1.27.0 and newer), trust the CA certificates installed on the phone for that host, or read the server's certificate, check its fingerprint and trust exactly that one. There is no option that ignores certificate errors.</li>
+</ul>
+
+<p>To change the address later, open the integration's <strong>Reconfigure</strong> in Home Assistant, change it there and scan the new code.</p>
+
+<h2>Pairing doesn't work</h2>
+
+<ul>
+  <li><strong>Scanning opens a web page instead of the app.</strong> Android checks the pairing link against the app's signature when it's installed. The page has an <strong>Open in the app</strong> button that always works, and scanning from inside the app, with <strong>Scan a pairing code</strong>, never depends on that check.</li>
+  <li><strong>"This code is from a newer version".</strong> The integration is newer than the app. Update the app and scan again.</li>
+  <li><strong>Pairing works but nothing arrives.</strong> The address in the code isn't reachable from the phone: see the section above.</li>
+</ul>
+
+<h2>Numbers that look wrong</h2>
+
+<ul>
+  <li><strong>Steps counted twice?</strong> Not in Home Assistant. When Samsung Health and Garmin both write a walk, Health Connect keeps both copies but also calculates a daily total that counts the overlap once, and the integration uses that total. Keep <strong>Daily totals in payload</strong> switched on under <strong>Advanced</strong>.</li>
+  <li><strong>Screen time differs from Digital Wellbeing.</strong> The app's day starts at 04:00 by default, apps used for a minute or less are left out, and only time on screen counts.</li>
+  <li><strong>A field is missing,</strong> such as a nutrient. The app sends every field Health Connect has, but only when the app that wrote the record filled it in.</li>
+</ul>
+
+<h2>On an iPhone</h2>
+
+<ul>
+  <li><strong>A locked iPhone can't read Apple Health.</strong> iOS keeps Health data encrypted while the phone is locked, so a sync at that moment reads nothing; the next sync with the phone unlocked catches up.</li>
+  <li><strong>A type is missing.</strong> Check Settings &gt; Health &gt; Data Access &amp; Devices &gt; Life Dashboard, where every type has its own switch.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Does the app drain the battery?</summary>
+    <p>No. Between syncs it does nothing: no service runs and no connection stays open. Each sync is a short job Android starts on your schedule, once an hour by default. A backfill uses more while it runs.</p>
+  </details>
+  <details>
+    <summary>Is data lost when a sync fails?</summary>
+    <p>No. A payload that wasn't delivered stays on the phone and goes out with the next sync that reaches your server, oldest first. The <strong>Logs</strong> tab shows each attempt.</p>
+  </details>
+  <details>
+    <summary>Where do I ask if this page doesn't help?</summary>
+    <p>In <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a> on GitHub, or open an issue with the row from the <strong>Logs</strong> tab. The full troubleshooting list is in the <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/usage.md#troubleshooting">setup guide</a>.</p>
+  </details>
+</section>
