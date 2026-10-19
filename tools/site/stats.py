@@ -3,8 +3,11 @@
 
 The server runs this every hour, then build.py, so the pages show live stars, forks,
 contributors and release counts without a script or a request to GitHub in the browser.
-build.py reads stats.json when it is there and recent, and builds without the numbers
-otherwise. A failed fetch leaves the previous file alone.
+build.py reads stats.json when it is there and under a week old, and builds without the
+numbers otherwise. stats.json is also the cache: when GitHub refuses (the hourly limit without
+a token is 60 requests per IP address) the previous file stays, and a number that could not be
+fetched this time keeps its last value. With GITHUB_TOKEN set (a token without any permission
+is enough for public repos) the limit is 5000.
 
 Contributors count people: bots and AI coding agents are left out, the developer is in.
 
@@ -37,7 +40,10 @@ NOT_PEOPLE = {"dependabot[bot]", "github-actions[bot]", "renovate[bot]", "claude
 
 
 def fetch(url, accept="application/json"):
-    req = urllib.request.Request(url, headers={"Accept": accept, "User-Agent": "owen282000.com-stats"})
+    headers = {"Accept": accept, "User-Agent": "owen282000.com-stats"}
+    if os.environ.get("GITHUB_TOKEN") and url.startswith("https://api.github.com/"):
+        headers["Authorization"] = f"Bearer {os.environ['GITHUB_TOKEN']}"
+    req = urllib.request.Request(url, headers=headers)
     with urllib.request.urlopen(req, timeout=20) as r:
         return r.read().decode(), r.headers.get("Link", "")
 
@@ -88,6 +94,14 @@ def main():
     stats["home-assistant"]["downloads"] = hacs_downloads(REPOS["home-assistant"])
     stats["home-assistant"]["active"] = ha_active_installs()
     stats["grafana"]["downloads"] = image_pulls(REPOS["grafana"], "life-dashboard-db")
+    try:
+        before = json.loads(OUT.read_text())["repos"]
+    except (OSError, ValueError, KeyError):
+        before = {}
+    for slug, s in stats.items():
+        for k, v in s.items():
+            if v is None and before.get(slug, {}).get(k) is not None:
+                s[k] = before[slug][k]
     data = {"fetched": int(time.time()), "repos": stats, "contributors": len(everyone),
             "stars": sum(s["stars"] for s in stats.values())}
     tmp = OUT.with_suffix(".tmp")
