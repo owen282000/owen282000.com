@@ -2,15 +2,15 @@
   "slug": "grafana",
   "nav_name": "Grafana stack",
   "title": "Self-hosted Grafana health stack with MCP | Life Dashboard",
-  "description": "Postgres, six Grafana dashboards, a read-only API and an MCP server for your Health Connect and Apple Health data. One compose file, or Helm on Kubernetes.",
+  "description": "Postgres, six Grafana dashboards, a read-only API and an MCP server for your Health Connect and Apple Health data. One install command with Docker Compose, or Helm on Kubernetes.",
   "kicker": "Self-hosted stack",
   "h1": "Your health data in your own Postgres and Grafana",
-  "lead": "The Life Dashboard stack is an open-source backend for both apps: a receiver that checks signatures, Postgres and six Grafana dashboards. One compose file installs it, each phone pairs by QR code, and a read-only API and an MCP server give the data back to your scripts and to an AI you choose.",
+  "lead": "The Life Dashboard stack is an open-source backend for both apps: a receiver that checks signatures, Postgres and six Grafana dashboards. One command installs it, each phone pairs by QR code, and a read-only API and an MCP server give the data back to your scripts and to an AI you choose.",
   "hero_image": "g-overview",
   "highlights": [
     {
-      "title": "One file to install",
-      "text": "A docker-compose.yml and an example .env from the release. The images are published for amd64 and arm64, so nothing is cloned or built."
+      "title": "One command to install",
+      "text": "The installer fetches the release's docker-compose.yml, writes .env with a random secret and passwords, and starts the stack. The images are published for amd64 and arm64, so nothing is cloned or built."
     },
     {
       "title": "Paired by QR code",
@@ -64,8 +64,8 @@
     },
     {
       "kicker": "Install and pairing",
-      "h2": "One compose file, and a QR code for each phone",
-      "text": "Each release has a <code>docker-compose.yml</code> and an example <code>.env</code>. The receiver, Postgres and Grafana come as published images, so two downloads and one command start the stack.",
+      "h2": "One command, and a QR code for each phone",
+      "text": "The installer puts the release's <code>docker-compose.yml</code> in a folder of its own, writes <code>.env</code> with a random secret and passwords, starts the stack and shows the pairing code. The receiver, Postgres and Grafana come as published images, so nothing is built.",
       "bullets": [
         {
           "main": "On a home server or a Raspberry Pi",
@@ -86,7 +86,7 @@
       ],
       "code": {
         "title": "Install",
-        "code": "mkdir life-dashboard && cd life-dashboard\nGH=https://github.com/owen282000/life-dashboard-stack\nR=$GH/releases/latest/download\ncurl -fsSLO $R/docker-compose.yml\ncurl -fsSL -o .env $R/env.example\n# in .env: WEBHOOK_SECRET, TZ, PUBLIC_URL, passwords\ndocker compose up -d\ndocker compose logs receiver   # the pairing code"
+        "code": "GH=https://github.com/owen282000/life-dashboard-stack\ncurl -fsSL $GH/releases/latest/download/install.sh | sh\n# files in ./life-dashboard, then the pairing code\n\n# something wrong? the same line, ending in\n#   | sh -s -- doctor"
       },
       "link": {
         "href": "https://github.com/owen282000/life-dashboard-stack#quick-start",
@@ -216,7 +216,7 @@
     },
     {
       "q": "Do I need to clone the repository?",
-      "a": "No. Each release has a <code>docker-compose.yml</code> and an example <code>.env</code>, and the receiver, Postgres, Grafana and the MCP server are published images for amd64 and arm64. A clone is only for changing the receiver, the views or the dashboards themselves: a second compose file then builds the images from it."
+      "a": "No. The installer fetches the release's <code>docker-compose.yml</code> and writes the <code>.env</code>, and the receiver, Postgres, Grafana and the MCP server are published images for amd64 and arm64. A clone is only for changing the receiver, the views or the dashboards themselves: a second compose file then builds the images from it."
     },
     {
       "q": "Is my data sent anywhere?",
@@ -268,6 +268,6 @@
   "commands": {
     "title": "Try it with demo data",
     "code": "mkdir lifedash-demo && cd lifedash-demo\nGH=https://github.com/owen282000/life-dashboard-stack\ncurl -fsSLO $GH/releases/latest/download/docker-compose.yml\nRECEIVER_PORT=18080 GRAFANA_PORT=13000 \\\n  docker compose -p lifedash-demo \\\n  --profile demo up -d",
-    "after": "Give it a minute, then open <code>http://localhost:13000</code> and log in as <code>admin</code> with the demo password <code>lifedash</code>. <code>docker compose -p lifedash-demo --profile demo down -v</code> removes all of it. For your own data, the <a href=\"https://github.com/owen282000/life-dashboard-stack#quick-start\">quick start</a> has the two downloads and the settings."
+    "after": "Give it a minute, then open <code>http://localhost:13000</code> and log in as <code>admin</code> with the demo password <code>lifedash</code>. <code>docker compose -p lifedash-demo --profile demo down -v</code> removes all of it. For your own data, the <a href=\"https://github.com/owen282000/life-dashboard-stack#quick-start\">quick start</a> has the one-line installer."
   }
 }

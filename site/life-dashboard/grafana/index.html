@@ -5,17 +5,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Self-hosted Grafana health stack with MCP | Life Dashboard</title>
-<meta name="description" content="Postgres, six Grafana dashboards, a read-only API and an MCP server for your Health Connect and Apple Health data. One compose file, or Helm on Kubernetes.">
+<meta name="description" content="Postgres, six Grafana dashboards, a read-only API and an MCP server for your Health Connect and Apple Health data. One install command with Docker Compose, or Helm on Kubernetes.">
 <link rel="canonical" href="https://owen282000.com/life-dashboard/grafana/">
 <meta name="robots" content="max-image-preview:large">
 <meta name="theme-color" content="#101418">
-<link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png">
-<link rel="apple-touch-icon" href="../img/icon-180.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png?v=355467f5">
+<link rel="apple-touch-icon" href="../img/icon-180.png?v=e1842852">
 <link rel="stylesheet" href="../site.css?v=5df2e9db">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="Your health data in your own Postgres and Grafana">
-<meta property="og:description" content="Postgres, six Grafana dashboards, a read-only API and an MCP server for your Health Connect and Apple Health data. One compose file, or Helm on Kubernetes.">
+<meta property="og:description" content="Postgres, six Grafana dashboards, a read-only API and an MCP server for your Health Connect and Apple Health data. One install command with Docker Compose, or Helm on Kubernetes.">
 <meta property="og:url" content="https://owen282000.com/life-dashboard/grafana/">
 <meta property="og:image" content="https://owen282000.com/life-dashboard/img/social.png">
 <meta property="og:image:width" content="1280">
@@ -48,7 +48,7 @@
       "@id": "https://owen282000.com/life-dashboard/grafana/",
       "url": "https://owen282000.com/life-dashboard/grafana/",
       "name": "Self-hosted Grafana health stack with MCP | Life Dashboard",
-      "description": "Postgres, six Grafana dashboards, a read-only API and an MCP server for your Health Connect and Apple Health data. One compose file, or Helm on Kubernetes.",
+      "description": "Postgres, six Grafana dashboards, a read-only API and an MCP server for your Health Connect and Apple Health data. One install command with Docker Compose, or Helm on Kubernetes.",
       "about": {
         "@id": "https://owen282000.com/life-dashboard/#stack"
       },
@@ -111,7 +111,7 @@
           "name": "Do I need to clone the repository?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. Each release has a docker-compose.yml and an example .env, and the receiver, Postgres, Grafana and the MCP server are published images for amd64 and arm64. A clone is only for changing the receiver, the views or the dashboards themselves: a second compose file then builds the images from it."
+            "text": "No. The installer fetches the release's docker-compose.yml and writes the .env, and the receiver, Postgres, Grafana and the MCP server are published images for amd64 and arm64. A clone is only for changing the receiver, the views or the dashboards themselves: a second compose file then builds the images from it."
           }
         },
         {
@@ -225,7 +225,7 @@
 <header class="nav">
   <div class="wrap">
     <a class="brand" href="../" aria-label="Life Dashboard home">
-      <img class="mark" src="../img/icon-96.webp" alt="" width="34" height="34">
+      <img class="mark" src="../img/icon-96.webp?v=1f5b3657" alt="" width="34" height="34">
       Life Dashboard
     </a>
     <nav class="nav-links" aria-label="Main">
@@ -254,13 +254,13 @@
     <div>
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Grafana stack</span></nav>
       <h1>Your health data in your own Postgres and Grafana</h1>
-      <p class="lead">The Life Dashboard stack is an open-source backend for both apps: a receiver that checks signatures, Postgres and six Grafana dashboards. One compose file installs it, each phone pairs by QR code, and a read-only API and an MCP server give the data back to your scripts and to an AI you choose.</p>
-      <div class="badges"><a class="badge-link" href="https://github.com/owen282000/life-dashboard-stack#quick-start"><img class="badge-img" src="../img/badges/docker-compose.svg" alt="Run with Docker Compose" width="877" height="168" loading="lazy"></a><a class="badge-link" href="https://artifacthub.io/packages/helm/life-dashboard/life-dashboard"><img class="badge-img" src="../img/badges/artifact-hub.svg" alt="Helm chart on Artifact Hub" width="684" height="168" loading="lazy"></a></div>
+      <p class="lead">The Life Dashboard stack is an open-source backend for both apps: a receiver that checks signatures, Postgres and six Grafana dashboards. One command installs it, each phone pairs by QR code, and a read-only API and an MCP server give the data back to your scripts and to an AI you choose.</p>
+      <div class="badges"><a class="badge-link" href="https://github.com/owen282000/life-dashboard-stack#quick-start"><img class="badge-img" src="../img/badges/docker-compose.svg?v=b6ec3461" alt="Run with Docker Compose" width="877" height="168" loading="lazy"></a><a class="badge-link" href="https://artifacthub.io/packages/helm/life-dashboard/life-dashboard"><img class="badge-img" src="../img/badges/artifact-hub.svg?v=fc4d3aac" alt="Helm chart on Artifact Hub" width="684" height="168" loading="lazy"></a></div>
       <p class="fineprint"><a class="nowrap" href="https://github.com/owen282000/life-dashboard-stack#try-it-without-a-phone">Demo data</a></p>
       
     </div>
     <div class="product-visual is-wide">
-      <div class="wide-shot hero-shot"><a class="shot-link" href="../img/g-overview.webp" aria-label="The overview dashboard of the Grafana stack with demo data, full size"><img src="../img/g-overview.webp" alt="The overview dashboard of the Grafana stack with demo data" width="1400" height="728" fetchpriority="high"></a></div>
+      <div class="wide-shot hero-shot"><a class="shot-link" href="../img/g-overview.webp?v=95cd992a" aria-label="The overview dashboard of the Grafana stack with demo data, full size"><img src="../img/g-overview.webp?v=95cd992a" alt="The overview dashboard of the Grafana stack with demo data" width="1400" height="728" fetchpriority="high"></a></div>
     </div>
   </div>
 </section>
@@ -269,7 +269,7 @@
   <div class="wrap">
     <h2 class="sr-only">What it does</h2>
     <div class="highlights">
-        <div class="hl-lead"><h3>One file to install</h3><p>A docker-compose.yml and an example .env from the release. The images are published for amd64 and arm64, so nothing is cloned or built.</p></div>
+        <div class="hl-lead"><h3>One command to install</h3><p>The installer fetches the release&#x27;s docker-compose.yml, writes .env with a random secret and passwords, and starts the stack. The images are published for amd64 and arm64, so nothing is cloned or built.</p></div>
         <ul class="hl-list"><li><h3>Paired by QR code</h3><p>Like the Home Assistant integration: the receiver shows a code, the app scans it, and you type neither the address nor the secret.</p></li><li><h3>Six dashboards</h3><p>Overview, Activity, Sleep, Heart and body, Screen time, and Data and sync, in a Life Dashboard folder, with a Phone picker on each.</p></li><li><h3>Every record in Postgres</h3><p>The receiver checks the X-Signature HMAC, applies a repeated payload once and removes what the phone reports as deleted.</p></li><li><h3>Your data back</h3><p>A read-only JSON API with a token of its own, for a script, a widget or a spreadsheet: days, nights, workouts, screen time and trends.</p></li><li><h3>Ask your own AI</h3><p>An optional MCP server with six read-only tools, for a local model or Claude. No tool writes, and none takes SQL.</p></li></ul>
     </div>
   </div>
@@ -289,19 +289,17 @@
         </ul>
         <a class="link-arrow" href="https://github.com/owen282000/life-dashboard-stack#dashboards">All six dashboards</a></div>
       </div>
-      <div class="show-media is-wide"><div class="stage green-glow"></div><div class="wide-shot solo"><a class="shot-link" href="../img/g-sleep.webp" aria-label="The sleep dashboard of the Grafana stack, full size"><img src="../img/g-sleep.webp" alt="The sleep dashboard of the Grafana stack" width="1400" height="895" loading="lazy"></a></div></div>
+      <div class="show-media is-wide"><div class="stage green-glow"></div><div class="wide-shot solo"><a class="shot-link" href="../img/g-sleep.webp?v=263130b3" aria-label="The sleep dashboard of the Grafana stack, full size"><img src="../img/g-sleep.webp?v=263130b3" alt="The sleep dashboard of the Grafana stack" width="1400" height="895" loading="lazy"></a></div></div>
     </div><div class="show flip" id="install-and-pairing">
-      <div class="show-code"><div class="code-window"><div class="code-bar"><span>Install</span></div><pre tabindex="0" role="region" aria-label="Install"><code>mkdir life-dashboard &amp;&amp; cd life-dashboard
-GH=https://github.com/owen282000/life-dashboard-stack
-R=$GH/releases/latest/download
-curl -fsSLO $R/docker-compose.yml
-curl -fsSL -o .env $R/env.example
-# in .env: WEBHOOK_SECRET, TZ, PUBLIC_URL, passwords
-docker compose up -d
-docker compose logs receiver   # the pairing code</code></pre></div></div>
+      <div class="show-code"><div class="code-window"><div class="code-bar"><span>Install</span></div><pre tabindex="0" role="region" aria-label="Install"><code>GH=https://github.com/owen282000/life-dashboard-stack
+curl -fsSL $GH/releases/latest/download/install.sh | sh
+# files in ./life-dashboard, then the pairing code
+
+# something wrong? the same line, ending in
+#   | sh -s -- doctor</code></pre></div></div>
       <div>
-        <h2>One compose file, and a QR&nbsp;code for each phone</h2>
-        <p>Each release has a <code>docker-compose.yml</code> and an example <code>.env</code>. The receiver, Postgres and Grafana come as published images, so two downloads and one command start the stack.</p>
+        <h2>One command, and a QR&nbsp;code for each phone</h2>
+        <p>The installer puts the release's <code>docker-compose.yml</code> in a folder of its own, writes <code>.env</code> with a random secret and passwords, starts the stack and shows the pairing code. The receiver, Postgres and Grafana come as published images, so nothing is built.</p>
         <ul class="ticks">
           <li>On a home server or a Raspberry Pi <span>Any machine with Docker and Compose that your phone can reach. The images are published for amd64 and arm64, so a Raspberry Pi with a 64-bit OS can run them; 32-bit is not supported.</span></li>
           <li>Paired like Home Assistant <span>With <code>PUBLIC_URL</code> set, the receiver prints a QR code in its log, and <code>/pair</code> shows it as a page to your own network only.</span></li>
@@ -322,7 +320,7 @@ docker compose logs receiver   # the pairing code</code></pre></div></div>
         </ul>
         </div>
       </div>
-      <div class="show-media is-wide"><div class="stage green-glow"></div><div class="wide-shot solo"><a class="shot-link" href="../img/g-activity.webp" aria-label="The activity dashboard of the Grafana stack, full size"><img src="../img/g-activity.webp" alt="The activity dashboard of the Grafana stack" width="1400" height="1260" loading="lazy"></a></div></div>
+      <div class="show-media is-wide"><div class="stage green-glow"></div><div class="wide-shot solo"><a class="shot-link" href="../img/g-activity.webp?v=be618a66" aria-label="The activity dashboard of the Grafana stack, full size"><img src="../img/g-activity.webp?v=be618a66" alt="The activity dashboard of the Grafana stack" width="1400" height="1260" loading="lazy"></a></div></div>
     </div><div class="show stack" id="sql-and-api">
       <div class="stack-text">
         <div><h2>Your data back, in SQL or as JSON</h2></div>
@@ -335,7 +333,7 @@ docker compose logs receiver   # the pairing code</code></pre></div></div>
         </ul>
         <a class="link-arrow" href="https://github.com/owen282000/life-dashboard-stack/blob/main/docs/api.md">Every endpoint of the API</a></div>
       </div>
-      <div class="show-media is-wide"><div class="stage green-glow"></div><div class="wide-shot solo"><a class="shot-link" href="../img/g-data.webp" aria-label="The data and sync dashboard of the Grafana stack, full size"><img src="../img/g-data.webp" alt="The data and sync dashboard of the Grafana stack" width="1400" height="1260" loading="lazy"></a></div></div>
+      <div class="show-media is-wide"><div class="stage green-glow"></div><div class="wide-shot solo"><a class="shot-link" href="../img/g-data.webp?v=319341ac" aria-label="The data and sync dashboard of the Grafana stack, full size"><img src="../img/g-data.webp?v=319341ac" alt="The data and sync dashboard of the Grafana stack" width="1400" height="1260" loading="lazy"></a></div></div>
     </div><div class="show" id="your-own-ai">
       <div class="show-code"><div class="code-window"><div class="code-bar"><span>Start the MCP server</span></div><pre tabindex="0" role="region" aria-label="Start the MCP server"><code>echo &quot;MCP_TOKEN=$(openssl rand -hex 32)&quot; &gt;&gt; .env
 docker compose --profile mcp up -d
@@ -384,10 +382,10 @@ helm test lifedash -n life-dashboard --logs</code></pre></div></div>
     <div class="get-split">
       <article class="get-card" id="get-grafana">
         <header><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M6.5 16v-4"/><path d="M11 16V7"/><path d="M15.5 16v-6"/><path d="M20 16V4"/></svg></span><div><h3><a href="../grafana/">Life Dashboard stack</a></h3><p>Postgres, Grafana, an API and MCP, self-hosted</p></div></header>
-        <a class="badge-link" href="https://github.com/owen282000/life-dashboard-stack#quick-start"><img class="badge-img" src="../img/badges/docker-compose.svg" alt="Run with Docker Compose" width="877" height="168" loading="lazy"></a>
+        <a class="badge-link" href="https://github.com/owen282000/life-dashboard-stack#quick-start"><img class="badge-img" src="../img/badges/docker-compose.svg?v=b6ec3461" alt="Run with Docker Compose" width="877" height="168" loading="lazy"></a>
         <p class="store-note">Download docker-compose.yml and the example .env from the latest release, set the secret, your time zone, the address and the passwords, then docker compose up -d. Nothing to clone or build.</p>
         <ul class="get-list">
-          <li><svg class="li-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V5m0 14h16M8 15v-3m4 3V9m4 6v-5m4 5V7"/></svg><span><b><a href="https://github.com/owen282000/life-dashboard-stack#try-it-without-a-phone">Demo data</a></b> <span class="status live">Available</span><small>60 days of made-up data for two phones, from the same compose file, before any phone of yours is involved.</small></span></li><li class="with-badge"><a class="badge-link" href="https://artifacthub.io/packages/helm/life-dashboard/life-dashboard"><img class="badge-img" src="../img/badges/artifact-hub.svg" alt="Helm chart on Artifact Hub" width="684" height="168" loading="lazy"></a><small>The same images on a cluster of your own, with Postgres from CloudNativePG, a bundled StatefulSet or a database you already run.</small></li>
+          <li><svg class="li-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V5m0 14h16M8 15v-3m4 3V9m4 6v-5m4 5V7"/></svg><span><b><a href="https://github.com/owen282000/life-dashboard-stack#try-it-without-a-phone">Demo data</a></b> <span class="status live">Available</span><small>60 days of made-up data for two phones, from the same compose file, before any phone of yours is involved.</small></span></li><li class="with-badge"><a class="badge-link" href="https://artifacthub.io/packages/helm/life-dashboard/life-dashboard"><img class="badge-img" src="../img/badges/artifact-hub.svg?v=fc4d3aac" alt="Helm chart on Artifact Hub" width="684" height="168" loading="lazy"></a><small>The same images on a cluster of your own, with Postgres from CloudNativePG, a bundled StatefulSet or a database you already run.</small></li>
         </ul>
         
       </article>
@@ -400,7 +398,7 @@ GH=https://github.com/owen282000/life-dashboard-stack
 curl -fsSLO $GH/releases/latest/download/docker-compose.yml
 RECEIVER_PORT=18080 GRAFANA_PORT=13000 \
   docker compose -p lifedash-demo \
-  --profile demo up -d</code></pre></div><p class="fineprint">Give it a minute, then open <code>http://localhost:13000</code> and log in as <code>admin</code> with the demo password <code>lifedash</code>. <code>docker compose -p lifedash-demo --profile demo down -v</code> removes all of it. For your own data, the <a href="https://github.com/owen282000/life-dashboard-stack#quick-start">quick start</a> has the two downloads and the settings.</p>
+  --profile demo up -d</code></pre></div><p class="fineprint">Give it a minute, then open <code>http://localhost:13000</code> and log in as <code>admin</code> with the demo password <code>lifedash</code>. <code>docker compose -p lifedash-demo --profile demo down -v</code> removes all of it. For your own data, the <a href="https://github.com/owen282000/life-dashboard-stack#quick-start">quick start</a> has the one-line installer.</p>
         
       </div>
     </div>
@@ -419,7 +417,7 @@ RECEIVER_PORT=18080 GRAFANA_PORT=13000 \
       </details>
       <details>
         <summary>Do I need to clone the repository?</summary>
-        <p>No. Each release has a <code>docker-compose.yml</code> and an example <code>.env</code>, and the receiver, Postgres, Grafana and the MCP server are published images for amd64 and arm64. A clone is only for changing the receiver, the views or the dashboards themselves: a second compose file then builds the images from it.</p>
+        <p>No. The installer fetches the release's <code>docker-compose.yml</code> and writes the <code>.env</code>, and the receiver, Postgres, Grafana and the MCP server are published images for amd64 and arm64. A clone is only for changing the receiver, the views or the dashboards themselves: a second compose file then builds the images from it.</p>
       </details>
       <details>
         <summary>Is my data sent anywhere?</summary>
@@ -494,7 +492,7 @@ RECEIVER_PORT=18080 GRAFANA_PORT=13000 \
   <div class="wrap">
     <div class="cols">
       <div class="about">
-        <a class="brand" href="../"><img class="mark" src="../img/icon-96.webp" alt="" width="34" height="34"> Life Dashboard</a>
+        <a class="brand" href="../"><img class="mark" src="../img/icon-96.webp?v=1f5b3657" alt="" width="34" height="34"> Life Dashboard</a>
         <p>Life Dashboard is an open-source project by <a href="https://github.com/owen282000">Owen Vogelaar</a>, in four parts: the Life Dashboard Companion apps for Android and iPhone, a Home Assistant integration and a Grafana stack. It isn't related to other apps or templates called Life Dashboard. Questions go to <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
         <p>This site sets no cookies, runs no analytics and loads nothing from anyone else. <a href="/privacy/">Site privacy</a>.</p>
         <p class="imprint">Owen Vogelaar, trading as oVog Enterprise · KvK 81085583 · <a href="mailto:owen282000@hotmail.com">owen282000@hotmail.com</a></p>
