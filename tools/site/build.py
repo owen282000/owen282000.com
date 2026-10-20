@@ -1119,6 +1119,8 @@ PROOF = {
          "A self-hosted health record. Its webhook integration has a parser for the Life Dashboard payload and calls the app \u201cHighly Recommended for Android Users\u201d."),
         ("HealthQuery", "https://github.com/nikira-studio/healthquery",
          "A personal health dashboard in SQLite, with reports and an MCP server. Its data comes from Life Dashboard Companion."),
+        ("fitbridge", "https://github.com/x-senpai-x/fitbridge",
+         "Health Connect for ChatGPT and Claude, self-hosted on Cloudflare Workers. The app pairs with it by QR code and sends it signed updates."),
     ],
 }
 
@@ -1171,7 +1173,7 @@ def proof_section():
       <h2>Other open-source projects build on it</h2>
     </div>
     <ul class="proof-facts">{facts}</ul>{note}
-    <div class="family three">
+    <div class="family">
       {cards}
     </div>"""
 
