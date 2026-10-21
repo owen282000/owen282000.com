@@ -64,7 +64,7 @@
           "Pairing by QR code",
           "Six Grafana dashboards",
           "A read-only JSON API",
-          "An MCP server with six read-only tools",
+          "An MCP server with eight read-only tools",
           "A Helm chart for Kubernetes with CloudNativePG"
         ],
         "operatingSystem": "Linux, macOS or Windows with Docker, or Kubernetes",
@@ -127,7 +127,7 @@
           "name": "Can my AI read the data?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Only if you let it. Start the optional MCP server with an MCP_TOKEN, and a model you connect gets six read-only tools for phones, days, nights, workouts, trends and screen time. It reads as dash_ro, so it can't write, delete or run SQL of its own. With a local model through Ollama, everything stays on your hardware; with a cloud model, Claude Desktop included, your questions and every tool result go to that provider. Health Connect data over MCP has the setup."
+            "text": "Only if you let it. Start the optional MCP server with an MCP_TOKEN, and a model you connect gets eight read-only tools for phones, what they have stored, when they last synced, days, nights, workouts, trends and screen time. It reads as dash_ro, so it can't write, delete or run SQL of its own. With a local model through Ollama, everything stays on your hardware; with a cloud model, Claude Desktop included, your questions and every tool result go to that provider. Health Connect and Apple Health over MCP has the setup."
           }
         },
         {
@@ -270,7 +270,7 @@
     <h2 class="sr-only">What it does</h2>
     <div class="highlights">
         <div class="hl-lead"><h3>One command to install</h3><p>The installer fetches the release&#x27;s docker-compose.yml, writes .env with a random secret and passwords, and starts the stack. The images are published for amd64 and arm64, so nothing is cloned or built.</p></div>
-        <ul class="hl-list"><li><h3>Paired by QR code</h3><p>Like the Home Assistant integration: the receiver shows a code, the app scans it, and you type neither the address nor the secret.</p></li><li><h3>Six dashboards</h3><p>Overview, Activity, Sleep, Heart and body, Screen time, and Data and sync, in a Life Dashboard folder, with a Phone picker on each.</p></li><li><h3>Every record in Postgres</h3><p>The receiver checks the X-Signature HMAC, applies a repeated payload once and removes what the phone reports as deleted.</p></li><li><h3>Your data back</h3><p>A read-only JSON API with a token of its own, for a script, a widget or a spreadsheet: days, nights, workouts, screen time and trends.</p></li><li><h3>Ask your own AI</h3><p>An optional MCP server with six read-only tools, for a local model or Claude. No tool writes, and none takes SQL.</p></li></ul>
+        <ul class="hl-list"><li><h3>Paired by QR code</h3><p>Like the Home Assistant integration: the receiver shows a code, the app scans it, and you type neither the address nor the secret.</p></li><li><h3>Six dashboards</h3><p>Overview, Activity, Sleep, Heart and body, Screen time, and Data and sync, in a Life Dashboard folder, with a Phone picker on each.</p></li><li><h3>Every record in Postgres</h3><p>The receiver checks the X-Signature HMAC, applies a repeated payload once and removes what the phone reports as deleted.</p></li><li><h3>Your data back</h3><p>A read-only JSON API with a token of its own, for a script, a widget or a spreadsheet: days, nights, workouts, screen time and trends.</p></li><li><h3>Ask your own AI</h3><p>An optional MCP server with eight read-only tools, for a local model or Claude. No tool writes, and none takes SQL.</p></li></ul>
     </div>
   </div>
 </section>
@@ -343,7 +343,7 @@ docker compose --profile mcp up -d
 # Header  Authorization: Bearer &lt;MCP_TOKEN&gt;</code></pre></div></div>
       <div>
         <h2>Ask your own AI, through a read-only MCP server</h2>
-        <p>An optional fourth image gives a model you choose six read-only tools: <code>list_phones</code>, <code>daily_summary</code>, <code>sleep_nights</code>, <code>workouts</code>, <code>trend</code> and <code>screen_time</code>. It speaks Streamable HTTP with a bearer token, for Open WebUI, LM Studio or any MCP client, and stdio for Claude Desktop on the same machine.</p>
+        <p>An optional fourth image gives a model you choose eight read-only tools: <code>list_phones</code>, <code>data_catalog</code>, <code>sync_status</code>, <code>daily_summary</code>, <code>sleep_nights</code>, <code>workouts</code>, <code>trend</code> and <code>screen_time</code>. It speaks Streamable HTTP with a bearer token, for Open WebUI, LM Studio or any MCP client, and stdio for Claude Desktop on the same machine.</p>
         <ul class="ticks">
           <li>Read-only all the way <span>The tools read the <code>dash</code> views as <code>dash_ro</code>. There's no tool that writes and none that takes SQL, so a model can't change or delete anything.</span></li>
           <li>A local model keeps it at home <span>With Ollama and a chat client that speaks MCP, the questions, the data and the answers stay on your hardware.</span></li>
@@ -425,7 +425,7 @@ RECEIVER_PORT=18080 GRAFANA_PORT=13000 \
       </details>
       <details>
         <summary>Can my AI read the data?</summary>
-        <p>Only if you let it. Start the optional MCP server with an <code>MCP_TOKEN</code>, and a model you connect gets six read-only tools for phones, days, nights, workouts, trends and screen time. It reads as <code>dash_ro</code>, so it can't write, delete or run SQL of its own. With a local model through Ollama, everything stays on your hardware; with a cloud model, Claude Desktop included, your questions and every tool result go to that provider. <a href="../health-data-own-ai/">Health Connect data over MCP</a> has the setup.</p>
+        <p>Only if you let it. Start the optional MCP server with an <code>MCP_TOKEN</code>, and a model you connect gets eight read-only tools for phones, what they have stored, when they last synced, days, nights, workouts, trends and screen time. It reads as <code>dash_ro</code>, so it can't write, delete or run SQL of its own. With a local model through Ollama, everything stays on your hardware; with a cloud model, Claude Desktop included, your questions and every tool result go to that provider. <a href="../health-data-own-ai/">Health Connect and Apple Health over MCP</a> has the setup.</p>
       </details>
       <details>
         <summary>Does it run on Kubernetes?</summary>

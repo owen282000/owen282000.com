@@ -386,7 +386,7 @@ ENTITIES = {
         "applicationCategory": "UtilitiesApplication", "applicationSubCategory": "Self-hosted backend",
         "featureList": ["Published images for amd64 and arm64, installed with one docker-compose.yml",
                         "Pairing by QR code", "Six Grafana dashboards", "A read-only JSON API",
-                        "An MCP server with six read-only tools", "A Helm chart for Kubernetes with CloudNativePG"],
+                        "An MCP server with eight read-only tools", "A Helm chart for Kubernetes with CloudNativePG"],
         "operatingSystem": "Linux, macOS or Windows with Docker, or Kubernetes", "url": f"{BASE}grafana/",
         "license": "https://opensource.org/licenses/MIT", "isPartOf": {"@id": f"{BASE}#project"},
         "author": {"@id": f"{BASE}#owen"}, "sameAs": [REPO_STACK]},
