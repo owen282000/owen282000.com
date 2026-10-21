@@ -61,7 +61,7 @@
     {
       "kicker": "Webhooks",
       "h2": "An Apple Health webhook with signed JSON",
-      "text": "Any server that accepts a JSON POST can receive the data: <a href=\"../health-connect-n8n/\">n8n</a>, Node-RED, the Grafana stack or a script. Every record carries a <code>uuid</code> to deduplicate on and a <code>source</code> that names the app or device that wrote it.",
+      "text": "Any server that accepts a JSON POST can receive the data: <a href=\"../apple-health-n8n/\">n8n</a>, Node-RED, the Grafana stack or a script. Every record carries a <code>uuid</code> to deduplicate on and a <code>source</code> that names the app or device that wrote it.",
       "bullets": [
         {
           "main": "HMAC-SHA256 signing",
@@ -82,8 +82,8 @@
       ],
       "image": "ios-logs",
       "link": {
-        "href": "../health-connect-webhook/",
-        "text": "The payload both apps send"
+        "href": "../apple-health-webhook/",
+        "text": "The payload an iPhone sends"
       }
     },
     {
@@ -162,6 +162,11 @@
   ],
   "updated": "2026-10-21",
   "guides": [
+    "apple-health-home-assistant",
+    "apple-watch-home-assistant",
+    "apple-health-webhook",
+    "apple-health-n8n",
+    "apple-health-data-types",
     "health-connect-webhook",
     "health-data-api",
     "health-data-own-ai"

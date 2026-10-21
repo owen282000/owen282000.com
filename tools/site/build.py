@@ -201,6 +201,8 @@ GUIDE_GROUPS = [
     ("Watch brands", ["samsung-health-home-assistant", "fitbit-home-assistant", "garmin-home-assistant",
                       "samsung-health-export"]),
     ("Your own server", ["health-connect-webhook", "health-connect-n8n", "health-data-api", "health-data-own-ai"]),
+    ("iPhone", ["apple-health-home-assistant", "apple-watch-home-assistant", "apple-health-webhook",
+                "apple-health-n8n", "apple-health-data-types"]),
     ("Reference", ["health-connect-data-types", "troubleshooting"]),
 ]
 
@@ -229,10 +231,20 @@ GUIDES = [
      "Through Health Connect, with no Fitbit Web API and no Google Cloud project."),
     ("garmin-home-assistant", "Garmin in Home Assistant", "Garmin",
      "Steps, sleep and heart rate from Garmin Connect, with no Garmin login in Home Assistant."),
-    ("health-data-own-ai", "Health Connect data over MCP, for your own AI", "MCP",
+    ("health-data-own-ai", "Health Connect and Apple Health over MCP", "MCP",
      "The stack's read-only MCP server lets a local model or Claude read your history. Works in Europe too."),
     ("troubleshooting", "Troubleshooting: syncs, sensors and pairing", "Troubleshooting",
      "Syncs that stop in the background, Health Connect permissions, missing sensors and pairing, step by step."),
+    ("apple-health-home-assistant", "Apple Health in Home Assistant", "Apple Health",
+     "Apple Watch and iPhone data as sensors, with a year of history from a backfill."),
+    ("apple-watch-home-assistant", "Apple Watch in Home Assistant", "Apple Watch",
+     "Heart rate, HRV, sleep stages, workouts and VO2 max from the watch, through Apple Health."),
+    ("apple-health-webhook", "Apple Health to a webhook", "iPhone webhooks",
+     "Signed JSON from Apple Health, automatically: the payload, retries, deletions and Shortcuts."),
+    ("apple-health-n8n", "Apple Health to n8n", "iPhone n8n",
+     "The same Webhook node and HMAC check as for Android, and what differs in an iPhone payload."),
+    ("apple-health-data-types", "Apple Health data types, app by app", "Apple Health types",
+     "All 28 types the iPhone app reads, with payload keys, units and what writes them."),
 ]
 GUIDES = [g for g in GUIDES if (Path(__file__).resolve().parent / "guides" / f"{g[0]}.html").exists()]
 GUIDE_NAMES = {g[0]: g[1] for g in GUIDES}
@@ -245,12 +257,17 @@ GUIDE_ABOUT = {
     "samsung-health-export": ["#android"],
     "fitbit-home-assistant": ["#android", "#integration"],
     "garmin-home-assistant": ["#android", "#integration"],
-    "health-data-own-ai": ["#stack", "#integration"],
+    "health-data-own-ai": ["#stack", "#integration", "#android", "#ios"],
     "health-connect-home-assistant": ["#android", "#integration"],
     "health-connect-webhook": ["#android", "#ios"],
     "screen-time-home-assistant": ["#android", "#integration"],
     "smart-scale-to-samsung-health": ["#integration", "#android"],
     "troubleshooting": ["#android", "#integration", "#ios"],
+    "apple-health-home-assistant": ["#ios", "#integration"],
+    "apple-watch-home-assistant": ["#ios", "#integration"],
+    "apple-health-webhook": ["#ios", "#stack"],
+    "apple-health-n8n": ["#ios"],
+    "apple-health-data-types": ["#ios"],
 }
 
 IMAGES = {
@@ -309,6 +326,16 @@ NEXT = {
         [("btn-primary btn-store", "../android/#get", "Get the Android app"), ("btn-ghost", HACS, "Open the integration in HACS")]),
     "smart-scale-to-samsung-health": ('You need the Life Dashboard integration 0.7.0 or newer and the app on your phone, paired as in the <a href="../health-connect-home-assistant/">Health Connect guide</a>.',
         [("btn-primary btn-store", HACS, "Open in HACS"), ("btn-ghost", "../android/#get", "Get the Android app")]),
+    "apple-health-home-assistant": ("Two installs: the integration from HACS and the app on your iPhone. After that, pair with one QR code and run a backfill.",
+        [("btn-primary btn-store", HACS, "Open in HACS"), ("btn-ghost", "../ios/#get", "Get the iPhone app")]),
+    "apple-watch-home-assistant": ("Your watch already writes to Apple Health. Add the integration from HACS and the app on your iPhone, and pair with one QR code.",
+        [("btn-primary btn-store", HACS, "Open in HACS"), ("btn-ghost", "../ios/#get", "Get the iPhone app")]),
+    "apple-health-webhook": ("Install the app, add your URL and tap <strong>Test ping</strong>. The iOS payload page lists everything an iPhone sends.",
+        [("btn-primary btn-store", "../ios/#get", "Get the iPhone app"), ("btn-ghost", f"{REPO_IOS}/blob/main/docs/webhook.md", "iOS payload reference")]),
+    "apple-health-n8n": ("Install the app, put the production URL of your published workflow in it and tap <strong>Test ping</strong>. The payload reference has the same check with a Crypto node.",
+        [("btn-primary btn-store", "../ios/#get", "Get the iPhone app"), ("btn-ghost", f"{REPO}/blob/main/docs/webhook.md#n8n-and-node-red", "n8n in the payload reference")]),
+    "apple-health-data-types": ("Switch on your types on the <strong>Health</strong> tab and tap <strong>View</strong> to see what the next sync would send.",
+        [("btn-primary btn-store", "../ios/#get", "Get the iPhone app"), ("btn-ghost", f"{REPO_IOS}/blob/main/docs/webhook.md#what-ios-sends", "iOS payload reference")]),
 }
 
 # Structured data for the project and its four parts, written into the landing page and, for
@@ -809,7 +836,7 @@ def build_guide(slug, short):
     updated = opt_meta(src, "updated") or UPDATED
     PAGE_DATES[f"{slug}/"] = updated
     body = re.sub(r"<!--.*?-->", lambda m: m.group(0) if "IMG" in m.group(0) else "", src, count=1, flags=re.S)
-    body = re.sub(r"<!--\s*IMG:[^>]*?\(?([A-Za-z]\d?-[a-z-]+)(?:\.png|\.webp)?\)?[^>]*-->", figure, body)
+    body = re.sub(r"<!--\s*IMG:[^>]*?\(?(ios-[a-z]+|[A-Za-z]\d?-[a-z-]+)(?:\.png|\.webp)?\)?[^>]*-->", figure, body)
     body = re.sub(r"</li>(\s*)(<figure\b.*?</figure>)", r"\1\2</li>", body, flags=re.S)
     body = enhance(body, short)
     text, buttons = NEXT[slug]
@@ -834,9 +861,13 @@ def build_guide(slug, short):
         graph.append(faq_entity(qa))
     others = "\n          ".join(
         f'<li><a href="../{g[0]}/"{" aria-current=\"page\"" if g[0] == slug else ""}>{g[1]}</a></li>' for g in GUIDES)
-    android = PARTS["android"]
-    lead = lead_item("android")
-    rest = [it for it in android["get"] if it is not lead]
+    # The iPhone guides lead the aside with the iPhone app; every other guide with the Android app.
+    app = "ios" if slug in dict(GUIDE_GROUPS)["iPhone"] else "android"
+    lead = lead_item(app)
+    rest = [it for it in PARTS[app]["get"] if it is not lead]
+    aside = ({"ios": "The open-source iPhone app this guide uses. No account, and the data goes only where you point it.",
+              "android": "The open-source Android app this guide uses. No account and no cloud."}[app]
+             + f' <a href="../{app}/">More about the app</a>.')
     main = f"""{nav("../")}
 
 <main id="main">
@@ -849,7 +880,7 @@ def build_guide(slug, short):
     <aside class="aside">
       <div class="box cta">
         <h2>Life Dashboard Companion</h2>
-        <p>The open-source Android app this guide uses. No account and no cloud. <a href="../android/">More about the app</a>.</p>
+        <p>{aside}</p>
         {lead_button(lead, "../")}
         <p class="aside-alt">{alt_links(rest, "../")}</p>
       </div>
