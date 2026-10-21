@@ -22,7 +22,7 @@ Names: "Life Dashboard" is the project. "Life Dashboard Companion" is the Androi
 - iPhone: Life Dashboard Companion for iPhone reads Apple Health (28 types, 20 of them as Home Assistant sensors) and sends the same payload to the same integration, broker or webhook. It needs iOS 17 or newer. With a free Apple Account, an app built with Xcode has to be run from Xcode again every 7 days. It reads Apple Health only and does not write to it. iOS does not let apps send screen time.
 - Requirements: health data needs Android 9 or newer with Health Connect, which is built into Android 14 and later and comes from Google Play on Android 9 through 13. The app is in English, German and Dutch.
 - Get the Android app: Today you install the signed APK from GitHub, or through Obtainium, which keeps it up to date. Google Play is in closed testing, and F-Droid has accepted the app: the listing goes live with F-Droid's next build.
-- Get the iPhone app: Today you build it from source with Xcode on a Mac, for free. Version 1.9.0 is in App Store review, as a paid app: €6.99 once, no subscription.
+- Get the iPhone app: It's on the App Store for €6.99 once (US$5.99), no subscription. Building it from source with Xcode on a Mac stays free.
 
 ## Product pages
 
@@ -51,7 +51,7 @@ Names: "Life Dashboard" is the project. "Life Dashboard Companion" is the Androi
 ## Projects
 
 - [Android app (Life Dashboard Companion)](https://github.com/owen282000/life-dashboard-companion-app): source, releases and docs
-- [iPhone app (Life Dashboard Companion for iPhone)](https://github.com/owen282000/life-dashboard-companion-app-ios): Apple Health, built with Xcode
+- [iPhone app (Life Dashboard Companion for iPhone)](https://github.com/owen282000/life-dashboard-companion-app-ios): Apple Health, on the App Store or built with Xcode
 - [Home Assistant integration](https://github.com/owen282000/life-dashboard-ha): QR pairing, sensors, long-term statistics, Receive
 - [Life Dashboard stack](https://github.com/owen282000/life-dashboard-stack): published images and a Helm chart for a receiver that checks the signature, Postgres 18, six Grafana dashboards, a read-only API and an MCP server
 

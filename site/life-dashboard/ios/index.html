@@ -74,14 +74,23 @@
           "@id": "https://owen282000.com/life-dashboard/#owen"
         },
         "sameAs": [
-          "https://github.com/owen282000/life-dashboard-companion-app-ios"
+          "https://github.com/owen282000/life-dashboard-companion-app-ios",
+          "https://apps.apple.com/app/life-dashboard-companion/id6824075761"
         ],
         "screenshot": "https://owen282000.com/life-dashboard/img/ios-health.webp",
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "EUR"
-        }
+        "offers": [
+          {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "EUR"
+          },
+          {
+            "@type": "Offer",
+            "price": "6.99",
+            "priceCurrency": "EUR",
+            "url": "https://apps.apple.com/app/life-dashboard-companion/id6824075761"
+          }
+        ]
       },
       "isPartOf": {
         "@type": "WebSite",
@@ -91,7 +100,7 @@
         "inLanguage": "en"
       },
       "inLanguage": "en",
-      "dateModified": "2026-10-20"
+      "dateModified": "2026-10-21"
     },
     {
       "@type": "FAQPage",
@@ -154,10 +163,10 @@
         },
         {
           "@type": "Question",
-          "name": "When does it come to the App Store?",
+          "name": "Is it on the App Store?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Today you build it from source with Xcode on a Mac, for free. Version 1.9.0 is in App Store review, as a paid app: €6.99 once, no subscription. Until then you build it with Xcode and install it on your own iPhone. To update, pull the repository and run it again; your settings stay. Watch the releases on GitHub to hear when it's live."
+            "text": "Yes: Life Dashboard Companion on the App Store, €6.99 once (US$5.99), with no subscription. It's the same app, built from the same source, for people who'd rather not build it and want to support the project that way. Building it yourself stays free: pull the repository and run it again to update; your settings stay. The releases on GitHub list what changed."
           }
         },
         {
@@ -165,7 +174,7 @@
           "name": "I don't have a Mac. Can I still use it?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Not yet: building the app needs Xcode, which runs only on a Mac. The App Store version needs no Mac, and it's in Apple's review now. Until then, an Android phone or the Android app on a tablet is the way in."
+            "text": "Yes: install it from the App Store, which needs no Mac. Only building it yourself takes Xcode, which runs only on a Mac."
           }
         },
         {
@@ -237,11 +246,8 @@
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">iPhone app</span></nav>
       <h1>Apple Health, sent from your iPhone to your own server</h1>
       <p class="lead">Life Dashboard Companion for iPhone is an open-source app that reads 28 Apple Health types and sends them to Home Assistant, an MQTT broker or your own webhook. It sends the same payload as the Android app, so both phones can share one server.</p>
-      <div class="cta-row stores">
-        <a class="btn btn-primary btn-store" href="https://github.com/owen282000/life-dashboard-companion-app-ios#build-and-install"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg>Build with Xcode</a>
-      </div>
-      <div class="badges"><span class="badge-soon"><img class="badge-img" src="../img/badges/app-store.svg?v=a26fc5b3" alt="Download on the App Store" width="120" height="40" loading="lazy"><small><b>Coming soon.</b> <span>In App Store review</span></small></span></div>
-      
+      <div class="badges"><a class="badge-link" href="https://apps.apple.com/app/life-dashboard-companion/id6824075761"><img class="badge-img" src="../img/badges/app-store.svg?v=a26fc5b3" alt="Download on the App Store" width="120" height="40" loading="lazy"></a></div>
+      <p class="fineprint"><a class="nowrap" href="https://github.com/owen282000/life-dashboard-companion-app-ios#build-and-install">Build with Xcode</a></p>
       
     </div>
     <div class="product-visual">
@@ -312,16 +318,16 @@
     <div class="get-split">
       <article class="get-card" id="get-ios">
         <header><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg></span><div><h3><a href="../ios/">Life Dashboard Companion for iPhone</a></h3><p>Apple Health, with the same payload</p></div></header>
-        <a class="btn btn-primary btn-store" href="https://github.com/owen282000/life-dashboard-companion-app-ios#build-and-install"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg>Build with Xcode</a>
-        <p class="store-note">From source, on a Mac with Xcode: about an hour the first time. Your settings stay when you run a newer version.</p>
+        <a class="badge-link" href="https://apps.apple.com/app/life-dashboard-companion/id6824075761"><img class="badge-img" src="../img/badges/app-store.svg?v=a26fc5b3" alt="Download on the App Store" width="120" height="40" loading="lazy"></a>
+        <p class="store-note">€6.99 once (US$5.99), no subscription. No Mac needed, and it updates like any other app. Building it with Xcode stays free.</p>
         <ul class="get-list">
-          <li class="with-badge"><span class="badge-soon"><img class="badge-img" src="../img/badges/app-store.svg?v=a26fc5b3" alt="Download on the App Store" width="120" height="40" loading="lazy"><small><b>Coming soon.</b> <span>In App Store review</span></small></span><small>Version 1.9.0 has been in App Store review since 19 October. It will be a paid app: €6.99 once (US$5.99), no subscription. Building it with Xcode stays free.</small></li>
+          <li><svg class="li-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg><span><b><a href="https://github.com/owen282000/life-dashboard-companion-app-ios#build-and-install">Build with Xcode</a></b> <span class="status live">Available</span><small>Free, from source, on a Mac with Xcode: about an hour the first time. Your settings stay when you run a newer version.</small></span></li>
         </ul>
         
       </article>
       <div class="get-side">
         <h3>What you need</h3>
-        <p>An iPhone on iOS 17 or newer. To build it today: a Mac with Xcode 26 (macOS 26.2 for the newest Xcode, or Xcode 26.3 on macOS 15.6) and an Apple Account; about an hour the first time. With a free account the app stops opening after 7 days until you run it from Xcode again; a paid developer account signs it for a year. The Life Dashboard integration needs Home Assistant 2026.3 or newer with HACS. Want to skip the build? Version 1.9.0 is in App Store review, as a paid app: €6.99 once, no subscription.</p>
+        <p>An iPhone on iOS 17 or newer. From the App Store, that's all: €6.99 once, no subscription. To build it yourself, for free: a Mac with Xcode 26 (macOS 26.2 for the newest Xcode, or Xcode 26.3 on macOS 15.6) and an Apple Account; about an hour the first time. With a free account the app stops opening after 7 days until you run it from Xcode again; a paid developer account signs it for a year. The Life Dashboard integration needs Home Assistant 2026.3 or newer with HACS.</p>
         <p class="fineprint">Sends to <a href="../home-assistant/">the Home Assistant integration</a>, <a href="../grafana/">the Grafana stack</a>, an MQTT broker or any webhook.</p>
         
         
@@ -365,12 +371,12 @@
         <p>Yes, with two things to know today. The app keeps one signing secret, and pairing with Home Assistant sets it, so give a second receiver the same secret. And a payload counts as delivered once one destination takes it, so a destination that's down at that moment misses it. The app can send to several webhooks and to MQTT at once.</p>
       </details>
       <details>
-        <summary>When does it come to the App Store?</summary>
-        <p>Today you build it from source with Xcode on a Mac, for free. Version 1.9.0 is in App Store review, as a paid app: €6.99 once, no subscription. Until then you build it with Xcode and install it on your own iPhone. To update, pull the repository and run it again; your settings stay. Watch the <a href="https://github.com/owen282000/life-dashboard-companion-app-ios/releases">releases on GitHub</a> to hear when it's live.</p>
+        <summary>Is it on the App Store?</summary>
+        <p>Yes: <a href="https://apps.apple.com/app/life-dashboard-companion/id6824075761">Life Dashboard Companion on the App Store</a>, €6.99 once (US$5.99), with no subscription. It's the same app, built from the same source, for people who'd rather not build it and want to support the project that way. Building it yourself stays free: pull the repository and run it again to update; your settings stay. The <a href="https://github.com/owen282000/life-dashboard-companion-app-ios/releases">releases on GitHub</a> list what changed.</p>
       </details>
       <details>
         <summary>I don&#x27;t have a Mac. Can I still use it?</summary>
-        <p>Not yet: building the app needs Xcode, which runs only on a Mac. The App Store version needs no Mac, and it's in Apple's review now. Until then, an Android phone or the <a href="../android/">Android app</a> on a tablet is the way in.</p>
+        <p>Yes: install it from the <a href="https://apps.apple.com/app/life-dashboard-companion/id6824075761">App Store</a>, which needs no Mac. Only building it yourself takes Xcode, which runs only on a Mac.</p>
       </details>
       <details>
         <summary>What happens after 7 days with a free Apple Account?</summary>

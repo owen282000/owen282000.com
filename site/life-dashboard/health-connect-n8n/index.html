@@ -181,7 +181,7 @@
 <h2 id="what-you-need">What you need</h2>
 
 <ul>
-  <li><a href="../android/">Life Dashboard Companion for Android</a> on Android 9 or newer with Health Connect, or <a href="../ios/">the iPhone app</a>. Today you build it from source with Xcode on a Mac, for free. Version 1.9.0 is in App Store review, as a paid app: €6.99 once, no subscription.</li>
+  <li><a href="../android/">Life Dashboard Companion for Android</a> on Android 9 or newer with Health Connect, or <a href="../ios/">the iPhone app</a>. It's on the App Store for €6.99 once (US$5.99), no subscription. Building it from source with Xcode on a Mac stays free.</li>
   <li>n8n, on n8n Cloud or self-hosted, reachable from the phone. Use HTTPS. Plain HTTP on your own network needs <strong>Allow plain HTTP webhooks</strong> under <strong>Advanced</strong> in the Android app; the iPhone app allows plain HTTP only to an IP address, a <code>.local</code> name or a name without a dot.</li>
   <li>Room for large requests. Allow at least 10 MB per request. n8n takes up to 16 MB by default, but a reverse proxy in front of it must allow that too: nginx allows 1 MB by default.</li>
   <li>The <code>crypto</code> module in the Code node. n8n Cloud provides it. On self-hosted n8n, set <code>NODE_FUNCTION_ALLOW_BUILTIN=crypto</code>, on the task runner if you run one.</li>

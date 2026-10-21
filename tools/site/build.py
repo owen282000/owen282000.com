@@ -74,6 +74,7 @@ REPO = "https://github.com/owen282000/life-dashboard-companion-app"
 REPO_IOS = "https://github.com/owen282000/life-dashboard-companion-app-ios"
 REPO_HA = "https://github.com/owen282000/life-dashboard-ha"
 REPO_STACK = "https://github.com/owen282000/life-dashboard-stack"
+APP_STORE = "https://apps.apple.com/app/life-dashboard-companion/id6824075761"
 APK = f"{REPO}/releases/latest/download/app-release.apk"
 HACS = "https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration"
 
@@ -107,15 +108,14 @@ PARTS = {
         "line": "Apple Health, with the same payload",
         "more": "See the iPhone app",
         "glyph": '<rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/>',
-        "get_title": "Get the iPhone app", "req_short": "iOS 17 or newer. Building it takes a Mac and about an hour.",
+        "get_title": "Get the iPhone app", "req_short": "iOS 17 or newer. On the App Store, or build it yourself on a Mac.",
         "get": [
-            {"id": "appstore", "kind": "store", "name": "App Store", "status": "soon", "href": "", "pill": "In App Store review",
-             "soon_text": "App Store: in Apple's review",
-             "note": "Version 1.9.0 has been in App Store review since 19 October. It will be a paid app: €6.99 once (US$5.99), no subscription. Building it with Xcode stays free."},
+            {"id": "appstore", "kind": "store", "name": "App Store", "status": "live", "href": APP_STORE,
+             "note": "€6.99 once (US$5.99), no subscription. No Mac needed, and it updates like any other app. Building it with Xcode stays free."},
             {"id": "xcode", "name": "Build with Xcode", "status": "live", "href": REPO_IOS + "#build-and-install", "primary": True, "cta": "Build with Xcode",
-             "note": "From source, on a Mac with Xcode: about an hour the first time. Your settings stay when you run a newer version."},
+             "note": "Free, from source, on a Mac with Xcode: about an hour the first time. Your settings stay when you run a newer version."},
         ],
-        "requires": "iOS 17 or newer. Building it needs a Mac with Xcode; with a free Apple Account you run it from Xcode again every 7 days.",
+        "requires": "iOS 17 or newer. Building it yourself needs a Mac with Xcode; with a free Apple Account you run it from Xcode again every 7 days.",
     },
     "home-assistant": {
         "name": "Home Assistant integration", "nav": "Home Assistant", "full": "Life Dashboard integration for Home Assistant",
@@ -155,7 +155,7 @@ ORDER = ["android", "ios", "home-assistant", "grafana"]
 # One sentence per app about where to get it, used through {{status:android}} and {{status:ios}}.
 STATUS_TEXT = {
     "android": "Today you install the signed APK from GitHub, or through Obtainium, which keeps it up to date. Google Play is in closed testing, and F-Droid has accepted the app: the listing goes live with F-Droid's next build.",
-    "ios": "Today you build it from source with Xcode on a Mac, for free. Version 1.9.0 is in App Store review, as a paid app: €6.99 once, no subscription.",
+    "ios": "It's on the App Store for €6.99 once (US$5.99), no subscription. Building it from source with Xcode on a Mac stays free.",
 }
 # Phrases that must be gone once a store is live (checked on every build).
 STALE = {"play": ["coming to Google Play", "Google Play is in closed testing", "will be a paid listing"],
@@ -181,7 +181,7 @@ STALE = {"play": ["coming to Google Play", "Google Play is in closed testing", "
 # F-Droid, Obtainium and GitHub files is cut from these copies; the artwork is untouched), so one
 # CSS height gives every badge the same visible height (.badge-img in site.css).
 BADGES = {"play": ("google-play.png", "Get it on Google Play", (564, 168), "Closed testing"),
-          "appstore": ("app-store.svg", "Download on the App Store", (120, 40), "In App Store review"),
+          "appstore": ("app-store.svg", "Download on the App Store", (120, 40), ""),
           "fdroid": ("f-droid.svg", "Get it on F-Droid", (564, 168), "Accepted, live with F-Droid's next build"),
           "obtainium": ("obtainium.png", "Get it on Obtainium", (564, 168), ""),
           "hacs": ("hacs.svg", "Get it on HACS", (564, 168), ""),
@@ -366,11 +366,13 @@ ENTITIES = {
 }
 ENTITY_NAME = {ENTITY_ID[k]: e["name"] for k, e in ENTITIES.items()}
 
-# Every part is free to download today (the APK, the source, HACS, Compose). The paid Google
-# Play listing gets an Offer of its own once it is live.
+# Every part is free to download today (the APK, the source, HACS, Compose). A paid store
+# listing gets an Offer of its own once it is live: the App Store now, Google Play later.
 FREE = {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}
 for _e in ENTITIES.values():
     _e["offers"] = FREE
+ENTITIES["ios"]["offers"] = [FREE, {"@type": "Offer", "price": "6.99", "priceCurrency": "EUR", "url": APP_STORE}]
+ENTITIES["ios"]["sameAs"] = [REPO_IOS, APP_STORE]
 SOURCE_CODE = {"@type": "SoftwareSourceCode", "codeRepository": REPO, "programmingLanguage": "Kotlin",
                "license": "https://opensource.org/licenses/MIT", "targetProduct": {"@id": f"{BASE}#android"}}
 
@@ -542,6 +544,13 @@ def android_coming():
     return (" and ".join(names) + (" are" if len(names) > 1 else " is") + " coming.")
 
 
+def ios_paths(prefix):
+    """The iPhone line in the hero: the App Store once it's live, and the free build either way."""
+    if store_of("ios")["status"] == "live":
+        return f'On the App Store, €6.99 once. Or <a href="{prefix}ios/#building">build it with Xcode</a> on a Mac, for free.'
+    return f'<a href="{prefix}ios/#building">Build it with Xcode</a> on a Mac, about an hour. In App Store review.'
+
+
 def hero_stores(prefix):
     """Landing hero and final call to action: live stores lead with their official badges.
     While Google Play is pending, a working "Install today" button leads, a demo needs no phone,
@@ -558,7 +567,7 @@ def hero_stores(prefix):
     if stores["android"]["status"] != "live":
         out += ('\n      <ul class="install-paths">'
                 f'<li>{svg(PARTS["android"]["glyph"])}<span><b>Android</b> Free APK today. {android_coming()}</span></li>'
-                f'<li>{svg(PARTS["ios"]["glyph"])}<span><b>iPhone</b> <a href="{prefix}ios/#building">Build it with Xcode</a> on a Mac, about an hour. In App Store review.</span></li>'
+                f'<li>{svg(PARTS["ios"]["glyph"])}<span><b>iPhone</b> {ios_paths(prefix)}</span></li>'
                 '</ul>')
     return out
 

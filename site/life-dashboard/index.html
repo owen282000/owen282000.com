@@ -142,14 +142,23 @@
         "@id": "https://owen282000.com/life-dashboard/#owen"
       },
       "sameAs": [
-        "https://github.com/owen282000/life-dashboard-companion-app-ios"
+        "https://github.com/owen282000/life-dashboard-companion-app-ios",
+        "https://apps.apple.com/app/life-dashboard-companion/id6824075761"
       ],
       "screenshot": "https://owen282000.com/life-dashboard/img/ios-health.webp",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "EUR"
-      }
+      "offers": [
+        {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "EUR"
+        },
+        {
+          "@type": "Offer",
+          "price": "6.99",
+          "priceCurrency": "EUR",
+          "url": "https://apps.apple.com/app/life-dashboard-companion/id6824075761"
+        }
+      ]
     },
     {
       "@type": "SoftwareApplication",
@@ -258,7 +267,7 @@
           "name": "What does it cost?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "All four parts are MIT licensed and free. The signed APK on GitHub is free, Obtainium installs that same APK, and the F-Droid build will be free once it's listed. The Google Play version will be a paid listing of the same app, built from the same source and signed with the same key, for people who'd rather install from Play and want to support the project that way. The iPhone app is free to build with Xcode. The App Store version, in Apple's review now, will cost €6.99 once (US$5.99), with no subscription."
+            "text": "The code of all four parts is MIT licensed and free. The signed APK on GitHub is free, Obtainium installs that same APK, and the F-Droid build will be free once it's listed. The Google Play version will be a paid listing of the same app, built from the same source and signed with the same key, for people who'd rather install from Play and want to support the project that way. The iPhone app works the same way: building it yourself with Xcode is free, and the App Store version is the paid convenience, €6.99 once (US$5.99), with no subscription."
           }
         },
         {
@@ -353,9 +362,10 @@
 <div class="cta-row stores">
         <a class="btn btn-primary btn-store" href="#get">Install today</a>
         <a class="btn btn-ghost btn-store" href="grafana/#dashboards">See the demo dashboards</a>
+        <a class="badge-link" href="https://apps.apple.com/app/life-dashboard-companion/id6824075761"><img class="badge-img" src="img/badges/app-store.svg?v=a26fc5b3" alt="Download on the App Store" width="120" height="40" loading="lazy"></a>
       </div>
-      <div class="badges"><span class="badge-soon"><img class="badge-img" src="img/badges/app-store.svg?v=a26fc5b3" alt="Download on the App Store" width="120" height="40" loading="lazy"><small><b>Coming soon.</b> <span>In App Store review</span></small></span><span class="badge-soon"><img class="badge-img" src="img/badges/google-play.png?v=a13294f3" alt="Get it on Google Play" width="564" height="168" loading="lazy"><small><b>Coming soon.</b> <span>Closed testing</span></small></span></div>
-      <ul class="install-paths"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg><span><b>Android</b> Free APK today. Google Play (paid) and F&#8209;Droid are coming.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg><span><b>iPhone</b> <a href="ios/#building">Build it with Xcode</a> on a Mac, about an hour. In App Store review.</span></li></ul>
+      <div class="badges"><span class="badge-soon"><img class="badge-img" src="img/badges/google-play.png?v=a13294f3" alt="Get it on Google Play" width="564" height="168" loading="lazy"><small><b>Coming soon.</b> <span>Closed testing</span></small></span></div>
+      <ul class="install-paths"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg><span><b>Android</b> Free APK today. Google Play (paid) and F&#8209;Droid are coming.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg><span><b>iPhone</b> On the App Store, €6.99 once. Or <a href="ios/#building">build it with Xcode</a> on a Mac, for free.</span></li></ul>
 <!-- /BUILD:hero-stores -->
       </div>
     </div>
@@ -545,7 +555,7 @@
         <p>Both apps send the same JSON, so an Android phone and an iPhone can share one Home Assistant or one stack.</p>
         <div class="apps-duo">
           <a href="android/"><b>Android</b><span>33 Health Connect types, screen time per app, and scale readings back into Samsung Health.</span></a>
-          <a href="ios/"><b>iPhone</b><span>28 Apple Health types, with a widget and Shortcuts. Today you build it with Xcode on a Mac, and a free Apple Account needs a rebuild every 7 days. The App Store version is in Apple's review.</span></a>
+          <a href="ios/"><b>iPhone</b><span>28 Apple Health types, with a widget and Shortcuts. On the App Store for €6.99 once, no subscription. Building it yourself with Xcode stays free.</span></a>
         </div>
       </div>
     </div>
@@ -617,9 +627,9 @@
         <div class="badge-rows"><div class="badges"><a class="badge-link" href="https://github.com/owen282000/life-dashboard-companion-app/releases/latest"><img class="badge-img" src="img/badges/github.svg?v=fabc4112" alt="Get it on GitHub" width="564" height="168" loading="lazy"></a><a class="badge-link" href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/owen282000/life-dashboard-companion-app"><img class="badge-img" src="img/badges/obtainium.png?v=0c4760d6" alt="Get it on Obtainium" width="564" height="168" loading="lazy"></a></div><div class="badges"><span class="badge-soon"><img class="badge-img" src="img/badges/google-play.png?v=a13294f3" alt="Get it on Google Play" width="564" height="168" loading="lazy"><small><b>Coming soon.</b> <span>Closed testing</span></small></span><span class="badge-soon"><img class="badge-img" src="img/badges/f-droid.svg?v=0cb07fbf" alt="Get it on F-Droid" width="564" height="168" loading="lazy"><small><b>Coming soon.</b> <span>Accepted, live with F&#8209;Droid's next build</span></small></span></div></div>
       </article>
       <article class="get-card compact" id="get-ios">
-        <header><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg></span><div><h3><a href="ios/">Life Dashboard Companion for iPhone</a></h3><p>iOS 17 or newer. Building it takes a Mac and about an hour.</p></div></header>
-        <a class="btn btn-primary btn-store" href="https://github.com/owen282000/life-dashboard-companion-app-ios#build-and-install"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg>Build with Xcode</a>
-        <div class="badges"><span class="badge-soon"><img class="badge-img" src="img/badges/app-store.svg?v=a26fc5b3" alt="Download on the App Store" width="120" height="40" loading="lazy"><small><b>Coming soon.</b> <span>In App Store review</span></small></span></div>
+        <header><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg></span><div><h3><a href="ios/">Life Dashboard Companion for iPhone</a></h3><p>iOS 17 or newer. On the App Store, or build it yourself on a Mac.</p></div></header>
+        <div class="badges"><a class="badge-link" href="https://apps.apple.com/app/life-dashboard-companion/id6824075761"><img class="badge-img" src="img/badges/app-store.svg?v=a26fc5b3" alt="Download on the App Store" width="120" height="40" loading="lazy"></a></div>
+        <p class="get-alt"><a class="nowrap" href="https://github.com/owen282000/life-dashboard-companion-app-ios#build-and-install">Build with Xcode</a></p>
       </article>
       <article class="get-card compact" id="get-home-assistant">
         <header><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 11 12 3.5l8.5 7.5"/><path d="M5.5 9.5V20h13V9.5"/><circle cx="12" cy="13.5" r="2"/><path d="M12 15.5V20"/></svg></span><div><h3><a href="home-assistant/">Life Dashboard integration for Home Assistant</a></h3><p>Home Assistant 2026.3 or newer.</p></div></header>
@@ -678,7 +688,7 @@
       </details>
       <details>
         <summary>What does it cost?</summary>
-        <p>All four parts are MIT licensed and free. The signed APK on GitHub is free, Obtainium installs that same APK, and the F-Droid build will be free once it's listed. The Google Play version will be a paid listing of the same app, built from the same source and signed with the same key, for people who'd rather install from Play and want to support the project that way. The iPhone app is free to build with Xcode. The App Store version, in Apple's review now, will cost €6.99 once (US$5.99), with no subscription.</p>
+        <p>The code of all four parts is MIT licensed and free. The signed APK on GitHub is free, Obtainium installs that same APK, and the F-Droid build will be free once it's listed. The Google Play version will be a paid listing of the same app, built from the same source and signed with the same key, for people who'd rather install from Play and want to support the project that way. The iPhone app works the same way: building it yourself with Xcode is free, and the App Store version is the paid convenience, €6.99 once (US$5.99), with no subscription.</p>
       </details>
       <details>
         <summary>What do these words mean?</summary>
@@ -717,9 +727,10 @@
 <div class="cta-row stores">
         <a class="btn btn-primary btn-store" href="#get">Install today</a>
         <a class="btn btn-ghost btn-store" href="grafana/#dashboards">See the demo dashboards</a>
+        <a class="badge-link" href="https://apps.apple.com/app/life-dashboard-companion/id6824075761"><img class="badge-img" src="img/badges/app-store.svg?v=a26fc5b3" alt="Download on the App Store" width="120" height="40" loading="lazy"></a>
       </div>
-      <div class="badges"><span class="badge-soon"><img class="badge-img" src="img/badges/app-store.svg?v=a26fc5b3" alt="Download on the App Store" width="120" height="40" loading="lazy"><small><b>Coming soon.</b> <span>In App Store review</span></small></span><span class="badge-soon"><img class="badge-img" src="img/badges/google-play.png?v=a13294f3" alt="Get it on Google Play" width="564" height="168" loading="lazy"><small><b>Coming soon.</b> <span>Closed testing</span></small></span></div>
-      <ul class="install-paths"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg><span><b>Android</b> Free APK today. Google Play (paid) and F&#8209;Droid are coming.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg><span><b>iPhone</b> <a href="ios/#building">Build it with Xcode</a> on a Mac, about an hour. In App Store review.</span></li></ul>
+      <div class="badges"><span class="badge-soon"><img class="badge-img" src="img/badges/google-play.png?v=a13294f3" alt="Get it on Google Play" width="564" height="168" loading="lazy"><small><b>Coming soon.</b> <span>Closed testing</span></small></span></div>
+      <ul class="install-paths"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg><span><b>Android</b> Free APK today. Google Play (paid) and F&#8209;Droid are coming.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg><span><b>iPhone</b> On the App Store, €6.99 once. Or <a href="ios/#building">build it with Xcode</a> on a Mac, for free.</span></li></ul>
 <!-- /BUILD:hero-stores -->
     </div>
     <p class="fineprint">Source, issues and <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">discussions</a> on <a href="https://github.com/owen282000/life-dashboard-companion-app">GitHub</a>. New versions in the <a href="https://github.com/owen282000/life-dashboard-companion-app/releases.atom">release feed</a>.</p>
