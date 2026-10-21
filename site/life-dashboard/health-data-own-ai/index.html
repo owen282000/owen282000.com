@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Health Connect data over MCP, for your own AI | Life Dashboard</title>
+<title>Health Connect and Apple Health over MCP | Life Dashboard</title>
 <meta name="description" content="The Life Dashboard stack has a read-only MCP server, so Claude or a local model can read your Health Connect and Apple Health history, also in Europe.">
 <link rel="canonical" href="https://owen282000.com/life-dashboard/health-data-own-ai/">
 <meta name="robots" content="max-image-preview:large">
@@ -45,10 +45,20 @@
           "@type": "SoftwareApplication",
           "@id": "https://owen282000.com/life-dashboard/#integration",
           "name": "Life Dashboard integration for Home Assistant"
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://owen282000.com/life-dashboard/#android",
+          "name": "Life Dashboard Companion"
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://owen282000.com/life-dashboard/#ios",
+          "name": "Life Dashboard Companion for iPhone"
         }
       ],
       "datePublished": "2026-10-06",
-      "dateModified": "2026-10-16",
+      "dateModified": "2026-10-21",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -66,7 +76,7 @@
         {
           "@type": "ListItem",
           "position": 2,
-          "name": "Health Connect data over MCP, for your own AI",
+          "name": "Health Connect and Apple Health over MCP",
           "item": "https://owen282000.com/life-dashboard/health-data-own-ai/"
         }
       ]
@@ -119,7 +129,15 @@
           "name": "Is there a Health Connect MCP server?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Not on the phone: Health Connect has no web API, so a server can't read it directly. Life Dashboard Companion sends the data to a server of your own, and the Life Dashboard stack has an MCP server built in, with six read-only tools for days, nights, workouts, trends and screen time. In Home Assistant, ha-mcp reads the integration's history, and on a Postgres of your own, DBHub in read-only mode does. That works for Samsung Health, Fitbit, Garmin and any other app that writes to Health Connect, for the types each app shares there."
+            "text": "Not on the phone: Health Connect has no web API, so a server can't read it directly. Life Dashboard Companion sends the data to a server of your own, and the Life Dashboard stack has an MCP server built in, with eight read-only tools for days, nights, workouts, trends, screen time and what each phone has sent. In Home Assistant, ha-mcp reads the integration's history, and on a Postgres of your own, DBHub in read-only mode does. That works for Samsung Health, Fitbit, Garmin and any other app that writes to Health Connect, for the types each app shares there."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is there an Apple Health MCP server?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not on the iPhone: Apple Health has no web API, so a server can't read it directly. Life Dashboard Companion for iPhone sends Apple Health data, Apple Watch data included, to the Life Dashboard stack, whose MCP server gives a model the same eight read-only tools as for Android. In Home Assistant, ha-mcp reads the integration's history, and on a Postgres of your own, DBHub in read-only mode does."
           }
         },
         {
@@ -167,11 +185,11 @@
   <div class="guide-hero"><div class="grid-bg"></div></div>
   <div class="wrap guide-layout">
     <article class="prose">
-      <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Health Connect data over MCP, for your own AI</span></nav>
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Health Connect and Apple Health over MCP</span></nav>
 <h1>How do I ask my own AI about my Health Connect or Apple Health data over MCP?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 16, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 21, 2026.</p>
 
-<p>Send your data with Life Dashboard Companion to the Life Dashboard stack, start the stack's built-in MCP server, and connect a model that can use MCP tools. A local model through Ollama keeps everything on your own hardware, and Claude Desktop or another cloud client can use the same server. If your data goes to Home Assistant instead, ha-mcp reads its history; if it goes to a Postgres of your own, DBHub does. It works for Health Connect data from Samsung Health, Fitbit, Garmin and other apps, for Apple Health data from the iPhone app, and in Europe, where the health connectors of Claude and ChatGPT aren't available.</p>
+<p>Send your data with Life Dashboard Companion, from an Android phone or an iPhone, to the Life Dashboard stack, start the stack's built-in MCP server, and connect a model that can use MCP tools. A local model through Ollama keeps everything on your own hardware, and Claude Desktop or another cloud client can use the same server. If your data goes to Home Assistant instead, ha-mcp reads its history; if it goes to a Postgres of your own, DBHub does. It works for Health Connect data from Samsung Health, Fitbit, Garmin and other apps, for Apple Health data from an iPhone and an Apple Watch, and in Europe, where the health connectors of Claude and ChatGPT aren't available.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="../grafana/#your-own-ai">The stack's MCP server</a></p>
 
 <p>The app itself contains no AI and never talks to a model, and neither does the stack. The MCP server only answers a client you connect, and the model reads what your receiver already stores, through a connection that can't change anything.</p>
@@ -180,7 +198,7 @@
 
 <h2 id="how-it-fits-together">How it fits together</h2>
 
-<p><a href="https://modelcontextprotocol.io">MCP</a> is the standard way for a model to call tools, and a read-only MCP server on the receiver gives the model tools to look up your history. The <a href="../ios/">iPhone app</a> sends to the same stack and the same integration, so every route works for Apple Health data too.</p>
+<p><a href="https://modelcontextprotocol.io">MCP</a> is the standard way for a model to call tools, and a read-only MCP server on the receiver gives the model tools to look up your history. The <a href="../ios/">iPhone app</a> sends the Android app's payload to the same stack and the same integration, so every route works for Apple Health data too, and one stack or one Home Assistant can hold an Android phone and an iPhone side by side. <a href="#with-an-iphone">With an iPhone</a> below lists what differs.</p>
 
 <p>Use route 1 if you run <a href="../grafana/">the Life Dashboard stack</a>: its MCP server is part of it. Use route 2 if you send to the Life Dashboard integration in Home Assistant, and route 3 if n8n or a receiver of your own already writes to a Postgres you run.</p>
 
@@ -238,14 +256,16 @@
   <li>Ask a direct question with a period: “Use trend for sleep_h over 28 days, then workouts for the same period, and tell me whether I slept longer on days I worked out.”</li>
 </ol>
 
-<p>The six tools:</p>
+<p>The eight tools:</p>
 
 <div class="table-wrap" tabindex="0" role="region" aria-label="Route 1: the stack&#x27;s own MCP server"><table>
   <thead>
     <tr><th scope="col">Tool</th><th scope="col">What it returns</th></tr>
   </thead>
   <tbody>
-    <tr><th scope="row"><code>list_phones</code></th><td>The phones, their last sync and the first and last day with data, plus the time zone and today's date. The model should call it first.</td></tr>
+    <tr><th scope="row"><code>list_phones</code></th><td>The phones with their platform, Android or iPhone, their last sync and the first and last day with data, plus the time zone and today's date. The model should call it first.</td></tr>
+    <tr><th scope="row"><code>data_catalog</code></th><td>What each phone has stored, with the apps that wrote each type, and what the other tools can answer from it, so a model asks only for what's there.</td></tr>
+    <tr><th scope="row"><code>sync_status</code></th><td>When each phone last sent a payload, and per type and writing app when the newest record arrived and whether it went quiet, such as a watch that stopped writing heart rate.</td></tr>
     <tr><th scope="row"><code>daily_summary</code></th><td>One row per phone and day: steps, distance, calories, sleep, workouts, screen time, resting heart rate and weight. Up to 92 days.</td></tr>
     <tr><th scope="row"><code>sleep_nights</code></th><td>One night per phone: bedtime, wake time, hours asleep and in bed, deep, light, REM and awake, and the overnight low heart rate.</td></tr>
     <tr><th scope="row"><code>workouts</code></th><td>Every workout with its activity, start, end and minutes.</td></tr>
@@ -254,7 +274,7 @@
   </tbody>
 </table></div>
 
-<p>Every tool reads as <code>dash_ro</code>, a database user that can only read the <code>dash</code> views, in read-only sessions that stop after 15 seconds. There's no tool that writes and none that takes SQL, so a model can't change or delete anything, and it can't read the raw records. Six tools with fixed parameters are also far easier for a small model than SQL. On Kubernetes, the stack's Helm chart runs the same server with <code>mcp.enabled</code>; the <a href="https://github.com/owen282000/life-dashboard-stack/blob/main/docs/mcp.md">MCP documentation</a> has every client and parameter.</p>
+<p>Every tool reads as <code>dash_ro</code>, a database user that can only read the <code>dash</code> views, in read-only sessions that stop after 15 seconds. There's no tool that writes and none that takes SQL, so a model can't change or delete anything, and it can't read the raw records. Eight tools with fixed parameters are also far easier for a small model than SQL. On Kubernetes, the stack's Helm chart runs the same server with <code>mcp.enabled</code>; the <a href="https://github.com/owen282000/life-dashboard-stack/blob/main/docs/mcp.md">MCP documentation</a> has every client and parameter.</p>
 
 <p>For a script rather than a model, the stack's receiver serves the same queries as a read-only JSON API under <code>/api/</code>, once you set <code>API_TOKEN</code>: days, nights, workouts, screen time, one metric as a series, and a trend. The <a href="https://github.com/owen282000/life-dashboard-stack/blob/main/docs/api.md">API documentation</a> lists every endpoint.</p>
 
@@ -290,6 +310,18 @@ GRANT SELECT ON records, daily_totals TO llm_ro;</code></pre>
 
 <p>On Kubernetes, the stack's Helm chart can also use a Postgres 18 you already run, with a database of its own (its external mode), and then route 1 works there. With Docker Compose, running the stack against your own database isn't covered by its documentation.</p>
 
+<h2 id="with-an-iphone">With an iPhone</h2>
+
+<p>Pair <a href="../ios/">Life Dashboard Companion for iPhone</a> with the stack or the integration by its QR code, switch on the Apple Health types you want, and run <strong>Backfill</strong> with 365 days to give the model a year to read. What an Apple Watch records, such as heart rate, HRV, sleep stages and workouts, comes along through Apple Health; <a href="../apple-watch-home-assistant/">Apple Watch in Home Assistant</a> lists it. A few things differ from Android:</p>
+
+<ul>
+  <li><strong>HRV.</strong> Apple Health stores SDNN and Health Connect stores RMSSD. The stack keeps them apart as two <code>trend</code> metrics, <code>hrv_sdnn</code> for an iPhone and <code>hrv_rmssd</code> for Android, and never averages them together. Ask for the one your phone sends.</li>
+  <li><strong>Sleep.</strong> An iPhone night mixes the watch's stages with the iPhone's time in bed. The stack's <code>sleep_nights</code> counts only the stages from the night's own source, so the watch's deep, light (Apple's Core), REM and awake.</li>
+  <li><strong>No screen time.</strong> iOS doesn't let an app send it anywhere, so <code>screen_time</code> and the screen time in <code>daily_summary</code> only come from Android phones.</li>
+  <li><strong>Late days.</strong> iOS decides when the app runs in the background and can't read Apple Health while the iPhone is locked, so the last day can be missing until the next sync. <code>sync_status</code> tells the model when the iPhone last sent data.</li>
+  <li><strong>Your own Postgres.</strong> For route 3, an iPhone sends one active energy sample under both <code>active_calories</code> and <code>total_calories</code>, and a sleep deletion names one stage. <a href="../apple-health-n8n/">Apple Health to n8n</a> has an upsert and the deletion queries for both.</li>
+</ul>
+
 <h2 id="what-you-get">What you get</h2>
 
 <ul>
@@ -307,6 +339,7 @@ GRANT SELECT ON records, daily_totals TO llm_ro;</code></pre>
   <li>ha-mcp works with an administrator's access. Everyone who can talk to its conversation agent can ask about your health data, so give it its own agent, outside shared voice pipelines. A question asked by voice also goes through your speech engine, which with Home Assistant Cloud isn't local.</li>
   <li>Types you didn't switch on, or days the phone didn't sync, aren't there to read. Screen time history only comes from Android phones. The stack keeps series sent per time window apart, and only its heart rate views read them, so leave <strong>Data Resolution</strong> on <strong>Every record</strong>, the default.</li>
   <li>Types your watch's app doesn't share with Health Connect aren't there either, and they decide which questions a model can answer. Samsung Health keeps HRV, resting heart rate and respiratory rate to itself, and Garmin Connect writes no HRV to Health Connect at all and keeps resting heart rate to itself.</li>
+  <li>On an iPhone, the app reads 28 Apple Health types. What's in them depends on what your watch, iPhone and other apps write to Apple Health, and anything outside those types, such as wrist temperature, stays on the iPhone.</li>
   <li>A model isn't a doctor. It can sum your steps correctly and still draw a wrong conclusion.</li>
 </ul>
 
@@ -332,7 +365,11 @@ GRANT SELECT ON records, daily_totals TO llm_ro;</code></pre>
   </details>
   <details>
     <summary>Is there a Health Connect MCP server?</summary>
-    <p>Not on the phone: Health Connect has no web API, so a server can't read it directly. Life Dashboard Companion sends the data to a server of your own, and the Life Dashboard stack has an MCP server built in, with six read-only tools for days, nights, workouts, trends and screen time. In Home Assistant, ha-mcp reads the integration's history, and on a Postgres of your own, DBHub in read-only mode does. That works for Samsung Health, Fitbit, Garmin and any other app that writes to Health Connect, for the types each app shares there.</p>
+    <p>Not on the phone: Health Connect has no web API, so a server can't read it directly. Life Dashboard Companion sends the data to a server of your own, and the Life Dashboard stack has an MCP server built in, with eight read-only tools for days, nights, workouts, trends, screen time and what each phone has sent. In Home Assistant, ha-mcp reads the integration's history, and on a Postgres of your own, DBHub in read-only mode does. That works for Samsung Health, Fitbit, Garmin and any other app that writes to Health Connect, for the types each app shares there.</p>
+  </details>
+  <details>
+    <summary>Is there an Apple Health MCP server?</summary>
+    <p>Not on the iPhone: Apple Health has no web API, so a server can't read it directly. Life Dashboard Companion for iPhone sends Apple Health data, Apple Watch data included, to the Life Dashboard stack, whose MCP server gives a model the same eight read-only tools as for Android. In Home Assistant, ha-mcp reads the integration's history, and on a Postgres of your own, DBHub in read-only mode does.</p>
   </details>
   <details>
     <summary>Why not Home Assistant's built-in MCP server?</summary>
@@ -362,8 +399,13 @@ GRANT SELECT ON records, daily_totals TO llm_ro;</code></pre>
           <li><a href="../samsung-health-export/">Samsung Health to your own server</a></li>
           <li><a href="../fitbit-home-assistant/">Fitbit and Pixel Watch in Home Assistant</a></li>
           <li><a href="../garmin-home-assistant/">Garmin in Home Assistant</a></li>
-          <li><a href="../health-data-own-ai/" aria-current="page">Health Connect data over MCP, for your own AI</a></li>
+          <li><a href="../health-data-own-ai/" aria-current="page">Health Connect and Apple Health over MCP</a></li>
           <li><a href="../troubleshooting/">Troubleshooting: syncs, sensors and pairing</a></li>
+          <li><a href="../apple-health-home-assistant/">Apple Health in Home Assistant</a></li>
+          <li><a href="../apple-watch-home-assistant/">Apple Watch in Home Assistant</a></li>
+          <li><a href="../apple-health-webhook/">Apple Health to a webhook</a></li>
+          <li><a href="../apple-health-n8n/">Apple Health to n8n</a></li>
+          <li><a href="../apple-health-data-types/">Apple Health data types, app by app</a></li>
         </ul>
       </nav>
       <div class="box">
@@ -409,8 +451,13 @@ GRANT SELECT ON records, daily_totals TO llm_ro;</code></pre>
           <li><a href="../samsung-health-export/">Samsung Health to your own server</a></li>
           <li><a href="../fitbit-home-assistant/">Fitbit and Pixel Watch in Home Assistant</a></li>
           <li><a href="../garmin-home-assistant/">Garmin in Home Assistant</a></li>
-          <li><a href="../health-data-own-ai/">Health Connect data over MCP, for your own AI</a></li>
+          <li><a href="../health-data-own-ai/">Health Connect and Apple Health over MCP</a></li>
           <li><a href="../troubleshooting/">Troubleshooting: syncs, sensors and pairing</a></li>
+          <li><a href="../apple-health-home-assistant/">Apple Health in Home Assistant</a></li>
+          <li><a href="../apple-watch-home-assistant/">Apple Watch in Home Assistant</a></li>
+          <li><a href="../apple-health-webhook/">Apple Health to a webhook</a></li>
+          <li><a href="../apple-health-n8n/">Apple Health to n8n</a></li>
+          <li><a href="../apple-health-data-types/">Apple Health data types, app by app</a></li>
         </ul>
       </div>
       <div>

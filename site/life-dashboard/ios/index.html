@@ -283,14 +283,14 @@
     </div><div class="show stack" id="webhooks">
       <div class="stack-text">
         <div><h2>An Apple Health webhook with signed JSON</h2></div>
-        <div><p>Any server that accepts a JSON POST can receive the data: <a href="../health-connect-n8n/">n8n</a>, Node-RED, the Grafana stack or a script. Every record carries a <code>uuid</code> to deduplicate on and a <code>source</code> that names the app or device that wrote it.</p>
+        <div><p>Any server that accepts a JSON POST can receive the data: <a href="../apple-health-n8n/">n8n</a>, Node-RED, the Grafana stack or a script. Every record carries a <code>uuid</code> to deduplicate on and a <code>source</code> that names the app or device that wrote it.</p>
         <ul class="ticks">
           <li>HMAC-SHA256 signing <span>An optional X-Signature header, the same scheme as the Android app.</span></li>
           <li>Client certificates (mTLS) <span>Import a .p12 file into this iPhone's Keychain, for a server behind a reverse proxy that requires one.</span></li>
           <li>A retry queue on the phone <span>Every payload is queued before it's sent, so a sync that iOS cuts off loses nothing. It holds up to 700.</span></li>
           <li>Sync history on the Logs tab <span>Success rate, deliveries and records, and the latest failures grouped by receiver and error.</span></li>
         </ul>
-        <a class="link-arrow" href="../health-connect-webhook/">The payload both apps send</a></div>
+        <a class="link-arrow" href="../apple-health-webhook/">The payload an iPhone sends</a></div>
       </div>
       <div class="show-media"><div class="stage green-glow"></div><div class="phone solo" style="aspect-ratio: 720 / 1464"><img src="../img/ios-logs.webp?v=d5030719" alt="The sync history of the iPhone app" width="720" height="1464" loading="lazy"></div></div>
     </div><div class="show" id="background-sync">
@@ -390,10 +390,15 @@
 <section class="section tight band">
   <div class="wrap">
     <div class="section-head"><h2>Setup guides</h2></div>
-    <div class="family three">
+    <div class="family">
+      <a class="part" href="../apple-health-home-assistant/"><h3>Apple Health in Home Assistant</h3><p>Apple Watch and iPhone data as sensors, with a year of history from a backfill.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="../apple-watch-home-assistant/"><h3>Apple Watch in Home Assistant</h3><p>Heart rate, HRV, sleep stages, workouts and VO2 max from the watch, through Apple Health.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="../apple-health-webhook/"><h3>Apple Health to a webhook</h3><p>Signed JSON from Apple Health, automatically: the payload, retries, deletions and Shortcuts.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="../apple-health-n8n/"><h3>Apple Health to n8n</h3><p>The same Webhook node and HMAC check as for Android, and what differs in an iPhone payload.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="../apple-health-data-types/"><h3>Apple Health data types, app by app</h3><p>All 28 types the iPhone app reads, with payload keys, units and what writes them.</p><span class="go">Read the guide</span></a>
       <a class="part" href="../health-connect-webhook/"><h3>Health Connect to a webhook</h3><p>The JSON payload, signatures, retries and receivers for n8n and Node-RED.</p><span class="go">Read the guide</span></a>
       <a class="part" href="../health-data-api/"><h3>A web API for Health Connect or Apple Health</h3><p>Why neither has one, and how to get the data onto your server anyway.</p><span class="go">Read the guide</span></a>
-      <a class="part" href="../health-data-own-ai/"><h3>Health Connect data over MCP, for your own AI</h3><p>The stack's read-only MCP server lets a local model or Claude read your history. Works in Europe too.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="../health-data-own-ai/"><h3>Health Connect and Apple Health over MCP</h3><p>The stack's read-only MCP server lets a local model or Claude read your history. Works in Europe too.</p><span class="go">Read the guide</span></a>
     </div>
   </div>
 </section>
@@ -444,8 +449,13 @@
           <li><a href="../samsung-health-export/">Samsung Health to your own server</a></li>
           <li><a href="../fitbit-home-assistant/">Fitbit and Pixel Watch in Home Assistant</a></li>
           <li><a href="../garmin-home-assistant/">Garmin in Home Assistant</a></li>
-          <li><a href="../health-data-own-ai/">Health Connect data over MCP, for your own AI</a></li>
+          <li><a href="../health-data-own-ai/">Health Connect and Apple Health over MCP</a></li>
           <li><a href="../troubleshooting/">Troubleshooting: syncs, sensors and pairing</a></li>
+          <li><a href="../apple-health-home-assistant/">Apple Health in Home Assistant</a></li>
+          <li><a href="../apple-watch-home-assistant/">Apple Watch in Home Assistant</a></li>
+          <li><a href="../apple-health-webhook/">Apple Health to a webhook</a></li>
+          <li><a href="../apple-health-n8n/">Apple Health to n8n</a></li>
+          <li><a href="../apple-health-data-types/">Apple Health data types, app by app</a></li>
         </ul>
       </div>
       <div>

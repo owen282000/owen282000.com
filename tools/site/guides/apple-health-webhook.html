@@ -1,0 +1,191 @@
+<!--
+title: Apple Health to a webhook, automatically | Life Dashboard
+description: Life Dashboard Companion sends Apple Health data from your iPhone to your own webhook as signed JSON, in the background, with retries, deletions and Shortcuts.
+primary query: apple health webhook
+secondary queries: export apple health automatically, apple health json, apple health export to server, apple health api self-hosted, healthkit webhook, apple health node-red, apple health postgres, send apple health data to server
+updated: 2026-10-21
+published: 2026-10-21
+-->
+
+<h1>How do I send Apple Health data to a webhook automatically?</h1>
+
+<p>Install Life Dashboard Companion on your iPhone, add your URL under <strong>Webhook</strong> on the <strong>Health</strong> tab, and pick the Apple Health types to send. From then on the app reads Apple Health in the background on the schedule you set and posts every new record to your URL as JSON: steps, sleep with stages, heart rate, HRV, weight, blood pressure, workouts and more, 28 types in all, each record with a stable <code>uuid</code> and the app or device that wrote it.</p>
+
+<p>With a secret set, every request is signed with HMAC-SHA256 in an <code>X-Signature</code> header. A payload that can't be delivered waits in a queue on the iPhone, and a record you delete in Apple Health is named in the next payload. The payload is the Android app's, so one receiver takes an iPhone and an Android phone alike.</p>
+
+<p class="flow-line"><span>iPhone or Apple Watch</span><span>Apple Health</span><span>Life Dashboard Companion</span><span>Your URL</span></p>
+
+<h2>Why it takes an app on the iPhone</h2>
+
+<p>Apple Health has no web API. It lives on the iPhone, and apps read it through Apple's HealthKit, so something on the iPhone has to read it and send it on. Life Dashboard Companion does that and posts straight to the URLs you enter. There's no account and no Life Dashboard server in the path, and the app has no analytics, crash reporting or ads. <a href="../health-data-api/">A web API for Health Connect or Apple Health</a> explains more.</p>
+
+<h2>What you need</h2>
+
+<ul>
+  <li>An iPhone with iOS 17 or newer, and <a href="../ios/">Life Dashboard Companion for iPhone</a>. {{status:ios}}</li>
+  <li>A server that accepts a JSON POST. Use <code>https://</code>. iOS allows plain <code>http://</code> only to an IP address, a <code>.local</code> name or a name without a dot, meant for your own network.</li>
+</ul>
+
+<h2>Set it up</h2>
+
+<ol>
+  <li>In the app's setup, or later on the <strong>Health</strong> tab under <strong>Webhook</strong>, enter your URL. You can add several; a sync counts as delivered when one of them accepts it.</li>
+  <li>Optional: add an <code>Authorization</code> header or an API key as a custom header, and an <strong>HMAC Signing Secret</strong> that your server also knows.</li>
+  <li>Tap <strong>Test ping</strong>. It sends a small payload with <code>"test": true</code> and no records. If your server is at home, allow <strong>Local Network</strong> when iOS asks.</li>
+  <li>Switch on your types and allow Apple Health access. <strong>View</strong> shows the last 7 days as the payload would look, and <strong>Sync Now</strong> sends what's new. A type's first sync sends its last 7 days.</li>
+  <li>For older data, tap <strong>Backfill</strong> and pick 30, 90 or 365 days.</li>
+</ol>
+
+<!-- IMG: Webhook and MQTT settings (ios-mqtt.png) -->
+
+<h2>What the POST looks like</h2>
+
+<p>Every request is a JSON POST. A shortened payload, from the <a href="https://github.com/owen282000/life-dashboard-companion-app-ios/blob/main/docs/webhook.md">iOS payload page</a>:</p>
+
+<pre><code>{
+  "timestamp": "2026-02-05T12:00:00Z",
+  "timezone": "Europe/Amsterdam",
+  "app_version": "1.9.0",
+  "source": "healthkit_ios",
+  "sequence": 42,
+  "steps": [
+    {
+      "count": 1234,
+      "start_time": "2026-02-05T08:00:00Z",
+      "end_time": "2026-02-05T09:00:00Z",
+      "uuid": "5B7A0C2E-8F3D-4B1A-9C6E-2D4F8A1B3C5D",
+      "source": "Alex's iPhone"
+    }
+  ],
+  "daily_totals": [
+    { "date": "2026-02-05", "steps": 8421, "distance_meters": 6210.4 }
+  ]
+}</code></pre>
+
+<ul>
+  <li><code>source</code> at the top is <code>healthkit_ios</code>, where the Android app says <code>health_connect</code>.</li>
+  <li><code>timezone</code> is the iPhone's time zone when the payload was built. Every time in the payload is UTC, and this is the zone <code>daily_totals</code> cut their days in, so a receiver knows the local day after a change to daylight saving time or a trip. Every payload has carried it since version 1.9.0.</li>
+  <li><code>sequence</code> goes up by one with every payload the iPhone builds, and a retry keeps the number it was built with.</li>
+  <li>Every record has a <code>uuid</code>, the Apple Health sample's own, which stays the same for the life of the record, and a <code>source</code>: the name Apple Health gives the app or device that wrote it. For data the iPhone or Watch records itself, that's the device's name, which often includes its owner's name.</li>
+  <li><code>daily_totals</code> holds steps, distance and calories per local day, for today and the two days before, computed with Apple Health's own statistics. A walk recorded by both the iPhone and the Watch counts once there; adding up raw records counts it twice.</li>
+</ul>
+
+<p>The keys, fields and units are the Android app's. The Android app's <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md">payload reference</a> documents every type, and its <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook-schema.json">JSON Schema</a> covers both apps. <a href="../apple-health-data-types/">Apple Health data types</a> lists what an iPhone sends, key by key.</p>
+
+<h2>Check the signature</h2>
+
+<p>With a secret set, every POST carries <code>X-Signature: sha256=&lt;hex&gt;</code>, the HMAC-SHA256 of the raw request body with your secret as the key. It's the Android app's scheme, so one check covers both phones. Compute it over the bytes as they arrived, before you parse them, compare in constant time, and answer 401 to a mismatch. In Node.js:</p>
+
+<pre><code>const crypto = require('crypto');
+
+function verifySignature(req, secret) {
+  const expected = 'sha256=' + crypto
+    .createHmac('sha256', secret)
+    .update(req.rawBody) // the exact raw request body bytes
+    .digest('hex');
+  const actual = req.get('X-Signature') || '';
+  return actual.length === expected.length &amp;&amp;
+    crypto.timingSafeEqual(Buffer.from(actual), Buffer.from(expected));
+}</code></pre>
+
+<p>In Python:</p>
+
+<pre><code>expected = "sha256=" + hmac.new(SECRET, body, hashlib.sha256).hexdigest()
+valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
+
+<p>For a server behind a reverse proxy that requires a client certificate, import it as a <code>.p12</code> file under <strong>Advanced</strong>. It stays in the iPhone's Keychain, and every webhook whose server asks for a certificate gets it, in the background too.</p>
+
+<h2>Retries and the queue</h2>
+
+<ul>
+  <li><strong>Retries.</strong> Any 2xx counts as delivered. A network error, a timeout, 408, 429 or 5xx is tried up to 3 times in all, 1 and then 2 seconds apart. Other errors, such as 401 or 404, fail at once. An attempt gives up once the connection stands still for 10 seconds, so answer first and store afterward.</li>
+  <li><strong>The queue.</strong> Every payload is queued on the iPhone before it's posted, so a sync that iOS cuts off halfway loses nothing. One that wasn't delivered goes out again when the network comes back, at the next sync, or with <strong>Retry Now</strong>, oldest first, to the URLs and with the headers configured at that moment. The queue stops at the first payload that fails, so the rest keep their order.</li>
+  <li><strong>Refused payloads.</strong> A payload your server refuses with 400, 413 or 422 doesn't hold up the ones after it. It stays queued and is offered again once a day. Payloads queued after it can then arrive first: use <code>sequence</code> to settle the order.</li>
+  <li><strong>Old and dropped payloads.</strong> A payload older than 7 days is dropped when your server answers its next delivery with an error, never while the iPhone is offline. The queue holds up to 700 payloads; past that the oldest goes. Each dropped payload gets a row in the <strong>Logs</strong> tab and a notification.</li>
+  <li><strong>Redirects</strong> are followed only on the same host. A redirect to another host, such as a login page in front of your server, counts as a failed delivery, and the log names the host it pointed at.</li>
+</ul>
+
+<!-- IMG: Sync history (ios-logs.png) -->
+
+<h2>Deleted records</h2>
+
+<p>A record deleted in Apple Health leaves nothing for a sync to read, so the app follows Apple Health's own record of deletions and names what's gone in the next payload, with the key the record arrived under and the <code>uuid</code> it was delivered with:</p>
+
+<pre><code>"deleted_records": [
+  { "type": "nutrition", "uuid": "84E37E8A-1C2D-4E5F-8A9B-0C1D2E3F4A5B" }
+]</code></pre>
+
+<ul>
+  <li>When a deletion is the only change, the sync sends a payload with <code>deleted_records</code> and no records.</li>
+  <li>Apple Health never edits a record in place. An app that edits one deletes it and saves a new one under a new <code>uuid</code>, so an edit arrives as a deletion plus a new record.</li>
+  <li>A sleep deletion names one stage, not the night. Drop that stage, or replace the nights a newer payload covers.</li>
+  <li><code>deletions_unavailable</code> lists the keys a payload can't vouch for, for example when Apple Health didn't answer in time or a type wasn't read for more than 7 days. Reconcile those with a backfill.</li>
+</ul>
+
+<h2>When it sends</h2>
+
+<p>Set an interval of 15 minutes or more, 60 by default, or fixed times of day, on the days you pick, with quiet hours. iOS decides when an app runs in the background, so a fixed time means "not before". Apple Health also wakes the app when an enabled type has new data, at most as often as Apple allows for that type. Background App Refresh must be on for the app; Low Power Mode switches it off.</p>
+
+<p>For a sync at an exact minute, make a Shortcuts automation that runs <strong>Sync Health Data</strong> at that time. The same action works on arriving home, by voice with Siri, from the home screen widget, and from a Control Center control on iOS 18 and newer. It sends what's queued and what's new.</p>
+
+<p>iOS encrypts Apple Health while the iPhone is locked, so a sync that starts then waits for the unlock.</p>
+
+<!-- IMG: Sync schedule (ios-schedule.png) -->
+
+<h2>Backfill</h2>
+
+<p><strong>Backfill</strong> sends the last 30, 90 or 365 days in 3-day windows, oldest first, with the fields <code>backfill</code>, <code>window_start</code>, <code>window_end</code> and <code>window_complete</code>. The records are the ones a sync sends, <code>uuid</code> included, so the overlap deduplicates. <code>window_complete</code> is always <code>false</code> from an iPhone, because Apple Health doesn't tell an app which types it may not read. Backfill payloads go to webhooks only, never to MQTT or the queue.</p>
+
+<h2>Receivers that work</h2>
+
+<ul>
+  <li><strong>The Life Dashboard stack.</strong> A receiver that checks <code>X-Signature</code>, Postgres and Grafana dashboards, from one compose file. Scan its pairing QR code in the app. See <a href="../grafana/">the Life Dashboard stack</a>.</li>
+  <li><strong>n8n.</strong> A Webhook node with <strong>Raw Body</strong> on, a signature check in a Code node, and a 204. <a href="../apple-health-n8n/">Apple Health to n8n</a> has the workflow.</li>
+  <li><strong>Node-RED.</strong> An <strong>http in</strong> node with <strong>Do not parse request body</strong> on (Node-RED 4.1 or later) gives the raw bytes for the HMAC.</li>
+  <li><strong>Home Assistant.</strong> The <a href="../apple-health-home-assistant/">Life Dashboard integration</a> turns the payload into sensors and long-term statistics.</li>
+  <li><strong>A script of your own.</strong> The Android payload reference has <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md#example-backend-integrations">example receivers</a> in Python and Node.js.</li>
+</ul>
+
+<h2>Store it</h2>
+
+<ul>
+  <li>Upsert each record on its payload key and <code>uuid</code>. A record can arrive twice: a backfill sends its range again, and a delivery that iOS cut off is sent again from the queue. One active energy sample counts toward both <code>active_calories</code> and <code>total_calories</code>, so key on both.</li>
+  <li>Keep <code>daily_totals</code> as one row per date, from the payload with the highest <code>sequence</code> that carried that date.</li>
+  <li>A sleep night's <code>uuid</code> comes from its earliest stage, so it stays the same while the night grows: replace the night when it comes back longer.</li>
+  <li>Delete what <code>deleted_records</code> names, by <code>type</code> and <code>uuid</code>, and ignore a <code>uuid</code> you don't have.</li>
+</ul>
+
+<h2>Where an iPhone payload differs from Android</h2>
+
+<ul>
+  <li>Heart rate variability is SDNN, the measure Apple Health stores. Android sends RMSSD under the same key; they're not the same number.</li>
+  <li>A workout's <code>type</code> is a name such as <code>running</code> or <code>hiit</code>; Android sends a number as a string.</li>
+  <li>Sleep stages include <code>in_bed</code>, the time in bed around the stages, which only an iPhone sends.</li>
+  <li>There's no screen time payload and no <code>_diagnostics</code> block.</li>
+</ul>
+
+<p>A receiver written for Android works unchanged, as long as it treats those as optional. The <a href="https://github.com/owen282000/life-dashboard-companion-app-ios/blob/main/docs/webhook.md">iOS payload page</a> lists every difference.</p>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Can I export Apple Health automatically, without opening the app?</summary>
+    <p>Yes. Once set up, the app syncs in the background on your schedule, and Apple Health wakes it when there's new data. The iPhone has to be unlocked for a sync to read Apple Health, and iOS picks the exact moment. For a fixed minute, use a Shortcuts automation with <strong>Sync Health Data</strong>.</p>
+  </details>
+  <details>
+    <summary>Can I see the JSON before I write a receiver?</summary>
+    <p>Yes. <strong>View</strong> on the <strong>Health</strong> tab shows the last 7 days as a payload, <strong>Copy</strong> puts it on the clipboard, and <strong>Share</strong> hands it over as a .json file. <strong>Export</strong> saves the same as JSON, or as CSV with a row per record.</p>
+  </details>
+  <details>
+    <summary>How do I avoid counting steps twice?</summary>
+    <p>Use <code>daily_totals</code> for steps, distance and calories. They're counted the way the Health app counts them, so an iPhone and a Watch that both recorded a walk count it once.</p>
+  </details>
+  <details>
+    <summary>Does the same receiver work for an Android phone?</summary>
+    <p>Yes. Both apps send the same keys, units and signature. Tell them apart by the top-level <code>source</code>: <code>healthkit_ios</code> or <code>health_connect</code>. <a href="../health-connect-webhook/">Health Connect to a webhook</a> covers the Android side.</p>
+  </details>
+  <details>
+    <summary>Does the app send anything to the developer?</summary>
+    <p>No. The app has no analytics, crash reporting or ads, and there's no Life Dashboard server. The data goes only to the URLs, broker or Home Assistant you set.</p>
+  </details>
+</section>
