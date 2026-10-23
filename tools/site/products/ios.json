@@ -17,8 +17,8 @@
       "text": "Each record names the app or device that wrote it. Daily totals count a walk recorded by iPhone and Watch once."
     },
     {
-      "title": "A year of history",
-      "text": "Backfill 30, 90 or 365 days. A record you delete in Apple Health is reported to your server at the next sync."
+      "title": "All your history",
+      "text": "Backfill from 30 days up to 5 years, or everything Apple Health has. A record you delete in Apple Health is reported to your server at the next sync."
     },
     {
       "title": "Same payload as Android",
@@ -115,13 +115,13 @@
       }
     }
   ],
-  "requirements": "An iPhone on iOS 17 or newer. From the App Store, that's all: €6.99 once, no subscription. To build it yourself, for free: a Mac with Xcode 26 (macOS 26.2 for the newest Xcode, or Xcode 26.3 on macOS 15.6) and an Apple Account; about an hour the first time. With a free account the app stops opening after 7 days until you run it from Xcode again; a paid developer account signs it for a year. The Life Dashboard integration needs Home Assistant 2026.3 or newer with HACS.",
+  "requirements": "An iPhone on iOS 17 or newer. From the App Store, that's all: €6.99 once, no subscription. To build it yourself: a Mac with Xcode 26 (macOS 26.2 for the newest Xcode, or Xcode 26.3 on macOS 15.6) and an Apple Developer Program membership, because a free Apple Account can't sign an app that reads Apple Health; about an hour the first time, and the signature lasts a year. The Life Dashboard integration needs Home Assistant 2026.3 or newer with HACS.",
   "faq": [
     {
       "q": "What does building it take?",
       "id": "building",
       "open": true,
-      "a": "About an hour the first time, if you've never used Xcode. You need a Mac with Xcode 26 (the newest Xcode needs macOS 26.2; on macOS 15.6, Xcode 26.3 works) and an Apple Account. Then: <strong>1.</strong> Clone the repository and open the project in Xcode. <strong>2.</strong> Pick your own team for the app and the widget. <strong>3.</strong> Give both your own bundle identifiers. <strong>4.</strong> Replace the app group in three places (the two targets' capabilities and one line in <code>SharedSyncStatus.swift</code>). <strong>5.</strong> Run it on your iPhone and allow Developer Mode once. The <a href=\"https://github.com/owen282000/life-dashboard-companion-app-ios/blob/main/docs/usage.md#build-and-install\">setup guide</a> shows each screen. With a free Apple Account you run it from Xcode again every 7 days; a paid developer account signs it for a year."
+      "a": "About an hour the first time, if you've never used Xcode. You need a Mac with Xcode 26 (the newest Xcode needs macOS 26.2; on macOS 15.6, Xcode 26.3 works) and an Apple Developer Program membership: Apple Health needs the HealthKit capability, which a free Apple Account can't sign. Then: <strong>1.</strong> Clone the repository and open the project in Xcode. <strong>2.</strong> Pick your own team for the app and the widget. <strong>3.</strong> Give both your own bundle identifiers. <strong>4.</strong> Replace the app group in three places (the two targets' capabilities and one line in <code>SharedSyncStatus.swift</code>). <strong>5.</strong> Run it on your iPhone and allow Developer Mode once. The <a href=\"https://github.com/owen282000/life-dashboard-companion-app-ios/blob/main/docs/usage.md#build-and-install\">setup guide</a> shows each screen. The signature lasts a year; run it from Xcode again to renew it."
     },
     {
       "q": "Does it work with an Apple Watch?",
@@ -137,7 +137,7 @@
     },
     {
       "q": "How is it different from the Home Assistant companion app's Apple Health sensors?",
-      "a": "Keep the companion app for presence and notifications. Its Apple Health sensors show today's total or the newest reading, and their history starts the day you switch them on. This app sends every record of 28 types, backfills up to a year, and also sends to MQTT or a webhook."
+      "a": "Keep the companion app for presence and notifications. Its Apple Health sensors show today's total or the newest reading, and their history starts the day you switch them on. This app sends every record of 28 types, backfills your history (into Home Assistant, the last year for now), and also sends to MQTT or a webhook."
     },
     {
       "q": "Can an iPhone and an Android phone share one Home Assistant?",
@@ -145,19 +145,19 @@
     },
     {
       "q": "Can it send to Home Assistant and a webhook at the same time?",
-      "a": "Yes, with two things to know today. The app keeps one signing secret, and pairing with Home Assistant sets it, so give a second receiver the same secret. And a payload counts as delivered once one destination takes it, so a destination that's down at that moment misses it. The app can send to several webhooks and to MQTT at once."
+      "a": "Yes. Every address has its own signing secret and headers, and pairing with Home Assistant sets them only for the address it adds, so a second receiver keeps its own. One thing to know today: a payload counts as delivered once one destination takes it, so a destination that's down at that moment misses it. The app can send to several webhooks and to MQTT at once."
     },
     {
       "q": "Is it on the App Store?",
-      "a": "Yes: <a href=\"https://apps.apple.com/app/life-dashboard-companion/id6824075761\">Life Dashboard Companion on the App Store</a>, €6.99 once (US$5.99), with no subscription. It's the same app, built from the same source, for people who'd rather not build it and want to support the project that way. Building it yourself stays free: pull the repository and run it again to update; your settings stay. The <a href=\"https://github.com/owen282000/life-dashboard-companion-app-ios/releases\">releases on GitHub</a> list what changed."
+      "a": "Yes: <a href=\"https://apps.apple.com/app/life-dashboard-companion/id6824075761\">Life Dashboard Companion on the App Store</a>, €6.99 once (US$5.99), with no subscription. It's the same app, built from the same source, for people who'd rather not build it and want to support the project that way. Building it yourself costs nothing extra if you already have an Apple Developer Program membership: pull the repository and run it again to update; your settings stay. The <a href=\"https://github.com/owen282000/life-dashboard-companion-app-ios/releases\">releases on GitHub</a> list what changed."
     },
     {
       "q": "I don't have a Mac. Can I still use it?",
       "a": "Yes: install it from the <a href=\"https://apps.apple.com/app/life-dashboard-companion/id6824075761\">App Store</a>, which needs no Mac. Only building it yourself takes Xcode, which runs only on a Mac."
     },
     {
-      "q": "What happens after 7 days with a free Apple Account?",
-      "a": "The app stops opening until you run it from Xcode again. Your settings and the data already sent stay; payloads that couldn't be sent wait on the iPhone. A paid developer account signs it for a year."
+      "q": "Can I build it with a free Apple Account?",
+      "a": "No. An app that reads Apple Health needs the HealthKit capability, and only an Apple Developer Program membership can sign it; a free Apple Account can't. With a membership, building it yourself costs nothing extra and the signature lasts a year. Without one, the App Store version is the way."
     }
   ],
   "updated": "2026-10-21",

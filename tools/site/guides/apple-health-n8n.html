@@ -204,7 +204,7 @@ return (p?.daily_totals ?? []).map(d =&gt; ({ json: d }));</code></pre>
 <h2>Limits</h2>
 
 <ul>
-  <li>n8n can't ask the iPhone for a date range. Start a backfill of 30, 90 or 365 days on the iPhone, under <strong>Backfill</strong> on the <strong>Health</strong> tab.</li>
+  <li>n8n can't ask the iPhone for a date range. Start a backfill on the iPhone, from 30 days up to <strong>All history</strong>, under <strong>Backfill</strong> on the <strong>Health</strong> tab.</li>
   <li>iOS decides when the app runs in the background, so syncs can come later than the schedule says. For an exact time, a Shortcuts automation runs <strong>Sync Health Data</strong>.</li>
   <li>Because the 204 goes out first, two payloads can be stored at the same time. Payloads carry a <code>sequence</code> that only goes up; use it when order matters, such as for <code>daily_totals</code>.</li>
 </ul>

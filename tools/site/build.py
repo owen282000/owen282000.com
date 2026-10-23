@@ -111,11 +111,11 @@ PARTS = {
         "get_title": "Get the iPhone app", "req_short": "iOS 17 or newer. On the App Store, or build it yourself on a Mac.",
         "get": [
             {"id": "appstore", "kind": "store", "name": "App Store", "status": "live", "href": APP_STORE,
-             "note": "€6.99 once (US$5.99), no subscription. No Mac needed, and it updates like any other app. Building it with Xcode stays free."},
+             "note": "€6.99 once (US$5.99), no subscription. No Mac needed, and it updates like any other app."},
             {"id": "xcode", "name": "Build with Xcode", "status": "live", "href": REPO_IOS + "#build-and-install", "primary": True, "cta": "Build with Xcode",
-             "note": "Free, from source, on a Mac with Xcode: about an hour the first time. Your settings stay when you run a newer version."},
+             "note": "From source, on a Mac with Xcode and an Apple Developer Program membership: about an hour the first time. Your settings stay when you run a newer version."},
         ],
-        "requires": "iOS 17 or newer. Building it yourself needs a Mac with Xcode; with a free Apple Account you run it from Xcode again every 7 days.",
+        "requires": "iOS 17 or newer. Building it yourself needs a Mac with Xcode and an Apple Developer Program membership, because a free Apple Account can't sign an app that reads Apple Health.",
     },
     "home-assistant": {
         "name": "Home Assistant integration", "nav": "Home Assistant", "full": "Life Dashboard integration for Home Assistant",
@@ -155,7 +155,7 @@ ORDER = ["android", "ios", "home-assistant", "grafana"]
 # One sentence per app about where to get it, used through {{status:android}} and {{status:ios}}.
 STATUS_TEXT = {
     "android": "Today you install the signed APK from GitHub, or through Obtainium, which keeps it up to date. It's also on F-Droid, built by F-Droid from the source and identical to the signed APK. Google Play is in closed testing.",
-    "ios": "It's on the App Store for €6.99 once (US$5.99), no subscription. Building it from source with Xcode on a Mac stays free.",
+    "ios": "It's on the App Store for €6.99 once (US$5.99), no subscription. Building it from source with Xcode costs nothing extra if you already have an Apple Developer Program membership.",
 }
 # Phrases that must be gone once a store is live (checked on every build).
 STALE = {"play": ["coming to Google Play", "Google Play is in closed testing", "will be a paid listing"],
@@ -316,7 +316,7 @@ NEXT = {
         [("btn-primary btn-store", HACS, "Open in HACS"), ("btn-ghost", "../android/#get", "Get the Android app")]),
     "garmin-home-assistant": ("Two installs: the integration from HACS and the app on your phone. After that, switch on Health Connect in Garmin Connect and pair with one QR code.",
         [("btn-primary btn-store", HACS, "Open in HACS"), ("btn-ghost", "../android/#get", "Get the Android app")]),
-    "health-data-own-ai": ("Start with the data: the stack or the integration, and a backfill of up to a year from the app.",
+    "health-data-own-ai": ("Start with the data: the stack or the integration, and a backfill of all your history from the app.",
         [("btn-primary btn-store", "../grafana/#your-own-ai", "The stack's MCP server"), ("btn-ghost", "../home-assistant/", "The Home Assistant route")]),
     "health-connect-home-assistant": ("Two installs: the integration from HACS and the app on your phone. After that, pairing takes a minute.",
         [("btn-primary btn-store", HACS, "Open in HACS"), ("btn-ghost", "../android/#get", "Get the Android app")]),
@@ -572,9 +572,9 @@ def android_coming():
 
 
 def ios_paths(prefix):
-    """The iPhone line in the hero: the App Store once it's live, and the free build either way."""
+    """The iPhone line in the hero: the App Store once it's live, and building it yourself either way."""
     if store_of("ios")["status"] == "live":
-        return f'On the App Store, €6.99 once. Or <a href="{prefix}ios/#building">build it with Xcode</a> on a Mac, for free.'
+        return f'On the App Store, €6.99 once. Or <a href="{prefix}ios/#building">build it with Xcode</a> on a Mac with an Apple Developer Program membership.'
     return f'<a href="{prefix}ios/#building">Build it with Xcode</a> on a Mac, about an hour. In App Store review.'
 
 

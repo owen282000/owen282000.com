@@ -176,7 +176,7 @@
 <h2 id="what-you-need">What you need</h2>
 
 <ul>
-  <li><a href="../ios/">Life Dashboard Companion for iPhone</a> on iOS 17 or newer. It's on the App Store for €6.99 once (US$5.99), no subscription. Building it from source with Xcode on a Mac stays free.</li>
+  <li><a href="../ios/">Life Dashboard Companion for iPhone</a> on iOS 17 or newer. It's on the App Store for €6.99 once (US$5.99), no subscription. Building it from source with Xcode costs nothing extra if you already have an Apple Developer Program membership.</li>
   <li>n8n, on n8n Cloud or self-hosted, reachable from the iPhone. Use HTTPS. iOS allows plain <code>http://</code> only to an IP address, a <code>.local</code> name or a name without a dot, and asks once for access to the local network: allow it for an n8n at home.</li>
   <li>Room for large requests. n8n takes up to 16 MB by default, but a reverse proxy in front of it must allow that too: nginx allows 1 MB by default.</li>
   <li>The <code>crypto</code> module in the Code node. n8n Cloud provides it. On self-hosted n8n, set <code>NODE_FUNCTION_ALLOW_BUILTIN=crypto</code>, on the task runner if you run one.</li>
@@ -362,7 +362,7 @@ return (p?.daily_totals ?? []).map(d =&gt; ({ json: d }));</code></pre>
 <h2 id="limits">Limits</h2>
 
 <ul>
-  <li>n8n can't ask the iPhone for a date range. Start a backfill of 30, 90 or 365 days on the iPhone, under <strong>Backfill</strong> on the <strong>Health</strong> tab.</li>
+  <li>n8n can't ask the iPhone for a date range. Start a backfill on the iPhone, from 30 days up to <strong>All history</strong>, under <strong>Backfill</strong> on the <strong>Health</strong> tab.</li>
   <li>iOS decides when the app runs in the background, so syncs can come later than the schedule says. For an exact time, a Shortcuts automation runs <strong>Sync Health Data</strong>.</li>
   <li>Because the 204 goes out first, two payloads can be stored at the same time. Payloads carry a <code>sequence</code> that only goes up; use it when order matters, such as for <code>daily_totals</code>.</li>
 </ul>

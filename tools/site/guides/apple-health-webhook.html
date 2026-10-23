@@ -33,7 +33,7 @@ published: 2026-10-21
   <li>Optional: add an <code>Authorization</code> header or an API key as a custom header, and an <strong>HMAC Signing Secret</strong> that your server also knows.</li>
   <li>Tap <strong>Test ping</strong>. It sends a small payload with <code>"test": true</code> and no records. If your server is at home, allow <strong>Local Network</strong> when iOS asks.</li>
   <li>Switch on your types and allow Apple Health access. <strong>View</strong> shows the last 7 days as the payload would look, and <strong>Sync Now</strong> sends what's new. A type's first sync sends its last 7 days.</li>
-  <li>For older data, tap <strong>Backfill</strong> and pick 30, 90 or 365 days.</li>
+  <li>For older data, tap <strong>Backfill</strong> and pick how far back, from 30 days up to <strong>All history</strong>.</li>
 </ol>
 
 <!-- IMG: Webhook and MQTT settings (ios-mqtt.png) -->
@@ -134,7 +134,7 @@ valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
 
 <h2>Backfill</h2>
 
-<p><strong>Backfill</strong> sends the last 30, 90 or 365 days in 3-day windows, oldest first, with the fields <code>backfill</code>, <code>window_start</code>, <code>window_end</code> and <code>window_complete</code>. The records are the ones a sync sends, <code>uuid</code> included, so the overlap deduplicates. <code>window_complete</code> is always <code>false</code> from an iPhone, because Apple Health doesn't tell an app which types it may not read. Backfill payloads go to webhooks only, never to MQTT or the queue.</p>
+<p><strong>Backfill</strong> sends the length you pick, from 30 days up to all history, in 3-day windows, oldest first, with the fields <code>backfill</code>, <code>window_start</code>, <code>window_end</code> and <code>window_complete</code>. The records are the ones a sync sends, <code>uuid</code> included, so the overlap deduplicates. <code>window_complete</code> is always <code>false</code> from an iPhone, because Apple Health doesn't tell an app which types it may not read. Backfill payloads go to webhooks only, never to MQTT or the queue.</p>
 
 <h2>Receivers that work</h2>
 

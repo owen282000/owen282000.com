@@ -189,7 +189,7 @@
 <ul>
   <li>An Android phone with Android 9 or newer and Health Connect, or an iPhone on iOS 17 or newer.</li>
   <li><a href="../android/">Life Dashboard Companion for Android</a>. Today you install the signed APK from GitHub, or through Obtainium, which keeps it up to date. It's also on F-Droid, built by F-Droid from the source and identical to the signed APK. Google Play is in closed testing.</li>
-  <li>Or <a href="../ios/">Life Dashboard Companion for iPhone</a>. It's on the App Store for €6.99 once (US$5.99), no subscription. Building it from source with Xcode on a Mac stays free.</li>
+  <li>Or <a href="../ios/">Life Dashboard Companion for iPhone</a>. It's on the App Store for €6.99 once (US$5.99), no subscription. Building it from source with Xcode costs nothing extra if you already have an Apple Developer Program membership.</li>
   <li>Somewhere to send the data: a server that accepts a JSON POST over HTTPS, <a href="../home-assistant/">Home Assistant</a>, an MQTT broker, or <a href="../grafana/">the Life Dashboard stack</a>.</li>
 </ul>
 
@@ -202,7 +202,7 @@
   <li>On the <strong>Health</strong> tab, open <strong>Webhook</strong>. Under <strong>HMAC signing secret (optional)</strong>, tap <strong>Generate</strong> and put the same value on your server.</li>
   <li>Tap <strong>Test ping</strong>, then <strong>Save Changes</strong>.</li>
   <li>Tap <strong>Grant</strong>, allow your data types and reading in the background, then tap <strong>Sync Now</strong>.</li>
-  <li>For older data, tap <strong>Backfill</strong> and pick <strong>30d</strong>, <strong>90d</strong> or <strong>365d</strong>.</li>
+  <li>For older data, tap <strong>Backfill</strong> and pick how far back, from <strong>30 days</strong> up to <strong>All history</strong>.</li>
 </ol>
 
 <p>The iPhone app has the same settings on its own <strong>Health</strong> tab. <a href="../health-connect-webhook/">Health Connect to a webhook</a> has the full receiver guide.</p>

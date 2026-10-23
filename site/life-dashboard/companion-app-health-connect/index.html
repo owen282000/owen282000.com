@@ -4,8 +4,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Home Assistant companion app and Health Connect | Life Dashboard</title>
-<meta name="description" content="The Home Assistant companion app&#x27;s 26 Health Connect sensors show the latest value. When that&#x27;s enough, and what Life Dashboard adds: history, 33 types.">
+<title>Home Assistant companion app or Life Dashboard Companion? | Life Dashboard</title>
+<meta name="description" content="The companion app&#x27;s 26 Health Connect sensors show the latest value. Life Dashboard Companion adds history on the right dates, 33 types and write-back.">
 <link rel="canonical" href="https://owen282000.com/life-dashboard/companion-app-health-connect/">
 <meta name="robots" content="max-image-preview:large">
 <meta name="theme-color" content="#101418">
@@ -15,7 +15,7 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="Is the Home Assistant companion app enough for Health Connect data?">
-<meta property="og:description" content="The Home Assistant companion app&#x27;s 26 Health Connect sensors show the latest value. When that&#x27;s enough, and what Life Dashboard adds: history, 33 types.">
+<meta property="og:description" content="The companion app&#x27;s 26 Health Connect sensors show the latest value. Life Dashboard Companion adds history on the right dates, 33 types and write-back.">
 <meta property="og:url" content="https://owen282000.com/life-dashboard/companion-app-health-connect/">
 <meta property="og:image" content="https://owen282000.com/life-dashboard/img/social.png">
 <meta property="og:image:width" content="1280">
@@ -29,7 +29,7 @@
     {
       "@type": "TechArticle",
       "headline": "Is the Home Assistant companion app enough for Health Connect data?",
-      "description": "The Home Assistant companion app's 26 Health Connect sensors show the latest value. When that's enough, and what Life Dashboard adds: history, 33 types.",
+      "description": "The companion app's 26 Health Connect sensors show the latest value. Life Dashboard Companion adds history on the right dates, 33 types and write-back.",
       "url": "https://owen282000.com/life-dashboard/companion-app-health-connect/",
       "inLanguage": "en",
       "author": {
@@ -227,7 +227,7 @@
 <ul>
   <li><strong>33 types, 25 as sensors.</strong> Since integration 0.10.0 that includes three for workouts: the last workout, and the minutes of today and yesterday. Over MQTT it's 24, without the workouts. Meals, mindfulness, sexual activity and cycle tracking have no single value to show; a webhook of your own gets them as records.</li>
   <li><strong>History on the right day.</strong> Daily totals land on their own date, and readings such as heart rate and weight get a mean, minimum and maximum per hour. Data that arrives late is filed where it belongs: each sync reaches back a week for records a source writes late.</li>
-  <li><strong>A backfill of up to a year.</strong> <strong>Backfill</strong> on the <strong>Health</strong> tab sends <strong>30d</strong>, <strong>90d</strong> or <strong>365d</strong> of every enabled type, so your graphs start full.</li>
+  <li><strong>A backfill of your history.</strong> <strong>Backfill</strong> on the <strong>Health</strong> tab sends 30 days up to 5 years, or <strong>All history</strong>, of every enabled type, so your graphs start full. Home Assistant takes in about the last year for now.</li>
   <li><strong>Readings written back.</strong> Weight, height, body fat, lean body mass, bone mass, body water mass and blood pressure from a scale or monitor in Home Assistant go into Health Connect, where apps such as Samsung Health can read them. See <a href="../smart-scale-to-samsung-health/">smart scale readings into Samsung Health</a>.</li>
   <li><strong>Screen time per app.</strong> Minutes per app, the same numbers as Digital Wellbeing, with a day boundary you choose, such as 04:00. See <a href="../screen-time-home-assistant/">screen time in Home Assistant</a>.</li>
   <li><strong>Other destinations.</strong> The same data can also go to an MQTT broker or any URL that accepts a JSON POST.</li>

@@ -17,8 +17,8 @@
       "text": "Each record goes out with a stable ID and the app that wrote it. Daily totals count a walk once."
     },
     {
-      "title": "A year of history",
-      "text": "Backfill 30, 90 or 365 days. In Home Assistant each day lands on its own date in long-term statistics."
+      "title": "All your history",
+      "text": "Backfill from 30 days up to 5 years, or everything Health Connect has. In Home Assistant each day lands on its own date in long-term statistics, for now about the last year."
     },
     {
       "title": "Screen time per app",
@@ -123,7 +123,7 @@
     },
     {
       "q": "Can it send to Home Assistant and a webhook at the same time?",
-      "a": "Yes, with two things to know today. Each tab keeps one signing secret, and pairing with Home Assistant sets it, so give a second receiver the same secret. And a payload counts as delivered once one destination takes it, so a destination that's down at that moment misses it. Health Connect and Screen Time can each send to several webhooks and to MQTT at once. Giving every destination its own secret and delivery is planned."
+      "a": "Yes. Every address has its own signing secret and headers, and pairing with Home Assistant sets them only for the address it adds, so a second receiver keeps its own. One thing to know today: a payload counts as delivered once one destination takes it, so a destination that's down at that moment misses it. Health Connect and Screen Time can each send to several webhooks and to MQTT at once. A delivery of its own for every destination is planned."
     },
     {
       "q": "What happens when my server is down?",

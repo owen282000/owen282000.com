@@ -123,7 +123,7 @@
           "name": "Can it send to Home Assistant and a webhook at the same time?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes, with two things to know today. Each tab keeps one signing secret, and pairing with Home Assistant sets it, so give a second receiver the same secret. And a payload counts as delivered once one destination takes it, so a destination that's down at that moment misses it. Health Connect and Screen Time can each send to several webhooks and to MQTT at once. Giving every destination its own secret and delivery is planned."
+            "text": "Yes. Every address has its own signing secret and headers, and pairing with Home Assistant sets them only for the address it adds, so a second receiver keeps its own. One thing to know today: a payload counts as delivered once one destination takes it, so a destination that's down at that moment misses it. Health Connect and Screen Time can each send to several webhooks and to MQTT at once. A delivery of its own for every destination is planned."
           }
         },
         {
@@ -261,7 +261,7 @@
     <h2 class="sr-only">What it does</h2>
     <div class="highlights">
         <div class="hl-lead"><h3>33 Health Connect types</h3><p>Steps, sleep stages, heart rate, HRV, weight, blood pressure, glucose, workouts, nutrition and cycle tracking, each with its own switch.</p></div>
-        <ul class="hl-list"><li><h3>Every record, with its source</h3><p>Each record goes out with a stable ID and the app that wrote it. Daily totals count a walk once.</p></li><li><h3>A year of history</h3><p>Backfill 30, 90 or 365 days. In Home Assistant each day lands on its own date in long-term statistics.</p></li><li><h3>Screen time per app</h3><p>Foreground minutes for every app, with a day boundary you choose and a filter that keeps the apps you pick out of what&#x27;s sent.</p></li><li><h3>Three ways out</h3><p>The Life Dashboard integration, MQTT with Home Assistant Discovery, or any webhook that accepts a JSON POST. Several at once works too.</p></li><li><h3>Receive into Health Connect</h3><p>Scale and blood pressure readings from Home Assistant go into Health Connect, where Samsung Health and Google Health read weight.</p></li></ul>
+        <ul class="hl-list"><li><h3>Every record, with its source</h3><p>Each record goes out with a stable ID and the app that wrote it. Daily totals count a walk once.</p></li><li><h3>All your history</h3><p>Backfill from 30 days up to 5 years, or everything Health Connect has. In Home Assistant each day lands on its own date in long-term statistics, for now about the last year.</p></li><li><h3>Screen time per app</h3><p>Foreground minutes for every app, with a day boundary you choose and a filter that keeps the apps you pick out of what&#x27;s sent.</p></li><li><h3>Three ways out</h3><p>The Life Dashboard integration, MQTT with Home Assistant Discovery, or any webhook that accepts a JSON POST. Several at once works too.</p></li><li><h3>Receive into Health Connect</h3><p>Scale and blood pressure readings from Home Assistant go into Health Connect, where Samsung Health and Google Health read weight.</p></li></ul>
     </div>
   </div>
 </section>
@@ -349,7 +349,7 @@
       </details>
       <details>
         <summary>Can it send to Home Assistant and a webhook at the same time?</summary>
-        <p>Yes, with two things to know today. Each tab keeps one signing secret, and pairing with Home Assistant sets it, so give a second receiver the same secret. And a payload counts as delivered once one destination takes it, so a destination that's down at that moment misses it. Health Connect and Screen Time can each send to several webhooks and to MQTT at once. Giving every destination its own secret and delivery is planned.</p>
+        <p>Yes. Every address has its own signing secret and headers, and pairing with Home Assistant sets them only for the address it adds, so a second receiver keeps its own. One thing to know today: a payload counts as delivered once one destination takes it, so a destination that's down at that moment misses it. Health Connect and Screen Time can each send to several webhooks and to MQTT at once. A delivery of its own for every destination is planned.</p>
       </details>
       <details>
         <summary>What happens when my server is down?</summary>

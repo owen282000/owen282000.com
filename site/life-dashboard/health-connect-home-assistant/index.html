@@ -4,8 +4,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Health Connect in Home Assistant with history | Life Dashboard</title>
-<meta name="description" content="Life Dashboard Companion sends Health Connect data to Home Assistant as sensors with a year of history, from Samsung Health, Garmin, Fitbit, Oura or Withings.">
+<title>Health Connect to Home Assistant: sensors and history | Life Dashboard</title>
+<meta name="description" content="Steps, sleep, heart rate and weight from Samsung Health, Garmin, Fitbit or Oura as Home Assistant sensors, each day on its own date, paired by QR code.">
 <link rel="canonical" href="https://owen282000.com/life-dashboard/health-connect-home-assistant/">
 <meta name="robots" content="max-image-preview:large">
 <meta name="theme-color" content="#101418">
@@ -15,7 +15,7 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="How do I get Health Connect data into Home Assistant?">
-<meta property="og:description" content="Life Dashboard Companion sends Health Connect data to Home Assistant as sensors with a year of history, from Samsung Health, Garmin, Fitbit, Oura or Withings.">
+<meta property="og:description" content="Steps, sleep, heart rate and weight from Samsung Health, Garmin, Fitbit or Oura as Home Assistant sensors, each day on its own date, paired by QR code.">
 <meta property="og:url" content="https://owen282000.com/life-dashboard/health-connect-home-assistant/">
 <meta property="og:image" content="https://owen282000.com/life-dashboard/img/social.png">
 <meta property="og:image:width" content="1280">
@@ -29,7 +29,7 @@
     {
       "@type": "TechArticle",
       "headline": "How do I get Health Connect data into Home Assistant?",
-      "description": "Life Dashboard Companion sends Health Connect data to Home Assistant as sensors with a year of history, from Samsung Health, Garmin, Fitbit, Oura or Withings.",
+      "description": "Steps, sleep, heart rate and weight from Samsung Health, Garmin, Fitbit or Oura as Home Assistant sensors, each day on its own date, paired by QR code.",
       "url": "https://owen282000.com/life-dashboard/health-connect-home-assistant/",
       "inLanguage": "en",
       "author": {
@@ -119,7 +119,7 @@
           "name": "Does it work on an iPhone?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes, with Life Dashboard Companion for iPhone, which reads Apple Health and sends to the same integration. It's on the App Store for €6.99 once, or you build it with Xcode for free."
+            "text": "Yes, with Life Dashboard Companion for iPhone, which reads Apple Health and sends to the same integration. It's on the App Store for €6.99 once, or you build it with Xcode if you have an Apple Developer Program membership."
           }
         },
         {
@@ -201,7 +201,7 @@
   <li>On the <strong>Health</strong> tab, tap <strong>Grant</strong>, allow your data types, and allow reading in the background for scheduled syncs. The setup's <strong>The essentials</strong> preset turns on steps, sleep, heart rate, resting heart rate, distance, calories and weight; switch on any other type under <strong>Data Types</strong>. Samsung Health and Garmin Connect don't share resting heart rate or HRV with Health Connect, so with those watches those sensors never appear; the <a href="#your-watch-s-app-and-health-connect">table below</a> lists what each app keeps.</li>
   <li>On Samsung, Xiaomi and similar phones, keep Android from stopping the syncs: <strong>Settings</strong> &gt; <strong>Apps</strong> &gt; <strong>Life Dashboard</strong> &gt; <strong>Battery</strong>, set to <strong>Unrestricted</strong>. On Samsung, also add <strong>Life Dashboard</strong> to <strong>Never sleeping apps</strong> under <strong>Settings</strong> &gt; <strong>Battery</strong> &gt; <strong>Background usage limits</strong>. Other brands are in the <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/usage.md#let-the-app-run-in-the-background">setup guide</a>.</li>
   <li>Tap <strong>Sync Now</strong>. The phone appears under <strong>Settings</strong> &gt; <strong>Devices &amp; services</strong> &gt; <strong>Life Dashboard</strong>.</li>
-  <li>For older data, tap <strong>Backfill</strong> and pick <strong>30d</strong>, <strong>90d</strong> or <strong>365d</strong>. Beyond 30 days before your first grant, tap <strong>Grant history access</strong> first.</li>
+  <li>For older data, tap <strong>Backfill</strong> and pick how far back, from <strong>30 days</strong> up to <strong>All history</strong>. Beyond 30 days before your first grant, tap <strong>Grant history access</strong> first.</li>
 </ol>
 
 <figure class="shot"><a class="shot-link" href="../img/A1-health.webp?v=0d989d3b" aria-label="The Health tab of the Android app, full size"><div class="phone " style="aspect-ratio: 720 / 1476"><img src="../img/A1-health.webp?v=0d989d3b" alt="The Health tab of the Android app" width="720" height="1476" loading="lazy"></div></a></figure>
@@ -295,7 +295,7 @@
   </details>
   <details>
     <summary>Does it work on an iPhone?</summary>
-    <p>Yes, with <a href="../ios/">Life Dashboard Companion for iPhone</a>, which reads Apple Health and sends to the same integration. It's on the App Store for €6.99 once, or you build it with Xcode for free.</p>
+    <p>Yes, with <a href="../ios/">Life Dashboard Companion for iPhone</a>, which reads Apple Health and sends to the same integration. It's on the App Store for €6.99 once, or you build it with Xcode if you have an Apple Developer Program membership.</p>
   </details>
   <details>
     <summary>Can Home Assistant send data to the phone?</summary>

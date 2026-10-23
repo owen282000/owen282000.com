@@ -236,7 +236,7 @@
     },
     {
       "q": "Can I use it next to Home Assistant?",
-      "a": "Yes, as a second home for the data, with two things to know. The Android app has one signing secret per tab (Health, Screen Time), the iPhone app one for all its webhooks. Pairing adds the receiver's URL and replaces that secret, and the dialog names the URLs that get signed with the new one, so pairing with the stack after Home Assistant gives Home Assistant payloads it refuses. Pair with Home Assistant, add the stack's webhook URL by hand, and set <code>WEBHOOK_SECRET</code> in the stack's <code>.env</code> to the same secret; or send one phone to each. A secret per destination is planned. And a payload counts as delivered once one destination takes it, so if the stack is down at that moment, it misses that payload."
+      "a": "Yes, as a second home for the data. Every address in the app has its own signing secret (Android from 1.28.0, iPhone from 1.10.0), and pairing sets the secret only for the address it adds, so pair with Home Assistant and with the stack and each keeps its own. One thing to know: a payload counts as delivered once one destination takes it, so if the stack is down at that moment, it misses that payload."
     },
     {
       "q": "How do I upgrade?",
