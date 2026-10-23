@@ -185,7 +185,7 @@
 <h2 id="what-you-need">What you need</h2>
 
 <ul>
-  <li>An iPhone with iOS 17 or newer, and <a href="../ios/">Life Dashboard Companion for iPhone</a>. It's on the App Store for €6.99 once (US$5.99), no subscription. Building it from source with Xcode on a Mac stays free.</li>
+  <li>An iPhone with iOS 17 or newer, and <a href="../ios/">Life Dashboard Companion for iPhone</a>. It's on the App Store for €6.99 once (US$5.99), no subscription. Building it from source with Xcode costs nothing extra if you already have an Apple Developer Program membership.</li>
   <li>A server that accepts a JSON POST. Use <code>https://</code>. iOS allows plain <code>http://</code> only to an IP address, a <code>.local</code> name or a name without a dot, meant for your own network.</li>
 </ul>
 
@@ -196,7 +196,7 @@
   <li>Optional: add an <code>Authorization</code> header or an API key as a custom header, and an <strong>HMAC Signing Secret</strong> that your server also knows.</li>
   <li>Tap <strong>Test ping</strong>. It sends a small payload with <code>"test": true</code> and no records. If your server is at home, allow <strong>Local Network</strong> when iOS asks.</li>
   <li>Switch on your types and allow Apple Health access. <strong>View</strong> shows the last 7 days as the payload would look, and <strong>Sync Now</strong> sends what's new. A type's first sync sends its last 7 days.</li>
-  <li>For older data, tap <strong>Backfill</strong> and pick 30, 90 or 365 days.</li>
+  <li>For older data, tap <strong>Backfill</strong> and pick how far back, from 30 days up to <strong>All history</strong>.</li>
 </ol>
 
 <figure class="shot"><a class="shot-link" href="../img/ios-mqtt.webp?v=89ecfcf9" aria-label="Webhook and MQTT settings in the iPhone app, full size"><div class="phone " style="aspect-ratio: 720 / 1464"><img src="../img/ios-mqtt.webp?v=89ecfcf9" alt="Webhook and MQTT settings in the iPhone app" width="720" height="1464" loading="lazy"></div></a></figure>
@@ -297,7 +297,7 @@ valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
 
 <h2 id="backfill">Backfill</h2>
 
-<p><strong>Backfill</strong> sends the last 30, 90 or 365 days in 3-day windows, oldest first, with the fields <code>backfill</code>, <code>window_start</code>, <code>window_end</code> and <code>window_complete</code>. The records are the ones a sync sends, <code>uuid</code> included, so the overlap deduplicates. <code>window_complete</code> is always <code>false</code> from an iPhone, because Apple Health doesn't tell an app which types it may not read. Backfill payloads go to webhooks only, never to MQTT or the queue.</p>
+<p><strong>Backfill</strong> sends the length you pick, from 30 days up to all history, in 3-day windows, oldest first, with the fields <code>backfill</code>, <code>window_start</code>, <code>window_end</code> and <code>window_complete</code>. The records are the ones a sync sends, <code>uuid</code> included, so the overlap deduplicates. <code>window_complete</code> is always <code>false</code> from an iPhone, because Apple Health doesn't tell an app which types it may not read. Backfill payloads go to webhooks only, never to MQTT or the queue.</p>
 
 <h2 id="receivers-that-work">Receivers that work</h2>
 

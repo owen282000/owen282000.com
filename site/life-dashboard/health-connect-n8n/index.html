@@ -181,7 +181,7 @@
 <h2 id="what-you-need">What you need</h2>
 
 <ul>
-  <li><a href="../android/">Life Dashboard Companion for Android</a> on Android 9 or newer with Health Connect, or <a href="../ios/">the iPhone app</a>. It's on the App Store for €6.99 once (US$5.99), no subscription. Building it from source with Xcode on a Mac stays free.</li>
+  <li><a href="../android/">Life Dashboard Companion for Android</a> on Android 9 or newer with Health Connect, or <a href="../ios/">the iPhone app</a>. It's on the App Store for €6.99 once (US$5.99), no subscription. Building it from source with Xcode costs nothing extra if you already have an Apple Developer Program membership.</li>
   <li>n8n, on n8n Cloud or self-hosted, reachable from the phone. Use HTTPS. Plain HTTP on your own network needs <strong>Allow plain HTTP webhooks</strong> under <strong>Advanced</strong> in the Android app; the iPhone app allows plain HTTP only to an IP address, a <code>.local</code> name or a name without a dot.</li>
   <li>Room for large requests. Allow at least 10 MB per request. n8n takes up to 16 MB by default, but a reverse proxy in front of it must allow that too: nginx allows 1 MB by default.</li>
   <li>The <code>crypto</code> module in the Code node. n8n Cloud provides it. On self-hosted n8n, set <code>NODE_FUNCTION_ALLOW_BUILTIN=crypto</code>, on the task runner if you run one.</li>
@@ -345,7 +345,7 @@ return (p?.daily_totals ?? []).map(d =&gt; ({ json: d }));</code></pre>
 <h2 id="limits">Limits</h2>
 
 <ul>
-  <li>n8n can't ask the phone for a date range. Start a backfill of 30, 90 or 365 days on the phone, under <strong>Backfill</strong> on the <strong>Health</strong> tab.</li>
+  <li>n8n can't ask the phone for a date range. Start a backfill on the phone, from 30 days up to <strong>All history</strong>, under <strong>Backfill</strong> on the <strong>Health</strong> tab.</li>
   <li>Because the 204 goes out first, two payloads can be stored at the same time. Payloads also carry a <code>sequence</code> that only goes up: <a href="../health-connect-webhook/#retries-outbox-and-deletions">Health Connect to a webhook</a> explains how to use it when order matters, such as for <code>daily_totals</code>.</li>
   <li>Screen time arrives as its own payload with <code>"source": "screen_time"</code> from the URLs on the <strong>Screen Time</strong> tab. It has no record <code>uuid</code>s, so the records node above skips it.</li>
 </ul>

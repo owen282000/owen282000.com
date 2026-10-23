@@ -214,7 +214,7 @@
   <li>Install <a href="../android/#get">Life Dashboard Companion</a>: open the free APK from GitHub on the phone and allow installs from your browser once, or add it in Obtainium. Android may warn you before it installs an APK from outside the Play Store; it does that for every app from another source. Open the app, and at <strong>Where should your data go?</strong>, tap <strong>Scan a code from Home Assistant</strong>, scan the code and tap <strong>Pair</strong>.</li>
   <li>On the <strong>Health</strong> tab, tap <strong>Grant</strong> and allow your data types and reading in the background. <strong>The essentials</strong> preset also turns on resting heart rate and active calories, which Samsung doesn't share, so they get no sensor. Under <strong>Data Types</strong>, switch on <strong>Exercise Sessions</strong>, <strong>Oxygen Saturation</strong>, <strong>Blood Pressure</strong>, <strong>Body Fat</strong> and whatever else from the table you want.</li>
   <li>Samsung phones stop background jobs to save battery. Go to <strong>Settings</strong> &gt; <strong>Apps</strong> &gt; <strong>Life Dashboard</strong> &gt; <strong>Battery</strong> and set it to <strong>Unrestricted</strong>. Then add <strong>Life Dashboard</strong> to <strong>Never sleeping apps</strong> under <strong>Settings</strong> &gt; <strong>Battery</strong> &gt; <strong>Background usage limits</strong>; on some versions that's under <strong>Device care</strong>.</li>
-  <li>Tap <strong>Sync Now</strong>. For older data, tap <strong>Backfill</strong> and pick <strong>30d</strong>, <strong>90d</strong> or <strong>365d</strong>, after <strong>Grant history access</strong> if the dialog shows it.</li>
+  <li>Tap <strong>Sync Now</strong>. For older data, tap <strong>Backfill</strong> and pick how far back, from <strong>30 days</strong> up to <strong>All history</strong>, after <strong>Grant history access</strong> if the dialog shows it.</li>
 </ol>
 
 <p>The <a href="../health-connect-home-assistant/">Health Connect guide for Home Assistant</a> covers the same pairing in more detail, plus putting a tile on your dashboard and MQTT as an alternative.</p>
@@ -243,7 +243,7 @@
 
 <ul>
   <li>Galaxy Watch data reaches Health Connect after it reaches the phone: when the watch reconnects, or when you open or pull down the Samsung Health home screen. Samsung holds back continuous heart rate for a while to save battery; a heart rate you measure by hand comes through right away. The app's next sync then picks it up, every 60 minutes by default and every 15 at the shortest.</li>
-  <li>Samsung only says that new or updated data goes to Health Connect once you connect the two. Whether your older Samsung Health history is there is up to Samsung; a 365d backfill shows how far back it goes.</li>
+  <li>Samsung only says that new or updated data goes to Health Connect once you connect the two. Whether your older Samsung Health history is there is up to Samsung; an <strong>All history</strong> backfill shows how far back it goes.</li>
   <li>Health Connect is part of Android, so this route needs an Android phone.</li>
   <li>A home network address only syncs at home. A public HTTPS address or Home Assistant Cloud works everywhere.</li>
 </ul>

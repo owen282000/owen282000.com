@@ -9,7 +9,7 @@ published: 2026-10-21
 
 <h1>How do I get Apple Health data into Home Assistant?</h1>
 
-<p>Install the Life Dashboard integration in Home Assistant from HACS and Life Dashboard Companion on your iPhone, then pair the two with the QR code the integration shows. Tap <strong>Sync Now</strong>, and your steps, heart rate, sleep, weight and workouts arrive as sensors. A backfill of 30, 90 or 365 days fills long-term statistics, each day on its own date.</p>
+<p>Install the Life Dashboard integration in Home Assistant from HACS and Life Dashboard Companion on your iPhone, then pair the two with the QR code the integration shows. Tap <strong>Sync Now</strong>, and your steps, heart rate, sleep, weight and workouts arrive as sensors. A backfill fills long-term statistics with the last year, each day on its own date.</p>
 
 <p>It works with whatever writes to Apple Health: the iPhone itself, an Apple Watch, and the apps of other watches, rings and scales that save their data there. Both parts are MIT licensed. There's no account and no Life Dashboard server: the iPhone posts straight to your Home Assistant, and the app only reads Apple Health, it never writes to it.</p>
 
@@ -35,7 +35,7 @@ published: 2026-10-21
   <li>When iOS asks for access to the local network, allow it. Without it, nothing reaches a Home Assistant at home.</li>
   <li>Pick your data types: the essentials, all 28, or none yet. Then allow Apple Health access. When a type is on that iOS hasn't asked about yet, the green banner on the <strong>Health</strong> tab shows <strong>Grant</strong>. iOS never tells an app whether you allowed reading, so a type you declined just sends nothing; change it in the Health app under your profile, <strong>Apps</strong>, <strong>Life Dashboard</strong>.</li>
   <li>Tap <strong>Sync Now</strong>. The iPhone appears under <strong>Settings</strong> &gt; <strong>Devices &amp; services</strong> &gt; <strong>Life Dashboard</strong>, with a sensor for each type it sent. A type's first sync sends its last 7 days.</li>
-  <li>For older data, tap <strong>Backfill</strong> on the <strong>Health</strong> tab and pick 30, 90 or 365 days. It runs while the app is open and the iPhone is unlocked, and keeps the screen on meanwhile. On iOS 26 it keeps going when you switch apps and shows its progress in the system UI.</li>
+  <li>For older data, tap <strong>Backfill</strong> on the <strong>Health</strong> tab and pick how far back, from 30 days up to <strong>All history</strong>; Home Assistant takes in about the last year for now. It runs while the app is open and the iPhone is unlocked, and keeps the screen on meanwhile. On iOS 26 it keeps going when you switch apps and shows its progress in the system UI.</li>
 </ol>
 
 <!-- IMG: Health tab (ios-health.png) -->
@@ -131,11 +131,11 @@ entities:
   </details>
   <details>
     <summary>Do I need iCloud or an Apple Developer account?</summary>
-    <p>No Apple Developer account for the App Store version: you buy it once, like any other app. The app reads Apple Health on the iPhone and posts straight to your Home Assistant. Building it yourself works with a free Apple Account, but then you run it from Xcode again every 7 days; a paid developer account signs it for a year.</p>
+    <p>No Apple Developer account for the App Store version: you buy it once, like any other app. The app reads Apple Health on the iPhone and posts straight to your Home Assistant. Building it yourself takes a Mac with Xcode and an Apple Developer Program membership, because a free Apple Account can't sign an app that reads Apple Health.</p>
   </details>
   <details>
     <summary>Do I get a year of history right away?</summary>
-    <p>Yes, if Apple Health holds it. Run <strong>Backfill</strong> with 365 days, and each day lands on its own date in long-term statistics. The sensors themselves only show the newest value.</p>
+    <p>Yes, if Apple Health holds it. Run <strong>Backfill</strong> with a year or more, and each day of the last year lands on its own date in long-term statistics. The sensors themselves only show the newest value.</p>
   </details>
   <details>
     <summary>I deleted a record in Apple Health. Does Home Assistant keep it?</summary>

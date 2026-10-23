@@ -182,7 +182,7 @@ return (p?.daily_totals ?? []).map(d =&gt; ({ json: d }));</code></pre>
 <h2>Limits</h2>
 
 <ul>
-  <li>n8n can't ask the phone for a date range. Start a backfill of 30, 90 or 365 days on the phone, under <strong>Backfill</strong> on the <strong>Health</strong> tab.</li>
+  <li>n8n can't ask the phone for a date range. Start a backfill on the phone, from 30 days up to <strong>All history</strong>, under <strong>Backfill</strong> on the <strong>Health</strong> tab.</li>
   <li>Because the 204 goes out first, two payloads can be stored at the same time. Payloads also carry a <code>sequence</code> that only goes up: <a href="../health-connect-webhook/#retries-outbox-and-deletions">Health Connect to a webhook</a> explains how to use it when order matters, such as for <code>daily_totals</code>.</li>
   <li>Screen time arrives as its own payload with <code>"source": "screen_time"</code> from the URLs on the <strong>Screen Time</strong> tab. It has no record <code>uuid</code>s, so the records node above skips it.</li>
 </ul>
