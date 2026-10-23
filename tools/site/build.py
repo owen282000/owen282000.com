@@ -97,9 +97,9 @@ PARTS = {
             {"id": "obtainium", "name": "Obtainium", "status": "live",
              "href": "https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/" + REPO,
              "note": "An app updater for GitHub apps: installs the same APK and keeps it up to date. Open this link on your phone."},
-            {"id": "fdroid", "name": "F-Droid", "status": "soon", "href": "https://f-droid.org/packages/com.owen282000.lifedashboard/",
+            {"id": "fdroid", "name": "F-Droid", "status": "live", "href": "https://f-droid.org/packages/com.owen282000.lifedashboard/",
              "soon_text": "F-Droid: accepted, the listing goes live with its next build",
-             "note": "Accepted by F-Droid: the listing goes live with F-Droid's next build."},
+             "note": "Built by F-Droid from the source and identical to the signed APK; the F-Droid app keeps it up to date."},
         ],
         "requires": "Android 9 or newer with Health Connect for health data; Android 8.0 or newer for screen time.",
     },
@@ -154,7 +154,7 @@ ORDER = ["android", "ios", "home-assistant", "grafana"]
 
 # One sentence per app about where to get it, used through {{status:android}} and {{status:ios}}.
 STATUS_TEXT = {
-    "android": "Today you install the signed APK from GitHub, or through Obtainium, which keeps it up to date. Google Play is in closed testing, and F-Droid has accepted the app: the listing goes live with F-Droid's next build.",
+    "android": "Today you install the signed APK from GitHub, or through Obtainium, which keeps it up to date. It's also on F-Droid, built by F-Droid from the source and identical to the signed APK. Google Play is in closed testing.",
     "ios": "It's on the App Store for €6.99 once (US$5.99), no subscription. Building it from source with Xcode on a Mac stays free.",
 }
 # Phrases that must be gone once a store is live (checked on every build).
