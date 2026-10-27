@@ -11,7 +11,7 @@
 <meta name="theme-color" content="#101418">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png?v=355467f5">
 <link rel="apple-touch-icon" href="../img/icon-180.png?v=e1842852">
-<link rel="stylesheet" href="../site.css?v=5df2e9db">
+<link rel="stylesheet" href="../site.css?v=1f2d16a7">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="How do I export Samsung Health data to my own server?">
@@ -43,7 +43,7 @@
         }
       ],
       "datePublished": "2026-10-06",
-      "dateModified": "2026-10-23",
+      "dateModified": "2026-10-27",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -148,7 +148,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Samsung Health to your own server</span></nav>
 <h1>How do I export Samsung Health data to my own server?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 23, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 27, 2026.</p>
 
 <p>Switch on Samsung Health's sync with Health Connect, then let Life Dashboard Companion, an open-source Android app, post the data to a URL you choose as JSON. Every sync sends the new Samsung Health and Galaxy Watch records to your database, n8n flow or script, and a backfill sends up to a year of what's in Health Connect.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="../android/#get">Get the Android app</a></p>
@@ -163,7 +163,7 @@
 
 <ul>
   <li>An Android phone with Android 9 or newer, Health Connect and Samsung Health. Pair your Galaxy Watch with Samsung Health for its data.</li>
-  <li><a href="../android/">Life Dashboard Companion for Android</a>. Today you install the signed APK from GitHub, or through Obtainium, which keeps it up to date. It's also on F-Droid, built by F-Droid from the source and identical to the signed APK. Google Play is in closed testing.</li>
+  <li><a href="../android/">Life Dashboard Companion for Android</a>. It's on Google Play for €4.99 once (US$4.99), no subscription: the easy way, with automatic updates, and buying it supports development. The free routes install the same app with the same signing key: the signed APK from GitHub, Obtainium, which keeps that APK up to date, and F-Droid, which builds it from the source.</li>
   <li>A server that accepts a JSON POST over HTTPS, with a body limit of at least 10 MB. Plain HTTP on your own network needs <strong>Allow plain HTTP webhooks</strong> under <strong>Advanced</strong>.</li>
 </ul>
 
@@ -269,8 +269,9 @@
       <div class="box cta">
         <h2>Life Dashboard Companion</h2>
         <p>The open-source Android app this guide uses. No account and no cloud. <a href="../android/">More about the app</a>.</p>
-        <a class="btn btn-primary btn-store" href="https://github.com/owen282000/life-dashboard-companion-app/releases/latest/download/app-release.apk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14"/></svg>Download the free APK</a>
-        <p class="aside-alt"><span class="soon-tag">Google Play: coming, as a paid listing of the same app</span> · <a class="nowrap" href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/owen282000/life-dashboard-companion-app">Obtainium</a> · <a class="nowrap" href="https://f-droid.org/packages/com.owen282000.lifedashboard/">F-Droid</a></p>
+        <a class="badge-link" href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-guide-samsung-health-export%26utm_medium%3Dwebsite"><img class="badge-img" src="../img/badges/google-play.png?v=a13294f3" alt="Get it on Google Play" width="564" height="168" loading="lazy"></a>
+        <p class="aside-alt">€4.99 once on Google Play: the easy way, with automatic updates, and it supports development.</p>
+        <p class="aside-alt">Or free, the same app with the same signing key: <a class="nowrap" href="https://github.com/owen282000/life-dashboard-companion-app/releases/latest/download/app-release.apk">APK on GitHub</a> · <a class="nowrap" href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/owen282000/life-dashboard-companion-app">Obtainium</a> · <a class="nowrap" href="https://f-droid.org/packages/com.owen282000.lifedashboard/">F-Droid</a></p>
       </div>
       <nav class="box" aria-label="Guides">
         <h2>Guides</h2>

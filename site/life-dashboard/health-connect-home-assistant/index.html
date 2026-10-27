@@ -11,7 +11,7 @@
 <meta name="theme-color" content="#101418">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png?v=355467f5">
 <link rel="apple-touch-icon" href="../img/icon-180.png?v=e1842852">
-<link rel="stylesheet" href="../site.css?v=5df2e9db">
+<link rel="stylesheet" href="../site.css?v=1f2d16a7">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="How do I get Health Connect data into Home Assistant?">
@@ -48,7 +48,7 @@
         }
       ],
       "datePublished": "2026-10-06",
-      "dateModified": "2026-10-23",
+      "dateModified": "2026-10-27",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -169,7 +169,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Health Connect in Home Assistant</span></nav>
 <h1>How do I get Health Connect data into Home Assistant?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 23, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 27, 2026.</p>
 
 <p>Install the Life Dashboard integration in Home Assistant and Life Dashboard Companion, an open-source Android app, on your phone, then pair the two with a QR code. Your watch's data then arrives as sensors, and every day is kept in long-term statistics.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in HACS</a></p>
@@ -184,7 +184,7 @@
   <li>Android 9 or newer. Health Connect is part of Android 14 and later; on Android 9 through 13 it comes from Google Play.</li>
   <li>An app that writes into Health Connect, such as Samsung Health, Garmin Connect or Google Health. Garmin Connect only does this on Android 14 or newer.</li>
   <li>Home Assistant 2026.3 or newer, with <a href="https://hacs.xyz">HACS</a>, for the <a href="../home-assistant/">Life Dashboard integration</a>.</li>
-  <li><a href="../android/">Life Dashboard Companion for Android</a>. The <a href="../android/#get">install options</a> list GitHub Releases and Obtainium, and the store listings that are on the way.</li>
+  <li><a href="../android/">Life Dashboard Companion for Android</a>. On <a href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-guide-health-connect-home-assistant%26utm_medium%3Dwebsite">Google Play</a> for €4.99 once, or free from GitHub Releases, Obtainium or F-Droid; the <a href="../android/#get">install options</a> list every route.</li>
 </ul>
 
 <p>Plan on 15 to 30 minutes the first time, most of it in Home Assistant. Set up Home Assistant first: the app's setup scans the QR code the integration shows.</p>
@@ -196,7 +196,7 @@
   <li>Go to <strong>Settings</strong> &gt; <strong>Devices &amp; services</strong> &gt; <strong>Add integration</strong>, search for <strong>Life Dashboard</strong> and name the phone. Check the <strong>Home Assistant address</strong> field: it holds the address the phone sends to. Use Home Assistant's IP address, such as <code>http://192.168.1.20:8123</code>, not <code>homeassistant.local</code>, which Android often can't resolve. Home Assistant shows its IP address under <strong>Settings</strong> &gt; <strong>System</strong> &gt; <strong>Network</strong>, in the <strong>Network adapter</strong> section. Plain <code>http://</code> isn't encrypted. On your own home Wi-Fi that's fine; on any network you don't fully trust, use HTTPS or Home Assistant Cloud instead. The dialog then shows a QR code.
   <figure class="shot wide"><a class="shot-link" href="../img/H2-qr.webp?v=abb2ed19" aria-label="The Life Dashboard integration in Home Assistant showing a pairing QR code, full size"><img src="../img/H2-qr.webp?v=abb2ed19" alt="The Life Dashboard integration in Home Assistant showing a pairing QR code" width="800" height="668" loading="lazy"></a></figure></li>
   <li>Let your watch's app write to Health Connect. In Samsung Health that's <strong>Settings</strong> &gt; <strong>Health Connect</strong>: tap <strong>Get started</strong>, choose the data and tap <strong>Allow</strong>. The table below has the path for other apps.</li>
-  <li>Install and open <a href="../android/#get">Life Dashboard Companion</a> on the phone. Android may warn you before it installs an APK from outside the Play Store: it does that for every app from another source, and every release is signed with the same key and carries a build attestation (<a href="../android/#get">install options</a>). At <strong>Where should your data go?</strong>, tap <strong>Scan a code from Home Assistant</strong>, scan the code and tap <strong>Pair</strong>. A test ping confirms the connection.
+  <li>Install and open <a href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-guide-health-connect-home-assistant%26utm_medium%3Dwebsite">Life Dashboard Companion from Google Play</a> on the phone. If you install the free APK instead, Android may warn you before it installs an APK from outside the Play Store: it does that for every app from another source, and every release is signed with the same key and carries a build attestation (<a href="../android/#get">install options</a>). At <strong>Where should your data go?</strong>, tap <strong>Scan a code from Home Assistant</strong>, scan the code and tap <strong>Pair</strong>. A test ping confirms the connection.
   <figure class="shot"><a class="shot-link" href="../img/A2-pair.webp?v=21c8d060" aria-label="The Pair with a receiver dialog in the Android app, full size"><div class="phone " style="aspect-ratio: 720 / 1540"><img src="../img/A2-pair.webp?v=21c8d060" alt="The Pair with a receiver dialog in the Android app" width="720" height="1540" loading="lazy"></div></a></figure></li>
   <li>On the <strong>Health</strong> tab, tap <strong>Grant</strong>, allow your data types, and allow reading in the background for scheduled syncs. The setup's <strong>The essentials</strong> preset turns on steps, sleep, heart rate, resting heart rate, distance, calories and weight; switch on any other type under <strong>Data Types</strong>. Samsung Health and Garmin Connect don't share resting heart rate or HRV with Health Connect, so with those watches those sensors never appear; the <a href="#your-watch-s-app-and-health-connect">table below</a> lists what each app keeps.</li>
   <li>On Samsung, Xiaomi and similar phones, keep Android from stopping the syncs: <strong>Settings</strong> &gt; <strong>Apps</strong> &gt; <strong>Life Dashboard</strong> &gt; <strong>Battery</strong>, set to <strong>Unrestricted</strong>. On Samsung, also add <strong>Life Dashboard</strong> to <strong>Never sleeping apps</strong> under <strong>Settings</strong> &gt; <strong>Battery</strong> &gt; <strong>Background usage limits</strong>. Other brands are in the <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/usage.md#let-the-app-run-in-the-background">setup guide</a>.</li>
@@ -307,8 +307,9 @@
       <div class="box cta">
         <h2>Life Dashboard Companion</h2>
         <p>The open-source Android app this guide uses. No account and no cloud. <a href="../android/">More about the app</a>.</p>
-        <a class="btn btn-primary btn-store" href="https://github.com/owen282000/life-dashboard-companion-app/releases/latest/download/app-release.apk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14"/></svg>Download the free APK</a>
-        <p class="aside-alt"><span class="soon-tag">Google Play: coming, as a paid listing of the same app</span> · <a class="nowrap" href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/owen282000/life-dashboard-companion-app">Obtainium</a> · <a class="nowrap" href="https://f-droid.org/packages/com.owen282000.lifedashboard/">F-Droid</a></p>
+        <a class="badge-link" href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-guide-health-connect-home-assistant%26utm_medium%3Dwebsite"><img class="badge-img" src="../img/badges/google-play.png?v=a13294f3" alt="Get it on Google Play" width="564" height="168" loading="lazy"></a>
+        <p class="aside-alt">€4.99 once on Google Play: the easy way, with automatic updates, and it supports development.</p>
+        <p class="aside-alt">Or free, the same app with the same signing key: <a class="nowrap" href="https://github.com/owen282000/life-dashboard-companion-app/releases/latest/download/app-release.apk">APK on GitHub</a> · <a class="nowrap" href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/owen282000/life-dashboard-companion-app">Obtainium</a> · <a class="nowrap" href="https://f-droid.org/packages/com.owen282000.lifedashboard/">F-Droid</a></p>
       </div>
       <nav class="box" aria-label="Guides">
         <h2>Guides</h2>

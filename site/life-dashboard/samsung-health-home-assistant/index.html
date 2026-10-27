@@ -11,7 +11,7 @@
 <meta name="theme-color" content="#101418">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png?v=355467f5">
 <link rel="apple-touch-icon" href="../img/icon-180.png?v=e1842852">
-<link rel="stylesheet" href="../site.css?v=5df2e9db">
+<link rel="stylesheet" href="../site.css?v=1f2d16a7">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="How do I get Samsung Health and Galaxy Watch data into Home Assistant?">
@@ -48,7 +48,7 @@
         }
       ],
       "datePublished": "2026-10-14",
-      "dateModified": "2026-10-23",
+      "dateModified": "2026-10-27",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -169,7 +169,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Samsung Health and Galaxy Watch in Home Assistant</span></nav>
 <h1>How do I get Samsung Health and Galaxy Watch data into Home Assistant?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 23, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 27, 2026.</p>
 
 <p>Switch on Samsung Health's sync with Health Connect on your Android phone, then let Life Dashboard Companion, an open-source Android app, send that data to the Life Dashboard integration in Home Assistant. Steps, sleep, heart rate, workouts and body measurements from your Galaxy Watch become sensors, and every day is kept in long-term statistics. Home Assistant never needs your Samsung account.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in HACS</a></p>
@@ -201,7 +201,7 @@
 <ul>
   <li>An Android phone with Android 9 or newer and Samsung Health, with your Galaxy Watch paired. Health Connect is built into Android 14 and later; on older versions, Samsung Health asks you to install it.</li>
   <li>Home Assistant 2026.3 or newer, with <a href="https://hacs.xyz">HACS</a>, for the <a href="../home-assistant/">Life Dashboard integration</a>. The workout sensors need version 0.10.0 or newer.</li>
-  <li><a href="../android/">Life Dashboard Companion for Android</a>. Today you install the signed APK from GitHub, or through Obtainium, which keeps it up to date. It's also on F-Droid, built by F-Droid from the source and identical to the signed APK. Google Play is in closed testing.</li>
+  <li><a href="../android/">Life Dashboard Companion for Android</a>. It's on Google Play for €4.99 once (US$4.99), no subscription: the easy way, with automatic updates, and buying it supports development. The free routes install the same app with the same signing key: the signed APK from GitHub, Obtainium, which keeps that APK up to date, and F-Droid, which builds it from the source.</li>
 </ul>
 
 <h2 id="set-it-up">Set it up</h2>
@@ -211,7 +211,7 @@
   <li>In HACS, search for <strong>Life Dashboard</strong>, download it and restart Home Assistant.</li>
   <li>Go to <strong>Settings</strong> &gt; <strong>Devices &amp; services</strong> &gt; <strong>Add integration</strong>, search for <strong>Life Dashboard</strong> and name the phone. In the <strong>Home Assistant address</strong> field, use Home Assistant's IP address, such as <code>http://192.168.1.20:8123</code>. You find it under <strong>Settings</strong> &gt; <strong>System</strong> &gt; <strong>Network</strong>, in the <strong>Network adapter</strong> section. The dialog then shows a QR code.
   <figure class="shot wide"><a class="shot-link" href="../img/H2-qr.webp?v=abb2ed19" aria-label="The Life Dashboard integration in Home Assistant showing a pairing QR code, full size"><img src="../img/H2-qr.webp?v=abb2ed19" alt="The Life Dashboard integration in Home Assistant showing a pairing QR code" width="800" height="668" loading="lazy"></a></figure></li>
-  <li>Install <a href="../android/#get">Life Dashboard Companion</a>: open the free APK from GitHub on the phone and allow installs from your browser once, or add it in Obtainium. Android may warn you before it installs an APK from outside the Play Store; it does that for every app from another source. Open the app, and at <strong>Where should your data go?</strong>, tap <strong>Scan a code from Home Assistant</strong>, scan the code and tap <strong>Pair</strong>.</li>
+  <li>Install <a href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-guide-samsung-health-home-assistant%26utm_medium%3Dwebsite">Life Dashboard Companion from Google Play</a>, €4.99 once, which keeps it up to date. Or install it free, the same app with the same signing key: open the APK from GitHub on the phone and allow installs from your browser once, or add it in Obtainium or F-Droid (<a href="../android/#get">install options</a>). Android may warn you before it installs an APK from outside the Play Store; it does that for every app from another source. Open the app, and at <strong>Where should your data go?</strong>, tap <strong>Scan a code from Home Assistant</strong>, scan the code and tap <strong>Pair</strong>.</li>
   <li>On the <strong>Health</strong> tab, tap <strong>Grant</strong> and allow your data types and reading in the background. <strong>The essentials</strong> preset also turns on resting heart rate and active calories, which Samsung doesn't share, so they get no sensor. Under <strong>Data Types</strong>, switch on <strong>Exercise Sessions</strong>, <strong>Oxygen Saturation</strong>, <strong>Blood Pressure</strong>, <strong>Body Fat</strong> and whatever else from the table you want.</li>
   <li>Samsung phones stop background jobs to save battery. Go to <strong>Settings</strong> &gt; <strong>Apps</strong> &gt; <strong>Life Dashboard</strong> &gt; <strong>Battery</strong> and set it to <strong>Unrestricted</strong>. Then add <strong>Life Dashboard</strong> to <strong>Never sleeping apps</strong> under <strong>Settings</strong> &gt; <strong>Battery</strong> &gt; <strong>Background usage limits</strong>; on some versions that's under <strong>Device care</strong>.</li>
   <li>Tap <strong>Sync Now</strong>. For older data, tap <strong>Backfill</strong> and pick how far back, from <strong>30 days</strong> up to <strong>All history</strong>, after <strong>Grant history access</strong> if the dialog shows it.</li>
@@ -282,8 +282,9 @@
       <div class="box cta">
         <h2>Life Dashboard Companion</h2>
         <p>The open-source Android app this guide uses. No account and no cloud. <a href="../android/">More about the app</a>.</p>
-        <a class="btn btn-primary btn-store" href="https://github.com/owen282000/life-dashboard-companion-app/releases/latest/download/app-release.apk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14"/></svg>Download the free APK</a>
-        <p class="aside-alt"><span class="soon-tag">Google Play: coming, as a paid listing of the same app</span> · <a class="nowrap" href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/owen282000/life-dashboard-companion-app">Obtainium</a> · <a class="nowrap" href="https://f-droid.org/packages/com.owen282000.lifedashboard/">F-Droid</a></p>
+        <a class="badge-link" href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-guide-samsung-health-home-assistant%26utm_medium%3Dwebsite"><img class="badge-img" src="../img/badges/google-play.png?v=a13294f3" alt="Get it on Google Play" width="564" height="168" loading="lazy"></a>
+        <p class="aside-alt">€4.99 once on Google Play: the easy way, with automatic updates, and it supports development.</p>
+        <p class="aside-alt">Or free, the same app with the same signing key: <a class="nowrap" href="https://github.com/owen282000/life-dashboard-companion-app/releases/latest/download/app-release.apk">APK on GitHub</a> · <a class="nowrap" href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/owen282000/life-dashboard-companion-app">Obtainium</a> · <a class="nowrap" href="https://f-droid.org/packages/com.owen282000.lifedashboard/">F-Droid</a></p>
       </div>
       <nav class="box" aria-label="Guides">
         <h2>Guides</h2>

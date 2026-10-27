@@ -11,7 +11,7 @@
 <meta name="theme-color" content="#101418">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png?v=355467f5">
 <link rel="apple-touch-icon" href="../img/icon-180.png?v=e1842852">
-<link rel="stylesheet" href="../site.css?v=5df2e9db">
+<link rel="stylesheet" href="../site.css?v=1f2d16a7">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="How do I get Android screen time per app into Home Assistant?">
@@ -48,7 +48,7 @@
         }
       ],
       "datePublished": "2026-10-06",
-      "dateModified": "2026-10-06",
+      "dateModified": "2026-10-27",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -161,7 +161,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Screen time in Home Assistant</span></nav>
 <h1>How do I get Android screen time per app into Home Assistant?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 6, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 27, 2026.</p>
 
 <p>Life Dashboard Companion, an open-source Android app, reads Android's usage statistics, the same numbers Digital Wellbeing shows, and sends the minutes per app to Home Assistant on a schedule. With the Life Dashboard integration you get today's and yesterday's screen time, the most used app, the top five apps, a sensor per app if you want one, and every day in long-term statistics. Over MQTT you get the same totals without the sensors per app. Automations can then warn you when you pass a limit you set yourself.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="../android/#get">Get the Android app</a></p>
@@ -170,7 +170,7 @@
 
 <ul>
   <li>An Android phone or tablet with Android 8.0 or newer. Health Connect isn't needed.</li>
-  <li><a href="../android/">Life Dashboard Companion for Android</a>, from GitHub Releases or Obtainium. The <a href="../android/#get">install options</a> list every source.</li>
+  <li><a href="../android/">Life Dashboard Companion for Android</a>, from <a href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-guide-screen-time-home-assistant%26utm_medium%3Dwebsite">Google Play</a> for €4.99 once, or free from GitHub Releases, Obtainium or F-Droid. The <a href="../android/#get">install options</a> list every route.</li>
   <li>Home Assistant with the <a href="../home-assistant/">Life Dashboard integration</a>, paired as in the <a href="../health-connect-home-assistant/">Health Connect guide</a>, or an MQTT broker that Home Assistant uses. The sensors per app need integration 0.9.0 or newer.</li>
 </ul>
 
@@ -275,8 +275,9 @@ actions:
       <div class="box cta">
         <h2>Life Dashboard Companion</h2>
         <p>The open-source Android app this guide uses. No account and no cloud. <a href="../android/">More about the app</a>.</p>
-        <a class="btn btn-primary btn-store" href="https://github.com/owen282000/life-dashboard-companion-app/releases/latest/download/app-release.apk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14"/></svg>Download the free APK</a>
-        <p class="aside-alt"><span class="soon-tag">Google Play: coming, as a paid listing of the same app</span> · <a class="nowrap" href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/owen282000/life-dashboard-companion-app">Obtainium</a> · <a class="nowrap" href="https://f-droid.org/packages/com.owen282000.lifedashboard/">F-Droid</a></p>
+        <a class="badge-link" href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-guide-screen-time-home-assistant%26utm_medium%3Dwebsite"><img class="badge-img" src="../img/badges/google-play.png?v=a13294f3" alt="Get it on Google Play" width="564" height="168" loading="lazy"></a>
+        <p class="aside-alt">€4.99 once on Google Play: the easy way, with automatic updates, and it supports development.</p>
+        <p class="aside-alt">Or free, the same app with the same signing key: <a class="nowrap" href="https://github.com/owen282000/life-dashboard-companion-app/releases/latest/download/app-release.apk">APK on GitHub</a> · <a class="nowrap" href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/owen282000/life-dashboard-companion-app">Obtainium</a> · <a class="nowrap" href="https://f-droid.org/packages/com.owen282000.lifedashboard/">F-Droid</a></p>
       </div>
       <nav class="box" aria-label="Guides">
         <h2>Guides</h2>

@@ -19,7 +19,7 @@
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="icon" type="image/png" sizes="32x32" href="img/icon-32.png?v=355467f5">
 <link rel="apple-touch-icon" href="img/icon-180.png?v=e1842852">
-<link rel="stylesheet" href="site.css?v=5df2e9db">
+<link rel="stylesheet" href="site.css?v=1f2d16a7">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="Life Dashboard: your phone's health data, on your own server">
@@ -111,14 +111,23 @@
         "@id": "https://owen282000.com/life-dashboard/#owen"
       },
       "sameAs": [
-        "https://github.com/owen282000/life-dashboard-companion-app"
+        "https://github.com/owen282000/life-dashboard-companion-app",
+        "https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard"
       ],
       "screenshot": "https://owen282000.com/life-dashboard/img/A1-health.webp",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "EUR"
-      }
+      "offers": [
+        {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "EUR"
+        },
+        {
+          "@type": "Offer",
+          "price": "4.99",
+          "priceCurrency": "EUR",
+          "url": "https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard"
+        }
+      ]
     },
     {
       "@type": "SoftwareApplication",
@@ -267,7 +276,7 @@
           "name": "What does it cost?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The code of all four parts is MIT licensed and free. The signed APK on GitHub is free, Obtainium installs that same APK, and the F-Droid build will be free once it's listed. The Google Play version will be a paid listing of the same app, built from the same source and signed with the same key, for people who'd rather install from Play and want to support the project that way. The iPhone app works the same way: building it yourself with Xcode is free, and the App Store version is the paid convenience, €6.99 once (US$5.99), with no subscription."
+            "text": "The code of all four parts is MIT licensed and free. On Android, Google Play is the easy way: €4.99 once (US$4.99), no subscription, with automatic updates, and buying it supports development. The free routes stay free: the signed APK on GitHub, Obtainium, which installs that same APK, and F-Droid. All of them are the same app, built from the same source and signed with the same key. The iPhone app works the same way: building it yourself with Xcode is free, and the App Store version is the paid convenience, €6.99 once (US$5.99), with no subscription."
           }
         },
         {
@@ -360,12 +369,10 @@
       <div class="hero-stores">
 <!-- BUILD:hero-stores -->
 <div class="cta-row stores">
-        <a class="btn btn-primary btn-store" href="#get">Install today</a>
-        <a class="btn btn-ghost btn-store" href="grafana/#dashboards">See the demo dashboards</a>
         <a class="badge-link" href="https://apps.apple.com/app/life-dashboard-companion/id6824075761"><img class="badge-img" src="img/badges/app-store.svg?v=a26fc5b3" alt="Download on the App Store" width="120" height="40" loading="lazy"></a>
+        <a class="badge-link" href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-landing%26utm_medium%3Dwebsite"><img class="badge-img" src="img/badges/google-play.png?v=a13294f3" alt="Get it on Google Play" width="564" height="168" loading="lazy"></a>
       </div>
-      <div class="badges"><span class="badge-soon"><img class="badge-img" src="img/badges/google-play.png?v=a13294f3" alt="Get it on Google Play" width="564" height="168" loading="lazy"><small><b>Coming soon.</b> <span>Closed testing</span></small></span></div>
-      <ul class="install-paths"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg><span><b>Android</b> Free APK today. Google Play (paid) is coming.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg><span><b>iPhone</b> On the App Store, €6.99 once. Or <a href="ios/#building">build it with Xcode</a> on a Mac with an Apple Developer Program membership.</span></li></ul>
+      <ul class="install-paths"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg><span><b>Android</b> €4.99 once on Google Play: the easy way, with automatic updates, and it supports development. Or free, the same app with the same signing key: <a href="android/#get">the APK on GitHub, Obtainium or F&#8209;Droid</a>.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg><span><b>iPhone</b> On the App Store, €6.99 once. Or <a href="ios/#building">build it with Xcode</a> on a Mac with an Apple Developer Program membership.</span></li></ul>
 <!-- /BUILD:hero-stores -->
       </div>
     </div>
@@ -569,7 +576,7 @@
 <div class="section-head">
       <h2>Other open-source projects build on it</h2>
     </div>
-    <ul class="proof-facts"><li><b>87</b> stars on GitHub across the four repos</li><li><b>6</b> contributors</li><li><b>49</b> Android releases since February 2026</li><li><b>4</b> parts, all MIT licensed</li></ul>
+    <ul class="proof-facts"><li><b>98</b> stars on GitHub across the four repos</li><li><b>6</b> contributors</li><li><b>50</b> Android releases since February 2026</li><li><b>4</b> parts, all MIT licensed</li></ul>
     <p class="stats-note">Live from GitHub, updated every hour.</p>
     <div class="family">
       <a class="part proj" href="https://github.com/health-assistant-io/health-assistant"><span class="tag">Built on it</span><h3>Health Assistant</h3><p>A self-hosted health record. Its webhook integration has a parser for the Life Dashboard payload and calls the app “Highly Recommended for Android Users”.</p><span class="go">On GitHub</span></a>
@@ -625,7 +632,9 @@
     <div class="get-grid">
       <article class="get-card compact" id="get-android">
         <header><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span><div><h3><a href="android/">Life Dashboard Companion for Android</a></h3><p>Android 8.0 or newer; health data from Android 9.</p></div></header>
-        <div class="badge-rows"><div class="badges"><a class="badge-link" href="https://github.com/owen282000/life-dashboard-companion-app/releases/latest"><img class="badge-img" src="img/badges/github.svg?v=fabc4112" alt="Get it on GitHub" width="564" height="168" loading="lazy"></a><a class="badge-link" href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/owen282000/life-dashboard-companion-app"><img class="badge-img" src="img/badges/obtainium.png?v=0c4760d6" alt="Get it on Obtainium" width="564" height="168" loading="lazy"></a><a class="badge-link" href="https://f-droid.org/packages/com.owen282000.lifedashboard/"><img class="badge-img" src="img/badges/f-droid.svg?v=0cb07fbf" alt="Get it on F-Droid" width="564" height="168" loading="lazy"></a></div><div class="badges"><span class="badge-soon"><img class="badge-img" src="img/badges/google-play.png?v=a13294f3" alt="Get it on Google Play" width="564" height="168" loading="lazy"><small><b>Coming soon.</b> <span>Closed testing</span></small></span></div></div>
+        <div class="badges"><a class="badge-link" href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-landing%26utm_medium%3Dwebsite"><img class="badge-img" src="img/badges/google-play.png?v=a13294f3" alt="Get it on Google Play" width="564" height="168" loading="lazy"></a></div>
+        <p class="get-alt">€4.99 once on Google Play: the easy way, with automatic updates, and it supports development. Or free, the same app with the same signing key:</p>
+        <div class="badges"><a class="badge-link" href="https://github.com/owen282000/life-dashboard-companion-app/releases/latest"><img class="badge-img" src="img/badges/github.svg?v=fabc4112" alt="Get it on GitHub" width="564" height="168" loading="lazy"></a><a class="badge-link" href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/owen282000/life-dashboard-companion-app"><img class="badge-img" src="img/badges/obtainium.png?v=0c4760d6" alt="Get it on Obtainium" width="564" height="168" loading="lazy"></a><a class="badge-link" href="https://f-droid.org/packages/com.owen282000.lifedashboard/"><img class="badge-img" src="img/badges/f-droid.svg?v=0cb07fbf" alt="Get it on F-Droid" width="564" height="168" loading="lazy"></a></div>
       </article>
       <article class="get-card compact" id="get-ios">
         <header><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg></span><div><h3><a href="ios/">Life Dashboard Companion for iPhone</a></h3><p>iOS 17 or newer. On the App Store, or build it yourself on a Mac.</p></div></header>
@@ -690,7 +699,7 @@
       </details>
       <details>
         <summary>What does it cost?</summary>
-        <p>The code of all four parts is MIT licensed and free. The signed APK on GitHub is free, Obtainium installs that same APK, and the F-Droid build will be free once it's listed. The Google Play version will be a paid listing of the same app, built from the same source and signed with the same key, for people who'd rather install from Play and want to support the project that way. The iPhone app works the same way: building it yourself with Xcode is free, and the App Store version is the paid convenience, €6.99 once (US$5.99), with no subscription.</p>
+        <p>The code of all four parts is MIT licensed and free. On Android, <a href="#get-android">Google Play</a> is the easy way: €4.99 once (US$4.99), no subscription, with automatic updates, and buying it supports development. The free routes stay free: the signed APK on GitHub, Obtainium, which installs that same APK, and F-Droid. All of them are the same app, built from the same source and signed with the same key. The iPhone app works the same way: building it yourself with Xcode is free, and the App Store version is the paid convenience, €6.99 once (US$5.99), with no subscription.</p>
       </details>
       <details>
         <summary>What do these words mean?</summary>
@@ -727,12 +736,10 @@
     <div class="final-stores">
 <!-- BUILD:hero-stores -->
 <div class="cta-row stores">
-        <a class="btn btn-primary btn-store" href="#get">Install today</a>
-        <a class="btn btn-ghost btn-store" href="grafana/#dashboards">See the demo dashboards</a>
         <a class="badge-link" href="https://apps.apple.com/app/life-dashboard-companion/id6824075761"><img class="badge-img" src="img/badges/app-store.svg?v=a26fc5b3" alt="Download on the App Store" width="120" height="40" loading="lazy"></a>
+        <a class="badge-link" href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-landing%26utm_medium%3Dwebsite"><img class="badge-img" src="img/badges/google-play.png?v=a13294f3" alt="Get it on Google Play" width="564" height="168" loading="lazy"></a>
       </div>
-      <div class="badges"><span class="badge-soon"><img class="badge-img" src="img/badges/google-play.png?v=a13294f3" alt="Get it on Google Play" width="564" height="168" loading="lazy"><small><b>Coming soon.</b> <span>Closed testing</span></small></span></div>
-      <ul class="install-paths"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg><span><b>Android</b> Free APK today. Google Play (paid) is coming.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg><span><b>iPhone</b> On the App Store, €6.99 once. Or <a href="ios/#building">build it with Xcode</a> on a Mac with an Apple Developer Program membership.</span></li></ul>
+      <ul class="install-paths"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg><span><b>Android</b> €4.99 once on Google Play: the easy way, with automatic updates, and it supports development. Or free, the same app with the same signing key: <a href="android/#get">the APK on GitHub, Obtainium or F&#8209;Droid</a>.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg><span><b>iPhone</b> On the App Store, €6.99 once. Or <a href="ios/#building">build it with Xcode</a> on a Mac with an Apple Developer Program membership.</span></li></ul>
 <!-- /BUILD:hero-stores -->
     </div>
     <p class="fineprint">Source, issues and <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">discussions</a> on <a href="https://github.com/owen282000/life-dashboard-companion-app">GitHub</a>. New versions in the <a href="https://github.com/owen282000/life-dashboard-companion-app/releases.atom">release feed</a>.</p>

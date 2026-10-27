@@ -11,7 +11,7 @@
 <meta name="theme-color" content="#101418">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png?v=355467f5">
 <link rel="apple-touch-icon" href="../img/icon-180.png?v=e1842852">
-<link rel="stylesheet" href="../site.css?v=5df2e9db">
+<link rel="stylesheet" href="../site.css?v=1f2d16a7">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="Is the Home Assistant companion app enough for Health Connect data?">
@@ -48,7 +48,7 @@
         }
       ],
       "datePublished": "2026-10-14",
-      "dateModified": "2026-10-23",
+      "dateModified": "2026-10-27",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -169,7 +169,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">The companion app and Health Connect</span></nav>
 <h1>Is the Home Assistant companion app enough for Health Connect data?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 23, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 27, 2026.</p>
 
 <p>For the latest value, yes. The Android companion app has 26 Health Connect sensors, each with the newest reading or today's total. It has no way to load older data, it files a value at the moment the sensor updates rather than on the day it belongs to, and it doesn't write into Health Connect. Life Dashboard reads 33 types and adds a backfill of up to a year on the right dates, scale and blood pressure readings written back, and screen time per app. The two run side by side.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in HACS</a></p>
@@ -265,7 +265,7 @@
 
 <p>The two don't get in each other's way. Each reads Health Connect with its own permission, and Home Assistant shows them as separate devices. Keep the companion app for presence, notifications and device sensors. If you add Life Dashboard for health data, you can switch off the companion app's Health Connect sensors under <strong>Manage Sensors</strong> so you don't see every value twice.</p>
 
-<p>To add Life Dashboard you need Home Assistant 2026.3 or newer with <a href="https://hacs.xyz">HACS</a>, and <a href="../android/">Life Dashboard Companion for Android</a>. Today you install the signed APK from GitHub, or through Obtainium, which keeps it up to date. It's also on F-Droid, built by F-Droid from the source and identical to the signed APK. Google Play is in closed testing. The <a href="../health-connect-home-assistant/">Health Connect guide for Home Assistant</a> has every step, from the QR code to a tile on your dashboard.</p>
+<p>To add Life Dashboard you need Home Assistant 2026.3 or newer with <a href="https://hacs.xyz">HACS</a>, and <a href="../android/">Life Dashboard Companion for Android</a>. It's on Google Play for €4.99 once (US$4.99), no subscription: the easy way, with automatic updates, and buying it supports development. The free routes install the same app with the same signing key: the signed APK from GitHub, Obtainium, which keeps that APK up to date, and F-Droid, which builds it from the source. The <a href="../health-connect-home-assistant/">Health Connect guide for Home Assistant</a> has every step, from the QR code to a tile on your dashboard.</p>
 
 <figure class="shot wide"><a class="shot-link" href="../img/H2-qr.webp?v=abb2ed19" aria-label="The Life Dashboard integration in Home Assistant showing a pairing QR code, full size"><img src="../img/H2-qr.webp?v=abb2ed19" alt="The Life Dashboard integration in Home Assistant showing a pairing QR code" width="800" height="668" loading="lazy"></a></figure>
 
@@ -313,8 +313,9 @@
       <div class="box cta">
         <h2>Life Dashboard Companion</h2>
         <p>The open-source Android app this guide uses. No account and no cloud. <a href="../android/">More about the app</a>.</p>
-        <a class="btn btn-primary btn-store" href="https://github.com/owen282000/life-dashboard-companion-app/releases/latest/download/app-release.apk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14"/></svg>Download the free APK</a>
-        <p class="aside-alt"><span class="soon-tag">Google Play: coming, as a paid listing of the same app</span> · <a class="nowrap" href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/owen282000/life-dashboard-companion-app">Obtainium</a> · <a class="nowrap" href="https://f-droid.org/packages/com.owen282000.lifedashboard/">F-Droid</a></p>
+        <a class="badge-link" href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-guide-companion-app-health-connect%26utm_medium%3Dwebsite"><img class="badge-img" src="../img/badges/google-play.png?v=a13294f3" alt="Get it on Google Play" width="564" height="168" loading="lazy"></a>
+        <p class="aside-alt">€4.99 once on Google Play: the easy way, with automatic updates, and it supports development.</p>
+        <p class="aside-alt">Or free, the same app with the same signing key: <a class="nowrap" href="https://github.com/owen282000/life-dashboard-companion-app/releases/latest/download/app-release.apk">APK on GitHub</a> · <a class="nowrap" href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/owen282000/life-dashboard-companion-app">Obtainium</a> · <a class="nowrap" href="https://f-droid.org/packages/com.owen282000.lifedashboard/">F-Droid</a></p>
       </div>
       <nav class="box" aria-label="Guides">
         <h2>Guides</h2>
