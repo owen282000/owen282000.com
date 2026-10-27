@@ -61,11 +61,15 @@ BASE = DOMAIN + "life-dashboard/"
 UPDATED = "2026-10-06"
 MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September",
           "October", "November", "December"]
+MONATE = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September",
+          "Oktober", "November", "Dezember"]
 
 
-def date_text(iso):
-    """2026-10-12 as October 12, 2026, for the byline."""
+def date_text(iso, lang="en"):
+    """2026-10-12 as October 12, 2026 (or 12. Oktober 2026), for the byline."""
     y, m, d = (int(x) for x in iso.split("-"))
+    if lang == "de":
+        return f"{d}. {MONATE[m - 1]} {y}"
     return f"{MONTHS[m - 1]} {d}, {y}"
 
 
@@ -290,7 +294,49 @@ GUIDE_ABOUT = {
     "apple-health-webhook": ["#ios", "#stack"],
     "apple-health-n8n": ["#ios"],
     "apple-health-data-types": ["#ios"],
+    "de/home-assistant-gesundheitsdaten": ["#android", "#ios", "#integration"],
 }
+
+# Guides in another language, written from guides/<slug>.html like the others, under a folder
+# per language. Each is the hreflang alternate of one English guide ("en"): both pages list the
+# pair, with x-default on the English one. The English guides in "from" (the ones it is written
+# from) link to it under their byline, and it links back to them. These pages stay out of the
+# English lists (navigation, footer, landing page); the navigation and footer on them stay
+# English, marked lang="en", and UI holds the few words the guide layout writes itself.
+TRANSLATIONS = [
+    {"slug": "de/home-assistant-gesundheitsdaten", "lang": "de", "short": "Gesundheitsdaten in Home Assistant",
+     "en": "health-connect-home-assistant",
+     "from": ["health-connect-home-assistant", "apple-health-home-assistant"]},
+]
+TRANSLATIONS = [t for t in TRANSLATIONS if (HERE / "guides" / f"{t['slug']}.html").exists()]
+LANG_LINK = {"de": "Auf Deutsch", "en": "Auf Englisch"}
+UI = {
+    "en": {"skip": "Skip to content", "faq": "Common questions", "feature": "Feature", "full_size": "full size",
+           "byline": 'By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated {date}.',
+           "guides": "Guides", "products": "Products", "locale": None},
+    "de": {"skip": "Zum Inhalt springen", "faq": "Häufige Fragen", "feature": "Funktion", "full_size": "in voller Größe",
+           "byline": 'Von <a href="/">Owen Vogelaar</a>, der Life Dashboard entwickelt. Aktualisiert am {date}.',
+           "guides": "Anleitungen auf Englisch", "products": "Produkte", "locale": "de_DE",
+           "parts": {"android": "Android-App", "ios": "iPhone-App", "home-assistant": "Home-Assistant-Integration",
+                     "grafana": "Grafana-Stack"},
+           "alts": {"H2-qr": "Die Life-Dashboard-Integration in Home Assistant mit dem QR-Code zum Koppeln",
+                    "A2-pair": "Der Dialog zum Koppeln mit einem Empfänger in der Android-App",
+                    "A1-health": "Der Tab „Gesundheit“ der Android-App",
+                    "ios-health": "Der Tab „Gesundheit“ der iPhone-App mit den Typen aus Apple Health",
+                    "H3-history": "Verlaufsdiagramme in Home Assistant auf einem Telefon",
+                    "H1-dashboard": "Das Beispiel-Dashboard in Home Assistant auf einem Telefon",
+                    "ios-schedule": "Der Sync-Zeitplan der iPhone-App mit festen Uhrzeiten und Ruhezeiten"}},
+}
+
+
+def alternates(slug):
+    """The hreflang links of a guide: (language, slug) for the English guide, each translation of
+    it and x-default. Empty for a guide without a translation."""
+    en = next((t["en"] for t in TRANSLATIONS if slug in (t["slug"], t["en"])), None)
+    if not en:
+        return []
+    return [("en", en)] + [(t["lang"], t["slug"]) for t in TRANSLATIONS if t["en"] == en] + [("x-default", en)]
+
 
 IMAGES = {
     "A1-health": ("phone", 720, 1476, "The Health tab of the Android app"),
@@ -358,6 +404,8 @@ NEXT = {
         [("btn-primary btn-store", "../ios/#get", "Get the iPhone app"), ("btn-ghost", f"{REPO}/blob/main/docs/webhook.md#n8n-and-node-red", "n8n in the payload reference")]),
     "apple-health-data-types": ("Switch on your types on the <strong>Health</strong> tab and tap <strong>View</strong> to see what the next sync would send.",
         [("btn-primary btn-store", "../ios/#get", "Get the iPhone app"), ("btn-ghost", f"{REPO_IOS}/blob/main/docs/webhook.md#what-ios-sends", "iOS payload reference")]),
+    "de/home-assistant-gesundheitsdaten": ("Zwei Installationen: die Integration aus HACS und die App auf deinem iPhone oder Android-Telefon. Danach koppelst du beide mit einem QR-Code und holst bis zu einem Jahr Verlauf nach.",
+        [("btn-primary btn-store", HACS, "In HACS öffnen"), ("btn-ghost", "../../ios/#get", "iPhone-App"), ("btn-ghost", "../../android/#get", "Android-App")]),
 }
 
 # Structured data for the project and its four parts, written into the landing page and, for
@@ -746,20 +794,23 @@ def footer(prefix):
 </footer>"""
 
 
-def head(title, desc, url, prefix, og_type="website", og_title=None, ld=None):
+def head(title, desc, url, prefix, og_type="website", og_title=None, ld=None, alts=(), locale=None):
+    """alts: (hreflang, slug) pairs from alternates(); locale: og:locale of a page not in English."""
     ldtag = f'\n<script type="application/ld+json">\n{ld}\n</script>' if ld else ""
+    hreflang = "".join(f'\n<link rel="alternate" hreflang="{l}" href="{BASE}{s}/">' for l, s in alts)
+    og_locale = f'\n<meta property="og:locale" content="{locale}">' if locale else ""
     return f"""<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{html.escape(title)}</title>
 <meta name="description" content="{html.escape(desc)}">
-<link rel="canonical" href="{url}">
+<link rel="canonical" href="{url}">{hreflang}
 <meta name="robots" content="max-image-preview:large">
 <meta name="theme-color" content="#101418">
 <link rel="icon" type="image/png" sizes="32x32" href="{prefix}img/icon-32.png">
 <link rel="apple-touch-icon" href="{prefix}img/icon-180.png">
 <link rel="stylesheet" href="{prefix}site.css">
-<meta property="og:type" content="{og_type}">
+<meta property="og:type" content="{og_type}">{og_locale}
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="{html.escape(og_title or title)}">
 <meta property="og:description" content="{html.escape(desc)}">
@@ -811,13 +862,13 @@ def ld_json(graph):
     return json.dumps({"@context": "https://schema.org", "@graph": graph}, indent=2, ensure_ascii=False)
 
 
-def page(head_html, body, comment):
+def page(head_html, body, comment, lang="en"):
     return f"""<!DOCTYPE html>
 <!-- {comment} Generated by tools/site/build.py: edit the source there, not this file. -->
-<html lang="en">
+<html lang="{lang}">
 {head_html}
 <body>
-<a class="skip" href="#main">Skip to content</a>
+<a class="skip" href="#main">{UI[lang]["skip"]}</a>
 
 {body}
 </body>
@@ -843,27 +894,33 @@ def meta(src, key):
 PURPLE = {"A4-screen-time", "H4-apps"}
 
 
-def figure(m):
+def figure(m, up="../", lang="en"):
     name = m.group(1)
     kind, w, h, alt = IMAGES[name]
+    alt = UI[lang].get("alts", {}).get(name, alt)
+    full = f'{alt}, {UI[lang]["full_size"]}'
     tone = " purple" if name in PURPLE else ""
     if kind == "phone":
-        return f'<figure class="shot{tone}"><a class="shot-link" href="../img/{name}.webp" aria-label="{alt}, full size">{image(name, "../")}</a></figure>'
-    return (f'<figure class="shot wide"><a class="shot-link" href="../img/{name}.webp" aria-label="{alt}, full size">'
-            f'<img src="../img/{name}.webp" alt="{alt}" width="{w}" height="{h}" loading="lazy"></a></figure>')
+        shot = image(name, up).replace(f'alt="{IMAGES[name][3]}"', f'alt="{alt}"')
+        return f'<figure class="shot{tone}"><a class="shot-link" href="{up}img/{name}.webp" aria-label="{full}">{shot}</a></figure>'
+    return (f'<figure class="shot wide"><a class="shot-link" href="{up}img/{name}.webp" aria-label="{full}">'
+            f'<img src="{up}img/{name}.webp" alt="{alt}" width="{w}" height="{h}" loading="lazy"></a></figure>')
 
 
 def slugify(text):
-    return re.sub(r"[^a-z0-9]+", "-", strip_tags(text).lower()).strip("-")
+    text = strip_tags(text).lower()
+    for a, b in (("ä", "ae"), ("ö", "oe"), ("ü", "ue"), ("ß", "ss")):
+        text = text.replace(a, b)
+    return re.sub(r"[^a-z0-9]+", "-", text).strip("-")
 
 
-def enhance(body, short):
+def enhance(body, lang="en"):
     """Accessible tables and code blocks, ids on headings, the guide FAQ heading."""
     def table(m):
         caps = re.findall(r"<h[23][^>]*>(.*?)</h[23]>", body[:m.start()], re.S)
         label = strip_tags(caps[-1]) if caps else "Table"
         t = m.group(0)
-        t = re.sub(r"<th></th>", '<th scope="col">Feature</th>', t)
+        t = re.sub(r"<th></th>", f'<th scope="col">{UI[lang]["feature"]}</th>', t)
         t = re.sub(r"<thead>(.*?)</thead>", lambda x: "<thead>" + x.group(1).replace("<th>", '<th scope="col">') + "</thead>", t, flags=re.S)
         t = re.sub(r"(<tbody>.*?</tbody>)", lambda x: re.sub(r"<tr>\s*<td>(.*?)</td>", r'<tr><th scope="row">\1</th>', x.group(1), flags=re.S), t, flags=re.S)
         return f'<div class="table-wrap" tabindex="0" role="region" aria-label="{html.escape(label)}">{t}</div>'
@@ -877,30 +934,68 @@ def enhance(body, short):
     body = re.sub(r"<pre><code>", pre, body)
     body = re.sub(r"<h2>(.*?)</h2>", lambda m: f'<h2 id="{slugify(m.group(1))}">{m.group(1)}</h2>', body)
     body = re.sub(r"<h3>(.*?)</h3>", lambda m: f'<h3 id="{slugify(m.group(1))}">{m.group(1)}</h3>', body)
-    body = body.replace('<h2 id="faq">FAQ</h2>', '<h2 id="faq">Common questions</h2>')
+    body = body.replace('<h2 id="faq">FAQ</h2>', f'<h2 id="faq">{UI[lang]["faq"]}</h2>')
     return body
 
 
-def build_guide(slug, short):
+def aside_de(up):
+    """The German guide's app boxes: one per phone, each with its store badge, the price and, on
+    Android, the free routes, all from PARTS and the offers in ENTITIES."""
+    def eur(slug):
+        return next(o["price"] for o in ENTITIES[slug]["offers"] if o["price"] != "0").replace(".", ",") + "&nbsp;€"
+    play, appstore = store_of("android"), store_of("ios")
+    free = [dict(it, name={"apk": "APK auf GitHub"}.get(it["id"], it["name"]))
+            for it in PARTS["android"]["get"] if it is not play]
+    return f"""<div class="box cta">
+        <h2>Life Dashboard Companion für Android</h2>
+        <p>Liest Health Connect, also auch Samsung Health, Garmin Connect und Google Health. Kein Konto, keine Cloud. <a href="{up}android/" hreflang="en">Mehr zur App (Englisch)</a>.</p>
+        {lead_button(play, up)}
+        <p class="aside-alt">{eur("android")} einmalig bei Google Play, mit automatischen Updates.</p>
+        <p class="aside-alt">Oder kostenlos, dieselbe App mit demselben Signaturschlüssel: {alt_links(free, up)}</p>
+      </div>
+      <div class="box cta">
+        <h2>Life Dashboard Companion für das iPhone</h2>
+        <p>Liest Apple Health, also auch die Daten deiner Apple Watch. Kein Konto, keine Cloud. <a href="{up}ios/" hreflang="en">Mehr zur App (Englisch)</a>.</p>
+        {lead_button(appstore, up)}
+        <p class="aside-alt">{eur("ios")} einmalig im App Store, ohne Abo.</p>
+      </div>"""
+
+
+def lang_links(slug, lang, up):
+    """The byline's link to the other language: "Auf Deutsch" on an English guide a translation
+    is written from, and the English guides it is written from on the translation."""
+    if lang != "en":
+        t = next(t for t in TRANSLATIONS if t["slug"] == slug)
+        links = ", ".join(f'<a href="{up}{g}/" hreflang="en" lang="en">{GUIDE_NAMES[g]}</a>' for g in t["from"])
+        return f' {LANG_LINK["en"]}: {links}.'
+    return "".join(f' <a href="{up}{t["slug"]}/" hreflang="{t["lang"]}" lang="{t["lang"]}">{LANG_LINK[t["lang"]]}</a>'
+                   for t in TRANSLATIONS if slug in t["from"])
+
+
+def build_guide(slug, short, lang="en"):
     src = tokens((HERE / "guides" / f"{slug}.html").read_text())
     title, desc = meta(src, "title"), meta(src, "description")
     updated = opt_meta(src, "updated") or UPDATED
     PAGE_DATES[f"{slug}/"] = updated
+    # A translated guide sits one folder deeper (de/<slug>/), so its links climb one more level.
+    up = "../" * (slug.count("/") + 1)
+    ui = UI[lang]
     body = re.sub(r"<!--.*?-->", lambda m: m.group(0) if "IMG" in m.group(0) else "", src, count=1, flags=re.S)
-    body = re.sub(r"<!--\s*IMG:[^>]*?\(?(ios-[a-z]+|[A-Za-z]\d?-[a-z-]+)(?:\.png|\.webp)?\)?[^>]*-->", figure, body)
+    body = re.sub(r"<!--\s*IMG:[^>]*?\(?(ios-[a-z]+|[A-Za-z]\d?-[a-z-]+)(?:\.png|\.webp)?\)?[^>]*-->", lambda m: figure(m, up, lang), body)
     body = re.sub(r"</li>(\s*)(<figure\b.*?</figure>)", r"\1\2</li>", body, flags=re.S)
-    body = enhance(body, short)
+    body = enhance(body, lang)
     text, buttons = NEXT[slug]
     btns = "\n".join(f'  <a class="btn {c}" href="{h}">{t}</a>' for c, h, t in buttons)
     body = body.replace('<section class="faq">', f'<div class="next">\n  <p>{text}</p>\n{btns}\n</div>\n\n<section class="faq">', 1)
-    body = re.sub(r"(</h1>)", rf'\1\n<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated {date_text(updated)}.</p>', body, count=1)
+    byline = ui["byline"].format(date=date_text(updated, lang)) + lang_links(slug, lang, up)
+    body = re.sub(r"(</h1>)", lambda m: f'{m.group(1)}\n<p class="byline">{byline}</p>', body, count=1)
     first_btn = buttons[0]
     body = re.sub(r'(<p class="byline">.*?</p>\s*<p>.*?</p>)', lambda m: m.group(1) + f'\n<p class="guide-cta"><a class="btn btn-primary btn-store" href="{first_btn[1]}">{first_btn[2]}</a></p>', body, count=1, flags=re.S)
     h1 = strip_tags(re.search(r"<h1>(.*?)</h1>", body, re.S).group(1))
     qa = [(strip_tags(q), strip_tags(a)) for q, a in re.findall(r"<summary>(.*?)</summary>\s*(.*?)</details>", body, re.S)]
     url = f"{BASE}{slug}/"
     graph = [
-        {"@type": "TechArticle", "headline": h1, "description": desc, "url": url, "inLanguage": "en",
+        {"@type": "TechArticle", "headline": h1, "description": desc, "url": url, "inLanguage": lang,
          "author": {"@id": f"{BASE}#owen"},
          "about": [{"@type": "SoftwareApplication", "@id": f"{BASE}{i}", "name": ENTITY_NAME[i]} for i in GUIDE_ABOUT[slug]],
          "datePublished": opt_meta(src, "published") or UPDATED, "dateModified": updated, "image": f"{BASE}img/social.png",
@@ -911,56 +1006,66 @@ def build_guide(slug, short):
     if qa:
         graph.append(faq_entity(qa))
     others = "\n          ".join(
-        f'<li><a href="../{g[0]}/"{" aria-current=\"page\"" if g[0] == slug else ""}>{g[1]}</a></li>' for g in GUIDES)
-    # The iPhone guides lead the aside with the iPhone app; every other guide with the Android app.
-    app = "ios" if slug in dict(GUIDE_GROUPS)["iPhone"] else "android"
-    lead = lead_item(app)
-    rest = [it for it in PARTS[app]["get"] if it is not lead]
-    aside = ({"ios": "The open-source iPhone app this guide uses. No account, and the data goes only where you point it.",
-              "android": "The open-source Android app this guide uses. No account and no cloud."}[app]
-             + f' <a href="../{app}/">More about the app</a>.')
-    alt = f'<p class="aside-alt">{alt_links(rest, "../")}</p>'
-    if free_follows(app, lead):
-        alt = (f'<p class="aside-alt">{lead["pitch"]}</p>\n        '
-               f'<p class="aside-alt">{PARTS[app]["free_line"]} {alt_links(rest, "../")}</p>')
-    main = f"""{nav("../")}
+        f'<li><a href="{up}{g[0]}/"{" aria-current=\"page\"" if g[0] == slug else ""}>{g[1]}</a></li>' for g in GUIDES)
+    if lang != "en":
+        box = aside_de(up)
+    else:
+        # The iPhone guides lead the aside with the iPhone app; every other guide with the Android app.
+        app = "ios" if slug in dict(GUIDE_GROUPS)["iPhone"] else "android"
+        lead = lead_item(app)
+        rest = [it for it in PARTS[app]["get"] if it is not lead]
+        aside = ({"ios": "The open-source iPhone app this guide uses. No account, and the data goes only where you point it.",
+                  "android": "The open-source Android app this guide uses. No account and no cloud."}[app]
+                 + f' <a href="{up}{app}/">More about the app</a>.')
+        alt = f'<p class="aside-alt">{alt_links(rest, up)}</p>'
+        if free_follows(app, lead):
+            alt = (f'<p class="aside-alt">{lead["pitch"]}</p>\n        '
+                   f'<p class="aside-alt">{PARTS[app]["free_line"]} {alt_links(rest, up)}</p>')
+        box = f"""<div class="box cta">
+        <h2>Life Dashboard Companion</h2>
+        <p>{aside}</p>
+        {lead_button(lead, up)}
+        {alt}
+      </div>"""
+    english = "" if lang == "en" else ' lang="en"'
+    top, foot = nav(up), footer(up)
+    if english:
+        top = top.replace('<header class="nav">', f'<header class="nav"{english}>', 1)
+        foot = foot.replace('<footer class="footer">', f'<footer class="footer"{english}>', 1)
+    part_names = ui.get("parts", {})
+    main = f"""{top}
 
 <main id="main">
   <div class="guide-hero"><div class="grid-bg"></div></div>
   <div class="wrap guide-layout">
     <article class="prose">
-      <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">{short}</span></nav>
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="{up}">Life Dashboard</a> / <span aria-current="page">{short}</span></nav>
 {body.strip()}
     </article>
     <aside class="aside">
-      <div class="box cta">
-        <h2>Life Dashboard Companion</h2>
-        <p>{aside}</p>
-        {lead_button(lead, "../")}
-        {alt}
-      </div>
-      <nav class="box" aria-label="Guides">
-        <h2>Guides</h2>
-        <ul>
+      {box}
+      <nav class="box" aria-label="{ui["guides"]}">
+        <h2>{ui["guides"]}</h2>
+        <ul{english}>
           {others}
         </ul>
       </nav>
       <div class="box">
-        <h2>Products</h2>
+        <h2>{ui["products"]}</h2>
         <ul>
-          {"".join(f'<li><a href="../{s}/">{PARTS[s]["name"]}</a></li>' for s in ORDER)}
+          {"".join(f'<li><a href="{up}{s}/">{part_names.get(s, PARTS[s]["name"])}</a></li>' for s in ORDER)}
         </ul>
       </div>
     </aside>
   </div>
 </main>
 
-{footer("../")}"""
+{foot}"""
     out = OUT / slug
-    out.mkdir(exist_ok=True)
-    (out / "index.html").write_text(placed(page(head(title, desc, url, "../", "article", h1, ld_json(graph)), main, "Guide page of the Life Dashboard site."), f"site-guide-{slug}"))
+    out.mkdir(parents=True, exist_ok=True)
+    head_html = head(title, desc, url, up, "article", h1, ld_json(graph), alternates(slug), ui["locale"])
+    (out / "index.html").write_text(placed(page(head_html, main, "Guide page of the Life Dashboard site.", lang), f"site-guide-{slug.replace('/', '-')}"))
     print(f"guide {slug}: title {len(title)}, description {len(desc)}, faqs {len(qa)}")
-
 
 # ---------------------------------------------------------------------------------------------
 # Products
@@ -1317,7 +1422,7 @@ def build_llms():
 
 
 def build_sitemap():
-    urls = [("", max(PAGE_DATES.values()))] + [(f"{s}/", PAGE_DATES[f"{s}/"]) for s in ORDER] + [(f"{g[0]}/", PAGE_DATES[f"{g[0]}/"]) for g in GUIDES] + [("ios/privacy/", "2026-10-18")]
+    urls = [("", max(PAGE_DATES.values()))] + [(f"{s}/", PAGE_DATES[f"{s}/"]) for s in ORDER] + [(f"{g[0]}/", PAGE_DATES[f"{g[0]}/"]) for g in GUIDES] + [(f"{t['slug']}/", PAGE_DATES[f"{t['slug']}/"]) for t in TRANSLATIONS] + [("ios/privacy/", "2026-10-18")]
     lines = f"  <url><loc>{DOMAIN}</loc><lastmod>{UPDATED}</lastmod></url>\n  <url><loc>{DOMAIN}privacy/</loc><lastmod>{UPDATED}</lastmod></url>\n" + "\n".join(f"  <url><loc>{BASE}{u}</loc><lastmod>{d}</lastmod></url>" for u, d in urls)
     (SITE / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{lines}\n</urlset>\n')
 
@@ -1362,10 +1467,15 @@ def check():
     # Every page with the navigation bar gets a skip link past it.
     for f in [SITE / "404.html", SITE / "index.html"] + list(OUT.rglob("*.html")):
         t = f.read_text()
-        if '<header class="nav">' in t and ('class="skip" href="#main"' not in t or 'id="main"' not in t):
+        if '<header class="nav"' in t and ('class="skip" href="#main"' not in t or 'id="main"' not in t):
             problems.append(f"{f.relative_to(ROOT)}: needs the skip link and id=\"main\"")
     llms = (SITE / "llms.txt").read_text()
-    problems += [f"llms.txt: the guide {g[0]} is missing" for g in GUIDES if f"{BASE}{g[0]}/" not in llms]
+    problems += [f"llms.txt: the guide {g} is missing" for g in [g[0] for g in GUIDES] + [t["slug"] for t in TRANSLATIONS] if f"{BASE}{g}/" not in llms]
+    # A translation and its English guide name each other, both ways, or search engines ignore the pair.
+    for t in TRANSLATIONS:
+        for a, b in ((t["slug"], t["en"]), (t["en"], t["slug"])):
+            if f'hreflang="{t["lang"] if b == t["slug"] else "en"}" href="{BASE}{b}/"' not in (OUT / a / "index.html").read_text():
+                problems.append(f"{a}: no hreflang link to {b}")
     if problems:
         sys.exit("build check failed:\n  " + "\n  ".join(problems))
 
@@ -1376,6 +1486,8 @@ if __name__ == "__main__":
     build_hub()
     for g in GUIDES:
         build_guide(g[0], g[1])
+    for t in TRANSLATIONS:
+        build_guide(t["slug"], t["short"], t["lang"])
     build_landing()
     build_404()
     build_llms()
