@@ -20,7 +20,7 @@ What it writes:
 - llms.txt (in site/ and site/life-dashboard/) from llms.txt.in, and site/sitemap.xml.
 
 Store status lives in PARTS only. Text anywhere can say {{status:android}} or {{status:ios}}
-and gets the current sentence from STATUS_TEXT.
+and gets the current sentence from STATUS_TEXT, or {{play_url}} for a link to the Play listing.
 
 Store badges: every route with an entry in BADGES shows its official badge, saved once in
 site/life-dashboard/img/badges/ (never hotlinked, never recolored, cropped or faded). A live
@@ -34,6 +34,9 @@ Launch day for Google Play or the App Store:
 2. In PARTS, set that entry's "status" to "live" (check its "href" and "note").
 3. Update STATUS_TEXT, run the script. It refuses to build while a page still says the store is
    coming. Live stores then lead every hero and install card with their official badge.
+Both are live now: the App Store since October 21, 2026, Google Play since October 27, 2026.
+On Android, Google Play leads with its "pitch" (price and why), and the free routes follow under
+the part's "free_line". Play links carry a campaign referrer per page (PLAY_LINK and placed()).
 
 F-Droid goes live (once https://f-droid.org/packages/com.owen282000.lifedashboard/ answers
 instead of a 404): in PARTS, set the "fdroid" entry's "status" to "live". That one line turns
@@ -76,6 +79,19 @@ REPO_HA = "https://github.com/owen282000/life-dashboard-ha"
 REPO_STACK = "https://github.com/owen282000/life-dashboard-stack"
 APP_STORE = "https://apps.apple.com/app/life-dashboard-companion/id6824075761"
 APK = f"{REPO}/releases/latest/download/app-release.apk"
+PLAY = "https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard"
+# Every link to the Play listing carries a campaign referrer naming the page it sits on, so the
+# Play Console shows which pages bring installs. Links are written with PLACE in them and each
+# page fills it in as it is written (site-landing, site-android, site-guide-<slug>); check()
+# refuses a page where it is left. The referrer is URL-encoded and the & is escaped for HTML.
+PLACE = "{{place}}"
+PLAY_LINK = f"{PLAY}&amp;referrer=utm_source%3D{PLACE}%26utm_medium%3Dwebsite"
+
+
+def placed(text, place):
+    """A page's HTML with the campaign source of its Play links filled in."""
+    return text.replace(PLACE, place)
+
 HACS = "https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration"
 
 # ---------------------------------------------------------------------------------------------
@@ -89,10 +105,11 @@ PARTS = {
         "glyph": '<rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/>',
         "get_title": "Get the Android app", "req_short": "Android 8.0 or newer; health data from Android 9.",
         "get": [
-            {"id": "play", "kind": "store", "name": "Google Play", "status": "soon", "soon_text": "Google Play: coming, as a paid listing of the same app",
-             "href": "https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard",
-             "note": "In closed testing now. It will be a paid listing; the APK on GitHub stays free."},
-            {"id": "apk", "name": "Free APK on GitHub", "status": "live", "href": APK, "primary": True, "cta": "Download the free APK",
+            {"id": "play", "kind": "store", "name": "Google Play", "status": "live", "soon_text": "Google Play: coming, as a paid listing of the same app",
+             "href": PLAY_LINK,
+             "pitch": "€4.99 once on Google Play: the easy way, with automatic updates, and it supports development.",
+             "note": "€4.99 once (US$4.99), no subscription. The easy way: Google Play installs it and keeps it up to date, and buying it supports development."},
+            {"id": "apk", "name": "APK on GitHub", "status": "live", "href": APK, "primary": True, "cta": "Download the free APK",
              "note": "Open it on your phone and allow installs from your browser once. Each new release is on GitHub, or Obtainium updates it for you."},
             {"id": "obtainium", "name": "Obtainium", "status": "live",
              "href": "https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/" + REPO,
@@ -102,6 +119,8 @@ PARTS = {
              "note": "Built by F-Droid from the source and identical to the signed APK; the F-Droid app keeps it up to date."},
         ],
         "requires": "Android 9 or newer with Health Connect for health data; Android 8.0 or newer for screen time.",
+        # Once the store leads, the free routes follow under this line (heroes, cards, guide asides).
+        "free_line": "Or free, the same app with the same signing key:",
     },
     "ios": {
         "name": "iPhone app", "full": "Life Dashboard Companion for iPhone",
@@ -154,11 +173,14 @@ ORDER = ["android", "ios", "home-assistant", "grafana"]
 
 # One sentence per app about where to get it, used through {{status:android}} and {{status:ios}}.
 STATUS_TEXT = {
-    "android": "Today you install the signed APK from GitHub, or through Obtainium, which keeps it up to date. It's also on F-Droid, built by F-Droid from the source and identical to the signed APK. Google Play is in closed testing.",
+    "android": "It's on Google Play for €4.99 once (US$4.99), no subscription: the easy way, with automatic updates, and buying it supports development. The free routes install the same app with the same signing key: the signed APK from GitHub, Obtainium, which keeps that APK up to date, and F-Droid, which builds it from the source.",
     "ios": "It's on the App Store for €6.99 once (US$5.99), no subscription. Building it from source with Xcode costs nothing extra if you already have an Apple Developer Program membership.",
 }
 # Phrases that must be gone once a store is live (checked on every build).
-STALE = {"play": ["coming to Google Play", "Google Play is in closed testing", "will be a paid listing"],
+STALE = {"play": ["coming to Google Play", "Google Play is in closed testing", "will be a paid listing", "Google Play: coming",
+                  "Google Play (paid) is coming", "Closed testing", "closed testing", "In closed testing",
+                  "store listings that are on the way", "A Google Play listing will come", "Google Play is next",
+                  "Free APK today"],
          "appstore": ["App Store release is planned", "no App Store", "Planned after the TestFlight beta",
                       "TestFlight beta is next", "TestFlight beta next", "A public beta is next",
                       "in App Store review", "In App Store review", "in Apple's review", "in Apple&#x27;s review"],
@@ -180,7 +202,7 @@ STALE = {"play": ["coming to Google Play", "Google Play is in closed testing", "
 # Every file is cropped to the edge of its visible badge (the transparent margin of the Play,
 # F-Droid, Obtainium and GitHub files is cut from these copies; the artwork is untouched), so one
 # CSS height gives every badge the same visible height (.badge-img in site.css).
-BADGES = {"play": ("google-play.png", "Get it on Google Play", (564, 168), "Closed testing"),
+BADGES = {"play": ("google-play.png", "Get it on Google Play", (564, 168), ""),
           "appstore": ("app-store.svg", "Download on the App Store", (120, 40), ""),
           "fdroid": ("f-droid.svg", "Get it on F-Droid", (564, 168), "Accepted, live with F-Droid's next build"),
           "obtainium": ("obtainium.png", "Get it on Obtainium", (564, 168), ""),
@@ -393,13 +415,16 @@ ENTITIES = {
 }
 ENTITY_NAME = {ENTITY_ID[k]: e["name"] for k, e in ENTITIES.items()}
 
-# Every part is free to download today (the APK, the source, HACS, Compose). A paid store
-# listing gets an Offer of its own once it is live: the App Store now, Google Play later.
+# Every part is free to download (the APK, the source, HACS, Compose). Each paid store listing
+# has an Offer of its own next to the free one: the App Store and Google Play. The JSON-LD links
+# the listing itself, without a campaign referrer (HTML entities don't apply inside a script).
 FREE = {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}
 for _e in ENTITIES.values():
     _e["offers"] = FREE
 ENTITIES["ios"]["offers"] = [FREE, {"@type": "Offer", "price": "6.99", "priceCurrency": "EUR", "url": APP_STORE}]
 ENTITIES["ios"]["sameAs"] = [REPO_IOS, APP_STORE]
+ENTITIES["android"]["offers"] = [FREE, {"@type": "Offer", "price": "4.99", "priceCurrency": "EUR", "url": PLAY}]
+ENTITIES["android"]["sameAs"] = [REPO, PLAY]
 SOURCE_CODE = {"@type": "SoftwareSourceCode", "codeRepository": REPO, "programmingLanguage": "Kotlin",
                "license": "https://opensource.org/licenses/MIT", "targetProduct": {"@id": f"{BASE}#android"}}
 
@@ -479,6 +504,12 @@ def lead_item(slug):
     return next(it for it in PARTS[slug]["get"] if it.get("primary"))
 
 
+def free_follows(slug, lead):
+    """True when a live store leads a part that also has free routes (Android: Google Play, then
+    GitHub, Obtainium and F-Droid). The store's pitch and the free routes then follow its badge."""
+    return lead.get("kind") == "store" and bool(PARTS[slug].get("free_line")) and bool(lead.get("pitch"))
+
+
 def href_of(item, prefix=""):
     return prefix + item["href"] if item.get("rel") else item["href"]
 
@@ -510,6 +541,9 @@ def get_card_compact(slug, prefix):
     # An install card with a badged lead (the APK on GitHub, HACS) shows one row of badges, so the
     # same download never appears twice side by side; heroes keep the plain primary button.
     top = badge_row([lead] + rest, prefix) if has_badge(lead) else lead_button(lead, prefix) + "\n        " + badge_row(rest, prefix)
+    if free_follows(slug, lead):
+        top = (f'<div class="badges">{badge(lead, prefix)}</div>\n        <p class="get-alt">{lead["pitch"]} {p["free_line"]}</p>'
+               f'\n        {badge_row(rest, prefix)}')
     return f"""<article class="get-card compact" id="get-{slug}">
         <header><span class="part-ico">{svg(p["glyph"])}</span><div><h3><a href="{prefix}{slug}/">{p["full"]}</a></h3><p>{p["req_short"]}</p></div></header>
         {top}{alt}
@@ -532,6 +566,8 @@ def get_card(slug, prefix, req=True):
         name = f'<a href="{href_of(it, prefix)}">{it["name"]}</a>' if live else it["name"]
         rows.append(f'<li>{svg(ICONS[it["id"]], "li-ico")}<span><b>{name}</b> {tag}<small>{it["note"]}</small></span></li>')
     note = f'<p class="store-note">{lead["note"]}</p>' if lead.get("note") else ""
+    if free_follows(slug, lead):
+        rows.insert(0, f'<li class="free-line">{p["free_line"]}</li>')
     reqs = f'<p class="get-req">{p["requires"]}</p>' if req else ""
     title = f'<a href="{page}">{p["full"]}</a>'
     return f"""<article class="get-card" id="get-{slug}">
@@ -571,6 +607,15 @@ def android_coming():
     return (" and ".join(names) + (" are" if len(names) > 1 else " is") + " coming.")
 
 
+def android_paths(prefix):
+    """The Android line in the hero: Google Play once it's live, with the free routes after it."""
+    play = store_of("android")
+    if play["status"] == "live":
+        return (f'{play["pitch"]} {PARTS["android"]["free_line"].rstrip(":")}: '
+                f'<a href="{prefix}android/#get">the APK on GitHub, Obtainium or F&#8209;Droid</a>.')
+    return f"Free APK today. {android_coming()}"
+
+
 def ios_paths(prefix):
     """The iPhone line in the hero: the App Store once it's live, and building it yourself either way."""
     if store_of("ios")["status"] == "live":
@@ -580,9 +625,9 @@ def ios_paths(prefix):
 
 def hero_stores(prefix):
     """Landing hero and final call to action: live stores lead with their official badges.
-    While Google Play is pending, a working "Install today" button leads, a demo needs no phone,
-    the stores still to come show their badges in a "Coming soon" frame, and one line per phone
-    says how to get it today."""
+    While a store is pending, a working "Install today" button leads, a demo needs no phone and
+    the stores still to come show their badges in a "Coming soon" frame. One line per phone says
+    how to get it: the store first, then the free way."""
     stores = {s: store_of(s) for s in ("android", "ios")}
     live = [s for s in ("ios", "android") if stores[s]["status"] == "live"]  # Apple: App Store badge first
     btns = [store_button(stores[s], "", prefix) for s in live]
@@ -590,12 +635,15 @@ def hero_stores(prefix):
         btns.insert(0, f'<a class="btn btn-primary btn-store" href="{prefix}#get">Install today</a>')
         btns.insert(1, f'<a class="btn btn-ghost btn-store" href="{prefix}grafana/#dashboards">See the demo dashboards</a>')
     out = '<div class="cta-row stores">\n        ' + "\n        ".join(btns) + "\n      </div>"
-    out += "\n      " + badge_row([stores[s] for s in ("ios", "android") if s not in live], prefix)
-    if stores["android"]["status"] != "live":
-        out += ('\n      <ul class="install-paths">'
-                f'<li>{svg(PARTS["android"]["glyph"])}<span><b>Android</b> Free APK today. {android_coming()}</span></li>'
-                f'<li>{svg(PARTS["ios"]["glyph"])}<span><b>iPhone</b> {ios_paths(prefix)}</span></li>'
-                '</ul>')
+    pending = badge_row([stores[s] for s in ("ios", "android") if s not in live], prefix)
+    if pending:
+        out += "\n      " + pending
+    # One line per phone on how to get it, also once both stores are live: the paid store first,
+    # then the free way.
+    out += ('\n      <ul class="install-paths">'
+            f'<li>{svg(PARTS["android"]["glyph"])}<span><b>Android</b> {android_paths(prefix)}</span></li>'
+            f'<li>{svg(PARTS["ios"]["glyph"])}<span><b>iPhone</b> {ios_paths(prefix)}</span></li>'
+            '</ul>')
     return out
 
 
@@ -729,7 +777,10 @@ def strip_tags(s):
 
 
 def tokens(s):
-    return s.replace("{{status:android}}", STATUS_TEXT["android"]).replace("{{status:ios}}", STATUS_TEXT["ios"])
+    """{{status:android}} and {{status:ios}} become the store sentences, {{play_url}} the link to
+    the Play listing (with the page's campaign source filled in when the page is written)."""
+    return (s.replace("{{status:android}}", STATUS_TEXT["android"]).replace("{{status:ios}}", STATUS_TEXT["ios"])
+            .replace("{{play_url}}", PLAY_LINK))
 
 
 def image(name, prefix, cls="", eager=False):
@@ -868,6 +919,10 @@ def build_guide(slug, short):
     aside = ({"ios": "The open-source iPhone app this guide uses. No account, and the data goes only where you point it.",
               "android": "The open-source Android app this guide uses. No account and no cloud."}[app]
              + f' <a href="../{app}/">More about the app</a>.')
+    alt = f'<p class="aside-alt">{alt_links(rest, "../")}</p>'
+    if free_follows(app, lead):
+        alt = (f'<p class="aside-alt">{lead["pitch"]}</p>\n        '
+               f'<p class="aside-alt">{PARTS[app]["free_line"]} {alt_links(rest, "../")}</p>')
     main = f"""{nav("../")}
 
 <main id="main">
@@ -882,7 +937,7 @@ def build_guide(slug, short):
         <h2>Life Dashboard Companion</h2>
         <p>{aside}</p>
         {lead_button(lead, "../")}
-        <p class="aside-alt">{alt_links(rest, "../")}</p>
+        {alt}
       </div>
       <nav class="box" aria-label="Guides">
         <h2>Guides</h2>
@@ -903,7 +958,7 @@ def build_guide(slug, short):
 {footer("../")}"""
     out = OUT / slug
     out.mkdir(exist_ok=True)
-    (out / "index.html").write_text(page(head(title, desc, url, "../", "article", h1, ld_json(graph)), main, "Guide page of the Life Dashboard site."))
+    (out / "index.html").write_text(placed(page(head(title, desc, url, "../", "article", h1, ld_json(graph)), main, "Guide page of the Life Dashboard site."), f"site-guide-{slug}"))
     print(f"guide {slug}: title {len(title)}, description {len(desc)}, faqs {len(qa)}")
 
 
@@ -1056,6 +1111,10 @@ def build_product(slug):
     # plain primary button with the store badges under it.
     hero_top = (badge_row([lead] + rest, prefix) if lead.get("kind") == "store" and has_badge(lead) else
                 f'<div class="cta-row stores">\n        {lead_button(lead, prefix)}\n      </div>\n      {badge_row(rest, prefix)}')
+    if free_follows(slug, lead):
+        # Android: Google Play leads, its price and why under it, then the free routes.
+        hero_top = (f'<div class="cta-row stores">\n        {badge(lead, prefix)}\n      </div>\n      '
+                    f'<p class="fineprint">{lead["pitch"]} {p["free_line"]}</p>\n      {badge_row(rest, prefix)}')
     main = f"""{nav(prefix, slug)}
 
 <main id="main">
@@ -1137,7 +1196,7 @@ def build_product(slug):
 {footer(prefix)}"""
     out = OUT / slug
     out.mkdir(exist_ok=True)
-    (out / "index.html").write_text(page(head(d["title"], d["description"], url, prefix, "website", d["h1"], ld_json(graph)), main, f"Product page: {p['full']}."))
+    (out / "index.html").write_text(placed(page(head(d["title"], d["description"], url, prefix, "website", d["h1"], ld_json(graph)), main, f"Product page: {p['full']}."), f"site-{slug}"))
     print(f"product {slug}: title {len(d['title'])}, description {len(d['description'])}, faqs {len(d['faq'])}")
 
 
@@ -1234,7 +1293,7 @@ def build_landing():
     qa = [(strip_tags(q), strip_tags(a)) for q, a in re.findall(r"<summary>(.*?)</summary>\s*(.*?)</details>", faq, re.S)]
     graph = [WEBSITE, ME, PROJECT] + [ENTITIES[s] for s in ORDER] + [SOURCE_CODE, faq_entity(qa)]
     src = fill(src, "ld", f'<script type="application/ld+json">\n{ld_json(graph)}\n</script>')
-    p.write_text(src)
+    p.write_text(placed(src, "site-landing"))
     print(f"landing: faqs {len(qa)}")
 
 
@@ -1293,6 +1352,9 @@ def check():
         for store, phrases in STALE.items():
             if store in live:
                 problems += [f"{f.relative_to(ROOT)}: says '{ph}' but {store} is live" for ph in phrases if ph in t]
+        for token in (PLACE, "{{play_url}}", "{{status:"):
+            if token in t:
+                problems.append(f"{f.relative_to(ROOT)}: still says {token}")
         if "\u2014" in t or "\u2013" in t:
             problems.append(f"{f.relative_to(ROOT)}: contains an em or en dash")
     # Every badge is shown, linked or as "Coming soon", so every file must be there.

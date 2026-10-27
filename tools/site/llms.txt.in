@@ -21,7 +21,7 @@ Names: "Life Dashboard" is the project. "Life Dashboard Companion" is the Androi
 - Privacy: there is no Life Dashboard server and no account. The app has no analytics, ads, crash reporting or tracking SDKs, and contacts only the addresses you enter.
 - iPhone: Life Dashboard Companion for iPhone reads Apple Health (28 types, 20 of them as Home Assistant sensors) and sends the same payload to the same integration, broker or webhook. It needs iOS 17 or newer. It is on the App Store for €6.99 once; building it yourself with Xcode needs an Apple Developer Program membership, because a free Apple Account can't sign an app that reads Apple Health. It reads Apple Health only and does not write to it. iOS does not let apps send screen time.
 - Requirements: health data needs Android 9 or newer with Health Connect, which is built into Android 14 and later and comes from Google Play on Android 9 through 13. The app is in English, German and Dutch.
-- Get the Android app: {{status:android}}
+- Get the Android app: {{status:android}} Google Play listing ("Life Dashboard: Health Connect"): https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard
 - Get the iPhone app: {{status:ios}}
 
 ## Product pages
@@ -55,7 +55,7 @@ Names: "Life Dashboard" is the project. "Life Dashboard Companion" is the Androi
 
 ## Projects
 
-- [Android app (Life Dashboard Companion)](https://github.com/owen282000/life-dashboard-companion-app): source, releases and docs
+- [Android app (Life Dashboard Companion)](https://github.com/owen282000/life-dashboard-companion-app): on Google Play, or free from GitHub Releases, Obtainium or F-Droid; source, releases and docs
 - [iPhone app (Life Dashboard Companion for iPhone)](https://github.com/owen282000/life-dashboard-companion-app-ios): Apple Health, on the App Store or built with Xcode
 - [Home Assistant integration](https://github.com/owen282000/life-dashboard-ha): QR pairing, sensors, long-term statistics, Receive
 - [Life Dashboard stack](https://github.com/owen282000/life-dashboard-stack): published images and a Helm chart for a receiver that checks the signature, Postgres 18, six Grafana dashboards, a read-only API and an MCP server

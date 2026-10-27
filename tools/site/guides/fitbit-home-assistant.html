@@ -3,7 +3,7 @@ title: Fitbit in Home Assistant after the API shutdown | Life Dashboard
 description: Google turns off the Fitbit Web API on October 30, 2026. Life Dashboard Companion gets Fitbit and Pixel Watch data into Home Assistant through Health Connect.
 primary query: fitbit home assistant
 secondary queries: fitbit api shutdown home assistant, fitbit integration stopped working home assistant, fitbit web api october 30 2026, pixel watch home assistant, fitbit web api deprecated, google health home assistant, fitbit health connect, fitbit integration unavailable, pixel watch health connect, fitbit sleep home assistant
-updated: 2026-10-23
+updated: 2026-10-27
 
 AFTER 30 OCT: switch these sentences to the past tense and set the updated line to the day you do it.
 - First paragraph: "Google turns off the Fitbit Web API on October 30, 2026." becomes "Google turned off the Fitbit Web API on October 30, 2026."
@@ -66,7 +66,7 @@ AFTER 30 OCT: switch these sentences to the past tense and set the updated line 
   <li>In HACS, search for <strong>Life Dashboard</strong>, download it and restart Home Assistant.</li>
   <li>Go to <strong>Settings</strong> &gt; <strong>Devices &amp; services</strong> &gt; <strong>Add integration</strong>, search for <strong>Life Dashboard</strong> and name the phone. Put Home Assistant's IP address in the <strong>Home Assistant address</strong> field, such as <code>http://192.168.1.20:8123</code>; Home Assistant shows it under <strong>Settings</strong> &gt; <strong>System</strong> &gt; <strong>Network</strong>, in the <strong>Network adapter</strong> section. The dialog then shows a QR code.</li>
   <!-- IMG: the QR code in Home Assistant (H2-qr.png) -->
-  <li>Install <a href="../android/#get">Life Dashboard Companion</a>: open the free APK from GitHub on the phone and allow installs from your browser once, or add it in Obtainium. Android may warn you before it installs an APK from outside the Play Store; it does that for every app from another source. Open the app, and at <strong>Where should your data go?</strong>, tap <strong>Scan a code from Home Assistant</strong>, scan the code and tap <strong>Pair</strong>.</li>
+  <li>Install <a href="{{play_url}}">Life Dashboard Companion from Google Play</a>, €4.99 once, which keeps it up to date. Or install it free, the same app with the same signing key: open the APK from GitHub on the phone and allow installs from your browser once, or add it in Obtainium or F-Droid (<a href="../android/#get">install options</a>). Android may warn you before it installs an APK from outside the Play Store; it does that for every app from another source. Open the app, and at <strong>Where should your data go?</strong>, tap <strong>Scan a code from Home Assistant</strong>, scan the code and tap <strong>Pair</strong>.</li>
   <li>On the <strong>Health</strong> tab, tap <strong>Grant</strong> and allow your data types and reading in the background. <strong>The essentials</strong> preset covers steps, sleep, heart rate, resting heart rate, distance, calories and weight; switch on HRV, respiratory rate, skin temperature and the rest under <strong>Data Types</strong>.</li>
   <li>Tap <strong>Sync Now</strong>. For older data, tap <strong>Backfill</strong> and pick how far back, from <strong>30 days</strong> up to <strong>All history</strong>, after <strong>Grant history access</strong> if the dialog shows it.</li>
 </ol>

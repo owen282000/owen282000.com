@@ -11,7 +11,7 @@
 <meta name="theme-color" content="#101418">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png?v=355467f5">
 <link rel="apple-touch-icon" href="../img/icon-180.png?v=e1842852">
-<link rel="stylesheet" href="../site.css?v=5df2e9db">
+<link rel="stylesheet" href="../site.css?v=1f2d16a7">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="Health Connect and screen time, sent to your own server">
@@ -88,14 +88,23 @@
           "@id": "https://owen282000.com/life-dashboard/#owen"
         },
         "sameAs": [
-          "https://github.com/owen282000/life-dashboard-companion-app"
+          "https://github.com/owen282000/life-dashboard-companion-app",
+          "https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard"
         ],
         "screenshot": "https://owen282000.com/life-dashboard/img/A1-health.webp",
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "EUR"
-        }
+        "offers": [
+          {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "EUR"
+          },
+          {
+            "@type": "Offer",
+            "price": "4.99",
+            "priceCurrency": "EUR",
+            "url": "https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard"
+          }
+        ]
       },
       "isPartOf": {
         "@type": "WebSite",
@@ -105,7 +114,7 @@
         "inLanguage": "en"
       },
       "inLanguage": "en",
-      "dateModified": "2026-10-23"
+      "dateModified": "2026-10-27"
     },
     {
       "@type": "FAQPage",
@@ -176,10 +185,18 @@
         },
         {
           "@type": "Question",
+          "name": "Is it on Google Play?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes: Life Dashboard Companion on Google Play, €4.99 once (US$4.99), with no subscription. It's the easy way, with automatic updates, and buying it supports development. The APK on GitHub, Obtainium and F-Droid stay free: the same app, built from the same source and signed with the same key."
+          }
+        },
+        {
+          "@type": "Question",
           "name": "Can I switch between GitHub, Obtainium, F-Droid and Google Play later?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. Every build has the same package name and is signed with the same key, so one installs over the other and your settings stay."
+            "text": "Yes. Google Play, the APK on GitHub, Obtainium and F-Droid all install the same app, with the same package name and the same signing key, so you can switch without reinstalling: one installs over the other and your settings stay."
           }
         }
       ]
@@ -244,11 +261,12 @@
       <h1>Health Connect and screen time, sent to your own server</h1>
       <p class="lead">Life Dashboard Companion is an open-source Android app that sends Health Connect data and screen time per app to Home Assistant, MQTT or your own webhook, with no cloud and no account. It reads what Samsung Health, Google Health, Garmin Connect, Oura, Withings and others write to Health Connect.</p>
       <div class="cta-row stores">
-        <a class="btn btn-primary btn-store" href="https://github.com/owen282000/life-dashboard-companion-app/releases/latest/download/app-release.apk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14"/></svg>Download the free APK</a>
+        <a class="badge-link" href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-android%26utm_medium%3Dwebsite"><img class="badge-img" src="../img/badges/google-play.png?v=a13294f3" alt="Get it on Google Play" width="564" height="168" loading="lazy"></a>
       </div>
-      <div class="badge-rows"><div class="badges"><a class="badge-link" href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/owen282000/life-dashboard-companion-app"><img class="badge-img" src="../img/badges/obtainium.png?v=0c4760d6" alt="Get it on Obtainium" width="564" height="168" loading="lazy"></a><a class="badge-link" href="https://f-droid.org/packages/com.owen282000.lifedashboard/"><img class="badge-img" src="../img/badges/f-droid.svg?v=0cb07fbf" alt="Get it on F-Droid" width="564" height="168" loading="lazy"></a></div><div class="badges"><span class="badge-soon"><img class="badge-img" src="../img/badges/google-play.png?v=a13294f3" alt="Get it on Google Play" width="564" height="168" loading="lazy"><small><b>Coming soon.</b> <span>Closed testing</span></small></span></div></div>
+      <p class="fineprint">€4.99 once on Google Play: the easy way, with automatic updates, and it supports development. Or free, the same app with the same signing key:</p>
+      <div class="badges"><a class="badge-link" href="https://github.com/owen282000/life-dashboard-companion-app/releases/latest"><img class="badge-img" src="../img/badges/github.svg?v=fabc4112" alt="Get it on GitHub" width="564" height="168" loading="lazy"></a><a class="badge-link" href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/owen282000/life-dashboard-companion-app"><img class="badge-img" src="../img/badges/obtainium.png?v=0c4760d6" alt="Get it on Obtainium" width="564" height="168" loading="lazy"></a><a class="badge-link" href="https://f-droid.org/packages/com.owen282000.lifedashboard/"><img class="badge-img" src="../img/badges/f-droid.svg?v=0cb07fbf" alt="Get it on F-Droid" width="564" height="168" loading="lazy"></a></div>
       
-      <p class="repo-stats"><a href="https://github.com/owen282000/life-dashboard-companion-app">On GitHub</a>: <b>73</b> stars, <b>13</b> forks, <b>5</b> contributors. <span>Updated every hour.</span></p>
+      <p class="repo-stats"><a href="https://github.com/owen282000/life-dashboard-companion-app">On GitHub</a>: <b>81</b> stars, <b>15</b> forks, <b>5</b> contributors. <span>Updated every hour.</span></p>
     </div>
     <div class="product-visual">
       <div class="phone hero-shot" style="aspect-ratio: 720 / 1476"><img src="../img/A1-health.webp?v=0d989d3b" alt="The Health tab of the Android app" width="720" height="1476" fetchpriority="high"></div>
@@ -319,10 +337,10 @@
     <div class="get-split">
       <article class="get-card" id="get-android">
         <header><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span><div><h3><a href="../android/">Life Dashboard Companion for Android</a></h3><p>Health Connect and screen time per app</p></div></header>
-        <a class="badge-link" href="https://github.com/owen282000/life-dashboard-companion-app/releases/latest"><img class="badge-img" src="../img/badges/github.svg?v=fabc4112" alt="Get it on GitHub" width="564" height="168" loading="lazy"></a>
-        <p class="store-note">Open it on your phone and allow installs from your browser once. Each new release is on GitHub, or Obtainium updates it for you.</p>
+        <a class="badge-link" href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-android%26utm_medium%3Dwebsite"><img class="badge-img" src="../img/badges/google-play.png?v=a13294f3" alt="Get it on Google Play" width="564" height="168" loading="lazy"></a>
+        <p class="store-note">€4.99 once (US$4.99), no subscription. The easy way: Google Play installs it and keeps it up to date, and buying it supports development.</p>
         <ul class="get-list">
-          <li class="with-badge"><a class="badge-link" href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/owen282000/life-dashboard-companion-app"><img class="badge-img" src="../img/badges/obtainium.png?v=0c4760d6" alt="Get it on Obtainium" width="564" height="168" loading="lazy"></a><small>An app updater for GitHub apps: installs the same APK and keeps it up to date. Open this link on your phone.</small></li><li class="with-badge"><a class="badge-link" href="https://f-droid.org/packages/com.owen282000.lifedashboard/"><img class="badge-img" src="../img/badges/f-droid.svg?v=0cb07fbf" alt="Get it on F-Droid" width="564" height="168" loading="lazy"></a><small>Built by F-Droid from the source and identical to the signed APK; the F-Droid app keeps it up to date.</small></li><li class="with-badge"><span class="badge-soon"><img class="badge-img" src="../img/badges/google-play.png?v=a13294f3" alt="Get it on Google Play" width="564" height="168" loading="lazy"><small><b>Coming soon.</b> <span>Closed testing</span></small></span><small>In closed testing now. It will be a paid listing; the APK on GitHub stays free.</small></li>
+          <li class="free-line">Or free, the same app with the same signing key:</li><li class="with-badge"><a class="badge-link" href="https://github.com/owen282000/life-dashboard-companion-app/releases/latest"><img class="badge-img" src="../img/badges/github.svg?v=fabc4112" alt="Get it on GitHub" width="564" height="168" loading="lazy"></a><small>Open it on your phone and allow installs from your browser once. Each new release is on GitHub, or Obtainium updates it for you.</small></li><li class="with-badge"><a class="badge-link" href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/owen282000/life-dashboard-companion-app"><img class="badge-img" src="../img/badges/obtainium.png?v=0c4760d6" alt="Get it on Obtainium" width="564" height="168" loading="lazy"></a><small>An app updater for GitHub apps: installs the same APK and keeps it up to date. Open this link on your phone.</small></li><li class="with-badge"><a class="badge-link" href="https://f-droid.org/packages/com.owen282000.lifedashboard/"><img class="badge-img" src="../img/badges/f-droid.svg?v=0cb07fbf" alt="Get it on F-Droid" width="564" height="168" loading="lazy"></a><small>Built by F-Droid from the source and identical to the signed APK; the F-Droid app keeps it up to date.</small></li>
         </ul>
         
       </article>
@@ -376,8 +394,12 @@
         <p>Health Connect read permissions for the types you switch on, write permissions only for the Receive types you switch on, usage access for screen time, the camera only while you scan a pairing code, internet access, and notifications for failed syncs and backfill progress. Data goes only to the addresses you enter. The <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/PRIVACY.md#permissions">privacy policy</a> lists every permission and every field.</p>
       </details>
       <details>
+        <summary>Is it on Google Play?</summary>
+        <p>Yes: <a href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-android%26utm_medium%3Dwebsite">Life Dashboard Companion on Google Play</a>, €4.99 once (US$4.99), with no subscription. It's the easy way, with automatic updates, and buying it supports development. The APK on GitHub, Obtainium and F-Droid stay free: the same app, built from the same source and signed with the same key.</p>
+      </details>
+      <details>
         <summary>Can I switch between GitHub, Obtainium, F-Droid and Google Play later?</summary>
-        <p>Yes. Every build has the same package name and is signed with the same key, so one installs over the other and your settings stay.</p>
+        <p>Yes. Google Play, the APK on GitHub, Obtainium and F-Droid all install the same app, with the same package name and the same signing key, so you can switch without reinstalling: one installs over the other and your settings stay.</p>
       </details>
     </div>
     
