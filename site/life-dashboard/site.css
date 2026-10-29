@@ -480,6 +480,8 @@ main { position: relative; }
 .prose figure.shot { display: flex; justify-content: center; padding: 28px 24px 0; max-height: 440px; overflow: hidden; border-radius: var(--r-lg); background: radial-gradient(130% 130% at 25% 20%, #173229 0%, #11231E 45%, #0C1815 100%); border: 1px solid rgba(48,183,126,0.18); }
 .prose figure.shot .phone { position: relative; width: 230px; }
 .prose figure.shot.wide { max-height: none; padding-bottom: 28px; }
+.prose figure.diagram { margin: 28px 0; }
+.prose figure.diagram img { display: block; width: 100%; height: auto; }
 .prose li figure.shot { margin: 18px 0 8px; }
 .prose .next { margin: 44px 0 8px; padding: 24px; border-radius: var(--r-md); border: 1px solid var(--line-strong); background: var(--surface); }
 .prose .next p { margin: 0 0 16px; color: var(--text); }
@@ -608,6 +610,7 @@ main { position: relative; }
 @media (max-width: 900px) { .family.three { grid-template-columns: 1fr; } }
 .aside .aside-alt { margin: 0; font-size: 0.86rem; }
 .aside .aside-alt + .aside-alt { margin-top: 6px; }
+.aside .aside-gap { height: 18px; }
 .aside .aside-alt a { color: var(--green-soft); }
 .faq-more { max-width: 820px; margin: 28px 0 0; color: var(--muted); }
 
