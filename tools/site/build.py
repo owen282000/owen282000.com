@@ -226,7 +226,8 @@ GUIDE_GROUPS = [
                         "screen-time-home-assistant", "smart-scale-to-samsung-health"]),
     ("Watch brands", ["samsung-health-home-assistant", "fitbit-home-assistant", "garmin-home-assistant",
                       "samsung-health-export"]),
-    ("Your own server", ["health-connect-webhook", "health-connect-n8n", "health-data-api", "health-data-own-ai"]),
+    ("Your own server", ["health-connect-webhook", "health-connect-n8n", "health-data-api", "health-data-own-ai",
+                         "health-data-qr-pairing"]),
     ("iPhone", ["apple-health-home-assistant", "apple-watch-home-assistant", "apple-health-webhook",
                 "apple-health-n8n", "apple-health-data-types"]),
     ("Reference", ["health-connect-data-types", "troubleshooting"]),
@@ -259,6 +260,8 @@ GUIDES = [
      "Steps, sleep and heart rate from Garmin Connect, with no Garmin login in Home Assistant."),
     ("health-data-own-ai", "Health Connect and Apple Health over MCP", "MCP",
      "The stack's read-only MCP server lets a local model or Claude read your history. Works in Europe too."),
+    ("health-data-qr-pairing", "Let your users connect with one QR code", "QR pairing",
+     "For your own service: the pairing link, a generator in Python and Node.js, and the signed test ping."),
     ("troubleshooting", "Troubleshooting: syncs, sensors and pairing", "Troubleshooting",
      "Syncs that stop in the background, Health Connect permissions, missing sensors and pairing, step by step."),
     ("apple-health-home-assistant", "Apple Health in Home Assistant", "Apple Health",
@@ -284,6 +287,7 @@ GUIDE_ABOUT = {
     "fitbit-home-assistant": ["#android", "#integration"],
     "garmin-home-assistant": ["#android", "#integration"],
     "health-data-own-ai": ["#stack", "#integration", "#android", "#ios"],
+    "health-data-qr-pairing": ["#android", "#ios"],
     "health-connect-home-assistant": ["#android", "#integration"],
     "health-connect-webhook": ["#android", "#ios"],
     "screen-time-home-assistant": ["#android", "#integration"],
@@ -354,6 +358,7 @@ IMAGES = {
     "ios-schedule": ("phone", 720, 1464, "The sync schedule of the iPhone app at fixed times with quiet hours"),
     "ios-logs": ("phone", 720, 1464, "The sync history of the iPhone app"),
     "ios-mqtt": ("phone", 720, 1464, "Webhook and MQTT settings in the iPhone app"),
+    "p-pairing-flow": ("diagram", 1400, 700, "Your service shows a QR code, the phone opens it into the Pair with a receiver dialog, and after Pair your service gets a signed test ping"),
     "g-overview": ("wide", 1400, 728, "The overview dashboard of the Grafana stack with demo data"),
     "g-activity": ("wide", 1400, 1260, "The activity dashboard of the Grafana stack"),
     "g-sleep": ("wide", 1400, 895, "The sleep dashboard of the Grafana stack"),
@@ -388,6 +393,8 @@ NEXT = {
         [("btn-primary btn-store", "../grafana/#your-own-ai", "The stack's MCP server"), ("btn-ghost", "../home-assistant/", "The Home Assistant route")]),
     "health-connect-home-assistant": ("Two installs: the integration from HACS and the app on your phone. After that, pairing takes a minute.",
         [("btn-primary btn-store", HACS, "Open in HACS"), ("btn-ghost", "../android/#get", "Get the Android app")]),
+    "health-data-qr-pairing": ("Build a code for one test user and scan it with the app. The pairing reference has every rule, the test vector and the iPhone differences.",
+        [("btn-primary", f"{REPO}/blob/main/docs/pairing.md", "Pairing reference"), ("btn-ghost", f"{REPO}/blob/main/docs/webhook.md", "Payload reference")]),
     "health-connect-webhook": ("Install the app, point it at your URL and tap <strong>Test ping</strong>. The payload reference has every field and a receiver in Python and Node.js.",
         [("btn-primary btn-store", "../android/#get", "Get the Android app"), ("btn-ghost", f"{REPO}/blob/main/docs/webhook.md", "Payload reference")]),
     "screen-time-home-assistant": ("Screen time doesn't need Health Connect. Any phone or tablet with Android 8.0 or newer works.",
@@ -903,6 +910,10 @@ def figure(m, up="../", lang="en"):
     if kind == "phone":
         shot = image(name, up).replace(f'alt="{IMAGES[name][3]}"', f'alt="{alt}"')
         return f'<figure class="shot{tone}"><a class="shot-link" href="{up}img/{name}.webp" aria-label="{full}">{shot}</a></figure>'
+    if kind == "diagram":
+        # A drawn diagram brings its own card and text, so it gets the full column, without a frame.
+        return (f'<figure class="diagram"><a class="shot-link" href="{up}img/{name}.webp" aria-label="{full}">'
+                f'<img src="{up}img/{name}.webp" alt="{alt}" width="{w}" height="{h}" loading="lazy"></a></figure>')
     return (f'<figure class="shot wide"><a class="shot-link" href="{up}img/{name}.webp" aria-label="{full}">'
             f'<img src="{up}img/{name}.webp" alt="{alt}" width="{w}" height="{h}" loading="lazy"></a></figure>')
 
@@ -1010,22 +1021,38 @@ def build_guide(slug, short, lang="en"):
     if lang != "en":
         box = aside_de(up)
     else:
-        # The iPhone guides lead the aside with the iPhone app; every other guide with the Android app.
-        app = "ios" if slug in dict(GUIDE_GROUPS)["iPhone"] else "android"
-        lead = lead_item(app)
-        rest = [it for it in PARTS[app]["get"] if it is not lead]
-        aside = ({"ios": "The open-source iPhone app this guide uses. No account, and the data goes only where you point it.",
-                  "android": "The open-source Android app this guide uses. No account and no cloud."}[app]
-                 + f' <a href="{up}{app}/">More about the app</a>.')
-        alt = f'<p class="aside-alt">{alt_links(rest, up)}</p>'
-        if free_follows(app, lead):
-            alt = (f'<p class="aside-alt">{lead["pitch"]}</p>\n        '
-                   f'<p class="aside-alt">{PARTS[app]["free_line"]} {alt_links(rest, up)}</p>')
+        # The iPhone guides lead the aside with the iPhone app. A guide about both phones shows
+        # both stores, Android first; every other guide shows the Android app.
+        if slug in dict(GUIDE_GROUPS)["iPhone"]:
+            apps = ["ios"]
+        elif "#ios" in GUIDE_ABOUT.get(slug, []):
+            apps = ["android", "ios"]
+        else:
+            apps = ["android"]
+
+        def install(app):
+            lead = lead_item(app)
+            rest = [it for it in PARTS[app]["get"] if it is not lead]
+            alt = f'<p class="aside-alt">{alt_links(rest, up)}</p>'
+            if free_follows(app, lead):
+                alt = (f'<p class="aside-alt">{lead["pitch"]}</p>\n        '
+                       f'<p class="aside-alt">{PARTS[app]["free_line"]} {alt_links(rest, up)}</p>')
+            elif lead.get("pitch"):
+                alt = f'<p class="aside-alt">{lead["pitch"]}</p>'
+            return f"{lead_button(lead, up)}\n        {alt}"
+
+        if len(apps) == 2:
+            aside = ("The open-source apps this guide uses, for Android and iPhone. No account and no cloud."
+                     f' More about <a href="{up}android/">Android</a> and <a href="{up}ios/">iPhone</a>.')
+        else:
+            aside = ({"ios": "The open-source iPhone app this guide uses. No account, and the data goes only where you point it.",
+                      "android": "The open-source Android app this guide uses. No account and no cloud."}[apps[0]]
+                     + f' <a href="{up}{apps[0]}/">More about the app</a>.')
+        stores = '\n        <div class="aside-gap"></div>\n        '.join(install(a) for a in apps)
         box = f"""<div class="box cta">
         <h2>Life Dashboard Companion</h2>
         <p>{aside}</p>
-        {lead_button(lead, up)}
-        {alt}
+        {stores}
       </div>"""
     english = "" if lang == "en" else ' lang="en"'
     top, foot = nav(up), footer(up)
