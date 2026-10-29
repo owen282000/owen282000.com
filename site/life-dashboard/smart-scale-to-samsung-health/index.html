@@ -48,7 +48,7 @@
         }
       ],
       "datePublished": "2026-10-06",
-      "dateModified": "2026-10-23",
+      "dateModified": "2026-10-29",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -161,7 +161,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Smart scale to Samsung Health</span></nav>
 <h1>How do I get smart scale readings from Home Assistant into Samsung Health?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 23, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 29, 2026.</p>
 
 <p class="signpost">Want your watch's Samsung Health data in Home Assistant instead? See <a href="../samsung-health-home-assistant/">Samsung Health and Galaxy Watch in Home Assistant</a>.</p>
 
@@ -176,6 +176,8 @@
 </ul>
 
 <p>Common routes into Home Assistant are Xiaomi BLE with bodymiscale for Xiaomi scales, ble-scale-sync for Renpho, Eufy, Yunmai and others, and the Withings integration. The <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/recipes/scale-to-health-connect.md">scale recipe</a> says which entity to map for each, and has the templates some routes need.</p>
+
+<p>A scale that only syncs to its maker's cloud, such as the Xiaomi S400 EU in Xiaomi Home, or a scale in Zepp Life, Mi Fitness, My TANITA or Picooc, can reach Home Assistant through <a href="https://github.com/AlexxIT/SmartScaleConnect">SmartScaleConnect</a>. It signs in to that cloud with your account and posts each new weighing to a Home Assistant webhook, where an automation turns it into the sensors you map below.</p>
 
 <h2 id="set-it-up">Set it up</h2>
 
