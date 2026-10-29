@@ -3,7 +3,7 @@ title: Any smart scale in Samsung Health via Home Assistant | Life Dashboard
 description: Life Dashboard Companion writes smart scale readings from Home Assistant into Health Connect, where Samsung Health and Google Health read weight and body fat.
 primary query: smart scale to samsung health
 secondary queries: smart scale home assistant, home assistant weight to health connect, home assistant scale samsung health, home assistant blood pressure health connect, xiaomi scale samsung health, renpho home assistant health connect, home assistant to google health weight
-updated: 2026-10-23
+updated: 2026-10-29
 -->
 
 <h1>How do I get smart scale readings from Home Assistant into Samsung Health?</h1>
@@ -20,6 +20,8 @@ updated: 2026-10-23
 </ul>
 
 <p>Common routes into Home Assistant are Xiaomi BLE with bodymiscale for Xiaomi scales, ble-scale-sync for Renpho, Eufy, Yunmai and others, and the Withings integration. The <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/recipes/scale-to-health-connect.md">scale recipe</a> says which entity to map for each, and has the templates some routes need.</p>
+
+<p>A scale that only syncs to its maker's cloud, such as the Xiaomi S400 EU in Xiaomi Home, or a scale in Zepp Life, Mi Fitness, My TANITA or Picooc, can reach Home Assistant through <a href="https://github.com/AlexxIT/SmartScaleConnect">SmartScaleConnect</a>. It signs in to that cloud with your account and posts each new weighing to a Home Assistant webhook, where an automation turns it into the sensors you map below.</p>
 
 <h2>Set it up</h2>
 
