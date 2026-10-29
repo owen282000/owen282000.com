@@ -1,0 +1,140 @@
+<!--
+title: Let your users connect health data with one QR code | Life Dashboard
+description: Build a QR code that connects Life Dashboard Companion to your own service: the pairing link, a generator in Python and Node.js, and the signed test ping.
+primary query: health connect qr code pairing
+secondary queries: health connect webhook multiple users, health data webhook onboarding, apple health webhook qr code, pair app with server qr code, health connect data collection service, hmac secret qr code
+updated: 2026-10-29
+published: 2026-10-29
+-->
+
+<h1>How do I let my users connect their health data with one QR code?</h1>
+
+<p>Show each user a QR code with your webhook address and a secret for that user in it. They scan it with Life Dashboard Companion, tap <strong>Pair</strong>, and from then on their phone posts Health Connect data, or Apple Health data from an iPhone, to your service as signed JSON. Nobody types a URL or copies a secret, and you know it worked because the app sends a signed test ping straight away. The Life Dashboard integration for Home Assistant works exactly like this, and the format is open, so any service can do the same.</p>
+
+<!-- IMG: how pairing works (p-pairing-flow.png) -->
+
+<h2>What a code can do</h2>
+
+<ul>
+  <li><strong>Fill in one address and its secret.</strong> In the sections you allow: Health, Screen Time, or both. The user can still switch a section off in the dialog.</li>
+  <li><strong>Never pick data types or a schedule.</strong> Which data is sent, and how often, stays the user's choice on the phone. A code can't quietly start sending someone's heart rate anywhere.</li>
+  <li><strong>Never touch other receivers.</strong> Every other address keeps its own secret and headers, and an address added by pairing starts without custom headers.</li>
+  <li><strong>Save nothing before Pair.</strong> The dialog shows your name and the host the data goes to, taken from the address itself.</li>
+</ul>
+
+<h2>The link</h2>
+
+<p>A code is an https link with everything after the <code>#</code>:</p>
+
+<pre><code>https://owen282000.github.io/life-dashboard-companion-app/pair#v=1&amp;url=&lt;address&gt;&amp;secret=&lt;secret&gt;&amp;name=&lt;name&gt;</code></pre>
+
+<table>
+  <thead><tr><th>Field</th><th>Value</th></tr></thead>
+  <tbody>
+    <tr><td><code>v</code></td><td><code>1</code>, the format version. Required.</td></tr>
+    <tr><td><code>url</code></td><td>Your webhook address, at most 2048 characters, no spaces, no comma. Required.</td></tr>
+    <tr><td><code>secret</code></td><td>The HMAC signing secret for this user, at most 512 characters, no spaces. Required.</td></tr>
+    <tr><td><code>name</code></td><td>What the dialog calls your service, up to 64 characters. Optional.</td></tr>
+    <tr><td><code>sources</code></td><td><code>health_connect</code>, <code>screen_time</code> or both, comma separated. Leave it out to accept both.</td></tr>
+  </tbody>
+</table>
+
+<p>Percent-encode every value completely, a space as <code>%20</code>. Python's <code>quote(value, safe="")</code> and JavaScript's <code>encodeURIComponent</code> do that; form encoding, which writes a space as <code>+</code>, does not. The secret sits in the fragment on purpose: a browser never sends the part after the <code>#</code> to a server, so when someone scans the code without the app installed, the landing page loads but the secret stays on their phone.</p>
+
+<h2>Build a code in Python</h2>
+
+<pre><code>import secrets
+from urllib.parse import quote, urlencode
+
+import segno
+
+PAIR_PAGE = "https://owen282000.github.io/life-dashboard-companion-app/pair"
+
+
+def pairing_link(webhook_url, secret, name=None, sources=None):
+    fields = {"v": "1", "url": webhook_url, "secret": secret}
+    if name:
+        fields["name"] = name
+    if sources:
+        fields["sources"] = ",".join(sources)
+    return PAIR_PAGE + "#" + urlencode(fields, quote_via=quote, safe="")
+
+
+secret = secrets.token_urlsafe(32)  # store this with the user
+link = pairing_link("https://health.example.com/webhook/u/42", secret, name="Example Health")
+segno.make(link, error="m").save("pairing.svg", scale=6, border=4)</code></pre>
+
+<h2>Build a code in Node.js</h2>
+
+<pre><code>import crypto from "node:crypto";
+import QRCode from "qrcode";
+
+const PAIR_PAGE = "https://owen282000.github.io/life-dashboard-companion-app/pair";
+
+function pairingLink(webhookUrl, secret, { name, sources } = {}) {
+  const fields = [["v", "1"], ["url", webhookUrl], ["secret", secret]];
+  if (name) fields.push(["name", name]);
+  if (sources) fields.push(["sources", sources.join(",")]);
+  return PAIR_PAGE + "#" + fields.map(([k, v]) =&gt; `${k}=${encodeURIComponent(v)}`).join("&amp;");
+}
+
+const secret = crypto.randomBytes(32).toString("base64url"); // store this with the user
+const link = pairingLink("https://health.example.com/webhook/u/42", secret, { name: "Example Health" });
+const dataUrl = await QRCode.toDataURL(link, { errorCorrectionLevel: "M", margin: 4 });</code></pre>
+
+<p>Both give exactly the known-good test vector that the app's own tests check, which is in the <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/pairing.md#known-good-test-vector">pairing reference</a>. Use it as a unit test for your generator.</p>
+
+<h2>What the user sees</h2>
+
+<p>They scan your code in the app, under <strong>Scan a pairing code</strong>, or with the phone's camera, which opens the app directly on Android. A dialog says "Example Health wants to receive your data at health.example.com", with a switch for each section and the other addresses that keep their own secret. Nothing is saved until they tap <strong>Pair</strong>.</p>
+
+<h2>The test ping after Pair</h2>
+
+<p>Right after <strong>Pair</strong>, the app posts one test ping to your address, signed with the secret from the code:</p>
+
+<pre><code>POST /webhook/u/42
+Content-Type: application/json; charset=utf-8
+X-Signature: sha256=&lt;hex of HMAC-SHA256(secret, raw body)&gt;
+
+{
+  "test": true,
+  "message": "Test ping from Life Dashboard Companion",
+  "timestamp": "2026-10-04T12:00:00Z",
+  "app_version": "1.29.0",
+  "source": "health_connect"
+}</code></pre>
+
+<p>Check the signature over the raw body before you parse it, answer any <code>2xx</code>, and the user sees "test ping delivered". Answer <code>401</code> to a bad signature, as for every request after it. A ping carries no data, so it is a good moment to mark the user as connected, not something to store. Every sync after it uses the same secret and the same payload, described in the <a href="../health-connect-webhook/">webhook guide</a>.</p>
+
+<h2>iPhone</h2>
+
+<p>Life Dashboard Companion for iPhone reads the same codes. It sends Apple Health only, so a code must accept <code>health_connect</code> or leave <code>sources</code> out. Plain <code>http://</code> works there only to a home network address, so use https. The iPhone camera opens the landing page first, which hands the code to the app with an <strong>Open in the app</strong> button.</p>
+
+<h2>Keep it safe</h2>
+
+<ul>
+  <li><strong>One secret per user</strong>, from a cryptographic random generator, at least 32 bytes.</li>
+  <li><strong>Show the code only to that user</strong>, after they signed in. Anyone who sees it can sign data as them.</li>
+  <li><strong>Never log the link.</strong> It contains the secret.</li>
+  <li><strong>Let users rotate.</strong> A new secret means a new code; scanning it replaces the old secret on the phone.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Do my users need an account with Life Dashboard?</summary>
+    <p>No. There is no Life Dashboard server or account. The phone posts straight to the address in your code.</p>
+  </details>
+  <details>
+    <summary>Can a code choose which health data my service gets?</summary>
+    <p>No. A code only fills in the address and the secret. The user picks the data types and the schedule on the phone, which keeps the consent with them.</p>
+  </details>
+  <details>
+    <summary>Can I get the payload in my own format?</summary>
+    <p>No. Every receiver gets the same signed JSON, described by a JSON Schema, and your service maps it to its own model. One documented format is what lets any receiver work without a plugin.</p>
+  </details>
+  <details>
+    <summary>What if the user scans without the app installed?</summary>
+    <p>The link opens a page that says where to get the app, for Android or iPhone. The secret in the link never reaches that page's server.</p>
+  </details>
+</section>
