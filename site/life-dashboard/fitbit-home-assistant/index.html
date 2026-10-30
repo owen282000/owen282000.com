@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fitbit in Home Assistant after the API shutdown | Life Dashboard</title>
-<meta name="description" content="Google turns off the Fitbit Web API on October 30, 2026. Life Dashboard Companion gets Fitbit and Pixel Watch data into Home Assistant through Health Connect.">
+<meta name="description" content="Google turns off the Fitbit Web API on November 2, 2026. Life Dashboard Companion gets Fitbit and Pixel Watch data into Home Assistant through Health Connect.">
 <link rel="canonical" href="https://owen282000.com/life-dashboard/fitbit-home-assistant/">
 <meta name="robots" content="max-image-preview:large">
 <meta name="theme-color" content="#101418">
@@ -15,7 +15,7 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="How do I get Fitbit and Pixel Watch data into Home Assistant after the Fitbit Web API shutdown?">
-<meta property="og:description" content="Google turns off the Fitbit Web API on October 30, 2026. Life Dashboard Companion gets Fitbit and Pixel Watch data into Home Assistant through Health Connect.">
+<meta property="og:description" content="Google turns off the Fitbit Web API on November 2, 2026. Life Dashboard Companion gets Fitbit and Pixel Watch data into Home Assistant through Health Connect.">
 <meta property="og:url" content="https://owen282000.com/life-dashboard/fitbit-home-assistant/">
 <meta property="og:image" content="https://owen282000.com/life-dashboard/img/social.png">
 <meta property="og:image:width" content="1280">
@@ -29,7 +29,7 @@
     {
       "@type": "TechArticle",
       "headline": "How do I get Fitbit and Pixel Watch data into Home Assistant after the Fitbit Web API shutdown?",
-      "description": "Google turns off the Fitbit Web API on October 30, 2026. Life Dashboard Companion gets Fitbit and Pixel Watch data into Home Assistant through Health Connect.",
+      "description": "Google turns off the Fitbit Web API on November 2, 2026. Life Dashboard Companion gets Fitbit and Pixel Watch data into Home Assistant through Health Connect.",
       "url": "https://owen282000.com/life-dashboard/fitbit-home-assistant/",
       "inLanguage": "en",
       "author": {
@@ -48,7 +48,7 @@
         }
       ],
       "datePublished": "2026-10-06",
-      "dateModified": "2026-10-27",
+      "dateModified": "2026-10-30",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -95,7 +95,7 @@
           "name": "Will Home Assistant's Fitbit integration keep working?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. It uses the legacy Fitbit Web API, which Google turns off on October 30, 2026. From then on it gets no new data."
+            "text": "No. It uses the legacy Fitbit Web API, which Google turns off on November 2, 2026, after first naming October 30. From then on it gets no new data."
           }
         },
         {
@@ -103,7 +103,7 @@
           "name": "My Fitbit integration stopped working in Home Assistant. Can I fix it?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Not if it stopped on or after October 30, 2026. That is the end of the Fitbit Web API, not a fault in your setup, so signing in again or reinstalling won't help. Move to Health Connect with the steps above, or to Home Assistant's Google Health integration."
+            "text": "Not if it stopped on or after November 2, 2026. That is the end of the Fitbit Web API, not a fault in your setup, so signing in again or reinstalling won't help. Move to Health Connect with the steps above, or to Home Assistant's Google Health integration."
           }
         },
         {
@@ -177,20 +177,20 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Fitbit and Pixel Watch in Home Assistant</span></nav>
 <h1>How do I get Fitbit and Pixel Watch data into Home Assistant after the Fitbit Web API shutdown?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 27, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 30, 2026.</p>
 
-<p>Google turns off the Fitbit Web API on October 30, 2026. From that day, Home Assistant's Fitbit integration gets no new data: its sensors stop updating and show as unavailable. Your watch and the Google Health app keep working, and the app keeps writing your data to Health Connect on your Android phone. Life Dashboard Companion, an open-source Android app, reads it there and sends it to the Life Dashboard integration in Home Assistant. That route doesn't use the Fitbit Web API, and it needs no Google Cloud project or OAuth client.</p>
+<p>Google turns off the Fitbit Web API on November 2, 2026, a few days later than the October 30 it first named. From that day, Home Assistant's Fitbit integration gets no new data: its sensors stop updating and show as unavailable. Your watch and the Google Health app keep working, and the app keeps writing your data to Health Connect on your Android phone. Life Dashboard Companion, an open-source Android app, reads it there and sends it to the Life Dashboard integration in Home Assistant. That route doesn't use the Fitbit Web API, and it needs no Google Cloud project or OAuth client.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in HACS</a></p>
 
 <p class="flow-line"><span>Fitbit or Pixel Watch</span><span>Google Health app</span><span>Health Connect</span><span>Life Dashboard Companion</span><span>Home Assistant</span></p>
 
-<h2 id="what-stops-working-on-october-30-2026">What stops working on October 30, 2026</h2>
+<h2 id="what-stops-working-on-november-2-2026">What stops working on November 2, 2026</h2>
 
-<p>Home Assistant's Fitbit integration uses the legacy Fitbit Web API. Google ended support for that API on September 30, 2026 and turns it off on October 30, 2026. From then on, Google says, the API "will no longer function or sync data to or from Fitbit users" (<a href="https://developers.google.com/health/release-notes">Google's release notes</a>).</p>
+<p>Home Assistant's Fitbit integration uses the legacy Fitbit Web API. Google ended support for that API on September 30, 2026 and turns it off on November 2, 2026. On that day, Google says, the legacy Fitbit Web API and Fitbit's OAuth endpoints "will be turned off and will no longer function" (<a href="https://developers.google.com/health/release-notes">Google's release notes</a>).</p>
 
-<div class="table-wrap" tabindex="0" role="region" aria-label="What stops working on October 30, 2026"><table>
+<div class="table-wrap" tabindex="0" role="region" aria-label="What stops working on November 2, 2026"><table>
   <thead>
-    <tr><th scope="col">What</th><th scope="col">From October 30, 2026</th></tr>
+    <tr><th scope="col">What</th><th scope="col">From November 2, 2026</th></tr>
   </thead>
   <tbody>
     <tr><th scope="row">Home Assistant's Fitbit integration</th><td>Stops. No new data, sensors unavailable</td></tr>
@@ -202,6 +202,8 @@
 </table></div>
 
 <p>The Google Health app was called the Fitbit app until May 2026.</p>
+
+<p>Dashboards and export tools that read Fitbit data for other people move to the Google Health API too, and that takes longer than a code change. Nearly all its scopes are restricted: until Google has verified an app it is limited to 100 users, and an app that takes the data off your phone also needs a yearly security assessment by an outside firm (<a href="https://developers.google.com/health/app-verification">Google's app verification</a>). Some of these services pause or close sign-ups while they go through it. Home Assistant's Google Health integration runs on your own Google Cloud project, with you as its only user, and the Health Connect route below uses no Google API at all, so neither has to wait.</p>
 
 <h2 id="if-you-use-the-fitbit-integration-now">If you use the Fitbit integration now</h2>
 
@@ -296,11 +298,11 @@
   <h2 id="faq">Common questions</h2>
   <details>
     <summary>Will Home Assistant's Fitbit integration keep working?</summary>
-    <p>No. It uses the legacy Fitbit Web API, which Google turns off on October 30, 2026. From then on it gets no new data.</p>
+    <p>No. It uses the legacy Fitbit Web API, which Google turns off on November 2, 2026, after first naming October 30. From then on it gets no new data.</p>
   </details>
   <details>
     <summary>My Fitbit integration stopped working in Home Assistant. Can I fix it?</summary>
-    <p>Not if it stopped on or after October 30, 2026. That is the end of the Fitbit Web API, not a fault in your setup, so signing in again or reinstalling won't help. Move to Health Connect with the steps above, or to Home Assistant's Google Health integration.</p>
+    <p>Not if it stopped on or after November 2, 2026. That is the end of the Fitbit Web API, not a fault in your setup, so signing in again or reinstalling won't help. Move to Health Connect with the steps above, or to Home Assistant's Google Health integration.</p>
   </details>
   <details>
     <summary>Do I lose my Fitbit history in Home Assistant?</summary>
