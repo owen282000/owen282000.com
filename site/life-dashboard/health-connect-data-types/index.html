@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Health Connect data types, app by app | Life Dashboard</title>
-<meta name="description" content="All 33 Health Connect data types Life Dashboard sends, with payload keys and units, and which ones Samsung Health, Garmin, Google Health and Oura write.">
+<meta name="description" content="All 34 Health Connect data types Life Dashboard sends, with payload keys and units, and which ones Samsung Health, Garmin, Google Health and Oura write.">
 <link rel="canonical" href="https://owen282000.com/life-dashboard/health-connect-data-types/">
 <meta name="robots" content="max-image-preview:large">
 <meta name="theme-color" content="#101418">
@@ -15,7 +15,7 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="Which Health Connect data types can I get, and which apps write them?">
-<meta property="og:description" content="All 33 Health Connect data types Life Dashboard sends, with payload keys and units, and which ones Samsung Health, Garmin, Google Health and Oura write.">
+<meta property="og:description" content="All 34 Health Connect data types Life Dashboard sends, with payload keys and units, and which ones Samsung Health, Garmin, Google Health and Oura write.">
 <meta property="og:url" content="https://owen282000.com/life-dashboard/health-connect-data-types/">
 <meta property="og:image" content="https://owen282000.com/life-dashboard/img/social.png">
 <meta property="og:image:width" content="1280">
@@ -29,7 +29,7 @@
     {
       "@type": "TechArticle",
       "headline": "Which Health Connect data types can I get, and which apps write them?",
-      "description": "All 33 Health Connect data types Life Dashboard sends, with payload keys and units, and which ones Samsung Health, Garmin, Google Health and Oura write.",
+      "description": "All 34 Health Connect data types Life Dashboard sends, with payload keys and units, and which ones Samsung Health, Garmin, Google Health and Oura write.",
       "url": "https://owen282000.com/life-dashboard/health-connect-data-types/",
       "inLanguage": "en",
       "author": {
@@ -111,7 +111,7 @@
           "name": "Does the iPhone app send the same types?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "It sends 29 of the 33 keys from Apple Health, in the same format and units. It doesn't send bone_mass, body_water_mass, skin_temperature or basal_metabolic_rate, and its heart rate variability is SDNN where Android sends RMSSD."
+            "text": "It sends 29 of the 34 keys from Apple Health, in the same format and units. It doesn't send speed, bone_mass, body_water_mass, skin_temperature or basal_metabolic_rate, and its heart rate variability is SDNN where Android sends RMSSD."
           }
         },
         {
@@ -171,22 +171,23 @@
 <h1>Which Health Connect data types can I get, and which apps write them?</h1>
 <p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 5, 2026.</p>
 
-<p>Life Dashboard Companion, an open-source Android app, reads 33 Health Connect data types and sends each under its own key as JSON, from steps, sleep stages and heart rate to blood pressure, nutrition and cycle tracking. What actually arrives depends on what your watch's app writes to Health Connect: Samsung Health doesn't write heart rate variability or resting heart rate, and Garmin Connect writes neither of those nor oxygen saturation.</p>
+<p>Life Dashboard Companion, an open-source Android app, reads 34 Health Connect data types and sends each under its own key as JSON, from steps, sleep stages and heart rate to blood pressure, nutrition and cycle tracking. What actually arrives depends on what your watch's app writes to Health Connect: Samsung Health doesn't write heart rate variability or resting heart rate, and Garmin Connect writes neither of those nor oxygen saturation.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="../android/#get">Get the Android app</a></p>
 
-<p>The iPhone app sends 29 of the 33 keys from its 28 Apple Health types (active energy fills both calorie keys), in the same format and units. Screen time isn't a Health Connect type, but the Android app sends it too, as a payload of its own. The tables below are as of October 2026, from each app's own list of what it writes to Health Connect.</p>
+<p>The iPhone app sends 29 of the 34 keys from its 28 Apple Health types (active energy fills both calorie keys), in the same format and units. Screen time isn't a Health Connect type, but the Android app sends it too, as a payload of its own. The tables below are as of October 2026, from each app's own list of what it writes to Health Connect.</p>
 
-<h2 id="all-33-types-at-a-glance">All 33 types at a glance</h2>
+<h2 id="all-34-types-at-a-glance">All 34 types at a glance</h2>
 
 <p>Each type has its own key in the payload, and its unit is fixed, whatever unit the source app used. A type over a period carries <code>start_time</code> and <code>end_time</code>, a type at a moment carries <code>time</code>, and every record carries a <code>uuid</code> and the <code>source</code> app that wrote it.</p>
 
-<div class="table-wrap" tabindex="0" role="region" aria-label="All 33 types at a glance"><table>
+<div class="table-wrap" tabindex="0" role="region" aria-label="All 34 types at a glance"><table>
   <thead>
     <tr><th scope="col">Type</th><th scope="col">Payload key</th><th scope="col">Unit</th><th scope="col">Android</th><th scope="col">iPhone</th></tr>
   </thead>
   <tbody>
     <tr><th scope="row"><a href="#steps">Steps</a></th><td><code>steps</code></td><td>steps</td><td>Yes</td><td>Yes</td></tr>
     <tr><th scope="row"><a href="#distance">Distance</a></th><td><code>distance</code></td><td>m</td><td>Yes</td><td>Yes</td></tr>
+    <tr><th scope="row"><a href="#speed">Speed</a></th><td><code>speed</code></td><td>m/s</td><td>Yes</td><td>No</td></tr>
     <tr><th scope="row"><a href="#active_calories">Active calories</a></th><td><code>active_calories</code></td><td>kcal</td><td>Yes</td><td>Yes</td></tr>
     <tr><th scope="row"><a href="#total_calories">Total calories</a></th><td><code>total_calories</code></td><td>kcal</td><td>Yes</td><td>Yes</td></tr>
     <tr><th scope="row"><a href="#exercise">Exercise sessions</a></th><td><code>exercise</code></td><td>s</td><td>Yes</td><td>Yes</td></tr>
@@ -232,6 +233,7 @@
   <tbody>
     <tr><th scope="row"><a href="#steps">Steps</a></th><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Watch</td><td>Yes</td></tr>
     <tr><th scope="row"><a href="#distance">Distance</a></th><td>From exercise</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Watch</td><td>Yes</td></tr>
+    <tr><th scope="row"><a href="#speed">Speed</a></th><td>Yes</td><td>Yes</td><td>Yes</td><td>No</td><td>Unknown</td><td>Yes</td></tr>
     <tr><th scope="row"><a href="#active_calories">Active calories</a></th><td>No</td><td>Yes</td><td>No</td><td>Yes</td><td>Unknown</td><td>From exercise</td></tr>
     <tr><th scope="row"><a href="#total_calories">Total calories</a></th><td>From exercise</td><td>Yes</td><td>Yes</td><td>No</td><td>Unknown</td><td>From exercise</td></tr>
     <tr><th scope="row"><a href="#exercise">Exercise sessions</a></th><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Unknown</td><td>Yes</td></tr>
@@ -292,6 +294,10 @@
 <h3 id="distance">Distance</h3>
 <p>Key <code>distance</code>: <code>meters</code>, over an interval. Android and iPhone.</p>
 <p>Written by Garmin Connect, Google Health, Oura and Gadgetbridge, and by Samsung Health from exercise only. Withings watches measure it, but Withings publishes no list of what it writes.</p>
+
+<h3 id="speed">Speed</h3>
+<p>Key <code>speed</code>: <code>meters_per_second</code>, a number, one object per sample. Android only. Each sample's <code>uuid</code> is the record's ID plus <code>#</code> and the time in epoch milliseconds.</p>
+<p>Written by Samsung Health, Garmin Connect, Google Health and Gadgetbridge. Withings publishes no list of what it writes.</p>
 
 <h3 id="active_calories">Active calories</h3>
 <p>Key <code>active_calories</code>: <code>calories</code> in kcal, over an interval. Android and iPhone.</p>
@@ -440,7 +446,7 @@
 
 <h2 id="what-the-app-doesn-t-send">What the app doesn't send</h2>
 
-<p>Health Connect has more record types than these 33. The app doesn't read floors climbed, speed, power, elevation gained, cadence or exercise routes, even when Samsung Health, Garmin Connect, Google Health or Gadgetbridge writes them.</p>
+<p>Health Connect has more record types than these 34. The app doesn't read floors climbed, power, elevation gained, cadence or exercise routes, even when Samsung Health, Garmin Connect, Google Health or Gadgetbridge writes them.</p>
 
 <h2 id="choose-which-types-go-out">Choose which types go out</h2>
 
@@ -468,7 +474,7 @@
   </details>
   <details>
     <summary>Does the iPhone app send the same types?</summary>
-    <p>It sends 29 of the 33 keys from Apple Health, in the same format and units. It doesn't send <code>bone_mass</code>, <code>body_water_mass</code>, <code>skin_temperature</code> or <code>basal_metabolic_rate</code>, and its heart rate variability is SDNN where Android sends RMSSD.</p>
+    <p>It sends 29 of the 34 keys from Apple Health, in the same format and units. It doesn't send <code>speed</code>, <code>bone_mass</code>, <code>body_water_mass</code>, <code>skin_temperature</code> or <code>basal_metabolic_rate</code>, and its heart rate variability is SDNN where Android sends RMSSD.</p>
   </details>
   <details>
     <summary>Can I get these types as a CSV file?</summary>

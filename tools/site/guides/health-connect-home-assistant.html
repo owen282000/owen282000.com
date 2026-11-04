@@ -64,7 +64,7 @@ updated: 2026-11-05
 <h2>What you get</h2>
 
 <ul>
-  <li><strong>Sensors</strong> for 25 of the 33 types: today's steps, distance and calories (such as <code>sensor.pixel_8_steps_today</code>), and the latest heart rate, resting heart rate, HRV, last sleep, weight, blood pressure, glucose, the last workout and more. Latest values name the app that wrote them. Which ones you get depends on your watch's app; see the table above.</li>
+  <li><strong>Sensors</strong> for 26 of the 34 types: today's steps, distance and calories (such as <code>sensor.pixel_8_steps_today</code>), and the latest heart rate, resting heart rate, HRV, last sleep, weight, blood pressure, glucose, the last workout and more. Latest values name the app that wrote them. Which ones you get depends on your watch's app; see the table above.</li>
   <li><strong>History</strong> in long-term statistics: one value per day for steps, distance, calories, sleep, exercise and mindfulness minutes, hydration and screen time, and an hourly mean, minimum and maximum for heart rate, weight and other measurements. Use the <strong>Statistics graph</strong> card; <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md">Sensors and statistics</a> lists every entity.</li>
   <li><strong>No double counting.</strong> Steps, distance and calories use Health Connect's daily totals, so a walk recorded by phone and watch counts once.</li>
   <li><strong>An example dashboard</strong> in <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/examples/dashboard.yaml">examples/dashboard.yaml</a>. The setup needs no YAML; the example dashboard is an optional YAML file you paste into a new dashboard's raw configuration editor.</li>
@@ -90,7 +90,7 @@ updated: 2026-11-05
 
 <h2>MQTT as the alternative</h2>
 
-<p>With an MQTT broker already running, tap <strong>Add destination</strong> (with nothing set up yet, <strong>Use your own server</strong>) on the <strong>Health</strong> tab instead, then <strong>MQTT broker</strong>, switch on <strong>Enable MQTT publishing</strong>, fill in the broker and tap <strong>Save</strong>. Sensors for 24 types and screen time appear under a device named Life Dashboard Companion, with no YAML. Pick one route; running both gives you two devices with the same numbers.</p>
+<p>With an MQTT broker already running, tap <strong>Add destination</strong> (with nothing set up yet, <strong>Use your own server</strong>) on the <strong>Health</strong> tab instead, then <strong>MQTT broker</strong>, switch on <strong>Enable MQTT publishing</strong>, fill in the broker and tap <strong>Save</strong>. Sensors for 25 types and screen time appear under a device named Life Dashboard Companion, with no YAML. Pick one route; running both gives you two devices with the same numbers.</p>
 
 <table>
   <thead>

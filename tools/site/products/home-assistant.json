@@ -128,7 +128,7 @@
     },
     {
       "q": "Which data gets no sensor?",
-      "a": "Eight of the 33 Health Connect types are events: meals, mindfulness sessions, sexual activity and the five cycle tracking types. Workouts get a last workout sensor and the minutes of today and yesterday, and mindfulness counts as minutes per day in the statistics. For the raw records, add a second webhook in the app that points at <a href=\"../health-connect-webhook/\">your own backend</a>."
+      "a": "Eight of the 34 Health Connect types are events: meals, mindfulness sessions, sexual activity and the five cycle tracking types. Workouts get a last workout sensor and the minutes of today and yesterday, and mindfulness counts as minutes per day in the statistics. For the raw records, add a second webhook in the app that points at <a href=\"../health-connect-webhook/\">your own backend</a>."
     },
     {
       "q": "Can Home Assistant send a scale reading to the phone?",
@@ -147,7 +147,7 @@
       "a": "Deleting the entry removes the device and its sensors, deletes its cloudhook if it had one, and deletes the phone's files in <code>.storage</code>. Its long-term statistics stay in the recorder, as they do for any integration you remove."
     }
   ],
-  "updated": "2026-11-04",
+  "updated": "2026-11-05",
   "guides": [
     "health-connect-home-assistant",
     "fitbit-home-assistant",
@@ -166,7 +166,7 @@
       [
         "Health Connect",
         "26 sensors",
-        "33 types; 25 become sensors, and a webhook gets every record"
+        "34 types; 26 become sensors, and a webhook gets every record"
       ],
       [
         "History",

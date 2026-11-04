@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Home Assistant companion app or Life Dashboard Companion? | Life Dashboard</title>
-<meta name="description" content="The companion app&#x27;s 26 Health Connect sensors show the latest value. Life Dashboard Companion adds history on the right dates, 33 types and write-back.">
+<meta name="description" content="The companion app&#x27;s 26 Health Connect sensors show the latest value. Life Dashboard Companion adds history on the right dates, 34 types and write-back.">
 <link rel="canonical" href="https://owen282000.com/life-dashboard/companion-app-health-connect/">
 <meta name="robots" content="max-image-preview:large">
 <meta name="theme-color" content="#101418">
@@ -15,7 +15,7 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="Is the Home Assistant companion app enough for Health Connect data?">
-<meta property="og:description" content="The companion app&#x27;s 26 Health Connect sensors show the latest value. Life Dashboard Companion adds history on the right dates, 33 types and write-back.">
+<meta property="og:description" content="The companion app&#x27;s 26 Health Connect sensors show the latest value. Life Dashboard Companion adds history on the right dates, 34 types and write-back.">
 <meta property="og:url" content="https://owen282000.com/life-dashboard/companion-app-health-connect/">
 <meta property="og:image" content="https://owen282000.com/life-dashboard/img/social.png">
 <meta property="og:image:width" content="1280">
@@ -29,7 +29,7 @@
     {
       "@type": "TechArticle",
       "headline": "Is the Home Assistant companion app enough for Health Connect data?",
-      "description": "The companion app's 26 Health Connect sensors show the latest value. Life Dashboard Companion adds history on the right dates, 33 types and write-back.",
+      "description": "The companion app's 26 Health Connect sensors show the latest value. Life Dashboard Companion adds history on the right dates, 34 types and write-back.",
       "url": "https://owen282000.com/life-dashboard/companion-app-health-connect/",
       "inLanguage": "en",
       "author": {
@@ -171,7 +171,7 @@
 <h1>Is the Home Assistant companion app enough for Health Connect data?</h1>
 <p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 5, 2026.</p>
 
-<p>For the latest value, yes. The Android companion app has 26 Health Connect sensors, each with the newest reading or today's total. It has no way to load older data, it files a value at the moment the sensor updates rather than on the day it belongs to, and it doesn't write into Health Connect. Life Dashboard reads 33 types and adds a backfill of up to a year on the right dates, scale and blood pressure readings written back, and screen time per app. The two run side by side.</p>
+<p>For the latest value, yes. The Android companion app has 26 Health Connect sensors, each with the newest reading or today's total. It has no way to load older data, it files a value at the moment the sensor updates rather than on the day it belongs to, and it doesn't write into Health Connect. Life Dashboard reads 34 types and adds a backfill of up to a year on the right dates, scale and blood pressure readings written back, and screen time per app. The two run side by side.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in the Marketplace</a></p>
 
 <p class="flow-line"><span>Health Connect</span><span>Life Dashboard Companion</span><span>Life Dashboard integration</span><span>Every day on its own date</span></p>
@@ -225,7 +225,7 @@
 <p>Life Dashboard is an open-source Android app, Life Dashboard Companion, plus the <a href="../home-assistant/">Life Dashboard integration</a> from the Marketplace (HACS before Home Assistant 2026.11). The app reads Health Connect and sends every record with its own time, and the integration files it on that date.</p>
 
 <ul>
-  <li><strong>33 types, 25 as sensors.</strong> Since integration 0.10.0 that includes three for workouts: the last workout, and the minutes of today and yesterday. Over MQTT it's 24, without the workouts. Meals, mindfulness, sexual activity and cycle tracking have no single value to show; a webhook of your own gets them as records.</li>
+  <li><strong>34 types, 26 as sensors.</strong> Since integration 0.10.0 that includes three for workouts: the last workout, and the minutes of today and yesterday. Over MQTT it's 25, without the workouts. Meals, mindfulness, sexual activity and cycle tracking have no single value to show; a webhook of your own gets them as records.</li>
   <li><strong>History on the right day.</strong> Daily totals land on their own date, and readings such as heart rate and weight get a mean, minimum and maximum per hour. Data that arrives late is filed where it belongs: each sync reaches back a week for records a source writes late.</li>
   <li><strong>A backfill of your history.</strong> <strong>Send history</strong> under <strong>What to send</strong> on the <strong>Health</strong> tab sends 30 days up to 5 years, or <strong>All history</strong>, of every enabled type, so your graphs start full. Home Assistant takes in about the last year for now.</li>
   <li><strong>Readings written back.</strong> Weight, height, body fat, lean body mass, bone mass, body water mass and blood pressure from a scale or monitor in Home Assistant go into Health Connect, where apps such as Samsung Health can read them. See <a href="../smart-scale-to-samsung-health/">smart scale readings into Samsung Health</a>.</li>
@@ -244,7 +244,7 @@
     <tr><th scope="col">Feature</th><th scope="col">Home Assistant companion app</th><th scope="col">Life Dashboard</th></tr>
   </thead>
   <tbody>
-    <tr><th scope="row">Health Connect</th><td>26 sensors from 25 types</td><td>33 types; 25 become sensors, and a webhook gets every record</td></tr>
+    <tr><th scope="row">Health Connect</th><td>26 sensors from 25 types</td><td>34 types; 26 become sensors, and a webhook gets every record</td></tr>
     <tr><th scope="row">Types the other lacks</th><td>Floors climbed, elevation gained</td><td>Exercise sessions, sleep stages, nutrition, cycle tracking, mindfulness, skin temperature</td></tr>
     <tr><th scope="row">Where a value is filed</th><td>At the moment the sensor updates</td><td>On the date and hour it belongs to</td></tr>
     <tr><th scope="row">Long-term statistics</th><td>The six daily totals</td><td>Every type with a sensor, plus mindfulness minutes</td></tr>
