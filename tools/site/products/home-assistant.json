@@ -1,11 +1,11 @@
 {
   "slug": "home-assistant",
   "nav_name": "Home Assistant",
-  "title": "Home Assistant health integration (HACS) | Life Dashboard",
+  "title": "Home Assistant health integration (Marketplace, HACS) | Life Dashboard",
   "description": "The Life Dashboard integration for Home Assistant turns Health Connect or Apple Health data into sensors and long-term statistics, paired by QR code.",
   "kicker": "Home Assistant integration",
   "h1": "A Home Assistant integration for your phone's health data",
-  "lead": "The Life Dashboard integration is an open-source Home Assistant integration, installed through HACS, for the Life Dashboard Companion apps on Android and iPhone. One QR code pairs a phone, and every day lands in long-term statistics. No broker and no YAML.",
+  "lead": "The Life Dashboard integration is an open-source Home Assistant integration, installed through the Marketplace (HACS before Home Assistant 2026.11), for the Life Dashboard Companion apps on Android and iPhone. One QR code pairs a phone, and every day lands in long-term statistics. No broker and no YAML.",
   "hero_image": "H1-dashboard",
   "highlights": [
     {
@@ -116,7 +116,7 @@
       "image2": "H4-apps"
     }
   ],
-  "requirements": "Home Assistant 2026.3 or newer with HACS, where the integration is in the default list. On each phone, Life Dashboard Companion for Android or for iPhone. Screen time, the sensors per app and Receive need the Android app; the sensors per app need integration 0.9.0 or newer.",
+  "requirements": "Home Assistant 2026.3 or newer. From 2026.11 nothing else needs installing: the integration is in the Marketplace. Older versions need HACS, where it is in the default list. On each phone, Life Dashboard Companion for Android or for iPhone. Screen time, the sensors per app and Receive need the Android app; the sensors per app need integration 0.9.0 or newer.",
   "faq": [
     {
       "q": "Should I use MQTT or this integration?",
@@ -147,7 +147,7 @@
       "a": "Deleting the entry removes the device and its sensors, deletes its cloudhook if it had one, and deletes the phone's files in <code>.storage</code>. Its long-term statistics stay in the recorder, as they do for any integration you remove."
     }
   ],
-  "updated": "2026-10-16",
+  "updated": "2026-11-04",
   "guides": [
     "health-connect-home-assistant",
     "fitbit-home-assistant",

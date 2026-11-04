@@ -19,14 +19,14 @@ published: 2026-10-21
 
 <ul>
   <li>An Apple Watch paired with an iPhone on iOS 17 or newer.</li>
-  <li>Home Assistant 2026.3 or newer with <a href="https://hacs.xyz">HACS</a>, and the <a href="../home-assistant/">Life Dashboard integration</a> 0.7.1 or newer.</li>
+  <li>Home Assistant 2026.3 or newer, and the <a href="../home-assistant/">Life Dashboard integration</a> 0.7.1 or newer. From 2026.11 nothing else needs installing; older versions need <a href="https://hacs.xyz">HACS</a>.</li>
   <li><a href="../ios/">Life Dashboard Companion for iPhone</a>. {{status:ios}}</li>
 </ul>
 
 <h2>Set it up</h2>
 
 <ol>
-  <li>Install the integration from HACS, restart Home Assistant, and add it under <strong>Settings</strong> &gt; <strong>Devices &amp; services</strong> with a name for the iPhone. It shows a QR code.</li>
+  <li>In <strong>Settings</strong> &gt; <strong>Marketplace</strong> (HACS before Home Assistant 2026.11), search for <strong>Life Dashboard</strong> and install it. On HACS, download it and restart Home Assistant. If the setup didn't open by itself, add the integration under <strong>Settings</strong> &gt; <strong>Devices &amp; services</strong>. Give it a name for the iPhone, and it shows a QR code.</li>
   <!-- IMG: the QR code in Home Assistant (H2-qr.png) -->
   <li>Install Life Dashboard Companion on the iPhone, tap <strong>Scan a pairing code</strong> in its setup, scan the code and tap <strong>Pair</strong>.</li>
   <li>Under <strong>What to send</strong>, switch on the types the watch records, listed below, and allow Apple Health access.</li>

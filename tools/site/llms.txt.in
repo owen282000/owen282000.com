@@ -11,7 +11,7 @@ Names: "Life Dashboard" is the project. "Life Dashboard Companion" is the Androi
 - It works with any app that writes to Health Connect, including Samsung Health, Google Health (Fitbit and Pixel Watch), Garmin Connect (Android 14 or newer), Oura, Withings and Gadgetbridge. No vendor login, API token or cloud project is involved.
 - Every record carries a stable uuid and the package name of the app that wrote it. Daily totals for steps, distance and calories come from Health Connect itself, so a walk recorded by phone and watch counts once.
 - Screen time: foreground minutes per app from Android's usage statistics, the same numbers Digital Wellbeing shows, with a day boundary you choose and a filter for apps you leave out. It works on Android 8.0 or newer and does not need Health Connect.
-- Home Assistant: the Life Dashboard integration installs from the default HACS list and pairs with the app by QR code, with no broker and no YAML. It needs Home Assistant 2026.3 or newer. It creates sensors for 25 of the 33 types (the last workout and exercise minutes since 0.10.0) plus screen time in total and per app, stores every day in long-term statistics, and a backfill adds history (the apps send up to all of it; Home Assistant takes in about the last year for now).
+- Home Assistant: the Life Dashboard integration installs from the Marketplace in Home Assistant (the default HACS list before 2026.11) and pairs with the app by QR code, with no broker and no YAML. It needs Home Assistant 2026.3 or newer. It creates sensors for 25 of the 33 types (the last workout and exercise minutes since 0.10.0) plus screen time in total and per app, stores every day in long-term statistics, and a backfill adds history (the apps send up to all of it; Home Assistant takes in about the last year for now).
 - MQTT: with Home Assistant MQTT Discovery, the same sensors appear without YAML, from the first sync on, without the sensors per app.
 - Webhooks: an HTTPS POST with a JSON body to any URL, such as n8n, Node-RED or a small script. Optional HMAC-SHA256 signature in an X-Signature header, custom headers and client certificates (mTLS). Failed payloads wait in an outbox on the phone (up to 700 payloads) and go out first at the next sync. Records deleted in Health Connect are reported.
 - Receive: with the integration, readings from a smart scale or blood pressure monitor in Home Assistant are written into Health Connect, where Samsung Health and Google Health read weight and body fat.
@@ -28,7 +28,7 @@ Names: "Life Dashboard" is the project. "Life Dashboard Companion" is the Androi
 
 - [Life Dashboard Companion for Android](https://owen282000.com/life-dashboard/android/): Health Connect and screen time per app
 - [Life Dashboard Companion for iPhone](https://owen282000.com/life-dashboard/ios/): Apple Health in Home Assistant, MQTT or a webhook
-- [The Life Dashboard integration for Home Assistant](https://owen282000.com/life-dashboard/home-assistant/): QR pairing, sensors, long-term statistics, Receive; installs through HACS
+- [The Life Dashboard integration for Home Assistant](https://owen282000.com/life-dashboard/home-assistant/): QR pairing, sensors, long-term statistics, Receive; installs through the Marketplace (HACS before Home Assistant 2026.11)
 - [The Life Dashboard stack](https://owen282000.com/life-dashboard/grafana/): a self-hosted receiver with Postgres and six Grafana dashboards, QR pairing, a read-only API, an MCP server and a Helm chart
 
 ## Guides
@@ -53,7 +53,7 @@ Names: "Life Dashboard" is the project. "Life Dashboard Companion" is the Androi
 - [Apple Health to a webhook, automatically](https://owen282000.com/life-dashboard/apple-health-webhook/): signed JSON from the iPhone in the background, the payload with timezone and daily totals, retries and the queue, deleted records, backfill and Shortcuts
 - [Apple Health to n8n](https://owen282000.com/life-dashboard/apple-health-n8n/): a Webhook node with Raw Body, an HMAC check in a Code node, upserts on uuid and deleted_records, and where an iPhone payload differs from Android
 - [Apple Health data types, app by app](https://owen282000.com/life-dashboard/apple-health-data-types/): the 28 types the iPhone app sends with payload keys and units, what Home Assistant makes of each, what an Apple Watch records, and the four Android keys an iPhone never sends
-- [Apple Health und Health Connect in Home Assistant](https://owen282000.com/life-dashboard/de/home-assistant-gesundheitsdaten/): the guide in German, for iPhone and Android: the integration from HACS, QR pairing, sensors and long-term statistics, a backfill of up to a year, and what Samsung Health, Garmin Connect and other apps share with Health Connect
+- [Apple Health und Health Connect in Home Assistant](https://owen282000.com/life-dashboard/de/home-assistant-gesundheitsdaten/): the guide in German, for iPhone and Android: the integration from the Marketplace (HACS before 2026.11), QR pairing, sensors and long-term statistics, a backfill of up to a year, and what Samsung Health, Garmin Connect and other apps share with Health Connect
 
 ## Projects
 

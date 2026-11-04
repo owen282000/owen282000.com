@@ -196,8 +196,8 @@
 <h1>Wie bekomme ich Gesundheitsdaten aus Apple Health oder Health Connect in Home Assistant?</h1>
 <p class="byline">Von <a href="/">Owen Vogelaar</a>, der Life Dashboard entwickelt. Aktualisiert am 4. November 2026. Auf Englisch: <a href="../../health-connect-home-assistant/" hreflang="en" lang="en">Health Connect in Home Assistant</a>, <a href="../../apple-health-home-assistant/" hreflang="en" lang="en">Apple Health in Home Assistant</a>.</p>
 
-<p>Installiere die Life-Dashboard-Integration aus HACS in Home Assistant und die App Life Dashboard Companion auf deinem iPhone oder Android-Telefon. Dann koppelst du beide mit dem QR-Code, den die Integration anzeigt. Schritte, Schlaf, Herzfrequenz, Gewicht und Trainings kommen als Sensoren an, und jeder Tag landet in den Langzeitstatistiken, auf Wunsch bis zu einem Jahr zurück.</p>
-<p class="guide-cta"><a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">In HACS öffnen</a></p>
+<p>Installiere die Life-Dashboard-Integration aus dem Marketplace (vor 2026.11: HACS) in Home Assistant und die App Life Dashboard Companion auf deinem iPhone oder Android-Telefon. Dann koppelst du beide mit dem QR-Code, den die Integration anzeigt. Schritte, Schlaf, Herzfrequenz, Gewicht und Trainings kommen als Sensoren an, und jeder Tag landet in den Langzeitstatistiken, auf Wunsch bis zu einem Jahr zurück.</p>
+<p class="guide-cta"><a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Im Marketplace öffnen</a></p>
 
 <p>Auf dem iPhone liest die App Apple Health, auf Android Health Connect. Damit funktioniert alles, was seine Daten dort ablegt: das iPhone selbst und die Apple Watch, Samsung Health mit der Galaxy Watch, Garmin Connect, Google Health (Fitbit und Pixel Watch), Oura, Withings und mehr. Du brauchst kein Konto, und es gibt keine Cloud: Das Telefon sendet direkt an dein Home Assistant, einen Life-Dashboard-Server gibt es nicht, und Home Assistant bekommt nie deine Zugangsdaten von Samsung, Garmin oder Google. Beide Teile sind Open Source unter der MIT-Lizenz.</p>
 
@@ -206,7 +206,7 @@
 <h2 id="was-du-brauchst">Was du brauchst</h2>
 
 <ul>
-  <li>Home Assistant 2026.3 oder neuer mit <a href="https://hacs.xyz">HACS</a>, für die <a href="../../home-assistant/" hreflang="en">Life-Dashboard-Integration</a>. Sie steht in der Standardliste von HACS.</li>
+  <li>Home Assistant 2026.3 oder neuer, für die <a href="../../home-assistant/" hreflang="en">Life-Dashboard-Integration</a>. Ab 2026.11 musst du nichts weiter installieren, ältere Versionen brauchen <a href="https://hacs.xyz">HACS</a>. Sie steht im Marketplace und in der Standardliste von HACS.</li>
   <li>Für das iPhone: iOS 17 oder neuer und <a href="../../ios/" hreflang="en">Life Dashboard Companion für iPhone</a>, im App Store für 6,99&nbsp;€ einmalig, ohne Abo.</li>
   <li>Für Android: Android 9 oder neuer und <a href="../../android/" hreflang="en">Life Dashboard Companion für Android</a>, bei <a href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-guide-de-home-assistant-gesundheitsdaten%26utm_medium%3Dwebsite">Google Play</a> für 4,99&nbsp;€ einmalig. Oder kostenlos über GitHub, Obtainium oder F-Droid: dieselbe App mit demselben Signaturschlüssel. Health Connect ist ab Android 14 eingebaut, unter Android 9 bis 13 kommt es aus Google Play.</li>
 </ul>
@@ -216,8 +216,8 @@
 <h2 id="home-assistant-einrichten">Home Assistant einrichten</h2>
 
 <ol>
-  <li>Suche in HACS nach <strong>Life Dashboard</strong> oder nimm den Link <a href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">In HACS öffnen</a>. Lade die Integration herunter und starte Home Assistant neu.</li>
-  <li>Geh zu <strong>Einstellungen</strong> &gt; <strong>Geräte &amp; Dienste</strong> &gt; <strong>Integration hinzufügen</strong>, suche nach <strong>Life Dashboard</strong> und gib dem Telefon einen Namen. Prüf das Feld <strong>Home-Assistant-Adresse</strong>: An diese Adresse sendet das Telefon. Was dort stehen sollte, hängt vom Telefon ab:
+  <li>Suche unter <strong>Einstellungen</strong> &gt; <strong>Marketplace</strong> (vor Home Assistant 2026.11: HACS) nach <strong>Life Dashboard</strong> oder nimm den Link <a href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Im Marketplace öffnen</a>, und installiere die Integration. Mit HACS lädst du sie herunter und startest Home Assistant neu.</li>
+  <li>Wenn sich die Einrichtung nicht von selbst öffnet, geh zu <strong>Einstellungen</strong> &gt; <strong>Geräte &amp; Dienste</strong> &gt; <strong>Integration hinzufügen</strong> und suche nach <strong>Life Dashboard</strong>. Gib dem Telefon einen Namen. Prüf das Feld <strong>Home-Assistant-Adresse</strong>: An diese Adresse sendet das Telefon. Was dort stehen sollte, hängt vom Telefon ab:
     <ul>
       <li>Android: Nimm die IP-Adresse von Home Assistant, etwa <code>http://192.168.1.20:8123</code>, nicht <code>homeassistant.local</code>, denn diesen Namen kann Android oft nicht auflösen. Die IP-Adresse findest du unter <strong>Einstellungen</strong> &gt; <strong>System</strong> &gt; <strong>Netzwerk</strong>, im Abschnitt <strong>Netzwerkadapter</strong>.</li>
       <li>iPhone: iOS erlaubt unverschlüsseltes <code>http://</code> nur zu einer IP-Adresse, zu einem <code>.local</code>-Namen wie <code>homeassistant.local</code> oder zu einem Namen ohne Punkt. <code>http://192.168.1.20:8123</code> funktioniert also, <code>http://ha.lan:8123</code> nicht. Für alles andere nimmst du <code>https://</code> oder Home Assistant Cloud.</li>
@@ -322,8 +322,8 @@ entities:
 </ul>
 
 <div class="next">
-  <p>Zwei Installationen: die Integration aus HACS und die App auf deinem iPhone oder Android-Telefon. Danach koppelst du beide mit einem QR-Code und holst bis zu einem Jahr Verlauf nach.</p>
-  <a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">In HACS öffnen</a>
+  <p>Zwei Installationen: die Integration aus dem Marketplace oder aus HACS und die App auf deinem iPhone oder Android-Telefon. Danach koppelst du beide mit einem QR-Code und holst bis zu einem Jahr Verlauf nach.</p>
+  <a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Im Marketplace öffnen</a>
   <a class="btn btn-ghost" href="../../ios/#get">iPhone-App</a>
   <a class="btn btn-ghost" href="../../android/#get">Android-App</a>
 </div>
