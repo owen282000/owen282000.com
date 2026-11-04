@@ -51,7 +51,7 @@
         }
       ],
       "datePublished": "2026-10-06",
-      "dateModified": "2026-10-30",
+      "dateModified": "2026-11-04",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -172,10 +172,10 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Health Connect in Home Assistant</span></nav>
 <h1>How do I get Health Connect data into Home Assistant?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 30, 2026. <a href="../de/home-assistant-gesundheitsdaten/" hreflang="de" lang="de">Auf Deutsch</a></p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 4, 2026. <a href="../de/home-assistant-gesundheitsdaten/" hreflang="de" lang="de">Auf Deutsch</a></p>
 
 <p>Install the Life Dashboard integration in Home Assistant and Life Dashboard Companion, an open-source Android app, on your phone, then pair the two with a QR code. Your watch's data then arrives as sensors, and every day is kept in long-term statistics.</p>
-<p class="guide-cta"><a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in HACS</a></p>
+<p class="guide-cta"><a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in the Marketplace</a></p>
 
 <p>It works with anything that writes to Health Connect: Samsung Health, Garmin Connect, Google Health (Fitbit and Pixel Watch), Oura, Withings and more. A backfill adds up to a year of history. Both parts are MIT licensed, nothing runs on a Life Dashboard server, and Home Assistant never needs your Samsung, Garmin or Google login.</p>
 
@@ -186,7 +186,7 @@
 <ul>
   <li>Android 9 or newer. Health Connect is part of Android 14 and later; on Android 9 through 13 it comes from Google Play.</li>
   <li>An app that writes into Health Connect, such as Samsung Health, Garmin Connect or Google Health. Garmin Connect only does this on Android 14 or newer.</li>
-  <li>Home Assistant 2026.3 or newer, with <a href="https://hacs.xyz">HACS</a>, for the <a href="../home-assistant/">Life Dashboard integration</a>.</li>
+  <li>Home Assistant 2026.3 or newer, for the <a href="../home-assistant/">Life Dashboard integration</a>. From 2026.11 nothing else needs installing; older versions need <a href="https://hacs.xyz">HACS</a>.</li>
   <li><a href="../android/">Life Dashboard Companion for Android</a>. On <a href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-guide-health-connect-home-assistant%26utm_medium%3Dwebsite">Google Play</a> for €4.99 once, or free from GitHub Releases, Obtainium or F-Droid; the <a href="../android/#get">install options</a> list every route.</li>
 </ul>
 
@@ -195,8 +195,8 @@
 <h2 id="set-it-up">Set it up</h2>
 
 <ol>
-  <li>In HACS, search for <strong>Life Dashboard</strong>, or use <a href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in HACS</a>. Download it and restart Home Assistant.</li>
-  <li>Go to <strong>Settings</strong> &gt; <strong>Devices &amp; services</strong> &gt; <strong>Add integration</strong>, search for <strong>Life Dashboard</strong> and name the phone. Check the <strong>Home Assistant address</strong> field: it holds the address the phone sends to. Use Home Assistant's IP address, such as <code>http://192.168.1.20:8123</code>, not <code>homeassistant.local</code>, which Android often can't resolve. Home Assistant shows its IP address under <strong>Settings</strong> &gt; <strong>System</strong> &gt; <strong>Network</strong>, in the <strong>Network adapter</strong> section. Plain <code>http://</code> isn't encrypted. On your own home Wi-Fi that's fine; on any network you don't fully trust, use HTTPS or Home Assistant Cloud instead. The dialog then shows a QR code.
+  <li>In <strong>Settings</strong> &gt; <strong>Marketplace</strong> (HACS before Home Assistant 2026.11), search for <strong>Life Dashboard</strong>, or use <a href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in the Marketplace</a>, and install it. On HACS, download it and restart Home Assistant.</li>
+  <li>If the setup didn't open by itself, go to <strong>Settings</strong> &gt; <strong>Devices &amp; services</strong> &gt; <strong>Add integration</strong> and search for <strong>Life Dashboard</strong>. Name the phone. Check the <strong>Home Assistant address</strong> field: it holds the address the phone sends to. Use Home Assistant's IP address, such as <code>http://192.168.1.20:8123</code>, not <code>homeassistant.local</code>, which Android often can't resolve. Home Assistant shows its IP address under <strong>Settings</strong> &gt; <strong>System</strong> &gt; <strong>Network</strong>, in the <strong>Network adapter</strong> section. Plain <code>http://</code> isn't encrypted. On your own home Wi-Fi that's fine; on any network you don't fully trust, use HTTPS or Home Assistant Cloud instead. The dialog then shows a QR code.
   <figure class="shot wide"><a class="shot-link" href="../img/H2-qr.webp?v=abb2ed19" aria-label="The Life Dashboard integration in Home Assistant showing a pairing QR code, full size"><img src="../img/H2-qr.webp?v=abb2ed19" alt="The Life Dashboard integration in Home Assistant showing a pairing QR code" width="800" height="668" loading="lazy"></a></figure></li>
   <li>Let your watch's app write to Health Connect. In Samsung Health that's <strong>Settings</strong> &gt; <strong>Health Connect</strong>: tap <strong>Get started</strong>, choose the data and tap <strong>Allow</strong>. The table below has the path for other apps.</li>
   <li>Install and open <a href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-guide-health-connect-home-assistant%26utm_medium%3Dwebsite">Life Dashboard Companion from Google Play</a> on the phone. If you install the free APK instead, Android may warn you before it installs an APK from outside the Play Store: it does that for every app from another source, and every release is signed with the same key and carries a build attestation (<a href="../android/#get">install options</a>). At <strong>Where should your data go?</strong>, tap <strong>Scan a code from Home Assistant</strong>, scan the code and tap <strong>Pair</strong>. A test ping confirms the connection.
@@ -264,7 +264,7 @@
     <tr><th scope="col">Feature</th><th scope="col">Life Dashboard integration</th><th scope="col">MQTT</th></tr>
   </thead>
   <tbody>
-    <tr><th scope="row">Setup</th><td>HACS, then a QR code</td><td>Enter your broker</td></tr>
+    <tr><th scope="row">Setup</th><td>Marketplace (HACS before 2026.11), then a QR code</td><td>Enter your broker</td></tr>
     <tr><th scope="row">History</th><td>Every day, up to a year back</td><td>From the first sync on</td></tr>
     <tr><th scope="row">Workout sensors</th><td>Yes</td><td>No</td></tr>
     <tr><th scope="row">Screen time sensor per app</th><td>Yes</td><td>No</td></tr>
@@ -277,8 +277,8 @@
 <p>Keep the companion app for presence, notifications and device sensors. Its 26 Health Connect sensors show the latest value or today's total, with no backfill, and each value is filed when the sensor updates, not on the date it happened. The two run side by side; <a href="../companion-app-health-connect/">the companion app and Health Connect</a> compares them.</p>
 
 <div class="next">
-  <p>Two installs: the integration from HACS and the app on your phone. After that, pairing takes a minute.</p>
-  <a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in HACS</a>
+  <p>Two installs: the integration from the Marketplace or HACS and the app on your phone. After that, pairing takes a minute.</p>
+  <a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in the Marketplace</a>
   <a class="btn btn-ghost" href="../android/#get">Get the Android app</a>
 </div>
 

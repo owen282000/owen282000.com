@@ -48,7 +48,7 @@
         }
       ],
       "datePublished": "2026-10-06",
-      "dateModified": "2026-10-27",
+      "dateModified": "2026-11-04",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -161,10 +161,10 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Garmin in Home Assistant</span></nav>
 <h1>How do I get Garmin data into Home Assistant?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 27, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 4, 2026.</p>
 
 <p>Let Garmin Connect write to Health Connect on your Android phone, then let Life Dashboard Companion, an open-source Android app, send it to the Life Dashboard integration in Home Assistant. Home Assistant never needs your Garmin username, password or MFA code, so a change to Garmin's login can't break it.</p>
-<p class="guide-cta"><a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in HACS</a></p>
+<p class="guide-cta"><a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in the Marketplace</a></p>
 
 <p class="flow-line"><span>Garmin watch</span><span>Garmin Connect</span><span>Health Connect</span><span>Life Dashboard Companion</span><span>Home Assistant</span></p>
 
@@ -188,7 +188,7 @@
 
 <ul>
   <li>An Android phone with Android 14 or newer, and Garmin Connect 5.14.1 or newer paired with your watch.</li>
-  <li>Home Assistant 2026.3 or newer, with <a href="https://hacs.xyz">HACS</a>, for the <a href="../home-assistant/">Life Dashboard integration</a>.</li>
+  <li>Home Assistant 2026.3 or newer, for the <a href="../home-assistant/">Life Dashboard integration</a>. From 2026.11 nothing else needs installing; older versions need <a href="https://hacs.xyz">HACS</a>.</li>
   <li><a href="../android/">Life Dashboard Companion for Android</a>. It's on Google Play for €4.99 once (US$4.99), no subscription: the easy way, with automatic updates, and buying it supports development. The free routes install the same app with the same signing key: the signed APK from GitHub, Obtainium, which keeps that APK up to date, and F-Droid, which builds it from the source.</li>
 </ul>
 
@@ -196,8 +196,8 @@
 
 <ol>
   <li>In Garmin Connect, go to <strong>Settings</strong> &gt; <strong>Connected Apps</strong> &gt; <strong>Health Connect</strong> and allow the data types.</li>
-  <li>In HACS, search for <strong>Life Dashboard</strong>, download it and restart Home Assistant.</li>
-  <li>Go to <strong>Settings</strong> &gt; <strong>Devices &amp; services</strong> &gt; <strong>Add integration</strong>, search for <strong>Life Dashboard</strong> and name the phone. Put Home Assistant's IP address in the <strong>Home Assistant address</strong> field, such as <code>http://192.168.1.20:8123</code>; Home Assistant shows it under <strong>Settings</strong> &gt; <strong>System</strong> &gt; <strong>Network</strong>, in the <strong>Network adapter</strong> section. The dialog then shows a QR code.
+  <li>In <strong>Settings</strong> &gt; <strong>Marketplace</strong> (HACS before Home Assistant 2026.11), search for <strong>Life Dashboard</strong> and install it. On HACS, download it and restart Home Assistant.</li>
+  <li>If the setup didn't open by itself, go to <strong>Settings</strong> &gt; <strong>Devices &amp; services</strong> &gt; <strong>Add integration</strong> and search for <strong>Life Dashboard</strong>. Name the phone. Put Home Assistant's IP address in the <strong>Home Assistant address</strong> field, such as <code>http://192.168.1.20:8123</code>; Home Assistant shows it under <strong>Settings</strong> &gt; <strong>System</strong> &gt; <strong>Network</strong>, in the <strong>Network adapter</strong> section. The dialog then shows a QR code.
   <figure class="shot wide"><a class="shot-link" href="../img/H2-qr.webp?v=abb2ed19" aria-label="The Life Dashboard integration in Home Assistant showing a pairing QR code, full size"><img src="../img/H2-qr.webp?v=abb2ed19" alt="The Life Dashboard integration in Home Assistant showing a pairing QR code" width="800" height="668" loading="lazy"></a></figure></li>
   <li>Install <a href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-guide-garmin-home-assistant%26utm_medium%3Dwebsite">Life Dashboard Companion from Google Play</a>, €4.99 once, which keeps it up to date. Or install it free, the same app with the same signing key: open the APK from GitHub on the phone and allow installs from your browser once, or add it in Obtainium or F-Droid (<a href="../android/#get">install options</a>). Android may warn you before it installs an APK from outside the Play Store; it does that for every app from another source. Open the app, and at <strong>Where should your data go?</strong>, tap <strong>Scan a code from Home Assistant</strong>, scan the code and tap <strong>Pair</strong>.</li>
   <li>On the <strong>Health</strong> tab, tap <strong>Grant</strong> and allow your data types and reading in the background. <strong>The essentials</strong> preset also turns on resting heart rate, which Garmin doesn't share, so that one gets no sensor. Switch on body fat and exercise sessions under <strong>Data Types</strong> if you want them.</li>
@@ -227,8 +227,8 @@
 </ul>
 
 <div class="next">
-  <p>Two installs: the integration from HACS and the app on your phone. After that, switch on Health Connect in Garmin Connect and pair with one QR code.</p>
-  <a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in HACS</a>
+  <p>Two installs: the integration from the Marketplace or HACS and the app on your phone. After that, switch on Health Connect in Garmin Connect and pair with one QR code.</p>
+  <a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in the Marketplace</a>
   <a class="btn btn-ghost" href="../android/#get">Get the Android app</a>
 </div>
 

@@ -115,7 +115,7 @@
       }
     }
   ],
-  "requirements": "Health data needs Android 9 or newer with Health Connect, which is built into Android 14 and later and comes from Google Play on Android 9 through 13. Screen time works on Android 8.0 and newer. The Life Dashboard integration needs Home Assistant 2026.3 or newer with HACS. MQTT needs a broker, and a webhook needs a server that accepts a JSON POST.",
+  "requirements": "Health data needs Android 9 or newer with Health Connect, which is built into Android 14 and later and comes from Google Play on Android 9 through 13. Screen time works on Android 8.0 and newer. The Life Dashboard integration needs Home Assistant 2026.3 or newer, plus HACS on versions before 2026.11. MQTT needs a broker, and a webhook needs a server that accepts a JSON POST.",
   "faq": [
     {
       "q": "Which Health Connect types become Home Assistant sensors?",
@@ -158,7 +158,7 @@
       "a": "Yes. Google Play, the APK on GitHub, Obtainium and F-Droid all install the same app, with the same package name and the same signing key, so you can switch without reinstalling: one installs over the other and your settings stay."
     }
   ],
-  "updated": "2026-10-27",
+  "updated": "2026-11-04",
   "guides": [
     "health-connect-home-assistant",
     "health-connect-webhook",
