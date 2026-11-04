@@ -53,7 +53,7 @@
         }
       ],
       "datePublished": "2026-10-19",
-      "dateModified": "2026-10-19",
+      "dateModified": "2026-11-04",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -158,7 +158,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Troubleshooting: syncs, sensors and pairing</span></nav>
 <h1>Why isn't my health data arriving?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 19, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 4, 2026.</p>
 
 <p>Most problems with Life Dashboard Companion come down to four things: the phone stops the app in the background, the watch app doesn't write into Health Connect, a permission is missing, or the phone can't reach the address it sends to. This page goes through them in the order worth checking. The first place to look is always the app's <strong>Logs</strong> tab: it shows every sync and delivery with the server's answer, and a tap on a row gives the details.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Ask in Discussions</a></p>
@@ -234,7 +234,11 @@
 
 <ul>
   <li><strong>A locked iPhone can't read Apple Health.</strong> iOS keeps Health data encrypted while the phone is locked, so a sync at that moment reads nothing; the next sync with the phone unlocked catches up.</li>
-  <li><strong>A type is missing.</strong> Check Settings &gt; Health &gt; Data Access &amp; Devices &gt; Life Dashboard, where every type has its own switch.</li>
+  <li><strong>A type is missing.</strong> Check that it's on under <strong>What to send</strong>. When iOS hasn't asked about a type yet, the <strong>Apple Health access</strong> row there shows <strong>Grant</strong>. iOS never tells an app whether you allowed reading, so a type you declined just sends nothing; change it in the Health app under your profile, <strong>Apps</strong>, <strong>Life Dashboard</strong>.</li>
+  <li><strong>Nothing reaches your server.</strong> Tap the destination on the <strong>Health</strong> tab, then <strong>Send test</strong>. The <strong>Logs</strong> tab shows the error the server or iOS gave. For a server at home, allow <strong>Local Network</strong> for Life Dashboard under Settings &gt; Privacy &amp; Security.</li>
+  <li><strong>Syncs come late.</strong> iOS decides when an app runs in the background. Background App Refresh must be on for the app, and Low Power Mode switches it off; the <strong>Health</strong> tab says so when either holds syncs back. For an exact time, <strong>Need an exact time?</strong> under <strong>When to send</strong> explains the Shortcuts automation.</li>
+  <li><strong>Payloads are waiting.</strong> The <strong>Health</strong> tab shows how many are pending, and <strong>Retry Now</strong> sends them at once.</li>
+  <li><strong>"No data to sync".</strong> Each sync sends only what's new since the last one. <strong>Preview payload</strong> under <strong>What to send</strong> shows the last 7 days as a payload. For older data, tap <strong>Send history</strong> there.</li>
 </ul>
 
 <div class="next">

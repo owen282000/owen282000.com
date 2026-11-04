@@ -48,7 +48,7 @@
         }
       ],
       "datePublished": "2026-10-21",
-      "dateModified": "2026-10-23",
+      "dateModified": "2026-11-04",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -119,7 +119,7 @@
           "name": "Why is there no blood oxygen sensor?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Blood oxygen isn't on every model or in every region, as Apple's page explains. When the watch records none, Apple Health has none to send. Also check that Oxygen Saturation is switched on in the app and allowed in Apple Health."
+            "text": "Blood oxygen isn't on every model or in every region, as Apple's page explains. When the watch records none, Apple Health has none to send. Also check that Oxygen Saturation is switched on under What to send, in Heart and vitals, and allowed in Apple Health."
           }
         },
         {
@@ -169,7 +169,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Apple Watch in Home Assistant</span></nav>
 <h1>How do I get Apple Watch data into Home Assistant?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 23, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 4, 2026.</p>
 
 <p>Your Apple Watch already writes what it measures into Apple Health on the iPhone it's paired with. Install Life Dashboard Companion on that iPhone and the Life Dashboard integration in Home Assistant, pair the two with a QR code, and the watch's heart rate, HRV, sleep, workouts and VO2 max arrive as sensors, with up to a year of history in long-term statistics.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in HACS</a></p>
@@ -192,8 +192,8 @@
   <li>Install the integration from HACS, restart Home Assistant, and add it under <strong>Settings</strong> &gt; <strong>Devices &amp; services</strong> with a name for the iPhone. It shows a QR code.
   <figure class="shot wide"><a class="shot-link" href="../img/H2-qr.webp?v=abb2ed19" aria-label="The Life Dashboard integration in Home Assistant showing a pairing QR code, full size"><img src="../img/H2-qr.webp?v=abb2ed19" alt="The Life Dashboard integration in Home Assistant showing a pairing QR code" width="800" height="668" loading="lazy"></a></figure></li>
   <li>Install Life Dashboard Companion on the iPhone, tap <strong>Scan a pairing code</strong> in its setup, scan the code and tap <strong>Pair</strong>.</li>
-  <li>Switch on the types the watch records, listed below, and allow Apple Health access.</li>
-  <li>Tap <strong>Sync Now</strong>, then <strong>Backfill</strong> and pick how far back, from 30 days up to <strong>All history</strong>. Home Assistant takes in about the last year for now.</li>
+  <li>Under <strong>What to send</strong>, switch on the types the watch records, listed below, and allow Apple Health access.</li>
+  <li>Tap <strong>Sync Now</strong>, then <strong>Send history</strong> under <strong>What to send</strong> and pick how far back, from 30 days up to <strong>All history</strong>. Home Assistant takes in about the last year for now.</li>
 </ol>
 
 <p><a href="../apple-health-home-assistant/">Apple Health in Home Assistant</a> has every step in detail, with the address to use and the sync schedule.</p>
@@ -273,7 +273,7 @@
   </details>
   <details>
     <summary>Why is there no blood oxygen sensor?</summary>
-    <p>Blood oxygen isn't on every model or in every region, as Apple's page explains. When the watch records none, Apple Health has none to send. Also check that <strong>Oxygen Saturation</strong> is switched on in the app and allowed in Apple Health.</p>
+    <p>Blood oxygen isn't on every model or in every region, as Apple's page explains. When the watch records none, Apple Health has none to send. Also check that <strong>Oxygen Saturation</strong> is switched on under <strong>What to send</strong>, in <strong>Heart and vitals</strong>, and allowed in Apple Health.</p>
   </details>
   <details>
     <summary>Does a Garmin or Oura on an iPhone work too?</summary>

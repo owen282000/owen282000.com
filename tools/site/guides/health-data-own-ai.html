@@ -3,7 +3,7 @@ title: Health Connect and Apple Health over MCP | Life Dashboard
 description: The Life Dashboard stack has a read-only MCP server, so Claude or a local model can read your Health Connect and Apple Health history, also in Europe.
 primary query: health data mcp
 secondary queries: health connect mcp server, health connect mcp, samsung health mcp, apple health mcp server, apple health mcp, apple watch mcp, apple health claude, apple health local llm, health connect claude, health connect chatgpt, claude health connect europe, chatgpt health europe, ask ai about my health data self hosted, health data local llm, home assistant mcp health, ollama health data, self-hosted health ai, claude desktop health data
-updated: 2026-10-23
+updated: 2026-11-04
 -->
 
 <h1>How do I ask my own AI about my Health Connect or Apple Health data over MCP?</h1>
@@ -44,7 +44,7 @@ updated: 2026-10-23
 <ul>
   <li><strong>A model with tool support.</strong> For a local one, <a href="https://ollama.com">Ollama</a> runs a model such as <code>qwen3</code> (8B or 14B) or <code>gpt-oss:20b</code>. Pick one without a <code>-cloud</code> tag: those run on Ollama's servers. An 8B model wants 16 GB of memory; 20 to 30B wants a 24 GB graphics card or a Mac with 32 GB or more.</li>
   <li><strong>A chat client that speaks MCP</strong>, such as Open WebUI, LM Studio or Claude Desktop, unless you use Home Assistant's own assistant. Ollama runs the model; the chat client makes the MCP connection.</li>
-  <li><strong>History to ask about.</strong> <strong>Backfill</strong> on the <strong>Health</strong> tab sends up to all your history; Home Assistant takes in about the last year for now.</li>
+  <li><strong>History to ask about.</strong> <strong>Backfill</strong> on the <strong>Health</strong> tab, on an iPhone <strong>Send history</strong> under <strong>What to send</strong>, sends up to all your history; Home Assistant takes in about the last year for now.</li>
 </ul>
 
 <h2>Set it up</h2>
@@ -130,7 +130,7 @@ GRANT SELECT ON records, daily_totals TO llm_ro;</code></pre>
 
 <h2>With an iPhone</h2>
 
-<p>Pair <a href="../ios/">Life Dashboard Companion for iPhone</a> with the stack or the integration by its QR code, switch on the Apple Health types you want, and run <strong>Backfill</strong> with 365 days to give the model a year to read. What an Apple Watch records, such as heart rate, HRV, sleep stages and workouts, comes along through Apple Health; <a href="../apple-watch-home-assistant/">Apple Watch in Home Assistant</a> lists it. A few things differ from Android:</p>
+<p>Pair <a href="../ios/">Life Dashboard Companion for iPhone</a> with the stack or the integration by its QR code, switch on the Apple Health types you want under <strong>What to send</strong>, and run <strong>Send history</strong> there with <strong>1 year</strong> to give the model a year to read. What an Apple Watch records, such as heart rate, HRV, sleep stages and workouts, comes along through Apple Health; <a href="../apple-watch-home-assistant/">Apple Watch in Home Assistant</a> lists it. A few things differ from Android:</p>
 
 <ul>
   <li><strong>HRV.</strong> Apple Health stores SDNN and Health Connect stores RMSSD. The stack keeps them apart as two <code>trend</code> metrics, <code>hrv_sdnn</code> for an iPhone and <code>hrv_rmssd</code> for Android, and never averages them together. Ask for the one your phone sends.</li>

@@ -4,7 +4,7 @@ description: Syncs that stop in the background, missing Health Connect data, no 
 primary query: health connect sync not working
 secondary queries: health connect background sync stops, samsung battery kills app, home assistant health sensors missing, health connect permissions, life dashboard troubleshooting
 published: 2026-10-19
-updated: 2026-10-19
+updated: 2026-11-04
 -->
 
 <h1>Why isn't my health data arriving?</h1>
@@ -82,7 +82,11 @@ updated: 2026-10-19
 
 <ul>
   <li><strong>A locked iPhone can't read Apple Health.</strong> iOS keeps Health data encrypted while the phone is locked, so a sync at that moment reads nothing; the next sync with the phone unlocked catches up.</li>
-  <li><strong>A type is missing.</strong> Check Settings &gt; Health &gt; Data Access &amp; Devices &gt; Life Dashboard, where every type has its own switch.</li>
+  <li><strong>A type is missing.</strong> Check that it's on under <strong>What to send</strong>. When iOS hasn't asked about a type yet, the <strong>Apple Health access</strong> row there shows <strong>Grant</strong>. iOS never tells an app whether you allowed reading, so a type you declined just sends nothing; change it in the Health app under your profile, <strong>Apps</strong>, <strong>Life Dashboard</strong>.</li>
+  <li><strong>Nothing reaches your server.</strong> Tap the destination on the <strong>Health</strong> tab, then <strong>Send test</strong>. The <strong>Logs</strong> tab shows the error the server or iOS gave. For a server at home, allow <strong>Local Network</strong> for Life Dashboard under Settings &gt; Privacy &amp; Security.</li>
+  <li><strong>Syncs come late.</strong> iOS decides when an app runs in the background. Background App Refresh must be on for the app, and Low Power Mode switches it off; the <strong>Health</strong> tab says so when either holds syncs back. For an exact time, <strong>Need an exact time?</strong> under <strong>When to send</strong> explains the Shortcuts automation.</li>
+  <li><strong>Payloads are waiting.</strong> The <strong>Health</strong> tab shows how many are pending, and <strong>Retry Now</strong> sends them at once.</li>
+  <li><strong>"No data to sync".</strong> Each sync sends only what's new since the last one. <strong>Preview payload</strong> under <strong>What to send</strong> shows the last 7 days as a payload. For older data, tap <strong>Send history</strong> there.</li>
 </ul>
 
 <section class="faq">

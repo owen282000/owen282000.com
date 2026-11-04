@@ -76,8 +76,8 @@
           "sub": "Every payload is queued before it's sent, so a sync that iOS cuts off loses nothing. It holds up to 700."
         },
         {
-          "main": "Sync history on the Logs tab",
-          "sub": "Success rate, deliveries and records, and the latest failures grouped by receiver and error."
+          "main": "Every delivery on the Logs tab",
+          "sub": "One row per delivery with its status, destination and time, a filter on failures, and the payload one tap further. Sync history folds out with deliveries, records and the latest failures."
         }
       ],
       "image": "ios-logs",
@@ -128,6 +128,10 @@
       "a": "Yes. The app reads what the Watch writes to Apple Health, and total calories arrive only on days with resting energy, which usually takes a Watch. HRV is SDNN, the measure Apple Health stores, so it isn't the same number as RMSSD from an Android watch."
     },
     {
+      "q": "Which languages is the app in?",
+      "a": "Eleven: English, Dutch, German, French, Spanish, Italian, Portuguese (Brazil), Japanese, Arabic, Hindi and Simplified Chinese. It follows the iPhone's language, or the one you set for the app in Settings."
+    },
+    {
       "q": "Does it send Screen Time?",
       "a": "No. Apple's Screen Time API shows usage only inside a report extension that runs in a sandbox with no network access, so no iOS app can send it anywhere. Screen time per app is in the <a href=\"../android/\">Android app</a>."
     },
@@ -160,7 +164,7 @@
       "a": "No. An app that reads Apple Health needs the HealthKit capability, and only an Apple Developer Program membership can sign it; a free Apple Account can't. With a membership, building it yourself costs nothing extra and the signature lasts a year. Without one, the App Store version is the way."
     }
   ],
-  "updated": "2026-10-23",
+  "updated": "2026-11-04",
   "guides": [
     "apple-health-home-assistant",
     "apple-watch-home-assistant",

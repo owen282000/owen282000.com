@@ -326,10 +326,10 @@ UI = {
            "alts": {"H2-qr": "Die Life-Dashboard-Integration in Home Assistant mit dem QR-Code zum Koppeln",
                     "A2-pair": "Der Dialog zum Koppeln mit einem Empfänger in der Android-App",
                     "A1-health": "Der Tab „Gesundheit“ der Android-App",
-                    "ios-health": "Der Tab „Gesundheit“ der iPhone-App mit den Typen aus Apple Health",
+                    "ios-health": "Der Tab „Gesundheit“ der iPhone-App mit einer Zeile pro Ziel und den Werten von heute",
                     "H3-history": "Verlaufsdiagramme in Home Assistant auf einem Telefon",
                     "H1-dashboard": "Das Beispiel-Dashboard in Home Assistant auf einem Telefon",
-                    "ios-schedule": "Der Sync-Zeitplan der iPhone-App mit festen Uhrzeiten und Ruhezeiten"}},
+                    "ios-schedule": "„Wann senden“ in der iPhone-App mit festen Zeiten und Ruhezeiten"}},
 }
 
 
@@ -354,10 +354,11 @@ IMAGES = {
     "H3-history": ("phone", 720, 1598, "History graphs in Home Assistant on a phone"),
     "H4-apps": ("phone", 720, 1598, "Screen time per app in Home Assistant on a phone"),
     "H5-today": ("phone", 720, 1052, "Today's steps, distance, calories, heart rate and last sleep in Home Assistant, with steps per week"),
-    "ios-health": ("phone", 720, 1464, "The Health tab of the iPhone app with Apple Health types"),
-    "ios-schedule": ("phone", 720, 1464, "The sync schedule of the iPhone app at fixed times with quiet hours"),
-    "ios-logs": ("phone", 720, 1464, "The sync history of the iPhone app"),
-    "ios-mqtt": ("phone", 720, 1464, "Webhook and MQTT settings in the iPhone app"),
+    "ios-health": ("phone", 720, 1464, "The Health tab of the iPhone app, with a row per destination and today's figures"),
+    "ios-schedule": ("phone", 720, 1464, "When to send in the iPhone app, at fixed times with quiet hours"),
+    "ios-logs": ("phone", 720, 1464, "The Logs tab of the iPhone app, with a row per delivery"),
+    "ios-mqtt": ("phone", 720, 1464, "The MQTT broker settings in the iPhone app"),
+    "ios-webhook": ("phone", 720, 1464, "A webhook destination in the iPhone app, with its signing secret and custom headers"),
     "p-pairing-flow": ("diagram", 1400, 700, "Your service shows a QR code, the phone opens it into the Pair with a receiver dialog, and after Pair your service gets a signed test ping"),
     "g-overview": ("wide", 1400, 728, "The overview dashboard of the Grafana stack with demo data"),
     "g-activity": ("wide", 1400, 1260, "The activity dashboard of the Grafana stack"),
@@ -447,7 +448,7 @@ ENTITIES = {
         "alternateName": "Life Dashboard Companion for iOS",
         "description": "Life Dashboard Companion for iPhone is an open-source iPhone app that sends Apple Health data to Home Assistant, MQTT or your own webhook, with no cloud and no account.",
         "operatingSystem": "iOS 17 or newer", "applicationCategory": "HealthApplication",
-        "inLanguage": ["en", "de", "nl"], "url": f"{BASE}ios/", "license": "https://opensource.org/licenses/MIT",
+        "inLanguage": ["en", "nl", "de", "fr", "es", "it", "pt-BR", "ja", "ar", "hi", "zh-Hans"], "url": f"{BASE}ios/", "license": "https://opensource.org/licenses/MIT",
         "isPartOf": {"@id": f"{BASE}#project"}, "author": {"@id": f"{BASE}#owen"},
         "sameAs": [REPO_IOS], "screenshot": f"{BASE}img/ios-health.webp"},
     "home-assistant": {

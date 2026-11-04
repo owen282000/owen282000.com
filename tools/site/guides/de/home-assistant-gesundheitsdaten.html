@@ -3,7 +3,7 @@ title: Apple Health und Health Connect in Home Assistant | Life Dashboard
 description: Schritte, Schlaf, Herzfrequenz und Gewicht von iPhone, Apple Watch oder Samsung Health als Sensoren in Home Assistant, mit bis zu einem Jahr Verlauf.
 primary query: home assistant gesundheitsdaten
 secondary queries: apple health daten in home assistant, health connect home assistant, samsung health home assistant, apple watch home assistant, home assistant schritte sensor, home assistant schlaf sensor
-updated: 2026-10-27
+updated: 2026-11-04
 published: 2026-10-27
 -->
 
@@ -43,9 +43,9 @@ published: 2026-10-27
 <ol>
   <li>Installiere <a href="../../ios/#get" hreflang="en">Life Dashboard Companion aus dem App Store</a> und öffne die App. Beim Schritt, wohin deine Daten gehen sollen, tippst du auf <strong>Kopplungscode scannen</strong>, scannst den Code und tippst auf <strong>Koppeln</strong>. Die App sendet einen Test-Ping, damit das iPhone sofort in Home Assistant erscheint. Die Kamera-App geht auch: Sie öffnet die Kopplungsseite in Safari, und ein Button dort gibt den Code an die App weiter.</li>
   <li>Wenn iOS nach dem Zugriff auf das lokale Netzwerk fragt, erlaube ihn. Ohne diesen Zugriff erreicht nichts dein Home Assistant zu Hause.</li>
-  <li>Wähle deine Datentypen: <strong>Das Wesentliche</strong>, alle 28 oder vorerst keine. Erlaube danach den Zugriff auf Apple Health. Kommt später ein Typ dazu, nach dem iOS noch nicht gefragt hat, zeigt das grüne Banner auf dem Tab <strong>Gesundheit</strong> den Button <strong>Erteilen</strong>. iOS verrät keiner App, ob du das Lesen erlaubt hast: Ein abgelehnter Typ sendet einfach nichts. Ändern kannst du das in der Health-App unter deinem Profil, <strong>Apps</strong>, <strong>Life Dashboard</strong>.</li>
-  <li>Tippe auf <strong>Jetzt synchronisieren</strong>. Das iPhone erscheint in Home Assistant unter <strong>Einstellungen</strong> &gt; <strong>Geräte &amp; Dienste</strong> &gt; <strong>Life Dashboard</strong>, mit einem Sensor für jeden gesendeten Typ. Bei der ersten Synchronisierung schickt jeder Typ seine letzten 7 Tage.</li>
-  <li>Für ältere Daten tippst du auf dem Tab <strong>Gesundheit</strong> auf <strong>Nachtragen</strong> und wählst, wie weit zurück: von 30 Tagen bis <strong>Alles</strong>. Home Assistant übernimmt vorerst etwa das letzte Jahr. Das Nachtragen läuft, solange die App offen und das iPhone entsperrt ist, und hält so lange den Bildschirm an. Unter iOS 26 läuft es weiter, wenn du die App wechselst, und zeigt seinen Fortschritt im System an.</li>
+  <li>Wähle deine Datentypen: <strong>Das Wesentliche</strong>, <strong>Alle Typen</strong> oder <strong>Später wählen</strong>. Erlaube danach den Zugriff auf Apple Health. Kommt später ein Typ dazu, nach dem iOS noch nicht gefragt hat, zeigt die Zeile <strong>Zugriff auf Apple Health</strong> unter <strong>Was senden</strong> den Button <strong>Erteilen</strong>. iOS verrät keiner App, ob du das Lesen erlaubt hast: Ein abgelehnter Typ sendet einfach nichts. Ändern kannst du das in der Health-App unter deinem Profil, <strong>Apps</strong>, <strong>Life Dashboard</strong>.</li>
+  <li>Gleich danach läuft eine erste Synchronisierung, und die App zeigt, was angekommen ist. Später sendet <strong>Jetzt synchronisieren</strong> auf dem Tab <strong>Gesundheit</strong> sofort, was neu ist. Das iPhone erscheint in Home Assistant unter <strong>Einstellungen</strong> &gt; <strong>Geräte &amp; Dienste</strong> &gt; <strong>Life Dashboard</strong>, mit einem Sensor für jeden gesendeten Typ. Bei der ersten Synchronisierung schickt jeder Typ seine letzten 7 Tage.</li>
+  <li>Für ältere Daten tippst du unter <strong>Was senden</strong> auf <strong>Verlauf senden</strong> und wählst, wie weit zurück: von 30 Tagen bis <strong>Alles</strong>. Home Assistant übernimmt vorerst etwa das letzte Jahr. Das Nachtragen läuft, solange die App offen und das iPhone entsperrt ist, und hält so lange den Bildschirm an. Unter iOS 26 läuft es weiter, wenn du die App wechselst, und zeigt seinen Fortschritt im System an.</li>
 </ol>
 
 <!-- IMG: Health tab (ios-health.png) -->
@@ -120,7 +120,7 @@ entities:
 
 <p>Auf Android synchronisiert die App standardmäßig alle 60 Minuten, im kürzesten Abstand alle 15 Minuten, oder zu festen Uhrzeiten.</p>
 
-<p>Auf dem iPhone stellst du ein Intervall ab 15 Minuten (Standard: 60) oder feste Uhrzeiten ein, mit Wochentagen und Ruhezeiten. Wann eine App im Hintergrund läuft, entscheidet iOS. Eine feste Uhrzeit heißt deshalb „nicht vorher“: Die Synchronisierung läuft bei der ersten Gelegenheit danach. Dafür muss die Hintergrundaktualisierung für die App an sein, und der Stromsparmodus schaltet sie ab. Brauchst du eine Synchronisierung auf die Minute, legst du in der Kurzbefehle-App eine Automation zu dieser Tageszeit an, die <strong>Gesundheitsdaten synchronisieren</strong> ausführt. Dieselbe Aktion steckt hinter dem Widget auf dem Home-Bildschirm, einem Steuerelement im Kontrollzentrum ab iOS 18 und Siri.</p>
+<p>Auf dem iPhone stellst du unter <strong>Wann senden</strong> ein Intervall ab 15 Minuten (Standard: 60) oder feste Uhrzeiten ein, mit Wochentagen und Ruhezeiten. Wann eine App im Hintergrund läuft, entscheidet iOS. Eine feste Uhrzeit heißt deshalb „nicht vorher“: Die Synchronisierung läuft bei der ersten Gelegenheit danach. Dafür muss die Hintergrundaktualisierung für die App an sein, und der Stromsparmodus schaltet sie ab. Brauchst du eine Synchronisierung auf die Minute, legst du in der Kurzbefehle-App eine Automation zu dieser Tageszeit an, die <strong>Gesundheitsdaten synchronisieren</strong> ausführt. Dieselbe Aktion steckt hinter dem Widget auf dem Home-Bildschirm, einem Steuerelement im Kontrollzentrum ab iOS 18 und Siri.</p>
 
 <!-- IMG: Sync schedule (ios-schedule.png) -->
 
