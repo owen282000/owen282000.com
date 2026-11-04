@@ -9,7 +9,7 @@
   "hero_image": "A1-health",
   "highlights": [
     {
-      "title": "33 Health Connect types",
+      "title": "34 Health Connect types",
       "text": "Steps, sleep stages, heart rate, HRV, weight, blood pressure, glucose, workouts, nutrition and cycle tracking, each with its own switch."
     },
     {
@@ -40,8 +40,8 @@
       "text": "The Life Dashboard integration pairs with one QR code and keeps every day in long-term statistics. MQTT with Home Assistant Discovery suits a setup that already runs a broker and only needs current values.",
       "bullets": [
         {
-          "main": "Sensors for 25 of the 33 types",
-          "sub": "Today's steps, distance and calories, the latest heart rate, sleep, weight, blood pressure, glucose and more, and the last workout. MQTT gets 24, without the workout."
+          "main": "Sensors for 26 of the 34 types",
+          "sub": "Today's steps, distance and calories, the latest heart rate, sleep, weight, blood pressure, glucose and more, and the last workout. MQTT gets 25, without the workout."
         },
         {
           "main": "Screen time in total and per app",
@@ -119,7 +119,7 @@
   "faq": [
     {
       "q": "Which Health Connect types become Home Assistant sensors?",
-      "a": "25 of the 33 through the integration, 24 over MQTT. The other eight (nutrition, mindfulness, sexual activity and five cycle tracking types) are events rather than values, so they get no sensor; the integration counts mindfulness minutes per day. Workouts get a last workout sensor and the minutes of today and yesterday in the integration. A <a href=\"../health-connect-webhook/\">webhook of your own</a> gets those records in full."
+      "a": "26 of the 34 through the integration, 25 over MQTT. The other eight (nutrition, mindfulness, sexual activity and five cycle tracking types) are events rather than values, so they get no sensor; the integration counts mindfulness minutes per day. Workouts get a last workout sensor and the minutes of today and yesterday in the integration. A <a href=\"../health-connect-webhook/\">webhook of your own</a> gets those records in full."
     },
     {
       "q": "Can it send to Home Assistant and a webhook at the same time?",

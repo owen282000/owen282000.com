@@ -85,7 +85,7 @@
         "inLanguage": "en"
       },
       "inLanguage": "en",
-      "dateModified": "2026-11-04"
+      "dateModified": "2026-11-05"
     },
     {
       "@type": "FAQPage",
@@ -111,7 +111,7 @@
           "name": "Which data gets no sensor?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Eight of the 33 Health Connect types are events: meals, mindfulness sessions, sexual activity and the five cycle tracking types. Workouts get a last workout sensor and the minutes of today and yesterday, and mindfulness counts as minutes per day in the statistics. For the raw records, add a second webhook in the app that points at your own backend."
+            "text": "Eight of the 34 Health Connect types are events: meals, mindfulness sessions, sexual activity and the five cycle tracking types. Workouts get a last workout sensor and the minutes of today and yesterday, and mindfulness counts as minutes per day in the statistics. For the raw records, add a second webhook in the app that points at your own backend."
           }
         },
         {
@@ -274,7 +274,7 @@
 <section class="section tight" id="compare">
   <div class="wrap">
     <div class="section-head"><h2>Next to the Home Assistant companion app</h2><p>Keep the companion app for presence, notifications and device sensors. The two run side by side; this is what the integration adds for health data.</p></div>
-    <div class="table-wrap compare-wrap" tabindex="0" role="region" aria-label="Next to the Home Assistant companion app"><table class="compare"><thead><tr><th scope="col">Feature</th><th scope="col">Home Assistant companion app</th><th scope="col">Life Dashboard</th></tr></thead><tbody><tr><th scope="row">Health Connect</th><td>26 sensors</td><td>33 types; 25 become sensors, and a webhook gets every record</td></tr><tr><th scope="row">History</th><td>From the day you enable a sensor, with today's value filed at sync time</td><td>A backfill of up to a year, every value filed on the date it happened</td></tr><tr><th scope="row">Screen time</th><td>Last used app</td><td>Minutes per app, with a day boundary you choose</td></tr><tr><th scope="row">Into Health Connect</th><td>No</td><td>Scale and blood pressure readings from Home Assistant</td></tr><tr><th scope="row">Other destinations</th><td>Home Assistant</td><td>Also MQTT, any webhook and <a href="../grafana/">the Grafana stack</a></td></tr></tbody></table></div>
+    <div class="table-wrap compare-wrap" tabindex="0" role="region" aria-label="Next to the Home Assistant companion app"><table class="compare"><thead><tr><th scope="col">Feature</th><th scope="col">Home Assistant companion app</th><th scope="col">Life Dashboard</th></tr></thead><tbody><tr><th scope="row">Health Connect</th><td>26 sensors</td><td>34 types; 26 become sensors, and a webhook gets every record</td></tr><tr><th scope="row">History</th><td>From the day you enable a sensor, with today's value filed at sync time</td><td>A backfill of up to a year, every value filed on the date it happened</td></tr><tr><th scope="row">Screen time</th><td>Last used app</td><td>Minutes per app, with a day boundary you choose</td></tr><tr><th scope="row">Into Health Connect</th><td>No</td><td>Scale and blood pressure readings from Home Assistant</td></tr><tr><th scope="row">Other destinations</th><td>Home Assistant</td><td>Also MQTT, any webhook and <a href="../grafana/">the Grafana stack</a></td></tr></tbody></table></div>
     <p class="fineprint">From the companion app's <a href="https://companion.home-assistant.io/docs/core/sensors">sensor documentation</a> and its code, as of release 2026.8.4. <a href="../companion-app-health-connect/">The companion app and Health Connect</a> goes row by row.</p>
   </div>
 </section>
@@ -321,7 +321,7 @@
       </details>
       <details>
         <summary>Which data gets no sensor?</summary>
-        <p>Eight of the 33 Health Connect types are events: meals, mindfulness sessions, sexual activity and the five cycle tracking types. Workouts get a last workout sensor and the minutes of today and yesterday, and mindfulness counts as minutes per day in the statistics. For the raw records, add a second webhook in the app that points at <a href="../health-connect-webhook/">your own backend</a>.</p>
+        <p>Eight of the 34 Health Connect types are events: meals, mindfulness sessions, sexual activity and the five cycle tracking types. Workouts get a last workout sensor and the minutes of today and yesterday, and mindfulness counts as minutes per day in the statistics. For the raw records, add a second webhook in the app that points at <a href="../health-connect-webhook/">your own backend</a>.</p>
       </details>
       <details>
         <summary>Can Home Assistant send a scale reading to the phone?</summary>

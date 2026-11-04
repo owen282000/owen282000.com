@@ -66,7 +66,7 @@
         "applicationCategory": "HealthApplication",
         "applicationSubCategory": "Home automation",
         "featureList": [
-          "Reads 33 Health Connect data types",
+          "Reads 34 Health Connect data types",
           "Screen time per app",
           "Home Assistant integration with QR pairing and up to a year of history",
           "MQTT Discovery for Home Assistant",
@@ -132,7 +132,7 @@
           "name": "Which Health Connect types become Home Assistant sensors?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "25 of the 33 through the integration, 24 over MQTT. The other eight (nutrition, mindfulness, sexual activity and five cycle tracking types) are events rather than values, so they get no sensor; the integration counts mindfulness minutes per day. Workouts get a last workout sensor and the minutes of today and yesterday in the integration. A webhook of your own gets those records in full."
+            "text": "26 of the 34 through the integration, 25 over MQTT. The other eight (nutrition, mindfulness, sexual activity and five cycle tracking types) are events rather than values, so they get no sensor; the integration counts mindfulness minutes per day. Workouts get a last workout sensor and the minutes of today and yesterday in the integration. A webhook of your own gets those records in full."
           }
         },
         {
@@ -286,7 +286,7 @@
   <div class="wrap">
     <h2 class="sr-only">What it does</h2>
     <div class="highlights">
-        <div class="hl-lead"><h3>33 Health Connect types</h3><p>Steps, sleep stages, heart rate, HRV, weight, blood pressure, glucose, workouts, nutrition and cycle tracking, each with its own switch.</p></div>
+        <div class="hl-lead"><h3>34 Health Connect types</h3><p>Steps, sleep stages, heart rate, HRV, weight, blood pressure, glucose, workouts, nutrition and cycle tracking, each with its own switch.</p></div>
         <ul class="hl-list"><li><h3>Every record, with its source</h3><p>Each record goes out with a stable ID and the app that wrote it. Daily totals count a walk once.</p></li><li><h3>All your history</h3><p>Backfill from 30 days up to 5 years, or everything Health Connect has. In Home Assistant each day lands on its own date in long-term statistics, for now about the last year.</p></li><li><h3>Screen time per app</h3><p>Foreground minutes for every app, with a day boundary you choose and a filter that keeps the apps you pick out of what&#x27;s sent.</p></li><li><h3>Three ways out</h3><p>The Life Dashboard integration, MQTT with Home Assistant Discovery, or any webhook that accepts a JSON POST. Several at once works too, and the Health and Screen Time tabs open on whether your data arrives at each, with today&#x27;s figures below.</p></li><li><h3>Receive into Health Connect</h3><p>Scale and blood pressure readings from Home Assistant go into Health Connect, where Samsung Health and Google Health read weight.</p></li></ul>
     </div>
   </div>
@@ -300,7 +300,7 @@
         <h2>Into Home Assistant, with or without a broker</h2>
         <p>The Life Dashboard integration pairs with one QR code and keeps every day in long-term statistics. MQTT with Home Assistant Discovery suits a setup that already runs a broker and only needs current values.</p>
         <ul class="ticks">
-          <li>Sensors for 25 of the 33 types <span>Today's steps, distance and calories, the latest heart rate, sleep, weight, blood pressure, glucose and more, and the last workout. MQTT gets 24, without the workout.</span></li>
+          <li>Sensors for 26 of the 34 types <span>Today's steps, distance and calories, the latest heart rate, sleep, weight, blood pressure, glucose and more, and the last workout. MQTT gets 25, without the workout.</span></li>
           <li>Screen time in total and per app <span>Both routes get the totals. The sensor per app comes with the integration.</span></li>
           <li>Two phones on one broker <span>Give each a Phone name under More > Advanced, and each gets its own device and topics.</span></li>
         </ul>
@@ -371,7 +371,7 @@
     <div class="faq">
       <details>
         <summary>Which Health Connect types become Home Assistant sensors?</summary>
-        <p>25 of the 33 through the integration, 24 over MQTT. The other eight (nutrition, mindfulness, sexual activity and five cycle tracking types) are events rather than values, so they get no sensor; the integration counts mindfulness minutes per day. Workouts get a last workout sensor and the minutes of today and yesterday in the integration. A <a href="../health-connect-webhook/">webhook of your own</a> gets those records in full.</p>
+        <p>26 of the 34 through the integration, 25 over MQTT. The other eight (nutrition, mindfulness, sexual activity and five cycle tracking types) are events rather than values, so they get no sensor; the integration counts mindfulness minutes per day. Workouts get a last workout sensor and the minutes of today and yesterday in the integration. A <a href="../health-connect-webhook/">webhook of your own</a> gets those records in full.</p>
       </details>
       <details>
         <summary>Can it send to Home Assistant and a webhook at the same time?</summary>

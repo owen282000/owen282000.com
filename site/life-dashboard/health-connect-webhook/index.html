@@ -171,7 +171,7 @@
 <h1>How do I send Health Connect data to my own webhook as JSON?</h1>
 <p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 5, 2026.</p>
 
-<p>Life Dashboard Companion, an open-source Android app, reads Health Connect on a schedule and sends every new record to the URLs you enter, as an HTTPS POST with a JSON body. Each payload holds the records of the types you switched on (33 in all, from steps and sleep stages to heart rate, weight and blood pressure), each with a stable <code>uuid</code> and the app that wrote it, plus daily totals that count a walk once.</p>
+<p>Life Dashboard Companion, an open-source Android app, reads Health Connect on a schedule and sends every new record to the URLs you enter, as an HTTPS POST with a JSON body. Each payload holds the records of the types you switched on (34 in all, from steps and sleep stages to heart rate, weight and blood pressure), each with a stable <code>uuid</code> and the app that wrote it, plus daily totals that count a walk once.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="../android/#get">Get the Android app</a></p>
 
 <p>With a secret set, every request is signed with HMAC-SHA256 in an <code>X-Signature</code> header, and payloads that can't be delivered wait in an outbox on the phone for the next sync. Any receiver that accepts JSON works, including n8n, Node-RED, a small script or the Life Dashboard stack with Postgres and Grafana.</p>
