@@ -48,7 +48,7 @@
         }
       ],
       "datePublished": "2026-10-21",
-      "dateModified": "2026-10-23",
+      "dateModified": "2026-11-04",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -127,7 +127,7 @@
           "name": "Do I get a year of history right away?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes, if Apple Health holds it. Run Backfill with a year or more, and each day of the last year lands on its own date in long-term statistics. The sensors themselves only show the newest value."
+            "text": "Yes, if Apple Health holds it. Tap Send history under What to send and pick 1 year or more, and each day of the last year lands on its own date in long-term statistics. The sensors themselves only show the newest value."
           }
         },
         {
@@ -177,7 +177,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Apple Health in Home Assistant</span></nav>
 <h1>How do I get Apple Health data into Home Assistant?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 23, 2026. <a href="../de/home-assistant-gesundheitsdaten/" hreflang="de" lang="de">Auf Deutsch</a></p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 4, 2026. <a href="../de/home-assistant-gesundheitsdaten/" hreflang="de" lang="de">Auf Deutsch</a></p>
 
 <p>Install the Life Dashboard integration in Home Assistant from HACS and Life Dashboard Companion on your iPhone, then pair the two with the QR code the integration shows. Tap <strong>Sync Now</strong>, and your steps, heart rate, sleep, weight and workouts arrive as sensors. A backfill fills long-term statistics with the last year, each day on its own date.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in HACS</a></p>
@@ -202,14 +202,14 @@
   <li>In HACS, search for <strong>Life Dashboard</strong>, or use <a href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in HACS</a>. Download it and restart Home Assistant.</li>
   <li>Go to <strong>Settings</strong> &gt; <strong>Devices &amp; services</strong> &gt; <strong>Add integration</strong>, search for <strong>Life Dashboard</strong> and give the iPhone a name. Check the <strong>Home Assistant address</strong> field: it's the address the iPhone sends to. iOS allows plain <code>http://</code> only to an IP address, a <code>.local</code> name such as <code>homeassistant.local</code>, or a name without a dot, so <code>http://192.168.1.20:8123</code> works and <code>http://ha.lan:8123</code> doesn't. For anything else, use <code>https://</code> or Home Assistant Cloud. The dialog then shows a QR code.
   <figure class="shot wide"><a class="shot-link" href="../img/H2-qr.webp?v=abb2ed19" aria-label="The Life Dashboard integration in Home Assistant showing a pairing QR code, full size"><img src="../img/H2-qr.webp?v=abb2ed19" alt="The Life Dashboard integration in Home Assistant showing a pairing QR code" width="800" height="668" loading="lazy"></a></figure></li>
-  <li>Install and open <a href="../ios/#get">Life Dashboard Companion</a>. At the step about where your data should go, tap <strong>Scan a pairing code</strong>, scan the code and tap <strong>Pair</strong>. The app sends one test ping, so the iPhone appears in Home Assistant right away. The iPhone's camera works too: it opens the pairing page in Safari, and a button there hands the code to the app.</li>
+  <li>Install and open <a href="../ios/#get">Life Dashboard Companion</a>. At <strong>Where should your data go?</strong>, tap <strong>Scan a pairing code</strong>, scan the code and tap <strong>Pair</strong>. The app sends one test ping, so the iPhone appears in Home Assistant right away. The iPhone's camera works too: it opens the pairing page in Safari, and a button there hands the code to the app.</li>
   <li>When iOS asks for access to the local network, allow it. Without it, nothing reaches a Home Assistant at home.</li>
-  <li>Pick your data types: the essentials, all 28, or none yet. Then allow Apple Health access. When a type is on that iOS hasn't asked about yet, the green banner on the <strong>Health</strong> tab shows <strong>Grant</strong>. iOS never tells an app whether you allowed reading, so a type you declined just sends nothing; change it in the Health app under your profile, <strong>Apps</strong>, <strong>Life Dashboard</strong>.</li>
-  <li>Tap <strong>Sync Now</strong>. The iPhone appears under <strong>Settings</strong> &gt; <strong>Devices &amp; services</strong> &gt; <strong>Life Dashboard</strong>, with a sensor for each type it sent. A type's first sync sends its last 7 days.</li>
-  <li>For older data, tap <strong>Backfill</strong> on the <strong>Health</strong> tab and pick how far back, from 30 days up to <strong>All history</strong>; Home Assistant takes in about the last year for now. It runs while the app is open and the iPhone is unlocked, and keeps the screen on meanwhile. On iOS 26 it keeps going when you switch apps and shows its progress in the system UI.</li>
+  <li>Pick your data types: <strong>Essentials</strong>, <strong>All types</strong> or <strong>Choose later</strong>. Then allow Apple Health access. When a type is on that iOS hasn't asked about yet, the <strong>Apple Health access</strong> row under <strong>What to send</strong> shows <strong>Grant</strong>. iOS never tells an app whether you allowed reading, so a type you declined just sends nothing; change it in the Health app under your profile, <strong>Apps</strong>, <strong>Life Dashboard</strong>.</li>
+  <li>A first sync follows right away and shows what arrived. After that, <strong>Sync Now</strong> on the <strong>Health</strong> tab sends what's new at once. The iPhone appears under <strong>Settings</strong> &gt; <strong>Devices &amp; services</strong> &gt; <strong>Life Dashboard</strong>, with a sensor for each type it sent. A type's first sync sends its last 7 days.</li>
+  <li>For older data, tap <strong>Send history</strong> under <strong>What to send</strong> and pick how far back, from 30 days up to <strong>All history</strong>; Home Assistant takes in about the last year for now. It runs while the app is open and the iPhone is unlocked, and keeps the screen on meanwhile. On iOS 26 it keeps going when you switch apps and shows its progress in the system UI.</li>
 </ol>
 
-<figure class="shot"><a class="shot-link" href="../img/ios-health.webp?v=37d15c4d" aria-label="The Health tab of the iPhone app with Apple Health types, full size"><div class="phone " style="aspect-ratio: 720 / 1464"><img src="../img/ios-health.webp?v=37d15c4d" alt="The Health tab of the iPhone app with Apple Health types" width="720" height="1464" loading="lazy"></div></a></figure>
+<figure class="shot"><a class="shot-link" href="../img/ios-health.webp?v=ba2e044b" aria-label="The Health tab of the iPhone app, with a row per destination and today's figures, full size"><div class="phone " style="aspect-ratio: 720 / 1464"><img src="../img/ios-health.webp?v=ba2e044b" alt="The Health tab of the iPhone app, with a row per destination and today's figures" width="720" height="1464" loading="lazy"></div></a></figure>
 
 <h2 id="what-you-get">What you get</h2>
 
@@ -244,11 +244,11 @@ entities:
 
 <h2 id="when-syncs-run">When syncs run</h2>
 
-<p>Set an interval of 15 minutes or more (60 by default) or fixed times of day, with weekdays and quiet hours. iOS decides when an app runs in the background, so a fixed time means "not before": the sync runs at the first chance iOS gives after it. Background App Refresh must be on for the app, and Low Power Mode switches it off.</p>
+<p>Under <strong>When to send</strong>, set an interval of 15 minutes or more (60 by default) or fixed times of day, with weekdays and quiet hours. iOS decides when an app runs in the background, so a fixed time means "not before": the sync runs at the first chance iOS gives after it. Background App Refresh must be on for the app, and Low Power Mode switches it off.</p>
 
 <p>For a sync at an exact minute, make a Shortcuts automation at that time that runs <strong>Sync Health Data</strong>. The same action is behind the home screen widget, a Control Center control on iOS 18 and newer, and Siri.</p>
 
-<figure class="shot"><a class="shot-link" href="../img/ios-schedule.webp?v=d16f9410" aria-label="The sync schedule of the iPhone app at fixed times with quiet hours, full size"><div class="phone " style="aspect-ratio: 720 / 1464"><img src="../img/ios-schedule.webp?v=d16f9410" alt="The sync schedule of the iPhone app at fixed times with quiet hours" width="720" height="1464" loading="lazy"></div></a></figure>
+<figure class="shot"><a class="shot-link" href="../img/ios-schedule.webp?v=e903fe4e" aria-label="When to send in the iPhone app, at fixed times with quiet hours, full size"><div class="phone " style="aspect-ratio: 720 / 1464"><img src="../img/ios-schedule.webp?v=e903fe4e" alt="When to send in the iPhone app, at fixed times with quiet hours" width="720" height="1464" loading="lazy"></div></a></figure>
 
 <h2 id="the-home-assistant-companion-app-s-health-sensors">The Home Assistant companion app's Health sensors</h2>
 
@@ -262,7 +262,7 @@ entities:
 
 <h2 id="mqtt-as-the-alternative">MQTT as the alternative</h2>
 
-<p>With an MQTT broker already running, switch on <strong>Enable MQTT publishing</strong> under <strong>MQTT</strong> on the <strong>Health</strong> tab instead. A device named <strong>Life Dashboard Companion (iOS)</strong> appears with 21 sensors for the same 20 types, through MQTT Discovery and without YAML. Pick one route: running both gives you two devices with the same numbers.</p>
+<p>With an MQTT broker already running, tap <strong>Add destination</strong> on the <strong>Health</strong> tab instead, then <strong>MQTT broker</strong>. Switch on <strong>Enable MQTT publishing</strong>, fill in your broker and tap <strong>Save</strong>. A device named <strong>Life Dashboard Companion (iOS)</strong> appears with 21 sensors for the same 20 types, through MQTT Discovery and without YAML. Pick one route: running both gives you two devices with the same numbers.</p>
 
 <div class="table-wrap" tabindex="0" role="region" aria-label="MQTT as the alternative"><table>
   <thead>
@@ -312,7 +312,7 @@ entities:
   </details>
   <details>
     <summary>Do I get a year of history right away?</summary>
-    <p>Yes, if Apple Health holds it. Run <strong>Backfill</strong> with a year or more, and each day of the last year lands on its own date in long-term statistics. The sensors themselves only show the newest value.</p>
+    <p>Yes, if Apple Health holds it. Tap <strong>Send history</strong> under <strong>What to send</strong> and pick <strong>1 year</strong> or more, and each day of the last year lands on its own date in long-term statistics. The sensors themselves only show the newest value.</p>
   </details>
   <details>
     <summary>I deleted a record in Apple Health. Does Home Assistant keep it?</summary>

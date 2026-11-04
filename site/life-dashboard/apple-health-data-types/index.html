@@ -43,7 +43,7 @@
         }
       ],
       "datePublished": "2026-10-21",
-      "dateModified": "2026-10-21",
+      "dateModified": "2026-11-04",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -90,7 +90,7 @@
           "name": "How many Apple Health types does the iPhone app read?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "28, each off until you switch it on. Menstruation sends two keys, flow and periods, so an iPhone sends 29 payload keys."
+            "text": "28, each off until you switch it on under What to send. Menstruation sends two keys, flow and periods, so an iPhone sends 29 payload keys."
           }
         },
         {
@@ -164,9 +164,9 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Apple Health data types, app by app</span></nav>
 <h1>Which Apple Health data types does Life Dashboard send?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 21, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 4, 2026.</p>
 
-<p>The iPhone app reads 28 Apple Health types, and each one is off until you switch it on. It sends them under the Android app's payload keys, with the same fields and units: steps, distance and calories, workouts, weight and body composition, heart rate, resting heart rate and HRV, blood pressure, glucose, oxygen saturation, respiratory rate, VO2 max, sleep with stages, hydration, nutrition, mindfulness and six cycle tracking types. Menstruation goes out as two keys, so an iPhone sends 29 of the Android app's 33 keys.</p>
+<p>The iPhone app reads 28 Apple Health types, and each one is off until you switch it on under <strong>What to send</strong>, by category or with <strong>Essentials</strong> or <strong>All types</strong>. It sends them under the Android app's payload keys, with the same fields and units: steps, distance and calories, workouts, weight and body composition, heart rate, resting heart rate and HRV, blood pressure, glucose, oxygen saturation, respiratory rate, VO2 max, sleep with stages, hydration, nutrition, mindfulness, body temperature and cycle tracking. Menstruation goes out as two keys, so an iPhone sends 29 of the Android app's 33 keys.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="../ios/#get">Get the iPhone app</a></p>
 
 <p>Every record carries a <code>uuid</code>, the Apple Health sample's own, and a <code>source</code>: the name Apple Health gives the app or device that wrote it. The app only reads; it never writes into Apple Health.</p>
@@ -187,23 +187,23 @@
     <tr><th scope="row"><a href="#exercise">Exercise Sessions</a></th><td><code>exercise</code></td><td><code>type</code>, <code>duration_seconds</code></td><td>Last workout, minutes per day</td><td>Yes</td></tr>
     <tr><th scope="row"><a href="#weight">Weight</a></th><td><code>weight</code></td><td><code>kilograms</code></td><td>Latest value</td><td>No</td></tr>
     <tr><th scope="row"><a href="#height">Height</a></th><td><code>height</code></td><td><code>meters</code></td><td>Latest value</td><td>No</td></tr>
-    <tr><th scope="row"><a href="#body_temperature">Body Temperature</a></th><td><code>body_temperature</code></td><td><code>celsius</code></td><td>Latest value</td><td>No</td></tr>
     <tr><th scope="row"><a href="#body_fat">Body Fat</a></th><td><code>body_fat</code></td><td><code>percentage</code></td><td>Latest value</td><td>No</td></tr>
     <tr><th scope="row"><a href="#lean_body_mass">Lean Body Mass</a></th><td><code>lean_body_mass</code></td><td><code>kilograms</code></td><td>Latest value</td><td>No</td></tr>
     <tr><th scope="row"><a href="#heart_rate">Heart Rate</a></th><td><code>heart_rate</code></td><td><code>bpm</code></td><td>Latest value</td><td>Yes</td></tr>
     <tr><th scope="row"><a href="#resting_heart_rate">Resting Heart Rate</a></th><td><code>resting_heart_rate</code></td><td><code>bpm</code></td><td>Latest value</td><td>Yes</td></tr>
     <tr><th scope="row"><a href="#heart_rate_variability">Heart Rate Variability</a></th><td><code>heart_rate_variability</code></td><td><code>heart_rate_variability_millis</code>, ms (SDNN)</td><td>Latest value</td><td>Yes</td></tr>
     <tr><th scope="row"><a href="#blood_pressure">Blood Pressure</a></th><td><code>blood_pressure</code></td><td><code>systolic</code>, <code>diastolic</code>, mmHg</td><td>Two sensors</td><td>No</td></tr>
-    <tr><th scope="row"><a href="#blood_glucose">Blood Glucose</a></th><td><code>blood_glucose</code></td><td><code>mmol_per_liter</code></td><td>Latest value</td><td>No</td></tr>
     <tr><th scope="row"><a href="#oxygen_saturation">Oxygen Saturation</a></th><td><code>oxygen_saturation</code></td><td><code>percentage</code></td><td>Latest value</td><td>Some models and regions</td></tr>
     <tr><th scope="row"><a href="#respiratory_rate">Respiratory Rate</a></th><td><code>respiratory_rate</code></td><td><code>rate</code>, breaths per minute</td><td>Latest value</td><td>Yes, while you sleep</td></tr>
+    <tr><th scope="row"><a href="#body_temperature">Body Temperature</a></th><td><code>body_temperature</code></td><td><code>celsius</code></td><td>Latest value</td><td>No</td></tr>
+    <tr><th scope="row"><a href="#basal_body_temperature">Basal Body Temperature</a></th><td><code>basal_body_temperature</code></td><td><code>celsius</code></td><td>Latest value</td><td>No</td></tr>
+    <tr><th scope="row"><a href="#blood_glucose">Blood Glucose</a></th><td><code>blood_glucose</code></td><td><code>mmol_per_liter</code></td><td>Latest value</td><td>No</td></tr>
     <tr><th scope="row"><a href="#vo2_max">VO2 Max</a></th><td><code>vo2_max</code></td><td><code>vo2_ml_per_min_per_kg</code></td><td>Latest value</td><td>Yes, during some workouts</td></tr>
     <tr><th scope="row"><a href="#sleep">Sleep</a></th><td><code>sleep</code></td><td><code>duration_seconds</code>, <code>stages</code></td><td>Last sleep duration</td><td>Yes, with stages</td></tr>
     <tr><th scope="row"><a href="#mindfulness">Mindfulness</a></th><td><code>mindfulness</code></td><td><code>duration_seconds</code></td><td>Minutes per day, in the statistics</td><td>Unknown</td></tr>
     <tr><th scope="row"><a href="#hydration">Hydration</a></th><td><code>hydration</code></td><td><code>liters</code></td><td>Last drink</td><td>No</td></tr>
     <tr><th scope="row"><a href="#nutrition">Nutrition</a></th><td><code>nutrition</code></td><td><code>calories</code>, grams and 34 more nutrients</td><td>No sensor</td><td>No</td></tr>
     <tr><th scope="row"><a href="#menstruation">Menstruation</a></th><td><code>menstruation_flow</code>, <code>menstruation_period</code></td><td><code>flow</code>; <code>start_time</code>, <code>end_time</code></td><td>No sensor</td><td>No</td></tr>
-    <tr><th scope="row"><a href="#basal_body_temperature">Basal Body Temperature</a></th><td><code>basal_body_temperature</code></td><td><code>celsius</code></td><td>Latest value</td><td>No</td></tr>
     <tr><th scope="row"><a href="#intermenstrual_bleeding">Intermenstrual Bleeding</a></th><td><code>intermenstrual_bleeding</code></td><td>The time only</td><td>No sensor</td><td>No</td></tr>
     <tr><th scope="row"><a href="#ovulation_test">Ovulation Test</a></th><td><code>ovulation_test</code></td><td><code>result</code></td><td>No sensor</td><td>No</td></tr>
     <tr><th scope="row"><a href="#cervical_mucus">Cervical Mucus</a></th><td><code>cervical_mucus</code></td><td><code>appearance</code>, <code>sensation</code></td><td>No sensor</td><td>No</td></tr>
@@ -248,16 +248,13 @@
 <h3 id="height">Height</h3>
 <p>Key <code>height</code>: <code>meters</code>, at a moment.</p>
 
-<h3 id="body_temperature">Body Temperature</h3>
-<p>Key <code>body_temperature</code>: <code>celsius</code>, at a moment.</p>
-
 <h3 id="body_fat">Body Fat</h3>
 <p>Key <code>body_fat</code>: <code>percentage</code>, 0 to 100, at a moment.</p>
 
 <h3 id="lean_body_mass">Lean Body Mass</h3>
 <p>Key <code>lean_body_mass</code>: <code>kilograms</code>, at a moment.</p>
 
-<h2 id="heart-and-breathing">Heart and breathing</h2>
+<h2 id="heart-and-vitals">Heart and vitals</h2>
 
 <h3 id="heart_rate">Heart Rate</h3>
 <p>Key <code>heart_rate</code>: <code>bpm</code>, a whole number, at a moment, one record per sample. Up to 1000 new records per sync. Every sample has its own <code>uuid</code>; Android's <code>&lt;uuid&gt;#&lt;time&gt;</code> form doesn't apply.</p>
@@ -271,6 +268,12 @@
 <h3 id="blood_pressure">Blood Pressure</h3>
 <p>Key <code>blood_pressure</code>: <code>systolic</code> and <code>diastolic</code> in mmHg, at a moment, per reading: the two values an app saved together. The rare app that saves them separately gets them paired when they come within a second of each other. A value without its other half isn't sent. <code>uuid</code> is the systolic sample's.</p>
 
+<h3 id="body_temperature">Body Temperature</h3>
+<p>Key <code>body_temperature</code>: <code>celsius</code>, at a moment.</p>
+
+<h3 id="basal_body_temperature">Basal Body Temperature</h3>
+<p>Key <code>basal_body_temperature</code>: <code>celsius</code>, at a moment.</p>
+
 <h3 id="blood_glucose">Blood Glucose</h3>
 <p>Key <code>blood_glucose</code>: <code>mmol_per_liter</code>, at a moment.</p>
 
@@ -283,7 +286,7 @@
 <h3 id="vo2_max">VO2 Max</h3>
 <p>Key <code>vo2_max</code>: <code>vo2_ml_per_min_per_kg</code>, at a moment.</p>
 
-<h2 id="sleep-and-mindfulness">Sleep and mindfulness</h2>
+<h2 id="sleep-and-mind">Sleep and mind</h2>
 
 <h3 id="sleep">Sleep</h3>
 <p>Key <code>sleep</code>: <code>session_end_time</code>, <code>duration_seconds</code> and <code>stages</code>, each stage with its own <code>stage</code>, times, <code>uuid</code> and <code>source</code>. Apple Health has no sleep session, so the app groups stage samples into nights, and a gap of more than an hour starts a new one.</p>
@@ -313,9 +316,6 @@
 
 <h3 id="menstruation">Menstruation</h3>
 <p>One switch, two keys. <code>menstruation_flow</code> has <code>flow</code> at a moment, with the shared schema's values <code>light</code>, <code>medium</code>, <code>heavy</code> or <code>unknown</code>. <code>menstruation_period</code> has only <code>start_time</code> and <code>end_time</code>: Apple Health has no period record, so the app derives periods from consecutive flow days, and a gap of up to 48 hours bridges one missed day. A period's <code>uuid</code> comes from its first flow day, so replace the period when it comes back longer.</p>
-
-<h3 id="basal_body_temperature">Basal Body Temperature</h3>
-<p>Key <code>basal_body_temperature</code>: <code>celsius</code>, at a moment.</p>
 
 <h3 id="intermenstrual_bleeding">Intermenstrual Bleeding</h3>
 <p>Key <code>intermenstrual_bleeding</code>: only the <code>time</code>.</p>
@@ -350,7 +350,7 @@
 <ul>
   <li><strong>Decimals.</strong> 3 for meters and liters; 2 for kilograms, calories, Celsius, mmol/L and the nutrients; 1 for percentages, blood pressure, breathing rate, HRV and VO2 max. Trailing zeros are dropped, so 97.0 arrives as <code>97</code>. Counts, beats per minute and durations are whole numbers.</li>
   <li><strong>Per sync.</strong> Up to 1000 new records for heart rate, steps and total calories, 500 for HRV and respiratory rate, and 200 for every other type. The next sync continues where this one stopped.</li>
-  <li><strong>Data Resolution.</strong> Heart rate, HRV, oxygen saturation and respiratory rate can be sent as one average per 1, 5 or 15 minutes or per hour, with a minimum and maximum; steps, distance and both calories as a sum. Every type starts at every record.</li>
+  <li><strong>Data resolution.</strong> Under <strong>What to send</strong>, heart rate, HRV, oxygen saturation and respiratory rate can be sent as one average per 1, 5 or 15 minutes or per hour, with a minimum and maximum; steps, distance and both calories as a sum. Every type starts at every record.</li>
 </ul>
 
 <p>The <a href="https://github.com/owen282000/life-dashboard-companion-app-ios/blob/main/docs/webhook.md">iOS payload page</a> has every detail, and the Android app's <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook-schema.json">JSON Schema</a> covers both apps. For Android, see <a href="../health-connect-data-types/">Health Connect data types, app by app</a>.</p>
@@ -365,7 +365,7 @@
   <h2 id="faq">Common questions</h2>
   <details>
     <summary>How many Apple Health types does the iPhone app read?</summary>
-    <p>28, each off until you switch it on. Menstruation sends two keys, flow and periods, so an iPhone sends 29 payload keys.</p>
+    <p>28, each off until you switch it on under <strong>What to send</strong>. Menstruation sends two keys, flow and periods, so an iPhone sends 29 payload keys.</p>
   </details>
   <details>
     <summary>Why doesn't the iPhone send bone mass or skin temperature?</summary>

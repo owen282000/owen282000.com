@@ -3,13 +3,13 @@ title: Apple Health to a webhook, automatically | Life Dashboard
 description: Life Dashboard Companion sends Apple Health data from your iPhone to your own webhook as signed JSON, in the background, with retries, deletions and Shortcuts.
 primary query: apple health webhook
 secondary queries: export apple health automatically, apple health json, apple health export to server, apple health api self-hosted, healthkit webhook, apple health node-red, apple health postgres, send apple health data to server
-updated: 2026-10-23
+updated: 2026-11-04
 published: 2026-10-21
 -->
 
 <h1>How do I send Apple Health data to a webhook automatically?</h1>
 
-<p>Install Life Dashboard Companion on your iPhone, add your URL under <strong>Webhook</strong> on the <strong>Health</strong> tab, and pick the Apple Health types to send. From then on the app reads Apple Health in the background on the schedule you set and posts every new record to your URL as JSON: steps, sleep with stages, heart rate, HRV, weight, blood pressure, workouts and more, 28 types in all, each record with a stable <code>uuid</code> and the app or device that wrote it.</p>
+<p>Install Life Dashboard Companion on your iPhone, add your URL with <strong>Add destination</strong> on the <strong>Health</strong> tab, and pick the Apple Health types to send under <strong>What to send</strong>. From then on the app reads Apple Health in the background on the schedule you set and posts every new record to your URL as JSON: steps, sleep with stages, heart rate, HRV, weight, blood pressure, workouts and more, 28 types in all, each record with a stable <code>uuid</code> and the app or device that wrote it.</p>
 
 <p>With a secret set, every request is signed with HMAC-SHA256 in an <code>X-Signature</code> header. A payload that can't be delivered waits in a queue on the iPhone, and a record you delete in Apple Health is named in the next payload. The payload is the Android app's, so one receiver takes an iPhone and an Android phone alike.</p>
 
@@ -29,14 +29,14 @@ published: 2026-10-21
 <h2>Set it up</h2>
 
 <ol>
-  <li>In the app's setup, or later on the <strong>Health</strong> tab under <strong>Webhook</strong>, enter your URL. You can add several; a sync counts as delivered when one of them accepts it.</li>
-  <li>Optional: add an <code>Authorization</code> header or an API key as a custom header, and an <strong>HMAC Signing Secret</strong> that your server also knows.</li>
-  <li>Tap <strong>Test ping</strong>. It sends a small payload with <code>"test": true</code> and no records. If your server is at home, allow <strong>Local Network</strong> when iOS asks.</li>
-  <li>Switch on your types and allow Apple Health access. <strong>View</strong> shows the last 7 days as the payload would look, and <strong>Sync Now</strong> sends what's new. A type's first sync sends its last 7 days.</li>
-  <li>For older data, tap <strong>Backfill</strong> and pick how far back, from 30 days up to <strong>All history</strong>.</li>
+  <li>In the app's setup, enter your URL as the <strong>Webhook URL</strong>. Later, tap <strong>Add destination</strong> on the <strong>Health</strong> tab, enter it and tap <strong>Add webhook</strong>. You can add several; a sync counts as delivered when one of them accepts it.</li>
+  <li>Optional: tap the destination on the <strong>Health</strong> tab. Under <strong>Custom Headers</strong>, tap <strong>Add a header</strong> for an <code>Authorization</code> header or an API key. Enter an <strong>HMAC Signing Secret</strong> that your server also knows, or tap <strong>Generate</strong> and <strong>Copy secret</strong>. Then tap <strong>Save</strong>. Every address has its own secret and headers.</li>
+  <li>Tap <strong>Test ping</strong> in the setup, or <strong>Send test</strong> on the destination's sheet. It sends a small payload with <code>"test": true</code> and no records, using what's saved. If your server is at home, allow <strong>Local Network</strong> when iOS asks.</li>
+  <li>Under <strong>What to send</strong>, switch on your types and allow Apple Health access. <strong>Preview payload</strong> there shows the last 7 days as the payload would look, and <strong>Sync Now</strong> on the <strong>Health</strong> tab sends what's new. A type's first sync sends its last 7 days.</li>
+  <li>For older data, tap <strong>Send history</strong> under <strong>What to send</strong> and pick how far back, from 30 days up to <strong>All history</strong>.</li>
 </ol>
 
-<!-- IMG: Webhook and MQTT settings (ios-mqtt.png) -->
+<!-- IMG: A webhook destination (ios-webhook.png) -->
 
 <h2>What the POST looks like</h2>
 
@@ -93,7 +93,7 @@ function verifySignature(req, secret) {
 <pre><code>expected = "sha256=" + hmac.new(SECRET, body, hashlib.sha256).hexdigest()
 valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
 
-<p>For a server behind a reverse proxy that requires a client certificate, import it as a <code>.p12</code> file under <strong>Advanced</strong>. It stays in the iPhone's Keychain, and every webhook whose server asks for a certificate gets it, in the background too.</p>
+<p>For a server behind a reverse proxy that requires a client certificate, import it as a <code>.p12</code> file under <strong>More</strong> &gt; <strong>Advanced</strong>. It stays in the iPhone's Keychain, and every webhook whose server asks for a certificate gets it, in the background too.</p>
 
 <h2>Retries and the queue</h2>
 
@@ -124,7 +124,7 @@ valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
 
 <h2>When it sends</h2>
 
-<p>Set an interval of 15 minutes or more, 60 by default, or fixed times of day, on the days you pick, with quiet hours. iOS decides when an app runs in the background, so a fixed time means "not before". Apple Health also wakes the app when an enabled type has new data, at most as often as Apple allows for that type. Background App Refresh must be on for the app; Low Power Mode switches it off.</p>
+<p>Under <strong>When to send</strong>, set an interval of 15 minutes or more, 60 by default, or fixed times of day, on the days you pick, with quiet hours. iOS decides when an app runs in the background, so a fixed time means "not before". Apple Health also wakes the app when an enabled type has new data, at most as often as Apple allows for that type. Background App Refresh must be on for the app; Low Power Mode switches it off.</p>
 
 <p>For a sync at an exact minute, make a Shortcuts automation that runs <strong>Sync Health Data</strong> at that time. The same action works on arriving home, by voice with Siri, from the home screen widget, and from a Control Center control on iOS 18 and newer. It sends what's queued and what's new.</p>
 
@@ -134,7 +134,7 @@ valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
 
 <h2>Backfill</h2>
 
-<p><strong>Backfill</strong> sends the length you pick, from 30 days up to all history, in 3-day windows, oldest first, with the fields <code>backfill</code>, <code>window_start</code>, <code>window_end</code> and <code>window_complete</code>. The records are the ones a sync sends, <code>uuid</code> included, so the overlap deduplicates. <code>window_complete</code> is always <code>false</code> from an iPhone, because Apple Health doesn't tell an app which types it may not read. Backfill payloads go to webhooks only, never to MQTT or the queue.</p>
+<p><strong>Send history</strong> under <strong>What to send</strong> sends the length you pick, from 30 days up to all history, in 3-day windows, oldest first, with the fields <code>backfill</code>, <code>window_start</code>, <code>window_end</code> and <code>window_complete</code>. The records are the ones a sync sends, <code>uuid</code> included, so the overlap deduplicates. <code>window_complete</code> is always <code>false</code> from an iPhone, because Apple Health doesn't tell an app which types it may not read. Backfill payloads go to webhooks only, never to MQTT or the queue.</p>
 
 <h2>Receivers that work</h2>
 
@@ -174,7 +174,7 @@ valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
   </details>
   <details>
     <summary>Can I see the JSON before I write a receiver?</summary>
-    <p>Yes. <strong>View</strong> on the <strong>Health</strong> tab shows the last 7 days as a payload, <strong>Copy</strong> puts it on the clipboard, and <strong>Share</strong> hands it over as a .json file. <strong>Export</strong> saves the same as JSON, or as CSV with a row per record.</p>
+    <p>Yes. <strong>Preview payload</strong> under <strong>What to send</strong> shows the last 7 days as a payload, <strong>Copy JSON</strong> puts it on the clipboard, and <strong>Share</strong> hands it over as a .json file. <strong>Export data</strong> under <strong>More</strong> saves the same with <strong>Export JSON</strong>, or with <strong>Export CSV</strong> as a row per record.</p>
   </details>
   <details>
     <summary>How do I avoid counting steps twice?</summary>
