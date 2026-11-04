@@ -48,7 +48,7 @@
         }
       ],
       "datePublished": "2026-10-14",
-      "dateModified": "2026-11-04",
+      "dateModified": "2026-11-05",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -169,7 +169,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">The companion app and Health Connect</span></nav>
 <h1>Is the Home Assistant companion app enough for Health Connect data?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 4, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 5, 2026.</p>
 
 <p>For the latest value, yes. The Android companion app has 26 Health Connect sensors, each with the newest reading or today's total. It has no way to load older data, it files a value at the moment the sensor updates rather than on the day it belongs to, and it doesn't write into Health Connect. Life Dashboard reads 33 types and adds a backfill of up to a year on the right dates, scale and blood pressure readings written back, and screen time per app. The two run side by side.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in the Marketplace</a></p>
@@ -227,7 +227,7 @@
 <ul>
   <li><strong>33 types, 25 as sensors.</strong> Since integration 0.10.0 that includes three for workouts: the last workout, and the minutes of today and yesterday. Over MQTT it's 24, without the workouts. Meals, mindfulness, sexual activity and cycle tracking have no single value to show; a webhook of your own gets them as records.</li>
   <li><strong>History on the right day.</strong> Daily totals land on their own date, and readings such as heart rate and weight get a mean, minimum and maximum per hour. Data that arrives late is filed where it belongs: each sync reaches back a week for records a source writes late.</li>
-  <li><strong>A backfill of your history.</strong> <strong>Backfill</strong> on the <strong>Health</strong> tab sends 30 days up to 5 years, or <strong>All history</strong>, of every enabled type, so your graphs start full. Home Assistant takes in about the last year for now.</li>
+  <li><strong>A backfill of your history.</strong> <strong>Send history</strong> under <strong>What to send</strong> on the <strong>Health</strong> tab sends 30 days up to 5 years, or <strong>All history</strong>, of every enabled type, so your graphs start full. Home Assistant takes in about the last year for now.</li>
   <li><strong>Readings written back.</strong> Weight, height, body fat, lean body mass, bone mass, body water mass and blood pressure from a scale or monitor in Home Assistant go into Health Connect, where apps such as Samsung Health can read them. See <a href="../smart-scale-to-samsung-health/">smart scale readings into Samsung Health</a>.</li>
   <li><strong>Screen time per app.</strong> Minutes per app, the same numbers as Digital Wellbeing, with a day boundary you choose, such as 04:00. See <a href="../screen-time-home-assistant/">screen time in Home Assistant</a>.</li>
   <li><strong>Other destinations.</strong> The same data can also go to an MQTT broker or any URL that accepts a JSON POST.</li>

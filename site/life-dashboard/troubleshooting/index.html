@@ -53,7 +53,7 @@
         }
       ],
       "datePublished": "2026-10-19",
-      "dateModified": "2026-11-04",
+      "dateModified": "2026-11-05",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -158,7 +158,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Troubleshooting: syncs, sensors and pairing</span></nav>
 <h1>Why isn't my health data arriving?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 4, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 5, 2026.</p>
 
 <p>Most problems with Life Dashboard Companion come down to four things: the phone stops the app in the background, the watch app doesn't write into Health Connect, a permission is missing, or the phone can't reach the address it sends to. This page goes through them in the order worth checking. The first place to look is always the app's <strong>Logs</strong> tab: it shows every sync and delivery with the server's answer, and a tap on a row gives the details.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Ask in Discussions</a></p>
@@ -179,15 +179,15 @@
 <h2 id="health-connect-is-empty-or-the-app-can-t-read-it">Health Connect is empty or the app can't read it</h2>
 
 <ol>
-  <li><strong>Health Connect is there.</strong> On Android 14 and newer it's part of the system settings; search the settings for "Health Connect" (on Samsung it's under Security and privacy). On Android 9 to 13, the card on the app's <strong>Health</strong> tab offers to install or update it. Android 8 doesn't support it; screen time still works there.</li>
-  <li><strong>Your watch app writes into it.</strong> That's a setting in the other app. In Samsung Health it's Settings &gt; Health Connect; in Garmin Connect it's Settings &gt; Connected Apps &gt; Health Connect, on Android 14 or newer. The <a href="../samsung-health-home-assistant/">Samsung</a>, <a href="../garmin-home-assistant/">Garmin</a> and <a href="../fitbit-home-assistant/">Fitbit</a> guides have the details. <strong>Open App</strong> on the Health tab opens Health Connect, so you can see whether the data is there at all.</li>
-  <li><strong>The app may read it.</strong> Tap <strong>Grant</strong> on the Health tab. Health Connect asks for read access per data type and for <strong>reading in the background</strong>; scheduled syncs need the second one. A dimmed type under <strong>Data Types</strong> has no permission yet: switch it off and on to ask again.</li>
-  <li><strong>Older history needs one more permission.</strong> Health Connect only lets an app read data from up to 30 days before it first got access. For more, the backfill dialog asks for history access.</li>
+  <li><strong>Health Connect is there.</strong> On Android 14 and newer it's part of the system settings; search the settings for "Health Connect" (on Samsung it's under Security and privacy). On Android 9 to 13, the app's <strong>Health</strong> tab offers to install or update it. Android 8 doesn't support it; screen time still works there.</li>
+  <li><strong>Your watch app writes into it.</strong> That's a setting in the other app. In Samsung Health it's Settings &gt; Health Connect; in Garmin Connect it's Settings &gt; Connected Apps &gt; Health Connect, on Android 14 or newer. The <a href="../samsung-health-home-assistant/">Samsung</a>, <a href="../garmin-home-assistant/">Garmin</a> and <a href="../fitbit-home-assistant/">Fitbit</a> guides have the details. <strong>Open app</strong> on the <strong>Health Connect access</strong> row under <strong>What to send</strong> on the Health tab opens Health Connect, so you can see whether the data is there at all.</li>
+  <li><strong>The app may read it.</strong> Tap <strong>Grant</strong> on the <strong>Health Connect access</strong> row under <strong>What to send</strong> on the Health tab. Health Connect asks for read access per data type and for <strong>reading in the background</strong>; scheduled syncs need the second one. A type with a lock under <strong>What to send</strong> has no permission yet: switch it off and on to ask again.</li>
+  <li><strong>Older history needs one more permission.</strong> Health Connect only lets an app read data from up to 30 days before it first got access. For more, the backfill page asks for history access.</li>
 </ol>
 
 <h2 id="sync-now-says-no-new-data">Sync Now says "No new data"</h2>
 
-<p>Each sync sends only what's new since the last one, and the very first sync reads the last 7 days. <strong>View</strong> on the Health tab shows what the next sync would send. For older data, run a backfill. Also check that the watch synced with the phone: Garmin Connect writes into Health Connect after the watch syncs, and Samsung Health once the watch connects or when you open Samsung Health.</p>
+<p>Each sync sends only what's new since the last one, and the very first sync reads the last 7 days. <strong>Preview payload</strong> under <strong>What to send</strong> on the Health tab shows what the next sync would send. For older data, run a backfill. Also check that the watch synced with the phone: Garmin Connect writes into Health Connect after the watch syncs, and Samsung Health once the watch connects or when you open Samsung Health.</p>
 
 <p>Nightly values such as HRV, respiratory rate and sleep often arrive hours after you wake up. Watch apps write the night into Health Connect only when they sync in the morning. The app sends it with the first sync after that; nothing is lost.</p>
 
@@ -208,8 +208,8 @@
   <li><strong><code>homeassistant.local</code> often fails on Android,</strong> which doesn't reliably look up <code>.local</code> names. Use the IP address of Home Assistant instead, such as <code>http://192.168.1.10:8123</code>; it's under Settings &gt; System &gt; Network.</li>
   <li><strong>A home network address</strong> only works on your home Wi-Fi. Syncs away from home fail, the phone keeps the data, and the first sync back home sends it. A notification about failed syncs while you're out is this.</li>
   <li><strong>A public address,</strong> such as a Home Assistant Cloud URL or your own <code>https://</code> domain, works everywhere.</li>
-  <li><strong>"Plain HTTP is blocked":</strong> the address starts with <code>http://</code>. Switch on <strong>Allow plain HTTP webhooks</strong> under <strong>Advanced</strong> for a server on your own network or VPN; the data then travels unencrypted on that network.</li>
-  <li><strong>A certificate error on <code>https://</code>:</strong> your server uses a certificate from your own CA, or a self-signed one. Under <strong>Advanced &gt; Server certificates</strong> (app 1.27.0 and newer), trust the CA certificates installed on the phone for that host, or read the server's certificate, check its fingerprint and trust exactly that one. There is no option that ignores certificate errors.</li>
+  <li><strong>"Plain HTTP is blocked":</strong> the address starts with <code>http://</code>. Switch on <strong>Allow plain HTTP webhooks</strong> under <strong>More</strong> &gt; <strong>Advanced</strong> for a server on your own network or VPN; the data then travels unencrypted on that network.</li>
+  <li><strong>A certificate error on <code>https://</code>:</strong> your server uses a certificate from your own CA, or a self-signed one. Under <strong>More &gt; Advanced &gt; Server certificates</strong> (app 1.27.0 and newer), trust the CA certificates installed on the phone for that host, or read the server's certificate, check its fingerprint and trust exactly that one. There is no option that ignores certificate errors.</li>
 </ul>
 
 <p>To change the address later, open the integration's <strong>Reconfigure</strong> in Home Assistant, change it there and scan the new code.</p>
@@ -225,7 +225,7 @@
 <h2 id="numbers-that-look-wrong">Numbers that look wrong</h2>
 
 <ul>
-  <li><strong>Steps counted twice?</strong> Not in Home Assistant. When Samsung Health and Garmin both write a walk, Health Connect keeps both copies but also calculates a daily total that counts the overlap once, and the integration uses that total. Keep <strong>Daily totals in payload</strong> switched on under <strong>Advanced</strong>.</li>
+  <li><strong>Steps counted twice?</strong> Not in Home Assistant. When Samsung Health and Garmin both write a walk, Health Connect keeps both copies but also calculates a daily total that counts the overlap once, and the integration uses that total. Keep <strong>Daily totals in payload</strong> switched on under <strong>More</strong> &gt; <strong>Advanced</strong>.</li>
   <li><strong>Screen time differs from Digital Wellbeing.</strong> The app's day starts at 04:00 by default, apps used for a minute or less are left out, and only time on screen counts.</li>
   <li><strong>A field is missing,</strong> such as a nutrient. The app sends every field Health Connect has, but only when the app that wrote the record filled it in.</li>
 </ul>

@@ -3,7 +3,7 @@ title: Health Connect data types, app by app | Life Dashboard
 description: All 33 Health Connect data types Life Dashboard sends, with payload keys and units, and which ones Samsung Health, Garmin, Google Health and Oura write.
 primary query: health connect data types
 secondary queries: health connect data types list, what does samsung health sync to health connect, garmin health connect what syncs, samsung health connect hrv, fitbit health connect data, oura health connect, withings health connect, gadgetbridge health connect, health connect hrv, health connect payload keys
-updated: 2026-10-14
+updated: 2026-11-05
 published: 2026-10-14
 -->
 
@@ -282,9 +282,9 @@ published: 2026-10-14
 <h2>Choose which types go out</h2>
 
 <ul>
-  <li>Switch types on and off under <strong>Data Types</strong> on the <strong>Health</strong> tab, and grant each one in Health Connect. The setup wizard's <strong>The essentials</strong> preset turns on only steps, sleep, heart rate, resting heart rate, distance, calories and weight.</li>
-  <li>Under <strong>Data Resolution</strong>, heart rate, heart rate variability, oxygen saturation, respiratory rate and skin temperature can go out as averages per 1, 5 or 15 minutes or per hour, and steps, distance and calories as sums. Every record is the default.</li>
-  <li><strong>View</strong> on the <strong>Health</strong> tab shows what the next sync would send. <a href="../health-connect-webhook/">Health Connect to a webhook</a> covers receiving it, and <a href="../health-connect-n8n/">Health Connect to n8n</a> a complete n8n workflow.</li>
+  <li>Switch types on and off under <strong>What to send</strong> on the <strong>Health</strong> tab, and grant each one in Health Connect. The setup wizard's <strong>The essentials</strong> preset turns on only steps, sleep, heart rate, resting heart rate, distance, calories and weight.</li>
+  <li>Under <strong>What to send</strong> &gt; <strong>Data resolution</strong>, heart rate, heart rate variability, oxygen saturation, respiratory rate and skin temperature can go out as averages per 1, 5 or 15 minutes or per hour, and steps, distance and calories as sums. Every record is the default.</li>
+  <li><strong>Preview payload</strong> under <strong>What to send</strong> on the <strong>Health</strong> tab shows what the next sync would send. <a href="../health-connect-webhook/">Health Connect to a webhook</a> covers receiving it, and <a href="../health-connect-n8n/">Health Connect to n8n</a> a complete n8n workflow.</li>
 </ul>
 
 <section class="faq">
@@ -303,7 +303,7 @@ published: 2026-10-14
   </details>
   <details>
     <summary>Can I get these types as a CSV file?</summary>
-    <p>No. The apps send JSON to a webhook, MQTT or Home Assistant, and your receiver stores it in any format it likes.</p>
+    <p>Yes. On Android, <strong>More</strong> &gt; <strong>Export data</strong> on the <strong>Health</strong> tab shares what the next sync would send as CSV or JSON. To a webhook, MQTT or Home Assistant the apps send JSON, and your receiver stores it in any format it likes.</p>
   </details>
   <details>
     <summary>Can the app write data into Health Connect as well?</summary>

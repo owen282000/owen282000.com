@@ -3,7 +3,7 @@ title: Android screen time in Home Assistant | Life Dashboard
 description: Life Dashboard Companion sends Android screen time per app to Home Assistant: daily minutes, top apps and a sensor per app for automations.
 primary query: home assistant screen time android
 secondary queries: screen time per app home assistant, digital wellbeing export, digital wellbeing home assistant, android app usage home assistant, screen time limit home assistant
-updated: 2026-11-04
+updated: 2026-11-05
 -->
 
 <h1>How do I get Android screen time per app into Home Assistant?</h1>
@@ -22,15 +22,15 @@ updated: 2026-11-04
 
 <ol>
   <li>When you pair with the QR code, include <strong>Screen Time</strong> under <strong>Send from</strong>.</li>
-  <li>Open the <strong>Screen Time</strong> tab. The card at the top says <strong>Usage access needed</strong>. Tap <strong>Allow</strong>, find <strong>Life Dashboard</strong> in Android's list, switch access on and go back. The card now says <strong>Usage access granted</strong>.</li>
-  <li>Under <strong>Day Boundary</strong>, check <strong>Day starts at</strong>. It's 04:00 by default, so phone use after midnight counts toward the day before. Switch off <strong>Enable day boundary</strong> for midnight to midnight.</li>
+  <li>Open the <strong>Screen Time</strong> tab. It says <strong>Allow usage access.</strong> Tap <strong>Open Android settings</strong>, find <strong>Life Dashboard</strong> in Android's list, switch access on and go back. The tab now shows your screen time, and <strong>More</strong> on that tab says <strong>Usage access granted</strong>.</li>
+  <li>Open <strong>Day starts at</strong>. It's 04:00 by default, so phone use after midnight counts toward the day before; another hour needs <strong>Save</strong> at the top of that page. Switch off <strong>Enable day boundary</strong> for midnight to midnight.</li>
   <li>Under <strong>Apps to send</strong>, choose <strong>All</strong>, <strong>All except</strong> or <strong>Only</strong>. The list shows the apps you used in the last 30 days.</li>
-  <li>Tap <strong>Save Changes</strong>, then <strong>Sync Now</strong>. On this tab <strong>Sync Now</strong> uses the saved settings, so save first.</li>
+  <li>Tap <strong>Sync Now</strong>.</li>
 </ol>
 
 <!-- IMG: Screen Time tab (A4-screen-time.png) -->
 
-<p>Screen time has its own <strong>Sync Schedule</strong>, separate from health data. Home Assistant only sees a new number after a sync, so for limits pick <strong>Every X minutes</strong> at 15, the shortest Android allows.</p>
+<p>Screen time has its own <strong>When to send</strong>, separate from health data. Home Assistant only sees a new number after a sync, so for limits pick <strong>Every X minutes</strong> at 15, the shortest Android allows, and tap <strong>Save</strong>.</p>
 
 <h2>What you get</h2>
 
@@ -76,7 +76,7 @@ actions:
 
 <p>Add the integration once per phone, and give each a clear name. The entity IDs follow the name, so a tablet named “Living room tablet” gives <code>sensor.living_room_tablet_youtube_screen_time</code> next to your phone's sensors. Each phone has its own device, secret and statistics.</p>
 
-<p>Over MQTT, give each phone a name under <strong>Advanced</strong> &gt; <strong>Phone name</strong>. A named phone becomes its own device, such as Life Dashboard Companion (Pixel 8). Two phones without a name publish to the same sensors.</p>
+<p>Over MQTT, give each phone a name under <strong>More</strong> &gt; <strong>Advanced</strong> &gt; <strong>Phone name</strong>. A named phone becomes its own device, such as Life Dashboard Companion (Pixel 8). Two phones without a name publish to the same sensors.</p>
 
 <p>Everyone with access to Home Assistant and its backups can see which apps were used and when. On each phone, <strong>Apps to send</strong> decides what leaves it: an app filtered out is not named in anything sent, though its time still counts in the day\'s total.</p>
 

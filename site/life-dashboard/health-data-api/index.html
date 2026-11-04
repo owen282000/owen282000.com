@@ -48,7 +48,7 @@
         }
       ],
       "datePublished": "2026-10-06",
-      "dateModified": "2026-11-04",
+      "dateModified": "2026-11-05",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -161,7 +161,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">A web API for Health Connect or Apple Health</span></nav>
 <h1>Is there a web API for Health Connect or Apple Health?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 4, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 5, 2026.</p>
 
 <p>No. Health Connect and Apple Health are stores on the phone that apps read through Android or iOS, and neither offers an endpoint your server can call. To get the data onto a server, an app on the phone has to read it and send it on, which is what Life Dashboard Companion does on Android and on the iPhone.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="../android/#get">Get the Android app</a></p>
@@ -198,16 +198,16 @@
 <p>For your own server, on Android:</p>
 
 <ol>
-  <li>Open the app. At <strong>Where should your data go?</strong>, pick <strong>Webhook</strong> and enter your URL.</li>
-  <li>On the <strong>Health</strong> tab, open <strong>Webhook</strong>. Under <strong>HMAC signing secret (optional)</strong>, tap <strong>Generate</strong> and put the same value on your server.</li>
-  <li>Tap <strong>Test ping</strong>, then <strong>Save Changes</strong>.</li>
+  <li>Open the app. At <strong>Where should your data go?</strong>, enter your URL under <strong>Webhook URL</strong> and tap <strong>Add</strong>.</li>
+  <li>On the <strong>Health</strong> tab, tap the address's row. Under <strong>HMAC signing secret (optional)</strong>, tap <strong>Generate</strong> and put the same value on your server.</li>
+  <li>Tap <strong>Save</strong> at the top, open the row again and tap <strong>Send test</strong>.</li>
   <li>Tap <strong>Grant</strong>, allow your data types and reading in the background, then tap <strong>Sync Now</strong>.</li>
-  <li>For older data, tap <strong>Backfill</strong> and pick how far back, from <strong>30 days</strong> up to <strong>All history</strong>.</li>
+  <li>For older data, tap <strong>Send history</strong> under <strong>What to send</strong> and pick how far back, from <strong>30 days</strong> up to <strong>All history</strong>.</li>
 </ol>
 
 <p>On an iPhone, <strong>Add destination</strong> on the <strong>Health</strong> tab adds the URL. Tap the destination for its <strong>HMAC Signing Secret</strong> and <strong>Send test</strong>. Data types and <strong>Send history</strong> are under <strong>What to send</strong>. <a href="../health-connect-webhook/">Health Connect to a webhook</a> has the full receiver guide.</p>
 
-<figure class="shot"><a class="shot-link" href="../img/A6-webhook.webp?v=046c3c8b" aria-label="The Webhook settings with an HMAC signing secret, full size"><div class="phone " style="aspect-ratio: 720 / 1540"><img src="../img/A6-webhook.webp?v=046c3c8b" alt="The Webhook settings with an HMAC signing secret" width="720" height="1540" loading="lazy"></div></a></figure>
+<figure class="shot"><a class="shot-link" href="../img/A6-webhook.webp?v=e06250fb" aria-label="A webhook destination in the Android app, with its HMAC signing secret and headers, full size"><div class="phone " style="aspect-ratio: 720 / 1600"><img src="../img/A6-webhook.webp?v=e06250fb" alt="A webhook destination in the Android app, with its HMAC signing secret and headers" width="720" height="1600" loading="lazy"></div></a></figure>
 
 <h2 id="what-you-get">What you get</h2>
 

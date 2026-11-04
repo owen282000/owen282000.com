@@ -3,7 +3,7 @@ title: Health Connect and Apple Health over MCP | Life Dashboard
 description: The Life Dashboard stack has a read-only MCP server, so Claude or a local model can read your Health Connect and Apple Health history, also in Europe.
 primary query: health data mcp
 secondary queries: health connect mcp server, health connect mcp, samsung health mcp, apple health mcp server, apple health mcp, apple watch mcp, apple health claude, apple health local llm, health connect claude, health connect chatgpt, claude health connect europe, chatgpt health europe, ask ai about my health data self hosted, health data local llm, home assistant mcp health, ollama health data, self-hosted health ai, claude desktop health data
-updated: 2026-11-04
+updated: 2026-11-05
 -->
 
 <h1>How do I ask my own AI about my Health Connect or Apple Health data over MCP?</h1>
@@ -44,7 +44,7 @@ updated: 2026-11-04
 <ul>
   <li><strong>A model with tool support.</strong> For a local one, <a href="https://ollama.com">Ollama</a> runs a model such as <code>qwen3</code> (8B or 14B) or <code>gpt-oss:20b</code>. Pick one without a <code>-cloud</code> tag: those run on Ollama's servers. An 8B model wants 16 GB of memory; 20 to 30B wants a 24 GB graphics card or a Mac with 32 GB or more.</li>
   <li><strong>A chat client that speaks MCP</strong>, such as Open WebUI, LM Studio or Claude Desktop, unless you use Home Assistant's own assistant. Ollama runs the model; the chat client makes the MCP connection.</li>
-  <li><strong>History to ask about.</strong> <strong>Backfill</strong> on the <strong>Health</strong> tab, on an iPhone <strong>Send history</strong> under <strong>What to send</strong>, sends up to all your history; Home Assistant takes in about the last year for now.</li>
+  <li><strong>History to ask about.</strong> <strong>Send history</strong> under <strong>What to send</strong>, on Android and on an iPhone, sends up to all your history; Home Assistant takes in about the last year for now.</li>
 </ul>
 
 <h2>Set it up</h2>
@@ -155,7 +155,7 @@ GRANT SELECT ON records, daily_totals TO llm_ro;</code></pre>
   <li>Docker publishes the stack's MCP port on every network interface of the machine, and over plain HTTP the token and every answer cross your network readable. Set <code>MCP_PORT=127.0.0.1:8090</code> to keep it to the machine, and use TLS or a VPN beyond your own network. A custom connector in a web app calls from the provider's cloud and would need the server on the internet; the stack's documentation doesn't cover that.</li>
   <li>The stack's <code>.env</code> starts with default passwords for Grafana and the two read-only users. Change them before you add another way in.</li>
   <li>ha-mcp works with an administrator's access. Everyone who can talk to its conversation agent can ask about your health data, so give it its own agent, outside shared voice pipelines. A question asked by voice also goes through your speech engine, which with Home Assistant Cloud isn't local.</li>
-  <li>Types you didn't switch on, or days the phone didn't sync, aren't there to read. Screen time history only comes from Android phones. The stack keeps series sent per time window apart, and only its heart rate views read them, so leave <strong>Data Resolution</strong> on <strong>Every record</strong>, the default.</li>
+  <li>Types you didn't switch on, or days the phone didn't sync, aren't there to read. Screen time history only comes from Android phones. The stack keeps series sent per time window apart, and only its heart rate views read them, so leave <strong>Data resolution</strong> on <strong>Every record</strong>, the default.</li>
   <li>Types your watch's app doesn't share with Health Connect aren't there either, and they decide which questions a model can answer. Samsung Health keeps HRV, resting heart rate and respiratory rate to itself, and Garmin Connect writes no HRV to Health Connect at all and keeps resting heart rate to itself.</li>
   <li>On an iPhone, the app reads 28 Apple Health types. What's in them depends on what your watch, iPhone and other apps write to Apple Health, and anything outside those types, such as wrist temperature, stays on the iPhone.</li>
   <li>A model isn't a doctor. It can sum your steps correctly and still draw a wrong conclusion.</li>

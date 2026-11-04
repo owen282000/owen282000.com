@@ -3,7 +3,7 @@ title: Let your users connect health data with one QR code | Life Dashboard
 description: Build a QR code that connects Life Dashboard Companion to your own service: the pairing link, a generator in Python and Node.js, and the signed test ping.
 primary query: health connect qr code pairing
 secondary queries: health connect webhook multiple users, health data webhook onboarding, apple health webhook qr code, pair app with server qr code, health connect data collection service, hmac secret qr code
-updated: 2026-10-29
+updated: 2026-11-05
 published: 2026-10-29
 -->
 
@@ -16,10 +16,10 @@ published: 2026-10-29
 <h2>What a code can do</h2>
 
 <ul>
-  <li><strong>Fill in one address and its secret.</strong> In the sections you allow: Health, Screen Time, or both. The user can still switch a section off in the dialog.</li>
+  <li><strong>Fill in one address and its secret.</strong> In the sections you allow: Health, Screen Time, or both. The user can still switch a section off on the pairing page.</li>
   <li><strong>Never pick data types or a schedule.</strong> Which data is sent, and how often, stays the user's choice on the phone. A code can't quietly start sending someone's heart rate anywhere.</li>
   <li><strong>Never touch other receivers.</strong> Every other address keeps its own secret and headers, and an address added by pairing starts without custom headers.</li>
-  <li><strong>Save nothing before Pair.</strong> The dialog shows your name and the host the data goes to, taken from the address itself.</li>
+  <li><strong>Save nothing before Pair.</strong> The pairing page shows your name and the host the data goes to, taken from the address itself.</li>
 </ul>
 
 <h2>The link</h2>
@@ -34,7 +34,7 @@ published: 2026-10-29
     <tr><td><code>v</code></td><td><code>1</code>, the format version. Required.</td></tr>
     <tr><td><code>url</code></td><td>Your webhook address, at most 2048 characters, no spaces, no comma. Required.</td></tr>
     <tr><td><code>secret</code></td><td>The HMAC signing secret for this user, at most 512 characters, no spaces. Required.</td></tr>
-    <tr><td><code>name</code></td><td>What the dialog calls your service, up to 64 characters. Optional.</td></tr>
+    <tr><td><code>name</code></td><td>What the pairing page calls your service, up to 64 characters. Optional.</td></tr>
     <tr><td><code>sources</code></td><td><code>health_connect</code>, <code>screen_time</code> or both, comma separated. Leave it out to accept both.</td></tr>
   </tbody>
 </table>
@@ -86,7 +86,7 @@ const dataUrl = await QRCode.toDataURL(link, { errorCorrectionLevel: "M", margin
 
 <h2>What the user sees</h2>
 
-<p>They scan your code in the app, under <strong>Scan a pairing code</strong>, or with the phone's camera, which opens the app directly on Android. A dialog says "Example Health wants to receive your data at health.example.com", with a switch for each section and the other addresses that keep their own secret. Nothing is saved until they tap <strong>Pair</strong>.</p>
+<p>They scan your code in the app, under <strong>Scan a pairing code</strong>, or with the phone's camera, which opens the app directly on Android. A page says "Example Health wants to receive your data at health.example.com", with a switch for each section and the other addresses that keep their own secret. Nothing is saved until they tap <strong>Pair</strong>.</p>
 
 <h2>The test ping after Pair</h2>
 
@@ -104,7 +104,7 @@ X-Signature: sha256=&lt;hex of HMAC-SHA256(secret, raw body)&gt;
   "source": "health_connect"
 }</code></pre>
 
-<p>Check the signature over the raw body before you parse it, answer any <code>2xx</code>, and the user sees "test ping delivered". Answer <code>401</code> to a bad signature, as for every request after it. A ping carries no data, so it is a good moment to mark the user as connected, not something to store. Every sync after it uses the same secret and the same payload, described in the <a href="../health-connect-webhook/">webhook guide</a>.</p>
+<p>Check the signature over the raw body before you parse it, answer any <code>2xx</code>, and the user sees "Connected." on the page after Pair, or a short message that says "test ping delivered" during the app's setup. Answer <code>401</code> to a bad signature, as for every request after it. A ping carries no data, so it is a good moment to mark the user as connected, not something to store. Every sync after it uses the same secret and the same payload, described in the <a href="../health-connect-webhook/">webhook guide</a>.</p>
 
 <h2>iPhone</h2>
 

@@ -48,7 +48,7 @@
         }
       ],
       "datePublished": "2026-10-14",
-      "dateModified": "2026-10-23",
+      "dateModified": "2026-11-05",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -111,7 +111,7 @@
           "name": "Can I skip the signature?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. Without a secret the app sends no X-Signature. Protect the URL another way, for example with Header Auth on the Webhook node and the same header under Webhook Headers in the app."
+            "text": "Yes. Without a secret the app sends no X-Signature. Protect the URL another way, for example with Header Auth on the Webhook node and the same header under Headers on the address's page in the app."
           }
         },
         {
@@ -127,7 +127,7 @@
           "name": "Can I see a payload before I build the workflow?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. View on the app's Health tab shows what the next sync would send. In n8n, the test URL with Listen for Test Event shows a real request in the editor."
+            "text": "Yes. Preview payload under What to send on the app's Health tab shows what the next sync would send. In n8n, the test URL with Listen for Test Event shows a real request in the editor."
           }
         }
       ]
@@ -169,7 +169,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Health Connect to n8n</span></nav>
 <h1>How do I get Health Connect data into n8n?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 23, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 5, 2026.</p>
 
 <p>Install Life Dashboard Companion, an open-source Android app, and enter the production URL of an n8n Webhook node as its webhook. In n8n, turn on the Webhook node's <strong>Raw Body</strong> option, check the <code>X-Signature</code> HMAC in a Code node, answer 204 with a <strong>Respond to Webhook</strong> node, and then store each record keyed on its <code>type</code> and <code>uuid</code>. Data from Samsung Health, Garmin Connect, Google Health, Oura and Withings reaches n8n this way, because those apps write it to Health Connect on the phone.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="../android/#get">Get the Android app</a></p>
@@ -182,7 +182,7 @@
 
 <ul>
   <li><a href="../android/">Life Dashboard Companion for Android</a> on Android 9 or newer with Health Connect, or <a href="../ios/">the iPhone app</a>. It's on the App Store for €6.99 once (US$5.99), no subscription. Building it from source with Xcode costs nothing extra if you already have an Apple Developer Program membership.</li>
-  <li>n8n, on n8n Cloud or self-hosted, reachable from the phone. Use HTTPS. Plain HTTP on your own network needs <strong>Allow plain HTTP webhooks</strong> under <strong>Advanced</strong> in the Android app; the iPhone app allows plain HTTP only to an IP address, a <code>.local</code> name or a name without a dot.</li>
+  <li>n8n, on n8n Cloud or self-hosted, reachable from the phone. Use HTTPS. Plain HTTP on your own network needs <strong>Allow plain HTTP webhooks</strong> under <strong>More</strong> &gt; <strong>Advanced</strong> in the Android app; the iPhone app allows plain HTTP only to an IP address, a <code>.local</code> name or a name without a dot.</li>
   <li>Room for large requests. Allow at least 10 MB per request. n8n takes up to 16 MB by default, but a reverse proxy in front of it must allow that too: nginx allows 1 MB by default.</li>
   <li>The <code>crypto</code> module in the Code node. n8n Cloud provides it. On self-hosted n8n, set <code>NODE_FUNCTION_ALLOW_BUILTIN=crypto</code>, on the task runner if you run one.</li>
 </ul>
@@ -208,9 +208,9 @@
   <li>Publish the workflow and copy the production URL. The test URL only listens while the editor waits for a test event, and the production URL only works while the workflow is published. A sync sent at another time gets a 404, and the app keeps that payload and the ones after it until the URL answers again.</li>
 </ol>
 
-<p>In the app, open <strong>Webhook</strong> on the <strong>Health</strong> tab, paste the production URL in the address field and tap the add button. Then tap <strong>Generate</strong> under <strong>HMAC signing secret (optional)</strong> and copy the secret for the next step.</p>
+<p>In the app, tap <strong>Add destination</strong> (with nothing set up yet, <strong>Use your own server</strong>) on the <strong>Health</strong> tab, paste the production URL under <strong>Webhook URL</strong> and tap <strong>Add webhook</strong>. On the page that opens, tap <strong>Generate</strong> under <strong>HMAC signing secret (optional)</strong>, copy the secret with <strong>Copy secret</strong> for the next step and tap <strong>Save</strong>.</p>
 
-<figure class="shot"><a class="shot-link" href="../img/A6-webhook.webp?v=046c3c8b" aria-label="The Webhook settings with an HMAC signing secret, full size"><div class="phone " style="aspect-ratio: 720 / 1540"><img src="../img/A6-webhook.webp?v=046c3c8b" alt="The Webhook settings with an HMAC signing secret" width="720" height="1540" loading="lazy"></div></a></figure>
+<figure class="shot"><a class="shot-link" href="../img/A6-webhook.webp?v=e06250fb" aria-label="A webhook destination in the Android app, with its HMAC signing secret and headers, full size"><div class="phone " style="aspect-ratio: 720 / 1600"><img src="../img/A6-webhook.webp?v=e06250fb" alt="A webhook destination in the Android app, with its HMAC signing secret and headers" width="720" height="1600" loading="lazy"></div></a></figure>
 
 <h2 id="check-the-signature-in-a-code-node">Check the signature in a Code node</h2>
 
@@ -274,7 +274,7 @@ for (const [type, value] of Object.entries(p)) {
 }
 return rows;</code></pre>
 
-<p>A <strong>Test ping</strong> from the app gives no rows, so nothing after this node runs. Series you set to 1, 5 or 15 minutes or hourly under <strong>Data Resolution</strong> arrive as buckets without a <code>uuid</code> and are skipped here: leave Data Resolution on every record for this workflow, or store buckets in their own table keyed on the series and <code>bucket_start</code>.</p>
+<p>A <strong>Send test</strong> from the app gives no rows, so nothing after this node runs. Series you set to 1, 5 or 15 minutes or hourly under <strong>Data resolution</strong> arrive as buckets without a <code>uuid</code> and are skipped here: leave Data resolution on every record for this workflow, or store buckets in their own table keyed on the series and <code>bucket_start</code>.</p>
 
 <h2 id="store-it-in-postgres-deduplicated-on-uuid">Store it in Postgres, deduplicated on uuid</h2>
 
@@ -345,13 +345,13 @@ return (p?.daily_totals ?? []).map(d =&gt; ({ json: d }));</code></pre>
 <h2 id="limits">Limits</h2>
 
 <ul>
-  <li>n8n can't ask the phone for a date range. Start a backfill on the phone, from 30 days up to <strong>All history</strong>, under <strong>Backfill</strong> on the <strong>Health</strong> tab.</li>
+  <li>n8n can't ask the phone for a date range. Start a backfill on the phone, from 30 days up to <strong>All history</strong>, under <strong>Send history</strong>, in <strong>What to send</strong> on the <strong>Health</strong> tab.</li>
   <li>Because the 204 goes out first, two payloads can be stored at the same time. Payloads also carry a <code>sequence</code> that only goes up: <a href="../health-connect-webhook/#retries-outbox-and-deletions">Health Connect to a webhook</a> explains how to use it when order matters, such as for <code>daily_totals</code>.</li>
   <li>Screen time arrives as its own payload with <code>"source": "screen_time"</code> from the URLs on the <strong>Screen Time</strong> tab. It has no record <code>uuid</code>s, so the records node above skips it.</li>
 </ul>
 
 <div class="next">
-  <p>Install the app, put the production URL of your published workflow in it and tap <strong>Test ping</strong>. The payload reference has the same check with a Crypto node.</p>
+  <p>Install the app, put the production URL of your published workflow in it and tap <strong>Send test</strong>. The payload reference has the same check with a Crypto node.</p>
   <a class="btn btn-primary btn-store" href="../android/#get">Get the Android app</a>
   <a class="btn btn-ghost" href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md#n8n-and-node-red">n8n in the payload reference</a>
 </div>
@@ -368,7 +368,7 @@ return (p?.daily_totals ?? []).map(d =&gt; ({ json: d }));</code></pre>
   </details>
   <details>
     <summary>Can I skip the signature?</summary>
-    <p>Yes. Without a secret the app sends no <code>X-Signature</code>. Protect the URL another way, for example with <strong>Header Auth</strong> on the Webhook node and the same header under <strong>Webhook Headers</strong> in the app.</p>
+    <p>Yes. Without a secret the app sends no <code>X-Signature</code>. Protect the URL another way, for example with <strong>Header Auth</strong> on the Webhook node and the same header under <strong>Headers</strong> on the address's page in the app.</p>
   </details>
   <details>
     <summary>Does Samsung Health data reach n8n?</summary>
@@ -376,7 +376,7 @@ return (p?.daily_totals ?? []).map(d =&gt; ({ json: d }));</code></pre>
   </details>
   <details>
     <summary>Can I see a payload before I build the workflow?</summary>
-    <p>Yes. <strong>View</strong> on the app's <strong>Health</strong> tab shows what the next sync would send. In n8n, the test URL with <strong>Listen for Test Event</strong> shows a real request in the editor.</p>
+    <p>Yes. <strong>Preview payload</strong> under <strong>What to send</strong> on the app's <strong>Health</strong> tab shows what the next sync would send. In n8n, the test URL with <strong>Listen for Test Event</strong> shows a real request in the editor.</p>
   </details>
 </section>
     </article>

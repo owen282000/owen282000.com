@@ -75,8 +75,16 @@
         ],
         "inLanguage": [
           "en",
+          "nl",
           "de",
-          "nl"
+          "fr",
+          "es",
+          "it",
+          "pt-BR",
+          "ja",
+          "ar",
+          "hi",
+          "zh-Hans"
         ],
         "url": "https://owen282000.com/life-dashboard/android/",
         "downloadUrl": "https://github.com/owen282000/life-dashboard-companion-app/releases/latest",
@@ -114,7 +122,7 @@
         "inLanguage": "en"
       },
       "inLanguage": "en",
-      "dateModified": "2026-11-04"
+      "dateModified": "2026-11-05"
     },
     {
       "@type": "FAQPage",
@@ -148,7 +156,7 @@
           "name": "Can it sync at fixed times instead of an interval?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. Each tab has its own Sync Schedule: every 15 minutes or longer, or a list of times, on the days you pick, with quiet hours. A Quick Settings tile, Tasker and MacroDroid can start a sync too."
+            "text": "Yes. Each tab has its own When to send: every 15 minutes or longer, or a list of times, on the days you pick, with quiet hours. A Quick Settings tile, Tasker and MacroDroid can start a sync too."
           }
         },
         {
@@ -269,7 +277,7 @@
       <p class="repo-stats"><a href="https://github.com/owen282000/life-dashboard-companion-app">On GitHub</a>: <b>93</b> stars, <b>15</b> forks, <b>5</b> contributors. <span>Updated every hour.</span></p>
     </div>
     <div class="product-visual">
-      <div class="phone hero-shot" style="aspect-ratio: 720 / 1476"><img src="../img/A1-health.webp?v=0d989d3b" alt="The Health tab of the Android app" width="720" height="1476" fetchpriority="high"></div>
+      <div class="phone hero-shot" style="aspect-ratio: 720 / 1600"><img src="../img/A1-health.webp?v=48b0e4d1" alt="The Health tab of the Android app, with a row per destination and today's figures" width="720" height="1600" fetchpriority="high"></div>
     </div>
   </div>
 </section>
@@ -279,7 +287,7 @@
     <h2 class="sr-only">What it does</h2>
     <div class="highlights">
         <div class="hl-lead"><h3>33 Health Connect types</h3><p>Steps, sleep stages, heart rate, HRV, weight, blood pressure, glucose, workouts, nutrition and cycle tracking, each with its own switch.</p></div>
-        <ul class="hl-list"><li><h3>Every record, with its source</h3><p>Each record goes out with a stable ID and the app that wrote it. Daily totals count a walk once.</p></li><li><h3>All your history</h3><p>Backfill from 30 days up to 5 years, or everything Health Connect has. In Home Assistant each day lands on its own date in long-term statistics, for now about the last year.</p></li><li><h3>Screen time per app</h3><p>Foreground minutes for every app, with a day boundary you choose and a filter that keeps the apps you pick out of what&#x27;s sent.</p></li><li><h3>Three ways out</h3><p>The Life Dashboard integration, MQTT with Home Assistant Discovery, or any webhook that accepts a JSON POST. Several at once works too.</p></li><li><h3>Receive into Health Connect</h3><p>Scale and blood pressure readings from Home Assistant go into Health Connect, where Samsung Health and Google Health read weight.</p></li></ul>
+        <ul class="hl-list"><li><h3>Every record, with its source</h3><p>Each record goes out with a stable ID and the app that wrote it. Daily totals count a walk once.</p></li><li><h3>All your history</h3><p>Backfill from 30 days up to 5 years, or everything Health Connect has. In Home Assistant each day lands on its own date in long-term statistics, for now about the last year.</p></li><li><h3>Screen time per app</h3><p>Foreground minutes for every app, with a day boundary you choose and a filter that keeps the apps you pick out of what&#x27;s sent.</p></li><li><h3>Three ways out</h3><p>The Life Dashboard integration, MQTT with Home Assistant Discovery, or any webhook that accepts a JSON POST. Several at once works too, and the Health and Screen Time tabs open on whether your data arrives at each, with today&#x27;s figures below.</p></li><li><h3>Receive into Health Connect</h3><p>Scale and blood pressure readings from Home Assistant go into Health Connect, where Samsung Health and Google Health read weight.</p></li></ul>
     </div>
   </div>
 </section>
@@ -287,14 +295,14 @@
 <section class="section">
   <div class="wrap">
     <div class="show" id="home-assistant-and-mqtt">
-      <div class="show-media"><div class="stage green-glow"></div><div class="phone solo" style="aspect-ratio: 720 / 1540"><img src="../img/A2-pair.webp?v=21c8d060" alt="The Pair with a receiver dialog in the Android app" width="720" height="1540" loading="lazy"></div></div>
+      <div class="show-media"><div class="stage green-glow"></div><div class="phone solo" style="aspect-ratio: 720 / 1600"><img src="../img/A2-pair.webp?v=c6969f0a" alt="The pairing page in the Android app, asking whether to pair with this receiver" width="720" height="1600" loading="lazy"></div></div>
       <div>
         <h2>Into Home Assistant, with or without a broker</h2>
         <p>The Life Dashboard integration pairs with one QR code and keeps every day in long-term statistics. MQTT with Home Assistant Discovery suits a setup that already runs a broker and only needs current values.</p>
         <ul class="ticks">
           <li>Sensors for 25 of the 33 types <span>Today's steps, distance and calories, the latest heart rate, sleep, weight, blood pressure, glucose and more, and the last workout. MQTT gets 24, without the workout.</span></li>
           <li>Screen time in total and per app <span>Both routes get the totals. The sensor per app comes with the integration.</span></li>
-          <li>Two phones on one broker <span>Give each a Phone name under Advanced, and each gets its own device and topics.</span></li>
+          <li>Two phones on one broker <span>Give each a Phone name under More > Advanced, and each gets its own device and topics.</span></li>
         </ul>
         <a class="link-arrow" href="../health-connect-home-assistant/">How to add Health Connect to Home Assistant</a>
       </div>
@@ -310,9 +318,9 @@
         </ul>
         <a class="link-arrow" href="../health-connect-webhook/">Send Health Connect data to your own webhook</a></div>
       </div>
-      <div class="show-media"><div class="stage green-glow"></div><div class="phone solo" style="aspect-ratio: 720 / 1540"><img src="../img/A6-webhook.webp?v=046c3c8b" alt="The Webhook settings with an HMAC signing secret" width="720" height="1540" loading="lazy"></div></div>
+      <div class="show-media"><div class="stage green-glow"></div><div class="phone solo" style="aspect-ratio: 720 / 1600"><img src="../img/A6-webhook.webp?v=e06250fb" alt="A webhook destination in the Android app, with its HMAC signing secret and headers" width="720" height="1600" loading="lazy"></div></div>
     </div><div class="show" id="screen-time">
-      <div class="show-media"><div class="stage purple-glow"></div><div class="phone solo" style="aspect-ratio: 720 / 1540"><img src="../img/A4-screen-time.webp?v=25b335ea" alt="The Screen Time tab of the Android app" width="720" height="1540" loading="lazy"></div></div>
+      <div class="show-media"><div class="stage purple-glow"></div><div class="phone solo" style="aspect-ratio: 720 / 1600"><img src="../img/A4-screen-time.webp?v=2e6fead9" alt="The Screen Time tab of the Android app" width="720" height="1600" loading="lazy"></div></div>
       <div>
         <p class="label purple">Screen time</p>
         <h2>Android screen time per app, next to your health data</h2>
@@ -375,7 +383,7 @@
       </details>
       <details>
         <summary>Can it sync at fixed times instead of an interval?</summary>
-        <p>Yes. Each tab has its own <strong>Sync Schedule</strong>: every 15 minutes or longer, or a list of times, on the days you pick, with quiet hours. A Quick Settings tile, Tasker and MacroDroid can start a sync too.</p>
+        <p>Yes. Each tab has its own <strong>When to send</strong>: every 15 minutes or longer, or a list of times, on the days you pick, with quiet hours. A Quick Settings tile, Tasker and MacroDroid can start a sync too.</p>
       </details>
       <details>
         <summary>Does Receive work over MQTT?</summary>
