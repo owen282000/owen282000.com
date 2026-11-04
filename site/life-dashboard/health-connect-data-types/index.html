@@ -48,7 +48,7 @@
         }
       ],
       "datePublished": "2026-10-14",
-      "dateModified": "2026-10-14",
+      "dateModified": "2026-11-05",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -119,7 +119,7 @@
           "name": "Can I get these types as a CSV file?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. The apps send JSON to a webhook, MQTT or Home Assistant, and your receiver stores it in any format it likes."
+            "text": "Yes. On Android, More > Export data on the Health tab shares what the next sync would send as CSV or JSON. To a webhook, MQTT or Home Assistant the apps send JSON, and your receiver stores it in any format it likes."
           }
         },
         {
@@ -169,7 +169,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Health Connect data types, app by app</span></nav>
 <h1>Which Health Connect data types can I get, and which apps write them?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 14, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 5, 2026.</p>
 
 <p>Life Dashboard Companion, an open-source Android app, reads 33 Health Connect data types and sends each under its own key as JSON, from steps, sleep stages and heart rate to blood pressure, nutrition and cycle tracking. What actually arrives depends on what your watch's app writes to Health Connect: Samsung Health doesn't write heart rate variability or resting heart rate, and Garmin Connect writes neither of those nor oxygen saturation.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="../android/#get">Get the Android app</a></p>
@@ -445,13 +445,13 @@
 <h2 id="choose-which-types-go-out">Choose which types go out</h2>
 
 <ul>
-  <li>Switch types on and off under <strong>Data Types</strong> on the <strong>Health</strong> tab, and grant each one in Health Connect. The setup wizard's <strong>The essentials</strong> preset turns on only steps, sleep, heart rate, resting heart rate, distance, calories and weight.</li>
-  <li>Under <strong>Data Resolution</strong>, heart rate, heart rate variability, oxygen saturation, respiratory rate and skin temperature can go out as averages per 1, 5 or 15 minutes or per hour, and steps, distance and calories as sums. Every record is the default.</li>
-  <li><strong>View</strong> on the <strong>Health</strong> tab shows what the next sync would send. <a href="../health-connect-webhook/">Health Connect to a webhook</a> covers receiving it, and <a href="../health-connect-n8n/">Health Connect to n8n</a> a complete n8n workflow.</li>
+  <li>Switch types on and off under <strong>What to send</strong> on the <strong>Health</strong> tab, and grant each one in Health Connect. The setup wizard's <strong>The essentials</strong> preset turns on only steps, sleep, heart rate, resting heart rate, distance, calories and weight.</li>
+  <li>Under <strong>What to send</strong> &gt; <strong>Data resolution</strong>, heart rate, heart rate variability, oxygen saturation, respiratory rate and skin temperature can go out as averages per 1, 5 or 15 minutes or per hour, and steps, distance and calories as sums. Every record is the default.</li>
+  <li><strong>Preview payload</strong> under <strong>What to send</strong> on the <strong>Health</strong> tab shows what the next sync would send. <a href="../health-connect-webhook/">Health Connect to a webhook</a> covers receiving it, and <a href="../health-connect-n8n/">Health Connect to n8n</a> a complete n8n workflow.</li>
 </ul>
 
 <div class="next">
-  <p>Pick your types under <strong>Data Types</strong> on the <strong>Health</strong> tab and tap <strong>View</strong> to see what the next sync would send.</p>
+  <p>Pick your types under <strong>What to send</strong> on the <strong>Health</strong> tab and tap <strong>Preview payload</strong> to see what the next sync would send.</p>
   <a class="btn btn-primary btn-store" href="../android/#get">Get the Android app</a>
   <a class="btn btn-ghost" href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md#health-connect-data-types">Payload reference</a>
 </div>
@@ -472,7 +472,7 @@
   </details>
   <details>
     <summary>Can I get these types as a CSV file?</summary>
-    <p>No. The apps send JSON to a webhook, MQTT or Home Assistant, and your receiver stores it in any format it likes.</p>
+    <p>Yes. On Android, <strong>More</strong> &gt; <strong>Export data</strong> on the <strong>Health</strong> tab shares what the next sync would send as CSV or JSON. To a webhook, MQTT or Home Assistant the apps send JSON, and your receiver stores it in any format it likes.</p>
   </details>
   <details>
     <summary>Can the app write data into Health Connect as well?</summary>

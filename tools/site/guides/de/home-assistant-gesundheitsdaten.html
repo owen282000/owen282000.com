@@ -3,7 +3,7 @@ title: Apple Health und Health Connect in Home Assistant | Life Dashboard
 description: Schritte, Schlaf, Herzfrequenz und Gewicht von iPhone, Apple Watch oder Samsung Health als Sensoren in Home Assistant, mit bis zu einem Jahr Verlauf.
 primary query: home assistant gesundheitsdaten
 secondary queries: apple health daten in home assistant, health connect home assistant, samsung health home assistant, apple watch home assistant, home assistant schritte sensor, home assistant schlaf sensor
-updated: 2026-11-04
+updated: 2026-11-05
 published: 2026-10-27
 -->
 
@@ -55,11 +55,11 @@ published: 2026-10-27
 <ol>
   <li>Lass die App deiner Uhr in Health Connect schreiben. In Samsung Health geht das unter <strong>Einstellungen</strong> &gt; <strong>Health Connect</strong>: Wähle die Daten aus und erlaube den Zugriff. Bei den anderen Apps steht der Schalter ebenfalls in ihren Einstellungen; die Tabelle unten sagt, was jede App teilt.</li>
   <li>Installiere <a href="{{play_url}}">Life Dashboard Companion von Google Play</a> und öffne die App. Nimmst du stattdessen die kostenlose APK, warnt Android vielleicht vor der Installation: Das tut es bei jeder App aus einer anderen Quelle als dem Play Store. Jede Version ist mit demselben Schlüssel signiert und hat eine Build-Attestierung (<a href="../../android/#get" hreflang="en">alle Wege zur App</a>). Bei <strong>Wohin sollen deine Daten?</strong> tippst du auf <strong>Kopplungscode scannen</strong>, scannst den Code und tippst auf <strong>Koppeln</strong>. Ein Test-Ping bestätigt die Verbindung.</li>
-  <!-- IMG: pair dialog (A2-pair.png) -->
-  <li>Tippe auf dem Tab <strong>Gesundheit</strong> auf <strong>Erteilen</strong>, erlaube deine Datentypen und das Lesen im Hintergrund, damit die geplanten Synchronisierungen laufen. Die Auswahl <strong>Das Wesentliche</strong> schaltet Schritte, Schlaf, Herzfrequenz, Ruheherzfrequenz, Distanz, Kalorien und Gewicht ein. Alle weiteren Typen schaltest du unter <strong>Datentypen</strong> ein.</li>
+  <!-- IMG: pairing page (A2-pair.png) -->
+  <li>Tippe auf dem Tab <strong>Gesundheit</strong> auf <strong>Erteilen</strong>, erlaube deine Datentypen und das Lesen im Hintergrund, damit die geplanten Synchronisierungen laufen. Die Auswahl <strong>Das Wesentliche</strong> schaltet Schritte, Schlaf, Herzfrequenz, Ruheherzfrequenz, Distanz, Kalorien und Gewicht ein. Alle weiteren Typen schaltest du unter <strong>Was senden</strong> ein.</li>
   <li>Auf Telefonen von Samsung, Xiaomi und ähnlichen Herstellern stoppt Android die Synchronisierungen gern, um Akku zu sparen. Stell unter <strong>Einstellungen</strong> &gt; <strong>Apps</strong> &gt; <strong>Life Dashboard</strong> &gt; <strong>Akku</strong> auf <strong>Nicht eingeschränkt</strong>. Auf einem Samsung trägst du Life Dashboard außerdem unter <strong>Einstellungen</strong> &gt; <strong>Akku</strong> bei den Einschränkungen der Hintergrundnutzung als App ein, die nie in den Standby-Modus geht. Die anderen Hersteller stehen in der <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/usage.md#let-the-app-run-in-the-background" hreflang="en">Einrichtungsanleitung (Englisch)</a>.</li>
   <li>Tippe auf <strong>Jetzt synchronisieren</strong>. Das Telefon erscheint in Home Assistant unter <strong>Einstellungen</strong> &gt; <strong>Geräte &amp; Dienste</strong> &gt; <strong>Life Dashboard</strong>.</li>
-  <li>Für ältere Daten tippst du auf <strong>Nachladen</strong> und wählst, wie weit zurück: von 30 Tagen bis <strong>Alles</strong>. Für mehr als 30 Tage vor deiner ersten Freigabe tippst du vorher auf <strong>Verlaufszugriff erteilen</strong>.</li>
+  <li>Für ältere Daten tippst du unter <strong>Was senden</strong> auf <strong>Verlauf senden</strong> und wählst, wie weit zurück: von 30 Tagen bis <strong>Alles</strong>. Für mehr als 30 Tage vor deiner ersten Freigabe tippst du vorher auf <strong>Verlaufszugriff erteilen</strong>.</li>
 </ol>
 
 <!-- IMG: Health tab (A1-health.png) -->

@@ -57,7 +57,7 @@
         }
       ],
       "datePublished": "2026-10-27",
-      "dateModified": "2026-11-04",
+      "dateModified": "2026-11-05",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -194,7 +194,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../../">Life Dashboard</a> / <span aria-current="page">Gesundheitsdaten in Home Assistant</span></nav>
 <h1>Wie bekomme ich Gesundheitsdaten aus Apple Health oder Health Connect in Home Assistant?</h1>
-<p class="byline">Von <a href="/">Owen Vogelaar</a>, der Life Dashboard entwickelt. Aktualisiert am 4. November 2026. Auf Englisch: <a href="../../health-connect-home-assistant/" hreflang="en" lang="en">Health Connect in Home Assistant</a>, <a href="../../apple-health-home-assistant/" hreflang="en" lang="en">Apple Health in Home Assistant</a>.</p>
+<p class="byline">Von <a href="/">Owen Vogelaar</a>, der Life Dashboard entwickelt. Aktualisiert am 5. November 2026. Auf Englisch: <a href="../../health-connect-home-assistant/" hreflang="en" lang="en">Health Connect in Home Assistant</a>, <a href="../../apple-health-home-assistant/" hreflang="en" lang="en">Apple Health in Home Assistant</a>.</p>
 
 <p>Installiere die Life-Dashboard-Integration aus dem Marketplace (vor 2026.11: HACS) in Home Assistant und die App Life Dashboard Companion auf deinem iPhone oder Android-Telefon. Dann koppelst du beide mit dem QR-Code, den die Integration anzeigt. Schritte, Schlaf, Herzfrequenz, Gewicht und Trainings kommen als Sensoren an, und jeder Tag landet in den Langzeitstatistiken, auf Wunsch bis zu einem Jahr zurück.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Im Marketplace öffnen</a></p>
@@ -243,14 +243,14 @@
 <ol>
   <li>Lass die App deiner Uhr in Health Connect schreiben. In Samsung Health geht das unter <strong>Einstellungen</strong> &gt; <strong>Health Connect</strong>: Wähle die Daten aus und erlaube den Zugriff. Bei den anderen Apps steht der Schalter ebenfalls in ihren Einstellungen; die Tabelle unten sagt, was jede App teilt.</li>
   <li>Installiere <a href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-guide-de-home-assistant-gesundheitsdaten%26utm_medium%3Dwebsite">Life Dashboard Companion von Google Play</a> und öffne die App. Nimmst du stattdessen die kostenlose APK, warnt Android vielleicht vor der Installation: Das tut es bei jeder App aus einer anderen Quelle als dem Play Store. Jede Version ist mit demselben Schlüssel signiert und hat eine Build-Attestierung (<a href="../../android/#get" hreflang="en">alle Wege zur App</a>). Bei <strong>Wohin sollen deine Daten?</strong> tippst du auf <strong>Kopplungscode scannen</strong>, scannst den Code und tippst auf <strong>Koppeln</strong>. Ein Test-Ping bestätigt die Verbindung.
-  <figure class="shot"><a class="shot-link" href="../../img/A2-pair.webp?v=21c8d060" aria-label="Der Dialog zum Koppeln mit einem Empfänger in der Android-App, in voller Größe"><div class="phone " style="aspect-ratio: 720 / 1540"><img src="../../img/A2-pair.webp?v=21c8d060" alt="Der Dialog zum Koppeln mit einem Empfänger in der Android-App" width="720" height="1540" loading="lazy"></div></a></figure></li>
-  <li>Tippe auf dem Tab <strong>Gesundheit</strong> auf <strong>Erteilen</strong>, erlaube deine Datentypen und das Lesen im Hintergrund, damit die geplanten Synchronisierungen laufen. Die Auswahl <strong>Das Wesentliche</strong> schaltet Schritte, Schlaf, Herzfrequenz, Ruheherzfrequenz, Distanz, Kalorien und Gewicht ein. Alle weiteren Typen schaltest du unter <strong>Datentypen</strong> ein.</li>
+  <figure class="shot"><a class="shot-link" href="../../img/A2-pair.webp?v=c6969f0a" aria-label="Die Seite zum Koppeln mit einem Empfänger in der Android-App, in voller Größe"><div class="phone " style="aspect-ratio: 720 / 1600"><img src="../../img/A2-pair.webp?v=c6969f0a" alt="Die Seite zum Koppeln mit einem Empfänger in der Android-App" width="720" height="1600" loading="lazy"></div></a></figure></li>
+  <li>Tippe auf dem Tab <strong>Gesundheit</strong> auf <strong>Erteilen</strong>, erlaube deine Datentypen und das Lesen im Hintergrund, damit die geplanten Synchronisierungen laufen. Die Auswahl <strong>Das Wesentliche</strong> schaltet Schritte, Schlaf, Herzfrequenz, Ruheherzfrequenz, Distanz, Kalorien und Gewicht ein. Alle weiteren Typen schaltest du unter <strong>Was senden</strong> ein.</li>
   <li>Auf Telefonen von Samsung, Xiaomi und ähnlichen Herstellern stoppt Android die Synchronisierungen gern, um Akku zu sparen. Stell unter <strong>Einstellungen</strong> &gt; <strong>Apps</strong> &gt; <strong>Life Dashboard</strong> &gt; <strong>Akku</strong> auf <strong>Nicht eingeschränkt</strong>. Auf einem Samsung trägst du Life Dashboard außerdem unter <strong>Einstellungen</strong> &gt; <strong>Akku</strong> bei den Einschränkungen der Hintergrundnutzung als App ein, die nie in den Standby-Modus geht. Die anderen Hersteller stehen in der <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/usage.md#let-the-app-run-in-the-background" hreflang="en">Einrichtungsanleitung (Englisch)</a>.</li>
   <li>Tippe auf <strong>Jetzt synchronisieren</strong>. Das Telefon erscheint in Home Assistant unter <strong>Einstellungen</strong> &gt; <strong>Geräte &amp; Dienste</strong> &gt; <strong>Life Dashboard</strong>.</li>
-  <li>Für ältere Daten tippst du auf <strong>Nachladen</strong> und wählst, wie weit zurück: von 30 Tagen bis <strong>Alles</strong>. Für mehr als 30 Tage vor deiner ersten Freigabe tippst du vorher auf <strong>Verlaufszugriff erteilen</strong>.</li>
+  <li>Für ältere Daten tippst du unter <strong>Was senden</strong> auf <strong>Verlauf senden</strong> und wählst, wie weit zurück: von 30 Tagen bis <strong>Alles</strong>. Für mehr als 30 Tage vor deiner ersten Freigabe tippst du vorher auf <strong>Verlaufszugriff erteilen</strong>.</li>
 </ol>
 
-<figure class="shot"><a class="shot-link" href="../../img/A1-health.webp?v=0d989d3b" aria-label="Der Tab „Gesundheit“ der Android-App, in voller Größe"><div class="phone " style="aspect-ratio: 720 / 1476"><img src="../../img/A1-health.webp?v=0d989d3b" alt="Der Tab „Gesundheit“ der Android-App" width="720" height="1476" loading="lazy"></div></a></figure>
+<figure class="shot"><a class="shot-link" href="../../img/A1-health.webp?v=48b0e4d1" aria-label="Der Tab „Gesundheit“ der Android-App mit einer Zeile pro Ziel und den Werten von heute, in voller Größe"><div class="phone " style="aspect-ratio: 720 / 1600"><img src="../../img/A1-health.webp?v=48b0e4d1" alt="Der Tab „Gesundheit“ der Android-App mit einer Zeile pro Ziel und den Werten von heute" width="720" height="1600" loading="lazy"></div></a></figure>
 
 <h2 id="was-samsung-health-und-andere-apps-teilen">Was Samsung Health und andere Apps teilen</h2>
 

@@ -43,7 +43,7 @@
         }
       ],
       "datePublished": "2026-10-06",
-      "dateModified": "2026-10-27",
+      "dateModified": "2026-11-05",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -98,7 +98,7 @@
           "name": "Can I get a CSV file?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Not from the app. Health data leaves it as JSON, and your receiver can write CSV if you want that. Export on the Health tab shares what the next sync would send, as JSON."
+            "text": "Yes. More > Export data on the Health tab shares what the next sync would send as CSV or JSON. To your server, health data leaves the app as JSON, and your receiver can write CSV too if you want that."
           }
         },
         {
@@ -148,7 +148,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Samsung Health to your own server</span></nav>
 <h1>How do I export Samsung Health data to my own server?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 27, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 5, 2026.</p>
 
 <p>Switch on Samsung Health's sync with Health Connect, then let Life Dashboard Companion, an open-source Android app, post the data to a URL you choose as JSON. Every sync sends the new Samsung Health and Galaxy Watch records to your database, n8n flow or script, and a backfill sends up to a year of what's in Health Connect.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="../android/#get">Get the Android app</a></p>
@@ -164,22 +164,22 @@
 <ul>
   <li>An Android phone with Android 9 or newer, Health Connect and Samsung Health. Pair your Galaxy Watch with Samsung Health for its data.</li>
   <li><a href="../android/">Life Dashboard Companion for Android</a>. It's on Google Play for €4.99 once (US$4.99), no subscription: the easy way, with automatic updates, and buying it supports development. The free routes install the same app with the same signing key: the signed APK from GitHub, Obtainium, which keeps that APK up to date, and F-Droid, which builds it from the source.</li>
-  <li>A server that accepts a JSON POST over HTTPS, with a body limit of at least 10 MB. Plain HTTP on your own network needs <strong>Allow plain HTTP webhooks</strong> under <strong>Advanced</strong>.</li>
+  <li>A server that accepts a JSON POST over HTTPS, with a body limit of at least 10 MB. Plain HTTP on your own network needs <strong>Allow plain HTTP webhooks</strong> under <strong>More</strong> &gt; <strong>Advanced</strong>.</li>
 </ul>
 
 <h2 id="set-it-up">Set it up</h2>
 
 <ol>
   <li>In Samsung Health, go to <strong>Settings</strong> &gt; <strong>Health Connect</strong>, tap <strong>Get started</strong>, choose the data and tap <strong>Allow</strong>. Reading and writing are granted separately.</li>
-  <li>In Life Dashboard Companion, on the <strong>Health</strong> tab, open <strong>Webhook</strong> and add your URL under <strong>Webhook URLs</strong>.</li>
+  <li>In Life Dashboard Companion, on the <strong>Health</strong> tab, tap <strong>Add destination</strong> (with nothing set up yet, <strong>Use your own server</strong>), enter your URL under <strong>Webhook URL</strong> and tap <strong>Add webhook</strong>.</li>
   <li>Under <strong>HMAC signing secret (optional)</strong>, tap <strong>Generate</strong> and put the same value on your server.</li>
-  <li>Tap <strong>Test ping</strong>, then <strong>Save Changes</strong>.</li>
-  <li>Tap <strong>Grant</strong> and allow your data types and reading in the background. Switch on the types you want under <strong>Data Types</strong>.</li>
+  <li>Tap <strong>Save</strong> at the top, open the address's row on the tab again and tap <strong>Send test</strong>.</li>
+  <li>Tap <strong>Grant</strong> and allow your data types and reading in the background. Switch on the types you want under <strong>What to send</strong>.</li>
   <li>Keep Android from stopping the syncs: <strong>Settings</strong> &gt; <strong>Apps</strong> &gt; <strong>Life Dashboard</strong> &gt; <strong>Battery</strong>, set to <strong>Unrestricted</strong>, and add <strong>Life Dashboard</strong> to <strong>Never sleeping apps</strong> under <strong>Settings</strong> &gt; <strong>Battery</strong> &gt; <strong>Background usage limits</strong>.</li>
-  <li>Tap <strong>Sync Now</strong>. For older data, tap <strong>Backfill</strong> and pick how far back, from <strong>30 days</strong> up to <strong>All history</strong>.</li>
+  <li>Tap <strong>Sync Now</strong>. For older data, tap <strong>Send history</strong> under <strong>What to send</strong> and pick how far back, from <strong>30 days</strong> up to <strong>All history</strong>.</li>
 </ol>
 
-<figure class="shot"><a class="shot-link" href="../img/A6-webhook.webp?v=046c3c8b" aria-label="The Webhook settings with an HMAC signing secret, full size"><div class="phone " style="aspect-ratio: 720 / 1540"><img src="../img/A6-webhook.webp?v=046c3c8b" alt="The Webhook settings with an HMAC signing secret" width="720" height="1540" loading="lazy"></div></a></figure>
+<figure class="shot"><a class="shot-link" href="../img/A6-webhook.webp?v=e06250fb" aria-label="A webhook destination in the Android app, with its HMAC signing secret and headers, full size"><div class="phone " style="aspect-ratio: 720 / 1600"><img src="../img/A6-webhook.webp?v=e06250fb" alt="A webhook destination in the Android app, with its HMAC signing secret and headers" width="720" height="1600" loading="lazy"></div></a></figure>
 
 <h2 id="what-you-get">What you get</h2>
 
@@ -234,17 +234,17 @@
 
 <p>Receivers that work: <a href="../grafana/">the Life Dashboard stack</a> with Postgres and Grafana, an n8n Webhook node, Node-RED, or a short script. The <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md#receiver-in-python-flask">payload reference</a> has a Python and a Node.js receiver to start from.</p>
 
-<figure class="shot"><a class="shot-link" href="../img/A7-logs.webp?v=6bd9dc4d" aria-label="The delivery log in the Android app, full size"><div class="phone " style="aspect-ratio: 720 / 1540"><img src="../img/A7-logs.webp?v=6bd9dc4d" alt="The delivery log in the Android app" width="720" height="1540" loading="lazy"></div></a></figure>
+<figure class="shot"><a class="shot-link" href="../img/A7-logs.webp?v=28cbd5f4" aria-label="The Logs tab of the Android app, with a line per delivery, full size"><div class="phone " style="aspect-ratio: 720 / 1600"><img src="../img/A7-logs.webp?v=28cbd5f4" alt="The Logs tab of the Android app, with a line per delivery" width="720" height="1600" loading="lazy"></div></a></figure>
 
 <h2 id="limits">Limits</h2>
 
 <ul>
   <li>Watch data reaches Health Connect after it reaches the phone: when the watch reconnects, or when you open or pull down the Samsung Health home screen. Samsung holds back continuous heart rate for a while to save battery.</li>
-  <li>Data from more than 30 days before you first gave the app access needs Health Connect's history permission, which the backfill dialog asks for with <strong>Grant history access</strong>.</li>
+  <li>Data from more than 30 days before you first gave the app access needs Health Connect's history permission, which the backfill page asks for with <strong>Grant history access</strong>.</li>
 </ul>
 
 <div class="next">
-  <p>Switch on Health Connect in Samsung Health, install the app, and tap <strong>Test ping</strong> against your URL.</p>
+  <p>Switch on Health Connect in Samsung Health, install the app, and tap <strong>Send test</strong> against your URL.</p>
   <a class="btn btn-primary btn-store" href="../android/#get">Get the Android app</a>
   <a class="btn btn-ghost" href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md">Payload reference</a>
 </div>
@@ -257,7 +257,7 @@
   </details>
   <details>
     <summary>Can I get a CSV file?</summary>
-    <p>Not from the app. Health data leaves it as JSON, and your receiver can write CSV if you want that. <strong>Export</strong> on the <strong>Health</strong> tab shares what the next sync would send, as JSON.</p>
+    <p>Yes. <strong>More</strong> &gt; <strong>Export data</strong> on the <strong>Health</strong> tab shares what the next sync would send as CSV or JSON. To your server, health data leaves the app as JSON, and your receiver can write CSV too if you want that.</p>
   </details>
   <details>
     <summary>Can I send it to Home Assistant as well?</summary>

@@ -48,7 +48,7 @@
         }
       ],
       "datePublished": "2026-10-14",
-      "dateModified": "2026-11-04",
+      "dateModified": "2026-11-05",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -169,7 +169,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Samsung Health and Galaxy Watch in Home Assistant</span></nav>
 <h1>How do I get Samsung Health and Galaxy Watch data into Home Assistant?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 4, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 5, 2026.</p>
 
 <p>Switch on Samsung Health's sync with Health Connect on your Android phone, then let Life Dashboard Companion, an open-source Android app, send that data to the Life Dashboard integration in Home Assistant. Steps, sleep, heart rate, workouts and body measurements from your Galaxy Watch become sensors, and every day is kept in long-term statistics. Home Assistant never needs your Samsung account.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in the Marketplace</a></p>
@@ -211,15 +211,15 @@
   <li>In <strong>Settings</strong> &gt; <strong>Marketplace</strong> (HACS before Home Assistant 2026.11), search for <strong>Life Dashboard</strong> and install it. On HACS, download it and restart Home Assistant.</li>
   <li>If the setup didn't open by itself, go to <strong>Settings</strong> &gt; <strong>Devices &amp; services</strong> &gt; <strong>Add integration</strong> and search for <strong>Life Dashboard</strong>. Name the phone. In the <strong>Home Assistant address</strong> field, use Home Assistant's IP address, such as <code>http://192.168.1.20:8123</code>. You find it under <strong>Settings</strong> &gt; <strong>System</strong> &gt; <strong>Network</strong>, in the <strong>Network adapter</strong> section. The dialog then shows a QR code.
   <figure class="shot wide"><a class="shot-link" href="../img/H2-qr.webp?v=abb2ed19" aria-label="The Life Dashboard integration in Home Assistant showing a pairing QR code, full size"><img src="../img/H2-qr.webp?v=abb2ed19" alt="The Life Dashboard integration in Home Assistant showing a pairing QR code" width="800" height="668" loading="lazy"></a></figure></li>
-  <li>Install <a href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-guide-samsung-health-home-assistant%26utm_medium%3Dwebsite">Life Dashboard Companion from Google Play</a>, €4.99 once, which keeps it up to date. Or install it free, the same app with the same signing key: open the APK from GitHub on the phone and allow installs from your browser once, or add it in Obtainium or F-Droid (<a href="../android/#get">install options</a>). Android may warn you before it installs an APK from outside the Play Store; it does that for every app from another source. Open the app, and at <strong>Where should your data go?</strong>, tap <strong>Scan a code from Home Assistant</strong>, scan the code and tap <strong>Pair</strong>.</li>
-  <li>On the <strong>Health</strong> tab, tap <strong>Grant</strong> and allow your data types and reading in the background. <strong>The essentials</strong> preset also turns on resting heart rate and active calories, which Samsung doesn't share, so they get no sensor. Under <strong>Data Types</strong>, switch on <strong>Exercise Sessions</strong>, <strong>Oxygen Saturation</strong>, <strong>Blood Pressure</strong>, <strong>Body Fat</strong> and whatever else from the table you want.</li>
+  <li>Install <a href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-guide-samsung-health-home-assistant%26utm_medium%3Dwebsite">Life Dashboard Companion from Google Play</a>, €4.99 once, which keeps it up to date. Or install it free, the same app with the same signing key: open the APK from GitHub on the phone and allow installs from your browser once, or add it in Obtainium or F-Droid (<a href="../android/#get">install options</a>). Android may warn you before it installs an APK from outside the Play Store; it does that for every app from another source. Open the app, and at <strong>Where should your data go?</strong>, tap <strong>Scan a pairing code</strong>, scan the code and tap <strong>Pair</strong>.</li>
+  <li>On the <strong>Health</strong> tab, tap <strong>Grant</strong> and allow your data types and reading in the background. <strong>The essentials</strong> preset also turns on resting heart rate and active calories, which Samsung doesn't share, so they get no sensor. Under <strong>What to send</strong>, switch on <strong>Exercise Sessions</strong>, <strong>Oxygen Saturation</strong>, <strong>Blood Pressure</strong>, <strong>Body Fat</strong> and whatever else from the table you want.</li>
   <li>Samsung phones stop background jobs to save battery. Go to <strong>Settings</strong> &gt; <strong>Apps</strong> &gt; <strong>Life Dashboard</strong> &gt; <strong>Battery</strong> and set it to <strong>Unrestricted</strong>. Then add <strong>Life Dashboard</strong> to <strong>Never sleeping apps</strong> under <strong>Settings</strong> &gt; <strong>Battery</strong> &gt; <strong>Background usage limits</strong>; on some versions that's under <strong>Device care</strong>.</li>
-  <li>Tap <strong>Sync Now</strong>. For older data, tap <strong>Backfill</strong> and pick how far back, from <strong>30 days</strong> up to <strong>All history</strong>, after <strong>Grant history access</strong> if the dialog shows it.</li>
+  <li>Tap <strong>Sync Now</strong>. For older data, tap <strong>Send history</strong> under <strong>What to send</strong> and pick how far back, from <strong>30 days</strong> up to <strong>All history</strong>, after <strong>Grant history access</strong> if the page shows it.</li>
 </ol>
 
 <p>The <a href="../health-connect-home-assistant/">Health Connect guide for Home Assistant</a> covers the same pairing in more detail, plus putting a tile on your dashboard and MQTT as an alternative.</p>
 
-<figure class="shot"><a class="shot-link" href="../img/A1-health.webp?v=0d989d3b" aria-label="The Health tab of the Android app, full size"><div class="phone " style="aspect-ratio: 720 / 1476"><img src="../img/A1-health.webp?v=0d989d3b" alt="The Health tab of the Android app" width="720" height="1476" loading="lazy"></div></a></figure>
+<figure class="shot"><a class="shot-link" href="../img/A1-health.webp?v=48b0e4d1" aria-label="The Health tab of the Android app, with a row per destination and today's figures, full size"><div class="phone " style="aspect-ratio: 720 / 1600"><img src="../img/A1-health.webp?v=48b0e4d1" alt="The Health tab of the Android app, with a row per destination and today's figures" width="720" height="1600" loading="lazy"></div></a></figure>
 
 <h2 id="what-you-get">What you get</h2>
 

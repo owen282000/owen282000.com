@@ -48,7 +48,7 @@
         }
       ],
       "datePublished": "2026-10-06",
-      "dateModified": "2026-10-27",
+      "dateModified": "2026-11-05",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -103,7 +103,7 @@
           "name": "Can I see a real payload before I write a receiver?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. View on the Health tab shows what the next sync would send, and Export shares it as JSON."
+            "text": "Yes. Preview payload under What to send on the Health tab shows what the next sync would send, and More > Export data shares it as CSV or JSON."
           }
         },
         {
@@ -127,7 +127,7 @@
           "name": "Is there a CSV export?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. Health data leaves the app as JSON, and your receiver stores it in any format it likes."
+            "text": "Yes. More > Export data on the Health tab shares what the next sync would send as CSV or JSON. To your server, health data leaves the app as JSON, and your receiver stores it in any format it likes."
           }
         }
       ]
@@ -169,7 +169,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Health Connect to a webhook</span></nav>
 <h1>How do I send Health Connect data to my own webhook as JSON?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated October 27, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 5, 2026.</p>
 
 <p>Life Dashboard Companion, an open-source Android app, reads Health Connect on a schedule and sends every new record to the URLs you enter, as an HTTPS POST with a JSON body. Each payload holds the records of the types you switched on (33 in all, from steps and sleep stages to heart rate, weight and blood pressure), each with a stable <code>uuid</code> and the app that wrote it, plus daily totals that count a walk once.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="../android/#get">Get the Android app</a></p>
@@ -185,20 +185,20 @@
 <ul>
   <li>Android 9 or newer with Health Connect, and an app that writes to it, such as Samsung Health, Garmin Connect or Google Health.</li>
   <li><a href="../android/">Life Dashboard Companion for Android</a>, from <a href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-guide-health-connect-webhook%26utm_medium%3Dwebsite">Google Play</a> for €4.99 once, or free from GitHub Releases, Obtainium or F-Droid. The <a href="../android/#get">install options</a> list every route.</li>
-  <li>A server that accepts a JSON POST over HTTPS, with a body limit of at least 10 MB. Plain HTTP on your own network needs <strong>Allow plain HTTP webhooks</strong> under <strong>Advanced</strong>.</li>
+  <li>A server that accepts a JSON POST over HTTPS, with a body limit of at least 10 MB. Plain HTTP on your own network needs <strong>Allow plain HTTP webhooks</strong> under <strong>More</strong> &gt; <strong>Advanced</strong>.</li>
 </ul>
 
 <h2 id="set-it-up">Set it up</h2>
 
 <ol>
-  <li>On the <strong>Health</strong> tab, open <strong>Webhook</strong>, paste your URL in the address field and tap the add button. The <strong>Screen Time</strong> tab has its own list.</li>
-  <li>Tap the address to open its own settings. Optional: add an <code>Authorization</code> header or API key under <strong>Webhook headers</strong>.</li>
+  <li>On the <strong>Health</strong> tab, tap <strong>Add destination</strong> (with nothing set up yet, <strong>Use your own server</strong>), paste your URL under <strong>Webhook URL</strong> and tap <strong>Add webhook</strong>. The <strong>Screen Time</strong> tab has its own list.</li>
+  <li>The address opens on its own page. Optional: add an <code>Authorization</code> header or API key under <strong>Headers</strong>.</li>
   <li>Under <strong>HMAC signing secret (optional)</strong>, tap <strong>Generate</strong> and put the same value on your server. Every address has its own secret, so a second server gets its own.</li>
-  <li>Tap <strong>Test ping</strong> to check that your server accepts the request, then <strong>Save Changes</strong>.</li>
-  <li>Grant the Health Connect permissions and tap <strong>Sync Now</strong>. <strong>Backfill</strong> sends 30 days up to 5 years, or <strong>All history</strong>.</li>
+  <li>Tap <strong>Save</strong> at the top, open the address's row on the tab again and tap <strong>Send test</strong> to check that your server accepts the request.</li>
+  <li>Grant the Health Connect permissions and tap <strong>Sync Now</strong>. <strong>Send history</strong> under <strong>What to send</strong> sends 30 days up to 5 years, or <strong>All history</strong>.</li>
 </ol>
 
-<figure class="shot"><a class="shot-link" href="../img/A6-webhook.webp?v=046c3c8b" aria-label="The Webhook settings with an HMAC signing secret, full size"><div class="phone " style="aspect-ratio: 720 / 1540"><img src="../img/A6-webhook.webp?v=046c3c8b" alt="The Webhook settings with an HMAC signing secret" width="720" height="1540" loading="lazy"></div></a></figure>
+<figure class="shot"><a class="shot-link" href="../img/A6-webhook.webp?v=e06250fb" aria-label="A webhook destination in the Android app, with its HMAC signing secret and headers, full size"><div class="phone " style="aspect-ratio: 720 / 1600"><img src="../img/A6-webhook.webp?v=e06250fb" alt="A webhook destination in the Android app, with its HMAC signing secret and headers" width="720" height="1600" loading="lazy"></div></a></figure>
 
 <h2 id="what-the-post-looks-like">What the POST looks like</h2>
 
@@ -246,7 +246,7 @@
 <pre tabindex="0" role="region" aria-label="Code: Check the signature"><code>expected = "sha256=" + hmac.new(SECRET, body, hashlib.sha256).hexdigest()
 valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
 
-<p>For a reverse proxy that requires a client certificate, install it in Android's settings and pick it under <strong>Advanced</strong> &gt; <strong>Client certificate (mTLS)</strong>.</p>
+<p>For a reverse proxy that requires a client certificate, install it in Android's settings and pick it under <strong>More</strong> &gt; <strong>Advanced</strong> &gt; <strong>Client certificate (mTLS)</strong>.</p>
 
 <h2 id="retries-outbox-and-deletions">Retries, outbox and deletions</h2>
 
@@ -287,11 +287,11 @@ valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
 
 <ul>
   <li>With several URLs, a payload counts as delivered once one accepts it, and the others don't get it again. The <strong>Logs</strong> tab shows each result.</li>
-  <li>Data from more than 30 days before you first gave the app access needs Health Connect's history permission, which the backfill dialog asks for.</li>
+  <li>Data from more than 30 days before you first gave the app access needs Health Connect's history permission, which the backfill page asks for.</li>
 </ul>
 
 <div class="next">
-  <p>Install the app, point it at your URL and tap <strong>Test ping</strong>. The payload reference has every field and a receiver in Python and Node.js.</p>
+  <p>Install the app, point it at your URL and tap <strong>Send test</strong>. The payload reference has every field and a receiver in Python and Node.js.</p>
   <a class="btn btn-primary btn-store" href="../android/#get">Get the Android app</a>
   <a class="btn btn-ghost" href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md">Payload reference</a>
 </div>
@@ -304,7 +304,7 @@ valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
   </details>
   <details>
     <summary>Can I see a real payload before I write a receiver?</summary>
-    <p>Yes. <strong>View</strong> on the <strong>Health</strong> tab shows what the next sync would send, and <strong>Export</strong> shares it as JSON.</p>
+    <p>Yes. <strong>Preview payload</strong> under <strong>What to send</strong> on the <strong>Health</strong> tab shows what the next sync would send, and <strong>More</strong> &gt; <strong>Export data</strong> shares it as CSV or JSON.</p>
   </details>
   <details>
     <summary>Does it send screen time too?</summary>
@@ -316,7 +316,7 @@ valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
   </details>
   <details>
     <summary>Is there a CSV export?</summary>
-    <p>No. Health data leaves the app as JSON, and your receiver stores it in any format it likes.</p>
+    <p>Yes. <strong>More</strong> &gt; <strong>Export data</strong> on the <strong>Health</strong> tab shares what the next sync would send as CSV or JSON. To your server, health data leaves the app as JSON, and your receiver stores it in any format it likes.</p>
   </details>
 </section>
     </article>

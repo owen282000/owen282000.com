@@ -3,7 +3,7 @@ title: Health Connect and Apple Health have no web API | Life Dashboard
 description: Health Connect and Apple Health have no web API. Life Dashboard Companion reads them on the phone and posts signed JSON to your server or Home Assistant.
 primary query: health connect api
 secondary queries: apple health api, health connect web api, apple health rest api, get health connect data on server, health connect rest api, healthkit web api, google health api, fitbit web api shutdown, samsung health api
-updated: 2026-11-04
+updated: 2026-11-05
 -->
 
 <h1>Is there a web API for Health Connect or Apple Health?</h1>
@@ -42,11 +42,11 @@ updated: 2026-11-04
 <p>For your own server, on Android:</p>
 
 <ol>
-  <li>Open the app. At <strong>Where should your data go?</strong>, pick <strong>Webhook</strong> and enter your URL.</li>
-  <li>On the <strong>Health</strong> tab, open <strong>Webhook</strong>. Under <strong>HMAC signing secret (optional)</strong>, tap <strong>Generate</strong> and put the same value on your server.</li>
-  <li>Tap <strong>Test ping</strong>, then <strong>Save Changes</strong>.</li>
+  <li>Open the app. At <strong>Where should your data go?</strong>, enter your URL under <strong>Webhook URL</strong> and tap <strong>Add</strong>.</li>
+  <li>On the <strong>Health</strong> tab, tap the address's row. Under <strong>HMAC signing secret (optional)</strong>, tap <strong>Generate</strong> and put the same value on your server.</li>
+  <li>Tap <strong>Save</strong> at the top, open the row again and tap <strong>Send test</strong>.</li>
   <li>Tap <strong>Grant</strong>, allow your data types and reading in the background, then tap <strong>Sync Now</strong>.</li>
-  <li>For older data, tap <strong>Backfill</strong> and pick how far back, from <strong>30 days</strong> up to <strong>All history</strong>.</li>
+  <li>For older data, tap <strong>Send history</strong> under <strong>What to send</strong> and pick how far back, from <strong>30 days</strong> up to <strong>All history</strong>.</li>
 </ol>
 
 <p>On an iPhone, <strong>Add destination</strong> on the <strong>Health</strong> tab adds the URL. Tap the destination for its <strong>HMAC Signing Secret</strong> and <strong>Send test</strong>. Data types and <strong>Send history</strong> are under <strong>What to send</strong>. <a href="../health-connect-webhook/">Health Connect to a webhook</a> has the full receiver guide.</p>

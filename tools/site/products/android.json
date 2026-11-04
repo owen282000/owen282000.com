@@ -26,7 +26,7 @@
     },
     {
       "title": "Three ways out",
-      "text": "The Life Dashboard integration, MQTT with Home Assistant Discovery, or any webhook that accepts a JSON POST. Several at once works too."
+      "text": "The Life Dashboard integration, MQTT with Home Assistant Discovery, or any webhook that accepts a JSON POST. Several at once works too, and the Health and Screen Time tabs open on whether your data arrives at each, with today's figures below."
     },
     {
       "title": "Receive into Health Connect",
@@ -49,7 +49,7 @@
         },
         {
           "main": "Two phones on one broker",
-          "sub": "Give each a Phone name under Advanced, and each gets its own device and topics."
+          "sub": "Give each a Phone name under More > Advanced, and each gets its own device and topics."
         }
       ],
       "image": "A2-pair",
@@ -131,7 +131,7 @@
     },
     {
       "q": "Can it sync at fixed times instead of an interval?",
-      "a": "Yes. Each tab has its own <strong>Sync Schedule</strong>: every 15 minutes or longer, or a list of times, on the days you pick, with quiet hours. A Quick Settings tile, Tasker and MacroDroid can start a sync too."
+      "a": "Yes. Each tab has its own <strong>When to send</strong>: every 15 minutes or longer, or a list of times, on the days you pick, with quiet hours. A Quick Settings tile, Tasker and MacroDroid can start a sync too."
     },
     {
       "q": "Does Receive work over MQTT?",
@@ -158,7 +158,7 @@
       "a": "Yes. Google Play, the APK on GitHub, Obtainium and F-Droid all install the same app, with the same package name and the same signing key, so you can switch without reinstalling: one installs over the other and your settings stay."
     }
   ],
-  "updated": "2026-11-04",
+  "updated": "2026-11-05",
   "guides": [
     "health-connect-home-assistant",
     "health-connect-webhook",

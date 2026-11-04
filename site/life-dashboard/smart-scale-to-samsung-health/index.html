@@ -48,7 +48,7 @@
         }
       ],
       "datePublished": "2026-10-06",
-      "dateModified": "2026-11-04",
+      "dateModified": "2026-11-05",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -161,7 +161,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Smart scale to Samsung Health</span></nav>
 <h1>How do I get smart scale readings from Home Assistant into Samsung Health?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 4, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 5, 2026.</p>
 
 <p class="signpost">Want your watch's Samsung Health data in Home Assistant instead? See <a href="../samsung-health-home-assistant/">Samsung Health and Galaxy Watch in Home Assistant</a>.</p>
 
@@ -183,12 +183,12 @@
 
 <ol>
   <li>In Home Assistant, open Settings &gt; Devices &amp; services &gt; Life Dashboard and choose <strong>Configure</strong> for the phone. Pick one entity per type. Each type has an optional <strong>Measured at</strong> slot for a timestamp sensor that holds when the weighing happened.</li>
-  <li>In the app, on the <strong>Health</strong> tab, open <strong>Receive</strong> and switch on <strong>Receive measurements from Home Assistant</strong>.</li>
+  <li>In the app, on the <strong>Health</strong> tab, open <strong>Receive</strong> and switch on <strong>Receive measurements</strong>.</li>
   <li>Switch on each type you mapped. Each one asks Health Connect for permission to write that type. If you refuse, the switch stays off.</li>
-  <li>Step on the scale, then tap <strong>Sync Now</strong> or wait for the next sync. The <strong>Logs</strong> tab shows a row from Home Assistant with every reading and whether it was written.</li>
+  <li>Step on the scale, then tap <strong>Sync Now</strong> or wait for the next sync. The <strong>Logs</strong> tab shows a row from Home Assistant; tap it for every reading and whether it was written.</li>
 </ol>
 
-<figure class="shot"><a class="shot-link" href="../img/A5-receive.webp?v=17270bd4" aria-label="The Receive settings in the Android app, full size"><div class="phone " style="aspect-ratio: 720 / 1540"><img src="../img/A5-receive.webp?v=17270bd4" alt="The Receive settings in the Android app" width="720" height="1540" loading="lazy"></div></a></figure>
+<figure class="shot"><a class="shot-link" href="../img/A5-receive.webp?v=2d830834" aria-label="The Receive page in the Android app, full size"><div class="phone " style="aspect-ratio: 720 / 1600"><img src="../img/A5-receive.webp?v=2d830834" alt="The Receive page in the Android app" width="720" height="1600" loading="lazy"></div></a></figure>
 
 <h2 id="what-it-writes">What it writes</h2>
 

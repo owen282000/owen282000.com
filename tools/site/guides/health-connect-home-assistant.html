@@ -3,7 +3,7 @@ title: Health Connect to Home Assistant: sensors and history | Life Dashboard
 description: Steps, sleep, heart rate and weight from Samsung Health, Garmin, Fitbit or Oura as Home Assistant sensors, each day on its own date, paired by QR code.
 primary query: health connect home assistant
 secondary queries: garmin home assistant health connect, oura home assistant, withings home assistant, home assistant steps sensor, home assistant sleep sensor, home assistant heart rate sensor, health connect home assistant integration
-updated: 2026-11-04
+updated: 2026-11-05
 -->
 
 <h1>How do I get Health Connect data into Home Assistant?</h1>
@@ -32,12 +32,12 @@ updated: 2026-11-04
   <li>If the setup didn't open by itself, go to <strong>Settings</strong> &gt; <strong>Devices &amp; services</strong> &gt; <strong>Add integration</strong> and search for <strong>Life Dashboard</strong>. Name the phone. Check the <strong>Home Assistant address</strong> field: it holds the address the phone sends to. Use Home Assistant's IP address, such as <code>http://192.168.1.20:8123</code>, not <code>homeassistant.local</code>, which Android often can't resolve. Home Assistant shows its IP address under <strong>Settings</strong> &gt; <strong>System</strong> &gt; <strong>Network</strong>, in the <strong>Network adapter</strong> section. Plain <code>http://</code> isn't encrypted. On your own home Wi-Fi that's fine; on any network you don't fully trust, use HTTPS or Home Assistant Cloud instead. The dialog then shows a QR code.</li>
   <!-- IMG: the QR code in Home Assistant (H2-qr.png) -->
   <li>Let your watch's app write to Health Connect. In Samsung Health that's <strong>Settings</strong> &gt; <strong>Health Connect</strong>: tap <strong>Get started</strong>, choose the data and tap <strong>Allow</strong>. The table below has the path for other apps.</li>
-  <li>Install and open <a href="{{play_url}}">Life Dashboard Companion from Google Play</a> on the phone. If you install the free APK instead, Android may warn you before it installs an APK from outside the Play Store: it does that for every app from another source, and every release is signed with the same key and carries a build attestation (<a href="../android/#get">install options</a>). At <strong>Where should your data go?</strong>, tap <strong>Scan a code from Home Assistant</strong>, scan the code and tap <strong>Pair</strong>. A test ping confirms the connection.</li>
-  <!-- IMG: pair dialog (A2-pair.png) -->
-  <li>On the <strong>Health</strong> tab, tap <strong>Grant</strong>, allow your data types, and allow reading in the background for scheduled syncs. The setup's <strong>The essentials</strong> preset turns on steps, sleep, heart rate, resting heart rate, distance, calories and weight; switch on any other type under <strong>Data Types</strong>. Samsung Health and Garmin Connect don't share resting heart rate or HRV with Health Connect, so with those watches those sensors never appear; the <a href="#your-watch-s-app-and-health-connect">table below</a> lists what each app keeps.</li>
+  <li>Install and open <a href="{{play_url}}">Life Dashboard Companion from Google Play</a> on the phone. If you install the free APK instead, Android may warn you before it installs an APK from outside the Play Store: it does that for every app from another source, and every release is signed with the same key and carries a build attestation (<a href="../android/#get">install options</a>). At <strong>Where should your data go?</strong>, tap <strong>Scan a pairing code</strong>, scan the code and tap <strong>Pair</strong>. A test ping confirms the connection.</li>
+  <!-- IMG: pairing page (A2-pair.png) -->
+  <li>On the <strong>Health</strong> tab, tap <strong>Grant</strong>, allow your data types, and allow reading in the background for scheduled syncs. The setup's <strong>The essentials</strong> preset turns on steps, sleep, heart rate, resting heart rate, distance, calories and weight; switch on any other type under <strong>What to send</strong>. Samsung Health and Garmin Connect don't share resting heart rate or HRV with Health Connect, so with those watches those sensors never appear; the <a href="#your-watch-s-app-and-health-connect">table below</a> lists what each app keeps.</li>
   <li>On Samsung, Xiaomi and similar phones, keep Android from stopping the syncs: <strong>Settings</strong> &gt; <strong>Apps</strong> &gt; <strong>Life Dashboard</strong> &gt; <strong>Battery</strong>, set to <strong>Unrestricted</strong>. On Samsung, also add <strong>Life Dashboard</strong> to <strong>Never sleeping apps</strong> under <strong>Settings</strong> &gt; <strong>Battery</strong> &gt; <strong>Background usage limits</strong>. Other brands are in the <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/usage.md#let-the-app-run-in-the-background">setup guide</a>.</li>
   <li>Tap <strong>Sync Now</strong>. The phone appears under <strong>Settings</strong> &gt; <strong>Devices &amp; services</strong> &gt; <strong>Life Dashboard</strong>.</li>
-  <li>For older data, tap <strong>Backfill</strong> and pick how far back, from <strong>30 days</strong> up to <strong>All history</strong>. Beyond 30 days before your first grant, tap <strong>Grant history access</strong> first.</li>
+  <li>For older data, tap <strong>Send history</strong> under <strong>What to send</strong> and pick how far back, from <strong>30 days</strong> up to <strong>All history</strong>. Beyond 30 days before your first grant, tap <strong>Grant history access</strong> first.</li>
 </ol>
 
 <!-- IMG: Health tab (A1-health.png) -->
@@ -90,7 +90,7 @@ updated: 2026-11-04
 
 <h2>MQTT as the alternative</h2>
 
-<p>With an MQTT broker already running, switch on <strong>Enable MQTT publishing</strong> under <strong>MQTT</strong> on the <strong>Health</strong> tab instead. Sensors for 24 types and screen time appear under a device named Life Dashboard Companion, with no YAML. Pick one route; running both gives you two devices with the same numbers.</p>
+<p>With an MQTT broker already running, tap <strong>Add destination</strong> (with nothing set up yet, <strong>Use your own server</strong>) on the <strong>Health</strong> tab instead, then <strong>MQTT broker</strong>, switch on <strong>Enable MQTT publishing</strong>, fill in the broker and tap <strong>Save</strong>. Sensors for 24 types and screen time appear under a device named Life Dashboard Companion, with no YAML. Pick one route; running both gives you two devices with the same numbers.</p>
 
 <table>
   <thead>
@@ -117,7 +117,7 @@ updated: 2026-11-04
   </details>
   <details>
     <summary>I paired, but no watch data arrives. What's wrong?</summary>
-    <p>Usually the watch's app isn't writing to Health Connect yet: switch it on as in the table above, then open the watch's app so it syncs. Also check that the type is switched on under <strong>Data Types</strong> on the <strong>Health</strong> tab, and that its permission is granted.</p>
+    <p>Usually the watch's app isn't writing to Health Connect yet: switch it on as in the table above, then open the watch's app so it syncs. Also check that the type is switched on under <strong>What to send</strong> on the <strong>Health</strong> tab, and that its permission is granted.</p>
   </details>
   <details>
     <summary>Does Home Assistant's Fitbit integration still work?</summary>
