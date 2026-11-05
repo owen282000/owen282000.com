@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Apple Health und Health Connect in Home Assistant | Life Dashboard</title>
-<meta name="description" content="Schritte, Schlaf, Herzfrequenz und Gewicht von iPhone, Apple Watch oder Samsung Health als Sensoren in Home Assistant, mit bis zu einem Jahr Verlauf.">
+<meta name="description" content="Schritte, Schlaf, Herzfrequenz und Gewicht von iPhone, Apple Watch oder Samsung Health als Sensoren in Home Assistant, mit deinem ganzen Verlauf.">
 <link rel="canonical" href="https://owen282000.com/life-dashboard/de/home-assistant-gesundheitsdaten/">
 <link rel="alternate" hreflang="en" href="https://owen282000.com/life-dashboard/health-connect-home-assistant/">
 <link rel="alternate" hreflang="de" href="https://owen282000.com/life-dashboard/de/home-assistant-gesundheitsdaten/">
@@ -14,12 +14,12 @@
 <meta name="theme-color" content="#101418">
 <link rel="icon" type="image/png" sizes="32x32" href="../../img/icon-32.png?v=355467f5">
 <link rel="apple-touch-icon" href="../../img/icon-180.png?v=e1842852">
-<link rel="stylesheet" href="../../site.css?v=663dff9a">
+<link rel="stylesheet" href="../../site.css?v=d30fc76a">
 <meta property="og:type" content="article">
 <meta property="og:locale" content="de_DE">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="Wie bekomme ich Gesundheitsdaten aus Apple Health oder Health Connect in Home Assistant?">
-<meta property="og:description" content="Schritte, Schlaf, Herzfrequenz und Gewicht von iPhone, Apple Watch oder Samsung Health als Sensoren in Home Assistant, mit bis zu einem Jahr Verlauf.">
+<meta property="og:description" content="Schritte, Schlaf, Herzfrequenz und Gewicht von iPhone, Apple Watch oder Samsung Health als Sensoren in Home Assistant, mit deinem ganzen Verlauf.">
 <meta property="og:url" content="https://owen282000.com/life-dashboard/de/home-assistant-gesundheitsdaten/">
 <meta property="og:image" content="https://owen282000.com/life-dashboard/img/social.png">
 <meta property="og:image:width" content="1280">
@@ -33,7 +33,7 @@
     {
       "@type": "TechArticle",
       "headline": "Wie bekomme ich Gesundheitsdaten aus Apple Health oder Health Connect in Home Assistant?",
-      "description": "Schritte, Schlaf, Herzfrequenz und Gewicht von iPhone, Apple Watch oder Samsung Health als Sensoren in Home Assistant, mit bis zu einem Jahr Verlauf.",
+      "description": "Schritte, Schlaf, Herzfrequenz und Gewicht von iPhone, Apple Watch oder Samsung Health als Sensoren in Home Assistant, mit deinem ganzen Verlauf.",
       "url": "https://owen282000.com/life-dashboard/de/home-assistant-gesundheitsdaten/",
       "inLanguage": "de",
       "author": {
@@ -141,10 +141,10 @@
         },
         {
           "@type": "Question",
-          "name": "Bekomme ich gleich ein Jahr Verlauf?",
+          "name": "Bekomme ich gleich meinen ganzen Verlauf?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Ja, wenn Apple Health oder Health Connect so viel gespeichert hat. Trag mit einem Jahr oder mehr nach, dann landet jeder Tag des letzten Jahres auf seinem eigenen Datum in den Langzeitstatistiken. Die Sensoren selbst zeigen nur den neuesten Wert."
+            "text": "Ja, so weit zurück, wie Apple Health oder Health Connect Daten hat. Trag mit Alles nach, dann landet jeder Tag auf seinem eigenen Datum in den Langzeitstatistiken. Die Sensoren selbst zeigen nur den neuesten Wert."
           }
         },
         {
@@ -196,7 +196,7 @@
 <h1>Wie bekomme ich Gesundheitsdaten aus Apple Health oder Health Connect in Home Assistant?</h1>
 <p class="byline">Von <a href="/">Owen Vogelaar</a>, der Life Dashboard entwickelt. Aktualisiert am 6. November 2026. Auf Englisch: <a href="../../health-connect-home-assistant/" hreflang="en" lang="en">Health Connect in Home Assistant</a>, <a href="../../apple-health-home-assistant/" hreflang="en" lang="en">Apple Health in Home Assistant</a>.</p>
 
-<p>Installiere die Life-Dashboard-Integration aus dem Marketplace (vor 2026.11: HACS) in Home Assistant und die App Life Dashboard Companion auf deinem iPhone oder Android-Telefon. Dann koppelst du beide mit dem QR-Code, den die Integration anzeigt. Schritte, Schlaf, Herzfrequenz, Gewicht und Trainings kommen als Sensoren an, und jeder Tag landet in den Langzeitstatistiken, auf Wunsch bis zu einem Jahr zurück.</p>
+<p>Installiere die Life-Dashboard-Integration aus dem Marketplace (vor 2026.11: HACS) in Home Assistant und die App Life Dashboard Companion auf deinem iPhone oder Android-Telefon. Dann koppelst du beide mit dem QR-Code, den die Integration anzeigt. Schritte, Schlaf, Herzfrequenz, Gewicht und Trainings kommen als Sensoren an, und jeder Tag landet in den Langzeitstatistiken, auf Wunsch so weit zurück, wie das Telefon Daten hat.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Im Marketplace öffnen</a></p>
 
 <p>Auf dem iPhone liest die App Apple Health, auf Android Health Connect. Damit funktioniert alles, was seine Daten dort ablegt: das iPhone selbst und die Apple Watch, Samsung Health mit der Galaxy Watch, Garmin Connect, Google Health (Fitbit und Pixel Watch), Oura, Withings und mehr. Du brauchst kein Konto, und es gibt keine Cloud: Das Telefon sendet direkt an dein Home Assistant, einen Life-Dashboard-Server gibt es nicht, und Home Assistant bekommt nie deine Zugangsdaten von Samsung, Garmin oder Google. Beide Teile sind Open Source unter der MIT-Lizenz.</p>
@@ -233,7 +233,7 @@
   <li>Wenn iOS nach dem Zugriff auf das lokale Netzwerk fragt, erlaube ihn. Ohne diesen Zugriff erreicht nichts dein Home Assistant zu Hause.</li>
   <li>Wähle deine Datentypen: <strong>Das Wesentliche</strong>, <strong>Alle Typen</strong> oder <strong>Später wählen</strong>. Erlaube danach den Zugriff auf Apple Health. Kommt später ein Typ dazu, nach dem iOS noch nicht gefragt hat, zeigt die Zeile <strong>Zugriff auf Apple Health</strong> unter <strong>Was senden</strong> den Button <strong>Erteilen</strong>. iOS verrät keiner App, ob du das Lesen erlaubt hast: Ein abgelehnter Typ sendet einfach nichts. Ändern kannst du das in der Health-App unter deinem Profil, <strong>Apps</strong>, <strong>Life Dashboard</strong>.</li>
   <li>Gleich danach läuft eine erste Synchronisierung, und die App zeigt, was angekommen ist. Später sendet <strong>Jetzt synchronisieren</strong> auf dem Tab <strong>Gesundheit</strong> sofort, was neu ist. Das iPhone erscheint in Home Assistant unter <strong>Einstellungen</strong> &gt; <strong>Geräte &amp; Dienste</strong> &gt; <strong>Life Dashboard</strong>, mit einem Sensor für jeden gesendeten Typ. Bei der ersten Synchronisierung schickt jeder Typ seine letzten 7 Tage.</li>
-  <li>Für ältere Daten tippst du unter <strong>Was senden</strong> auf <strong>Verlauf senden</strong> und wählst, wie weit zurück: von 30 Tagen bis <strong>Alles</strong>. Home Assistant übernimmt vorerst etwa das letzte Jahr. Das Nachtragen läuft, solange die App offen und das iPhone entsperrt ist, und hält so lange den Bildschirm an. Unter iOS 26 läuft es weiter, wenn du die App wechselst, und zeigt seinen Fortschritt im System an.</li>
+  <li>Für ältere Daten tippst du unter <strong>Was senden</strong> auf <strong>Verlauf senden</strong> und wählst, wie weit zurück: von 30 Tagen bis <strong>Alles</strong>. Home Assistant legt jeden Tag auf seinem eigenen Datum ab. Das Nachtragen läuft, solange die App offen und das iPhone entsperrt ist, und hält so lange den Bildschirm an. Unter iOS 26 läuft es weiter, wenn du die App wechselst, und zeigt seinen Fortschritt im System an.</li>
 </ol>
 
 <figure class="shot"><a class="shot-link" href="../../img/ios-health.webp?v=ba2e044b" aria-label="Der Tab „Gesundheit“ der iPhone-App mit einer Zeile pro Ziel und den Werten von heute, in voller Größe"><div class="phone " style="aspect-ratio: 720 / 1464"><img src="../../img/ios-health.webp?v=ba2e044b" alt="Der Tab „Gesundheit“ der iPhone-App mit einer Zeile pro Ziel und den Werten von heute" width="720" height="1464" loading="lazy"></div></a></figure>
@@ -282,8 +282,6 @@
 
 <p>Mahlzeiten, Zykluseinträge und die Details eines Trainings sind Ereignisse und keine Messwerte, deshalb bekommen sie keinen Sensor. Vollständig gehen sie nur an einen <a href="../../health-connect-webhook/" hreflang="en">eigenen Webhook</a>.</p>
 
-<figure class="shot"><a class="shot-link" href="../../img/H3-history.webp?v=fe5eada8" aria-label="Verlaufsdiagramme in Home Assistant auf einem Telefon, in voller Größe"><div class="phone " style="aspect-ratio: 720 / 1598"><img src="../../img/H3-history.webp?v=fe5eada8" alt="Verlaufsdiagramme in Home Assistant auf einem Telefon" width="720" height="1598" loading="lazy"></div></a></figure>
-
 <h2 id="kacheln-und-diagramme">Kacheln und Diagramme</h2>
 
 <p>Für eine Kachel öffnest du dein Dashboard, wählst <strong>Dashboard bearbeiten</strong>, dann <strong>Karte hinzufügen</strong> &gt; <strong>Kachel</strong> und den Sensor. Heißt dein Telefon Pixel 8, sind die heutigen Schritte <code>sensor.pixel_8_steps_today</code> und der Schlaf der letzten Nacht <code>sensor.pixel_8_last_sleep_duration</code>, in Stunden seit Version 1.0.0 der Integration.</p>
@@ -300,9 +298,9 @@ stat_types:
 entities:
   - life_dashboard:&lt;entry&gt;_steps   # in der Auswahl unter dem Namen deines Telefons</code></pre>
 
-<p>Das <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/examples/dashboard.yaml" hreflang="en">Beispiel-Dashboard</a> der Integration ist eine Ansicht für ein Telefon, die du in den Rohkonfigurationseditor eines neuen Dashboards einfügst. Für die Einrichtung selbst brauchst du kein YAML. <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md" hreflang="en">Sensoren und Statistiken (Englisch)</a> listet jede Entität auf.</p>
+<p>Das <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/dashboard.md" hreflang="en">Beispiel-Dashboard Health (Englisch)</a> der Integration zeigt heute, Erholung, Schlaf, Training, Herz, Aktivität und Körper, mit einem Theme dazu, einer Ansicht für die Bildschirmzeit und einer für zwei Telefone. Es nutzt nur die Karten von Home Assistant selbst, und du fügst es in den Rohkonfigurationseditor eines neuen Dashboards ein. Für die Einrichtung selbst brauchst du kein YAML. <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md" hreflang="en">Sensoren und Statistiken (Englisch)</a> listet jede Entität auf.</p>
 
-<figure class="shot"><a class="shot-link" href="../../img/H1-dashboard.webp?v=94d03e1f" aria-label="Das Beispiel-Dashboard in Home Assistant auf einem Telefon, in voller Größe"><div class="phone " style="aspect-ratio: 720 / 1598"><img src="../../img/H1-dashboard.webp?v=94d03e1f" alt="Das Beispiel-Dashboard in Home Assistant auf einem Telefon" width="720" height="1598" loading="lazy"></div></a></figure>
+<figure class="shot wide full"><a class="shot-link" href="../../img/H6-health.webp?v=f5682347" aria-label="Das Beispiel-Dashboard Health in Home Assistant mit Demodaten: heutige Werte, das letzte Training, Erholung und Schlaf, in voller Größe"><img src="../../img/H6-health.webp?v=f5682347" alt="Das Beispiel-Dashboard Health in Home Assistant mit Demodaten: heutige Werte, das letzte Training, Erholung und Schlaf" width="1400" height="807" loading="lazy"></a></figure>
 
 <h2 id="wann-synchronisiert-wird">Wann synchronisiert wird</h2>
 
@@ -322,7 +320,7 @@ entities:
 </ul>
 
 <div class="next">
-  <p>Zwei Installationen: die Integration aus dem Marketplace oder aus HACS und die App auf deinem iPhone oder Android-Telefon. Danach koppelst du beide mit einem QR-Code und holst bis zu einem Jahr Verlauf nach.</p>
+  <p>Zwei Installationen: die Integration aus dem Marketplace oder aus HACS und die App auf deinem iPhone oder Android-Telefon. Danach koppelst du beide mit einem QR-Code und holst deinen ganzen Verlauf nach.</p>
   <a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Im Marketplace öffnen</a>
   <a class="btn btn-ghost" href="../../ios/#get">iPhone-App</a>
   <a class="btn btn-ghost" href="../../android/#get">Android-App</a>
@@ -351,8 +349,8 @@ entities:
     <p>Nicht, solange es gesperrt ist. iOS verschlüsselt Apple Health dann, und keine App kann es lesen. Eine Synchronisierung, die bei gesperrtem iPhone startet, wartet aufs Entsperren und schickt dann alles, was inzwischen dazugekommen ist.</p>
   </details>
   <details>
-    <summary>Bekomme ich gleich ein Jahr Verlauf?</summary>
-    <p>Ja, wenn Apple Health oder Health Connect so viel gespeichert hat. Trag mit einem Jahr oder mehr nach, dann landet jeder Tag des letzten Jahres auf seinem eigenen Datum in den Langzeitstatistiken. Die Sensoren selbst zeigen nur den neuesten Wert.</p>
+    <summary>Bekomme ich gleich meinen ganzen Verlauf?</summary>
+    <p>Ja, so weit zurück, wie Apple Health oder Health Connect Daten hat. Trag mit <strong>Alles</strong> nach, dann landet jeder Tag auf seinem eigenen Datum in den Langzeitstatistiken. Die Sensoren selbst zeigen nur den neuesten Wert.</p>
   </details>
   <details>
     <summary>Kann Home Assistant Daten zurückschreiben?</summary>

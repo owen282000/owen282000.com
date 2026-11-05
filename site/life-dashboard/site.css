@@ -936,6 +936,8 @@ table.compare { border: 0; margin: 0; border-radius: 0; }
 /* Guide screenshot links hold their size before the image arrives */
 .prose figure.shot .shot-link { width: 230px; max-width: 100%; }
 .prose figure.shot.wide .shot-link { width: 100%; max-width: 420px; }
+/* A wide screenshot, such as a dashboard, gets the full column; the QR card above stays at 420px */
+.prose figure.shot.full .shot-link, .prose figure.shot.full img { max-width: none; height: auto; }
 
 /* Code that runs past the edge shows it: a light edge on the side that scrolls (scrolling
    shadows: the covers move with the content, the edges stay with the box). */

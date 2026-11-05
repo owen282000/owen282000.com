@@ -11,7 +11,7 @@
 <meta name="theme-color" content="#101418">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png?v=355467f5">
 <link rel="apple-touch-icon" href="../img/icon-180.png?v=e1842852">
-<link rel="stylesheet" href="../site.css?v=663dff9a">
+<link rel="stylesheet" href="../site.css?v=d30fc76a">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="How do I export Samsung Health data to my own server?">
@@ -43,7 +43,7 @@
         }
       ],
       "datePublished": "2026-10-06",
-      "dateModified": "2026-11-05",
+      "dateModified": "2026-11-06",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -148,9 +148,9 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Samsung Health to your own server</span></nav>
 <h1>How do I export Samsung Health data to my own server?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 5, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 6, 2026.</p>
 
-<p>Switch on Samsung Health's sync with Health Connect, then let Life Dashboard Companion, an open-source Android app, post the data to a URL you choose as JSON. Every sync sends the new Samsung Health and Galaxy Watch records to your database, n8n flow or script, and a backfill sends up to a year of what's in Health Connect.</p>
+<p>Switch on Samsung Health's sync with Health Connect, then let Life Dashboard Companion, an open-source Android app, post the data to a URL you choose as JSON. Every sync sends the new Samsung Health and Galaxy Watch records to your database, n8n flow or script, and a backfill sends everything that's in Health Connect.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="../android/#get">Get the Android app</a></p>
 
 <p class="flow-line"><span>Galaxy Watch</span><span>Samsung Health</span><span>Health Connect</span><span>Life Dashboard Companion</span><span>Your server</span></p>
@@ -228,7 +228,7 @@
 
 <h2 id="a-live-sync-not-a-one-off-file">A live sync, not a one-off file</h2>
 
-<p>This isn't a CSV of everything Samsung Health ever stored. The first sync sends the last 7 days, and every sync after that sends what's new or changed, every 60 minutes by default or at fixed times. A backfill reaches up to a year back, as far as Health Connect holds data. Your receiver decides the format: rows in Postgres, a CSV file, or anything else.</p>
+<p>This isn't a CSV of everything Samsung Health ever stored. The first sync sends the last 7 days, and every sync after that sends what's new or changed, every 60 minutes by default or at fixed times. A backfill reaches as far back as Health Connect holds data. Your receiver decides the format: rows in Postgres, a CSV file, or anything else.</p>
 
 <p>Whether your older Samsung Health history is in Health Connect is up to Samsung Health, and Samsung doesn't say. Its <a href="https://developer.samsung.com/health/blog/en/accessing-samsung-health-data-through-health-connect">guide</a> only says that once you connect the two, new or updated data is shared. To see what Health Connect holds, run an <strong>All history</strong> backfill after <strong>Grant history access</strong>: it sends everything Health Connect has for the types you switched on, so the oldest day that reaches your receiver is how far back your data goes.</p>
 

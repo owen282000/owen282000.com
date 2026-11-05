@@ -19,7 +19,7 @@
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="icon" type="image/png" sizes="32x32" href="img/icon-32.png?v=355467f5">
 <link rel="apple-touch-icon" href="img/icon-180.png?v=e1842852">
-<link rel="stylesheet" href="site.css?v=663dff9a">
+<link rel="stylesheet" href="site.css?v=d30fc76a">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="Life Dashboard: your phone's health data, on your own server">
@@ -91,7 +91,7 @@
       "featureList": [
         "Reads 34 Health Connect data types",
         "Screen time per app",
-        "Home Assistant integration with QR pairing and up to a year of history",
+        "Home Assistant integration with QR pairing and all your history",
         "MQTT Discovery for Home Assistant",
         "Webhooks with JSON, HMAC-SHA256 signatures and client certificates",
         "Writes scale and blood pressure readings from Home Assistant into Health Connect"
@@ -300,7 +300,7 @@
           "name": "What do these words mean?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Health Connect is the place on Android where Samsung Health, Garmin Connect and other apps store your health data; Apple Health is the same on iPhone. Home Assistant is open-source software that runs a smart home on a computer in your house. The Marketplace (HACS before Home Assistant 2026.11) is the store for extra Home Assistant integrations. An APK is an Android app file you install yourself, outside the Play Store. A webhook is a web address on your own server that receives data. MQTT is a messaging system many smart homes use. A backfill sends older data, up to a year back."
+            "text": "Health Connect is the place on Android where Samsung Health, Garmin Connect and other apps store your health data; Apple Health is the same on iPhone. Home Assistant is open-source software that runs a smart home on a computer in your house. The Marketplace (HACS before Home Assistant 2026.11) is the store for extra Home Assistant integrations. An APK is an Android app file you install yourself, outside the Play Store. A webhook is a web address on your own server that receives data. MQTT is a messaging system many smart homes use. A backfill sends older data, as far back as your phone has it."
           }
         },
         {
@@ -403,7 +403,7 @@
       <div class="phone src" style="aspect-ratio: 720 / 1476"><img src="img/A1-health.webp?v=48b0e4d1" alt="The Health tab of the Android app, with 33 data types selected" width="720" height="1476" fetchpriority="high"></div>
       <figure class="dcard d-ha">
         <figcaption><span class="dk">Home Assistant</span></figcaption>
-        <img src="img/H1-dashboard.webp?v=94d03e1f" alt="The example dashboard in Home Assistant: steps, distance, calories, screen time, heart rate and sleep" width="720" height="1598">
+        <img src="img/H9-health-phone.webp?v=43ebb81f" alt="The example Health dashboard in Home Assistant with demo data: steps, distance, calories, workouts and heart rate" width="720" height="1559">
       </figure>
       <figure class="dcard d-gr">
         <figcaption><span class="dk">Grafana stack</span></figcaption>
@@ -486,7 +486,7 @@
     <div class="show">
       <div class="show-media">
         <div class="stage green-glow"></div>
-        <div class="phone p2"><img src="img/H3-history.webp?v=fe5eada8" alt="History graphs in Home Assistant on a phone" width="720" height="1598" loading="lazy"></div>
+        <div class="phone p2"><img src="img/H9-health-phone.webp?v=43ebb81f" alt="The example Health dashboard in Home Assistant on a phone, with demo data: today's tiles and the last workout" width="720" height="1559" loading="lazy"></div>
         <figure class="qr-card">
           <img src="img/H2-qr.webp?v=abb2ed19" alt="The Life Dashboard integration in Home Assistant showing a pairing QR code" width="800" height="668" loading="lazy">
           <figcaption>Home Assistant shows the code; the app scans it.</figcaption>
@@ -497,8 +497,9 @@
         <p>Installs through the Marketplace (HACS before Home Assistant 2026.11). No YAML, no broker, and the phone never gets a Home Assistant login.</p>
         <ul class="ticks">
           <li>Sensors for steps, sleep, heart rate, weight and more</li>
-          <li>A year of history in long-term statistics</li>
+          <li>All your history in long-term statistics</li>
           <li>Screen time in total and per app</li>
+          <li>An example Health dashboard to copy</li>
         </ul>
         <a class="link-arrow" href="home-assistant/">More about the integration</a>
       </div>
@@ -719,7 +720,7 @@
       </details>
       <details>
         <summary>What do these words mean?</summary>
-        <p><strong>Health Connect</strong> is the place on Android where Samsung Health, Garmin Connect and other apps store your health data; <strong>Apple Health</strong> is the same on iPhone. <strong>Home Assistant</strong> is open-source software that runs a smart home on a computer in your house. <strong>The Marketplace</strong> (HACS before Home Assistant 2026.11) is the store for extra Home Assistant integrations. An <strong>APK</strong> is an Android app file you install yourself, outside the Play Store. A <strong>webhook</strong> is a web address on your own server that receives data. <strong>MQTT</strong> is a messaging system many smart homes use. A <strong>backfill</strong> sends older data, up to a year back.</p>
+        <p><strong>Health Connect</strong> is the place on Android where Samsung Health, Garmin Connect and other apps store your health data; <strong>Apple Health</strong> is the same on iPhone. <strong>Home Assistant</strong> is open-source software that runs a smart home on a computer in your house. <strong>The Marketplace</strong> (HACS before Home Assistant 2026.11) is the store for extra Home Assistant integrations. An <strong>APK</strong> is an Android app file you install yourself, outside the Play Store. A <strong>webhook</strong> is a web address on your own server that receives data. <strong>MQTT</strong> is a messaging system many smart homes use. A <strong>backfill</strong> sends older data, as far back as your phone has it.</p>
       </details>
       <details>
         <summary>Is it a medical device?</summary>

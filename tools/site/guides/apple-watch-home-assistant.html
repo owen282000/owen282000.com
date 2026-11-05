@@ -1,6 +1,6 @@
 <!--
 title: Apple Watch in Home Assistant | Life Dashboard
-description: Apple Watch heart rate, HRV, sleep stages, workouts and VO2 max in Home Assistant, through Apple Health on your iPhone, with a year of history and no watch app.
+description: Apple Watch heart rate, HRV, sleep stages, workouts and VO2 max in Home Assistant, through Apple Health on your iPhone, with all your history and no watch app.
 primary query: apple watch home assistant
 secondary queries: apple watch home assistant integration, apple watch heart rate home assistant, apple watch sleep home assistant, apple watch hrv home assistant, apple watch workouts home assistant, apple watch data to home assistant
 updated: 2026-11-06
@@ -9,7 +9,7 @@ published: 2026-10-21
 
 <h1>How do I get Apple Watch data into Home Assistant?</h1>
 
-<p>Your Apple Watch already writes what it measures into Apple Health on the iPhone it's paired with. Install Life Dashboard Companion on that iPhone and the Life Dashboard integration in Home Assistant, pair the two with a QR code, and the watch's heart rate, HRV, sleep, workouts and VO2 max arrive as sensors, with up to a year of history in long-term statistics.</p>
+<p>Your Apple Watch already writes what it measures into Apple Health on the iPhone it's paired with. Install Life Dashboard Companion on that iPhone and the Life Dashboard integration in Home Assistant, pair the two with a QR code, and the watch's heart rate, HRV, sleep, workouts and VO2 max arrive as sensors, with all your history in long-term statistics.</p>
 
 <p>There's nothing to install on the watch, and Home Assistant never needs your Apple Account. The iPhone app reads Apple Health and posts straight to your Home Assistant; there's no Life Dashboard server in between.</p>
 
@@ -30,7 +30,7 @@ published: 2026-10-21
   <!-- IMG: the QR code in Home Assistant (H2-qr.png) -->
   <li>Install Life Dashboard Companion on the iPhone, tap <strong>Scan a pairing code</strong> in its setup, scan the code and tap <strong>Pair</strong>.</li>
   <li>Under <strong>What to send</strong>, switch on the types the watch records, listed below, and allow Apple Health access.</li>
-  <li>Tap <strong>Sync Now</strong>, then <strong>Send history</strong> under <strong>What to send</strong> and pick how far back, from 30 days up to <strong>All history</strong>. Home Assistant takes in about the last year for now.</li>
+  <li>Tap <strong>Sync Now</strong>, then <strong>Send history</strong> under <strong>What to send</strong> and pick how far back, from 30 days up to <strong>All history</strong>. Home Assistant files every day on its own date.</li>
 </ol>
 
 <p><a href="../apple-health-home-assistant/">Apple Health in Home Assistant</a> has every step in detail, with the address to use and the sync schedule.</p>
@@ -66,7 +66,7 @@ published: 2026-10-21
   <li><strong>Workouts</strong> arrive with their kind as a name, such as <code>running</code> or <code>hiit</code>, and Home Assistant shows the last one with its start, end and minutes.</li>
 </ul>
 
-<!-- IMG: Today's values in Home Assistant (H5-today.png) -->
+<!-- IMG: the example Health dashboard on a phone (H9-health-phone.png) -->
 
 <h2>What doesn't come along</h2>
 

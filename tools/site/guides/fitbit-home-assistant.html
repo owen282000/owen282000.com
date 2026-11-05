@@ -3,7 +3,7 @@ title: Fitbit in Home Assistant after the API shutdown | Life Dashboard
 description: Google turned off the Fitbit Web API on November 2, 2026. Life Dashboard Companion gets Fitbit and Pixel Watch data into Home Assistant through Health Connect.
 primary query: fitbit home assistant
 secondary queries: fitbit 410 gone home assistant, error fetching fitbit data 410, fitbit api shutdown home assistant, fitbit integration stopped working home assistant, fitbit web api october 30 2026, pixel watch home assistant, fitbit web api deprecated, google health home assistant, fitbit health connect, fitbit integration unavailable, pixel watch health connect, fitbit sleep home assistant
-updated: 2026-11-05
+updated: 2026-11-06
 -->
 
 <h1>How do I get Fitbit and Pixel Watch data into Home Assistant after the Fitbit Web API shutdown?</h1>
@@ -86,11 +86,11 @@ updated: 2026-11-05
   </tbody>
 </table>
 
-<p>Daily totals and the latest readings become sensors, and each day is stored in long-term statistics on its own date. A backfill sends whatever history Google Health has written to Health Connect, up to a year. Since version 0.10.0 of the integration, your exercise sessions also become workout sensors: the last workout with its kind and length, and your exercise minutes today and yesterday.</p>
+<p>Daily totals and the latest readings become sensors, and each day is stored in long-term statistics on its own date. A backfill sends whatever history Google Health has written to Health Connect, all of it. Since version 0.10.0 of the integration, your exercise sessions also become workout sensors: the last workout with its kind and length, and your exercise minutes today and yesterday.</p>
 
 <p>Not in Google's list as of October 2026: SpO2 and active calories. One user did see Fitbit's nightly SpO2 arrive, so check on your own phone under Health Connect's app permissions. Google Health also writes floors, speed and exercise routes, which the app doesn't send.</p>
 
-<!-- IMG: HA example dashboard on a phone (H1-dashboard.png) -->
+<!-- IMG: the example Health dashboard on a phone (H9-health-phone.png) -->
 
 <h2>Next to the Google Health integration</h2>
 
@@ -103,7 +103,7 @@ updated: 2026-11-05
   <tbody>
     <tr><td>Setup</td><td>Google Cloud project, OAuth client, account link</td><td>Install, scan a QR code</td></tr>
     <tr><td>Where the data comes from</td><td>Google's cloud, polled every 15 minutes or hourly</td><td>Your phone, pushed by the app</td></tr>
-    <tr><td>History</td><td>Current values, no backfill</td><td>Every day in long-term statistics, backfill up to a year</td></tr>
+    <tr><td>History</td><td>Current values, no backfill</td><td>Every day in long-term statistics, backfill of all your history</td></tr>
     <tr><td>HRV, respiratory rate, skin temperature</td><td>No sensor</td><td>Yes</td></tr>
     <tr><td>Other apps and devices</td><td>What reaches your Google Health account</td><td>Any app that writes to Health Connect</td></tr>
   </tbody>
@@ -130,7 +130,7 @@ updated: 2026-11-05
   </details>
   <details>
     <summary>Do I lose my Fitbit history in Home Assistant?</summary>
-    <p>No. Long-term statistics the Fitbit sensors already wrote stay until you delete them. New data arrives under new entities, and a backfill fills up to a year, as far back as Health Connect has your data.</p>
+    <p>No. Long-term statistics the Fitbit sensors already wrote stay until you delete them. New data arrives under new entities, and a backfill fills them as far back as Health Connect has your data.</p>
   </details>
   <details>
     <summary>Do I need a Google Cloud project or a Fitbit developer account?</summary>

@@ -142,7 +142,7 @@ PARTS = {
     },
     "home-assistant": {
         "name": "Home Assistant integration", "nav": "Home Assistant", "full": "Life Dashboard integration for Home Assistant",
-        "line": "Sensors, statistics and a year of history",
+        "line": "Sensors, statistics and all your history",
         "more": "See the integration",
         "glyph": '<path d="M3.5 11 12 3.5l8.5 7.5"/><path d="M5.5 9.5V20h13V9.5"/><circle cx="12" cy="13.5" r="2"/><path d="M12 15.5V20"/>',
         "get_title": "Install the integration", "req_short": "Home Assistant 2026.3 or newer.",
@@ -235,7 +235,7 @@ GUIDE_GROUPS = [
 
 GUIDES = [
     ("health-connect-home-assistant", "Health Connect in Home Assistant", "Home Assistant",
-     "Samsung Health, Garmin, Fitbit, Oura and Withings data as sensors, with a year of history."),
+     "Samsung Health, Garmin, Fitbit, Oura and Withings data as sensors, with all your history."),
     ("samsung-health-home-assistant", "Samsung Health and Galaxy Watch in Home Assistant", "Samsung",
      "Steps, sleep, heart rate and workouts through Health Connect, with no Samsung login."),
     ("companion-app-health-connect", "The companion app and Health Connect", "Companion app",
@@ -265,7 +265,7 @@ GUIDES = [
     ("troubleshooting", "Troubleshooting: syncs, sensors and pairing", "Troubleshooting",
      "Syncs that stop in the background, Health Connect permissions, missing sensors and pairing, step by step."),
     ("apple-health-home-assistant", "Apple Health in Home Assistant", "Apple Health",
-     "Apple Watch and iPhone data as sensors, with a year of history from a backfill."),
+     "Apple Watch and iPhone data as sensors, with all your history from a backfill."),
     ("apple-watch-home-assistant", "Apple Watch in Home Assistant", "Apple Watch",
      "Heart rate, HRV, sleep stages, workouts and VO2 max from the watch, through Apple Health."),
     ("apple-health-webhook", "Apple Health to a webhook", "iPhone webhooks",
@@ -327,8 +327,7 @@ UI = {
                     "A2-pair": "Die Seite zum Koppeln mit einem Empfänger in der Android-App",
                     "A1-health": "Der Tab „Gesundheit“ der Android-App mit einer Zeile pro Ziel und den Werten von heute",
                     "ios-health": "Der Tab „Gesundheit“ der iPhone-App mit einer Zeile pro Ziel und den Werten von heute",
-                    "H3-history": "Verlaufsdiagramme in Home Assistant auf einem Telefon",
-                    "H1-dashboard": "Das Beispiel-Dashboard in Home Assistant auf einem Telefon",
+                    "H6-health": "Das Beispiel-Dashboard Health in Home Assistant mit Demodaten: heutige Werte, das letzte Training, Erholung und Schlaf",
                     "ios-schedule": "„Wann senden“ in der iPhone-App mit festen Zeiten und Ruhezeiten"}},
 }
 
@@ -349,11 +348,11 @@ IMAGES = {
     "A5-receive": ("phone", 720, 1600, "The Receive page in the Android app"),
     "A6-webhook": ("phone", 720, 1600, "A webhook destination in the Android app, with its HMAC signing secret and headers"),
     "A7-logs": ("phone", 720, 1600, "The Logs tab of the Android app, with a line per delivery"),
-    "H1-dashboard": ("phone", 720, 1598, "The example dashboard in Home Assistant on a phone"),
     "H2-qr": ("card", 800, 668, "The Life Dashboard integration in Home Assistant showing a pairing QR code"),
-    "H3-history": ("phone", 720, 1598, "History graphs in Home Assistant on a phone"),
-    "H4-apps": ("phone", 720, 1598, "Screen time per app in Home Assistant on a phone"),
-    "H5-today": ("phone", 720, 1052, "Today's steps, distance, calories, heart rate and last sleep in Home Assistant, with steps per week"),
+    "H6-health": ("wide", 1400, 807, "The example Health dashboard in Home Assistant with demo data: today's tiles, the last workout, recovery with heart rate variability against its baseline, and last night's sleep"),
+    "H7-screen-time": ("wide", 1400, 1032, "The screen time view of the example dashboard with demo data: today and yesterday, the most used app, six apps as bars, and screen time and apps per day"),
+    "H8-two-phones": ("wide", 1400, 875, "The view for two phones in Home Assistant with demo data: an Android phone and an iPhone side by side, and both in the same graphs"),
+    "H9-health-phone": ("phone", 720, 1559, "The example Health dashboard in Home Assistant on a phone, with demo data: today's tiles and the last workout"),
     "ios-health": ("phone", 720, 1464, "The Health tab of the iPhone app, with a row per destination and today's figures"),
     "ios-schedule": ("phone", 720, 1464, "When to send in the iPhone app, at fixed times with quiet hours"),
     "ios-logs": ("phone", 720, 1464, "The Logs tab of the iPhone app, with a row per delivery"),
@@ -369,7 +368,7 @@ IMAGES = {
 }
 
 # Phone screenshots cut short of the full screen; they fade out at the bottom.
-CUT = {"H5-today"}
+CUT = set()
 
 NEXT = {
     "troubleshooting": ("Still stuck? Ask in Discussions and include the row from the <strong>Logs</strong> tab; the setup guide has the full list of known problems.",
@@ -412,7 +411,7 @@ NEXT = {
         [("btn-primary btn-store", "../ios/#get", "Get the iPhone app"), ("btn-ghost", f"{REPO}/blob/main/docs/webhook.md#n8n-and-node-red", "n8n in the payload reference")]),
     "apple-health-data-types": ("Switch on your types on the <strong>Health</strong> tab and tap <strong>View</strong> to see what the next sync would send.",
         [("btn-primary btn-store", "../ios/#get", "Get the iPhone app"), ("btn-ghost", f"{REPO_IOS}/blob/main/docs/webhook.md#what-ios-sends", "iOS payload reference")]),
-    "de/home-assistant-gesundheitsdaten": ("Zwei Installationen: die Integration aus dem Marketplace oder aus HACS und die App auf deinem iPhone oder Android-Telefon. Danach koppelst du beide mit einem QR-Code und holst bis zu einem Jahr Verlauf nach.",
+    "de/home-assistant-gesundheitsdaten": ("Zwei Installationen: die Integration aus dem Marketplace oder aus HACS und die App auf deinem iPhone oder Android-Telefon. Danach koppelst du beide mit einem QR-Code und holst deinen ganzen Verlauf nach.",
         [("btn-primary btn-store", HACS, "Im Marketplace öffnen"), ("btn-ghost", "../../ios/#get", "iPhone-App"), ("btn-ghost", "../../android/#get", "Android-App")]),
 }
 
@@ -435,7 +434,7 @@ ENTITIES = {
         "operatingSystem": "Android 8.0 or newer (health data: Android 9 or newer with Health Connect)",
         "applicationCategory": "HealthApplication", "applicationSubCategory": "Home automation",
         "featureList": ["Reads 34 Health Connect data types", "Screen time per app",
-                        "Home Assistant integration with QR pairing and up to a year of history",
+                        "Home Assistant integration with QR pairing and all your history",
                         "MQTT Discovery for Home Assistant",
                         "Webhooks with JSON, HMAC-SHA256 signatures and client certificates",
                         "Writes scale and blood pressure readings from Home Assistant into Health Connect"],
@@ -900,7 +899,7 @@ def meta(src, key):
     return m.group(1).strip()
 
 
-PURPLE = {"A4-screen-time", "H4-apps"}
+PURPLE = {"A4-screen-time", "H7-screen-time"}
 
 
 def figure(m, up="../", lang="en"):
@@ -916,7 +915,9 @@ def figure(m, up="../", lang="en"):
         # A drawn diagram brings its own card and text, so it gets the full column, without a frame.
         return (f'<figure class="diagram"><a class="shot-link" href="{up}img/{name}.webp" aria-label="{full}">'
                 f'<img src="{up}img/{name}.webp" alt="{alt}" width="{w}" height="{h}" loading="lazy"></a></figure>')
-    return (f'<figure class="shot wide"><a class="shot-link" href="{up}img/{name}.webp" aria-label="{full}">'
+    # A card (the QR dialog) stays narrow; a wide screenshot, such as a dashboard, gets the full column.
+    size = " full" if kind == "wide" else ""
+    return (f'<figure class="shot wide{size}"><a class="shot-link" href="{up}img/{name}.webp" aria-label="{full}">'
             f'<img src="{up}img/{name}.webp" alt="{alt}" width="{w}" height="{h}" loading="lazy"></a></figure>')
 
 

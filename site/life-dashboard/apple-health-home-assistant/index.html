@@ -5,17 +5,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Apple Health in Home Assistant with history | Life Dashboard</title>
-<meta name="description" content="Apple Health data from your iPhone and Apple Watch as Home Assistant sensors, with up to a year of history: an integration from the Marketplace and one QR code.">
+<meta name="description" content="Apple Health data from your iPhone and Apple Watch as Home Assistant sensors, with all your history: an integration from the Marketplace and one QR code.">
 <link rel="canonical" href="https://owen282000.com/life-dashboard/apple-health-home-assistant/">
 <meta name="robots" content="max-image-preview:large">
 <meta name="theme-color" content="#101418">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png?v=355467f5">
 <link rel="apple-touch-icon" href="../img/icon-180.png?v=e1842852">
-<link rel="stylesheet" href="../site.css?v=663dff9a">
+<link rel="stylesheet" href="../site.css?v=d30fc76a">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="How do I get Apple Health data into Home Assistant?">
-<meta property="og:description" content="Apple Health data from your iPhone and Apple Watch as Home Assistant sensors, with up to a year of history: an integration from the Marketplace and one QR code.">
+<meta property="og:description" content="Apple Health data from your iPhone and Apple Watch as Home Assistant sensors, with all your history: an integration from the Marketplace and one QR code.">
 <meta property="og:url" content="https://owen282000.com/life-dashboard/apple-health-home-assistant/">
 <meta property="og:image" content="https://owen282000.com/life-dashboard/img/social.png">
 <meta property="og:image:width" content="1280">
@@ -29,7 +29,7 @@
     {
       "@type": "TechArticle",
       "headline": "How do I get Apple Health data into Home Assistant?",
-      "description": "Apple Health data from your iPhone and Apple Watch as Home Assistant sensors, with up to a year of history: an integration from the Marketplace and one QR code.",
+      "description": "Apple Health data from your iPhone and Apple Watch as Home Assistant sensors, with all your history: an integration from the Marketplace and one QR code.",
       "url": "https://owen282000.com/life-dashboard/apple-health-home-assistant/",
       "inLanguage": "en",
       "author": {
@@ -124,10 +124,10 @@
         },
         {
           "@type": "Question",
-          "name": "Do I get a year of history right away?",
+          "name": "Do I get all my history right away?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes, if Apple Health holds it. Tap Send history under What to send and pick 1 year or more, and each day of the last year lands on its own date in long-term statistics. The sensors themselves only show the newest value."
+            "text": "Yes, as far back as Apple Health holds it. Tap Send history under What to send and pick All history, and each day lands on its own date in long-term statistics. The sensors themselves only show the newest value."
           }
         },
         {
@@ -179,7 +179,7 @@
 <h1>How do I get Apple Health data into Home Assistant?</h1>
 <p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 6, 2026. <a href="../de/home-assistant-gesundheitsdaten/" hreflang="de" lang="de">Auf Deutsch</a></p>
 
-<p>Install the Life Dashboard integration in Home Assistant from the Marketplace (HACS before 2026.11) and Life Dashboard Companion on your iPhone, then pair the two with the QR code the integration shows. Tap <strong>Sync Now</strong>, and your steps, heart rate, sleep, weight and workouts arrive as sensors. A backfill fills long-term statistics with the last year, each day on its own date.</p>
+<p>Install the Life Dashboard integration in Home Assistant from the Marketplace (HACS before 2026.11) and Life Dashboard Companion on your iPhone, then pair the two with the QR code the integration shows. Tap <strong>Sync Now</strong>, and your steps, heart rate, sleep, weight and workouts arrive as sensors. A backfill fills long-term statistics with all your history, each day on its own date.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in the Marketplace</a></p>
 
 <p>It works with whatever writes to Apple Health: the iPhone itself, an Apple Watch, and the apps of other watches, rings and scales that save their data there. Both parts are MIT licensed. There's no account and no Life Dashboard server: the iPhone posts straight to your Home Assistant, and the app only reads Apple Health, it never writes to it.</p>
@@ -206,7 +206,7 @@
   <li>When iOS asks for access to the local network, allow it. Without it, nothing reaches a Home Assistant at home.</li>
   <li>Pick your data types: <strong>Essentials</strong>, <strong>All types</strong> or <strong>Choose later</strong>. Then allow Apple Health access. When a type is on that iOS hasn't asked about yet, the <strong>Apple Health access</strong> row under <strong>What to send</strong> shows <strong>Grant</strong>. iOS never tells an app whether you allowed reading, so a type you declined just sends nothing; change it in the Health app under your profile, <strong>Apps</strong>, <strong>Life Dashboard</strong>.</li>
   <li>A first sync follows right away and shows what arrived. After that, <strong>Sync Now</strong> on the <strong>Health</strong> tab sends what's new at once. The iPhone appears under <strong>Settings</strong> &gt; <strong>Devices &amp; services</strong> &gt; <strong>Life Dashboard</strong>, with a sensor for each type it sent. A type's first sync sends its last 7 days.</li>
-  <li>For older data, tap <strong>Send history</strong> under <strong>What to send</strong> and pick how far back, from 30 days up to <strong>All history</strong>; Home Assistant takes in about the last year for now. It runs while the app is open and the iPhone is unlocked, and keeps the screen on meanwhile. On iOS 26 it keeps going when you switch apps and shows its progress in the system UI.</li>
+  <li>For older data, tap <strong>Send history</strong> under <strong>What to send</strong> and pick how far back, from 30 days up to <strong>All history</strong>, and every day lands in Home Assistant on its own date. It runs while the app is open and the iPhone is unlocked, and keeps the screen on meanwhile. On iOS 26 it keeps going when you switch apps and shows its progress in the system UI.</li>
 </ol>
 
 <figure class="shot"><a class="shot-link" href="../img/ios-health.webp?v=ba2e044b" aria-label="The Health tab of the iPhone app, with a row per destination and today's figures, full size"><div class="phone " style="aspect-ratio: 720 / 1464"><img src="../img/ios-health.webp?v=ba2e044b" alt="The Health tab of the iPhone app, with a row per destination and today's figures" width="720" height="1464" loading="lazy"></div></a></figure>
@@ -222,8 +222,6 @@
 
 <p>Meals, cycle tracking entries and workout details are events rather than values, so they get no sensor. A <a href="../apple-health-webhook/">webhook of your own</a> gets them in full.</p>
 
-<figure class="shot"><a class="shot-link" href="../img/H3-history.webp?v=fe5eada8" aria-label="History graphs in Home Assistant on a phone, full size"><div class="phone " style="aspect-ratio: 720 / 1598"><img src="../img/H3-history.webp?v=fe5eada8" alt="History graphs in Home Assistant on a phone" width="720" height="1598" loading="lazy"></div></a></figure>
-
 <h2 id="graphs-and-a-dashboard">Graphs and a dashboard</h2>
 
 <p>A sensor's own history shows when each value arrived, so after a backfill it puts everything on today. Chart the statistic instead, with the <strong>Statistics graph</strong> card. The statistics show up in its entity picker under the iPhone's name:</p>
@@ -238,9 +236,9 @@ stat_types:
 entities:
   - life_dashboard:&lt;entry&gt;_steps   # pick "Alex's iPhone steps" from the picker</code></pre>
 
-<p>The integration's <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/examples/dashboard.yaml">example dashboard</a> is a view for one phone, to paste into a new dashboard's raw configuration editor. Replace <code>owen_s_pixel</code> in the entity IDs with your iPhone's name, and the statistic IDs with the ones the picker offers. Drop the screen time cards, since an iPhone sends no screen time, and the tiles for types you don't sync. <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md">Sensors and statistics</a> lists every entity.</p>
+<p>The integration comes with an example <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/dashboard.md">Health dashboard</a> and a theme to copy, built from Home Assistant's own cards, to paste into a new dashboard's raw configuration editor. Replace <code>your_phone</code> in the entity IDs with your iPhone's name and <code>&lt;entry&gt;</code> in the statistic IDs with the one the picker shows, then remove the cards for types you don't sync. An iPhone sends no skin temperature, and its heart rate variability is SDNN, so compare it with its own baseline rather than an Android phone's. Screen time has a view of its own, which an iPhone doesn't need. <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md">Sensors and statistics</a> lists every entity.</p>
 
-<figure class="shot"><a class="shot-link" href="../img/H1-dashboard.webp?v=94d03e1f" aria-label="The example dashboard in Home Assistant on a phone, full size"><div class="phone " style="aspect-ratio: 720 / 1598"><img src="../img/H1-dashboard.webp?v=94d03e1f" alt="The example dashboard in Home Assistant on a phone" width="720" height="1598" loading="lazy"></div></a></figure>
+<figure class="shot wide full"><a class="shot-link" href="../img/H6-health.webp?v=f5682347" aria-label="The example Health dashboard in Home Assistant with demo data: today's tiles, the last workout, recovery with heart rate variability against its baseline, and last night's sleep, full size"><img src="../img/H6-health.webp?v=f5682347" alt="The example Health dashboard in Home Assistant with demo data: today's tiles, the last workout, recovery with heart rate variability against its baseline, and last night's sleep" width="1400" height="807" loading="lazy"></a></figure>
 
 <h2 id="when-syncs-run">When syncs run</h2>
 
@@ -254,11 +252,13 @@ entities:
 
 <p>The Home Assistant companion app for iOS reads Apple Health too. Its Apple Health sensors (<a href="https://github.com/home-assistant/iOS/pull/5272">#5272</a>, <a href="https://github.com/home-assistant/iOS/pull/5638">#5638</a>) cover steps, heart rate, weight, blood pressure, sleep stages and more, each as one sensor with today's total or the newest reading. Their history in Home Assistant starts the day you switch them on, and workout details, meals and cycle tracking aren't among them.</p>
 
-<p>They're enough when you want today's steps or the latest weight in an automation or on a tile, and a chart from the day you switched them on is fine. Life Dashboard adds the 28 types with every record and the app or device that wrote it, a backfill of up to a year with each day on its own date, and MQTT or a webhook next to Home Assistant. Keep the companion app either way: it does presence, notifications and device sensors, and the two run side by side.</p>
+<p>They're enough when you want today's steps or the latest weight in an automation or on a tile, and a chart from the day you switched them on is fine. Life Dashboard adds the 28 types with every record and the app or device that wrote it, a backfill of all your history with each day on its own date, and MQTT or a webhook next to Home Assistant. Keep the companion app either way: it does presence, notifications and device sensors, and the two run side by side.</p>
 
 <h2 id="an-android-phone-in-the-same-house">An Android phone in the same house</h2>
 
-<p>An iPhone and an Android phone send the same payload, so one integration takes both. Add the integration once per phone and pair each with its own QR code; each becomes a device of its own. The Android phone uses <a href="../android/">Life Dashboard Companion for Android</a>, which reads Health Connect and also sends screen time per app; the <a href="../health-connect-home-assistant/">Health Connect guide</a> has its steps.</p>
+<p>An iPhone and an Android phone send the same payload, so one integration takes both. Add the integration once per phone and pair each with its own QR code; each becomes a device of its own. The Android phone uses <a href="../android/">Life Dashboard Companion for Android</a>, which reads Health Connect and also sends screen time per app; the <a href="../health-connect-home-assistant/">Health Connect guide</a> has its steps. The example dashboard has a view that puts two phones side by side.</p>
+
+<figure class="shot wide full"><a class="shot-link" href="../img/H8-two-phones.webp?v=3e3e224c" aria-label="The view for two phones in Home Assistant with demo data: an Android phone and an iPhone side by side, and both in the same graphs, full size"><img src="../img/H8-two-phones.webp?v=3e3e224c" alt="The view for two phones in Home Assistant with demo data: an Android phone and an iPhone side by side, and both in the same graphs" width="1400" height="875" loading="lazy"></a></figure>
 
 <h2 id="mqtt-as-the-alternative">MQTT as the alternative</h2>
 
@@ -270,8 +270,8 @@ entities:
   </thead>
   <tbody>
     <tr><th scope="row">Setup</th><td>Marketplace (HACS before 2026.11), then a QR code</td><td>Enter your broker</td></tr>
-    <tr><th scope="row">History</th><td>Every day, up to a year back, through backfill</td><td>From the first sync on</td></tr>
-    <tr><th scope="row">Workouts and mindfulness</th><td>Minutes per day</td><td>No</td></tr>
+    <tr><th scope="row">History</th><td>Every day, as far back as Apple Health has data, through backfill</td><td>From the first sync on</td></tr>
+    <tr><th scope="row">Workouts and mindfulness</th><td>Hours per day</td><td>No</td></tr>
     <tr><th scope="row">Workout sensors</th><td>Yes</td><td>No</td></tr>
     <tr><th scope="row">An Android phone too</th><td>Its own device next to it</td><td>Its own device and base topic</td></tr>
   </tbody>
@@ -311,8 +311,8 @@ entities:
     <p>No Apple Developer account for the App Store version: you buy it once, like any other app. The app reads Apple Health on the iPhone and posts straight to your Home Assistant. Building it yourself takes a Mac with Xcode and an Apple Developer Program membership, because a free Apple Account can't sign an app that reads Apple Health.</p>
   </details>
   <details>
-    <summary>Do I get a year of history right away?</summary>
-    <p>Yes, if Apple Health holds it. Tap <strong>Send history</strong> under <strong>What to send</strong> and pick <strong>1 year</strong> or more, and each day of the last year lands on its own date in long-term statistics. The sensors themselves only show the newest value.</p>
+    <summary>Do I get all my history right away?</summary>
+    <p>Yes, as far back as Apple Health holds it. Tap <strong>Send history</strong> under <strong>What to send</strong> and pick <strong>All history</strong>, and each day lands on its own date in long-term statistics. The sensors themselves only show the newest value.</p>
   </details>
   <details>
     <summary>I deleted a record in Apple Health. Does Home Assistant keep it?</summary>
