@@ -48,7 +48,7 @@
         }
       ],
       "datePublished": "2026-10-21",
-      "dateModified": "2026-11-04",
+      "dateModified": "2026-11-06",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -177,7 +177,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Apple Health in Home Assistant</span></nav>
 <h1>How do I get Apple Health data into Home Assistant?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 4, 2026. <a href="../de/home-assistant-gesundheitsdaten/" hreflang="de" lang="de">Auf Deutsch</a></p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 6, 2026. <a href="../de/home-assistant-gesundheitsdaten/" hreflang="de" lang="de">Auf Deutsch</a></p>
 
 <p>Install the Life Dashboard integration in Home Assistant from the Marketplace (HACS before 2026.11) and Life Dashboard Companion on your iPhone, then pair the two with the QR code the integration shows. Tap <strong>Sync Now</strong>, and your steps, heart rate, sleep, weight and workouts arrive as sensors. A backfill fills long-term statistics with the last year, each day on its own date.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in the Marketplace</a></p>
@@ -216,7 +216,7 @@
 <ul>
   <li><strong>Sensors for 20 of the 28 types</strong>, with blood pressure as two: today's steps, distance, active calories and total calories (such as <code>sensor.alex_s_iphone_steps_today</code>), and the latest heart rate, resting heart rate, HRV, last sleep, weight, height, blood pressure, blood glucose, oxygen saturation, respiratory rate, body temperature, basal body temperature, body fat, lean body mass, VO2 max and the last drink. Each latest value carries the time it describes and the app or device that wrote it.</li>
   <li><strong>Workouts</strong>: the last workout, and the minutes of today and yesterday, with every session's kind, start and end.</li>
-  <li><strong>History in long-term statistics</strong>: one value per day for steps, distance, calories, sleep, exercise and mindfulness minutes and hydration, and an hourly mean, minimum and maximum for heart rate, weight and the other readings. A backfill lands every day on its own date.</li>
+  <li><strong>History in long-term statistics</strong>: one value per day for steps, distance in km, calories, sleep, exercise and mindfulness time in hours, and hydration, and an hourly mean, minimum and maximum for heart rate, weight and the other readings. A backfill lands every day on its own date.</li>
   <li><strong>No double counting.</strong> Steps, distance and calories come from Apple Health's own statistics, as the Health app counts them, so a walk recorded by both the iPhone and the Watch counts once.</li>
 </ul>
 

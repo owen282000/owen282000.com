@@ -3,7 +3,7 @@ title: Samsung Health and Galaxy Watch in Home Assistant | Life Dashboard
 description: Life Dashboard Companion sends Samsung Health and Galaxy Watch data from Health Connect to Home Assistant: steps, sleep, heart rate and workouts as sensors.
 primary query: samsung health home assistant
 secondary queries: galaxy watch home assistant, samsung watch home assistant integration, home assistant galaxy watch heart rate, samsung health home assistant integration, samsung health data home assistant
-updated: 2026-11-05
+updated: 2026-11-06
 published: 2026-10-14
 -->
 
@@ -64,7 +64,7 @@ published: 2026-10-14
   <li><strong>Sensors</strong> for today's steps, distance and calories, and the latest heart rate, last sleep duration, oxygen saturation, blood pressure, blood glucose, weight, body fat and VO2 max. With a phone named Galaxy S25, today's steps are <code>sensor.galaxy_s25_steps_today</code>. Sensors appear as data arrives, so a type Samsung doesn't share never shows up as an empty one.</li>
   <li><strong>Galaxy Watch heart rate.</strong> The heart rate sensor holds the newest reading, with the time it was measured. Long-term statistics keep an hourly mean, minimum and maximum, so you can chart a day or a year. The hourly minimum isn't the resting heart rate Samsung Health shows.</li>
   <li><strong>Workouts.</strong> <code>last_workout</code> holds the kind of your newest workout, such as <code>running</code>, with its start, end and minutes. <code>exercise_today</code> and <code>exercise_yesterday</code> hold the minutes of each day, with every session listed.</li>
-  <li><strong>History</strong> in long-term statistics: one value per day for steps, distance, calories, sleep and exercise minutes, and an hourly mean, minimum and maximum for heart rate, weight and the other measurements. A backfill fills it up to a year back.</li>
+  <li><strong>History</strong> in long-term statistics: one value per day for steps, distance in km, calories, and sleep and exercise time in hours, and an hourly mean, minimum and maximum for heart rate, weight and the other measurements. A backfill fills it up to a year back.</li>
   <li><strong>No double counting.</strong> Steps, distance and calories use Health Connect's daily totals, so a walk counted by both the phone and the Galaxy Watch counts once.</li>
 </ul>
 

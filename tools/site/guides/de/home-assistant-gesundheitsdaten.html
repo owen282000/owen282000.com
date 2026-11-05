@@ -3,7 +3,7 @@ title: Apple Health und Health Connect in Home Assistant | Life Dashboard
 description: Schritte, Schlaf, Herzfrequenz und Gewicht von iPhone, Apple Watch oder Samsung Health als Sensoren in Home Assistant, mit bis zu einem Jahr Verlauf.
 primary query: home assistant gesundheitsdaten
 secondary queries: apple health daten in home assistant, health connect home assistant, samsung health home assistant, apple watch home assistant, home assistant schritte sensor, home assistant schlaf sensor
-updated: 2026-11-05
+updated: 2026-11-06
 published: 2026-10-27
 -->
 
@@ -88,7 +88,7 @@ published: 2026-10-27
 <ul>
   <li><strong>Sensoren</strong>: auf Android für 26 der 34 Typen aus Health Connect, auf dem iPhone für 20 der 28 Typen aus Apple Health. Dazu gehören die heutigen Schritte, Distanz und Kalorien (etwa <code>sensor.pixel_8_steps_today</code>) und die neuesten Werte für Herzfrequenz, Ruheherzfrequenz, HRV, den letzten Schlaf, Gewicht, Blutdruck, Blutzucker und mehr. Jeder neueste Wert nennt die App oder das Gerät, von dem er stammt.</li>
   <li><strong>Trainings</strong>: das letzte Training und die Trainingsminuten von heute und gestern.</li>
-  <li><strong>Verlauf in den Langzeitstatistiken</strong>: ein Wert pro Tag für Schritte, Distanz, Kalorien, Schlaf, Trainings- und Achtsamkeitsminuten und Flüssigkeit, dazu stündlich Mittelwert, Minimum und Maximum für Herzfrequenz, Gewicht und die anderen Messwerte. Beim Nachtragen landet jeder Tag auf seinem eigenen Datum.</li>
+  <li><strong>Verlauf in den Langzeitstatistiken</strong>: ein Wert pro Tag für Schritte, Distanz in km, Kalorien, Schlaf-, Trainings- und Achtsamkeitszeit in Stunden und Flüssigkeit, dazu stündlich Mittelwert, Minimum und Maximum für Herzfrequenz, Gewicht und die anderen Messwerte. Beim Nachtragen landet jeder Tag auf seinem eigenen Datum.</li>
   <li><strong>Nichts doppelt gezählt</strong>: Schritte, Distanz und Kalorien kommen aus den Tagessummen von Health Connect und Apple Health. Ein Spaziergang, den Telefon und Uhr beide aufzeichnen, zählt einmal.</li>
 </ul>
 
@@ -98,7 +98,7 @@ published: 2026-10-27
 
 <h2>Kacheln und Diagramme</h2>
 
-<p>Für eine Kachel öffnest du dein Dashboard, wählst <strong>Dashboard bearbeiten</strong>, dann <strong>Karte hinzufügen</strong> &gt; <strong>Kachel</strong> und den Sensor. Heißt dein Telefon Pixel 8, sind die heutigen Schritte <code>sensor.pixel_8_steps_today</code> und der Schlaf der letzten Nacht <code>sensor.pixel_8_last_sleep_duration</code>, in Minuten.</p>
+<p>Für eine Kachel öffnest du dein Dashboard, wählst <strong>Dashboard bearbeiten</strong>, dann <strong>Karte hinzufügen</strong> &gt; <strong>Kachel</strong> und den Sensor. Heißt dein Telefon Pixel 8, sind die heutigen Schritte <code>sensor.pixel_8_steps_today</code> und der Schlaf der letzten Nacht <code>sensor.pixel_8_last_sleep_duration</code>, in Stunden seit Version 1.0.0 der Integration.</p>
 
 <p>Die eigene Historie eines Sensors zeigt, wann ein Wert angekommen ist. Nach dem Nachtragen steht dort also alles auf heute. Für Verläufe nimmst du deshalb die Statistik, mit der Karte <strong>Statistikdiagramm</strong>. In ihrer Entitätsauswahl stehen die Statistiken unter dem Namen deines Telefons:</p>
 

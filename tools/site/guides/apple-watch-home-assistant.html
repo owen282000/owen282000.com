@@ -3,7 +3,7 @@ title: Apple Watch in Home Assistant | Life Dashboard
 description: Apple Watch heart rate, HRV, sleep stages, workouts and VO2 max in Home Assistant, through Apple Health on your iPhone, with a year of history and no watch app.
 primary query: apple watch home assistant
 secondary queries: apple watch home assistant integration, apple watch heart rate home assistant, apple watch sleep home assistant, apple watch hrv home assistant, apple watch workouts home assistant, apple watch data to home assistant
-updated: 2026-11-04
+updated: 2026-11-06
 published: 2026-10-21
 -->
 
@@ -49,7 +49,7 @@ published: 2026-10-21
     <tr><td>Heart rate</td><td><code>heart_rate</code></td><td>Latest value, and a mean, minimum and maximum per hour</td><td><a href="https://support.apple.com/guide/watch/heart-rate-apda88aefe4c/watchos">Check your heart rate on Apple Watch</a></td></tr>
     <tr><td>Resting heart rate</td><td><code>resting_heart_rate</code></td><td>Latest value, and per hour</td><td><a href="https://support.apple.com/guide/watch/heart-rate-apda88aefe4c/watchos">Check your heart rate on Apple Watch</a></td></tr>
     <tr><td>Heart rate variability (SDNN)</td><td><code>heart_rate_variability</code></td><td>Latest value, and per hour</td><td><a href="https://www.apple.com/health/pdf/Heart_Rate_Calorimetry_Activity_on_Apple_Watch_November_2024.pdf">Heart rate, calorimetry and activity</a></td></tr>
-    <tr><td>Sleep, with REM, Core and Deep stages and time awake</td><td><code>sleep</code></td><td>Last night's duration, and sleep minutes per day</td><td><a href="https://support.apple.com/guide/watch/track-your-sleep-crpxel1lvun9/watchos">Track your sleep on Apple Watch</a></td></tr>
+    <tr><td>Sleep, with REM, Core and Deep stages and time awake</td><td><code>sleep</code></td><td>Last night's duration, and sleep hours per day</td><td><a href="https://support.apple.com/guide/watch/track-your-sleep-crpxel1lvun9/watchos">Track your sleep on Apple Watch</a></td></tr>
     <tr><td>Respiratory rate while you sleep</td><td><code>respiratory_rate</code></td><td>Latest value, and per hour</td><td><a href="https://support.apple.com/en-us/120142">Track your vitals with Apple Watch</a></td></tr>
     <tr><td>Blood oxygen, on models and in regions that have it</td><td><code>oxygen_saturation</code></td><td>Latest value, and per hour</td><td><a href="https://support.apple.com/en-us/120358">How to use the Blood Oxygen app</a></td></tr>
     <tr><td>Workouts from the Workout app</td><td><code>exercise</code></td><td>Last workout, and minutes today and yesterday</td><td><a href="https://support.apple.com/en-us/101171">Start a workout on Apple Watch</a></td></tr>
@@ -100,7 +100,7 @@ published: 2026-10-21
   </details>
   <details>
     <summary>Can I see sleep stages in Home Assistant?</summary>
-    <p>Home Assistant gets last night's duration and sleep minutes per day. The stages arrive in the payload, so a webhook of your own or the Life Dashboard stack has deep, light, REM and awake per night.</p>
+    <p>Home Assistant gets last night's duration and sleep hours per day. The stages arrive in the payload, so a webhook of your own or the Life Dashboard stack has deep, light, REM and awake per night.</p>
   </details>
   <details>
     <summary>Why is there no blood oxygen sensor?</summary>
