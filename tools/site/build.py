@@ -789,6 +789,7 @@ def footer(prefix):
           <li><a href="{REPO_HA}/blob/main/docs/entities.md">Integration: sensors and statistics</a></li>
           <li><a href="{REPO}/blob/main/docs/webhook.md">Payload reference</a></li>
           <li><a href="{REPO}/blob/main/docs/brands/README.md">Brand guides</a></li>
+          <li><a href="{prefix}feedback/">Feedback board</a></li>
           <li><a href="{REPO}/blob/main/PRIVACY.md">Privacy policy for Android</a></li>
           <li><a href="{prefix}ios/privacy/">Privacy policy for iPhone</a></li>
           <li><a href="{REPO}/blob/main/AI_POLICY.md">AI policy</a></li>
@@ -1443,6 +1444,28 @@ def build_404():
     p.write_text(fill(p.read_text(), "pages", f'<ul class="ticks page-list">\n{items}\n    </ul>'))
 
 
+FEEDBACK_BOARD = "https://lifedashboard.userjot.com/"
+
+
+def build_feedback():
+    # The address the apps, READMEs and stores link to, so the board can move without touching them.
+    out = OUT / "feedback"
+    out.mkdir(exist_ok=True)
+    (out / "index.html").write_text(f"""<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta http-equiv="refresh" content="0; url={FEEDBACK_BOARD}">
+<title>Life Dashboard feedback board</title>
+</head>
+<body>
+<p>Going to the <a href="{FEEDBACK_BOARD}">Life Dashboard feedback board</a>.</p>
+</body>
+</html>
+""")
+
+
 def build_llms():
     text = tokens((HERE / "llms.txt.in").read_text())
     for p in (SITE / "llms.txt", OUT / "llms.txt"):
@@ -1518,6 +1541,7 @@ if __name__ == "__main__":
         build_guide(t["slug"], t["short"], t["lang"])
     build_landing()
     build_404()
+    build_feedback()
     build_llms()
     build_sitemap()
     version_css()
