@@ -11,7 +11,7 @@
 <meta name="theme-color" content="#101418">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png?v=355467f5">
 <link rel="apple-touch-icon" href="../img/icon-180.png?v=e1842852">
-<link rel="stylesheet" href="../site.css?v=663dff9a">
+<link rel="stylesheet" href="../site.css?v=d30fc76a">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="How do I get Samsung Health and Galaxy Watch data into Home Assistant?">
@@ -227,11 +227,11 @@
   <li><strong>Sensors</strong> for today's steps, distance and calories, and the latest heart rate, last sleep duration, oxygen saturation, blood pressure, blood glucose, weight, body fat and VO2 max. With a phone named Galaxy S25, today's steps are <code>sensor.galaxy_s25_steps_today</code>. Sensors appear as data arrives, so a type Samsung doesn't share never shows up as an empty one.</li>
   <li><strong>Galaxy Watch heart rate.</strong> The heart rate sensor holds the newest reading, with the time it was measured. Long-term statistics keep an hourly mean, minimum and maximum, so you can chart a day or a year. The hourly minimum isn't the resting heart rate Samsung Health shows.</li>
   <li><strong>Workouts.</strong> <code>last_workout</code> holds the kind of your newest workout, such as <code>running</code>, with its start, end and minutes. <code>exercise_today</code> and <code>exercise_yesterday</code> hold the minutes of each day, with every session listed.</li>
-  <li><strong>History</strong> in long-term statistics: one value per day for steps, distance in km, calories, and sleep and exercise time in hours, and an hourly mean, minimum and maximum for heart rate, weight and the other measurements. A backfill fills it up to a year back.</li>
+  <li><strong>History</strong> in long-term statistics: one value per day for steps, distance in km, calories, and sleep and exercise time in hours, and an hourly mean, minimum and maximum for heart rate, weight and the other measurements. A backfill fills it as far back as Health Connect has data.</li>
   <li><strong>No double counting.</strong> Steps, distance and calories use Health Connect's daily totals, so a walk counted by both the phone and the Galaxy Watch counts once.</li>
 </ul>
 
-<figure class="shot"><a class="shot-link" href="../img/H5-today.webp?v=a83603c3" aria-label="Today's steps, distance, calories, heart rate and last sleep in Home Assistant, with steps per week, full size"><div class="phone cut" style="aspect-ratio: 720 / 1052"><img src="../img/H5-today.webp?v=a83603c3" alt="Today's steps, distance, calories, heart rate and last sleep in Home Assistant, with steps per week" width="720" height="1052" loading="lazy"></div></a></figure>
+<figure class="shot"><a class="shot-link" href="../img/H9-health-phone.webp?v=43ebb81f" aria-label="The example Health dashboard in Home Assistant on a phone, with demo data: today's tiles and the last workout, full size"><div class="phone " style="aspect-ratio: 720 / 1559"><img src="../img/H9-health-phone.webp?v=43ebb81f" alt="The example Health dashboard in Home Assistant on a phone, with demo data: today's tiles and the last workout" width="720" height="1559" loading="lazy"></div></a></figure>
 
 <p><a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md">Sensors and statistics</a> lists every entity and its attributes.</p>
 

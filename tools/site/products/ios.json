@@ -44,8 +44,8 @@
           "sub": "Today's steps, distance and calories, and the latest heart rate, HRV, sleep, weight, blood pressure, glucose and VO2 max."
         },
         {
-          "main": "Up to a year of history",
-          "sub": "With the integration, backfilled days land on their own date. Workouts and mindfulness count as minutes per day."
+          "main": "All your history",
+          "sub": "With the integration, backfilled days land on their own date, as far back as Apple Health has data. Workouts and mindfulness count as hours per day."
         },
         {
           "main": "Its own MQTT device and base topic",
@@ -141,7 +141,7 @@
     },
     {
       "q": "How is it different from the Home Assistant companion app's Apple Health sensors?",
-      "a": "Keep the companion app for presence and notifications. Its Apple Health sensors show today's total or the newest reading, and their history starts the day you switch them on. This app sends every record of 28 types, backfills your history (into Home Assistant, the last year for now), and also sends to MQTT or a webhook."
+      "a": "Keep the companion app for presence and notifications. Its Apple Health sensors show today's total or the newest reading, and their history starts the day you switch them on. This app sends every record of 28 types, backfills all your history into Home Assistant, and also sends to MQTT or a webhook."
     },
     {
       "q": "Can an iPhone and an Android phone share one Home Assistant?",
@@ -164,7 +164,7 @@
       "a": "No. An app that reads Apple Health needs the HealthKit capability, and only an Apple Developer Program membership can sign it; a free Apple Account can't. With a membership, building it yourself costs nothing extra and the signature lasts a year. Without one, the App Store version is the way."
     }
   ],
-  "updated": "2026-11-04",
+  "updated": "2026-11-06",
   "guides": [
     "apple-health-home-assistant",
     "apple-watch-home-assistant",

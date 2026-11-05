@@ -14,7 +14,7 @@
 <meta name="theme-color" content="#101418">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png?v=355467f5">
 <link rel="apple-touch-icon" href="../img/icon-180.png?v=e1842852">
-<link rel="stylesheet" href="../site.css?v=663dff9a">
+<link rel="stylesheet" href="../site.css?v=d30fc76a">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="How do I get Health Connect data into Home Assistant?">
@@ -177,7 +177,7 @@
 <p>Install the Life Dashboard integration in Home Assistant and Life Dashboard Companion, an open-source Android app, on your phone, then pair the two with a QR code. Your watch's data then arrives as sensors, and every day is kept in long-term statistics.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in the Marketplace</a></p>
 
-<p>It works with anything that writes to Health Connect: Samsung Health, Garmin Connect, Google Health (Fitbit and Pixel Watch), Oura, Withings and more. A backfill adds up to a year of history. Both parts are MIT licensed, nothing runs on a Life Dashboard server, and Home Assistant never needs your Samsung, Garmin or Google login.</p>
+<p>It works with anything that writes to Health Connect: Samsung Health, Garmin Connect, Google Health (Fitbit and Pixel Watch), Oura, Withings and more. A backfill adds all your history, as far back as the phone has data. Both parts are MIT licensed, nothing runs on a Life Dashboard server, and Home Assistant never needs your Samsung, Garmin or Google login.</p>
 
 <p class="flow-line"><span>Watch</span><span>Its app, such as Samsung Health</span><span>Health Connect</span><span>Life Dashboard Companion</span><span>Home Assistant</span></p>
 
@@ -234,14 +234,12 @@
   <li><strong>Sensors</strong> for 26 of the 34 types: today's steps, distance and calories (such as <code>sensor.pixel_8_steps_today</code>), and the latest heart rate, resting heart rate, HRV, last sleep, weight, blood pressure, glucose, the last workout and more. Latest values name the app that wrote them. Which ones you get depends on your watch's app; see the table above.</li>
   <li><strong>History</strong> in long-term statistics: one value per day for steps, distance in km, calories, sleep, exercise and mindfulness time in hours, hydration and screen time in hours, and an hourly mean, minimum and maximum for heart rate, weight and other measurements. Use the <strong>Statistics graph</strong> card; <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md">Sensors and statistics</a> lists every entity.</li>
   <li><strong>No double counting.</strong> Steps, distance and calories use Health Connect's daily totals, so a walk recorded by phone and watch counts once.</li>
-  <li><strong>An example dashboard</strong> in <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/examples/dashboard.yaml">examples/dashboard.yaml</a>. The setup needs no YAML; the example dashboard is an optional YAML file you paste into a new dashboard's raw configuration editor.</li>
+  <li><strong>An example Health dashboard</strong> and a theme to copy, built from Home Assistant's own cards: today, recovery, sleep, training, heart, activity and body, plus a screen time view and a view for two phones. <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/dashboard.md">The Health dashboard</a> shows how to set it up. The setup itself needs no YAML; the dashboard is an optional YAML file you paste into a new dashboard's raw configuration editor.</li>
 </ul>
 
-<figure class="shot"><a class="shot-link" href="../img/H1-dashboard.webp?v=94d03e1f" aria-label="The example dashboard in Home Assistant on a phone, full size"><div class="phone " style="aspect-ratio: 720 / 1598"><img src="../img/H1-dashboard.webp?v=94d03e1f" alt="The example dashboard in Home Assistant on a phone" width="720" height="1598" loading="lazy"></div></a></figure>
+<figure class="shot wide full"><a class="shot-link" href="../img/H6-health.webp?v=f5682347" aria-label="The example Health dashboard in Home Assistant with demo data: today's tiles, the last workout, recovery with heart rate variability against its baseline, and last night's sleep, full size"><img src="../img/H6-health.webp?v=f5682347" alt="The example Health dashboard in Home Assistant with demo data: today's tiles, the last workout, recovery with heart rate variability against its baseline, and last night's sleep" width="1400" height="807" loading="lazy"></a></figure>
 
 <p>Syncs run every 60 minutes by default, every 15 minutes at the shortest, or at fixed times of day.</p>
-
-<figure class="shot"><a class="shot-link" href="../img/H3-history.webp?v=fe5eada8" aria-label="History graphs in Home Assistant on a phone, full size"><div class="phone " style="aspect-ratio: 720 / 1598"><img src="../img/H3-history.webp?v=fe5eada8" alt="History graphs in Home Assistant on a phone" width="720" height="1598" loading="lazy"></div></a></figure>
 
 <h2 id="put-a-tile-on-your-dashboard">Put a tile on your dashboard</h2>
 
@@ -250,7 +248,7 @@
 <h2 id="limits">Limits</h2>
 
 <ul>
-  <li>Meals, mindfulness and cycle tracking are events and get no sensor, though the integration counts mindfulness minutes per day. Workouts get a last workout sensor and the minutes of today and yesterday. The full records go only to a <a href="../health-connect-webhook/">webhook of your own</a>.</li>
+  <li>Meals, mindfulness and cycle tracking are events and get no sensor, though the integration counts mindfulness time per day. Workouts get a last workout sensor and the minutes of today and yesterday. The full records go only to a <a href="../health-connect-webhook/">webhook of your own</a>.</li>
   <li>Data arrives after the vendor's app writes it to Health Connect, usually once the watch syncs with the phone.</li>
   <li>A home network address only syncs at home; data from away waits on the phone. A public HTTPS address or Home Assistant Cloud works everywhere. With Home Assistant Cloud, your payloads pass through its servers on the way.</li>
 </ul>
@@ -265,7 +263,7 @@
   </thead>
   <tbody>
     <tr><th scope="row">Setup</th><td>Marketplace (HACS before 2026.11), then a QR code</td><td>Enter your broker</td></tr>
-    <tr><th scope="row">History</th><td>Every day, up to a year back</td><td>From the first sync on</td></tr>
+    <tr><th scope="row">History</th><td>Every day, as far back as the phone has data</td><td>From the first sync on</td></tr>
     <tr><th scope="row">Workout sensors</th><td>Yes</td><td>No</td></tr>
     <tr><th scope="row">Screen time sensor per app</th><td>Yes</td><td>No</td></tr>
     <tr><th scope="row">Scale readings into Health Connect</th><td>Yes</td><td>No</td></tr>

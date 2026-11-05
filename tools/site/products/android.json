@@ -18,7 +18,7 @@
     },
     {
       "title": "All your history",
-      "text": "Backfill from 30 days up to 5 years, or everything Health Connect has. In Home Assistant each day lands on its own date in long-term statistics, for now about the last year."
+      "text": "Backfill from 30 days up to 5 years, or everything Health Connect has. In Home Assistant each day lands on its own date in long-term statistics."
     },
     {
       "title": "Screen time per app",
@@ -119,7 +119,7 @@
   "faq": [
     {
       "q": "Which Health Connect types become Home Assistant sensors?",
-      "a": "26 of the 34 through the integration, 25 over MQTT. The other eight (nutrition, mindfulness, sexual activity and five cycle tracking types) are events rather than values, so they get no sensor; the integration counts mindfulness minutes per day. Workouts get a last workout sensor and the minutes of today and yesterday in the integration. A <a href=\"../health-connect-webhook/\">webhook of your own</a> gets those records in full."
+      "a": "26 of the 34 through the integration, 25 over MQTT. The other eight (nutrition, mindfulness, sexual activity and five cycle tracking types) are events rather than values, so they get no sensor; the integration counts mindfulness time per day. Workouts get a last workout sensor and the minutes of today and yesterday in the integration. A <a href=\"../health-connect-webhook/\">webhook of your own</a> gets those records in full."
     },
     {
       "q": "Can it send to Home Assistant and a webhook at the same time?",
@@ -158,7 +158,7 @@
       "a": "Yes. Google Play, the APK on GitHub, Obtainium and F-Droid all install the same app, with the same package name and the same signing key, so you can switch without reinstalling: one installs over the other and your settings stay."
     }
   ],
-  "updated": "2026-11-05",
+  "updated": "2026-11-06",
   "guides": [
     "health-connect-home-assistant",
     "health-connect-webhook",

@@ -11,7 +11,7 @@
 <meta name="theme-color" content="#101418">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png?v=355467f5">
 <link rel="apple-touch-icon" href="../img/icon-180.png?v=e1842852">
-<link rel="stylesheet" href="../site.css?v=663dff9a">
+<link rel="stylesheet" href="../site.css?v=d30fc76a">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="Apple Health, sent from your iPhone to your own server">
@@ -108,7 +108,7 @@
         "inLanguage": "en"
       },
       "inLanguage": "en",
-      "dateModified": "2026-11-04"
+      "dateModified": "2026-11-06"
     },
     {
       "@type": "FAQPage",
@@ -158,7 +158,7 @@
           "name": "How is it different from the Home Assistant companion app's Apple Health sensors?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Keep the companion app for presence and notifications. Its Apple Health sensors show today's total or the newest reading, and their history starts the day you switch them on. This app sends every record of 28 types, backfills your history (into Home Assistant, the last year for now), and also sends to MQTT or a webhook."
+            "text": "Keep the companion app for presence and notifications. Its Apple Health sensors show today's total or the newest reading, and their history starts the day you switch them on. This app sends every record of 28 types, backfills all your history into Home Assistant, and also sends to MQTT or a webhook."
           }
         },
         {
@@ -291,7 +291,7 @@
         <p>The Life Dashboard integration pairs with one QR code and keeps every day in long-term statistics. Over MQTT, Home Assistant Discovery sets the sensors up without YAML, from the first sync on.</p>
         <ul class="ticks">
           <li>20 of the 28 types as sensors <span>Today's steps, distance and calories, and the latest heart rate, HRV, sleep, weight, blood pressure, glucose and VO2 max.</span></li>
-          <li>Up to a year of history <span>With the integration, backfilled days land on their own date. Workouts and mindfulness count as minutes per day.</span></li>
+          <li>All your history <span>With the integration, backfilled days land on their own date, as far back as Apple Health has data. Workouts and mindfulness count as hours per day.</span></li>
           <li>Its own MQTT device and base topic <span>lifedashboard-ios, so an iPhone never collides with an Android phone on the same broker.</span></li>
         </ul>
         <a class="link-arrow" href="https://github.com/owen282000/life-dashboard-companion-app-ios/blob/main/docs/usage.md#phone-to-home-assistant">Setup for the integration and MQTT</a>
@@ -380,7 +380,7 @@
       </details>
       <details>
         <summary>How is it different from the Home Assistant companion app&#x27;s Apple Health sensors?</summary>
-        <p>Keep the companion app for presence and notifications. Its Apple Health sensors show today's total or the newest reading, and their history starts the day you switch them on. This app sends every record of 28 types, backfills your history (into Home Assistant, the last year for now), and also sends to MQTT or a webhook.</p>
+        <p>Keep the companion app for presence and notifications. Its Apple Health sensors show today's total or the newest reading, and their history starts the day you switch them on. This app sends every record of 28 types, backfills all your history into Home Assistant, and also sends to MQTT or a webhook.</p>
       </details>
       <details>
         <summary>Can an iPhone and an Android phone share one Home Assistant?</summary>
@@ -411,7 +411,7 @@
   <div class="wrap">
     <div class="section-head"><h2>Setup guides</h2></div>
     <div class="family">
-      <a class="part" href="../apple-health-home-assistant/"><h3>Apple Health in Home Assistant</h3><p>Apple Watch and iPhone data as sensors, with a year of history from a backfill.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="../apple-health-home-assistant/"><h3>Apple Health in Home Assistant</h3><p>Apple Watch and iPhone data as sensors, with all your history from a backfill.</p><span class="go">Read the guide</span></a>
       <a class="part" href="../apple-watch-home-assistant/"><h3>Apple Watch in Home Assistant</h3><p>Heart rate, HRV, sleep stages, workouts and VO2 max from the watch, through Apple Health.</p><span class="go">Read the guide</span></a>
       <a class="part" href="../apple-health-webhook/"><h3>Apple Health to a webhook</h3><p>Signed JSON from Apple Health, automatically: the payload, retries, deletions and Shortcuts.</p><span class="go">Read the guide</span></a>
       <a class="part" href="../apple-health-n8n/"><h3>Apple Health to n8n</h3><p>The same Webhook node and HMAC check as for Android, and what differs in an iPhone payload.</p><span class="go">Read the guide</span></a>
@@ -428,7 +428,7 @@
     <div class="section-head"><h2>The other parts</h2><p>Both apps send the same payload, so an Android phone and an iPhone can share one Home Assistant or one stack.</p></div>
     <div class="family three">
       <a class="part" href="../android/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span><h3>Life Dashboard Companion for Android</h3><p>Health Connect and screen time per app</p><span class="go">See the Android app</span></a>
-      <a class="part" href="../home-assistant/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 11 12 3.5l8.5 7.5"/><path d="M5.5 9.5V20h13V9.5"/><circle cx="12" cy="13.5" r="2"/><path d="M12 15.5V20"/></svg></span><h3>Life Dashboard integration for Home Assistant</h3><p>Sensors, statistics and a year of history</p><span class="go">See the integration</span></a>
+      <a class="part" href="../home-assistant/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 11 12 3.5l8.5 7.5"/><path d="M5.5 9.5V20h13V9.5"/><circle cx="12" cy="13.5" r="2"/><path d="M12 15.5V20"/></svg></span><h3>Life Dashboard integration for Home Assistant</h3><p>Sensors, statistics and all your history</p><span class="go">See the integration</span></a>
       <a class="part" href="../grafana/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M6.5 16v-4"/><path d="M11 16V7"/><path d="M15.5 16v-6"/><path d="M20 16V4"/></svg></span><h3>Life Dashboard stack</h3><p>Postgres, Grafana, an API and MCP, self-hosted</p><span class="go">See the stack</span></a>
     </div>
   </div>

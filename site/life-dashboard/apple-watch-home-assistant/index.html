@@ -5,17 +5,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Apple Watch in Home Assistant | Life Dashboard</title>
-<meta name="description" content="Apple Watch heart rate, HRV, sleep stages, workouts and VO2 max in Home Assistant, through Apple Health on your iPhone, with a year of history and no watch app.">
+<meta name="description" content="Apple Watch heart rate, HRV, sleep stages, workouts and VO2 max in Home Assistant, through Apple Health on your iPhone, with all your history and no watch app.">
 <link rel="canonical" href="https://owen282000.com/life-dashboard/apple-watch-home-assistant/">
 <meta name="robots" content="max-image-preview:large">
 <meta name="theme-color" content="#101418">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png?v=355467f5">
 <link rel="apple-touch-icon" href="../img/icon-180.png?v=e1842852">
-<link rel="stylesheet" href="../site.css?v=663dff9a">
+<link rel="stylesheet" href="../site.css?v=d30fc76a">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="How do I get Apple Watch data into Home Assistant?">
-<meta property="og:description" content="Apple Watch heart rate, HRV, sleep stages, workouts and VO2 max in Home Assistant, through Apple Health on your iPhone, with a year of history and no watch app.">
+<meta property="og:description" content="Apple Watch heart rate, HRV, sleep stages, workouts and VO2 max in Home Assistant, through Apple Health on your iPhone, with all your history and no watch app.">
 <meta property="og:url" content="https://owen282000.com/life-dashboard/apple-watch-home-assistant/">
 <meta property="og:image" content="https://owen282000.com/life-dashboard/img/social.png">
 <meta property="og:image:width" content="1280">
@@ -29,7 +29,7 @@
     {
       "@type": "TechArticle",
       "headline": "How do I get Apple Watch data into Home Assistant?",
-      "description": "Apple Watch heart rate, HRV, sleep stages, workouts and VO2 max in Home Assistant, through Apple Health on your iPhone, with a year of history and no watch app.",
+      "description": "Apple Watch heart rate, HRV, sleep stages, workouts and VO2 max in Home Assistant, through Apple Health on your iPhone, with all your history and no watch app.",
       "url": "https://owen282000.com/life-dashboard/apple-watch-home-assistant/",
       "inLanguage": "en",
       "author": {
@@ -171,7 +171,7 @@
 <h1>How do I get Apple Watch data into Home Assistant?</h1>
 <p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 6, 2026.</p>
 
-<p>Your Apple Watch already writes what it measures into Apple Health on the iPhone it's paired with. Install Life Dashboard Companion on that iPhone and the Life Dashboard integration in Home Assistant, pair the two with a QR code, and the watch's heart rate, HRV, sleep, workouts and VO2 max arrive as sensors, with up to a year of history in long-term statistics.</p>
+<p>Your Apple Watch already writes what it measures into Apple Health on the iPhone it's paired with. Install Life Dashboard Companion on that iPhone and the Life Dashboard integration in Home Assistant, pair the two with a QR code, and the watch's heart rate, HRV, sleep, workouts and VO2 max arrive as sensors, with all your history in long-term statistics.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in the Marketplace</a></p>
 
 <p>There's nothing to install on the watch, and Home Assistant never needs your Apple Account. The iPhone app reads Apple Health and posts straight to your Home Assistant; there's no Life Dashboard server in between.</p>
@@ -193,7 +193,7 @@
   <figure class="shot wide"><a class="shot-link" href="../img/H2-qr.webp?v=abb2ed19" aria-label="The Life Dashboard integration in Home Assistant showing a pairing QR code, full size"><img src="../img/H2-qr.webp?v=abb2ed19" alt="The Life Dashboard integration in Home Assistant showing a pairing QR code" width="800" height="668" loading="lazy"></a></figure></li>
   <li>Install Life Dashboard Companion on the iPhone, tap <strong>Scan a pairing code</strong> in its setup, scan the code and tap <strong>Pair</strong>.</li>
   <li>Under <strong>What to send</strong>, switch on the types the watch records, listed below, and allow Apple Health access.</li>
-  <li>Tap <strong>Sync Now</strong>, then <strong>Send history</strong> under <strong>What to send</strong> and pick how far back, from 30 days up to <strong>All history</strong>. Home Assistant takes in about the last year for now.</li>
+  <li>Tap <strong>Sync Now</strong>, then <strong>Send history</strong> under <strong>What to send</strong> and pick how far back, from 30 days up to <strong>All history</strong>. Home Assistant files every day on its own date.</li>
 </ol>
 
 <p><a href="../apple-health-home-assistant/">Apple Health in Home Assistant</a> has every step in detail, with the address to use and the sync schedule.</p>
@@ -229,7 +229,7 @@
   <li><strong>Workouts</strong> arrive with their kind as a name, such as <code>running</code> or <code>hiit</code>, and Home Assistant shows the last one with its start, end and minutes.</li>
 </ul>
 
-<figure class="shot"><a class="shot-link" href="../img/H5-today.webp?v=a83603c3" aria-label="Today's steps, distance, calories, heart rate and last sleep in Home Assistant, with steps per week, full size"><div class="phone cut" style="aspect-ratio: 720 / 1052"><img src="../img/H5-today.webp?v=a83603c3" alt="Today's steps, distance, calories, heart rate and last sleep in Home Assistant, with steps per week" width="720" height="1052" loading="lazy"></div></a></figure>
+<figure class="shot"><a class="shot-link" href="../img/H9-health-phone.webp?v=43ebb81f" aria-label="The example Health dashboard in Home Assistant on a phone, with demo data: today's tiles and the last workout, full size"><div class="phone " style="aspect-ratio: 720 / 1559"><img src="../img/H9-health-phone.webp?v=43ebb81f" alt="The example Health dashboard in Home Assistant on a phone, with demo data: today's tiles and the last workout" width="720" height="1559" loading="lazy"></div></a></figure>
 
 <h2 id="what-doesn-t-come-along">What doesn't come along</h2>
 

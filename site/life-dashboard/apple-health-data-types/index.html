@@ -11,7 +11,7 @@
 <meta name="theme-color" content="#101418">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png?v=355467f5">
 <link rel="apple-touch-icon" href="../img/icon-180.png?v=e1842852">
-<link rel="stylesheet" href="../site.css?v=663dff9a">
+<link rel="stylesheet" href="../site.css?v=d30fc76a">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="Which Apple Health data types does Life Dashboard send?">
@@ -43,7 +43,7 @@
         }
       ],
       "datePublished": "2026-10-21",
-      "dateModified": "2026-11-05",
+      "dateModified": "2026-11-06",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -114,7 +114,7 @@
           "name": "Which types become sensors in Home Assistant?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "20 of the 28, with blood pressure as two sensors. Workouts get a last workout sensor and minutes per day, and mindfulness counts toward the day statistics. Nutrition and cycle tracking get no sensor; a webhook gets them in full."
+            "text": "20 of the 28, with blood pressure as two sensors. Workouts get a last workout sensor and the minutes of today and yesterday, and workouts and mindfulness count toward the day statistics, in hours. Nutrition and cycle tracking get no sensor; a webhook gets them in full."
           }
         },
         {
@@ -164,7 +164,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Apple Health data types, app by app</span></nav>
 <h1>Which Apple Health data types does Life Dashboard send?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 5, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 6, 2026.</p>
 
 <p>The iPhone app reads 28 Apple Health types, and each one is off until you switch it on under <strong>What to send</strong>, by category or with <strong>Essentials</strong> or <strong>All types</strong>. It sends them under the Android app's payload keys, with the same fields and units: steps, distance and calories, workouts, weight and body composition, heart rate, resting heart rate and HRV, blood pressure, glucose, oxygen saturation, respiratory rate, VO2 max, sleep with stages, hydration, nutrition, mindfulness, body temperature and cycle tracking. Menstruation goes out as two keys, so an iPhone sends 29 of the Android app's 34 keys.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="../ios/#get">Get the iPhone app</a></p>
@@ -184,7 +184,7 @@
     <tr><th scope="row"><a href="#distance">Distance</a></th><td><code>distance</code></td><td><code>meters</code></td><td>Today's total</td><td>Yes, and the iPhone</td></tr>
     <tr><th scope="row"><a href="#active_calories">Active Calories</a></th><td><code>active_calories</code></td><td><code>calories</code>, kcal</td><td>Today's total</td><td>Yes</td></tr>
     <tr><th scope="row"><a href="#total_calories">Total Calories</a></th><td><code>total_calories</code></td><td><code>calories</code>, kcal</td><td>Today's total</td><td>Yes</td></tr>
-    <tr><th scope="row"><a href="#exercise">Exercise Sessions</a></th><td><code>exercise</code></td><td><code>type</code>, <code>duration_seconds</code></td><td>Last workout, minutes per day</td><td>Yes</td></tr>
+    <tr><th scope="row"><a href="#exercise">Exercise Sessions</a></th><td><code>exercise</code></td><td><code>type</code>, <code>duration_seconds</code></td><td>Last workout, minutes today and yesterday</td><td>Yes</td></tr>
     <tr><th scope="row"><a href="#weight">Weight</a></th><td><code>weight</code></td><td><code>kilograms</code></td><td>Latest value</td><td>No</td></tr>
     <tr><th scope="row"><a href="#height">Height</a></th><td><code>height</code></td><td><code>meters</code></td><td>Latest value</td><td>No</td></tr>
     <tr><th scope="row"><a href="#body_fat">Body Fat</a></th><td><code>body_fat</code></td><td><code>percentage</code></td><td>Latest value</td><td>No</td></tr>
@@ -377,7 +377,7 @@
   </details>
   <details>
     <summary>Which types become sensors in Home Assistant?</summary>
-    <p>20 of the 28, with blood pressure as two sensors. Workouts get a last workout sensor and minutes per day, and mindfulness counts toward the day statistics. Nutrition and cycle tracking get no sensor; a webhook gets them in full.</p>
+    <p>20 of the 28, with blood pressure as two sensors. Workouts get a last workout sensor and the minutes of today and yesterday, and workouts and mindfulness count toward the day statistics, in hours. Nutrition and cycle tracking get no sensor; a webhook gets them in full.</p>
   </details>
   <details>
     <summary>Does the app read Screen Time or the ECG?</summary>

@@ -2,19 +2,19 @@
   "slug": "home-assistant",
   "nav_name": "Home Assistant",
   "title": "Home Assistant health integration (Marketplace, HACS) | Life Dashboard",
-  "description": "The Life Dashboard integration for Home Assistant turns Health Connect or Apple Health data into sensors and long-term statistics, paired by QR code.",
+  "description": "The Life Dashboard integration turns Health Connect or Apple Health data into Home Assistant sensors and statistics with all your history, paired by QR code.",
   "kicker": "Home Assistant integration",
   "h1": "A Home Assistant integration for your phone's health data",
-  "lead": "The Life Dashboard integration is an open-source Home Assistant integration, installed through the Marketplace (HACS before Home Assistant 2026.11), for the Life Dashboard Companion apps on Android and iPhone. One QR code pairs a phone, and every day lands in long-term statistics. No broker and no YAML.",
-  "hero_image": "H1-dashboard",
+  "lead": "The Life Dashboard integration is an open-source Home Assistant integration, installed through the Marketplace (HACS before Home Assistant 2026.11), for the Life Dashboard Companion apps on Android and iPhone. One QR code pairs a phone, and every day lands in long-term statistics, as far back as the phone has data. No broker and no YAML.",
+  "hero_image": "H6-health",
   "highlights": [
     {
       "title": "Sensors for today",
       "text": "Day totals for steps, distance and calories, and the latest heart rate, sleep, weight and blood pressure, each with its source app."
     },
     {
-      "title": "A year in long-term statistics",
-      "text": "Every day lands on its own date, so a backfill from the phone fills a year of the Statistics graph card."
+      "title": "All your history",
+      "text": "Every day lands on its own date, so a backfill from the phone fills the Statistics graph card as far back as the phone has data."
     },
     {
       "title": "Paired by QR code",
@@ -30,14 +30,18 @@
     },
     {
       "title": "Back into Health Connect",
-      "text": "Map a scale or blood pressure entity, and the Android app writes each new reading into Health Connect."
+      "text": "Map a scale or blood pressure entity, and the Android app writes each new reading into Health Connect. Samsung Health and Google Health pick up weight and body fat from there."
+    },
+    {
+      "title": "Stable from 1.0.0",
+      "text": "Within 1.x, an update keeps your entities, statistics, automations and pairing working. A change to any of that waits for 2.0.0."
     }
   ],
   "sections": [
     {
       "kicker": "Sensors and statistics",
       "h2": "Sleep, steps and heart rate sensors, with history behind them",
-      "text": "Sensors appear the first time their type arrives, so you only get what you sync. A sensor holds the latest value; long-term statistics hold the past, each value on the date it happened.",
+      "text": "Sensors appear the first time their type arrives, so you only get what you sync. A sensor holds the latest value; long-term statistics hold the past, each value on the date it happened, as far back as the phone has data.",
       "bullets": [
         {
           "main": "Day totals",
@@ -54,9 +58,13 @@
         {
           "main": "Mean, minimum and maximum per hour",
           "sub": "Heart rate, weight, blood pressure and the other measurements."
+        },
+        {
+          "main": "A new phone carries on",
+          "sub": "Adding a phone offers to take over the statistics of one you removed, so its graphs and running totals carry on instead of starting again."
         }
       ],
-      "image": "H3-history",
+      "image": "H9-health-phone",
       "link": {
         "href": "https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md",
         "text": "Every sensor, statistic and attribute"
@@ -88,39 +96,70 @@
     },
     {
       "kicker": "Example dashboard",
-      "h2": "A health data dashboard to start from",
-      "text": "<code>examples/dashboard.yaml</code> is a view for one phone in three sections. Paste it into a new dashboard's raw configuration editor and put in your phone's name.",
+      "h2": "A Health dashboard and theme to copy",
+      "text": "An example dashboard built only from Home Assistant's own cards, with a theme in the colors of the apps, so there are no custom cards to install. Paste it into a new dashboard, put in your phone's name and ID, and remove what your phone doesn't send. The screenshots show demo data from two made-up phones.",
       "bullets": [
         {
           "main": "Today",
-          "sub": "Tiles for steps, distance, calories, screen time, heart rate and last sleep, a body card and the two sync times."
+          "sub": "Steps, distance, calories, workout time and heart rate as tiles, and the last workout with its pace, heart rate and laps."
         },
         {
-          "main": "On the phone",
-          "sub": "The most used app, the top apps of the day and screen time per day. Android only."
+          "main": "Recovery",
+          "sub": "Heart rate variability over 7 days against your 60-day baseline, resting heart rate over 7 days against the 7 before, and VO2 max."
         },
         {
-          "main": "History",
-          "sub": "Steps per week and heart rate per day, from long-term statistics."
+          "main": "Sleep",
+          "sub": "Last night on a gauge, with the night's breathing, oxygen and skin temperature, and sleep per night."
+        },
+        {
+          "main": "Training, heart, activity and body",
+          "sub": "Workout time per week and month, resting heart rate, steps and distance, and weight and body fat over a year."
+        },
+        {
+          "main": "Two phones",
+          "sub": "A view with two phones side by side, an Android phone and an iPhone alike, and both in the same graphs."
+        }
+      ],
+      "image": "H8-two-phones",
+      "link": {
+        "href": "https://github.com/owen282000/life-dashboard-ha/blob/main/docs/dashboard.md",
+        "text": "Set up the Health dashboard"
+      }
+    },
+    {
+      "kicker": "Screen time",
+      "h2": "Screen time per app, with its history",
+      "text": "On Android, the app sends screen time from the same usage statistics Digital Wellbeing reads. The example dashboard has a view of its own for it.",
+      "bullets": [
+        {
+          "main": "Today and yesterday",
+          "sub": "Screen time in hours, the most used app, and the top five with their minutes."
         },
         {
           "main": "A sensor per app",
           "sub": "Created disabled, up to 50 per phone, for automations such as a time limit on one game."
+        },
+        {
+          "main": "History per app",
+          "sub": "Every app whose sensor you enable gets a statistic with its time per day, so a graph shows it over weeks or a year."
         }
       ],
-      "image": "H1-dashboard",
+      "image": "H7-screen-time",
       "link": {
-        "href": "https://github.com/owen282000/life-dashboard-ha/blob/main/examples/dashboard.yaml",
-        "text": "The example dashboard YAML"
-      },
-      "image2": "H4-apps"
+        "href": "../screen-time-home-assistant/",
+        "text": "Screen time in Home Assistant"
+      }
     }
   ],
-  "requirements": "Home Assistant 2026.3 or newer. From 2026.11 nothing else needs installing: the integration is in the Marketplace. Older versions need HACS, where it is in the default list. On each phone, Life Dashboard Companion for Android or for iPhone. Screen time, the sensors per app and Receive need the Android app; the sensors per app need integration 0.9.0 or newer.",
+  "requirements": "Home Assistant 2026.3 or newer. From 2026.11 nothing else needs installing: the integration is in the Marketplace. Older versions need HACS, where it is in the default list. On each phone, Life Dashboard Companion for Android or for iPhone. Screen time, the sensors per app and Receive need the Android app.",
   "faq": [
     {
       "q": "Should I use MQTT or this integration?",
       "a": "Pick one; running both gives you two devices with the same numbers. MQTT Discovery creates the same sensors and suits a setup that already has a broker and only wants current values. Only the integration has backfilled history, a screen time sensor per app and readings back to the phone."
+    },
+    {
+      "q": "Will an update break my automations?",
+      "a": "Not within 1.x. Version 1.0.0 comes with a written promise: an update keeps your entities, statistics, automations and pairing working, and a change to any of that waits for 2.0.0. <a href=\"https://github.com/owen282000/life-dashboard-ha/blob/main/docs/compatibility.md\">What 1.x keeps stable</a> lists what it covers. Coming from 0.x? Read <a href=\"https://github.com/owen282000/life-dashboard-ha/blob/main/CHANGELOG.md\">the changelog</a> first: 1.0.0 puts last sleep and screen time in hours and distance today in km, so an automation that reads minutes or metres needs an update."
     },
     {
       "q": "Can several phones share one Home Assistant?",
@@ -128,11 +167,11 @@
     },
     {
       "q": "Which data gets no sensor?",
-      "a": "Eight of the 34 Health Connect types are events: meals, mindfulness sessions, sexual activity and the five cycle tracking types. Workouts get a last workout sensor and the minutes of today and yesterday, and mindfulness counts as minutes per day in the statistics. For the raw records, add a second webhook in the app that points at <a href=\"../health-connect-webhook/\">your own backend</a>."
+      "a": "Eight of the 34 Health Connect types are events: meals, mindfulness sessions, sexual activity and the five cycle tracking types. Workouts get a last workout sensor and the minutes of today and yesterday, and mindfulness counts as time per day, in hours, in the statistics. For the raw records, add a second webhook in the app that points at <a href=\"../health-connect-webhook/\">your own backend</a>."
     },
     {
       "q": "Can Home Assistant send a scale reading to the phone?",
-      "a": "Yes, on Android. <strong>Configure</strong> maps one entity per type: weight, body fat, lean body mass, bone mass, body water mass, height and blood pressure. The app writes each new value into Health Connect; <a href=\"../smart-scale-to-samsung-health/\">Smart scale to Samsung Health</a> has the setup."
+      "a": "Yes, on Android. <strong>Configure</strong> maps one entity per type: weight, body fat, lean body mass, bone mass, body water mass, height and blood pressure. The app writes each new value into Health Connect, and Samsung Health and Google Health pick up weight and body fat from there. Blood pressure lands in Health Connect too, but Google Health doesn't read it and Samsung Health shows it only in some versions. <a href=\"../smart-scale-to-samsung-health/\">Smart scale to Samsung Health</a> has the setup."
     },
     {
       "q": "Does Home Assistant poll the phone or a cloud?",
@@ -144,10 +183,10 @@
     },
     {
       "q": "What happens when I remove a phone?",
-      "a": "Deleting the entry removes the device and its sensors, deletes its cloudhook if it had one, and deletes the phone's files in <code>.storage</code>. Its long-term statistics stay in the recorder, as they do for any integration you remove."
+      "a": "Deleting the entry removes the device and its sensors, deletes its cloudhook if it had one, and deletes the phone's files in <code>.storage</code>. Its long-term statistics stay in the recorder, as they do for any integration you remove. Add a phone later, and it offers to take them over, so the graphs and running totals carry on where they stopped."
     }
   ],
-  "updated": "2026-11-05",
+  "updated": "2026-11-06",
   "guides": [
     "health-connect-home-assistant",
     "fitbit-home-assistant",
@@ -171,12 +210,12 @@
       [
         "History",
         "From the day you enable a sensor, with today's value filed at sync time",
-        "A backfill of up to a year, every value filed on the date it happened"
+        "A backfill of all your history, every value filed on the date it happened"
       ],
       [
         "Screen time",
         "Last used app",
-        "Minutes per app, with a day boundary you choose"
+        "Time per app with its history, and a day boundary you choose"
       ],
       [
         "Into Health Connect",

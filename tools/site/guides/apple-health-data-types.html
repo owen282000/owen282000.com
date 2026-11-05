@@ -3,7 +3,7 @@ title: Apple Health data types, app by app | Life Dashboard
 description: All 28 Apple Health types the Life Dashboard iPhone app sends, with payload keys and units, what Home Assistant makes of each, and what an Apple Watch writes.
 primary query: apple health data types
 secondary queries: apple health data types list, healthkit data types, apple health export fields, apple health json keys, apple watch data types, healthkit types home assistant, apple health units
-updated: 2026-11-05
+updated: 2026-11-06
 published: 2026-10-21
 -->
 
@@ -26,7 +26,7 @@ published: 2026-10-21
     <tr><td><a href="#distance">Distance</a></td><td><code>distance</code></td><td><code>meters</code></td><td>Today's total</td><td>Yes, and the iPhone</td></tr>
     <tr><td><a href="#active_calories">Active Calories</a></td><td><code>active_calories</code></td><td><code>calories</code>, kcal</td><td>Today's total</td><td>Yes</td></tr>
     <tr><td><a href="#total_calories">Total Calories</a></td><td><code>total_calories</code></td><td><code>calories</code>, kcal</td><td>Today's total</td><td>Yes</td></tr>
-    <tr><td><a href="#exercise">Exercise Sessions</a></td><td><code>exercise</code></td><td><code>type</code>, <code>duration_seconds</code></td><td>Last workout, minutes per day</td><td>Yes</td></tr>
+    <tr><td><a href="#exercise">Exercise Sessions</a></td><td><code>exercise</code></td><td><code>type</code>, <code>duration_seconds</code></td><td>Last workout, minutes today and yesterday</td><td>Yes</td></tr>
     <tr><td><a href="#weight">Weight</a></td><td><code>weight</code></td><td><code>kilograms</code></td><td>Latest value</td><td>No</td></tr>
     <tr><td><a href="#height">Height</a></td><td><code>height</code></td><td><code>meters</code></td><td>Latest value</td><td>No</td></tr>
     <tr><td><a href="#body_fat">Body Fat</a></td><td><code>body_fat</code></td><td><code>percentage</code></td><td>Latest value</td><td>No</td></tr>
@@ -213,7 +213,7 @@ published: 2026-10-21
   </details>
   <details>
     <summary>Which types become sensors in Home Assistant?</summary>
-    <p>20 of the 28, with blood pressure as two sensors. Workouts get a last workout sensor and minutes per day, and mindfulness counts toward the day statistics. Nutrition and cycle tracking get no sensor; a webhook gets them in full.</p>
+    <p>20 of the 28, with blood pressure as two sensors. Workouts get a last workout sensor and the minutes of today and yesterday, and workouts and mindfulness count toward the day statistics, in hours. Nutrition and cycle tracking get no sensor; a webhook gets them in full.</p>
   </details>
   <details>
     <summary>Does the app read Screen Time or the ECG?</summary>
