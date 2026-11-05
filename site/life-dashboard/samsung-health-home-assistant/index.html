@@ -48,7 +48,7 @@
         }
       ],
       "datePublished": "2026-10-14",
-      "dateModified": "2026-11-05",
+      "dateModified": "2026-11-06",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -169,7 +169,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Samsung Health and Galaxy Watch in Home Assistant</span></nav>
 <h1>How do I get Samsung Health and Galaxy Watch data into Home Assistant?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 5, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 6, 2026.</p>
 
 <p>Switch on Samsung Health's sync with Health Connect on your Android phone, then let Life Dashboard Companion, an open-source Android app, send that data to the Life Dashboard integration in Home Assistant. Steps, sleep, heart rate, workouts and body measurements from your Galaxy Watch become sensors, and every day is kept in long-term statistics. Home Assistant never needs your Samsung account.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in the Marketplace</a></p>
@@ -227,7 +227,7 @@
   <li><strong>Sensors</strong> for today's steps, distance and calories, and the latest heart rate, last sleep duration, oxygen saturation, blood pressure, blood glucose, weight, body fat and VO2 max. With a phone named Galaxy S25, today's steps are <code>sensor.galaxy_s25_steps_today</code>. Sensors appear as data arrives, so a type Samsung doesn't share never shows up as an empty one.</li>
   <li><strong>Galaxy Watch heart rate.</strong> The heart rate sensor holds the newest reading, with the time it was measured. Long-term statistics keep an hourly mean, minimum and maximum, so you can chart a day or a year. The hourly minimum isn't the resting heart rate Samsung Health shows.</li>
   <li><strong>Workouts.</strong> <code>last_workout</code> holds the kind of your newest workout, such as <code>running</code>, with its start, end and minutes. <code>exercise_today</code> and <code>exercise_yesterday</code> hold the minutes of each day, with every session listed.</li>
-  <li><strong>History</strong> in long-term statistics: one value per day for steps, distance, calories, sleep and exercise minutes, and an hourly mean, minimum and maximum for heart rate, weight and the other measurements. A backfill fills it up to a year back.</li>
+  <li><strong>History</strong> in long-term statistics: one value per day for steps, distance in km, calories, and sleep and exercise time in hours, and an hourly mean, minimum and maximum for heart rate, weight and the other measurements. A backfill fills it up to a year back.</li>
   <li><strong>No double counting.</strong> Steps, distance and calories use Health Connect's daily totals, so a walk counted by both the phone and the Galaxy Watch counts once.</li>
 </ul>
 

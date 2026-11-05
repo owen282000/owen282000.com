@@ -3,7 +3,7 @@ title: Android screen time in Home Assistant | Life Dashboard
 description: Life Dashboard Companion sends Android screen time per app to Home Assistant: daily minutes, top apps and a sensor per app for automations.
 primary query: home assistant screen time android
 secondary queries: screen time per app home assistant, digital wellbeing export, digital wellbeing home assistant, android app usage home assistant, screen time limit home assistant
-updated: 2026-11-05
+updated: 2026-11-06
 -->
 
 <h1>How do I get Android screen time per app into Home Assistant?</h1>
@@ -39,12 +39,14 @@ updated: 2026-11-05
     <tr><th>Integration sensor</th><th>Over MQTT</th><th>What it holds</th></tr>
   </thead>
   <tbody>
-    <tr><td><code>sensor.&lt;phone&gt;_screen_time_today</code></td><td>Screen Time Today</td><td>Minutes today, with the top five apps in <code>top_apps</code></td></tr>
+    <tr><td><code>sensor.&lt;phone&gt;_screen_time_today</code></td><td>Screen Time Today</td><td>Time today, with the top five apps and their minutes in <code>top_apps</code></td></tr>
     <tr><td><code>sensor.&lt;phone&gt;_screen_time_yesterday</code></td><td>Screen Time Yesterday</td><td>Yesterday's final total</td></tr>
     <tr><td><code>sensor.&lt;phone&gt;_most_used_app_today</code></td><td>Screen Time Top App Today</td><td>The app with the most minutes today</td></tr>
-    <tr><td><code>sensor.&lt;phone&gt;_&lt;app&gt;_screen_time</code></td><td>Not available</td><td>One app's minutes today, with <code>week_minutes</code></td></tr>
+    <tr><td><code>sensor.&lt;phone&gt;_&lt;app&gt;_screen_time</code></td><td>Not available</td><td>One app's time today, with its minutes over the week in <code>week_minutes</code></td></tr>
   </tbody>
 </table>
+
+<p>The integration gives the time in hours since version 1.0.0, so 2 h 51 min reads <code>2.85</code> and a tile shows 2h 51m. Over MQTT, and in the integration before 1.0.0, it's in minutes: <code>171</code>. The attributes are in minutes on both routes.</p>
 
 <p>Rules for the sensors per app:</p>
 
@@ -55,7 +57,7 @@ updated: 2026-11-05
   <li>An app you didn't open today reads 0, so a daily trigger is ready again the next day.</li>
 </ul>
 
-<p>Total screen time per day also goes into long-term statistics; the sensors per app keep the recorder's usual 10 days. <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md#screen-time">Screen time in detail</a> covers all attributes.</p>
+<p>Total screen time per day also goes into long-term statistics, in hours, and so does the time per day of each app whose sensor you enabled. <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md#screen-time">Screen time in detail</a> covers all attributes.</p>
 
 <h2>Limits and alerts</h2>
 
@@ -64,13 +66,14 @@ updated: 2026-11-05
 <pre><code>triggers:
   - trigger: numeric_state
     entity_id: sensor.&lt;phone&gt;_screen_time_today
+    value_template: "{{ state.state | float(0) * (60 if state.attributes.unit_of_measurement == 'h' else 1) }}"
     above: 180
 actions:
   - action: notify.mobile_app_&lt;phone&gt;
     data:
       message: Three hours on the phone today.</code></pre>
 
-<p>Swap in <code>sensor.&lt;phone&gt;_youtube_screen_time</code> and <code>above: 60</code> for a limit on one app. The <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/recipes/screen-time-limits.md">screen time limits recipe</a> adds a version for MQTT and a check for late-night phone use.</p>
+<p>The <code>value_template</code> line turns hours into minutes and leaves minutes as they are, so <code>above: 180</code> means three hours with the integration and over MQTT. Swap in <code>sensor.&lt;phone&gt;_youtube_screen_time</code> and <code>above: 60</code> for a limit on one app, with the same <code>value_template</code> line. The <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/recipes/screen-time-limits.md">screen time limits recipe</a> adds a version for MQTT and a check for late-night phone use.</p>
 
 <h2>Several phones in one Home Assistant</h2>
 
@@ -78,7 +81,7 @@ actions:
 
 <p>Over MQTT, give each phone a name under <strong>More</strong> &gt; <strong>Advanced</strong> &gt; <strong>Phone name</strong>. A named phone becomes its own device, such as Life Dashboard Companion (Pixel 8). Two phones without a name publish to the same sensors.</p>
 
-<p>Everyone with access to Home Assistant and its backups can see which apps were used and when. On each phone, <strong>Apps to send</strong> decides what leaves it: an app filtered out is not named in anything sent, though its time still counts in the day\'s total.</p>
+<p>Everyone with access to Home Assistant and its backups can see which apps were used and when. On each phone, <strong>Apps to send</strong> decides what leaves it: an app filtered out is not named in anything sent, though its time still counts in the day's total.</p>
 
 <h2>What it measures</h2>
 
