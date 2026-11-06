@@ -1521,6 +1521,9 @@ def check():
         t = f.read_text()
         if '<header class="nav"' in t and ('class="skip" href="#main"' not in t or 'id="main"' not in t):
             problems.append(f"{f.relative_to(ROOT)}: needs the skip link and id=\"main\"")
+    # The IndexNow key (indexnow.py): one file in site/ that holds its own name, served at the root.
+    if len([f for f in SITE.glob("*.txt") if f.read_text().strip() == f.stem]) != 1:
+        problems.append("site/ needs exactly one IndexNow key file, <key>.txt holding <key>")
     llms = (SITE / "llms.txt").read_text()
     problems += [f"llms.txt: the guide {g} is missing" for g in [g[0] for g in GUIDES] + [t["slug"] for t in TRANSLATIONS] if f"{BASE}{g}/" not in llms]
     # A translation and its English guide name each other, both ways, or search engines ignore the pair.
