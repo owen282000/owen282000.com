@@ -3,7 +3,7 @@ title: Apple Health in Home Assistant with history | Life Dashboard
 description: Apple Health data from your iPhone and Apple Watch as Home Assistant sensors, with all your history: an integration from the Marketplace and one QR code.
 primary query: apple health home assistant
 secondary queries: apple health home assistant integration, iphone health data home assistant, home assistant healthkit, apple health sensors home assistant, apple health long term statistics, home assistant steps iphone, home assistant sleep iphone
-updated: 2026-11-06
+updated: 2026-11-09
 published: 2026-10-21
 -->
 
@@ -44,6 +44,7 @@ published: 2026-10-21
 
 <ul>
   <li><strong>Sensors for 20 of the 28 types</strong>, with blood pressure as two: today's steps, distance, active calories and total calories (such as <code>sensor.alex_s_iphone_steps_today</code>), and the latest heart rate, resting heart rate, HRV, last sleep, weight, height, blood pressure, blood glucose, oxygen saturation, respiratory rate, body temperature, basal body temperature, body fat, lean body mass, VO2 max and the last drink. Each latest value carries the time it describes and the app or device that wrote it.</li>
+  <li><strong>Sleep stages.</strong> With the integration 1.1.0 or newer, deep, light, REM, awake and time asleep per night become sensors and statistics, and the <a href="../sleep-stages-home-assistant/">Life Dashboard Sleep Card</a> draws the night as a hypnogram.</li>
   <li><strong>Workouts</strong>: the last workout, and the minutes of today and yesterday, with every session's kind, start and end.</li>
   <li><strong>History in long-term statistics</strong>: one value per day for steps, distance in km, calories, sleep, exercise and mindfulness time in hours, and hydration, and an hourly mean, minimum and maximum for heart rate, weight and the other readings. A backfill lands every day on its own date.</li>
   <li><strong>No double counting.</strong> Steps, distance and calories come from Apple Health's own statistics, as the Health app counts them, so a walk recorded by both the iPhone and the Watch counts once.</li>

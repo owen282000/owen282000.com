@@ -1,0 +1,151 @@
+<!--
+title: Sleep stages in Home Assistant as a hypnogram | Life Dashboard
+description: Sleep stages in Home Assistant from Health Connect or Apple Health: deep, light, REM and awake per night as sensors and statistics, and a card that draws the night.
+primary query: sleep stages home assistant
+secondary queries: hypnogram home assistant, home assistant sleep card, sleep stage chart home assistant, deep sleep sensor home assistant, rem sleep home assistant, health connect sleep stages home assistant, apple watch sleep stages home assistant, sleep hypnogram card
+updated: 2026-11-09
+published: 2026-11-09
+-->
+
+<h1>How do I see sleep stages in Home Assistant?</h1>
+
+<p>With the Life Dashboard integration 1.1.0 or newer, the sleep stages your phone sends become sensors and long-term statistics: deep, light, REM, awake and time asleep for each night, with one main night per wake date. The <a href="https://github.com/owen282000/life-dashboard-sleep-card">Life Dashboard Sleep Card</a> draws the newest night on your dashboard as a hypnogram, with each stage in its own lane along the night's clock.</p>
+
+<p>The card is a separate install from the Marketplace. On Android it also works on its own with the official Home Assistant Companion app, without Life Dashboard. The sensors and statistics below come from the integration.</p>
+
+<!-- IMG: the card on a dark theme (S1-sleep-card.png) -->
+
+<h2>What you need</h2>
+
+<ul>
+  <li>Home Assistant 2026.3 or newer.</li>
+  <li>For the sensors and statistics: the <a href="../home-assistant/">Life Dashboard integration</a> 1.1.0 or newer, and <a href="../android/">Life Dashboard Companion for Android</a> or <a href="../ios/">for iPhone</a> on the phone.</li>
+  <li>For the card: that integration and app, or on Android the official Companion app, as described <a href="#with-only-the-official-companion-app-on-android">further down</a>.</li>
+  <li>A night with stages to send. <a href="../samsung-health-home-assistant/">Samsung Health</a>, <a href="../garmin-home-assistant/">Garmin Connect</a> and <a href="../fitbit-home-assistant/">Fitbit or Pixel Watch</a> write them to Health Connect, and an <a href="../apple-watch-home-assistant/">Apple Watch</a> writes them to Apple Health.</li>
+</ul>
+
+<h2>Sensors and statistics for every night</h2>
+
+<p>Each phone is one device, and the sensors start with its name. With a phone named Pixel 8 the first one below is <code>sensor.pixel_8_last_sleep_asleep</code>.</p>
+
+<table>
+  <thead>
+    <tr><th>Sensor</th><th>State</th><th>Attributes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>last_sleep_asleep</code></td><td>Hours actually asleep in the newest main night</td><td><code>night</code> (wake date), <code>start</code>, <code>end</code>, <code>source</code>, the minutes of each stage, <code>stages</code> and <code>measured_at</code></td></tr>
+    <tr><td><code>last_sleep_deep</code>, <code>last_sleep_light</code>, <code>last_sleep_rem</code>, <code>last_sleep_awake</code></td><td>Hours of that stage, <code>unknown</code> when the night has none to report</td><td><code>night</code>, <code>measured_at</code></td></tr>
+  </tbody>
+</table>
+
+<p>The four stage sensors start disabled: enable the ones you want on the device page. A sensor in this table appears with the first night that has stages. <code>last_sleep_duration</code> stays what it was, the latest session of any kind, naps included.</p>
+
+<p>The statistics <code>sleep_deep</code>, <code>sleep_light</code>, <code>sleep_rem</code>, <code>sleep_awake</code> and <code>sleep_asleep</code> hold the hours of the main night of each wake date, one row per date, stored as a mean. Chart them with <code>stat_types: mean</code>, per day, week or month. This is the graph in the integration's <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/dashboard.md">example dashboard</a>:</p>
+
+<pre><code>type: statistics-graph
+title: Sleep stages per night
+chart_type: bar-stack
+period: day
+days_to_show: 30
+stat_types:
+  - mean
+entities:
+  - life_dashboard:&lt;entry&gt;_sleep_deep
+  - life_dashboard:&lt;entry&gt;_sleep_light
+  - life_dashboard:&lt;entry&gt;_sleep_rem
+  - life_dashboard:&lt;entry&gt;_sleep_awake</code></pre>
+
+<p>Replace <code>&lt;entry&gt;</code> with your phone's ID: <strong>Developer tools</strong> &gt; <strong>Statistics</strong> shows it after <code>life_dashboard:</code>. Nights from before the update don't have their stages stored. <strong>Send history</strong> in the app, under <strong>What to send</strong> on the <strong>Health</strong> tab, fills them in, each on its own date, and sending the same window again changes nothing.</p>
+
+<h2>What counts as the main night</h2>
+
+<p>A night belongs to its wake date, the date the session ended on in Home Assistant's time zone. A date gets one main night: the session with the most time asleep, then the longest. A nap or a second app that wrote the same night doesn't add up with it.</p>
+
+<p>That is why these numbers differ from the statistic <code>sleep_minutes</code>, which counts every session whole on the day it ended, time in bed and awake included. Time in bed never counts as a stage, and where stages overlap, each moment goes to the most specific one, so nothing counts twice. <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md#sleep-stages">Sleep stages in the integration's docs</a> gives every rule.</p>
+
+<h2>Install the card</h2>
+
+<p>The card is added to the Marketplace as a custom repository, until it is in the default list. <a href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-sleep-card&amp;category=plugin">This link</a> adds the repository and opens it; it needs Home Assistant 2026.11 or HACS. By hand:</p>
+
+<ol>
+  <li>Open the Marketplace, open the three dots menu in the top right and choose <strong>Custom repositories</strong>.</li>
+  <li>Add <code>https://github.com/owen282000/life-dashboard-sleep-card</code> with the type <strong>Dashboard</strong>.</li>
+  <li>Find <strong>Life Dashboard Sleep Card</strong> and download it.</li>
+</ol>
+
+<p>On storage mode dashboards the resource is registered for you. If your dashboards are in YAML mode, add it yourself:</p>
+
+<pre><code>lovelace:
+  resources:
+    - url: /hacsfiles/life-dashboard-sleep-card/life-dashboard-sleep-card.js
+      type: module</code></pre>
+
+<p>The <a href="https://github.com/owen282000/life-dashboard-sleep-card#by-hand">card's README</a> also has the install without the Marketplace, from a file in your <code>www</code> folder.</p>
+
+<h2>Add it to a dashboard</h2>
+
+<p>Add the card from the card picker, which offers the sensors that carry a night, or in YAML:</p>
+
+<pre><code>type: custom:life-dashboard-sleep-card
+entity: sensor.your_phone_last_sleep_asleep
+title: Last night</code></pre>
+
+<p><code>entity</code> is required and <code>title</code>, the text above the time asleep, is optional. Language, time format and time zone follow your Home Assistant profile. The stage colors are CSS variables, such as <code>--life-dashboard-sleep-deep</code>, so a theme can set them.</p>
+
+<h2>What the card shows</h2>
+
+<ul>
+  <li><strong>The shape of the night.</strong> One lane per stage with connectors between them, awake at the top and deep at the bottom, so the cycles show at a glance. A short blip stays visible, also on a night with 60 stages at phone width.</li>
+  <li><strong>The numbers beside it.</strong> Time asleep, the night's start and end, and each stage's duration and share of the night.</li>
+  <li><strong>Every segment on demand.</strong> Hover or tap a block for its stage, start, end and duration. On a keyboard, focus the plot and use the arrow keys, Home and End. Screen readers get a text table of the whole night.</li>
+  <li><strong>What's missing, said plainly.</strong> A night that only reports sleep draws an asleep lane and says so, and a sensor without stages shows an empty state instead of a broken chart.</li>
+</ul>
+
+<!-- IMG: the card at phone width (S2-sleep-card-phone.png) -->
+
+<h2>With only the official Companion app on Android</h2>
+
+<p>On Android the card works on its own with the official Home Assistant Companion app. It reads <code>sensor.your_phone_health_connect_sleep_duration</code>, and needs:</p>
+
+<ul>
+  <li>The Android Companion app 2026.11.1 or newer, the version that added the stages.</li>
+  <li>The <strong>Sleep duration</strong> sensor switched on, under <strong>Settings</strong>, <strong>Companion app</strong>, <strong>Manage sensors</strong>, with Health Connect access for sleep. The stages only come with that sensor, not with the separate per-stage duration sensors.</li>
+</ul>
+
+<p>The sensor's state is in minutes and the card doesn't use it: time asleep comes from the stages. The iOS Companion app has no timeline of stages, so the card cannot draw a night from it. On an iPhone, use the Life Dashboard app and integration. What Life Dashboard adds on Android is the history around the night, every day in long-term statistics, and both phones; <a href="../companion-app-health-connect/">The companion app and Health Connect</a> goes through the rest.</p>
+
+<h2>Limits</h2>
+
+<ul>
+  <li>The card draws one night, the one in the sensor. The <code>stages</code> attribute can be long, so the recorder doesn't keep it. Earlier nights live on in the statistics as hours per stage, without their timeline.</li>
+  <li>Over MQTT the apps publish one sleep sensor, the session's duration. The stage sensors, the statistics and the <code>stages</code> attribute are the integration's.</li>
+  <li>A night reaches the phone when the watch's app writes it, often after you wake up, and Home Assistant gets it with the next sync.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Does the card need the Life Dashboard integration?</summary>
+    <p>On Android, no: it also reads the official Companion app's Sleep duration sensor from version 2026.11.1. On an iPhone, yes, because the iOS Companion app has no timeline of stages.</p>
+  </details>
+  <details>
+    <summary>Why don't the stages add up to my sleep statistic?</summary>
+    <p>The stage statistics hold the main night of each wake date. <code>sleep_minutes</code> counts every session whole on the day it ended, naps, time in bed and awake included, so the two differ on purpose.</p>
+  </details>
+  <details>
+    <summary>Why can't I find last_sleep_deep?</summary>
+    <p>Those sensors start disabled, and a sensor appears with the first night that has stages. Open the phone's device page and show the disabled entities to enable them.</p>
+  </details>
+  <details>
+    <summary>Can the card show an earlier night?</summary>
+    <p>It draws the night in the sensor you point it at, which is the newest main night. For earlier nights, chart the statistics, which keep the hours per stage per night.</p>
+  </details>
+  <details>
+    <summary>Does the card work with other sleep sensors?</summary>
+    <p>It reads the two shapes on this page. A sensor with real state history, such as a sleep tracking app that reports live, is what Lavve's <a href="https://github.com/Lavve/lovelace-hypnogram-card">Hypnogram card</a> is built for. This card is for nights that arrive after the fact, as a list of stages.</p>
+  </details>
+  <details>
+    <summary>Does the card send my sleep data anywhere?</summary>
+    <p>No. It only reads the sensor state Home Assistant already gives your browser and makes no requests of its own. It has no telemetry or analytics. The card is free and open source under the MIT license.</p>
+  </details>
+</section>

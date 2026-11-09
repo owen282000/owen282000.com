@@ -11,7 +11,7 @@
 <meta name="theme-color" content="#101418">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png?v=355467f5">
 <link rel="apple-touch-icon" href="../img/icon-180.png?v=e1842852">
-<link rel="stylesheet" href="../site.css?v=d30fc76a">
+<link rel="stylesheet" href="../site.css?v=0724c4a5">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="A Home Assistant integration for your phone&#x27;s health data">
@@ -85,7 +85,7 @@
         "inLanguage": "en"
       },
       "inLanguage": "en",
-      "dateModified": "2026-11-06"
+      "dateModified": "2026-11-09"
     },
     {
       "@type": "FAQPage",
@@ -128,6 +128,14 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Yes, on Android. Configure maps one entity per type: weight, body fat, lean body mass, bone mass, body water mass, height and blood pressure. The app writes each new value into Health Connect, and Samsung Health and Google Health pick up weight and body fat from there. Blood pressure lands in Health Connect too, but Google Health doesn't read it and Samsung Health shows it only in some versions. Smart scale to Samsung Health has the setup."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I see sleep stages in Home Assistant?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, from integration 1.1.0: deep, light, REM, awake and time asleep per night, as sensors and statistics. The sleep stages guide has the details and the Sleep Card that draws the night as a hypnogram."
           }
         },
         {
@@ -251,7 +259,19 @@
         </ul>
         <a class="link-arrow" href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md">Every sensor, statistic and attribute</a>
       </div>
-    </div><div class="show flip" id="pairing-and-security">
+    </div><div class="show stack" id="sleep-stages">
+      <div class="stack-text">
+        <div><h2>Sleep stages per night, and a card that draws the night</h2></div>
+        <div><p>From version 1.1.0, each night becomes sensors and statistics for deep, light, REM, awake and time asleep, with one main night per wake date. The <a href="https://github.com/owen282000/life-dashboard-sleep-card">Life Dashboard Sleep Card</a>, a separate install from the Marketplace, draws the newest night on your dashboard as a hypnogram. On Android it also works with the official Companion app, without Life Dashboard.</p>
+        <ul class="ticks">
+          <li>The night as a sensor <span><code>last_sleep_asleep</code> holds the hours asleep of the newest main night, with every stage in its <code>stages</code> attribute.</span></li>
+          <li>Every stage as a statistic <span>Hours of deep, light, REM, awake and asleep per night, for a chart per day, week or month. Send history from the app fills in older nights.</span></li>
+          <li>One main night per date <span>The session with the most time asleep. Naps and a second app that wrote the same night don't add up with it.</span></li>
+        </ul>
+        <a class="link-arrow" href="../sleep-stages-home-assistant/">Sleep stages in Home Assistant</a></div>
+      </div>
+      <div class="show-media is-wide"><div class="stage green-glow"></div><div class="wide-shot solo"><a class="shot-link" href="../img/S1-sleep-card.webp?v=7aa12c1e" aria-label="The Life Dashboard Sleep Card on a dark theme with sample data: 5h 14m asleep, Mon 9 Nov, 23:21 to 05:05, four lanes for awake, REM, light and deep with the stages as blocks along an hour axis, and each stage's duration and share, full size"><picture><source media="(max-width: 520px)" srcset="../img/S2-sleep-card-phone.webp?v=7d613888" width="720" height="531"><img src="../img/S1-sleep-card.webp?v=7aa12c1e" alt="The Life Dashboard Sleep Card on a dark theme with sample data: 5h 14m asleep, Mon 9 Nov, 23:21 to 05:05, four lanes for awake, REM, light and deep with the stages as blocks along an hour axis, and each stage's duration and share" width="1400" height="442" loading="lazy"></picture></a></div><p class="shot-note">Sample data</p></div>
+    </div><div class="show" id="pairing-and-security">
       <div class="show-media has-card"><div class="stage green-glow"></div><figure class="qr-card solo"><img src="../img/H2-qr.webp?v=abb2ed19" alt="The Life Dashboard integration in Home Assistant showing a pairing QR code" width="800" height="668" loading="lazy"></figure></div>
       <div>
         <h2>One QR&nbsp;code per phone, and a signature on every payload</h2>
@@ -270,7 +290,7 @@
         <ul class="ticks">
           <li>Today <span>Steps, distance, calories, workout time and heart rate as tiles, and the last workout with its pace, heart rate and laps.</span></li>
           <li>Recovery <span>Heart rate variability over 7 days against your 60-day baseline, resting heart rate over 7 days against the 7 before, and VO2 max.</span></li>
-          <li>Sleep <span>Last night on a gauge, with the night's breathing, oxygen and skin temperature, and sleep per night.</span></li>
+          <li>Sleep <span>Last night on a gauge, with the night's breathing, oxygen and skin temperature, sleep per night and the sleep stages per night.</span></li>
           <li>Training, heart, activity and body <span>Workout time per week and month, resting heart rate, steps and distance, and weight and body fat over a year.</span></li>
           <li>Two phones <span>A view with two phones side by side, an Android phone and an iPhone alike, and both in the same graphs.</span></li>
         </ul>
@@ -355,6 +375,10 @@
         <p>Yes, on Android. <strong>Configure</strong> maps one entity per type: weight, body fat, lean body mass, bone mass, body water mass, height and blood pressure. The app writes each new value into Health Connect, and Samsung Health and Google Health pick up weight and body fat from there. Blood pressure lands in Health Connect too, but Google Health doesn't read it and Samsung Health shows it only in some versions. <a href="../smart-scale-to-samsung-health/">Smart scale to Samsung Health</a> has the setup.</p>
       </details>
       <details>
+        <summary>Can I see sleep stages in Home Assistant?</summary>
+        <p>Yes, from integration 1.1.0: deep, light, REM, awake and time asleep per night, as sensors and statistics. The <a href="../sleep-stages-home-assistant/">sleep stages guide</a> has the details and the Sleep Card that draws the night as a hypnogram.</p>
+      </details>
+      <details>
         <summary>Does Home Assistant poll the phone or a cloud?</summary>
         <p>No. The phone pushes a signed payload on its own schedule, and nothing in Home Assistant polls. A payload that fails while Home Assistant restarts waits in the app's outbox and goes out with the next sync.</p>
       </details>
@@ -374,8 +398,10 @@
 <section class="section tight band">
   <div class="wrap">
     <div class="section-head"><h2>Setup guides</h2></div>
-    <div class="family">
+    <div class="family three">
       <a class="part" href="../health-connect-home-assistant/"><h3>Health Connect in Home Assistant</h3><p>Samsung Health, Garmin, Fitbit, Oura and Withings data as sensors, with all your history.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="../apple-health-home-assistant/"><h3>Apple Health in Home Assistant</h3><p>Apple Watch and iPhone data as sensors, with all your history from a backfill.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="../sleep-stages-home-assistant/"><h3>Sleep stages in Home Assistant</h3><p>Deep, light, REM and awake per night as sensors and statistics, and a card that draws the night.</p><span class="go">Read the guide</span></a>
       <a class="part" href="../fitbit-home-assistant/"><h3>Fitbit and Pixel Watch in Home Assistant</h3><p>Through Health Connect, with no Fitbit Web API and no Google Cloud project.</p><span class="go">Read the guide</span></a>
       <a class="part" href="../garmin-home-assistant/"><h3>Garmin in Home Assistant</h3><p>Steps, sleep and heart rate from Garmin Connect, with no Garmin login in Home Assistant.</p><span class="go">Read the guide</span></a>
       <a class="part" href="../screen-time-home-assistant/"><h3>Screen time in Home Assistant</h3><p>Minutes per app as sensors, limits you set yourself, and several phones.</p><span class="go">Read the guide</span></a>
@@ -422,6 +448,7 @@
           <li><a href="../companion-app-health-connect/">The companion app and Health Connect</a></li>
           <li><a href="../health-connect-webhook/">Health Connect to a webhook</a></li>
           <li><a href="../screen-time-home-assistant/">Screen time in Home Assistant</a></li>
+          <li><a href="../sleep-stages-home-assistant/">Sleep stages in Home Assistant</a></li>
           <li><a href="../smart-scale-to-samsung-health/">Smart scale to Samsung Health</a></li>
           <li><a href="../health-connect-n8n/">Health Connect to n8n</a></li>
           <li><a href="../health-connect-data-types/">Health Connect data types, app by app</a></li>
@@ -451,7 +478,7 @@
           <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/PRIVACY.md">Privacy policy for Android</a></li>
           <li><a href="../ios/privacy/">Privacy policy for iPhone</a></li>
           <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/AI_POLICY.md">AI policy</a></li>
-          <li><a href="https://github.com/owen282000?tab=repositories&amp;q=life-dashboard">All four repositories</a></li>
+          <li><a href="https://github.com/owen282000?tab=repositories&amp;q=life-dashboard">All repositories</a></li>
         </ul>
       </div>
     </div>

@@ -14,7 +14,7 @@
 <meta name="theme-color" content="#101418">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png?v=355467f5">
 <link rel="apple-touch-icon" href="../img/icon-180.png?v=e1842852">
-<link rel="stylesheet" href="../site.css?v=d30fc76a">
+<link rel="stylesheet" href="../site.css?v=0724c4a5">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="How do I get Health Connect data into Home Assistant?">
@@ -51,7 +51,7 @@
         }
       ],
       "datePublished": "2026-10-06",
-      "dateModified": "2026-11-06",
+      "dateModified": "2026-11-09",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -172,7 +172,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Health Connect in Home Assistant</span></nav>
 <h1>How do I get Health Connect data into Home Assistant?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 6, 2026. <a href="../de/home-assistant-gesundheitsdaten/" hreflang="de" lang="de">Auf Deutsch</a></p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 9, 2026. <a href="../de/home-assistant-gesundheitsdaten/" hreflang="de" lang="de">Auf Deutsch</a></p>
 
 <p>Install the Life Dashboard integration in Home Assistant and Life Dashboard Companion, an open-source Android app, on your phone, then pair the two with a QR code. Your watch's data then arrives as sensors, and every day is kept in long-term statistics.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in the Marketplace</a></p>
@@ -233,6 +233,7 @@
 <ul>
   <li><strong>Sensors</strong> for 26 of the 34 types: today's steps, distance and calories (such as <code>sensor.pixel_8_steps_today</code>), and the latest heart rate, resting heart rate, HRV, last sleep, weight, blood pressure, glucose, the last workout and more. Latest values name the app that wrote them. Which ones you get depends on your watch's app; see the table above.</li>
   <li><strong>History</strong> in long-term statistics: one value per day for steps, distance in km, calories, sleep, exercise and mindfulness time in hours, hydration and screen time in hours, and an hourly mean, minimum and maximum for heart rate, weight and other measurements. Use the <strong>Statistics graph</strong> card; <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md">Sensors and statistics</a> lists every entity.</li>
+  <li><strong>Sleep stages.</strong> With the integration 1.1.0 or newer, deep, light, REM, awake and time asleep per night become sensors and statistics, and the <a href="../sleep-stages-home-assistant/">Life Dashboard Sleep Card</a> draws the night as a hypnogram.</li>
   <li><strong>No double counting.</strong> Steps, distance and calories use Health Connect's daily totals, so a walk recorded by phone and watch counts once.</li>
   <li><strong>An example Health dashboard</strong> and a theme to copy, built from Home Assistant's own cards: today, recovery, sleep, training, heart, activity and body, plus a screen time view and a view for two phones. <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/dashboard.md">The Health dashboard</a> shows how to set it up. The setup itself needs no YAML; the dashboard is an optional YAML file you paste into a new dashboard's raw configuration editor.</li>
 </ul>
@@ -320,6 +321,7 @@
           <li><a href="../companion-app-health-connect/">The companion app and Health Connect</a></li>
           <li><a href="../health-connect-webhook/">Health Connect to a webhook</a></li>
           <li><a href="../screen-time-home-assistant/">Screen time in Home Assistant</a></li>
+          <li><a href="../sleep-stages-home-assistant/">Sleep stages in Home Assistant</a></li>
           <li><a href="../smart-scale-to-samsung-health/">Smart scale to Samsung Health</a></li>
           <li><a href="../health-connect-n8n/">Health Connect to n8n</a></li>
           <li><a href="../health-connect-data-types/">Health Connect data types, app by app</a></li>
@@ -373,6 +375,7 @@
           <li><a href="../companion-app-health-connect/">The companion app and Health Connect</a></li>
           <li><a href="../health-connect-webhook/">Health Connect to a webhook</a></li>
           <li><a href="../screen-time-home-assistant/">Screen time in Home Assistant</a></li>
+          <li><a href="../sleep-stages-home-assistant/">Sleep stages in Home Assistant</a></li>
           <li><a href="../smart-scale-to-samsung-health/">Smart scale to Samsung Health</a></li>
           <li><a href="../health-connect-n8n/">Health Connect to n8n</a></li>
           <li><a href="../health-connect-data-types/">Health Connect data types, app by app</a></li>
@@ -402,7 +405,7 @@
           <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/PRIVACY.md">Privacy policy for Android</a></li>
           <li><a href="../ios/privacy/">Privacy policy for iPhone</a></li>
           <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/AI_POLICY.md">AI policy</a></li>
-          <li><a href="https://github.com/owen282000?tab=repositories&amp;q=life-dashboard">All four repositories</a></li>
+          <li><a href="https://github.com/owen282000?tab=repositories&amp;q=life-dashboard">All repositories</a></li>
         </ul>
       </div>
     </div>

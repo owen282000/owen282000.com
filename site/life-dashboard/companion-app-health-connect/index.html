@@ -11,7 +11,7 @@
 <meta name="theme-color" content="#101418">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png?v=355467f5">
 <link rel="apple-touch-icon" href="../img/icon-180.png?v=e1842852">
-<link rel="stylesheet" href="../site.css?v=d30fc76a">
+<link rel="stylesheet" href="../site.css?v=0724c4a5">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="Is the Home Assistant companion app enough for Health Connect data?">
@@ -48,7 +48,7 @@
         }
       ],
       "datePublished": "2026-10-14",
-      "dateModified": "2026-11-06",
+      "dateModified": "2026-11-09",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -169,7 +169,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">The companion app and Health Connect</span></nav>
 <h1>Is the Home Assistant companion app enough for Health Connect data?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 6, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 9, 2026.</p>
 
 <p>For the latest value, yes. The Android companion app has 26 Health Connect sensors, each with the newest reading or today's total. It has no way to load older data, it files a value at the moment the sensor updates rather than on the day it belongs to, and it doesn't write into Health Connect. Life Dashboard reads 34 types and adds a backfill of all your history on the right dates, scale and blood pressure readings written back, and screen time per app. The two run side by side.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in the Marketplace</a></p>
@@ -196,7 +196,7 @@
   <li><strong>Switching them on.</strong> The sensors are off by default. You enable each one under <strong>Manage Sensors</strong>, which also asks for its Health Connect permission.</li>
 </ul>
 
-<p>Not covered as of October 2026: exercise sessions, sleep stages, nutrition, cycle tracking, mindfulness and skin temperature. The request for them is <a href="https://github.com/home-assistant/android/issues/4804">issue #4804</a>, still open.</p>
+<p>Since release 2026.11.1, the Android app's <strong>Sleep duration</strong> sensor also carries the night's stages as attributes, and the <a href="../sleep-stages-home-assistant/">Life Dashboard Sleep Card</a> can draw a night from them. Not covered as of October 2026: exercise sessions, nutrition, cycle tracking, mindfulness and skin temperature. The request for them is <a href="https://github.com/home-assistant/android/issues/4804">issue #4804</a>, still open.</p>
 
 <h2 id="when-the-companion-app-is-enough">When the companion app is enough</h2>
 
@@ -245,7 +245,7 @@
   </thead>
   <tbody>
     <tr><th scope="row">Health Connect</th><td>26 sensors from 25 types</td><td>34 types; 26 become sensors, and a webhook gets every record</td></tr>
-    <tr><th scope="row">Types the other lacks</th><td>Floors climbed, elevation gained</td><td>Exercise sessions, sleep stages, nutrition, cycle tracking, mindfulness, skin temperature</td></tr>
+    <tr><th scope="row">Types the other lacks</th><td>Floors climbed, elevation gained</td><td>Exercise sessions, nutrition, cycle tracking, mindfulness, skin temperature</td></tr>
     <tr><th scope="row">Where a value is filed</th><td>At the moment the sensor updates</td><td>On the date and hour it belongs to</td></tr>
     <tr><th scope="row">Long-term statistics</th><td>The six daily totals</td><td>Every type with a sensor, plus mindfulness time</td></tr>
     <tr><th scope="row">Older data</th><td>None; history starts when you enable a sensor</td><td>Backfill of all your history</td></tr>
@@ -325,6 +325,7 @@
           <li><a href="../companion-app-health-connect/" aria-current="page">The companion app and Health Connect</a></li>
           <li><a href="../health-connect-webhook/">Health Connect to a webhook</a></li>
           <li><a href="../screen-time-home-assistant/">Screen time in Home Assistant</a></li>
+          <li><a href="../sleep-stages-home-assistant/">Sleep stages in Home Assistant</a></li>
           <li><a href="../smart-scale-to-samsung-health/">Smart scale to Samsung Health</a></li>
           <li><a href="../health-connect-n8n/">Health Connect to n8n</a></li>
           <li><a href="../health-connect-data-types/">Health Connect data types, app by app</a></li>
@@ -378,6 +379,7 @@
           <li><a href="../companion-app-health-connect/">The companion app and Health Connect</a></li>
           <li><a href="../health-connect-webhook/">Health Connect to a webhook</a></li>
           <li><a href="../screen-time-home-assistant/">Screen time in Home Assistant</a></li>
+          <li><a href="../sleep-stages-home-assistant/">Sleep stages in Home Assistant</a></li>
           <li><a href="../smart-scale-to-samsung-health/">Smart scale to Samsung Health</a></li>
           <li><a href="../health-connect-n8n/">Health Connect to n8n</a></li>
           <li><a href="../health-connect-data-types/">Health Connect data types, app by app</a></li>
@@ -407,7 +409,7 @@
           <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/PRIVACY.md">Privacy policy for Android</a></li>
           <li><a href="../ios/privacy/">Privacy policy for iPhone</a></li>
           <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/AI_POLICY.md">AI policy</a></li>
-          <li><a href="https://github.com/owen282000?tab=repositories&amp;q=life-dashboard">All four repositories</a></li>
+          <li><a href="https://github.com/owen282000?tab=repositories&amp;q=life-dashboard">All repositories</a></li>
         </ul>
       </div>
     </div>
