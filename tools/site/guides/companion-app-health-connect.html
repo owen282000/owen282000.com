@@ -3,7 +3,7 @@ title: Home Assistant companion app or Life Dashboard Companion? | Life Dashboar
 description: The companion app's 26 Health Connect sensors show the latest value. Life Dashboard Companion adds history on the right dates, 34 types and write-back.
 primary query: home assistant companion app health connect
 secondary queries: health connect sensors home assistant history, home assistant companion app health connect only latest value, companion app health connect long term statistics, health connect backfill home assistant, companion app health connect sleep stages, companion app health connect exercise
-updated: 2026-11-06
+updated: 2026-11-09
 published: 2026-10-14
 -->
 
@@ -33,7 +33,7 @@ published: 2026-10-14
   <li><strong>Switching them on.</strong> The sensors are off by default. You enable each one under <strong>Manage Sensors</strong>, which also asks for its Health Connect permission.</li>
 </ul>
 
-<p>Not covered as of October 2026: exercise sessions, sleep stages, nutrition, cycle tracking, mindfulness and skin temperature. The request for them is <a href="https://github.com/home-assistant/android/issues/4804">issue #4804</a>, still open.</p>
+<p>Since release 2026.11.1, the Android app's <strong>Sleep duration</strong> sensor also carries the night's stages as attributes, and the <a href="../sleep-stages-home-assistant/">Life Dashboard Sleep Card</a> can draw a night from them. Not covered as of October 2026: exercise sessions, nutrition, cycle tracking, mindfulness and skin temperature. The request for them is <a href="https://github.com/home-assistant/android/issues/4804">issue #4804</a>, still open.</p>
 
 <h2>When the companion app is enough</h2>
 
@@ -82,7 +82,7 @@ published: 2026-10-14
   </thead>
   <tbody>
     <tr><td>Health Connect</td><td>26 sensors from 25 types</td><td>34 types; 26 become sensors, and a webhook gets every record</td></tr>
-    <tr><td>Types the other lacks</td><td>Floors climbed, elevation gained</td><td>Exercise sessions, sleep stages, nutrition, cycle tracking, mindfulness, skin temperature</td></tr>
+    <tr><td>Types the other lacks</td><td>Floors climbed, elevation gained</td><td>Exercise sessions, nutrition, cycle tracking, mindfulness, skin temperature</td></tr>
     <tr><td>Where a value is filed</td><td>At the moment the sensor updates</td><td>On the date and hour it belongs to</td></tr>
     <tr><td>Long-term statistics</td><td>The six daily totals</td><td>Every type with a sensor, plus mindfulness time</td></tr>
     <tr><td>Older data</td><td>None; history starts when you enable a sensor</td><td>Backfill of all your history</td></tr>

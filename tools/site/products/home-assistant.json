@@ -71,6 +71,30 @@
       }
     },
     {
+      "kicker": "Sleep stages",
+      "h2": "Sleep stages per night, and a card that draws the night",
+      "text": "From version 1.1.0, each night becomes sensors and statistics for deep, light, REM, awake and time asleep, with one main night per wake date. The <a href=\"https://github.com/owen282000/life-dashboard-sleep-card\">Life Dashboard Sleep Card</a>, a separate install from the Marketplace, draws the newest night on your dashboard as a hypnogram. On Android it also works with the official Companion app, without Life Dashboard.",
+      "bullets": [
+        {
+          "main": "The night as a sensor",
+          "sub": "<code>last_sleep_asleep</code> holds the hours asleep of the newest main night, with every stage in its <code>stages</code> attribute."
+        },
+        {
+          "main": "Every stage as a statistic",
+          "sub": "Hours of deep, light, REM, awake and asleep per night, for a chart per day, week or month. Send history from the app fills in older nights."
+        },
+        {
+          "main": "One main night per date",
+          "sub": "The session with the most time asleep. Naps and a second app that wrote the same night don't add up with it."
+        }
+      ],
+      "image": "S1-sleep-card",
+      "link": {
+        "href": "../sleep-stages-home-assistant/",
+        "text": "Sleep stages in Home Assistant"
+      }
+    },
+    {
       "kicker": "Pairing and security",
       "h2": "One QR code per phone, and a signature on every payload",
       "text": "Add the integration once per phone, and it shows a QR code with a webhook URL and a secret it generated: 64 hex characters. A payload without a valid HMAC-SHA256 signature gets a 401 and is logged without its contents. <a href=\"../health-connect-home-assistant/\">How to add Health Connect to Home Assistant</a> walks through the pairing.",
@@ -109,7 +133,7 @@
         },
         {
           "main": "Sleep",
-          "sub": "Last night on a gauge, with the night's breathing, oxygen and skin temperature, and sleep per night."
+          "sub": "Last night on a gauge, with the night's breathing, oxygen and skin temperature, sleep per night and the sleep stages per night."
         },
         {
           "main": "Training, heart, activity and body",
@@ -174,6 +198,10 @@
       "a": "Yes, on Android. <strong>Configure</strong> maps one entity per type: weight, body fat, lean body mass, bone mass, body water mass, height and blood pressure. The app writes each new value into Health Connect, and Samsung Health and Google Health pick up weight and body fat from there. Blood pressure lands in Health Connect too, but Google Health doesn't read it and Samsung Health shows it only in some versions. <a href=\"../smart-scale-to-samsung-health/\">Smart scale to Samsung Health</a> has the setup."
     },
     {
+      "q": "Can I see sleep stages in Home Assistant?",
+      "a": "Yes, from integration 1.1.0: deep, light, REM, awake and time asleep per night, as sensors and statistics. The <a href=\"../sleep-stages-home-assistant/\">sleep stages guide</a> has the details and the Sleep Card that draws the night as a hypnogram."
+    },
+    {
       "q": "Does Home Assistant poll the phone or a cloud?",
       "a": "No. The phone pushes a signed payload on its own schedule, and nothing in Home Assistant polls. A payload that fails while Home Assistant restarts waits in the app's outbox and goes out with the next sync."
     },
@@ -186,9 +214,11 @@
       "a": "Deleting the entry removes the device and its sensors, deletes its cloudhook if it had one, and deletes the phone's files in <code>.storage</code>. Its long-term statistics stay in the recorder, as they do for any integration you remove. Add a phone later, and it offers to take them over, so the graphs and running totals carry on where they stopped."
     }
   ],
-  "updated": "2026-11-06",
+  "updated": "2026-11-09",
   "guides": [
     "health-connect-home-assistant",
+    "apple-health-home-assistant",
+    "sleep-stages-home-assistant",
     "fitbit-home-assistant",
     "garmin-home-assistant",
     "screen-time-home-assistant"

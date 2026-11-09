@@ -3,7 +3,7 @@ title: Health Connect to Home Assistant: sensors and history | Life Dashboard
 description: Steps, sleep, heart rate and weight from Samsung Health, Garmin, Fitbit or Oura as Home Assistant sensors, each day on its own date, paired by QR code.
 primary query: health connect home assistant
 secondary queries: garmin home assistant health connect, oura home assistant, withings home assistant, home assistant steps sensor, home assistant sleep sensor, home assistant heart rate sensor, health connect home assistant integration
-updated: 2026-11-06
+updated: 2026-11-09
 -->
 
 <h1>How do I get Health Connect data into Home Assistant?</h1>
@@ -66,6 +66,7 @@ updated: 2026-11-06
 <ul>
   <li><strong>Sensors</strong> for 26 of the 34 types: today's steps, distance and calories (such as <code>sensor.pixel_8_steps_today</code>), and the latest heart rate, resting heart rate, HRV, last sleep, weight, blood pressure, glucose, the last workout and more. Latest values name the app that wrote them. Which ones you get depends on your watch's app; see the table above.</li>
   <li><strong>History</strong> in long-term statistics: one value per day for steps, distance in km, calories, sleep, exercise and mindfulness time in hours, hydration and screen time in hours, and an hourly mean, minimum and maximum for heart rate, weight and other measurements. Use the <strong>Statistics graph</strong> card; <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md">Sensors and statistics</a> lists every entity.</li>
+  <li><strong>Sleep stages.</strong> With the integration 1.1.0 or newer, deep, light, REM, awake and time asleep per night become sensors and statistics, and the <a href="../sleep-stages-home-assistant/">Life Dashboard Sleep Card</a> draws the night as a hypnogram.</li>
   <li><strong>No double counting.</strong> Steps, distance and calories use Health Connect's daily totals, so a walk recorded by phone and watch counts once.</li>
   <li><strong>An example Health dashboard</strong> and a theme to copy, built from Home Assistant's own cards: today, recovery, sleep, training, heart, activity and body, plus a screen time view and a view for two phones. <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/dashboard.md">The Health dashboard</a> shows how to set it up. The setup itself needs no YAML; the dashboard is an optional YAML file you paste into a new dashboard's raw configuration editor.</li>
 </ul>

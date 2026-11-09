@@ -11,7 +11,7 @@
 <meta name="theme-color" content="#101418">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png?v=355467f5">
 <link rel="apple-touch-icon" href="../img/icon-180.png?v=e1842852">
-<link rel="stylesheet" href="../site.css?v=d30fc76a">
+<link rel="stylesheet" href="../site.css?v=0724c4a5">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="How do I get Fitbit and Pixel Watch data into Home Assistant after the Fitbit Web API shutdown?">
@@ -268,6 +268,8 @@
 
 <p>Daily totals and the latest readings become sensors, and each day is stored in long-term statistics on its own date. A backfill sends whatever history Google Health has written to Health Connect, all of it. Since version 0.10.0 of the integration, your exercise sessions also become workout sensors: the last workout with its kind and length, and your exercise minutes today and yesterday.</p>
 
+<p>With the integration 1.1.0 or newer, your nights also become sensors and statistics per stage, and the <a href="../sleep-stages-home-assistant/">Life Dashboard Sleep Card</a> draws the night as a hypnogram.</p>
+
 <p>Not in Google's list as of October 2026: SpO2 and active calories. One user did see Fitbit's nightly SpO2 arrive, so check on your own phone under Health Connect's app permissions. Google Health also writes floors, speed and exercise routes, which the app doesn't send.</p>
 
 <figure class="shot"><a class="shot-link" href="../img/H9-health-phone.webp?v=43ebb81f" aria-label="The example Health dashboard in Home Assistant on a phone, with demo data: today's tiles and the last workout, full size"><div class="phone " style="aspect-ratio: 720 / 1559"><img src="../img/H9-health-phone.webp?v=43ebb81f" alt="The example Health dashboard in Home Assistant on a phone, with demo data: today's tiles and the last workout" width="720" height="1559" loading="lazy"></div></a></figure>
@@ -352,6 +354,7 @@
           <li><a href="../companion-app-health-connect/">The companion app and Health Connect</a></li>
           <li><a href="../health-connect-webhook/">Health Connect to a webhook</a></li>
           <li><a href="../screen-time-home-assistant/">Screen time in Home Assistant</a></li>
+          <li><a href="../sleep-stages-home-assistant/">Sleep stages in Home Assistant</a></li>
           <li><a href="../smart-scale-to-samsung-health/">Smart scale to Samsung Health</a></li>
           <li><a href="../health-connect-n8n/">Health Connect to n8n</a></li>
           <li><a href="../health-connect-data-types/">Health Connect data types, app by app</a></li>
@@ -405,6 +408,7 @@
           <li><a href="../companion-app-health-connect/">The companion app and Health Connect</a></li>
           <li><a href="../health-connect-webhook/">Health Connect to a webhook</a></li>
           <li><a href="../screen-time-home-assistant/">Screen time in Home Assistant</a></li>
+          <li><a href="../sleep-stages-home-assistant/">Sleep stages in Home Assistant</a></li>
           <li><a href="../smart-scale-to-samsung-health/">Smart scale to Samsung Health</a></li>
           <li><a href="../health-connect-n8n/">Health Connect to n8n</a></li>
           <li><a href="../health-connect-data-types/">Health Connect data types, app by app</a></li>
@@ -434,7 +438,7 @@
           <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/PRIVACY.md">Privacy policy for Android</a></li>
           <li><a href="../ios/privacy/">Privacy policy for iPhone</a></li>
           <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/AI_POLICY.md">AI policy</a></li>
-          <li><a href="https://github.com/owen282000?tab=repositories&amp;q=life-dashboard">All four repositories</a></li>
+          <li><a href="https://github.com/owen282000?tab=repositories&amp;q=life-dashboard">All repositories</a></li>
         </ul>
       </div>
     </div>

@@ -19,7 +19,7 @@
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="icon" type="image/png" sizes="32x32" href="img/icon-32.png?v=355467f5">
 <link rel="apple-touch-icon" href="img/icon-180.png?v=e1842852">
-<link rel="stylesheet" href="site.css?v=d30fc76a">
+<link rel="stylesheet" href="site.css?v=0724c4a5">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="Life Dashboard: your phone's health data, on your own server">
@@ -72,6 +72,9 @@
         },
         {
           "@id": "https://owen282000.com/life-dashboard/#stack"
+        },
+        {
+          "@id": "https://owen282000.com/life-dashboard/#sleep-card"
         }
       ]
     },
@@ -237,6 +240,33 @@
       "sameAs": [
         "https://github.com/owen282000/life-dashboard-stack"
       ],
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "EUR"
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://owen282000.com/life-dashboard/#sleep-card",
+      "name": "Life Dashboard Sleep Card",
+      "description": "The Life Dashboard Sleep Card is an open-source Home Assistant dashboard card that draws one night of sleep as a hypnogram, from the Life Dashboard integration 1.1.0 or newer or, on Android, the official Home Assistant Companion app 2026.11.1 or newer.",
+      "applicationCategory": "UtilitiesApplication",
+      "applicationSubCategory": "Home Assistant dashboard card",
+      "operatingSystem": "Home Assistant 2026.3 or newer",
+      "url": "https://owen282000.com/life-dashboard/sleep-stages-home-assistant/",
+      "downloadUrl": "https://github.com/owen282000/life-dashboard-sleep-card/releases/latest",
+      "license": "https://opensource.org/licenses/MIT",
+      "isPartOf": {
+        "@id": "https://owen282000.com/life-dashboard/#project"
+      },
+      "author": {
+        "@id": "https://owen282000.com/life-dashboard/#owen"
+      },
+      "sameAs": [
+        "https://github.com/owen282000/life-dashboard-sleep-card"
+      ],
+      "screenshot": "https://owen282000.com/life-dashboard/img/S1-sleep-card.webp",
       "offers": {
         "@type": "Offer",
         "price": "0",
@@ -498,6 +528,7 @@
         <ul class="ticks">
           <li>Sensors for steps, sleep, heart rate, weight and more</li>
           <li>All your history in long-term statistics</li>
+          <li>Sleep stages per night, and <a href="sleep-stages-home-assistant/">a card that draws the night</a></li>
           <li>Screen time in total and per app</li>
           <li>An example Health dashboard to copy</li>
         </ul>
@@ -681,7 +712,7 @@
     </div>
 <!-- BUILD:guides -->
 <div class="guide-groups">
-      <div class="guide-group"><h3>Home Assistant</h3><ul><li><a class="guide-link" href="health-connect-home-assistant/">Health Connect in Home Assistant</a></li><li><a class="guide-link" href="companion-app-health-connect/">The companion app and Health Connect</a></li><li><a class="guide-link" href="screen-time-home-assistant/">Screen time in Home Assistant</a></li><li><a class="guide-link" href="smart-scale-to-samsung-health/">Smart scale to Samsung Health</a></li></ul></div>
+      <div class="guide-group"><h3>Home Assistant</h3><ul><li><a class="guide-link" href="health-connect-home-assistant/">Health Connect in Home Assistant</a></li><li><a class="guide-link" href="companion-app-health-connect/">The companion app and Health Connect</a></li><li><a class="guide-link" href="sleep-stages-home-assistant/">Sleep stages in Home Assistant</a></li><li><a class="guide-link" href="screen-time-home-assistant/">Screen time in Home Assistant</a></li><li><a class="guide-link" href="smart-scale-to-samsung-health/">Smart scale to Samsung Health</a></li></ul></div>
       <div class="guide-group"><h3>Watch brands</h3><ul><li><a class="guide-link" href="samsung-health-home-assistant/">Samsung Health and Galaxy Watch in Home Assistant</a></li><li><a class="guide-link" href="fitbit-home-assistant/">Fitbit and Pixel Watch in Home Assistant</a></li><li><a class="guide-link" href="garmin-home-assistant/">Garmin in Home Assistant</a></li><li><a class="guide-link" href="samsung-health-export/">Samsung Health to your own server</a></li></ul></div>
       <div class="guide-group"><h3>Your own server</h3><ul><li><a class="guide-link" href="health-connect-webhook/">Health Connect to a webhook</a></li><li><a class="guide-link" href="health-connect-n8n/">Health Connect to n8n</a></li><li><a class="guide-link" href="health-data-api/">A web API for Health Connect or Apple Health</a></li><li><a class="guide-link" href="health-data-own-ai/">Health Connect and Apple Health over MCP</a></li><li><a class="guide-link" href="health-data-qr-pairing/">Let your users connect with one QR code</a></li></ul></div>
       <div class="guide-group"><h3>iPhone</h3><ul><li><a class="guide-link" href="apple-health-home-assistant/">Apple Health in Home Assistant</a></li><li><a class="guide-link" href="apple-watch-home-assistant/">Apple Watch in Home Assistant</a></li><li><a class="guide-link" href="apple-health-webhook/">Apple Health to a webhook</a></li><li><a class="guide-link" href="apple-health-n8n/">Apple Health to n8n</a></li><li><a class="guide-link" href="apple-health-data-types/">Apple Health data types, app by app</a></li></ul></div>
@@ -792,6 +823,7 @@
           <li><a href="companion-app-health-connect/">The companion app and Health Connect</a></li>
           <li><a href="health-connect-webhook/">Health Connect to a webhook</a></li>
           <li><a href="screen-time-home-assistant/">Screen time in Home Assistant</a></li>
+          <li><a href="sleep-stages-home-assistant/">Sleep stages in Home Assistant</a></li>
           <li><a href="smart-scale-to-samsung-health/">Smart scale to Samsung Health</a></li>
           <li><a href="health-connect-n8n/">Health Connect to n8n</a></li>
           <li><a href="health-connect-data-types/">Health Connect data types, app by app</a></li>
@@ -821,7 +853,7 @@
           <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/PRIVACY.md">Privacy policy for Android</a></li>
           <li><a href="ios/privacy/">Privacy policy for iPhone</a></li>
           <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/AI_POLICY.md">AI policy</a></li>
-          <li><a href="https://github.com/owen282000?tab=repositories&amp;q=life-dashboard">All four repositories</a></li>
+          <li><a href="https://github.com/owen282000?tab=repositories&amp;q=life-dashboard">All repositories</a></li>
         </ul>
       </div>
     </div>

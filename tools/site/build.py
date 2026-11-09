@@ -97,6 +97,10 @@ def placed(text, place):
     return text.replace(PLACE, place)
 
 HACS = "https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration"
+# The Sleep Card is an add-on for Home Assistant, not one of the four parts: it has a guide of its
+# own and a section on the integration's page, and no place in PARTS, ORDER or the navigation.
+REPO_CARD = "https://github.com/owen282000/life-dashboard-sleep-card"
+HACS_CARD = "https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-sleep-card&amp;category=plugin"
 
 # ---------------------------------------------------------------------------------------------
 # The four parts and where to get them. "kind": "store" is the store the site leads with once it
@@ -223,7 +227,8 @@ BADGE_HREF = {"apk": REPO + "/releases/latest",
 # The landing page groups the guides under these headings; every guide sits in exactly one.
 GUIDE_GROUPS = [
     ("Home Assistant", ["health-connect-home-assistant", "companion-app-health-connect",
-                        "screen-time-home-assistant", "smart-scale-to-samsung-health"]),
+                        "sleep-stages-home-assistant", "screen-time-home-assistant",
+                        "smart-scale-to-samsung-health"]),
     ("Watch brands", ["samsung-health-home-assistant", "fitbit-home-assistant", "garmin-home-assistant",
                       "samsung-health-export"]),
     ("Your own server", ["health-connect-webhook", "health-connect-n8n", "health-data-api", "health-data-own-ai",
@@ -244,6 +249,8 @@ GUIDES = [
      "The JSON payload, signatures, retries and receivers for n8n and Node-RED."),
     ("screen-time-home-assistant", "Screen time in Home Assistant", "Screen time",
      "Minutes per app as sensors, limits you set yourself, and several phones."),
+    ("sleep-stages-home-assistant", "Sleep stages in Home Assistant", "Sleep stages",
+     "Deep, light, REM and awake per night as sensors and statistics, and a card that draws the night."),
     ("smart-scale-to-samsung-health", "Smart scale to Samsung Health", "Smart scale",
      "Weight, body fat and blood pressure from Home Assistant into Health Connect."),
     ("health-connect-n8n", "Health Connect to n8n", "n8n",
@@ -291,6 +298,7 @@ GUIDE_ABOUT = {
     "health-connect-home-assistant": ["#android", "#integration"],
     "health-connect-webhook": ["#android", "#ios"],
     "screen-time-home-assistant": ["#android", "#integration"],
+    "sleep-stages-home-assistant": ["#sleep-card", "#integration", "#android", "#ios"],
     "smart-scale-to-samsung-health": ["#integration", "#android"],
     "troubleshooting": ["#android", "#integration", "#ios"],
     "apple-health-home-assistant": ["#ios", "#integration"],
@@ -359,6 +367,8 @@ IMAGES = {
     "ios-mqtt": ("phone", 720, 1464, "The MQTT broker settings in the iPhone app"),
     "ios-webhook": ("phone", 720, 1464, "A webhook destination in the iPhone app, with its signing secret and custom headers"),
     "p-pairing-flow": ("diagram", 1400, 700, "Your service shows a QR code, the phone opens it into the pairing page, and after Pair your service gets a signed test ping"),
+    "S1-sleep-card": ("wide", 1400, 442, "The Life Dashboard Sleep Card on a dark theme with sample data: 5h 14m asleep, Mon 9 Nov, 23:21 to 05:05, four lanes for awake, REM, light and deep with the stages as blocks along an hour axis, and each stage's duration and share"),
+    "S2-sleep-card-phone": ("card", 720, 531, "The Life Dashboard Sleep Card at phone width with sample data: 5h 14m asleep, the four lanes along the hours, and each stage's duration and share below them"),
     "g-overview": ("wide", 1400, 728, "The overview dashboard of the Grafana stack with demo data"),
     "g-activity": ("wide", 1400, 1260, "The activity dashboard of the Grafana stack"),
     "g-sleep": ("wide", 1400, 895, "The sleep dashboard of the Grafana stack"),
@@ -369,6 +379,11 @@ IMAGES = {
 
 # Phone screenshots cut short of the full screen; they fade out at the bottom.
 CUT = set()
+
+# A line shown with the image, in a figure's caption or on a product page's stage.
+CAPTIONS = {"S1-sleep-card": "Sample data", "S2-sleep-card-phone": "Sample data"}
+# A product page shows this image instead on a phone, where the wide one would be too small to read.
+PHONE_SHOT = {"S1-sleep-card": "S2-sleep-card-phone"}
 
 NEXT = {
     "troubleshooting": ("Still stuck? Ask in Discussions and include the row from the <strong>Logs</strong> tab; the setup guide has the full list of known problems.",
@@ -395,6 +410,8 @@ NEXT = {
         [("btn-primary btn-store", HACS, "Open in the Marketplace"), ("btn-ghost", "../android/#get", "Get the Android app")]),
     "health-data-qr-pairing": ("Build a code for one test user and scan it with the app. The pairing reference has every rule, the test vector and the iPhone differences.",
         [("btn-primary", f"{REPO}/blob/main/docs/pairing.md", "Pairing reference"), ("btn-ghost", f"{REPO}/blob/main/docs/webhook.md", "Payload reference")]),
+    "sleep-stages-home-assistant": ("The card is one install from the Marketplace. The night it draws comes from the integration and the app on your phone, or on Android from the Companion app's <strong>Sleep duration</strong> sensor.",
+        [("btn-primary btn-store", HACS_CARD, "Open the card in the Marketplace"), ("btn-ghost", REPO_CARD, "The card on GitHub")]),
     "health-connect-webhook": ("Install the app, point it at your URL and tap <strong>Send test</strong>. The payload reference has every field and a receiver in Python and Node.js.",
         [("btn-primary btn-store", "../android/#get", "Get the Android app"), ("btn-ghost", f"{REPO}/blob/main/docs/webhook.md", "Payload reference")]),
     "screen-time-home-assistant": ("Screen time doesn't need Health Connect. Any phone or tablet with Android 8.0 or newer works.",
@@ -423,8 +440,10 @@ WEBSITE = {"@type": "WebSite", "@id": f"{BASE}#website", "url": BASE, "name": "L
 PROJECT = {"@type": "CreativeWorkSeries", "@id": f"{BASE}#project", "name": "Life Dashboard", "url": BASE,
            "description": "Open-source project by Owen Vogelaar: apps for Android and iPhone that send health data to Home Assistant, MQTT or a webhook, a Home Assistant integration and a self-hosted Grafana stack.",
            "author": {"@id": f"{BASE}#owen"},
-           "hasPart": [{"@id": f"{BASE}#android"}, {"@id": f"{BASE}#ios"}, {"@id": f"{BASE}#integration"}, {"@id": f"{BASE}#stack"}]}
-ENTITY_ID = {"android": "#android", "ios": "#ios", "home-assistant": "#integration", "grafana": "#stack"}
+           "hasPart": [{"@id": f"{BASE}#android"}, {"@id": f"{BASE}#ios"}, {"@id": f"{BASE}#integration"}, {"@id": f"{BASE}#stack"},
+                       {"@id": f"{BASE}#sleep-card"}]}
+ENTITY_ID = {"android": "#android", "ios": "#ios", "home-assistant": "#integration", "grafana": "#stack",
+             "sleep-card": "#sleep-card"}
 ENTITIES = {
     "android": {
         "@type": "SoftwareApplication", "@id": f"{BASE}#android", "name": "Life Dashboard Companion",
@@ -467,6 +486,14 @@ ENTITIES = {
         "operatingSystem": "Linux, macOS or Windows with Docker, or Kubernetes", "url": f"{BASE}grafana/",
         "license": "https://opensource.org/licenses/MIT", "isPartOf": {"@id": f"{BASE}#project"},
         "author": {"@id": f"{BASE}#owen"}, "sameAs": [REPO_STACK]},
+    "sleep-card": {
+        "@type": "SoftwareApplication", "@id": f"{BASE}#sleep-card", "name": "Life Dashboard Sleep Card",
+        "description": "The Life Dashboard Sleep Card is an open-source Home Assistant dashboard card that draws one night of sleep as a hypnogram, from the Life Dashboard integration 1.1.0 or newer or, on Android, the official Home Assistant Companion app 2026.11.1 or newer.",
+        "applicationCategory": "UtilitiesApplication", "applicationSubCategory": "Home Assistant dashboard card",
+        "operatingSystem": "Home Assistant 2026.3 or newer", "url": f"{BASE}sleep-stages-home-assistant/",
+        "downloadUrl": f"{REPO_CARD}/releases/latest", "license": "https://opensource.org/licenses/MIT",
+        "isPartOf": {"@id": f"{BASE}#project"}, "author": {"@id": f"{BASE}#owen"},
+        "sameAs": [REPO_CARD], "screenshot": f"{BASE}img/S1-sleep-card.webp"},
 }
 ENTITY_NAME = {ENTITY_ID[k]: e["name"] for k, e in ENTITIES.items()}
 
@@ -792,7 +819,7 @@ def footer(prefix):
           <li><a href="{REPO}/blob/main/PRIVACY.md">Privacy policy for Android</a></li>
           <li><a href="{prefix}ios/privacy/">Privacy policy for iPhone</a></li>
           <li><a href="{REPO}/blob/main/AI_POLICY.md">AI policy</a></li>
-          <li><a href="https://github.com/owen282000?tab=repositories&amp;q=life-dashboard">All four repositories</a></li>
+          <li><a href="https://github.com/owen282000?tab=repositories&amp;q=life-dashboard">All repositories</a></li>
         </ul>
       </div>
     </div>
@@ -846,6 +873,9 @@ def image(name, prefix, cls="", eager=False):
     kind, w, h, alt = IMAGES[name]
     load = ' fetchpriority="high"' if eager else ' loading="lazy"'
     img = f'<img src="{prefix}img/{name}.webp" alt="{alt}" width="{w}" height="{h}"{load}>'
+    if name in PHONE_SHOT:
+        ph, pw, phh = PHONE_SHOT[name], IMAGES[PHONE_SHOT[name]][1], IMAGES[PHONE_SHOT[name]][2]
+        img = (f'<picture><source media="(max-width: 520px)" srcset="{prefix}img/{ph}.webp" width="{pw}" height="{phh}">{img}</picture>')
     if kind == "phone":
         cls = f"{cls} cut".strip() if name in CUT else cls
         return f'<div class="phone {cls}" style="aspect-ratio: {w} / {h}">{img}</div>'
@@ -917,8 +947,10 @@ def figure(m, up="../", lang="en"):
                 f'<img src="{up}img/{name}.webp" alt="{alt}" width="{w}" height="{h}" loading="lazy"></a></figure>')
     # A card (the QR dialog) stays narrow; a wide screenshot, such as a dashboard, gets the full column.
     size = " full" if kind == "wide" else ""
-    return (f'<figure class="shot wide{size}"><a class="shot-link" href="{up}img/{name}.webp" aria-label="{full}">'
-            f'<img src="{up}img/{name}.webp" alt="{alt}" width="{w}" height="{h}" loading="lazy"></a></figure>')
+    note = f'<figcaption>{CAPTIONS[name]}</figcaption>' if name in CAPTIONS else ""
+    captioned = " captioned" if note else ""
+    return (f'<figure class="shot wide{size}{captioned}"><a class="shot-link" href="{up}img/{name}.webp" aria-label="{full}">'
+            f'<img src="{up}img/{name}.webp" alt="{alt}" width="{w}" height="{h}" loading="lazy"></a>{note}</figure>')
 
 
 def slugify(text):
@@ -1017,6 +1049,8 @@ def build_guide(slug, short, lang="en"):
         breadcrumb(short, url),
         ME, WEBSITE,
     ]
+    if "#sleep-card" in GUIDE_ABOUT[slug]:
+        graph.append(ENTITIES["sleep-card"])
     if qa:
         graph.append(faq_entity(qa))
     others = "\n          ".join(
@@ -1155,6 +1189,7 @@ def build_product(slug):
             tone = " purple" if s["image"] in PURPLE else ""
             media = (f'<div class="show-media{" is-wide" if kind == "wide" else ""}{" has-card" if kind == "card" else ""}"><div class="stage {stage}"></div>'
                      + (f'{image(s["image"], prefix, "p1")}{image(s["image2"], prefix, "p2")}' if s.get("image2") else image(s["image"], prefix, "solo"))
+                     + (f'<p class="shot-note">{CAPTIONS[s["image"]]}</p>' if s["image"] in CAPTIONS else "")
                      + '</div>')
         link = f'<a class="link-arrow" href="{s["link"]["href"]}">{html.escape(s["link"]["text"])}</a>' if s.get("link") else ""
         # Only the screen time label carries meaning (purple means screen time); the others
@@ -1232,7 +1267,7 @@ def build_product(slug):
     guides_section = f"""<section class="section tight band">
   <div class="wrap">
     <div class="section-head"><h2>Setup guides</h2></div>
-    <div class="family{" three" if len(gl) == 3 else ""}">
+    <div class="family{" three" if len(gl) in (3, 6) else ""}">
       {guides}
     </div>
   </div>
@@ -1426,7 +1461,7 @@ def build_landing():
     src = fill(src, "footer", footer(""))
     faq = src[src.index('id="faq"'):]
     qa = [(strip_tags(q), strip_tags(a)) for q, a in re.findall(r"<summary>(.*?)</summary>\s*(.*?)</details>", faq, re.S)]
-    graph = [WEBSITE, ME, PROJECT] + [ENTITIES[s] for s in ORDER] + [SOURCE_CODE, faq_entity(qa)]
+    graph = [WEBSITE, ME, PROJECT] + [ENTITIES[s] for s in ORDER] + [ENTITIES["sleep-card"], SOURCE_CODE, faq_entity(qa)]
     src = fill(src, "ld", f'<script type="application/ld+json">\n{ld_json(graph)}\n</script>')
     p.write_text(placed(src, "site-landing"))
     print(f"landing: faqs {len(qa)}")
@@ -1491,7 +1526,7 @@ def version_css():
     for f in SITE.rglob("*.html"):
         t = f.read_text()
         n = re.sub(r'(href="[^"]*site\.css)(\?v=[0-9a-f]+)?"', rf'\1?v={v}"', t)
-        n = re.sub(r'((?:href|src)="((?:\.\./)*img/[^"?]+))(\?v=[0-9a-f]+)?"', lambda m: local(f, m), n)
+        n = re.sub(r'((?:href|src|srcset)="((?:\.\./)*img/[^"?]+))(\?v=[0-9a-f]+)?"', lambda m: local(f, m), n)
         # The developer page's own images and favicon, linked from the root, get the same treatment.
         n = re.sub(r'((?:href|src)="(/img/[^"?]+|/favicon\.ico))(\?v=[0-9a-f]+)?"',
                    lambda m: f'{m.group(1)}?v={hashlib.sha256((SITE / m.group(2).lstrip("/")).read_bytes()).hexdigest()[:8]}"', n)
