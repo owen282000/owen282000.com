@@ -1,9 +1,9 @@
 <!--
-title: Health Connect and Apple Health over MCP | Life Dashboard
-description: The Life Dashboard stack has a read-only MCP server, so Claude or a local model can read your Health Connect and Apple Health history, also in Europe.
+title: Apple Health and Health Connect MCP server, self-hosted
+description: A read-only MCP server on your own machine: Claude or a local model reads the Apple Health and Health Connect history your phone sends, also in Europe.
 primary query: health data mcp
 secondary queries: health connect mcp server, health connect mcp, samsung health mcp, apple health mcp server, apple health mcp, apple watch mcp, apple health claude, apple health local llm, health connect claude, health connect chatgpt, claude health connect europe, chatgpt health europe, ask ai about my health data self hosted, health data local llm, home assistant mcp health, ollama health data, self-hosted health ai, claude desktop health data
-updated: 2026-11-06
+updated: 2026-11-09
 -->
 
 <h1>How do I ask my own AI about my Health Connect or Apple Health data over MCP?</h1>
@@ -129,6 +129,8 @@ GRANT SELECT ON records, daily_totals TO llm_ro;</code></pre>
 <p>On Kubernetes, the stack's Helm chart can also use a Postgres 18 you already run, with a database of its own (its external mode), and then route 1 works there. With Docker Compose, running the stack against your own database isn't covered by its documentation.</p>
 
 <h2>With an iPhone</h2>
+
+<p>Many Apple Health MCP servers read an export you make by hand in the Health app, so their answers stop at the day of that export. Here the iPhone app keeps sending new data to the stack on your own server, and the same tools read an Android phone next to it.</p>
 
 <p>Pair <a href="../ios/">Life Dashboard Companion for iPhone</a> with the stack or the integration by its QR code, switch on the Apple Health types you want under <strong>What to send</strong>, and run <strong>Send history</strong> there with <strong>1 year</strong> to give the model a year to read. What an Apple Watch records, such as heart rate, HRV, sleep stages and workouts, comes along through Apple Health; <a href="../apple-watch-home-assistant/">Apple Watch in Home Assistant</a> lists it. A few things differ from Android:</p>
 

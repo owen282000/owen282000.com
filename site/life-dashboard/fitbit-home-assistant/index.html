@@ -48,7 +48,7 @@
         }
       ],
       "datePublished": "2026-10-06",
-      "dateModified": "2026-11-06",
+      "dateModified": "2026-11-09",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -90,6 +90,14 @@
     {
       "@type": "FAQPage",
       "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is there a Google Health integration for Home Assistant?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, in Home Assistant itself since 2026.8. It needs your own Google Cloud project with the Google Health API switched on and an OAuth client you publish, or the credentials expire every 7 days. It then reads Google's cloud every 15 minutes or hourly. That suits current daily values. For HRV, all your history or no Google Cloud project, use the route on this page; the two can run side by side. Don't confuse it with the Google Health app, the former Fitbit app, which is what writes your data to Health Connect on the phone."
+          }
+        },
         {
           "@type": "Question",
           "name": "Does Home Assistant's Fitbit integration still work?",
@@ -177,7 +185,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Fitbit and Pixel Watch in Home Assistant</span></nav>
 <h1>How do I get Fitbit and Pixel Watch data into Home Assistant after the Fitbit Web API shutdown?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 6, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 9, 2026.</p>
 
 <p>Google turned off the Fitbit Web API on November 2, 2026. Since then, Home Assistant's Fitbit integration gets no new data: its sensors stopped updating and show as unavailable, and its log shows a 410 Gone error. Your watch and the Google Health app keep working, and the app keeps writing your data to Health Connect on your Android phone. Life Dashboard Companion, an open-source Android app, reads it there and sends it to the Life Dashboard integration in Home Assistant. That route doesn't use the Fitbit Web API, and it needs no Google Cloud project or OAuth client.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in the Marketplace</a></p>
@@ -264,16 +272,16 @@
 
 <figure class="shot"><a class="shot-link" href="../img/H9-health-phone.webp?v=43ebb81f" aria-label="The example Health dashboard in Home Assistant on a phone, with demo data: today's tiles and the last workout, full size"><div class="phone " style="aspect-ratio: 720 / 1559"><img src="../img/H9-health-phone.webp?v=43ebb81f" alt="The example Health dashboard in Home Assistant on a phone, with demo data: today's tiles and the last workout" width="720" height="1559" loading="lazy"></div></a></figure>
 
-<h2 id="next-to-the-google-health-integration">Next to the Google Health integration</h2>
+<h2 id="the-google-health-integration-in-home-assistant-compared">The Google Health integration in Home Assistant, compared</h2>
 
 <p>Home Assistant 2026.8 added a <a href="https://www.home-assistant.io/integrations/google_health/">Google Health integration</a>. It reads Google's cloud with the new Google Health API, the one that replaced the Fitbit Web API. Both can run side by side.</p>
 
-<div class="table-wrap" tabindex="0" role="region" aria-label="Next to the Google Health integration"><table>
+<div class="table-wrap" tabindex="0" role="region" aria-label="The Google Health integration in Home Assistant, compared"><table>
   <thead>
     <tr><th scope="col">Feature</th><th scope="col">Google Health integration</th><th scope="col">Life Dashboard</th></tr>
   </thead>
   <tbody>
-    <tr><th scope="row">Setup</th><td>Google Cloud project, OAuth client, account link</td><td>Install, scan a QR code</td></tr>
+    <tr><th scope="row">Setup</th><td>Google Cloud project, the Google Health API, a published OAuth client, account link</td><td>Install, scan a QR code</td></tr>
     <tr><th scope="row">Where the data comes from</th><td>Google's cloud, polled every 15 minutes or hourly</td><td>Your phone, pushed by the app</td></tr>
     <tr><th scope="row">History</th><td>Current values, no backfill</td><td>Every day in long-term statistics, backfill of all your history</td></tr>
     <tr><th scope="row">HRV, respiratory rate, skin temperature</th><td>No sensor</td><td>Yes</td></tr>
@@ -298,6 +306,10 @@
 
 <section class="faq">
   <h2 id="faq">Common questions</h2>
+  <details>
+    <summary>Is there a Google Health integration for Home Assistant?</summary>
+    <p>Yes, in Home Assistant itself since 2026.8. It needs your own Google Cloud project with the Google Health API switched on and an OAuth client you publish, or the credentials expire every 7 days. It then reads Google's cloud every 15 minutes or hourly. That suits current daily values. For HRV, all your history or no Google Cloud project, use the route on this page; the two can run side by side. Don't confuse it with the Google Health app, the former Fitbit app, which is what writes your data to Health Connect on the phone.</p>
+  </details>
   <details>
     <summary>Does Home Assistant's Fitbit integration still work?</summary>
     <p>No. It uses the legacy Fitbit Web API, which Google turned off on November 2, 2026, so it gets no new data.</p>

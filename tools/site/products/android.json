@@ -1,8 +1,8 @@
 {
   "slug": "android",
   "nav_name": "Android app",
-  "title": "Life Dashboard Companion for Android: Health Connect export",
-  "description": "Life Dashboard Companion for Android exports Health Connect data and screen time per app to Home Assistant, MQTT or your own webhook. Open source, no cloud.",
+  "title": "Life Dashboard Companion: Health Connect app for Android",
+  "description": "Send Health Connect data and screen time per app to Home Assistant, MQTT or a webhook. €4.99 once on Google Play, free on GitHub and F-Droid. No cloud.",
   "kicker": "Android app",
   "h1": "Health Connect and screen time, sent to your own server",
   "lead": "Life Dashboard Companion is an open-source Android app that sends Health Connect data and screen time per app to Home Assistant, MQTT or your own webhook, with no cloud and no account. It reads what Samsung Health, Google Health, Garmin Connect, Oura, Withings and others write to Health Connect.",
@@ -150,6 +150,14 @@
       "a": "Health Connect read permissions for the types you switch on, write permissions only for the Receive types you switch on, usage access for screen time, the camera only while you scan a pairing code, internet access, and notifications for failed syncs and backfill progress. Data goes only to the addresses you enter. The <a href=\"https://github.com/owen282000/life-dashboard-companion-app/blob/main/PRIVACY.md#permissions\">privacy policy</a> lists every permission and every field."
     },
     {
+      "q": "Which languages is the app in?",
+      "a": "Eleven: English, Dutch, German, French, Spanish, Italian, Portuguese (Brazil), Japanese, Arabic, Hindi and Simplified Chinese. Each uses the words Health Connect and Android use in that language."
+    },
+    {
+      "q": "Can I get my data out as a file?",
+      "a": "Yes. <strong>More &gt; Export data</strong> saves it as JSON, or as CSV with a row per record, so you don't need a server for that."
+    },
+    {
       "q": "Is it on Google Play?",
       "a": "Yes: <a href=\"{{play_url}}\">Life Dashboard Companion on Google Play</a>, €4.99 once (US$4.99), with no subscription. It's the easy way, with automatic updates, and buying it supports development. The APK on GitHub, Obtainium and F-Droid stay free: the same app, built from the same source and signed with the same key."
     },
@@ -158,7 +166,7 @@
       "a": "Yes. Google Play, the APK on GitHub, Obtainium and F-Droid all install the same app, with the same package name and the same signing key, so you can switch without reinstalling: one installs over the other and your settings stay."
     }
   ],
-  "updated": "2026-11-06",
+  "updated": "2026-11-09",
   "guides": [
     "health-connect-home-assistant",
     "health-connect-webhook",

@@ -40,6 +40,21 @@
 	@txt path *.txt
 	header @txt Content-Type "text/plain; charset=utf-8"
 
+	# Assistants and search results sometimes give a guide without its /life-dashboard/ folder.
+	# The file matcher sits in its own route so that it runs after the regexp has set the slug,
+	# and it keeps this to pages that exist.
+	@top path_regexp top ^/([a-z0-9-]+)/?$
+	route @top {
+		@guide file /life-dashboard/{re.top.1}/index.html
+		redir @guide /life-dashboard/{re.top.1}/ permanent
+	}
+	# A link copied out of Markdown or a sentence can bring the closing bracket or full stop.
+	@punctuated path_regexp punctuated ^(/life-dashboard/[a-z0-9/-]*/)[).,]+$
+	redir @punctuated {re.punctuated.1} permanent
+	# The addresses people guess for a product's contact details, which are in the page's footer.
+	@guessed path_regexp guessed ^/life-dashboard/(android|ios)/(about|about-us|contact|contact-us|contactus|help|support)/?$
+	redir @guessed /life-dashboard/{re.guessed.1}/ permanent
+
 	file_server
 
 	handle_errors {
