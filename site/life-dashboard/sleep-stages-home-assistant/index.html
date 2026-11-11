@@ -58,7 +58,7 @@
         }
       ],
       "datePublished": "2026-11-09",
-      "dateModified": "2026-11-10",
+      "dateModified": "2026-11-11",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -214,7 +214,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Sleep stages in Home Assistant</span></nav>
 <h1>How do I see sleep stages in Home Assistant?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 10, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 11, 2026.</p>
 
 <p>With the Life Dashboard integration 1.1.0 or newer, the sleep stages your phone sends become sensors and long-term statistics: deep, light, REM, awake and time asleep for each night, with one main night per wake date. The <a href="https://github.com/owen282000/life-dashboard-sleep-card">Life Dashboard Sleep Card</a> draws the newest night on your dashboard as a hypnogram, with each stage in its own lane along the night's clock.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-sleep-card&amp;category=plugin">Open the card in the Marketplace</a></p>
@@ -293,6 +293,17 @@ entity: sensor.your_phone_last_sleep_asleep
 title: Last night</code></pre>
 
 <p><code>entity</code> is required and <code>title</code>, the text above the time asleep, is optional. Language, time format and time zone follow your Home Assistant profile. The stage colors are CSS variables, such as <code>--life-dashboard-sleep-deep</code>, so a theme can set them.</p>
+
+<p>Prefer another look? <a href="https://github.com/Lavve/lovelace-hypnogram-card">Lavve's Hypnogram card</a>, also in the Marketplace, reads the same list from version 0.1.9:</p>
+
+<pre tabindex="0" role="region" aria-label="Code: Add it to a dashboard"><code>type: custom:hypnogram-card
+entity: sensor.your_phone_last_sleep_asleep
+stages_attribute: stages
+state_mapping:
+  deep_sleep: deep
+  light_sleep: light
+  rem: rem
+  awake: awake</code></pre>
 
 <h2 id="what-the-card-shows">What the card shows</h2>
 
