@@ -3,7 +3,7 @@ title: Sleep stages in Home Assistant as a hypnogram | Life Dashboard
 description: Sleep stages in Home Assistant from Health Connect or Apple Health: deep, light, REM and awake per night as sensors and statistics, and a card that draws the night.
 primary query: sleep stages home assistant
 secondary queries: hypnogram home assistant, home assistant sleep card, sleep stage chart home assistant, deep sleep sensor home assistant, rem sleep home assistant, health connect sleep stages home assistant, apple watch sleep stages home assistant, sleep hypnogram card
-updated: 2026-11-10
+updated: 2026-11-11
 published: 2026-11-09
 -->
 
@@ -85,6 +85,17 @@ entity: sensor.your_phone_last_sleep_asleep
 title: Last night</code></pre>
 
 <p><code>entity</code> is required and <code>title</code>, the text above the time asleep, is optional. Language, time format and time zone follow your Home Assistant profile. The stage colors are CSS variables, such as <code>--life-dashboard-sleep-deep</code>, so a theme can set them.</p>
+
+<p>Prefer another look? <a href="https://github.com/Lavve/lovelace-hypnogram-card">Lavve's Hypnogram card</a>, also in the Marketplace, reads the same list from version 0.1.9:</p>
+
+<pre><code>type: custom:hypnogram-card
+entity: sensor.your_phone_last_sleep_asleep
+stages_attribute: stages
+state_mapping:
+  deep_sleep: deep
+  light_sleep: light
+  rem: rem
+  awake: awake</code></pre>
 
 <h2>What the card shows</h2>
 
