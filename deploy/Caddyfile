@@ -54,6 +54,12 @@
 	# The addresses people guess for a product's contact details, which are in the page's footer.
 	@guessed path_regexp guessed ^/life-dashboard/(android|ios)/(about|about-us|contact|contact-us|contactus|help|support)/?$
 	redir @guessed /life-dashboard/{re.guessed.1}/ permanent
+	# Screenshots that #45 replaced on 6 November. Older links, search results and assistants still
+	# ask for them, so each leads to the screenshot that shows the same thing now.
+	redir /life-dashboard/img/H1-dashboard.webp /life-dashboard/img/H9-health-phone.webp permanent
+	redir /life-dashboard/img/H3-history.webp /life-dashboard/img/H6-health.webp permanent
+	redir /life-dashboard/img/H4-apps.webp /life-dashboard/img/H7-screen-time.webp permanent
+	redir /life-dashboard/img/H5-today.webp /life-dashboard/img/H9-health-phone.webp permanent
 
 	file_server
 
