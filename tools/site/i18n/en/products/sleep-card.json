@@ -1,0 +1,152 @@
+{
+  "slug": "sleep-card",
+  "nav_name": "Sleep card",
+  "title": "Home Assistant sleep card with a hypnogram | Life Dashboard",
+  "description": "The Life Dashboard Sleep Card draws one night of sleep on your Home Assistant dashboard as a hypnogram: deep, light, REM and awake along the night's clock.",
+  "kicker": "Dashboard card",
+  "h1": "A sleep card that draws your night as a hypnogram",
+  "lead": "The Life Dashboard Sleep Card is an open-source Home Assistant dashboard card, installed from the Marketplace (HACS before Home Assistant 2026.11). It draws one night with each stage in its own lane along the night's clock, with time asleep and each stage's duration and share. It reads the Life Dashboard integration, for Android and iPhone, or on Android the official Companion app.",
+  "hero_image": "S1-sleep-card",
+  "highlights": [
+    {
+      "title": "The shape of the night",
+      "text": "One lane per stage, with connectors between them, so the cycles show at a glance. A short blip stays visible, also on a night with 60 stages at phone width."
+    },
+    {
+      "title": "The numbers beside it",
+      "text": "Time asleep, the night's start and end, and each stage's duration and share of the night."
+    },
+    {
+      "title": "Every segment on demand",
+      "text": "Hover or tap a block for its stage, start, end and duration."
+    },
+    {
+      "title": "Keyboard and screen reader",
+      "text": "Focus the plot and step through the stages with the arrow keys, Home and End. Screen readers get a text table of the whole night."
+    },
+    {
+      "title": "Your locale and theme",
+      "text": "Hour ticks in your language and time format, and the stage colors as CSS variables a theme can set."
+    },
+    {
+      "title": "Honest about what's missing",
+      "text": "A night that only reports sleep draws an asleep lane and says so, and a sensor without stages shows an empty state instead of a broken chart."
+    },
+    {
+      "title": "Nothing leaves your browser",
+      "text": "The card reads the sensor state Home Assistant already gives your browser. No requests of its own, no telemetry and no analytics."
+    }
+  ],
+  "sections": [
+    {
+      "kicker": "The night",
+      "h2": "One night, stage by stage",
+      "text": "The card draws the newest night your sensor holds: awake, REM, light and deep as four lanes along an hour axis, and under them how long each stage lasted and its share of the night. On a phone it fits the sections view.",
+      "bullets": [
+        {
+          "main": "Time asleep on top",
+          "sub": "With the night's date and when it started and ended."
+        },
+        {
+          "main": "The stages it knows",
+          "sub": "Awake, light, deep, REM, asleep, out of bed and unknown. Out of bed counts as awake, and other names are drawn as neutral."
+        },
+        {
+          "main": "The nights before it",
+          "sub": "The card draws one night. With Life Dashboard, the hours per stage of every night are long-term statistics, for a Statistics graph card."
+        }
+      ],
+      "image": "S2-sleep-card-phone"
+    },
+    {
+      "kicker": "Sources",
+      "h2": "From Life Dashboard, or from the Companion app on Android",
+      "text": "The card runs in your browser and reads two shapes of sensor, with nothing to configure.",
+      "bullets": [
+        {
+          "main": "Life Dashboard, Android and iPhone",
+          "sub": "<code>sensor.your_phone_last_sleep_asleep</code> from <a href=\"../home-assistant/\">the integration</a>, 1.1.0 or newer, with the night's timeline in its <code>stages</code> attribute."
+        },
+        {
+          "main": "The official Companion app, Android",
+          "sub": "<code>sensor.your_phone_health_connect_sleep_duration</code> from Companion app 2026.11.1 or newer, with the <strong>Sleep duration</strong> sensor switched on."
+        },
+        {
+          "main": "Not the iOS Companion app",
+          "sub": "It has no timeline of stages. On an iPhone, use <a href=\"../ios/\">the Life Dashboard app</a> and the integration."
+        }
+      ],
+      "code": {
+        "title": "The stages attribute",
+        "code": "stages:\n  - stage: light\n    start: \"2026-11-08T23:21:00+01:00\"\n    end: \"2026-11-08T23:52:00+01:00\"\n  - stage: deep\n    start: \"2026-11-08T23:52:00+01:00\"\n    end: \"2026-11-09T00:40:00+01:00\"\n  - stage: rem\n    start: \"2026-11-09T00:40:00+01:00\"\n    end: \"2026-11-09T01:04:00+01:00\"\n  # ... until the night ends"
+      },
+      "link": {
+        "href": "../sleep-stages-home-assistant/",
+        "text": "Sleep stages in Home Assistant"
+      }
+    },
+    {
+      "kicker": "Configure",
+      "h2": "The card picker, or three lines of YAML",
+      "text": "Add the card from the card picker, which offers the sensors that carry a night, or write it in YAML. Language, time format and time zone follow your Home Assistant profile.",
+      "bullets": [
+        {
+          "main": "<code>entity</code>",
+          "sub": "A sensor with sleep stages, in either of the two shapes."
+        },
+        {
+          "main": "<code>title</code>",
+          "sub": "Optional: text above the time asleep."
+        },
+        {
+          "main": "Stage colors",
+          "sub": "Five CSS variables, such as <code>--life-dashboard-sleep-deep</code>, so a theme can set them."
+        }
+      ],
+      "code": {
+        "title": "Dashboard YAML",
+        "code": "type: custom:life-dashboard-sleep-card\nentity: sensor.your_phone_last_sleep_asleep\ntitle: Last night"
+      },
+      "link": {
+        "href": "https://github.com/owen282000/life-dashboard-sleep-card#configure",
+        "text": "Every option and the stage colors"
+      }
+    }
+  ],
+  "requirements": "Home Assistant 2026.3 or newer. From 2026.11 the Marketplace is built in; older versions need HACS, where the card is in the default list. And a sensor with sleep stages: <a href=\"../home-assistant/\">the Life Dashboard integration</a> 1.1.0 or newer with the app for <a href=\"../android/#get\">Android</a> or <a href=\"../ios/\">iPhone</a>, or on Android the official Companion app 2026.11.1 or newer. Your watch or ring has to record the stages.",
+  "faq": [
+    {
+      "q": "Do I need the Life Dashboard app for this card?",
+      "a": "Not on Android. There the card also works on its own with the official Home Assistant Companion app, 2026.11.1 or newer, with its <strong>Sleep duration</strong> sensor switched on and Health Connect access for sleep. Life Dashboard adds the history around the night: every night in long-term statistics, and both phones. On an iPhone you need the Life Dashboard app and the integration."
+    },
+    {
+      "q": "Does it work with an Apple Watch?",
+      "a": "Yes, through <a href=\"../ios/\">Life Dashboard Companion for iPhone</a> and the integration, 1.1.0 or newer. The app reads the night from Apple Health and sends its stages along. The iOS Companion app alone is not enough, since it has no timeline of stages."
+    },
+    {
+      "q": "Can it show earlier nights or a whole week?",
+      "a": "No, the card draws one night, the newest. The integration keeps the hours of deep, light, REM, awake and asleep of every night as long-term statistics, and a Statistics graph card draws those per day, week or month. <a href=\"../sleep-stages-home-assistant/\">Sleep stages in Home Assistant</a> shows how."
+    },
+    {
+      "q": "Why does my night show a single lane?",
+      "a": "Because the app that recorded it wrote the night as sleep only, without stages. The card then draws an asleep lane and says so, since it cannot show what was not measured. A night with deep, light, REM and awake gets the four lanes."
+    },
+    {
+      "q": "Is there another hypnogram card for the same sensor?",
+      "a": "Yes. <a href=\"https://github.com/Lavve/lovelace-hypnogram-card\">Lavve's Hypnogram card</a>, also in the Marketplace, reads the same <code>stages</code> list from its version 0.1.9. The <a href=\"../sleep-stages-home-assistant/\">sleep stages guide</a> has the YAML for it."
+    },
+    {
+      "q": "Does the card send my data anywhere?",
+      "a": "No. It only reads the sensor state Home Assistant already gives your browser, and makes no requests of its own. It has no telemetry or analytics."
+    }
+  ],
+  "updated": "2026-11-20",
+  "guides": [
+    "sleep-stages-home-assistant"
+  ],
+  "commands": {
+    "title": "Dashboards in YAML mode",
+    "code": "lovelace:\n  resources:\n    - url: /hacsfiles/life-dashboard-sleep-card/life-dashboard-sleep-card.js\n      type: module",
+    "after": "Only for dashboards in YAML mode. On storage mode dashboards the resource is registered for you. Without the Marketplace, the README has <a href=\"https://github.com/owen282000/life-dashboard-sleep-card#by-hand\">the install by hand</a>."
+  }
+}

@@ -69,7 +69,7 @@
       "single_ios": "Le payload, pas à pas (l’application iPhone envoie le même JSON)",
       "single_grafana": "Ce que la stack reçoit, pas à pas",
       "works_with_app": "Envoie vers <a href=\"/life-dashboard/home-assistant/\">l’intégration Home Assistant</a>, <a href=\"/life-dashboard/grafana/\">la stack Grafana</a>, un broker MQTT ou n’importe quel webhook.",
-      "works_with_home-assistant": "Fonctionne avec <a href=\"/life-dashboard/android/\">Life Dashboard Companion pour Android</a> et <a href=\"/life-dashboard/ios/\">pour iPhone</a>.",
+      "works_with_home-assistant": "Fonctionne avec <a href=\"/life-dashboard/android/\">Life Dashboard Companion pour Android</a> et <a href=\"/life-dashboard/ios/\">pour iPhone</a>. Sur le tableau de bord : <a href=\"/life-dashboard/screen-time-card/\">les cartes Screen Time</a> et <a href=\"/life-dashboard/sleep-card/\">la Sleep Card</a>.",
       "works_with_grafana": "Reçoit les données de <a href=\"/life-dashboard/android/\">Life Dashboard Companion pour Android</a> et <a href=\"/life-dashboard/ios/\">pour iPhone</a>.",
       "alternativeto": "Life Dashboard Companion sur AlternativeTo",
       "guides": "Guides d’installation",
@@ -80,7 +80,13 @@
       "faq_home-assistant": "Questions sur l’intégration",
       "faq_grafana": "Questions sur la stack",
       "others": "Les autres éléments",
-      "others_text": "Les deux applications envoient le même payload : un téléphone Android et un iPhone peuvent donc partager un même Home Assistant ou une même stack."
+      "others_text": "Les deux applications envoient le même payload : un téléphone Android et un iPhone peuvent donc partager un même Home Assistant ou une même stack.",
+      "works_with_screen-time-card": "Lit <a href=\"/life-dashboard/home-assistant/\">l’intégration Life Dashboard</a> avec <a href=\"/life-dashboard/android/\">l’application Android</a>, Google Family Link, Microsoft Family Safety ou un capteur à vous.",
+      "works_with_sleep-card": "Lit <a href=\"/life-dashboard/home-assistant/\">l’intégration Life Dashboard</a> avec l’application pour <a href=\"/life-dashboard/android/\">Android</a> ou <a href=\"/life-dashboard/ios/\">iPhone</a>, ou sur Android l’application Companion officielle.",
+      "faq_screen-time-card": "Questions sur les cartes temps d’écran",
+      "faq_sleep-card": "Questions sur la Sleep Card",
+      "others_card": "Le reste de Life Dashboard",
+      "others_card_text": "Les cartes dessinent ce qui se trouve déjà dans Home Assistant. L’intégration et les applications l’y amènent, et vous n’installez que les éléments dont vous avez besoin."
     },
     "stats": {
       "stars": "étoiles",
@@ -146,6 +152,10 @@
       },
       "trademarks": "Home Assistant est une marque de l’Open Home Foundation. Health Connect, Google Play, Google Health, Fitbit et Pixel Watch sont des marques de Google LLC. Apple, Apple Health, Apple Watch, iPhone, Xcode et TestFlight sont des marques d’Apple Inc. App Store est une marque de service d’Apple Inc. Grafana est une marque de Grafana Labs. Samsung Health, Garmin Connect, Oura et Withings appartiennent à leurs propriétaires respectifs. Life Dashboard est un projet indépendant, sans lien avec ces sociétés et sans leur caution. Les captures d’écran montrent des données fictives.",
       "credits": "Badges : Google Play et App Store tels que publiés par Google et Apple ; « Get it on F-Droid » par le <a href=\"https://gitlab.com/fdroid/artwork\">projet F-Droid</a> et « Get it on GitHub » par <a href=\"https://github.com/Kunzisoft/Github-badge\">Kunzisoft</a>, tous deux sous <a href=\"https://creativecommons.org/licenses/by-sa/3.0/\">CC BY-SA 3.0</a> ; Obtainium par le <a href=\"https://github.com/ImranR98/Obtainium\">projet Obtainium</a> ; les badges HACS, Artifact Hub et Docker Compose sont dessinés pour ce site en Roboto (SIL OFL), autour des icônes du <a href=\"https://github.com/hacs/integration\">projet HACS</a> (MIT) et du <a href=\"https://github.com/artifacthub/hub\">projet Artifact Hub</a> (Apache 2.0) et du logo de Docker issu de son kit média ; le badge AlternativeTo est leur badge compact sur fond noir. GitHub est une marque de GitHub, Inc. Docker, Docker Compose et le logo Docker sont des marques de Docker, Inc. Helm est une marque de The Linux Foundation."
+    },
+    "cards": {
+      "title": "Des cartes pour votre tableau de bord Home Assistant",
+      "intro": "Deux installations séparées depuis le Marketplace, qui dessinent ce qui se trouve dans Home Assistant : le temps d’écran face à une limite, et la nuit en hypnogramme. Open source et gratuites."
     }
   },
   "parts": {
@@ -248,6 +258,54 @@
         "helm": {
           "name": "Chart Helm pour Kubernetes",
           "note": "Les mêmes images sur votre propre cluster, avec Postgres fourni par CloudNativePG, un StatefulSet inclus ou une base de données que vous exploitez déjà."
+        }
+      }
+    },
+    "screen-time-card": {
+      "name": "Cartes temps d’écran",
+      "full": "Cartes Life Dashboard Screen Time",
+      "line": "La journée, la semaine et la famille, face à une limite quotidienne",
+      "more": "Voir les cartes temps d’écran",
+      "get_title": "Installer les cartes temps d’écran",
+      "req_short": "Trois cartes en une installation. Home Assistant 2026.3 ou plus récent.",
+      "requires": "Home Assistant 2026.3 ou plus récent. HACS uniquement pour les versions antérieures à 2026.11.",
+      "get": {
+        "hacs": {
+          "name": "HACS",
+          "cta": "Ouvrir dans le Marketplace",
+          "note": "Dans Paramètres &gt; Marketplace (HACS avant Home Assistant 2026.11), cherchez Life Dashboard Screen Time et téléchargez-le. Les trois cartes sont ensuite dans le sélecteur de cartes."
+        },
+        "card-guide": {
+          "name": "Guide du temps d’écran",
+          "note": "Le temps d’écran par application d’un téléphone Android dans Home Assistant, pas à pas."
+        },
+        "ha-source": {
+          "name": "Code source sur GitHub",
+          "note": "Notes de version, toutes les options et l’installation à la main."
+        }
+      }
+    },
+    "sleep-card": {
+      "name": "Carte de sommeil",
+      "full": "Life Dashboard Sleep Card",
+      "line": "Une nuit de sommeil en hypnogramme",
+      "more": "Voir la Sleep Card",
+      "get_title": "Installer la Sleep Card",
+      "req_short": "Pour Android et iPhone. Home Assistant 2026.3 ou plus récent.",
+      "requires": "Home Assistant 2026.3 ou plus récent. HACS uniquement pour les versions antérieures à 2026.11.",
+      "get": {
+        "hacs": {
+          "name": "HACS",
+          "cta": "Ouvrir dans le Marketplace",
+          "note": "Dans Paramètres &gt; Marketplace (HACS avant Home Assistant 2026.11), cherchez Life Dashboard Sleep Card et téléchargez-la. Ajoutez-la ensuite depuis le sélecteur de cartes."
+        },
+        "card-guide": {
+          "name": "Guide des phases de sommeil",
+          "note": "Les capteurs et les statistiques de chaque nuit, et la carte sur un tableau de bord, pas à pas."
+        },
+        "ha-source": {
+          "name": "Code source sur GitHub",
+          "note": "Notes de version, toutes les options et l’installation à la main."
         }
       }
     }
@@ -524,11 +582,19 @@
     "g-sleep": "Le tableau de bord du sommeil de la stack Grafana",
     "g-heart-body": "Le tableau de bord cœur et corps de la stack Grafana",
     "g-screen-time": "Le tableau de bord du temps d’écran de la stack Grafana",
-    "g-data": "Le tableau de bord données et synchronisation de la stack Grafana"
+    "g-data": "Le tableau de bord données et synchronisation de la stack Grafana",
+    "T1-screen-time-cards": "Les trois cartes Life Dashboard Screen Time sur un thème sombre avec des données d’exemple. La journée : un anneau à 3 h 16 min sur une limite de 3 h 30 min, 14 minutes restantes, et cinq applications avec leurs minutes. La semaine : une barre par jour face à une limite en pointillés, deux jours au-dessus. La famille : Sam, Mila et Noah avec leurs totaux face à leurs limites",
+    "T2-screen-time-card-phone": "La carte temps d’écran du jour en largeur de téléphone avec des données d’exemple : un anneau à 3 h 16 min sur une limite de 3 h 30 min, 14 minutes restantes, 23 minutes de plus qu’hier, et YouTube, WhatsApp, Chrome, Instagram et Maps avec leurs minutes",
+    "T3-screen-time-week": "La carte de la semaine avec des données d’exemple : 3 h 21 min par jour en moyenne, une barre par jour face à une limite en pointillés à 3 h 30 min, deux jours sur sept au-dessus, et les applications du jour en une seule barre empilée",
+    "T4-screen-time-family": "La carte de la famille avec des données d’exemple : Sam, Mila et Noah avec leurs totaux face à leurs limites et leurs trois applications principales, Sam avec 14 minutes restantes et Noah avec 59 minutes de trop"
   },
   "captions": {
     "S1-sleep-card": "Données d’exemple",
-    "S2-sleep-card-phone": "Données d’exemple"
+    "S2-sleep-card-phone": "Données d’exemple",
+    "T1-screen-time-cards": "Données d’exemple de téléphones fictifs",
+    "T2-screen-time-card-phone": "Données d’exemple de téléphones fictifs",
+    "T3-screen-time-week": "Données d’exemple de téléphones fictifs",
+    "T4-screen-time-family": "Données d’exemple de téléphones fictifs"
   },
   "entities": {
     "android": {
@@ -570,6 +636,19 @@
       "description": "La Life Dashboard Sleep Card est une carte de tableau de bord open source pour Home Assistant qui dessine une nuit de sommeil sous forme d’hypnogramme, à partir de l’intégration Life Dashboard 1.1.0 ou plus récente ou, sur Android, de l’application Companion officielle de Home Assistant 2026.11.1 ou plus récente.",
       "operatingSystem": "Home Assistant 2026.3 ou plus récent",
       "applicationSubCategory": "Carte de tableau de bord Home Assistant"
+    },
+    "screen-time-card": {
+      "description": "Life Dashboard Screen Time est un ensemble open source de trois cartes de tableau de bord pour Home Assistant qui affichent le temps d’écran de la journée, de la semaine et de toute la famille face à une limite quotidienne, à partir de l’intégration Life Dashboard, de Google Family Link, de Microsoft Family Safety ou de tout capteur qui porte le total du jour.",
+      "operatingSystem": "Home Assistant 2026.3 ou plus récent",
+      "applicationSubCategory": "Carte de tableau de bord Home Assistant",
+      "featureList": [
+        "La journée sur un téléphone face à une limite quotidienne",
+        "La semaine en une barre par jour",
+        "Toute la famille dans une seule carte",
+        "Une liste intégrée de 126 applications Android avec leur couleur et leur icône",
+        "Lit Google Family Link et Microsoft Family Safety",
+        "Onze langues"
+      ]
     }
   },
   "project_description": "Projet open source d’Owen Vogelaar : des applications pour Android et iPhone qui envoient les données de santé vers Home Assistant, MQTT ou un webhook, une intégration Home Assistant et une stack Grafana auto-hébergée.",

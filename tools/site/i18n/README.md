@@ -30,11 +30,12 @@ tools/site/i18n/<lang>/
   pages/privacy.html   /privacy/              the site's privacy notice
   pages/landing.html   /life-dashboard/       the landing page
   pages/ios-privacy.html  /life-dashboard/ios/privacy/
-  products/android.json, ios.json, home-assistant.json, grafana.json
+  products/android.json, ios.json, home-assistant.json, grafana.json,
+           screen-time-card.json, sleep-card.json   the two dashboard cards
   guides/<id>.html     23 guides, the same file names as in en/guides/
 ```
 
-That is 33 pages: 4 in `pages/`, 4 products, 23 guides, and two that have no file of their own
+That is 35 pages: 4 in `pages/`, 6 products, 23 guides, and two that have no file of their own
 and are made from `strings.json`: the guide index (`/life-dashboard/guides/`, `ui.index`) and
 the trademarks and credits page (`/legal/`, `ui.legal` with `ui.footer.trademarks`,
 `ui.footer.credits` and `ui.footer.imprint`).

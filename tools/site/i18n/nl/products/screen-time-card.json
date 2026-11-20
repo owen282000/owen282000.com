@@ -1,0 +1,208 @@
+{
+  "slug": "screen-time-card",
+  "nav_name": "Schermtijdkaarten",
+  "title": "Schermtijdkaarten voor Home Assistant | Life Dashboard",
+  "description": "Drie dashboardkaarten voor schermtijd in Home Assistant: vandaag, de week en het hele gezin tegen een daglimiet. Voor Life Dashboard, Family Link en Family Safety.",
+  "kicker": "Dashboardkaarten",
+  "h1": "Schermtijdkaarten voor je Home Assistant-dashboard",
+  "lead": "Life Dashboard Screen Time is één installatie uit de Marketplace (HACS vóór Home Assistant 2026.11) met drie open-source dashboardkaarten: vandaag op één telefoon, de week en het hele gezin, elk tegen een daglimiet die je zelf instelt. Ze lezen de Life Dashboard-app op Android, Google Family Link, Microsoft Family Safety of elke sensor die de dag telt.",
+  "hero_image": "T1-screen-time-cards",
+  "highlights": [
+    {
+      "title": "Drie kaarten, één installatie",
+      "text": "Vandaag, de week en het gezin staan na één download alle drie in de kaartkiezer, elk met een visuele editor."
+    },
+    {
+      "title": "Een daglimiet",
+      "text": "Stel hem in per kaart of per persoon. De ring en de balken tonen op schema, bijna zover vanaf 80% van de limiet en eroverheen, in de kleuren van je thema."
+    },
+    {
+      "title": "Apps die op de apps lijken",
+      "text": "Een ingebouwde lijst van 126 populaire Android-apps met hun naam, merkkleur en icoon. Elke andere app krijgt zijn beginletter op een eigen kleur."
+    },
+    {
+      "title": "Elke bron",
+      "text": "De Life Dashboard-app op Android, Google Family Link, Microsoft Family Safety of een eigen sensor zoals history_stats."
+    },
+    {
+      "title": "Elf talen",
+      "text": "Nederlands, Engels, Arabisch, Chinees, Duits, Frans, Hindi, Italiaans, Japans, Portugees en Spaans, met tijdsduren zoals jouw taal ze schrijft."
+    },
+    {
+      "title": "Licht en donker",
+      "text": "De kaarten nemen de kleuren van je Home Assistant-thema over, en de drie statuskleuren zijn CSS-variabelen."
+    },
+    {
+      "title": "Niets verlaat je browser",
+      "text": "De kaarten lezen de sensoren en statistieken die Home Assistant je browser al geeft. Geen eigen verzoeken, geen telemetrie en geen analytics."
+    }
+  ],
+  "sections": [
+    {
+      "kicker": "Vandaag",
+      "h2": "Vandaag op één telefoon, tegen de limiet",
+      "text": "Een ring vult zich tegen de daglimiet en zegt hoeveel er nog over is of hoe ver de dag eroverheen is. Ernaast: het verschil met gisteren en met de laatste zeven dagen, en het aantal gebruikte apps.",
+      "bullets": [
+        {
+          "main": "De apps met hun minuten",
+          "sub": "Standaard vijf, de meest gebruikte eerst. <strong>+ meer</strong> toont de rest."
+        },
+        {
+          "main": "Zonder limiet",
+          "sub": "Dan vult de ring zich tegen het gemiddelde van de laatste zeven dagen."
+        },
+        {
+          "main": "De laatste sync",
+          "sub": "Met Life Dashboard vindt de kaart de andere sensoren van de telefoon zelf en zegt hij wanneer de telefoon voor het laatst verstuurde."
+        }
+      ],
+      "image": "T2-screen-time-card-phone"
+    },
+    {
+      "kicker": "De week",
+      "h2": "De week, een balk per dag",
+      "text": "Een balk per dag met de limiet als stippellijn, de dagen erboven gemarkeerd, en het gemiddelde per dag. Drie tot veertien dagen, standaard zeven.",
+      "bullets": [
+        {
+          "main": "Tik op een dag",
+          "sub": "Zijn apps verschijnen als één gestapelde balk, elk met zijn minuten."
+        },
+        {
+          "main": "Uit de statistieken",
+          "sub": "De week komt uit de langetermijnstatistieken die Home Assistant al voor de sensor bijhoudt. Je hoeft dus geen helper in te stellen."
+        },
+        {
+          "main": "De apps van eerdere dagen",
+          "sub": "Met Life Dashboard komen ze uit de app-sensoren die je aanzet, op de apparaatpagina van de telefoon."
+        }
+      ],
+      "image": "T3-screen-time-week"
+    },
+    {
+      "kicker": "Het gezin",
+      "h2": "Het hele gezin in één kaart",
+      "text": "Iedereen in één kaart, elk tegen een eigen limiet, met de drie grootste apps. Tik op een persoon voor al zijn apps.",
+      "bullets": [
+        {
+          "main": "Een rij per telefoon of tablet",
+          "sub": "Elke rij is één schermtijdsensor, met een eigen naam en een eigen limiet."
+        },
+        {
+          "main": "De foto van de persoon",
+          "sub": "Geef een rij een <code>person</code> en de foto en naam van die persoon verschijnen."
+        },
+        {
+          "main": "Nog over, of te veel",
+          "sub": "Elke rij zegt hoeveel tijd er nog over is, of hoeveel de dag eroverheen ging."
+        }
+      ],
+      "image": "T4-screen-time-family"
+    },
+    {
+      "kicker": "Instellen",
+      "h2": "Een visuele editor, of een paar regels YAML",
+      "text": "Alle drie staan in de kaartkiezer, met een editor voor de telefoon, de limiet, de titel en de apps. In YAML heeft een kaart zijn type nodig en de sensor met de schermtijd van vandaag.",
+      "bullets": [
+        {
+          "main": "<code>limit</code>",
+          "sub": "<code>\"3:30\"</code>, <code>\"2h\"</code>, <code>\"45m\"</code> of een aantal minuten."
+        },
+        {
+          "main": "<code>apps</code>",
+          "sub": "Per pakketnaam: een eigen naam, een kleur, een icoon zoals <code>mdi:gamepad-variant</code>, of <code>hidden: true</code>."
+        },
+        {
+          "main": "<code>people</code>",
+          "sub": "Voor de gezinskaart. Per telefoon een <code>entity</code>, en als je wilt een <code>name</code>, een <code>person</code> en een eigen <code>limit</code>."
+        }
+      ],
+      "code": {
+        "title": "Dashboard-YAML",
+        "code": "type: custom:life-dashboard-screen-time-card\nentity: sensor.your_phone_screen_time_today\nlimit: \"3:30\"\n\n# the week: custom:life-dashboard-screen-time-week-card\n\ntype: custom:life-dashboard-screen-time-family-card\npeople:\n  - entity: sensor.sams_pixel_screen_time_today\n    person: person.sam\n    limit: \"3:30\"\n  - entity: sensor.milas_tablet_screen_time_today\n    name: Mila\n    limit: \"2:00\""
+      },
+      "link": {
+        "href": "https://github.com/owen282000/life-dashboard-screen-time-card#configure",
+        "text": "Elke optie in de README"
+      }
+    }
+  ],
+  "requirements": "Home Assistant 2026.3 of nieuwer. Vanaf 2026.11 zit de Marketplace erin; oudere versies hebben HACS nodig, waar de kaarten in de standaardlijst staan. En een sensor met de schermtijd van vandaag. Voor de minuten van elke app op een Android-telefoon is dat <a href=\"../android/#get\">Life Dashboard Companion voor Android</a> met <a href=\"../home-assistant/\">de integratie</a>, 1.2.0 of nieuwer. Een iPhone heeft geen schermtijd die apps kunnen lezen.",
+  "faq": [
+    {
+      "q": "Werkt het met een iPhone?",
+      "a": "Nee. iOS heeft geen API waarmee een app schermtijd kan lezen, dus er valt niets naar Home Assistant te sturen. De kaarten tonen Android-telefoons en -tablets, en wat Google Family Link of Microsoft Family Safety over een kind melden."
+    },
+    {
+      "q": "Heb ik de Life Dashboard-app nodig?",
+      "a": "Niet voor de kaarten zelf: die lezen ook Family Link, Family Safety en elke sensor met het totaal van vandaag. Voor de minuten van elke app op je eigen Android-telefoon wel, want de officiële Companion-app heeft geen minuten per app. <a href=\"../android/#get\">Download de Android-app</a>."
+    },
+    {
+      "q": "Kan ik het gebruiken met Google Family Link?",
+      "a": "Ja, via <a href=\"https://github.com/noiwid/HAFamilyLink\">HAFamilyLink</a>, een integratie uit de community. Kies de sensor <strong>Daily Screen Time</strong> van een kind. De apps komen mee, de week komt uit de statistieken van de sensor, en de daglimiet uit Family Link wordt gebruikt tenzij je de kaart een eigen limiet geeft. Microsoft Family Safety werkt op dezelfde manier via <a href=\"https://github.com/noiwid/HAFamilySafety\">HAFamilySafety</a>."
+    },
+    {
+      "q": "Vergrendelt de limiet de telefoon?",
+      "a": "Nee. De limiet is iets om tegen af te zetten: de kaarten tonen hoeveel er over is of hoe ver de dag eroverheen is, en blokkeren niets. Voor een actie maak je in Home Assistant een automatisering op de schermtijdsensor, zoals een melding bij de limiet. In <a href=\"../screen-time-home-assistant/\">Schermtijd in Home Assistant</a> staan voorbeelden."
+    },
+    {
+      "q": "Waarom toont een app een letter in plaats van zijn icoon?",
+      "a": "De ingebouwde lijst bevat 126 populaire Android-apps, met iconen uit de eigen iconenset van Home Assistant. Elke andere app krijgt zijn beginletter op een eigen kleur. Onder <code>apps</code> geef je een app zelf een naam, een kleur en een icoon, of verberg je hem."
+    },
+    {
+      "q": "Sturen de kaarten mijn data ergens heen?",
+      "a": "Nee. Ze lezen alleen wat Home Assistant je browser al geeft: de toestand van de sensoren en, voor de week, de statistieken van de recorder. Ze doen zelf geen verzoeken en hebben geen telemetrie of analytics."
+    }
+  ],
+  "updated": "2026-11-20",
+  "guides": [
+    "screen-time-home-assistant"
+  ],
+  "commands": {
+    "title": "Dashboards in YAML-modus",
+    "code": "lovelace:\n  resources:\n    - url: /hacsfiles/life-dashboard-screen-time-card/life-dashboard-screen-time-card.js\n      type: module",
+    "after": "Alleen voor dashboards in YAML-modus. Bij dashboards in opslagmodus wordt de resource voor je geregistreerd. Zonder de Marketplace staat in de README <a href=\"https://github.com/owen282000/life-dashboard-screen-time-card#by-hand\">hoe je met de hand installeert</a>."
+  },
+  "compare": {
+    "title": "Waar de schermtijd vandaan komt",
+    "intro": "De kaarten werken met elke sensor die de schermtijd van vandaag bevat. Wat ze kunnen tonen hangt af van wat de bron weet.",
+    "head": [
+      "",
+      "De apps van vandaag",
+      "De week",
+      "De limiet"
+    ],
+    "rows": [
+      [
+        "Life Dashboard-app, Android",
+        "Elke app van de dag, vanaf integratie 1.2.0",
+        "Uit de statistieken van de integratie",
+        "De limiet die je de kaart geeft"
+      ],
+      [
+        "Google Family Link, via <a href=\"https://github.com/noiwid/HAFamilyLink\">HAFamilyLink</a>",
+        "Ja, met de sensor Daily Screen Time van het kind",
+        "Uit de statistieken van de sensor",
+        "De limiet uit Family Link, of je eigen"
+      ],
+      [
+        "Microsoft Family Safety, via <a href=\"https://github.com/noiwid/HAFamilySafety\">HAFamilySafety</a>",
+        "Ja, uit de sensor Applications van het account",
+        "Uit de statistieken van de sensor",
+        "Uit de sensor met de resterende tijd, of je eigen"
+      ],
+      [
+        "Elke andere sensor, zoals <code>history_stats</code>",
+        "Alleen met een attribuut <code>apps</code>",
+        "Uit de statistieken van de sensor",
+        "De limiet die je de kaart geeft"
+      ],
+      [
+        "iPhone",
+        "Nee: iOS heeft geen API voor schermtijd",
+        "Nee",
+        "Nee"
+      ]
+    ],
+    "source": "Uit <a href=\"https://github.com/owen282000/life-dashboard-screen-time-card#where-the-screen-time-comes-from\">de README van de kaarten</a>, stand van versie 0.2.0. Een eigen sensor moet het totaal van vandaag in uren of minuten bevatten en elke dag bij nul beginnen. HAFamilyLink en HAFamilySafety zijn integraties uit de community en geen onderdeel van Life Dashboard."
+  }
+}

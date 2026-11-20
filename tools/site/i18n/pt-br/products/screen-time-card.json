@@ -1,0 +1,208 @@
+{
+  "slug": "screen-time-card",
+  "nav_name": "Cards de tempo de tela",
+  "title": "Cards de tempo de tela para o Home Assistant | Life Dashboard",
+  "description": "Três cards de dashboard do Home Assistant para o tempo de tela: hoje, a semana e a família inteira contra um limite diário. Também com Family Link e Family Safety.",
+  "kicker": "Cards de dashboard",
+  "h1": "Cards de tempo de tela para o seu dashboard do Home Assistant",
+  "lead": "O Life Dashboard Screen Time é uma única instalação pelo Marketplace (HACS antes do Home Assistant 2026.11) com três cards de dashboard de código aberto: hoje em um celular, a semana e a família inteira, cada um contra um limite diário que você define. Eles leem o app Life Dashboard no Android, o Google Family Link, o Microsoft Family Safety ou qualquer sensor que conte o dia.",
+  "hero_image": "T1-screen-time-cards",
+  "highlights": [
+    {
+      "title": "Três cards, uma instalação",
+      "text": "Hoje, a semana e a família aparecem no seletor de cards depois de um único download, cada um com um editor visual."
+    },
+    {
+      "title": "Um limite diário",
+      "text": "Você define por card ou por pessoa. O anel e as barras mostram se o dia está dentro, quase no limite a partir de 80% ou acima dele, nas cores do seu tema."
+    },
+    {
+      "title": "Apps com a cara dos apps",
+      "text": "Uma lista embutida de 126 apps populares do Android com nome, cor da marca e ícone. Qualquer outro app ganha a inicial sobre uma cor própria."
+    },
+    {
+      "title": "Qualquer fonte",
+      "text": "O app Life Dashboard no Android, o Google Family Link, o Microsoft Family Safety ou um sensor seu, como o history_stats."
+    },
+    {
+      "title": "Onze idiomas",
+      "text": "Português, inglês, alemão, árabe, chinês, espanhol, francês, hindi, holandês, italiano e japonês, com as durações escritas como no seu idioma."
+    },
+    {
+      "title": "Claro e escuro",
+      "text": "Os cards usam as cores do seu tema do Home Assistant, e as três cores de estado são variáveis CSS."
+    },
+    {
+      "title": "Nada sai do seu navegador",
+      "text": "Os cards leem os sensores e as estatísticas que o Home Assistant já entrega ao seu navegador. Sem requisições próprias, sem telemetria e sem analytics."
+    }
+  ],
+  "sections": [
+    {
+      "kicker": "Hoje",
+      "h2": "Hoje em um celular, contra o limite",
+      "text": "Um anel se enche contra o limite diário e diz quanto falta ou quanto o dia passou dele. Ao lado: a diferença para ontem e para os últimos sete dias, e o número de apps usados.",
+      "bullets": [
+        {
+          "main": "Os apps com os minutos",
+          "sub": "Cinco por padrão, o mais usado primeiro. <strong>+ mais</strong> mostra o restante."
+        },
+        {
+          "main": "Sem limite",
+          "sub": "O anel se enche então contra a média dos últimos sete dias."
+        },
+        {
+          "main": "A última sincronização",
+          "sub": "Com o Life Dashboard, o card encontra sozinho os outros sensores do celular e diz quando ele enviou pela última vez."
+        }
+      ],
+      "image": "T2-screen-time-card-phone"
+    },
+    {
+      "kicker": "A semana",
+      "h2": "A semana, uma barra por dia",
+      "text": "Uma barra por dia com o limite como linha tracejada, os dias acima dele marcados, e a média por dia. De três a catorze dias, sete por padrão.",
+      "bullets": [
+        {
+          "main": "Toque em um dia",
+          "sub": "Os apps do dia aparecem como uma única barra empilhada, cada um com os minutos."
+        },
+        {
+          "main": "A partir das estatísticas",
+          "sub": "A semana vem das estatísticas de longo prazo que o Home Assistant já guarda do sensor, então não há nenhum ajudante para criar."
+        },
+        {
+          "main": "Os apps dos dias anteriores",
+          "sub": "Com o Life Dashboard, eles vêm dos sensores por app que você ativa na página do dispositivo do celular."
+        }
+      ],
+      "image": "T3-screen-time-week"
+    },
+    {
+      "kicker": "A família",
+      "h2": "A família inteira em um card",
+      "text": "Todo mundo em um card, cada um contra o próprio limite, com os três apps mais usados. Toque em uma pessoa para ver todos os apps dela.",
+      "bullets": [
+        {
+          "main": "Uma linha por celular ou tablet",
+          "sub": "Cada linha é um sensor de tempo de tela, com nome e limite próprios."
+        },
+        {
+          "main": "A foto da pessoa",
+          "sub": "Dê uma <code>person</code> a uma linha e a foto e o nome dessa pessoa aparecem."
+        },
+        {
+          "main": "O que falta, ou o que passou",
+          "sub": "Cada linha diz quanto tempo falta, ou quanto o dia passou do limite."
+        }
+      ],
+      "image": "T4-screen-time-family"
+    },
+    {
+      "kicker": "Configurar",
+      "h2": "Um editor visual, ou algumas linhas de YAML",
+      "text": "Os três estão no seletor de cards, com um editor para o celular, o limite, o título e os apps. Em YAML, um card precisa do tipo e do sensor com o tempo de tela de hoje.",
+      "bullets": [
+        {
+          "main": "<code>limit</code>",
+          "sub": "<code>\"3:30\"</code>, <code>\"2h\"</code>, <code>\"45m\"</code> ou um número de minutos."
+        },
+        {
+          "main": "<code>apps</code>",
+          "sub": "Por nome de pacote: um nome seu, uma cor, um ícone como <code>mdi:gamepad-variant</code>, ou <code>hidden: true</code>."
+        },
+        {
+          "main": "<code>people</code>",
+          "sub": "Para o card da família. Por celular uma <code>entity</code> e, se quiser, um <code>name</code>, uma <code>person</code> e um <code>limit</code> próprio."
+        }
+      ],
+      "code": {
+        "title": "YAML do dashboard",
+        "code": "type: custom:life-dashboard-screen-time-card\nentity: sensor.your_phone_screen_time_today\nlimit: \"3:30\"\n\n# the week: custom:life-dashboard-screen-time-week-card\n\ntype: custom:life-dashboard-screen-time-family-card\npeople:\n  - entity: sensor.sams_pixel_screen_time_today\n    person: person.sam\n    limit: \"3:30\"\n  - entity: sensor.milas_tablet_screen_time_today\n    name: Mila\n    limit: \"2:00\""
+      },
+      "link": {
+        "href": "https://github.com/owen282000/life-dashboard-screen-time-card#configure",
+        "text": "Todas as opções no README"
+      }
+    }
+  ],
+  "requirements": "Home Assistant 2026.3 ou mais recente. A partir da 2026.11 o Marketplace já vem incluído; versões mais antigas precisam do HACS, onde os cards estão na lista padrão. E um sensor com o tempo de tela de hoje. Para os minutos de cada app de um celular Android, esse sensor vem do <a href=\"../android/#get\">Life Dashboard Companion para Android</a> com <a href=\"../home-assistant/\">a integração</a>, 1.2.0 ou mais recente. Um iPhone não tem tempo de tela que os apps possam ler.",
+  "faq": [
+    {
+      "q": "Funciona com iPhone?",
+      "a": "Não. O iOS não tem nenhuma API que deixe um app ler o tempo de tela, então não há nada para enviar ao Home Assistant. Os cards mostram celulares e tablets Android, e o que o Google Family Link ou o Microsoft Family Safety informam sobre uma criança."
+    },
+    {
+      "q": "Preciso do app Life Dashboard?",
+      "a": "Para os cards em si, não: eles também leem o Family Link, o Family Safety e qualquer sensor com o total de hoje. Para os minutos de cada app do seu próprio celular Android, sim, porque o app Companion oficial não tem minutos por app. <a href=\"../android/#get\">Baixar o app para Android</a>."
+    },
+    {
+      "q": "Dá para usar com o Google Family Link?",
+      "a": "Sim, com o <a href=\"https://github.com/noiwid/HAFamilyLink\">HAFamilyLink</a>, uma integração da comunidade. Escolha o sensor <strong>Daily Screen Time</strong> de uma criança. Os apps vêm junto, a semana sai das estatísticas do sensor, e o limite diário definido no Family Link vale enquanto você não der um próprio ao card. O Microsoft Family Safety funciona do mesmo jeito com o <a href=\"https://github.com/noiwid/HAFamilySafety\">HAFamilySafety</a>."
+    },
+    {
+      "q": "O limite bloqueia o celular?",
+      "a": "Não. O limite é uma referência: os cards mostram quanto falta ou quanto o dia passou dele, e não bloqueiam nada. Para uma ação, crie no Home Assistant uma automação sobre o sensor de tempo de tela, como uma notificação ao chegar ao limite. <a href=\"../screen-time-home-assistant/\">Tempo de tela no Home Assistant</a> traz exemplos."
+    },
+    {
+      "q": "Por que um app mostra uma letra em vez do ícone?",
+      "a": "A lista embutida cobre 126 apps populares do Android, com ícones do próprio conjunto de ícones do Home Assistant. Qualquer outro app ganha a inicial sobre uma cor própria. Em <code>apps</code> você mesmo dá a um app um nome, uma cor e um ícone, ou o oculta."
+    },
+    {
+      "q": "Os cards enviam meus dados para algum lugar?",
+      "a": "Não. Eles só leem o que o Home Assistant já entrega ao seu navegador: o estado dos sensores e, para a semana, as estatísticas do gravador. Não fazem requisições próprias e não têm telemetria nem analytics."
+    }
+  ],
+  "updated": "2026-11-20",
+  "guides": [
+    "screen-time-home-assistant"
+  ],
+  "commands": {
+    "title": "Dashboards em modo YAML",
+    "code": "lovelace:\n  resources:\n    - url: /hacsfiles/life-dashboard-screen-time-card/life-dashboard-screen-time-card.js\n      type: module",
+    "after": "Só para dashboards em modo YAML. Nos dashboards em modo de armazenamento o recurso é registrado para você. Sem o Marketplace, o README explica <a href=\"https://github.com/owen282000/life-dashboard-screen-time-card#by-hand\">a instalação manual</a>."
+  },
+  "compare": {
+    "title": "De onde vem o tempo de tela",
+    "intro": "Os cards funcionam com qualquer sensor que tenha o tempo de tela de hoje. O que eles conseguem mostrar depende do que a fonte sabe.",
+    "head": [
+      "",
+      "Os apps de hoje",
+      "A semana",
+      "O limite"
+    ],
+    "rows": [
+      [
+        "App Life Dashboard, Android",
+        "Todos os apps do dia, a partir da integração 1.2.0",
+        "Das estatísticas da integração",
+        "O que você dá ao card"
+      ],
+      [
+        "Google Family Link, com o <a href=\"https://github.com/noiwid/HAFamilyLink\">HAFamilyLink</a>",
+        "Sim, com o sensor Daily Screen Time da criança",
+        "Das estatísticas do sensor",
+        "O definido no Family Link, ou o seu"
+      ],
+      [
+        "Microsoft Family Safety, com o <a href=\"https://github.com/noiwid/HAFamilySafety\">HAFamilySafety</a>",
+        "Sim, do sensor Applications da conta",
+        "Das estatísticas do sensor",
+        "Do sensor de tempo restante, ou o seu"
+      ],
+      [
+        "Qualquer outro sensor, como o <code>history_stats</code>",
+        "Só com um atributo <code>apps</code>",
+        "Das estatísticas do sensor",
+        "O que você dá ao card"
+      ],
+      [
+        "iPhone",
+        "Não: o iOS não tem API para o tempo de tela",
+        "Não",
+        "Não"
+      ]
+    ],
+    "source": "Conforme <a href=\"https://github.com/owen282000/life-dashboard-screen-time-card#where-the-screen-time-comes-from\">o README dos cards</a>, na versão 0.2.0. Um sensor seu precisa ter o total de hoje em horas ou minutos e começar do zero a cada dia. O HAFamilyLink e o HAFamilySafety são integrações da comunidade e não fazem parte do Life Dashboard."
+  }
+}

@@ -21,7 +21,7 @@
 <meta name="theme-color" content="#101418" media="(prefers-color-scheme: dark)">
 <link rel="icon" type="image/png" sizes="32x32" href="/life-dashboard/img/icon-32.png?v=355467f5">
 <link rel="apple-touch-icon" href="/life-dashboard/img/icon-180.png?v=e1842852">
-<link rel="stylesheet" href="/life-dashboard/site.css?v=77b363dd">
+<link rel="stylesheet" href="/life-dashboard/site.css?v=25f0102e">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="nl_NL">
 <meta property="og:locale:alternate" content="en_US">
@@ -270,6 +270,8 @@
             <li><a href="/nl/life-dashboard/android/">Android</a></li>
             <li><a href="/nl/life-dashboard/ios/">iPhone</a></li>
             <li><a href="/nl/life-dashboard/home-assistant/" aria-current="page">Home Assistant</a></li>
+            <li><a class="sub" href="/nl/life-dashboard/screen-time-card/">Schermtijdkaarten</a></li>
+            <li><a class="sub" href="/nl/life-dashboard/sleep-card/">Slaapkaart</a></li>
             <li><a href="/nl/life-dashboard/grafana/">Grafana</a></li>
             <li><a href="/nl/life-dashboard/guides/">Gidsen</a></li>
             <li><a href="https://github.com/owen282000/life-dashboard-ha"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> GitHub</a></li>
@@ -329,7 +331,7 @@
     </div><div class="show stack" id="sleep-stages">
       <div class="stack-text">
         <div><h2>Slaapfasen per nacht, en een kaart die de nacht tekent</h2></div>
-        <div><p>Vanaf versie 1.1.0 wordt elke nacht omgezet in sensoren en statistieken voor diep, licht, REM, wakker en de tijd dat je sliep, met één hoofdnacht per datum waarop je wakker werd. De <a href="https://github.com/owen282000/life-dashboard-sleep-card">Life Dashboard Sleep Card</a>, die je apart installeert uit de Marketplace, tekent de nieuwste nacht als hypnogram op je dashboard. Op Android werkt de kaart ook met de officiële Companion-app, zonder Life Dashboard.</p>
+        <div><p>Vanaf versie 1.1.0 wordt elke nacht omgezet in sensoren en statistieken voor diep, licht, REM, wakker en de tijd dat je sliep, met één hoofdnacht per datum waarop je wakker werd. De <a href="/nl/life-dashboard/sleep-card/">Life Dashboard Sleep Card</a>, die je apart installeert uit de Marketplace, tekent de nieuwste nacht als hypnogram op je dashboard. Op Android werkt de kaart ook met de officiële Companion-app, zonder Life Dashboard.</p>
         <ul class="ticks">
           <li>De nacht als sensor <span><code>last_sleep_asleep</code> bevat de uren slaap van de nieuwste hoofdnacht, met elke fase in het attribuut <code>stages</code>.</span></li>
           <li>Elke fase als statistiek <span>De uren diep, licht, REM, wakker en slaap per nacht, voor een grafiek per dag, week of maand. Met Geschiedenis versturen in de app vul je oudere nachten aan.</span></li>
@@ -368,7 +370,7 @@
       <div class="stack-text">
         <div><p class="label purple">Schermtijd</p>
         <h2>Schermtijd per app, met geschiedenis</h2></div>
-        <div><p>Op Android verstuurt de app de schermtijd uit dezelfde gebruiksstatistieken die Digitaal welzijn leest. Het voorbeelddashboard heeft er een eigen weergave voor, en de <a href="https://github.com/owen282000/life-dashboard-screen-time-card">Life Dashboard Screen Time-kaarten</a>, die je apart installeert uit de Marketplace, tonen vandaag, de week en het hele gezin, elk afgezet tegen een daglimiet die je zelf instelt.</p>
+        <div><p>Op Android verstuurt de app de schermtijd uit dezelfde gebruiksstatistieken die Digitaal welzijn leest. Het voorbeelddashboard heeft er een eigen weergave voor, en de <a href="/nl/life-dashboard/screen-time-card/">Life Dashboard Screen Time-kaarten</a>, die je apart installeert uit de Marketplace, tonen vandaag, de week en het hele gezin, elk afgezet tegen een daglimiet die je zelf instelt.</p>
         <ul class="ticks purple-ticks">
           <li>Vandaag en gisteren <span>Schermtijd in uren, de meest gebruikte app, en vanaf versie 1.2.0 elke app van de dag met zijn minuten.</span></li>
           <li>Een sensor per app <span>Wordt uitgeschakeld aangemaakt, hooguit 50 per telefoon, voor automatiseringen zoals een tijdslimiet op één spel.</span></li>
@@ -407,7 +409,7 @@
       <div class="get-side">
         <h3>Wat je nodig hebt</h3>
         <p>Home Assistant 2026.3 of nieuwer. Vanaf 2026.11 hoef je verder niets te installeren: de integratie staat in de Marketplace. Oudere versies hebben HACS nodig, waar ze in de standaardlijst staat. Op elke telefoon Life Dashboard Companion voor Android of voor iPhone. Voor schermtijd, de sensoren per app en Ontvangen heb je de Android-app nodig.</p>
-        <p class="fineprint">Werkt samen met <a href="/nl/life-dashboard/android/">Life Dashboard Companion voor Android</a> en <a href="/nl/life-dashboard/ios/">voor iPhone</a>.</p>
+        <p class="fineprint">Werkt samen met <a href="/nl/life-dashboard/android/">Life Dashboard Companion voor Android</a> en <a href="/nl/life-dashboard/ios/">voor iPhone</a>. Op het dashboard: <a href="/nl/life-dashboard/screen-time-card/">de Screen Time-kaarten</a> en <a href="/nl/life-dashboard/sleep-card/">de Sleep Card</a>.</p>
         
         
       </div>
@@ -486,6 +488,14 @@
       <a class="part" href="/nl/life-dashboard/ios/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg></span><h3>Life Dashboard Companion voor iPhone</h3><p>Apple Health, met dezelfde payload</p><span class="go">Bekijk de iPhone-app</span></a>
       <a class="part" href="/nl/life-dashboard/grafana/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M6.5 16v-4"/><path d="M11 16V7"/><path d="M15.5 16v-6"/><path d="M20 16V4"/></svg></span><h3>Life Dashboard-stack</h3><p>Postgres, Grafana, een API en MCP, zelf gehost</p><span class="go">Bekijk de stack</span></a>
     </div>
+    <div class="section-head sub-head" id="cards">
+      <h3>Kaarten voor je Home Assistant-dashboard</h3>
+      <p>Twee losse installaties uit de Marketplace die tekenen wat er in Home Assistant staat: schermtijd tegen een limiet, en de nacht als hypnogram. Open source en gratis.</p>
+    </div>
+    <div class="family two">
+      <a class="part" href="/nl/life-dashboard/screen-time-card/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><h3>Life Dashboard Screen Time-kaarten</h3><p>Vandaag, de week en het gezin, tegen een daglimiet</p><span class="go">Bekijk de schermtijdkaarten</span></a>
+      <a class="part" href="/nl/life-dashboard/sleep-card/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19.5 14.5A8 8 0 1 1 9.5 4.5a6.5 6.5 0 0 0 10 10z"/></svg></span><h3>Life Dashboard Sleep Card</h3><p>Eén nacht slaap als hypnogram</p><span class="go">Bekijk de Sleep Card</span></a>
+    </div>
   </div>
 </section>
 
@@ -505,6 +515,8 @@
           <li><a href="/nl/life-dashboard/ios/">iPhone-app</a></li>
           <li><a href="/nl/life-dashboard/home-assistant/">Home Assistant-integratie</a></li>
           <li><a href="/nl/life-dashboard/grafana/">Grafana-stack</a></li>
+          <li><a href="/nl/life-dashboard/screen-time-card/">Schermtijdkaarten</a></li>
+          <li><a href="/nl/life-dashboard/sleep-card/">Slaapkaart</a></li>
         </ul>
       </div>
       <div class="foot-col">

@@ -15,8 +15,9 @@ Where the words live: tools/site/i18n/<lang>/ (i18n/README.md is the brief for t
   one-line descriptions of the guides, alt texts, the store sentences).
 - guides/<id>.html: a guide. It starts with a comment holding its title and description;
   screenshot placeholders like <!-- IMG: pair dialog (A2-pair.png) --> become figures.
-- products/<id>.json: a product page (Android, iPhone, Home Assistant, Grafana). Each section
-  shows an "image", or a "code" window ({"title", "code"}) instead.
+- products/<id>.json: a product page (Android, iPhone, Home Assistant, Grafana, and the two
+  dashboard cards: the Screen Time cards and the Sleep Card). Each section shows an "image", or
+  a "code" window ({"title", "code"}) instead.
 - pages/landing.html, hub.html, privacy.html, ios-privacy.html: the pages written by hand, as
   the inside of <main>. Between the landing page's <!-- BUILD:name --> markers the script fills
   in the shared parts (the store badges, the hero picture, the install section, the guide list,
@@ -160,10 +161,13 @@ PLAY_LINK = f"{PLAY}&amp;referrer=utm_source%3D{PLACE}%26utm_medium%3Dwebsite"
 
 
 HACS = "https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration"
-# The Sleep Card is an add-on for Home Assistant, not one of the four parts: it has a guide of its
-# own and a section on the integration's page, and no place in PARTS, ORDER or the navigation.
+# The dashboard cards are add-ons for Home Assistant, not one of the four parts. Each has a
+# product page of its own (CARDS below) and is listed with the products in the footer, on the
+# landing page and on the integration's page; the bar of the navigation keeps the four parts.
 REPO_CARD = "https://github.com/owen282000/life-dashboard-sleep-card"
 HACS_CARD = "https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-sleep-card&amp;category=plugin"
+REPO_ST_CARD = "https://github.com/owen282000/life-dashboard-screen-time-card"
+HACS_ST_CARD = "https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-screen-time-card&amp;category=plugin"
 
 
 def placed(text, place):
@@ -208,8 +212,31 @@ PARTS_BASE = {
             {"id": "helm", "status": "live", "href": REPO_STACK + "/blob/main/docs/kubernetes.md"},
         ],
     },
+    "screen-time-card": {
+        "glyph": '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+        "get": [
+            {"id": "hacs", "kind": "store", "status": "live", "href": HACS_ST_CARD},
+            {"id": "card-guide", "status": "live", "href": "screen-time-home-assistant/", "rel": True},
+            {"id": "ha-source", "status": "live", "href": REPO_ST_CARD},
+        ],
+    },
+    "sleep-card": {
+        "glyph": '<path d="M19.5 14.5A8 8 0 1 1 9.5 4.5a6.5 6.5 0 0 0 10 10z"/>',
+        "get": [
+            {"id": "hacs", "kind": "store", "status": "live", "href": HACS_CARD},
+            {"id": "card-guide", "status": "live", "href": "sleep-stages-home-assistant/", "rel": True},
+            {"id": "ha-source", "status": "live", "href": REPO_CARD},
+        ],
+    },
 }
 ORDER = ["android", "ios", "home-assistant", "grafana"]
+# The dashboard cards: product pages like the four parts, but not in the bar of the navigation,
+# the install section's four cards or the "four parts" the texts count.
+CARDS = ["screen-time-card", "sleep-card"]
+PRODUCTS = ORDER + CARDS
+# The links at the foot of a card's page: what it sits on, and the other card.
+CARD_SIBLINGS = {"screen-time-card": ["home-assistant", "android", "sleep-card"],
+                 "sleep-card": ["home-assistant", "android", "ios", "screen-time-card"]}
 
 # One sentence per app about where to get it, used through {{status:android}} and {{status:ios}}:
 # "status" in strings.json, set per language by activate().
@@ -292,7 +319,7 @@ GUIDE_ABOUT = {
     "health-data-qr-pairing": ["#android", "#ios"],
     "health-connect-home-assistant": ["#android", "#integration"],
     "health-connect-webhook": ["#android", "#ios"],
-    "screen-time-home-assistant": ["#android", "#integration"],
+    "screen-time-home-assistant": ["#screen-time-card", "#android", "#integration"],
     "sleep-stages-home-assistant": ["#sleep-card", "#integration", "#android", "#ios"],
     "smart-scale-to-samsung-health": ["#integration", "#android"],
     "troubleshooting": ["#android", "#integration", "#ios"],
@@ -326,6 +353,10 @@ IMAGE_FILES = {
     "p-pairing-flow": ("diagram", 1400, 700),
     "S1-sleep-card": ("wide", 1400, 442),
     "S2-sleep-card-phone": ("card", 720, 531),
+    "T1-screen-time-cards": ("wide", 1400, 575),
+    "T2-screen-time-card-phone": ("card", 720, 999),
+    "T3-screen-time-week": ("card", 720, 796),
+    "T4-screen-time-family": ("card", 720, 753),
     "g-overview": ("wide", 1400, 728),
     "g-activity": ("wide", 1400, 1260),
     "g-sleep": ("wide", 1400, 895),
@@ -339,9 +370,10 @@ CUT = set()
 
 # A line shown with the image, in a figure's caption or on a product page's stage.
 # The line itself is captions.<name> in strings.json.
-CAPTIONED = ["S1-sleep-card", "S2-sleep-card-phone"]
+CAPTIONED = ["S1-sleep-card", "S2-sleep-card-phone", "T1-screen-time-cards", "T2-screen-time-card-phone",
+             "T3-screen-time-week", "T4-screen-time-family"]
 # A product page shows this image instead on a phone, where the wide one would be too small to read.
-PHONE_SHOT = {"S1-sleep-card": "S2-sleep-card-phone"}
+PHONE_SHOT = {"S1-sleep-card": "S2-sleep-card-phone", "T1-screen-time-cards": "T2-screen-time-card-phone"}
 
 # How each guide closes: the buttons under its last section, as (class, address). The sentence
 # above them and their labels are guides.<id>.next and guides.<id>.buttons in strings.json.
@@ -384,9 +416,9 @@ WEBSITE = {"@type": "WebSite", "@id": f"{BASE}#website", "url": BASE, "name": "L
 PROJECT_BASE = {"@type": "CreativeWorkSeries", "@id": f"{BASE}#project", "name": "Life Dashboard", "url": BASE,
                 "author": {"@id": f"{BASE}#owen"},
                 "hasPart": [{"@id": f"{BASE}#android"}, {"@id": f"{BASE}#ios"}, {"@id": f"{BASE}#integration"}, {"@id": f"{BASE}#stack"},
-                            {"@id": f"{BASE}#sleep-card"}]}
+                            {"@id": f"{BASE}#screen-time-card"}, {"@id": f"{BASE}#sleep-card"}]}
 ENTITY_ID = {"android": "#android", "ios": "#ios", "home-assistant": "#integration", "grafana": "#stack",
-             "sleep-card": "#sleep-card"}
+             "screen-time-card": "#screen-time-card", "sleep-card": "#sleep-card"}
 ENTITY_BASE = {
     "android": {
         "@type": "SoftwareApplication", "@id": f"{BASE}#android", "name": "Life Dashboard Companion",
@@ -413,9 +445,18 @@ ENTITY_BASE = {
         "applicationCategory": "UtilitiesApplication", "url": f"{BASE}grafana/",
         "license": "https://opensource.org/licenses/MIT", "isPartOf": {"@id": f"{BASE}#project"},
         "author": {"@id": f"{BASE}#owen"}, "sameAs": [REPO_STACK]},
+    "screen-time-card": {
+        "@type": "SoftwareApplication", "@id": f"{BASE}#screen-time-card", "name": "Life Dashboard Screen Time",
+        "alternateName": ["Life Dashboard Screen Time cards", "life-dashboard-screen-time-card"],
+        "applicationCategory": "UtilitiesApplication", "url": f"{BASE}screen-time-card/",
+        "inLanguage": ["en", "nl", "de", "fr", "es", "it", "pt", "ja", "ar", "hi", "zh"],
+        "downloadUrl": f"{REPO_ST_CARD}/releases/latest", "license": "https://opensource.org/licenses/MIT",
+        "isPartOf": {"@id": f"{BASE}#project"}, "author": {"@id": f"{BASE}#owen"},
+        "sameAs": [REPO_ST_CARD], "screenshot": f"{BASE}img/T1-screen-time-cards.webp"},
     "sleep-card": {
         "@type": "SoftwareApplication", "@id": f"{BASE}#sleep-card", "name": "Life Dashboard Sleep Card",
-        "applicationCategory": "UtilitiesApplication", "url": f"{BASE}sleep-stages-home-assistant/",
+        "alternateName": "life-dashboard-sleep-card",
+        "applicationCategory": "UtilitiesApplication", "url": f"{BASE}sleep-card/",
         "downloadUrl": f"{REPO_CARD}/releases/latest", "license": "https://opensource.org/licenses/MIT",
         "isPartOf": {"@id": f"{BASE}#project"}, "author": {"@id": f"{BASE}#owen"},
         "sameAs": [REPO_CARD], "screenshot": f"{BASE}img/S1-sleep-card.webp"},
@@ -442,7 +483,7 @@ SOURCE_CODE = {"@type": "SoftwareSourceCode", "codeRepository": REPO, "programmi
 # i18n/<lang>/guides/<id>.html, products/<id>.json or pages/<id>.html. The guide index is made
 # from strings.json alone, so it exists once its title (ui.index.title) is translated.
 PAGES = {"hub": "", "privacy": "privacy/", "legal": "legal/", "landing": "life-dashboard/", "guides": "life-dashboard/guides/",
-         **{s: f"life-dashboard/{s}/" for s in ORDER}, **{g: f"life-dashboard/{g}/" for g in GUIDE_IDS},
+         **{s: f"life-dashboard/{s}/" for s in PRODUCTS}, **{g: f"life-dashboard/{g}/" for g in GUIDE_IDS},
          "ios-privacy": "life-dashboard/ios/privacy/"}
 EN_PATH_TO_ID = {"/" + p: pid for pid, p in PAGES.items()}
 HAND_PAGES = {"hub": "hub", "privacy": "privacy", "landing": "landing", "ios-privacy": "ios-privacy"}
@@ -452,13 +493,13 @@ STRING_PAGES = {"guides": "ui.index.title", "legal": "ui.legal.title"}
 # The Play campaign source of each page (P1-36): the English names stay as they were, a
 # translation adds its language (site-de-guide-<id>).
 PLACES = {"landing": "landing", "guides": "guides", "hub": "hub", "privacy": "privacy", "legal": "legal", "ios-privacy": "ios-privacy",
-          **{s: s for s in ORDER}, **{g: f"guide-{g}" for g in GUIDE_IDS}}
+          **{s: s for s in PRODUCTS}, **{g: f"guide-{g}" for g in GUIDE_IDS}}
 
 
 def source(pid, lang):
     if pid in GUIDE_IDS:
         return I18N / lang / "guides" / f"{pid}.html"
-    if pid in ORDER:
+    if pid in PRODUCTS:
         return I18N / lang / "products" / f"{pid}.json"
     if pid in HAND_PAGES:
         return I18N / lang / "pages" / f"{HAND_PAGES[pid]}.html"
@@ -632,6 +673,7 @@ ICONS = {
     "hacs": '<path d="M3.5 11 12 3.5l8.5 7.5"/><path d="M5.5 9.5V20h13V9.5"/>',
     "ha-source": '<path d="m8 7-5 5 5 5M16 7l5 5-5 5"/>',
     "ha-setup": '<path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6h.01M4 12h.01M4 18h.01"/>',
+    "card-guide": '<path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6h.01M4 12h.01M4 18h.01"/>',
     "compose": '<rect x="3.5" y="9" width="17" height="10" rx="2"/><path d="M7 9V6h4v3M13 9V6h4v3"/>',
     "demo": '<path d="M4 19V5m0 14h16M8 15v-3m4 3V9m4 6v-5m4 5V7"/>',
     "helm": '<circle cx="12" cy="12" r="6.5"/><circle cx="12" cy="12" r="2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/>',
@@ -785,7 +827,30 @@ def get_section(prefix):
     </ol>
     <div class="get-grid">
       {cards}
-    </div>"""
+    </div>
+    {cards_block(prefix, "get-cards")}"""
+
+
+def cards_block(prefix, cls):
+    """The two dashboard cards under a heading of their own: with their Marketplace badge in
+    the landing page's install section, as links on the integration's page."""
+    if cls == "get-cards":
+        items = "\n      ".join(get_card_compact(c, prefix) for c in CARDS)
+        grid = f'<div class="get-grid">\n      {items}\n    </div>'
+    else:
+        items = "\n      ".join(part_link(c) for c in CARDS)
+        grid = f'<div class="family two">\n      {items}\n    </div>'
+    return f"""<div class="section-head sub-head" id="cards">
+      <h3>{t("cards.title")}</h3>
+      <p>{t("cards.intro")}</p>
+    </div>
+    {grid}"""
+
+
+def part_link(s):
+    """A part or a card as a link: its glyph, its name, one line and where it leads."""
+    return (f'<a class="part" href="{LD}{s}/"><span class="part-ico">{svg(PARTS[s]["glyph"])}</span><h3>{PARTS[s]["full"]}</h3>'
+            f'<p>{PARTS[s]["line"]}</p><span class="go">{PARTS[s]["more"]}</span></a>')
 
 
 def android_paths(prefix):
@@ -886,13 +951,14 @@ def lang_row(pid):
 def nav(prefix, active=None, pid=None):
     """The bar of every Life Dashboard page: the four parts and the guides, the language, GitHub
     and the install button. Below 1040px the links fold into a menu (a <details>, so it opens
-    without a script) that also holds the languages and GitHub; the install button stays in
-    the bar. pid: the page being written, for the language menu."""
+    without a script) that also holds the dashboard cards, the languages and GitHub; the install
+    button stays in the bar. pid: the page being written, for the language menu."""
     def a(href, label, key):
         cur = ' aria-current="page"' if key == active else ""
         return f'<a href="{href}"{cur}>{label}</a>'
     on_product = active in PARTS
-    repo = {"ios": REPO_IOS, "home-assistant": REPO_HA, "grafana": REPO_STACK}.get(active, REPO)
+    repo = {"ios": REPO_IOS, "home-assistant": REPO_HA, "grafana": REPO_STACK,
+            "screen-time-card": REPO_ST_CARD, "sleep-card": REPO_CARD}.get(active, REPO)
     links = [
         a(f"{prefix}android/", "Android", "android"),
         a(f"{prefix}ios/", "iPhone", "ios"),
@@ -900,6 +966,8 @@ def nav(prefix, active=None, pid=None):
         a(f"{prefix}grafana/", "Grafana", "grafana"),
         a(f"{prefix}guides/", t("nav.guides"), "guides"),
     ]
+    # The menu also names the two dashboard cards, under Home Assistant: the bar has no room for them.
+    panel = links[:3] + [a(f"{prefix}{c}/", PARTS[c]["name"], c).replace("<a ", '<a class="sub" ', 1) for c in CARDS] + links[3:]
     install = "#get" if on_product or active == "landing" else f"{prefix}#get"
     langs = lang_links(pid) if pid else []
     panel_langs = (f'\n          <p class="nav-panel-langs">{GLOBE}<span class="sr-only">{t("nav.language")}:</span> {" ".join(langs)}</p>'
@@ -921,7 +989,7 @@ def nav(prefix, active=None, pid=None):
         <summary aria-label="{t("nav.menu")}">{MENU}</summary>
         <div class="nav-panel">
           <ul>
-            {"\n            ".join(f"<li>{x}</li>" for x in links)}
+            {"\n            ".join(f"<li>{x}</li>" for x in panel)}
             <li><a href="{repo}">{GH} GitHub</a></li>
           </ul>{panel_langs}
         </div>
@@ -940,7 +1008,7 @@ def footer(prefix, pid=None):
     """Three short columns, then one small line each for the legal links, the language and the
     imprint. Every guide is one click away through the index; the trademark notices and badge
     credits have a page of their own (/legal/)."""
-    prods = "\n          ".join(f'<li><a href="{prefix}{s}/">{PARTS[s]["name"]}</a></li>' for s in ORDER)
+    prods = "\n          ".join(f'<li><a href="{prefix}{s}/">{PARTS[s]["name"]}</a></li>' for s in PRODUCTS)
     guides = "\n          ".join(f'<li><a href="{prefix}{g}/">{GUIDE_NAMES[g]}</a></li>' for g in FOOTER_GUIDES)
     docs = [(f"{REPO}/blob/main/docs/usage.md", "android_setup"), (f"{REPO_IOS}/blob/main/docs/usage.md", "ios_setup"),
             (f"{REPO}/blob/main/docs/webhook.md", "payload"), (f"{prefix}feedback/", "feedback"),
@@ -1130,7 +1198,8 @@ def page(head_html, body, comment):
 # <p class="warn"> for callouts, <p class="flow-line"> with <span>s for a chain of apps,
 # <table>, <pre><code>, <details> inside the FAQ.
 
-PURPLE = {"A4-screen-time", "H7-screen-time"}
+PURPLE = {"A4-screen-time", "H7-screen-time", "T1-screen-time-cards", "T2-screen-time-card-phone",
+          "T3-screen-time-week", "T4-screen-time-family"}
 IMG_MARK = r"<!--\s*IMG:[^>]*?\(?(ios-[a-z]+|[A-Za-z]\d?-[a-z-]+)(?:\.png|\.webp)?\)?[^>]*-->"
 
 
@@ -1292,8 +1361,7 @@ def build_guide(pid):
         breadcrumb(("Life Dashboard", url_of("landing")), (t("nav.guides"), url_of("guides") if exists("guides", lang) else url_of("guides", "en")), (crumb, url)),
         ME, ORG, WEBSITE,
     ]
-    if "#sleep-card" in about:
-        graph.append(ENTITIES["sleep-card"])
+    graph += [ENTITIES[c] for c in CARDS if ENTITY_ID[c] in about]
     if qa:
         graph.append(faq_entity(qa))
     main = f"""{nav(LD, "guides", pid)}
@@ -1466,9 +1534,13 @@ def build_product(slug):
     guides = "\n      ".join(guide_card(g, prefix) for g in gl)
     single_label = t("product.single_" + slug) if slug in ("ios", "grafana") else t("product.single")
     single_guide = (f'<p class="faq-more">{single_label}: <a class="link-arrow" href="{LD}{gl[0]}/">{GUIDE_NAMES[gl[0]]}</a></p>' if len(gl) == 1 else "")
-    siblings = "\n      ".join(
-        f'<a class="part" href="{LD}{s}/"><span class="part-ico">{svg(PARTS[s]["glyph"])}</span><h3>{PARTS[s]["full"]}</h3><p>{PARTS[s]["line"]}</p><span class="go">{PARTS[s]["more"]}</span></a>'
-        for s in ORDER if s != slug)
+    is_card = slug in CARDS
+    others = CARD_SIBLINGS[slug] if is_card else [s for s in ORDER if s != slug]
+    siblings = "\n      ".join(part_link(s) for s in others)
+    family_cls = "family three" if len(others) == 3 else "family"
+    others_title, others_text = (t("product.others_card"), t("product.others_card_text")) if is_card else (t("product.others"), t("product.others_text"))
+    # The integration's page also names the two cards that draw its sensors.
+    more_cards = "\n    " + cards_block(prefix, "family-cards") if slug == "home-assistant" else ""
     works_with = t("product.works_with_" + ("app" if slug in ("android", "ios") else slug))
     # Listings elsewhere, each with its badge saved in img/badges/ like the store badges.
     listed = {
@@ -1539,7 +1611,7 @@ def build_product(slug):
       {hero_alt}
       {repo_stats(slug)}
     </div>
-    <div class="product-visual stage{" is-wide" if hero_kind == "wide" else ""}">
+    <div class="product-visual stage{" purple" if d["hero_image"] in PURPLE else ""}{" is-wide" if hero_kind == "wide" else " has-card" if hero_kind == "card" else ""}">
       {image(d["hero_image"], prefix, eager=True)}
     </div>
   </div>
@@ -1595,10 +1667,10 @@ def build_product(slug):
 {guides_section}
 <section class="section tight">
   <div class="wrap">
-    <div class="section-head"><h2>{t("product.others")}</h2><p>{t("product.others_text")}</p></div>
-    <div class="family three">
+    <div class="section-head"><h2>{others_title}</h2><p>{others_text}</p></div>
+    <div class="{family_cls}">
       {siblings}
-    </div>
+    </div>{more_cards}
   </div>
 </section>
 
@@ -1699,7 +1771,7 @@ def build_landing():
         src = fill(src, "faq-get", f"<p>{t('landing.faq_get', android=STATUS_TEXT['android'], ios=STATUS_TEXT['ios'])}</p>")
     faq = src[src.index('id="faq"'):]
     qa = [(strip_tags(q), strip_tags(a)) for q, a in re.findall(r"<summary>(.*?)</summary>\s*(.*?)</details>", faq, re.S)]
-    graph = [WEBSITE, ME, ORG, PROJECT] + [ENTITIES[s] for s in ORDER] + [ENTITIES["sleep-card"], SOURCE_CODE, faq_entity(qa),
+    graph = [WEBSITE, ME, ORG, PROJECT] + [ENTITIES[s] for s in PRODUCTS] + [SOURCE_CODE, faq_entity(qa),
                                                                              breadcrumb(("Life Dashboard", url_of(pid)))]
     main = f"""{nav(LD, "landing", pid)}
 
@@ -1858,7 +1930,7 @@ def build_ios_privacy():
 def build_404():
     """Served for any missing path (deploy/Caddyfile). English only."""
     raw = (I18N / "en" / "pages" / "not-found.html").read_text()
-    groups = [("Life Dashboard", [(LD, "Life Dashboard")] + [(f"{LD}{s}/", PARTS[s]["name"]) for s in ORDER]),
+    groups = [("Life Dashboard", [(LD, "Life Dashboard")] + [(f"{LD}{s}/", PARTS[s]["name"]) for s in PRODUCTS]),
               (t("index.h1"), [(f"{LD}guides/", t("footer.all_guides", n=len(GUIDES)))] + [(f"{LD}{g[0]}/", g[1]) for g in GUIDES]),
               ("Owen Vogelaar", [("/", "The developer page"), ("/privacy/", "Privacy"), ("/legal/", t("footer.legal"))])]
     cols = "\n".join(
@@ -1922,7 +1994,7 @@ def build_llms():
 def build_sitemap():
     """Every page in every language, each with its lastmod and the same xhtml:link alternates as
     its <head>. <lastmod> follows <loc> directly: indexnow.py reads the pair."""
-    order = ["hub", "privacy", "legal", "landing"] + ORDER + ["guides"] + GUIDE_IDS + ["ios-privacy"]
+    order = ["hub", "privacy", "legal", "landing"] + PRODUCTS + ["guides"] + GUIDE_IDS + ["ios-privacy"]
     rows = []
     for lang in LANGS:
         for pid in order:
@@ -1942,7 +2014,7 @@ def structure(pid, lang):
     """What a translation must leave exactly as the English page has it: code, screenshots,
     tables and the fields of a product page that are not prose."""
     src = source(pid, lang).read_text()
-    if pid in ORDER:
+    if pid in PRODUCTS:
         d = json.loads(src)
         return {"hero_image": d.get("hero_image"), "updated": d.get("updated"), "guides": d.get("guides"),
                 "sections": [(x.get("image"), x.get("image2"), (x.get("code") or {}).get("code"), len(x["bullets"]),
@@ -1990,7 +2062,7 @@ def check(strict=()):
     if len([f for f in SITE.glob("*.txt") if f.read_text().strip() == f.stem]) != 1:
         problems.append("site/ needs exactly one IndexNow key file, <key>.txt holding <key>")
     llms = (SITE / "llms.txt").read_text()
-    problems += [f"llms.txt: the guide {g} is missing" for g in GUIDE_IDS if f"{BASE}{g}/" not in llms]
+    problems += [f"llms.txt: the page {g} is missing" for g in GUIDE_IDS + PRODUCTS if f"{BASE}{g}/" not in llms]
 
     # --- languages
     docs = {key: f.read_text() for key, f in BUILT.items()}
@@ -2066,7 +2138,7 @@ def check(strict=()):
             if opt_meta(src, "structure") != "own" and structure(pid, lang) != structure(pid, "en"):
                 a, b = structure(pid, lang), structure(pid, "en")
                 own.append(f"{lang}:{pid}: differs from the English page in {', '.join(k for k in a if a[k] != b[k])}")
-            if pid not in ORDER and (opt_meta(src, "title") == opt_meta(en, "title") or opt_meta(src, "description") == opt_meta(en, "description")):
+            if pid not in PRODUCTS and (opt_meta(src, "title") == opt_meta(en, "title") or opt_meta(src, "description") == opt_meta(en, "description")):
                 own.append(f"{lang}:{pid}: the title or description is still the English one")
         missing = sorted(MISSING[lang]) if lang in STRINGS else ["strings.json"]
         if lang in strict:
@@ -2086,7 +2158,7 @@ def check(strict=()):
 def build_language(lang):
     activate(lang)
     out = []
-    for s in ORDER:
+    for s in PRODUCTS:
         if exists(s, lang):
             out.append(build_product(s))
     for g in GUIDE_IDS:
