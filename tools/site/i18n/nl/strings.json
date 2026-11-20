@@ -69,7 +69,7 @@
       "single_ios": "De payload, stap voor stap (de iPhone-app verstuurt dezelfde JSON)",
       "single_grafana": "Wat de stack ontvangt, stap voor stap",
       "works_with_app": "Stuurt naar <a href=\"/life-dashboard/home-assistant/\">de Home Assistant-integratie</a>, <a href=\"/life-dashboard/grafana/\">de Grafana-stack</a>, een MQTT-broker of een webhook naar keuze.",
-      "works_with_home-assistant": "Werkt samen met <a href=\"/life-dashboard/android/\">Life Dashboard Companion voor Android</a> en <a href=\"/life-dashboard/ios/\">voor iPhone</a>.",
+      "works_with_home-assistant": "Werkt samen met <a href=\"/life-dashboard/android/\">Life Dashboard Companion voor Android</a> en <a href=\"/life-dashboard/ios/\">voor iPhone</a>. Op het dashboard: <a href=\"/life-dashboard/screen-time-card/\">de Screen Time-kaarten</a> en <a href=\"/life-dashboard/sleep-card/\">de Sleep Card</a>.",
       "works_with_grafana": "Ontvangt van <a href=\"/life-dashboard/android/\">Life Dashboard Companion voor Android</a> en <a href=\"/life-dashboard/ios/\">voor iPhone</a>.",
       "alternativeto": "Life Dashboard Companion op AlternativeTo",
       "guides": "Installatiegidsen",
@@ -80,7 +80,13 @@
       "faq_home-assistant": "Vragen over de integratie",
       "faq_grafana": "Vragen over de stack",
       "others": "De andere onderdelen",
-      "others_text": "Beide apps versturen dezelfde payload. Een Android-telefoon en een iPhone kunnen dus dezelfde Home Assistant of dezelfde stack delen."
+      "others_text": "Beide apps versturen dezelfde payload. Een Android-telefoon en een iPhone kunnen dus dezelfde Home Assistant of dezelfde stack delen.",
+      "works_with_screen-time-card": "Leest <a href=\"/life-dashboard/home-assistant/\">de Life Dashboard-integratie</a> met <a href=\"/life-dashboard/android/\">de Android-app</a>, Google Family Link, Microsoft Family Safety of een eigen sensor.",
+      "works_with_sleep-card": "Leest <a href=\"/life-dashboard/home-assistant/\">de Life Dashboard-integratie</a> met de app voor <a href=\"/life-dashboard/android/\">Android</a> of <a href=\"/life-dashboard/ios/\">iPhone</a>, of op Android de officiële Companion-app.",
+      "faq_screen-time-card": "Vragen over de schermtijdkaarten",
+      "faq_sleep-card": "Vragen over de Sleep Card",
+      "others_card": "De rest van Life Dashboard",
+      "others_card_text": "De kaarten tekenen wat er al in Home Assistant staat. De integratie en de apps brengen het daar, en je installeert alleen de onderdelen die je nodig hebt."
     },
     "stats": {
       "stars": "sterren",
@@ -146,6 +152,10 @@
       },
       "trademarks": "Home Assistant is een handelsmerk van de Open Home Foundation. Health Connect, Google Play, Google Health, Fitbit en Pixel Watch zijn handelsmerken van Google LLC. Apple, Apple Health, Apple Watch, iPhone, Xcode en TestFlight zijn handelsmerken van Apple Inc. App Store is een dienstmerk van Apple Inc. Grafana is een handelsmerk van Grafana Labs. Samsung Health, Garmin Connect, Oura en Withings zijn eigendom van hun eigenaren. Life Dashboard is een onafhankelijk project en is niet verbonden aan of goedgekeurd door een van deze partijen. De schermafbeeldingen tonen verzonnen data.",
       "credits": "Badges: Google Play en App Store zoals Google en Apple ze uitgeven; \"Get it on F-Droid\" van het <a href=\"https://gitlab.com/fdroid/artwork\">F-Droid-project</a> en \"Get it on GitHub\" van <a href=\"https://github.com/Kunzisoft/Github-badge\">Kunzisoft</a>, beide <a href=\"https://creativecommons.org/licenses/by-sa/3.0/\">CC BY-SA 3.0</a>; Obtainium van het <a href=\"https://github.com/ImranR98/Obtainium\">Obtainium-project</a>; de badges van HACS, Artifact Hub en Docker Compose zijn voor deze site getekend in Roboto (SIL OFL), rond de iconen van het <a href=\"https://github.com/hacs/integration\">HACS-project</a> (MIT) en het <a href=\"https://github.com/artifacthub/hub\">Artifact Hub-project</a> (Apache 2.0) en het Docker-logo uit de mediakit; de AlternativeTo-badge is hun compacte badge op een zwart vlak. GitHub is een handelsmerk van GitHub, Inc. Docker, Docker Compose en het Docker-logo zijn handelsmerken van Docker, Inc. Helm is een handelsmerk van The Linux Foundation."
+    },
+    "cards": {
+      "title": "Kaarten voor je Home Assistant-dashboard",
+      "intro": "Twee losse installaties uit de Marketplace die tekenen wat er in Home Assistant staat: schermtijd tegen een limiet, en de nacht als hypnogram. Open source en gratis."
     }
   },
   "parts": {
@@ -248,6 +258,54 @@
         "helm": {
           "name": "Helm-chart voor Kubernetes",
           "note": "Dezelfde images op je eigen cluster, met Postgres van CloudNativePG, een meegeleverde StatefulSet of een database die je al hebt draaien."
+        }
+      }
+    },
+    "screen-time-card": {
+      "name": "Schermtijdkaarten",
+      "full": "Life Dashboard Screen Time-kaarten",
+      "line": "Vandaag, de week en het gezin, tegen een daglimiet",
+      "more": "Bekijk de schermtijdkaarten",
+      "get_title": "Installeer de schermtijdkaarten",
+      "req_short": "Drie kaarten in één installatie. Home Assistant 2026.3 of nieuwer.",
+      "requires": "Home Assistant 2026.3 of nieuwer. HACS alleen op versies vóór 2026.11.",
+      "get": {
+        "hacs": {
+          "name": "HACS",
+          "cta": "Openen in de Marketplace",
+          "note": "Zoek onder Instellingen &gt; Marketplace (HACS vóór Home Assistant 2026.11) naar Life Dashboard Screen Time en download het. Daarna staan alle drie de kaarten in de kaartkiezer."
+        },
+        "card-guide": {
+          "name": "Gids over schermtijd",
+          "note": "Schermtijd per app van een Android-telefoon naar Home Assistant, stap voor stap."
+        },
+        "ha-source": {
+          "name": "Broncode op GitHub",
+          "note": "Release-opmerkingen, elke optie en installeren met de hand."
+        }
+      }
+    },
+    "sleep-card": {
+      "name": "Slaapkaart",
+      "full": "Life Dashboard Sleep Card",
+      "line": "Eén nacht slaap als hypnogram",
+      "more": "Bekijk de Sleep Card",
+      "get_title": "Installeer de Sleep Card",
+      "req_short": "Voor Android en iPhone. Home Assistant 2026.3 of nieuwer.",
+      "requires": "Home Assistant 2026.3 of nieuwer. HACS alleen op versies vóór 2026.11.",
+      "get": {
+        "hacs": {
+          "name": "HACS",
+          "cta": "Openen in de Marketplace",
+          "note": "Zoek onder Instellingen &gt; Marketplace (HACS vóór Home Assistant 2026.11) naar Life Dashboard Sleep Card en download hem. Voeg hem daarna toe via de kaartkiezer."
+        },
+        "card-guide": {
+          "name": "Gids over slaapfasen",
+          "note": "De sensoren en statistieken per nacht, en de kaart op een dashboard, stap voor stap."
+        },
+        "ha-source": {
+          "name": "Broncode op GitHub",
+          "note": "Release-opmerkingen, elke optie en installeren met de hand."
         }
       }
     }
@@ -524,11 +582,19 @@
     "g-sleep": "Het slaapdashboard van de Grafana-stack",
     "g-heart-body": "Het dashboard voor hart en lichaam van de Grafana-stack",
     "g-screen-time": "Het schermtijddashboard van de Grafana-stack",
-    "g-data": "Het dashboard voor data en sync van de Grafana-stack"
+    "g-data": "Het dashboard voor data en sync van de Grafana-stack",
+    "T1-screen-time-cards": "De drie Life Dashboard Screen Time-kaarten op een donker thema met voorbeelddata. Vandaag: een ring met 3 u 16 min van een limiet van 3 u 30 min, nog 14 minuten over, en vijf apps met hun minuten. De week: een balk per dag tegen een gestippelde limietlijn, twee dagen erboven. Het gezin: Sam, Mila en Noah met hun totalen tegen hun limieten",
+    "T2-screen-time-card-phone": "De schermtijdkaart voor vandaag op telefoonbreedte met voorbeelddata: een ring met 3 u 16 min van een limiet van 3 u 30 min, nog 14 minuten over, 23 minuten meer dan gisteren, en YouTube, WhatsApp, Chrome, Instagram en Maps met hun minuten",
+    "T3-screen-time-week": "De weekkaart met voorbeelddata: gemiddeld 3 u 21 min per dag, een balk per dag tegen een gestippelde limietlijn op 3 u 30 min, twee van de zeven dagen erboven, en de apps van vandaag als één gestapelde balk",
+    "T4-screen-time-family": "De gezinskaart met voorbeelddata: Sam, Mila en Noah met hun totalen tegen hun limieten en hun drie grootste apps, Sam met nog 14 minuten over en Noah 59 minuten te veel"
   },
   "captions": {
     "S1-sleep-card": "Voorbeelddata",
-    "S2-sleep-card-phone": "Voorbeelddata"
+    "S2-sleep-card-phone": "Voorbeelddata",
+    "T1-screen-time-cards": "Voorbeelddata van verzonnen telefoons",
+    "T2-screen-time-card-phone": "Voorbeelddata van verzonnen telefoons",
+    "T3-screen-time-week": "Voorbeelddata van verzonnen telefoons",
+    "T4-screen-time-family": "Voorbeelddata van verzonnen telefoons"
   },
   "entities": {
     "android": {
@@ -570,6 +636,19 @@
       "description": "De Life Dashboard Sleep Card is een open-source dashboardkaart voor Home Assistant die één nacht slaap als hypnogram tekent, op basis van de Life Dashboard-integratie 1.1.0 of nieuwer of, op Android, de officiële Home Assistant Companion-app 2026.11.1 of nieuwer.",
       "operatingSystem": "Home Assistant 2026.3 of nieuwer",
       "applicationSubCategory": "Dashboardkaart voor Home Assistant"
+    },
+    "screen-time-card": {
+      "description": "Life Dashboard Screen Time is een open-source set van drie dashboardkaarten voor Home Assistant die de schermtijd van vandaag, de week en het hele gezin tegen een daglimiet tonen, op basis van de Life Dashboard-integratie, Google Family Link, Microsoft Family Safety of elke sensor met het totaal van vandaag.",
+      "operatingSystem": "Home Assistant 2026.3 of nieuwer",
+      "applicationSubCategory": "Dashboardkaart voor Home Assistant",
+      "featureList": [
+        "Vandaag op één telefoon tegen een daglimiet",
+        "De week als een balk per dag",
+        "Het hele gezin in één kaart",
+        "Een ingebouwde lijst van 126 Android-apps met hun kleur en icoon",
+        "Leest Google Family Link en Microsoft Family Safety",
+        "Elf talen"
+      ]
     }
   },
   "project_description": "Open-source project van Owen Vogelaar: apps voor Android en iPhone die gezondheidsdata naar Home Assistant, MQTT of een webhook sturen, een Home Assistant-integratie en een zelf gehoste Grafana-stack.",

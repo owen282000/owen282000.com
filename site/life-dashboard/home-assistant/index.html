@@ -21,7 +21,7 @@
 <meta name="theme-color" content="#101418" media="(prefers-color-scheme: dark)">
 <link rel="icon" type="image/png" sizes="32x32" href="/life-dashboard/img/icon-32.png?v=355467f5">
 <link rel="apple-touch-icon" href="/life-dashboard/img/icon-180.png?v=e1842852">
-<link rel="stylesheet" href="/life-dashboard/site.css?v=77b363dd">
+<link rel="stylesheet" href="/life-dashboard/site.css?v=25f0102e">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
 <meta property="og:locale:alternate" content="nl_NL">
@@ -270,6 +270,8 @@
             <li><a href="/life-dashboard/android/">Android</a></li>
             <li><a href="/life-dashboard/ios/">iPhone</a></li>
             <li><a href="/life-dashboard/home-assistant/" aria-current="page">Home Assistant</a></li>
+            <li><a class="sub" href="/life-dashboard/screen-time-card/">Screen time cards</a></li>
+            <li><a class="sub" href="/life-dashboard/sleep-card/">Sleep card</a></li>
             <li><a href="/life-dashboard/grafana/">Grafana</a></li>
             <li><a href="/life-dashboard/guides/">Guides</a></li>
             <li><a href="https://github.com/owen282000/life-dashboard-ha"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> GitHub</a></li>
@@ -329,7 +331,7 @@
     </div><div class="show stack" id="sleep-stages">
       <div class="stack-text">
         <div><h2>Sleep stages per night, and a card that draws the night</h2></div>
-        <div><p>From version 1.1.0, each night becomes sensors and statistics for deep, light, REM, awake and time asleep, with one main night per wake date. The <a href="https://github.com/owen282000/life-dashboard-sleep-card">Life Dashboard Sleep Card</a>, a separate install from the Marketplace, draws the newest night on your dashboard as a hypnogram. On Android it also works with the official Companion app, without Life Dashboard.</p>
+        <div><p>From version 1.1.0, each night becomes sensors and statistics for deep, light, REM, awake and time asleep, with one main night per wake date. The <a href="/life-dashboard/sleep-card/">Life Dashboard Sleep Card</a>, a separate install from the Marketplace, draws the newest night on your dashboard as a hypnogram. On Android it also works with the official Companion app, without Life Dashboard.</p>
         <ul class="ticks">
           <li>The night as a sensor <span><code>last_sleep_asleep</code> holds the hours asleep of the newest main night, with every stage in its <code>stages</code> attribute.</span></li>
           <li>Every stage as a statistic <span>Hours of deep, light, REM, awake and asleep per night, for a chart per day, week or month. Send history from the app fills in older nights.</span></li>
@@ -368,7 +370,7 @@
       <div class="stack-text">
         <div><p class="label purple">Screen time</p>
         <h2>Screen time per app, with its history</h2></div>
-        <div><p>On Android, the app sends screen time from the same usage statistics Digital Wellbeing reads. The example dashboard has a view of its own for it, and the <a href="https://github.com/owen282000/life-dashboard-screen-time-card">Life Dashboard Screen Time cards</a>, a separate install from the Marketplace, show today, the week and the whole family, each against a daily limit you set.</p>
+        <div><p>On Android, the app sends screen time from the same usage statistics Digital Wellbeing reads. The example dashboard has a view of its own for it, and the <a href="/life-dashboard/screen-time-card/">Life Dashboard Screen Time cards</a>, a separate install from the Marketplace, show today, the week and the whole family, each against a daily limit you set.</p>
         <ul class="ticks purple-ticks">
           <li>Today and yesterday <span>Screen time in hours, the most used app, and from version 1.2.0 every app of the day with its minutes.</span></li>
           <li>A sensor per app <span>Created disabled, up to 50 per phone, for automations such as a time limit on one game.</span></li>
@@ -407,7 +409,7 @@
       <div class="get-side">
         <h3>What you need</h3>
         <p>Home Assistant 2026.3 or newer. From 2026.11 nothing else needs installing: the integration is in the Marketplace. Older versions need HACS, where it is in the default list. On each phone, Life Dashboard Companion for Android or for iPhone. Screen time, the sensors per app and Receive need the Android app.</p>
-        <p class="fineprint">Pairs with <a href="/life-dashboard/android/">Life Dashboard Companion for Android</a> and <a href="/life-dashboard/ios/">for iPhone</a>.</p>
+        <p class="fineprint">Pairs with <a href="/life-dashboard/android/">Life Dashboard Companion for Android</a> and <a href="/life-dashboard/ios/">for iPhone</a>. On the dashboard: <a href="/life-dashboard/screen-time-card/">the Screen Time cards</a> and <a href="/life-dashboard/sleep-card/">the Sleep Card</a>.</p>
         
         
       </div>
@@ -486,6 +488,14 @@
       <a class="part" href="/life-dashboard/ios/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg></span><h3>Life Dashboard Companion for iPhone</h3><p>Apple Health, with the same payload</p><span class="go">See the iPhone app</span></a>
       <a class="part" href="/life-dashboard/grafana/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M6.5 16v-4"/><path d="M11 16V7"/><path d="M15.5 16v-6"/><path d="M20 16V4"/></svg></span><h3>Life Dashboard stack</h3><p>Postgres, Grafana, an API and MCP, self-hosted</p><span class="go">See the stack</span></a>
     </div>
+    <div class="section-head sub-head" id="cards">
+      <h3>Cards for your Home Assistant dashboard</h3>
+      <p>Two separate installs from the Marketplace that draw what is in Home Assistant: screen time against a limit, and the night as a hypnogram. Open source and free.</p>
+    </div>
+    <div class="family two">
+      <a class="part" href="/life-dashboard/screen-time-card/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><h3>Life Dashboard Screen Time cards</h3><p>Today, the week and the family, against a daily limit</p><span class="go">See the screen time cards</span></a>
+      <a class="part" href="/life-dashboard/sleep-card/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19.5 14.5A8 8 0 1 1 9.5 4.5a6.5 6.5 0 0 0 10 10z"/></svg></span><h3>Life Dashboard Sleep Card</h3><p>One night of sleep as a hypnogram</p><span class="go">See the Sleep Card</span></a>
+    </div>
   </div>
 </section>
 
@@ -505,6 +515,8 @@
           <li><a href="/life-dashboard/ios/">iPhone app</a></li>
           <li><a href="/life-dashboard/home-assistant/">Home Assistant integration</a></li>
           <li><a href="/life-dashboard/grafana/">Grafana stack</a></li>
+          <li><a href="/life-dashboard/screen-time-card/">Screen time cards</a></li>
+          <li><a href="/life-dashboard/sleep-card/">Sleep card</a></li>
         </ul>
       </div>
       <div class="foot-col">

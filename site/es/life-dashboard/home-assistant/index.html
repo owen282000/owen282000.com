@@ -21,7 +21,7 @@
 <meta name="theme-color" content="#101418" media="(prefers-color-scheme: dark)">
 <link rel="icon" type="image/png" sizes="32x32" href="/life-dashboard/img/icon-32.png?v=355467f5">
 <link rel="apple-touch-icon" href="/life-dashboard/img/icon-180.png?v=e1842852">
-<link rel="stylesheet" href="/life-dashboard/site.css?v=77b363dd">
+<link rel="stylesheet" href="/life-dashboard/site.css?v=25f0102e">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_ES">
 <meta property="og:locale:alternate" content="en_US">
@@ -270,6 +270,8 @@
             <li><a href="/es/life-dashboard/android/">Android</a></li>
             <li><a href="/es/life-dashboard/ios/">iPhone</a></li>
             <li><a href="/es/life-dashboard/home-assistant/" aria-current="page">Home Assistant</a></li>
+            <li><a class="sub" href="/es/life-dashboard/screen-time-card/">Tarjetas de tiempo de pantalla</a></li>
+            <li><a class="sub" href="/es/life-dashboard/sleep-card/">Tarjeta de sueño</a></li>
             <li><a href="/es/life-dashboard/grafana/">Grafana</a></li>
             <li><a href="/es/life-dashboard/guides/">Guías</a></li>
             <li><a href="https://github.com/owen282000/life-dashboard-ha"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> GitHub</a></li>
@@ -329,7 +331,7 @@
     </div><div class="show stack" id="sleep-stages">
       <div class="stack-text">
         <div><h2>Las fases del sueño de cada noche, y una tarjeta que dibuja la noche</h2></div>
-        <div><p>Desde la versión 1.1.0, cada noche se convierte en sensores y estadísticas de sueño profundo, ligero y REM, tiempo despierto y tiempo dormido, con una noche principal por fecha de despertar. La <a href="https://github.com/owen282000/life-dashboard-sleep-card">Life Dashboard Sleep Card</a>, que se instala aparte desde el Marketplace, dibuja en tu dashboard la noche más reciente como un hipnograma. En Android también funciona con la app Companion oficial, sin Life Dashboard.</p>
+        <div><p>Desde la versión 1.1.0, cada noche se convierte en sensores y estadísticas de sueño profundo, ligero y REM, tiempo despierto y tiempo dormido, con una noche principal por fecha de despertar. La <a href="/es/life-dashboard/sleep-card/">Life Dashboard Sleep Card</a>, que se instala aparte desde el Marketplace, dibuja en tu dashboard la noche más reciente como un hipnograma. En Android también funciona con la app Companion oficial, sin Life Dashboard.</p>
         <ul class="ticks">
           <li>La noche como sensor <span><code>last_sleep_asleep</code> guarda las horas dormidas de la noche principal más reciente, con cada fase en su atributo <code>stages</code>.</span></li>
           <li>Cada fase como estadística <span>Horas de sueño profundo, ligero y REM, despierto y dormido por noche, para un gráfico por día, semana o mes. Enviar historial, en la app, rellena las noches anteriores.</span></li>
@@ -368,7 +370,7 @@
       <div class="stack-text">
         <div><p class="label purple">Tiempo de pantalla</p>
         <h2>Tiempo de pantalla por app, con su historial</h2></div>
-        <div><p>En Android, la app envía el tiempo de pantalla a partir de las mismas estadísticas de uso que lee Bienestar digital. El dashboard de ejemplo tiene una vista propia para ello, y las <a href="https://github.com/owen282000/life-dashboard-screen-time-card">tarjetas Life Dashboard Screen Time</a>, que se instalan aparte desde el Marketplace, muestran el día de hoy, la semana y toda la familia, cada uno frente a un límite diario que fijas tú.</p>
+        <div><p>En Android, la app envía el tiempo de pantalla a partir de las mismas estadísticas de uso que lee Bienestar digital. El dashboard de ejemplo tiene una vista propia para ello, y las <a href="/es/life-dashboard/screen-time-card/">tarjetas Life Dashboard Screen Time</a>, que se instalan aparte desde el Marketplace, muestran el día de hoy, la semana y toda la familia, cada uno frente a un límite diario que fijas tú.</p>
         <ul class="ticks purple-ticks">
           <li>Hoy y ayer <span>El tiempo de pantalla en horas, la app más usada y, desde la versión 1.2.0, cada app del día con sus minutos.</span></li>
           <li>Un sensor por app <span>Se crean desactivados, hasta 50 por teléfono, para automatizaciones como un límite de tiempo para un juego.</span></li>
@@ -407,7 +409,7 @@
       <div class="get-side">
         <h3>Qué necesitas</h3>
         <p>Home Assistant 2026.3 o posterior. Desde la versión 2026.11 no hay que instalar nada más: la integración está en el Marketplace. Las versiones anteriores necesitan HACS, donde está en la lista predeterminada. En cada teléfono, Life Dashboard Companion para Android o para iPhone. El tiempo de pantalla, los sensores por app y Recibir necesitan la app para Android.</p>
-        <p class="fineprint">Se vincula con <a href="/es/life-dashboard/android/">Life Dashboard Companion para Android</a> y <a href="/es/life-dashboard/ios/">para iPhone</a>.</p>
+        <p class="fineprint">Se vincula con <a href="/es/life-dashboard/android/">Life Dashboard Companion para Android</a> y <a href="/es/life-dashboard/ios/">para iPhone</a>. En el dashboard: <a href="/es/life-dashboard/screen-time-card/">las tarjetas Screen Time</a> y <a href="/es/life-dashboard/sleep-card/">la Sleep Card</a>.</p>
         
         
       </div>
@@ -486,6 +488,14 @@
       <a class="part" href="/es/life-dashboard/ios/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg></span><h3>Life Dashboard Companion para iPhone</h3><p>Apple Health, con el mismo payload</p><span class="go">Ver la app para iPhone</span></a>
       <a class="part" href="/es/life-dashboard/grafana/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M6.5 16v-4"/><path d="M11 16V7"/><path d="M15.5 16v-6"/><path d="M20 16V4"/></svg></span><h3>Stack de Life Dashboard</h3><p>Postgres, Grafana, una API y MCP, autoalojado</p><span class="go">Ver el stack</span></a>
     </div>
+    <div class="section-head sub-head" id="cards">
+      <h3>Tarjetas para tu dashboard de Home Assistant</h3>
+      <p>Dos instalaciones aparte desde el Marketplace que dibujan lo que hay en Home Assistant: el tiempo de pantalla frente a un límite, y la noche como un hipnograma. De código abierto y gratis.</p>
+    </div>
+    <div class="family two">
+      <a class="part" href="/es/life-dashboard/screen-time-card/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><h3>Tarjetas Life Dashboard Screen Time</h3><p>Hoy, la semana y la familia, frente a un límite diario</p><span class="go">Ver las tarjetas de tiempo de pantalla</span></a>
+      <a class="part" href="/es/life-dashboard/sleep-card/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19.5 14.5A8 8 0 1 1 9.5 4.5a6.5 6.5 0 0 0 10 10z"/></svg></span><h3>Life Dashboard Sleep Card</h3><p>Una noche de sueño como un hipnograma</p><span class="go">Ver la Sleep Card</span></a>
+    </div>
   </div>
 </section>
 
@@ -505,6 +515,8 @@
           <li><a href="/es/life-dashboard/ios/">App para iPhone</a></li>
           <li><a href="/es/life-dashboard/home-assistant/">Integración para Home Assistant</a></li>
           <li><a href="/es/life-dashboard/grafana/">Stack de Grafana</a></li>
+          <li><a href="/es/life-dashboard/screen-time-card/">Tarjetas de tiempo de pantalla</a></li>
+          <li><a href="/es/life-dashboard/sleep-card/">Tarjeta de sueño</a></li>
         </ul>
       </div>
       <div class="foot-col">

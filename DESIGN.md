@@ -115,7 +115,9 @@ ink, never a smaller size alone.
   side down to 320 px.
 - Navigation: the brand, the four parts and the guides, then the language, GitHub (an icon) and
   the install button. Below 1040 px the links fold into a menu that also holds the languages; the
-  install button stays in the bar.
+  install button stays in the bar. The two dashboard cards (the Screen Time cards and the Sleep
+  Card) have product pages but no place in the bar: they sit under Home Assistant in the menu,
+  in the footer's products, in the install section and on the integration's page.
 - Footer: three short columns (the parts, five guides and a link to all of them, docs and
   source), then one small block: the app privacy policies and /legal/, the languages, the
   imprint. Trademark notices and badge credits live on /legal/, not in the footer.
