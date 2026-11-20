@@ -81,7 +81,7 @@ REPO = "https://github.com/owen282000/life-dashboard-companion-app"
 REPO_IOS = "https://github.com/owen282000/life-dashboard-companion-app-ios"
 REPO_HA = "https://github.com/owen282000/life-dashboard-ha"
 REPO_STACK = "https://github.com/owen282000/life-dashboard-stack"
-APP_STORE = "https://apps.apple.com/app/life-dashboard-companion/id6824075761"
+APP_STORE = "https://apps.apple.com/app/health-data-for-home-assistant/id6824075761"
 APK = f"{REPO}/releases/latest/download/app-release.apk"
 PLAY = "https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard"
 # Every link to the Play listing carries a campaign referrer naming the page it sits on, so the
@@ -475,7 +475,7 @@ ENTITIES = {
         "sameAs": [REPO], "screenshot": f"{BASE}img/A1-health.webp"},
     "ios": {
         "@type": "SoftwareApplication", "@id": f"{BASE}#ios", "name": "Life Dashboard Companion for iPhone",
-        "alternateName": "Life Dashboard Companion for iOS",
+        "alternateName": ["Life Dashboard Companion for iOS", "Health Data for Home Assistant"],
         "description": "Life Dashboard Companion for iPhone is an open-source iPhone app that sends Apple Health data to Home Assistant, MQTT or your own webhook, with no cloud and no account.",
         "operatingSystem": "iOS 17 or newer", "applicationCategory": "HealthApplication",
         "inLanguage": ["en", "nl", "de", "fr", "es", "it", "pt-BR", "ja", "ar", "hi", "zh-Hans"], "url": f"{BASE}ios/", "license": "https://opensource.org/licenses/MIT",
