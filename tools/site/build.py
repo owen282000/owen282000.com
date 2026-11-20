@@ -1,76 +1,141 @@
 #!/usr/bin/env python3
-"""Build the Life Dashboard site under site/life-dashboard/ (served at owen282000.com/life-dashboard/).
+"""Build owen282000.com: the developer page, the Life Dashboard site and its guides, in every language.
 
 One source for everything that repeats: the navigation, the footer, the install buttons and
 cards, the structured data, the store status text, llms.txt and the sitemap. Run it from
 anywhere after changing any page or any data below:
 
-    python3 tools/site/build.py
+    python3 tools/site/build.py                # build, and list what is still to translate
+    python3 tools/site/build.py --strict de    # also fail on anything German still lacks
+    python3 tools/site/build.py --strict       # the same for every language
 
-What it writes:
-- products/<slug>.json becomes site/life-dashboard/<slug>/index.html (Android, iPhone,
-  Home Assistant, Grafana). Each section shows an "image", or a "code" window ({"title",
-  "code"}) instead.
-- guides/<slug>.html becomes site/life-dashboard/<slug>/index.html. Each guide starts
-  with a comment holding its title and description; screenshot placeholders like
-  <!-- IMG: pair dialog (A2-pair.png) --> become figures.
-- The landing page (site/life-dashboard/index.html) is written by hand. Between its
-  <!-- BUILD:name --> and <!-- /BUILD:name --> markers the script fills in the shared parts,
-  including the JSON-LD, whose FAQ comes from the questions on the page.
-- llms.txt (in site/ and site/life-dashboard/) from llms.txt.in, and site/sitemap.xml.
+Where the words live: tools/site/i18n/<lang>/ (i18n/README.md is the brief for translators).
+- lang.json: the language itself (folder on the site, hreflang, month names, "complete").
+- strings.json: everything the templates say (navigation, buttons, footer, the names and
+  one-line descriptions of the guides, alt texts, the store sentences).
+- guides/<id>.html: a guide. It starts with a comment holding its title and description;
+  screenshot placeholders like <!-- IMG: pair dialog (A2-pair.png) --> become figures.
+- products/<id>.json: a product page (Android, iPhone, Home Assistant, Grafana). Each section
+  shows an "image", or a "code" window ({"title", "code"}) instead.
+- pages/landing.html, hub.html, privacy.html, ios-privacy.html: the pages written by hand, as
+  the inside of <main>. Between the landing page's <!-- BUILD:name --> markers the script fills
+  in the shared parts; its FAQPage JSON-LD comes from the questions on the page.
+English (i18n/en/) is the source and keeps its addresses: /, /privacy/, /life-dashboard/...
+A translation is served under its folder: /de/life-dashboard/android/. This file holds the
+structure only (which pages exist, their links, images and structured data), no prose.
 
-Store status lives in PARTS only. Text anywhere can say {{status:android}} or {{status:ios}}
-and gets the current sentence from STATUS_TEXT, or {{play_url}} for a link to the Play listing.
+What it writes: site/index.html, site/privacy/, site/life-dashboard/ (the landing page, the
+products, the guides, the guide index at guides/, ios/privacy/), the same under site/<lang>/
+for every page a language has, site/404.html, llms.txt (in site/ and site/life-dashboard/, from
+llms.txt.in) and site/sitemap.xml with every page's hreflang alternates. site/life-dashboard/
+site.css and img/ are the stylesheet and images themselves, shared by every language.
 
-Store badges: every route with an entry in BADGES shows its official badge, saved once in
+Every page gets a canonical to itself, hreflang links to each language it exists in (itself
+included) and x-default to English, <html lang>, Open Graph and Twitter tags in its language,
+and a language menu that leads to the same page in the other languages. Nothing redirects on
+the browser's language. check() refuses hreflang that is not mutual, a translated page that
+links to an English page although the translation exists, a fragment that leads nowhere and a
+title or description used twice; for a language marked "complete" (or named with --strict)
+also a missing page, a missing string, and a translation whose code, screenshots or tables
+differ from the English page.
+
+Store status lives in PARTS_BASE only. Text anywhere can say {{status:android}} or {{status:ios}}
+and gets the current sentence ("status" in strings.json), or {{play_url}} for a link to the Play
+listing.
+
+Store badges: every route with an entry in BADGE_FILES shows its official badge, saved once in
 site/life-dashboard/img/badges/ (never hotlinked, never recolored, cropped or faded). A live
 route links its badge; a route that is still "soon" shows the same unaltered badge unlinked,
-inside a dashed "Coming soon" frame with the caption from BADGES. Routes without a badge keep
+inside a dashed "Coming soon" frame with its caption from strings.json. Routes without a badge keep
 the text links (alt_links). GitHub has no official badge, so the APK stays a plain button.
 
 Launch day for Google Play or the App Store:
 1. The official badge is already in img/badges/ (Google's badge page, Apple's Marketing Tools),
    shown as "Coming soon" until now. Never replace it with a recolored or cropped copy.
-2. In PARTS, set that entry's "status" to "live" (check its "href" and "note").
-3. Update STATUS_TEXT, run the script. It refuses to build while a page still says the store is
+2. In PARTS_BASE, set that entry's "status" to "live" (check its "href", and its "note" in strings.json).
+3. Update "status" in strings.json, run the script. It refuses to build while a page still says the store is
    coming. Live stores then lead every hero and install card with their official badge.
 Both are live now: the App Store since October 21, 2026, Google Play since October 27, 2026.
 On Android, Google Play leads with its "pitch" (price and why), and the free routes follow under
-the part's "free_line". Play links carry a campaign referrer per page (PLAY_LINK and placed()).
+the part's "free_line". Play links carry a campaign referrer per page and language (PLAY_LINK,
+PLACES and emit()).
 
 F-Droid goes live (once https://f-droid.org/packages/com.owen282000.lifedashboard/ answers
-instead of a 404): in PARTS, set the "fdroid" entry's "status" to "live". That one line turns
+instead of a 404): in PARTS_BASE, set the "fdroid" entry's "status" to "live". That one line turns
 the framed "Accepted, live with F-Droid's next build" badge into a linked one everywhere, and
 the STALE check then refuses any page that still says F-Droid is pending.
 
 Live GitHub numbers: stats.py writes tools/site/stats.json (not in git). With a recent one, the
 landing page shows the stars, contributors and Android releases, and every product page its
 repo's stars, forks and contributors (the integration and the stack also their downloads, see
-stats.py for how they are counted). Without it, the landing page keeps the floors in PROOF
+stats.py for how they are counted). Without it, the landing page keeps the floors in PROOF_FLOORS
 and the product pages show no numbers. The server runs stats.py and this script every hour.
 """
-import hashlib, html, json, re, sys, time
+import hashlib, html, json, re, shutil, sys, time
 from pathlib import Path
+from urllib.parse import urljoin, urlsplit
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 SITE = ROOT / "site"
 OUT = SITE / "life-dashboard"
+I18N = HERE / "i18n"
 DOMAIN = "https://owen282000.com/"
 BASE = DOMAIN + "life-dashboard/"
+# Every link the templates write is the English address from the root of the site; emit()
+# points each one at the page in the language being built (see localize()).
+LD = "/life-dashboard/"
 UPDATED = "2026-10-06"
-MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September",
-          "October", "November", "December"]
-MONATE = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September",
-          "Oktober", "November", "Dezember"]
+
+# ---------------------------------------------------------------------------------------------
+# Languages. i18n/<code>/lang.json describes one language: its folder on the site ("" for
+# English, which keeps its addresses), its hreflang, its own name for the language menu, the
+# og:locale, month names and the date pattern, and "complete": true once every page is
+# translated, from when a missing page or string fails the build.
+LANGS = {}
+for _f in sorted(I18N.glob("*/lang.json")):
+    _m = json.loads(_f.read_text())
+    LANGS[_m["code"]] = _m
+LANGS = dict(sorted(LANGS.items(), key=lambda kv: kv[1]["order"]))
+STRINGS = {c: json.loads((I18N / c / "strings.json").read_text()) for c in LANGS if (I18N / c / "strings.json").exists()}
+EN = STRINGS["en"]
+L = "en"                 # the language being built, set by activate()
+MISSING = {c: set() for c in LANGS}   # strings a language still takes from English
 
 
-def date_text(iso, lang="en"):
+def lookup(d, path):
+    for k in path.split("."):
+        if not isinstance(d, dict) or k not in d:
+            return None
+        d = d[k]
+    return d
+
+
+def S(path, lang=None):
+    """A value from the language's strings.json, by dotted path. A language that lacks it gets
+    the English one, and the path is noted for the "still to translate" report."""
+    lang = lang or L
+    v = lookup(STRINGS.get(lang, {}), path)
+    if v is None or v == "":
+        if lang != "en":
+            MISSING[lang].add(path)
+        v = lookup(EN, path)
+        if v is None:
+            sys.exit(f"strings.json: no such key {path}")
+    return v
+
+
+def t(key, **fmt):
+    """A line of the chrome (navigation, buttons, footer): ui.<key> in strings.json."""
+    v = S("ui." + key)
+    return v.format(**fmt) if fmt else v
+
+
+def date_text(iso, lang=None):
     """2026-10-12 as October 12, 2026 (or 12. Oktober 2026), for the byline."""
-    y, m, d = (int(x) for x in iso.split("-"))
-    if lang == "de":
-        return f"{d}. {MONATE[m - 1]} {y}"
-    return f"{MONTHS[m - 1]} {d}, {y}"
+    m = LANGS[lang or L]
+    y, mo, d = (int(x) for x in iso.split("-"))
+    return m["date"].format(d=d, month=m["months"][mo - 1], y=y)
 
 
 # The date each page last changed, so a lastmod in the sitemap means something: a page without
@@ -92,98 +157,60 @@ PLACE = "{{place}}"
 PLAY_LINK = f"{PLAY}&amp;referrer=utm_source%3D{PLACE}%26utm_medium%3Dwebsite"
 
 
-def placed(text, place):
-    """A page's HTML with the campaign source of its Play links filled in."""
-    return text.replace(PLACE, place)
-
 HACS = "https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration"
 # The Sleep Card is an add-on for Home Assistant, not one of the four parts: it has a guide of its
 # own and a section on the integration's page, and no place in PARTS, ORDER or the navigation.
 REPO_CARD = "https://github.com/owen282000/life-dashboard-sleep-card"
 HACS_CARD = "https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-sleep-card&amp;category=plugin"
 
+
+def placed(text, place):
+    """A page's HTML with the campaign source of its Play links filled in."""
+    return text.replace(PLACE, place)
+
 # ---------------------------------------------------------------------------------------------
 # The four parts and where to get them. "kind": "store" is the store the site leads with once it
 # is live. Until then, the entry marked "primary" leads, and pending stores show as "Coming".
-PARTS = {
+# Only the structure lives here; every word (names, notes, prices) is in strings.json under
+# parts.<slug> and parts.<slug>.get.<id>, and activate() puts the two together as PARTS.
+PARTS_BASE = {
     "android": {
-        "name": "Android app", "full": "Life Dashboard Companion for Android",
-        "line": "Health Connect and screen time per app",
-        "more": "See the Android app",
         "glyph": '<rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/>',
-        "get_title": "Get the Android app", "req_short": "Android 8.0 or newer; health data from Android 9.",
         "get": [
-            {"id": "play", "kind": "store", "name": "Google Play", "status": "live", "soon_text": "Google Play: coming, as a paid listing of the same app",
-             "href": PLAY_LINK,
-             "pitch": "€4.99 once on Google Play: the easy way, with automatic updates, and it supports development.",
-             "note": "€4.99 once (US$4.99), no subscription. The easy way: Google Play installs it and keeps it up to date, and buying it supports development."},
-            {"id": "apk", "name": "APK on GitHub", "status": "live", "href": APK, "primary": True, "cta": "Download the free APK",
-             "note": "Open it on your phone and allow installs from your browser once. Each new release is on GitHub, or Obtainium updates it for you."},
-            {"id": "obtainium", "name": "Obtainium", "status": "live",
-             "href": "https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/" + REPO,
-             "note": "An app updater for GitHub apps: installs the same APK and keeps it up to date. Open this link on your phone."},
-            {"id": "fdroid", "name": "F-Droid", "status": "live", "href": "https://f-droid.org/packages/com.owen282000.lifedashboard/",
-             "soon_text": "F-Droid: accepted, the listing goes live with its next build",
-             "note": "Built by F-Droid from the source and identical to the signed APK; the F-Droid app keeps it up to date."},
+            {"id": "play", "kind": "store", "status": "live", "href": PLAY_LINK},
+            {"id": "apk", "status": "live", "href": APK, "primary": True},
+            {"id": "obtainium", "status": "live", "href": "https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/" + REPO},
+            {"id": "fdroid", "status": "live", "href": "https://f-droid.org/packages/com.owen282000.lifedashboard/"},
         ],
-        "requires": "Android 9 or newer with Health Connect for health data; Android 8.0 or newer for screen time.",
-        # Once the store leads, the free routes follow under this line (heroes, cards, guide asides).
-        "free_line": "Or free, the same app with the same signing key:",
     },
     "ios": {
-        "name": "iPhone app", "full": "Life Dashboard Companion for iPhone",
-        "line": "Apple Health, with the same payload",
-        "more": "See the iPhone app",
         "glyph": '<rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/>',
-        "get_title": "Get the iPhone app", "req_short": "iOS 17 or newer. On the App Store, or build it yourself on a Mac.",
         "get": [
-            {"id": "appstore", "kind": "store", "name": "App Store", "status": "live", "href": APP_STORE,
-             "note": "€6.99 once (US$5.99), no subscription. No Mac needed, and it updates like any other app."},
-            {"id": "xcode", "name": "Build with Xcode", "status": "live", "href": REPO_IOS + "#build-and-install", "primary": True, "cta": "Build with Xcode",
-             "note": "From source, on a Mac with Xcode and an Apple Developer Program membership: about an hour the first time. Your settings stay when you run a newer version."},
+            {"id": "appstore", "kind": "store", "status": "live", "href": APP_STORE},
+            {"id": "xcode", "status": "live", "href": REPO_IOS + "#build-and-install", "primary": True},
         ],
-        "requires": "iOS 17 or newer. Building it yourself needs a Mac with Xcode and an Apple Developer Program membership, because a free Apple Account can't sign an app that reads Apple Health.",
     },
     "home-assistant": {
-        "name": "Home Assistant integration", "nav": "Home Assistant", "full": "Life Dashboard integration for Home Assistant",
-        "line": "Sensors, statistics and all your history",
-        "more": "See the integration",
         "glyph": '<path d="M3.5 11 12 3.5l8.5 7.5"/><path d="M5.5 9.5V20h13V9.5"/><circle cx="12" cy="13.5" r="2"/><path d="M12 15.5V20"/>',
-        "get_title": "Install the integration", "req_short": "Home Assistant 2026.3 or newer.",
         "get": [
-            {"id": "hacs", "kind": "store", "name": "HACS", "status": "live", "href": HACS, "cta": "Open in the Marketplace",
-             "note": "In Settings &gt; Marketplace (HACS before Home Assistant 2026.11), search for Life Dashboard. On HACS, restart Home Assistant after the download."},
-            {"id": "ha-setup", "name": "Setup steps", "status": "live", "href": "health-connect-home-assistant/#set-it-up", "rel": True,
-             "note": "Add the integration, check the address the phone should use, scan the QR code."},
-            {"id": "ha-source", "name": "Source on GitHub", "status": "live", "href": REPO_HA,
-             "note": "Release notes and the manual install."},
+            {"id": "hacs", "kind": "store", "status": "live", "href": HACS},
+            {"id": "ha-setup", "status": "live", "href": "health-connect-home-assistant/#set-it-up", "rel": True},
+            {"id": "ha-source", "status": "live", "href": REPO_HA},
         ],
-        "requires": "Home Assistant 2026.3 or newer. HACS only on versions before 2026.11.",
     },
     "grafana": {
-        "name": "Grafana stack", "full": "Life Dashboard stack",
-        "line": "Postgres, Grafana, an API and MCP, self-hosted",
-        "more": "See the stack",
         "glyph": '<path d="M4 20h16"/><path d="M6.5 16v-4"/><path d="M11 16V7"/><path d="M15.5 16v-6"/><path d="M20 16V4"/>',
-        "get_title": "Run the stack", "req_short": "Docker with Compose, or Kubernetes.",
         "get": [
-            {"id": "compose", "kind": "store", "name": "Docker Compose", "status": "live", "href": REPO_STACK + "#quick-start", "cta": "Run with Docker Compose",
-             "note": "Download docker-compose.yml and the example .env from the latest release, set the secret, your time zone, the address and the passwords, then docker compose up -d. Nothing to clone or build."},
-            {"id": "demo", "name": "Demo data", "status": "live", "href": REPO_STACK + "#try-it-without-a-phone",
-             "note": "60 days of made-up data for two phones, from the same compose file, before any phone of yours is involved."},
-            {"id": "helm", "name": "Helm chart for Kubernetes", "status": "live", "href": REPO_STACK + "/blob/main/docs/kubernetes.md",
-             "note": "The same images on a cluster of your own, with Postgres from CloudNativePG, a bundled StatefulSet or a database you already run."},
+            {"id": "compose", "kind": "store", "status": "live", "href": REPO_STACK + "#quick-start"},
+            {"id": "demo", "status": "live", "href": REPO_STACK + "#try-it-without-a-phone"},
+            {"id": "helm", "status": "live", "href": REPO_STACK + "/blob/main/docs/kubernetes.md"},
         ],
-        "requires": "Docker with Compose on a machine your phone can reach, or a Kubernetes cluster with Helm.",
     },
 }
 ORDER = ["android", "ios", "home-assistant", "grafana"]
 
-# One sentence per app about where to get it, used through {{status:android}} and {{status:ios}}.
-STATUS_TEXT = {
-    "android": "It's on Google Play for €4.99 once (US$4.99), no subscription: the easy way, with automatic updates, and buying it supports development. The free routes install the same app with the same signing key: the signed APK from GitHub, Obtainium, which keeps that APK up to date, and F-Droid, which builds it from the source.",
-    "ios": "It's on the App Store for €6.99 once (US$5.99), no subscription. Building it from source with Xcode costs nothing extra if you already have an Apple Developer Program membership.",
-}
+# One sentence per app about where to get it, used through {{status:android}} and {{status:ios}}:
+# "status" in strings.json, set per language by activate().
 # Phrases that must be gone once a store is live (checked on every build).
 STALE = {"play": ["coming to Google Play", "Google Play is in closed testing", "will be a paid listing", "Google Play: coming",
                   "Google Play (paid) is coming", "Closed testing", "closed testing", "In closed testing",
@@ -210,84 +237,46 @@ STALE = {"play": ["coming to Google Play", "Google Play is in closed testing", "
 # Every file is cropped to the edge of its visible badge (the transparent margin of the Play,
 # F-Droid, Obtainium and GitHub files is cut from these copies; the artwork is untouched), so one
 # CSS height gives every badge the same visible height (.badge-img in site.css).
-BADGES = {"play": ("google-play.png", "Get it on Google Play", (564, 168), ""),
-          "appstore": ("app-store.svg", "Download on the App Store", (120, 40), ""),
-          "fdroid": ("f-droid.svg", "Get it on F-Droid", (564, 168), "Accepted, live with F-Droid's next build"),
-          "obtainium": ("obtainium.png", "Get it on Obtainium", (564, 168), ""),
-          "hacs": ("hacs.svg", "Get it on HACS", (564, 168), ""),
-          "compose": ("docker-compose.svg", "Run with Docker Compose", (877, 168), ""),
-          "helm": ("artifact-hub.svg", "Helm chart on Artifact Hub", (684, 168), ""),
-          "apk": ("github.svg", "Get it on GitHub", (564, 168), "")}
+BADGE_FILES = {"play": ("google-play.png", (564, 168)),
+               "appstore": ("app-store.svg", (120, 40)),
+               "fdroid": ("f-droid.svg", (564, 168)),
+               "obtainium": ("obtainium.png", (564, 168)),
+               "hacs": ("hacs.svg", (564, 168)),
+               "compose": ("docker-compose.svg", (877, 168)),
+               "helm": ("artifact-hub.svg", (684, 168)),
+               "apk": ("github.svg", (564, 168))}
 # GitHub has no official badge; this one is the open-source "Get it on GitHub" badge from
 # github.com/Kunzisoft/Github-badge (CC BY-SA 3.0, made from F-Droid's badge template), credited
 # in the footer like the F-Droid badge (CC BY-SA 3.0). It links to the release page, not the file.
 BADGE_HREF = {"apk": REPO + "/releases/latest",
               "helm": "https://artifacthub.io/packages/helm/life-dashboard/life-dashboard"}
 
-# The landing page groups the guides under these headings; every guide sits in exactly one.
-GUIDE_GROUPS = [
-    ("Home Assistant", ["health-connect-home-assistant", "companion-app-health-connect",
+# The landing page and the guide index group the guides under these headings (their words are
+# guide_groups.<key> in strings.json); every guide sits in exactly one.
+GROUPS = [
+    ("home-assistant", ["health-connect-home-assistant", "companion-app-health-connect",
                         "sleep-stages-home-assistant", "screen-time-home-assistant",
                         "smart-scale-to-samsung-health"]),
-    ("Watch brands", ["samsung-health-home-assistant", "fitbit-home-assistant", "garmin-home-assistant",
+    ("watch-brands", ["samsung-health-home-assistant", "fitbit-home-assistant", "garmin-home-assistant",
                       "samsung-health-export"]),
-    ("Your own server", ["health-connect-webhook", "health-connect-n8n", "health-data-api", "health-data-own-ai",
+    ("your-own-server", ["health-connect-webhook", "health-connect-n8n", "health-data-api", "health-data-own-ai",
                          "health-data-qr-pairing"]),
-    ("iPhone", ["apple-health-home-assistant", "apple-health-home-assistant-apps", "apple-watch-home-assistant",
+    ("iphone", ["apple-health-home-assistant", "apple-health-home-assistant-apps", "apple-watch-home-assistant",
                 "apple-health-webhook", "apple-health-n8n", "apple-health-data-types"]),
-    ("Reference", ["health-connect-data-types", "health-connect-steps-home-assistant", "troubleshooting"]),
+    ("reference", ["health-connect-data-types", "health-connect-steps-home-assistant", "troubleshooting"]),
 ]
-
-GUIDES = [
-    ("health-connect-home-assistant", "Health Connect in Home Assistant", "Home Assistant",
-     "Samsung Health, Garmin, Fitbit, Oura and Withings data as sensors, with all your history."),
-    ("samsung-health-home-assistant", "Samsung Health and Galaxy Watch in Home Assistant", "Samsung",
-     "Steps, sleep, heart rate and workouts through Health Connect, with no Samsung login."),
-    ("companion-app-health-connect", "The companion app and Health Connect", "Companion app",
-     "When its 36 sensors are enough, and what history, backfill and 34 types add."),
-    ("health-connect-webhook", "Health Connect to a webhook", "Webhooks",
-     "The JSON payload, signatures, retries and receivers for n8n and Node-RED."),
-    ("screen-time-home-assistant", "Screen time in Home Assistant", "Screen time",
-     "Minutes per app as sensors, limits you set yourself, and several phones."),
-    ("sleep-stages-home-assistant", "Sleep stages in Home Assistant", "Sleep stages",
-     "Deep, light, REM and awake per night as sensors and statistics, and a card that draws the night."),
-    ("smart-scale-to-samsung-health", "Smart scale to Samsung Health", "Smart scale",
-     "Weight, body fat and blood pressure from Home Assistant into Health Connect."),
-    ("health-connect-n8n", "Health Connect to n8n", "n8n",
-     "A Webhook node, an HMAC check in a Code node, then Postgres, Sheets or Telegram."),
-    ("health-connect-data-types", "Health Connect data types, app by app", "Data types",
-     "All 34 types with keys and units, and what Samsung, Garmin, Fitbit and Oura write."),
-    ("health-data-api", "A web API for Health Connect or Apple Health", "API",
-     "Why neither has one, and how to get the data onto your server anyway."),
-    ("samsung-health-export", "Samsung Health to your own server", "Export",
-     "Galaxy Watch data as JSON in your own database, n8n flow or script."),
-    ("fitbit-home-assistant", "Fitbit and Pixel Watch in Home Assistant", "Fitbit",
-     "Through Health Connect, with no Fitbit Web API and no Google Cloud project."),
-    ("garmin-home-assistant", "Garmin in Home Assistant", "Garmin",
-     "Steps, sleep and heart rate from Garmin Connect, with no Garmin login in Home Assistant."),
-    ("health-data-own-ai", "Health Connect and Apple Health over MCP", "MCP",
-     "The stack's read-only MCP server lets a local model or Claude read your history. Works in Europe too."),
-    ("health-data-qr-pairing", "Let your users connect with one QR code", "QR pairing",
-     "For your own service: the pairing link, a generator in Python and Node.js, and the signed test ping."),
-    ("health-connect-steps-home-assistant", "Health Connect steps that look wrong in Home Assistant", "Wrong steps",
-     "Sensors that lag, steps after midnight, totals that go down, and day totals that are replaced per day."),
-    ("troubleshooting", "Troubleshooting: syncs, sensors and pairing", "Troubleshooting",
-     "Syncs that stop in the background, Health Connect permissions, missing sensors and pairing, step by step."),
-    ("apple-health-home-assistant", "Apple Health in Home Assistant", "Apple Health",
-     "Apple Watch and iPhone data as sensors, with all your history from a backfill."),
-    ("apple-health-home-assistant-apps", "Apple Health in Home Assistant: four apps compared", "Apple Health apps",
-     "The companion app, HealthSync, Health Assistant Link and Life Dashboard side by side: price, history and what arrives."),
-    ("apple-watch-home-assistant", "Apple Watch in Home Assistant", "Apple Watch",
-     "Heart rate, HRV, sleep stages, workouts and VO2 max from the watch, through Apple Health."),
-    ("apple-health-webhook", "Apple Health to a webhook", "iPhone webhooks",
-     "Signed JSON from Apple Health, automatically: the payload, retries, deletions and Shortcuts."),
-    ("apple-health-n8n", "Apple Health to n8n", "iPhone n8n",
-     "The same Webhook node and HMAC check as for Android, and what differs in an iPhone payload."),
-    ("apple-health-data-types", "Apple Health data types, app by app", "Apple Health types",
-     "All 28 types the iPhone app reads, with payload keys, units and what writes them."),
+# The guides, in the order of the footer and the lists. Each is i18n/<lang>/guides/<id>.html;
+# its name, one-line description and closing call to action are guides.<id> in
+# strings.json.
+GUIDE_IDS = [
+    "health-connect-home-assistant", "samsung-health-home-assistant", "companion-app-health-connect",
+    "health-connect-webhook", "screen-time-home-assistant", "sleep-stages-home-assistant",
+    "smart-scale-to-samsung-health", "health-connect-n8n", "health-connect-data-types", "health-data-api",
+    "samsung-health-export", "fitbit-home-assistant", "garmin-home-assistant", "health-data-own-ai",
+    "health-data-qr-pairing", "health-connect-steps-home-assistant", "troubleshooting",
+    "apple-health-home-assistant", "apple-health-home-assistant-apps", "apple-watch-home-assistant",
+    "apple-health-webhook", "apple-health-n8n", "apple-health-data-types",
 ]
-GUIDES = [g for g in GUIDES if (Path(__file__).resolve().parent / "guides" / f"{g[0]}.html").exists()]
-GUIDE_NAMES = {g[0]: g[1] for g in GUIDES}
 GUIDE_ABOUT = {
     "health-connect-n8n": ["#android", "#ios"],
     "health-connect-data-types": ["#android", "#ios"],
@@ -312,220 +301,308 @@ GUIDE_ABOUT = {
     "apple-health-webhook": ["#ios", "#stack"],
     "apple-health-n8n": ["#ios"],
     "apple-health-data-types": ["#ios"],
-    "de/home-assistant-gesundheitsdaten": ["#android", "#ios", "#integration"],
-    "de/health-connect-daten-exportieren": ["#android"],
 }
 
-# Guides in another language, written from guides/<slug>.html like the others, under a folder
-# per language. Each is the hreflang alternate of one English guide ("en"): both pages list the
-# pair, with x-default on the English one. The English guides in "from" (the ones it is written
-# from) link to it under their byline, and it links back to them. These pages stay out of the
-# English lists (navigation, footer, landing page); the navigation and footer on them stay
-# English, marked lang="en", and UI holds the few words the guide layout writes itself.
-TRANSLATIONS = [
-    {"slug": "de/home-assistant-gesundheitsdaten", "lang": "de", "short": "Gesundheitsdaten in Home Assistant",
-     "en": "health-connect-home-assistant",
-     "from": ["health-connect-home-assistant", "apple-health-home-assistant"]},
-    {"slug": "de/health-connect-daten-exportieren", "lang": "de", "short": "Health-Connect-Daten exportieren",
-     "en": "health-connect-webhook",
-     "from": ["health-connect-webhook", "samsung-health-export"]},
-]
-TRANSLATIONS = [t for t in TRANSLATIONS if (HERE / "guides" / f"{t['slug']}.html").exists()]
-LANG_LINK = {"de": "Auf Deutsch", "en": "Auf Englisch"}
-UI = {
-    "en": {"skip": "Skip to content", "faq": "Common questions", "feature": "Feature", "full_size": "full size",
-           "byline": 'By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated {date}.',
-           "guides": "Guides", "products": "Products", "locale": None},
-    "de": {"skip": "Zum Inhalt springen", "faq": "Häufige Fragen", "feature": "Funktion", "full_size": "in voller Größe",
-           "byline": 'Von <a href="/">Owen Vogelaar</a>, der Life Dashboard entwickelt. Aktualisiert am {date}.',
-           "guides": "Anleitungen auf Englisch", "products": "Produkte", "locale": "de_DE",
-           "parts": {"android": "Android-App", "ios": "iPhone-App", "home-assistant": "Home-Assistant-Integration",
-                     "grafana": "Grafana-Stack"},
-           "alts": {"H2-qr": "Die Life-Dashboard-Integration in Home Assistant mit dem QR-Code zum Koppeln",
-                    "A2-pair": "Die Seite zum Koppeln mit einem Empfänger in der Android-App",
-                    "A1-health": "Der Tab „Gesundheit“ der Android-App mit einer Zeile pro Ziel und den Werten von heute",
-                    "ios-health": "Der Tab „Gesundheit“ der iPhone-App mit einer Zeile pro Ziel und den Werten von heute",
-                    "H6-health": "Das Beispiel-Dashboard Health in Home Assistant mit Demodaten: heutige Werte, das letzte Training, Erholung und Schlaf",
-                    "ios-schedule": "„Wann senden“ in der iPhone-App mit festen Zeiten und Ruhezeiten",
-                    "A6-webhook": "Ein Webhook-Ziel in der Android-App mit seinem HMAC-Signaturschlüssel und seinen Headern"}},
-}
-
-
-def alternates(slug):
-    """The hreflang links of a guide: (language, slug) for the English guide, each translation of
-    it and x-default. Empty for a guide without a translation."""
-    en = next((t["en"] for t in TRANSLATIONS if slug in (t["slug"], t["en"])), None)
-    if not en:
-        return []
-    return [("en", en)] + [(t["lang"], t["slug"]) for t in TRANSLATIONS if t["en"] == en] + [("x-default", en)]
-
-
-IMAGES = {
-    "A1-health": ("phone", 720, 1600, "The Health tab of the Android app, with a row per destination and today's figures"),
-    "A2-pair": ("phone", 720, 1600, "The pairing page in the Android app, asking whether to pair with this receiver"),
-    "A4-screen-time": ("phone", 720, 1600, "The Screen Time tab of the Android app"),
-    "A5-receive": ("phone", 720, 1600, "The Receive page in the Android app"),
-    "A6-webhook": ("phone", 720, 1600, "A webhook destination in the Android app, with its HMAC signing secret and headers"),
-    "A7-logs": ("phone", 720, 1600, "The Logs tab of the Android app, with a line per delivery"),
-    "H2-qr": ("card", 800, 668, "The Life Dashboard integration in Home Assistant showing a pairing QR code"),
-    "H6-health": ("wide", 1400, 807, "The example Health dashboard in Home Assistant with demo data: today's tiles, the last workout, recovery with heart rate variability against its baseline, and last night's sleep"),
-    "H7-screen-time": ("wide", 1400, 1032, "The screen time view of the example dashboard with demo data: today and yesterday, the most used app, six apps as bars, and screen time and apps per day"),
-    "H8-two-phones": ("wide", 1400, 875, "The view for two phones in Home Assistant with demo data: an Android phone and an iPhone side by side, and both in the same graphs"),
-    "H9-health-phone": ("phone", 720, 1559, "The example Health dashboard in Home Assistant on a phone, with demo data: today's tiles and the last workout"),
-    "ios-health": ("phone", 720, 1464, "The Health tab of the iPhone app, with a row per destination and today's figures"),
-    "ios-schedule": ("phone", 720, 1464, "When to send in the iPhone app, at fixed times with quiet hours"),
-    "ios-logs": ("phone", 720, 1464, "The Logs tab of the iPhone app, with a row per delivery"),
-    "ios-mqtt": ("phone", 720, 1464, "The MQTT broker settings in the iPhone app"),
-    "ios-webhook": ("phone", 720, 1464, "A webhook destination in the iPhone app, with its signing secret and custom headers"),
-    "p-pairing-flow": ("diagram", 1400, 700, "Your service shows a QR code, the phone opens it into the pairing page, and after Pair your service gets a signed test ping"),
-    "S1-sleep-card": ("wide", 1400, 442, "The Life Dashboard Sleep Card on a dark theme with sample data: 5h 14m asleep, Mon 9 Nov, 23:21 to 05:05, four lanes for awake, REM, light and deep with the stages as blocks along an hour axis, and each stage's duration and share"),
-    "S2-sleep-card-phone": ("card", 720, 531, "The Life Dashboard Sleep Card at phone width with sample data: 5h 14m asleep, the four lanes along the hours, and each stage's duration and share below them"),
-    "g-overview": ("wide", 1400, 728, "The overview dashboard of the Grafana stack with demo data"),
-    "g-activity": ("wide", 1400, 1260, "The activity dashboard of the Grafana stack"),
-    "g-sleep": ("wide", 1400, 895, "The sleep dashboard of the Grafana stack"),
-    "g-heart-body": ("wide", 1400, 1363, "The heart and body dashboard of the Grafana stack"),
-    "g-screen-time": ("wide", 1400, 1196, "The screen time dashboard of the Grafana stack"),
-    "g-data": ("wide", 1400, 1260, "The data and sync dashboard of the Grafana stack"),
+# kind, width and height of each screenshot; its alt text is images.<name> in strings.json.
+IMAGE_FILES = {
+    "A1-health": ("phone", 720, 1600),
+    "A2-pair": ("phone", 720, 1600),
+    "A4-screen-time": ("phone", 720, 1600),
+    "A5-receive": ("phone", 720, 1600),
+    "A6-webhook": ("phone", 720, 1600),
+    "A7-logs": ("phone", 720, 1600),
+    "H2-qr": ("card", 800, 668),
+    "H6-health": ("wide", 1400, 807),
+    "H7-screen-time": ("wide", 1400, 1032),
+    "H8-two-phones": ("wide", 1400, 875),
+    "H9-health-phone": ("phone", 720, 1559),
+    "ios-health": ("phone", 720, 1464),
+    "ios-schedule": ("phone", 720, 1464),
+    "ios-logs": ("phone", 720, 1464),
+    "ios-mqtt": ("phone", 720, 1464),
+    "ios-webhook": ("phone", 720, 1464),
+    "p-pairing-flow": ("diagram", 1400, 700),
+    "S1-sleep-card": ("wide", 1400, 442),
+    "S2-sleep-card-phone": ("card", 720, 531),
+    "g-overview": ("wide", 1400, 728),
+    "g-activity": ("wide", 1400, 1260),
+    "g-sleep": ("wide", 1400, 895),
+    "g-heart-body": ("wide", 1400, 1363),
+    "g-screen-time": ("wide", 1400, 1196),
+    "g-data": ("wide", 1400, 1260),
 }
 
 # Phone screenshots cut short of the full screen; they fade out at the bottom.
 CUT = set()
 
 # A line shown with the image, in a figure's caption or on a product page's stage.
-CAPTIONS = {"S1-sleep-card": "Sample data", "S2-sleep-card-phone": "Sample data"}
+# The line itself is captions.<name> in strings.json.
+CAPTIONED = ["S1-sleep-card", "S2-sleep-card-phone"]
 # A product page shows this image instead on a phone, where the wide one would be too small to read.
 PHONE_SHOT = {"S1-sleep-card": "S2-sleep-card-phone"}
 
-NEXT = {
-    "health-connect-steps-home-assistant": ("Compare the total in Health Connect with Home Assistant first. For day totals that are replaced per day, install the integration and pair the app with its QR code.",
-        [("btn-primary btn-store", "../android/#get", "Get the Android app"), ("btn-ghost", "../health-connect-home-assistant/", "Health Connect in Home Assistant")]),
-    "troubleshooting": ("Still stuck? Ask in Discussions and include the row from the <strong>Logs</strong> tab; the setup guide has the full list of known problems.",
-        [("btn-primary", f"{REPO}/discussions", "Ask in Discussions"), ("btn-ghost", f"{REPO}/blob/main/docs/usage.md#troubleshooting", "Full troubleshooting list")]),
-    "health-connect-n8n": ("Install the app, put the production URL of your published workflow in it and tap <strong>Send test</strong>. The payload reference has the same check with a Crypto node.",
-        [("btn-primary btn-store", "../android/#get", "Get the Android app"), ("btn-ghost", f"{REPO}/blob/main/docs/webhook.md#n8n-and-node-red", "n8n in the payload reference")]),
-    "health-connect-data-types": ("Pick your types under <strong>What to send</strong> on the <strong>Health</strong> tab and tap <strong>Preview payload</strong> to see what the next sync would send.",
-        [("btn-primary btn-store", "../android/#get", "Get the Android app"), ("btn-ghost", f"{REPO}/blob/main/docs/webhook.md#health-connect-data-types", "Payload reference")]),
-    "samsung-health-home-assistant": ("Two installs: the integration from the Marketplace or HACS and the app on your phone. After that, switch on Health Connect in Samsung Health and pair with one QR code.",
-        [("btn-primary btn-store", HACS, "Open in the Marketplace"), ("btn-ghost", "../android/#get", "Get the Android app")]),
-    "companion-app-health-connect": ("Keep the companion app. Add the integration from the Marketplace or HACS and the app on your phone, pair with one QR code, then run a backfill.",
-        [("btn-primary btn-store", HACS, "Open in the Marketplace"), ("btn-ghost", "../android/#get", "Get the Android app")]),
-    "health-data-api": ("Install the app on the phone and point it at your URL. The payload reference has every field and a receiver in Python and Node.js.",
-        [("btn-primary btn-store", "../android/#get", "Get the Android app"), ("btn-ghost", "../ios/#get", "Get the iPhone app")]),
-    "samsung-health-export": ("Switch on Health Connect in Samsung Health, install the app, and tap <strong>Send test</strong> against your URL.",
-        [("btn-primary btn-store", "../android/#get", "Get the Android app"), ("btn-ghost", f"{REPO}/blob/main/docs/webhook.md", "Payload reference")]),
-    "fitbit-home-assistant": ("Two installs: the integration from the Marketplace or HACS and the app on your phone. After that, pairing takes a minute.",
-        [("btn-primary btn-store", HACS, "Open in the Marketplace"), ("btn-ghost", "../android/#get", "Get the Android app")]),
-    "garmin-home-assistant": ("Two installs: the integration from the Marketplace or HACS and the app on your phone. After that, switch on Health Connect in Garmin Connect and pair with one QR code.",
-        [("btn-primary btn-store", HACS, "Open in the Marketplace"), ("btn-ghost", "../android/#get", "Get the Android app")]),
-    "health-data-own-ai": ("Start with the data: the stack or the integration, and a backfill of all your history from the app.",
-        [("btn-primary btn-store", "../grafana/#your-own-ai", "The stack's MCP server"), ("btn-ghost", "../home-assistant/", "The Home Assistant route")]),
-    "health-connect-home-assistant": ("Two installs: the integration from the Marketplace or HACS and the app on your phone. After that, pairing takes a minute.",
-        [("btn-primary btn-store", HACS, "Open in the Marketplace"), ("btn-ghost", "../android/#get", "Get the Android app")]),
-    "health-data-qr-pairing": ("Build a code for one test user and scan it with the app. The pairing reference has every rule, the test vector and the iPhone differences.",
-        [("btn-primary", f"{REPO}/blob/main/docs/pairing.md", "Pairing reference"), ("btn-ghost", f"{REPO}/blob/main/docs/webhook.md", "Payload reference")]),
-    "sleep-stages-home-assistant": ("The card is one install from the Marketplace. The night it draws comes from the integration and the app on your phone, or on Android from the Companion app's <strong>Sleep duration</strong> sensor.",
-        [("btn-primary btn-store", HACS_CARD, "Open the card in the Marketplace"), ("btn-ghost", REPO_CARD, "The card on GitHub")]),
-    "health-connect-webhook": ("Install the app, point it at your URL and tap <strong>Send test</strong>. The payload reference has every field and a receiver in Python and Node.js.",
-        [("btn-primary btn-store", "../android/#get", "Get the Android app"), ("btn-ghost", f"{REPO}/blob/main/docs/webhook.md", "Payload reference")]),
-    "screen-time-home-assistant": ("Screen time doesn't need Health Connect. Any phone or tablet with Android 8.0 or newer works.",
-        [("btn-primary btn-store", "../android/#get", "Get the Android app"), ("btn-ghost", HACS, "Open the integration in the Marketplace")]),
-    "smart-scale-to-samsung-health": ('You need the Life Dashboard integration 0.7.0 or newer and the app on your phone, paired as in the <a href="../health-connect-home-assistant/">Health Connect guide</a>.',
-        [("btn-primary btn-store", HACS, "Open in the Marketplace"), ("btn-ghost", "../android/#get", "Get the Android app")]),
-    "apple-health-home-assistant": ("Two installs: the integration from the Marketplace or HACS and the app on your iPhone. After that, pair with one QR code and run a backfill.",
-        [("btn-primary btn-store", HACS, "Open in the Marketplace"), ("btn-ghost", "../ios/#get", "Get the iPhone app")]),
-    "apple-health-home-assistant-apps": ("For Life Dashboard: the integration from the Marketplace or HACS and the app on your iPhone, paired with one QR code. The setup guide has every step.",
-        [("btn-primary btn-store", "../ios/#get", "Get the iPhone app"), ("btn-ghost", "../apple-health-home-assistant/", "Apple Health in Home Assistant")]),
-    "apple-watch-home-assistant": ("Your watch already writes to Apple Health. Add the integration from the Marketplace or HACS and the app on your iPhone, and pair with one QR code.",
-        [("btn-primary btn-store", HACS, "Open in the Marketplace"), ("btn-ghost", "../ios/#get", "Get the iPhone app")]),
-    "apple-health-webhook": ("Install the app, add your URL and tap <strong>Test ping</strong>. The iOS payload page lists everything an iPhone sends.",
-        [("btn-primary btn-store", "../ios/#get", "Get the iPhone app"), ("btn-ghost", f"{REPO_IOS}/blob/main/docs/webhook.md", "iOS payload reference")]),
-    "apple-health-n8n": ("Install the app, put the production URL of your published workflow in it and tap <strong>Test ping</strong>. The payload reference has the same check with a Crypto node.",
-        [("btn-primary btn-store", "../ios/#get", "Get the iPhone app"), ("btn-ghost", f"{REPO}/blob/main/docs/webhook.md#n8n-and-node-red", "n8n in the payload reference")]),
-    "apple-health-data-types": ("Switch on your types under <strong>What to send</strong> and tap <strong>Preview payload</strong> to see what the next sync would send.",
-        [("btn-primary btn-store", "../ios/#get", "Get the iPhone app"), ("btn-ghost", f"{REPO_IOS}/blob/main/docs/webhook.md#what-ios-sends", "iOS payload reference")]),
-    "de/home-assistant-gesundheitsdaten": ("Zwei Installationen: die Integration aus dem Marketplace oder aus HACS und die App auf deinem iPhone oder Android-Telefon. Danach koppelst du beide mit einem QR-Code und holst deinen ganzen Verlauf nach.",
-        [("btn-primary btn-store", HACS, "Im Marketplace öffnen"), ("btn-ghost", "../../ios/#get", "iPhone-App"), ("btn-ghost", "../../android/#get", "Android-App")]),
-    "de/health-connect-daten-exportieren": ("Installiere die App, trag deine Adresse ein und tippe auf <strong>Test senden</strong>. Die Payload-Referenz beschreibt jedes Feld und hat einen Empfänger in Python und Node.js.",
-        [("btn-primary btn-store", "../../android/#get", "Android-App"), ("btn-ghost", f"{REPO}/blob/main/docs/webhook.md", "Payload-Referenz (Englisch)")]),
+# How each guide closes: the buttons under its last section, as (class, address). The sentence
+# above them and their labels are guides.<id>.next and guides.<id>.buttons in strings.json.
+NEXT_BUTTONS = {
+    "health-connect-steps-home-assistant": [("btn-primary btn-store", "../android/#get"), ("btn-ghost", "../health-connect-home-assistant/")],
+    "troubleshooting": [("btn-primary", f"{REPO}/discussions"), ("btn-ghost", f"{REPO}/blob/main/docs/usage.md#troubleshooting")],
+    "health-connect-n8n": [("btn-primary btn-store", "../android/#get"), ("btn-ghost", f"{REPO}/blob/main/docs/webhook.md#n8n-and-node-red")],
+    "health-connect-data-types": [("btn-primary btn-store", "../android/#get"), ("btn-ghost", f"{REPO}/blob/main/docs/webhook.md#health-connect-data-types")],
+    "samsung-health-home-assistant": [("btn-primary btn-store", HACS), ("btn-ghost", "../android/#get")],
+    "companion-app-health-connect": [("btn-primary btn-store", HACS), ("btn-ghost", "../android/#get")],
+    "health-data-api": [("btn-primary btn-store", "../android/#get"), ("btn-ghost", "../ios/#get")],
+    "samsung-health-export": [("btn-primary btn-store", "../android/#get"), ("btn-ghost", f"{REPO}/blob/main/docs/webhook.md")],
+    "fitbit-home-assistant": [("btn-primary btn-store", HACS), ("btn-ghost", "../android/#get")],
+    "garmin-home-assistant": [("btn-primary btn-store", HACS), ("btn-ghost", "../android/#get")],
+    "health-data-own-ai": [("btn-primary btn-store", "../grafana/#your-own-ai"), ("btn-ghost", "../home-assistant/")],
+    "health-connect-home-assistant": [("btn-primary btn-store", HACS), ("btn-ghost", "../android/#get")],
+    "health-data-qr-pairing": [("btn-primary", f"{REPO}/blob/main/docs/pairing.md"), ("btn-ghost", f"{REPO}/blob/main/docs/webhook.md")],
+    "sleep-stages-home-assistant": [("btn-primary btn-store", HACS_CARD), ("btn-ghost", REPO_CARD)],
+    "health-connect-webhook": [("btn-primary btn-store", "../android/#get"), ("btn-ghost", f"{REPO}/blob/main/docs/webhook.md")],
+    "screen-time-home-assistant": [("btn-primary btn-store", "../android/#get"), ("btn-ghost", HACS)],
+    "smart-scale-to-samsung-health": [("btn-primary btn-store", HACS), ("btn-ghost", "../android/#get")],
+    "apple-health-home-assistant": [("btn-primary btn-store", HACS), ("btn-ghost", "../ios/#get")],
+    "apple-health-home-assistant-apps": [("btn-primary btn-store", "../ios/#get"), ("btn-ghost", "../apple-health-home-assistant/")],
+    "apple-watch-home-assistant": [("btn-primary btn-store", HACS), ("btn-ghost", "../ios/#get")],
+    "apple-health-webhook": [("btn-primary btn-store", "../ios/#get"), ("btn-ghost", f"{REPO_IOS}/blob/main/docs/webhook.md")],
+    "apple-health-n8n": [("btn-primary btn-store", "../ios/#get"), ("btn-ghost", f"{REPO}/blob/main/docs/webhook.md#n8n-and-node-red")],
+    "apple-health-data-types": [("btn-primary btn-store", "../ios/#get"), ("btn-ghost", f"{REPO_IOS}/blob/main/docs/webhook.md#what-ios-sends")],
 }
 
 # Structured data for the project and its four parts, written into the landing page and, for
 # each part, into its own product page.
 ME = {"@type": "Person", "@id": f"{BASE}#owen", "name": "Owen Vogelaar", "url": DOMAIN,
-      "sameAs": ["https://github.com/owen282000"]}
-WEBSITE = {"@type": "WebSite", "@id": f"{BASE}#website", "url": BASE, "name": "Life Dashboard", "inLanguage": "en"}
-PROJECT = {"@type": "CreativeWorkSeries", "@id": f"{BASE}#project", "name": "Life Dashboard", "url": BASE,
-           "description": "Open-source project by Owen Vogelaar: apps for Android and iPhone that send health data to Home Assistant, MQTT or a webhook, a Home Assistant integration and a self-hosted Grafana stack.",
-           "author": {"@id": f"{BASE}#owen"},
-           "hasPart": [{"@id": f"{BASE}#android"}, {"@id": f"{BASE}#ios"}, {"@id": f"{BASE}#integration"}, {"@id": f"{BASE}#stack"},
-                       {"@id": f"{BASE}#sleep-card"}]}
+      "sameAs": ["https://github.com/owen282000"], "worksFor": {"@id": f"{DOMAIN}#org"}}
+# The business behind the site, as the footer's imprint names it.
+ORG = {"@type": "Organization", "@id": f"{DOMAIN}#org", "name": "oVog Enterprise", "url": DOMAIN,
+       "logo": f"{DOMAIN}img/ov-180.png", "email": "owen282000@hotmail.com", "founder": {"@id": f"{BASE}#owen"},
+       "sameAs": ["https://github.com/owen282000"]}
+WEBSITE = {"@type": "WebSite", "@id": f"{BASE}#website", "url": BASE, "name": "Life Dashboard",
+           "inLanguage": [m["hreflang"] for m in LANGS.values()], "publisher": {"@id": f"{DOMAIN}#org"}}
+PROJECT_BASE = {"@type": "CreativeWorkSeries", "@id": f"{BASE}#project", "name": "Life Dashboard", "url": BASE,
+                "author": {"@id": f"{BASE}#owen"},
+                "hasPart": [{"@id": f"{BASE}#android"}, {"@id": f"{BASE}#ios"}, {"@id": f"{BASE}#integration"}, {"@id": f"{BASE}#stack"},
+                            {"@id": f"{BASE}#sleep-card"}]}
 ENTITY_ID = {"android": "#android", "ios": "#ios", "home-assistant": "#integration", "grafana": "#stack",
              "sleep-card": "#sleep-card"}
-ENTITIES = {
+ENTITY_BASE = {
     "android": {
         "@type": "SoftwareApplication", "@id": f"{BASE}#android", "name": "Life Dashboard Companion",
         "alternateName": ["Life Dashboard", "Life Dashboard Companion for Android"],
         "identifier": "com.owen282000.lifedashboard",
-        "description": "Life Dashboard Companion is an open-source Android app that sends Health Connect data and screen time per app to Home Assistant, MQTT or your own webhook, with no cloud and no account.",
-        "operatingSystem": "Android 8.0 or newer (health data: Android 9 or newer with Health Connect)",
-        "applicationCategory": "HealthApplication", "applicationSubCategory": "Home automation",
-        "featureList": ["Reads 34 Health Connect data types", "Screen time per app",
-                        "Home Assistant integration with QR pairing and all your history",
-                        "MQTT Discovery for Home Assistant",
-                        "Webhooks with JSON, HMAC-SHA256 signatures and client certificates",
-                        "Writes scale and blood pressure readings from Home Assistant into Health Connect"],
+        "applicationCategory": "HealthApplication",
         "inLanguage": ["en", "nl", "de", "fr", "es", "it", "pt-BR", "ja", "ar", "hi", "zh-Hans"], "url": f"{BASE}android/",
         "downloadUrl": f"{REPO}/releases/latest", "license": "https://opensource.org/licenses/MIT",
         "isPartOf": {"@id": f"{BASE}#project"}, "author": {"@id": f"{BASE}#owen"},
         "sameAs": [REPO], "screenshot": f"{BASE}img/A1-health.webp"},
     "ios": {
         "@type": "SoftwareApplication", "@id": f"{BASE}#ios", "name": "Life Dashboard Companion for iPhone",
-        "alternateName": "Life Dashboard Companion for iOS",
-        "description": "Life Dashboard Companion for iPhone is an open-source iPhone app that sends Apple Health data to Home Assistant, MQTT or your own webhook, with no cloud and no account.",
-        "operatingSystem": "iOS 17 or newer", "applicationCategory": "HealthApplication",
+        "alternateName": "Life Dashboard Companion for iOS", "applicationCategory": "HealthApplication",
         "inLanguage": ["en", "nl", "de", "fr", "es", "it", "pt-BR", "ja", "ar", "hi", "zh-Hans"], "url": f"{BASE}ios/", "license": "https://opensource.org/licenses/MIT",
         "isPartOf": {"@id": f"{BASE}#project"}, "author": {"@id": f"{BASE}#owen"},
         "sameAs": [REPO_IOS], "screenshot": f"{BASE}img/ios-health.webp"},
     "home-assistant": {
         "@type": "SoftwareApplication", "@id": f"{BASE}#integration", "name": "Life Dashboard integration for Home Assistant",
-        "description": "The Life Dashboard integration is an open-source Home Assistant custom integration, installed through the Marketplace or HACS, that turns data from the Life Dashboard Companion apps into sensors and long-term statistics, paired by QR code.",
-        "applicationCategory": "UtilitiesApplication", "applicationSubCategory": "Home Assistant integration",
-        "operatingSystem": "Home Assistant 2026.3 or newer", "url": f"{BASE}home-assistant/",
+        "applicationCategory": "UtilitiesApplication", "url": f"{BASE}home-assistant/",
         "license": "https://opensource.org/licenses/MIT", "isPartOf": {"@id": f"{BASE}#project"},
         "author": {"@id": f"{BASE}#owen"}, "sameAs": [REPO_HA]},
     "grafana": {
         "@type": "SoftwareApplication", "@id": f"{BASE}#stack", "name": "Life Dashboard stack",
-        "description": "The Life Dashboard stack is an open-source, self-hosted backend for the Life Dashboard Companion apps: a receiver, Postgres and six Grafana dashboards, with a read-only API and an optional MCP server, installed with Docker Compose or a Helm chart.",
-        "applicationCategory": "UtilitiesApplication", "applicationSubCategory": "Self-hosted backend",
-        "featureList": ["Published images for amd64 and arm64, installed with one docker-compose.yml",
-                        "Pairing by QR code", "Six Grafana dashboards", "A read-only JSON API",
-                        "An MCP server with eight read-only tools", "A Helm chart for Kubernetes with CloudNativePG"],
-        "operatingSystem": "Linux, macOS or Windows with Docker, or Kubernetes", "url": f"{BASE}grafana/",
+        "applicationCategory": "UtilitiesApplication", "url": f"{BASE}grafana/",
         "license": "https://opensource.org/licenses/MIT", "isPartOf": {"@id": f"{BASE}#project"},
         "author": {"@id": f"{BASE}#owen"}, "sameAs": [REPO_STACK]},
     "sleep-card": {
         "@type": "SoftwareApplication", "@id": f"{BASE}#sleep-card", "name": "Life Dashboard Sleep Card",
-        "description": "The Life Dashboard Sleep Card is an open-source Home Assistant dashboard card that draws one night of sleep as a hypnogram, from the Life Dashboard integration 1.1.0 or newer or, on Android, the official Home Assistant Companion app 2026.11.1 or newer.",
-        "applicationCategory": "UtilitiesApplication", "applicationSubCategory": "Home Assistant dashboard card",
-        "operatingSystem": "Home Assistant 2026.3 or newer", "url": f"{BASE}sleep-stages-home-assistant/",
+        "applicationCategory": "UtilitiesApplication", "url": f"{BASE}sleep-stages-home-assistant/",
         "downloadUrl": f"{REPO_CARD}/releases/latest", "license": "https://opensource.org/licenses/MIT",
         "isPartOf": {"@id": f"{BASE}#project"}, "author": {"@id": f"{BASE}#owen"},
         "sameAs": [REPO_CARD], "screenshot": f"{BASE}img/S1-sleep-card.webp"},
 }
-ENTITY_NAME = {ENTITY_ID[k]: e["name"] for k, e in ENTITIES.items()}
+ENTITY_NAME = {ENTITY_ID[k]: e["name"] for k, e in ENTITY_BASE.items()}
 
 # Every part is free to download (the APK, the source, HACS, Compose). Each paid store listing
 # has an Offer of its own next to the free one: the App Store and Google Play. The JSON-LD links
 # the listing itself, without a campaign referrer (HTML entities don't apply inside a script).
 FREE = {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}
-for _e in ENTITIES.values():
+for _e in ENTITY_BASE.values():
     _e["offers"] = FREE
-ENTITIES["ios"]["offers"] = [FREE, {"@type": "Offer", "price": "6.99", "priceCurrency": "EUR", "url": APP_STORE}]
-ENTITIES["ios"]["sameAs"] = [REPO_IOS, APP_STORE]
-ENTITIES["android"]["offers"] = [FREE, {"@type": "Offer", "price": "4.99", "priceCurrency": "EUR", "url": PLAY}]
-ENTITIES["android"]["sameAs"] = [REPO, PLAY]
+ENTITY_BASE["ios"]["offers"] = [FREE, {"@type": "Offer", "price": "6.99", "priceCurrency": "EUR", "url": APP_STORE}]
+ENTITY_BASE["ios"]["sameAs"] = [REPO_IOS, APP_STORE]
+ENTITY_BASE["android"]["offers"] = [FREE, {"@type": "Offer", "price": "4.99", "priceCurrency": "EUR", "url": PLAY}]
+ENTITY_BASE["android"]["sameAs"] = [REPO, PLAY]
 SOURCE_CODE = {"@type": "SoftwareSourceCode", "codeRepository": REPO, "programmingLanguage": "Kotlin",
                "license": "https://opensource.org/licenses/MIT", "targetProduct": {"@id": f"{BASE}#android"}}
+
+# ---------------------------------------------------------------------------------------------
+# Pages. Every page has an id and an English address; a translation lives under its language's
+# folder at the same address (/de/life-dashboard/android/), except that a guide may carry a
+# local slug (`slug:` in its header). A page exists in a language once its source file does:
+# i18n/<lang>/guides/<id>.html, products/<id>.json or pages/<id>.html. The guide index is made
+# from strings.json alone, so it exists once its title (ui.index.title) is translated.
+PAGES = {"hub": "", "privacy": "privacy/", "landing": "life-dashboard/", "guides": "life-dashboard/guides/",
+         **{s: f"life-dashboard/{s}/" for s in ORDER}, **{g: f"life-dashboard/{g}/" for g in GUIDE_IDS},
+         "ios-privacy": "life-dashboard/ios/privacy/"}
+EN_PATH_TO_ID = {"/" + p: pid for pid, p in PAGES.items()}
+HAND_PAGES = {"hub": "hub", "privacy": "privacy", "landing": "landing", "ios-privacy": "ios-privacy"}
+# The Play campaign source of each page (P1-36): the English names stay as they were, a
+# translation adds its language (site-de-guide-<id>).
+PLACES = {"landing": "landing", "guides": "guides", "hub": "hub", "privacy": "privacy", "ios-privacy": "ios-privacy",
+          **{s: s for s in ORDER}, **{g: f"guide-{g}" for g in GUIDE_IDS}}
+
+
+def source(pid, lang):
+    if pid in GUIDE_IDS:
+        return I18N / lang / "guides" / f"{pid}.html"
+    if pid in ORDER:
+        return I18N / lang / "products" / f"{pid}.json"
+    if pid in HAND_PAGES:
+        return I18N / lang / "pages" / f"{HAND_PAGES[pid]}.html"
+    return None
+
+
+def exists(pid, lang):
+    if lang == "en":
+        return True
+    if lang not in STRINGS:
+        return False
+    if pid == "guides":
+        return bool(lookup(STRINGS[lang], "ui.index.title"))
+    return source(pid, lang).exists()
+
+
+def header_of(src):
+    """The comment a source file opens with: `key: value` lines, then free notes."""
+    m = re.match(r"\s*<!--(.*?)-->", src, re.S)
+    return m.group(1) if m else ""
+
+
+def opt_meta(src, key):
+    m = re.search(rf"^\s*{key}:\s*(.+)$", header_of(src), re.M)
+    return m.group(1).strip() if m else None
+
+
+def meta(src, key):
+    v = opt_meta(src, key)
+    if not v:
+        sys.exit(f"missing {key}")
+    return v
+
+
+def body_of(src):
+    """A source file without its header comment."""
+    return re.sub(r"\s*<!--.*?-->", "", src, count=1, flags=re.S)
+
+
+SLUGS = {}
+for _lang in LANGS:
+    for _g in GUIDE_IDS:
+        if exists(_g, _lang):
+            SLUGS[(_g, _lang)] = (opt_meta(source(_g, _lang).read_text(), "slug") if _lang != "en" else None) or _g
+
+
+def path_of(pid, lang):
+    p = f"life-dashboard/{SLUGS[(pid, lang)]}/" if pid in GUIDE_IDS else PAGES[pid]
+    d = LANGS[lang]["dir"]
+    return (d + "/" if d else "") + p
+
+
+def url_of(pid, lang=None):
+    return DOMAIN + path_of(pid, lang or L)
+
+
+def alternates(pid):
+    """The hreflang links of a page: itself, every translation and x-default (English). Empty
+    while a page has no translation yet."""
+    langs = [c for c in LANGS if exists(pid, c)]
+    if len(langs) < 2:
+        return []
+    out = []
+    for c in langs:
+        out += [(h, url_of(pid, c)) for h in [LANGS[c]["hreflang"]] + LANGS[c].get("extra_hreflang", [])]
+    return out + [("x-default", url_of(pid, "en"))]
+
+
+_HASH = {}
+
+
+def version(path):
+    """A short hash of a stylesheet or image, so a changed file is a new URL: Cloudflare and
+    browsers keep the old one for a week otherwise (Cache-Control in the Caddyfile)."""
+    if path not in _HASH:
+        f = SITE / path.lstrip("/")
+        ok = f.is_file() and f.suffix in (".css", ".png", ".webp", ".svg", ".ico", ".jpg")
+        _HASH[path] = hashlib.sha256(f.read_bytes()).hexdigest()[:8] if ok else ""
+    return _HASH[path]
+
+
+def localize(doc, pid, lang):
+    """Every href, src and srcset of a page, as the site serves it. Sources and templates write
+    links as on the English page (relative to it, or from the root). A link to a page becomes
+    that page in this language, or stays English, marked hreflang="en", while the translation
+    is missing. A file gets its address from the root and its content hash. A value that starts
+    with "=" is final (the language menu) and loses only that mark."""
+    base = "https://x/" + PAGES[pid]
+
+    def fix(m):
+        attr, val = m.group(1), m.group(2)
+        if val.startswith("="):
+            return f'{attr}="{val[1:]}"'
+        if not val or val.startswith(("#", "http://", "https://", "mailto:", "data:")):
+            return m.group(0)
+        u = urlsplit(urljoin(base, html.unescape(val)))
+        frag = "#" + u.fragment if u.fragment else ""
+        if attr == "href" and u.path in EN_PATH_TO_ID:
+            target = EN_PATH_TO_ID[u.path]
+            if exists(target, lang):
+                return f'href="/{path_of(target, lang)}{frag}"'
+            return f'href="{u.path}{frag}"' + (' hreflang="en"' if lang != "en" else "")
+        v = version(u.path)
+        query = f"?v={v}" if v else ("?" + html.escape(u.query) if u.query else "")
+        return f'{attr}="{u.path}{query}{frag}"'
+    return re.sub(r'\b(href|src|srcset)="([^"]*)"', fix, doc)
+
+
+BUILT = {}   # (page id, language) -> the file written
+
+
+def emit(pid, lang, doc):
+    """Write one page: its Play campaign source filled in, its links localized."""
+    place = "site-" + ("" if lang == "en" else lang + "-") + PLACES[pid]
+    f = SITE / path_of(pid, lang) / "index.html"
+    f.parent.mkdir(parents=True, exist_ok=True)
+    f.write_text(localize(placed(doc, place), pid, lang))
+    BUILT[(pid, lang)] = f
+
+
+def activate(lang):
+    """Set the language being built: the tables below are the structure above with this
+    language's words from strings.json (English where a word is still missing)."""
+    global L, PARTS, STATUS_TEXT, BADGES, GUIDES, GUIDE_NAMES, GUIDE_GROUPS, NEXT, IMAGES, CAPTIONS, ENTITIES, PROJECT
+    L = lang
+    PARTS = {}
+    for slug, base in PARTS_BASE.items():
+        words = EN["parts"][slug]
+        PARTS[slug] = {**base, **{k: S(f"parts.{slug}.{k}") for k in words if k != "get"},
+                       "get": [{**it, **{k: S(f"parts.{slug}.get.{it['id']}.{k}") for k in words["get"][it["id"]]}}
+                               for it in base["get"]]}
+    STATUS_TEXT = {k: S(f"status.{k}") for k in EN["status"]}
+    BADGES = {k: (f, S(f"badges.{k}.alt"), size, S(f"badges.{k}.soon") if "soon" in EN["badges"][k] else "")
+              for k, (f, size) in BADGE_FILES.items()}
+    GUIDES = [(g, S(f"guides.{g}.name"), "", S(f"guides.{g}.desc")) for g in GUIDE_IDS]
+    GUIDE_NAMES = {g[0]: g[1] for g in GUIDES}
+    GUIDE_GROUPS = [(S(f"guide_groups.{k}"), slugs) for k, slugs in GROUPS]
+    NEXT = {}
+    for g in GUIDE_IDS:
+        labels = S(f"guides.{g}.buttons")
+        # A language may replace a guide's buttons outright: a list of {"class", "href", "label"}.
+        buttons = ([(b["class"], b["href"], b["label"]) for b in labels] if labels and isinstance(labels[0], dict)
+                   else [(c, h, label) for (c, h), label in zip(NEXT_BUTTONS[g], labels)])
+        NEXT[g] = (S(f"guides.{g}.next"), buttons)
+    IMAGES = {k: (kind, w, h, S(f"images.{k}")) for k, (kind, w, h) in IMAGE_FILES.items()}
+    CAPTIONS = {k: S(f"captions.{k}") for k in CAPTIONED}
+    ENTITIES = {k: {**e, **{f: S(f"entities.{k}.{f}") for f in EN["entities"][k]}} for k, e in ENTITY_BASE.items()}
+    PROJECT = {**PROJECT_BASE, "description": S("project_description")}
+
 
 GH = '<svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>'
 
@@ -563,7 +640,7 @@ def badge(item, prefix=""):
     if item["status"] == "live":
         return f'<a class="badge-link" href="{BADGE_HREF.get(item["id"]) or href_of(item, prefix)}">{img}</a>'
     detail = f' <span>{soon.replace("F-Droid", "F&#8209;Droid")}</span>' if soon else ""
-    return f'<span class="badge-soon">{img}<small><b>Coming soon.</b>{detail}</small></span>'
+    return f'<span class="badge-soon">{img}<small><b>{t("coming_soon")}</b>{detail}</small></span>'
 
 
 def has_badge(item):
@@ -625,7 +702,7 @@ def alt_links(items, prefix="", sep=" · "):
         if it["status"] == "live":
             out.append(f'<a class="nowrap" href="{href_of(it, prefix)}">{it["name"]}</a>')
         else:
-            out.append(f'<span class="soon-tag">{it.get("soon_text", it["name"] + ": coming").replace("F-Droid", "F&#8209;Droid")}</span>')
+            out.append(f'<span class="soon-tag">{(it.get("soon_text") or t("coming_named", name=it["name"])).replace("F-Droid", "F&#8209;Droid")}</span>')
     return sep.join(out)
 
 
@@ -661,7 +738,7 @@ def get_card(slug, prefix, req=True):
         if has_badge(it):
             rows.append(f'<li class="with-badge">{badge(it, prefix)}<small>{it["note"]}</small></li>')
             continue
-        tag = '<span class="status live">Available</span>' if live else '<span class="status soon">Coming</span>'
+        tag = f'<span class="status live">{t("available")}</span>' if live else f'<span class="status soon">{t("coming")}</span>'
         name = f'<a href="{href_of(it, prefix)}">{it["name"]}</a>' if live else it["name"]
         rows.append(f'<li>{svg(ICONS[it["id"]], "li-ico")}<span><b>{name}</b> {tag}<small>{it["note"]}</small></span></li>')
     note = f'<p class="store-note">{lead["note"]}</p>' if lead.get("note") else ""
@@ -684,42 +761,27 @@ def get_section(prefix):
     cards = "\n      ".join(get_card_compact(s, prefix) for s in ORDER)
     # The three steps that used to sit under the flow diagram, told once, here where they happen.
     return f"""<div class="section-head">
-      <h2>Pick your phone, then pick where the data goes</h2>
-      <p>Using Home Assistant or the stack? Set that up first; the app scans its QR code.</p>
+      <h2>{t("get.title")}</h2>
+      <p>{t("get.intro")}</p>
     </div>
     <ol class="get-steps">
-      <li><b>Pick where it goes</b> Home Assistant, the Grafana stack, or your own broker or URL.</li>
-      <li><b>Install the app</b> Scan the QR code of Home Assistant or the stack, or enter an address.</li>
-      <li><b>Sync</b> Pick your data, tap <strong>Sync Now</strong>, and the schedule does the rest.</li>
+      <li>{t("get.step1")}</li>
+      <li>{t("get.step2")}</li>
+      <li>{t("get.step3")}</li>
     </ol>
     <div class="get-grid">
       {cards}
     </div>"""
 
 
-def android_coming():
-    """The Android line in the hero: what is still coming, from PARTS."""
-    soon = {it["id"]: it for it in PARTS["android"]["get"] if it["status"] == "soon"}
-    names = (["Google Play (paid)"] if "play" in soon else []) + (["F&#8209;Droid"] if "fdroid" in soon else [])
-    if not names:
-        return ""
-    return (" and ".join(names) + (" are" if len(names) > 1 else " is") + " coming.")
-
-
 def android_paths(prefix):
-    """The Android line in the hero: Google Play once it's live, with the free routes after it."""
-    play = store_of("android")
-    if play["status"] == "live":
-        return (f'{play["pitch"]} {PARTS["android"]["free_line"].rstrip(":")}: '
-                f'<a href="{prefix}android/#get">the APK on GitHub, Obtainium or F&#8209;Droid</a>.')
-    return f"Free APK today. {android_coming()}"
+    """The Android line in the hero: Google Play, with the free routes after it."""
+    return t("hero.android", pitch=store_of("android")["pitch"])
 
 
 def ios_paths(prefix):
-    """The iPhone line in the hero: the App Store once it's live, and building it yourself either way."""
-    if store_of("ios")["status"] == "live":
-        return f'On the App Store, €6.99 once. Or <a href="{prefix}ios/#building">build it with Xcode</a> on a Mac with an Apple Developer Program membership.'
-    return f'<a href="{prefix}ios/#building">Build it with Xcode</a> on a Mac, about an hour. In App Store review.'
+    """The iPhone line in the hero: the App Store, and building it yourself."""
+    return t("hero.ios")
 
 
 def hero_stores(prefix):
@@ -731,8 +793,7 @@ def hero_stores(prefix):
     live = [s for s in ("ios", "android") if stores[s]["status"] == "live"]  # Apple: App Store badge first
     btns = [store_button(stores[s], "", prefix) for s in live]
     if len(live) < 2:
-        btns.insert(0, f'<a class="btn btn-primary btn-store" href="{prefix}#get">Install today</a>')
-        btns.insert(1, f'<a class="btn btn-ghost btn-store" href="{prefix}grafana/#dashboards">See the demo dashboards</a>')
+        btns.insert(0, f'<a class="btn btn-primary btn-store" href="{prefix}#get">{t("nav.install")}</a>')
     out = '<div class="cta-row stores">\n        ' + "\n        ".join(btns) + "\n      </div>"
     pending = badge_row([stores[s] for s in ("ios", "android") if s not in live], prefix)
     if pending:
@@ -746,7 +807,35 @@ def hero_stores(prefix):
     return out
 
 
-def nav(prefix, active=None):
+GLOBE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><ellipse cx="12" cy="12" rx="4" ry="9"/></svg>'
+
+
+def lang_menu(pid):
+    """The language menu in the header: the same page in every language it exists in. A
+    <details>, so it opens without a script. Empty while the page has no translation."""
+    langs = [c for c in LANGS if exists(pid, c)]
+    if len(langs) < 2:
+        return ""
+    items = "".join(
+        f'<li><a href="=/{path_of(pid, c)}" lang="{LANGS[c]["hreflang"]}" hreflang="{LANGS[c]["hreflang"]}"'
+        f'{" aria-current=\"true\"" if c == L else ""}>{LANGS[c]["name"]}</a></li>' for c in langs)
+    return (f'<details class="lang-menu"><summary aria-label="{t("nav.language")}: {LANGS[L]["name"]}">{GLOBE}'
+            f'<span>{LANGS[L]["hreflang"].split("-")[0].upper()}</span></summary><ul>{items}</ul></details>')
+
+
+def lang_row(pid):
+    """The same links once more in the footer, as plain text links."""
+    langs = [c for c in LANGS if exists(pid, c)]
+    if len(langs) < 2:
+        return ""
+    items = " ".join(
+        f'<a href="=/{path_of(pid, c)}" lang="{LANGS[c]["hreflang"]}" hreflang="{LANGS[c]["hreflang"]}"'
+        f'{" aria-current=\"true\"" if c == L else ""}>{LANGS[c]["name"]}</a>' for c in langs)
+    return f'<p class="lang-row"><span>{t("nav.language")}:</span> {items}</p>'
+
+
+def nav(prefix, active=None, pid=None):
+    """pid: the page being written, for the language menu."""
     def a(href, label, key):
         cur = ' aria-current="page"' if key == active else ""
         return f'<a href="{href}"{cur}>{label}</a>'
@@ -757,26 +846,26 @@ def nav(prefix, active=None):
         a(f"{prefix}ios/", "iPhone", "ios"),
         a(f"{prefix}home-assistant/", PARTS["home-assistant"]["nav"], "home-assistant"),
         a(f"{prefix}grafana/", "Grafana", "grafana"),
-        a(f"{prefix}#guides", "Guides", "guides"),
-        a("#faq" if on_product else f"{prefix}#faq", "FAQ", "faq"),
+        a(f"{prefix}guides/", t("nav.guides"), "guides"),
+        a("#faq" if on_product or active == "landing" else f"{prefix}#faq", t("nav.faq"), "faq"),
     ])
-    home = prefix or "./"
-    install = "#get" if on_product else f"{prefix}#get"
+    install = "#get" if on_product or active == "landing" else f"{prefix}#get"
     return f"""<header class="nav">
   <div class="wrap">
-    <a class="brand" href="{home}" aria-label="Life Dashboard home">
+    <a class="brand" href="{prefix}" aria-label="{t("nav.home")}">
       <img class="mark" src="{prefix}img/icon-96.webp" alt="" width="34" height="34">
       Life Dashboard
     </a>
-    <nav class="nav-links" aria-label="Main">
+    <nav class="nav-links" aria-label="{t("nav.main")}">
       {links}
     </nav>
     <div class="nav-cta">
-      <a class="btn btn-ghost btn-sm" href="{repo}">
+      {lang_menu(pid) if pid else ""}
+      <a class="btn btn-ghost btn-sm nav-gh" href="{repo}">
         {GH}
         GitHub
       </a>
-      <a class="btn btn-primary btn-sm" href="{install}">Install options</a>
+      <a class="btn btn-primary btn-sm" href="{install}">{t("nav.install")}</a>
     </div>
   </div>
 </header>"""
@@ -787,70 +876,102 @@ def parts_strip(prefix):
     def cell(href, glyph, name, line):
         return (f'<a href="{href}"><span class="part-ico">{svg(glyph)}</span>'
                 f'<span><b>{name}</b><small>{line}</small></span></a>')
-    short = {"android": "Health Connect, screen time", "ios": "Apple Health"}
-    phones = "".join(cell(f"{prefix}{s}/", PARTS[s]["glyph"], PARTS[s]["name"], short[s]) for s in ("android", "ios"))
+    phones = "".join(cell(f"{prefix}{s}/", PARTS[s]["glyph"], PARTS[s]["name"], t(f"strip.{s}")) for s in ("android", "ios"))
     webhook_glyph = '<path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/>'
-    dests = (cell(f"{prefix}home-assistant/", PARTS["home-assistant"]["glyph"], "Home Assistant", "Sensors and history")
-             + cell(f"{prefix}grafana/", PARTS["grafana"]["glyph"], "Grafana stack", "Dashboards, API and MCP")
-             + cell(f"{prefix}#own-server", webhook_glyph, "Your own server", "MQTT or JSON"))
-    return f"""<nav class="parts-strip" aria-label="The apps and where the data goes"><div class="wrap">
-    <div class="ps-group"><span class="ps-label">On your phone</span><div class="ps-cells two">{phones}</div></div>
-    <div class="ps-group"><span class="ps-label">On your server</span><div class="ps-cells three">{dests}</div></div>
+    dests = (cell(f"{prefix}home-assistant/", PARTS["home-assistant"]["glyph"], "Home Assistant", t("strip.home_assistant"))
+             + cell(f"{prefix}grafana/", PARTS["grafana"]["glyph"], PARTS["grafana"]["name"], t("strip.grafana"))
+             + cell(f"{prefix}#own-server", webhook_glyph, t("strip.own_server"), t("strip.own_server_line")))
+    return f"""<nav class="parts-strip" aria-label="{t("strip.label")}"><div class="wrap">
+    <div class="ps-group"><span class="ps-label">{t("strip.phone")}</span><div class="ps-cells two">{phones}</div></div>
+    <div class="ps-group"><span class="ps-label">{t("strip.server")}</span><div class="ps-cells three">{dests}</div></div>
   </div></nav>"""
 
 
-def footer(prefix):
-    home = prefix or "./"
+def footer(prefix, pid=None):
     prods = "\n          ".join(f'<li><a href="{prefix}{s}/">{PARTS[s]["name"]}</a></li>' for s in ORDER)
     guides = "\n          ".join(f'<li><a href="{prefix}{g[0]}/">{g[1]}</a></li>' for g in GUIDES)
+    docs = [(f"{REPO}/blob/main/docs/usage.md", "android_setup"), (f"{REPO_IOS}/blob/main/docs/usage.md", "ios_setup"),
+            (f"{REPO_HA}/blob/main/docs/entities.md", "entities"), (f"{REPO}/blob/main/docs/webhook.md", "payload"),
+            (f"{REPO}/blob/main/docs/brands/README.md", "brands"), (f"{prefix}feedback/", "feedback"),
+            (f"{REPO}/blob/main/PRIVACY.md", "privacy_android"), (f"{prefix}ios/privacy/", "privacy_ios"),
+            (f"{REPO}/blob/main/AI_POLICY.md", "ai_policy"),
+            ("https://github.com/owen282000?tab=repositories&amp;q=life-dashboard", "repos")]
+    doc_items = "\n          ".join(f'<li><a href="{h}">{t("footer.docs." + k)}</a></li>' for h, k in docs)
     return f"""<footer class="footer">
   <div class="wrap">
     <div class="cols">
       <div class="about">
-        <a class="brand" href="{home}"><img class="mark" src="{prefix}img/icon-96.webp" alt="" width="34" height="34"> Life Dashboard</a>
-        <p>Life Dashboard is an open-source project by <a href="https://github.com/owen282000">Owen Vogelaar</a>, in four parts: the Life Dashboard Companion apps for Android and iPhone, a Home Assistant integration and a Grafana stack. It isn't related to other apps or templates called Life Dashboard. Questions go to <a href="{REPO}/discussions">Discussions</a>.</p>
-        <p>This site sets no cookies, runs no analytics and loads nothing from anyone else. <a href="/privacy/">Site privacy</a>.</p>
-        <p class="imprint">Owen Vogelaar, trading as oVog Enterprise · KvK 81085583 · <a href="mailto:owen282000@hotmail.com">owen282000@hotmail.com</a></p>
+        <a class="brand" href="{prefix}"><img class="mark" src="{prefix}img/icon-96.webp" alt="" width="34" height="34"> Life Dashboard</a>
+        <p>{t("footer.about", discussions=f"{REPO}/discussions")}</p>
+        <p>{t("footer.no_tracking")}</p>
+        <p class="imprint">{t("footer.imprint")}</p>
+        {lang_row(pid) if pid else ""}
       </div>
       <div>
-        <h2 class="foot-h">Products</h2>
+        <h2 class="foot-h">{t("footer.products")}</h2>
         <ul>
           {prods}
         </ul>
       </div>
       <div>
-        <h2 class="foot-h">Guides</h2>
+        <h2 class="foot-h"><a href="{prefix}guides/">{t("footer.guides")}</a></h2>
         <ul>
           {guides}
         </ul>
       </div>
       <div>
-        <h2 class="foot-h">Docs and source</h2>
+        <h2 class="foot-h">{t("footer.docs_title")}</h2>
         <ul>
-          <li><a href="{REPO}/blob/main/docs/usage.md">Android setup guide</a></li>
-          <li><a href="{REPO_IOS}/blob/main/docs/usage.md">iPhone setup guide</a></li>
-          <li><a href="{REPO_HA}/blob/main/docs/entities.md">Integration: sensors and statistics</a></li>
-          <li><a href="{REPO}/blob/main/docs/webhook.md">Payload reference</a></li>
-          <li><a href="{REPO}/blob/main/docs/brands/README.md">Brand guides</a></li>
-          <li><a href="{prefix}feedback/">Feedback board</a></li>
-          <li><a href="{REPO}/blob/main/PRIVACY.md">Privacy policy for Android</a></li>
-          <li><a href="{prefix}ios/privacy/">Privacy policy for iPhone</a></li>
-          <li><a href="{REPO}/blob/main/AI_POLICY.md">AI policy</a></li>
-          <li><a href="https://github.com/owen282000?tab=repositories&amp;q=life-dashboard">All repositories</a></li>
+          {doc_items}
         </ul>
       </div>
     </div>
-    <p class="legal">Home Assistant is a trademark of the Open Home Foundation. Health Connect, Google Play, Google Health, Fitbit and Pixel Watch are trademarks of Google LLC. Apple, Apple Health, Apple Watch, iPhone, Xcode and TestFlight are trademarks of Apple Inc. App Store is a service mark of Apple Inc. Grafana is a trademark of Grafana Labs. Samsung Health, Garmin Connect, Oura and Withings belong to their owners. Life Dashboard is an independent project and is not affiliated with or endorsed by any of them. Screenshots show made-up data.</p>
-    <p class="legal credits">Badges: Google Play and App Store as published by Google and Apple; "Get it on F&#8209;Droid" by the <a href="https://gitlab.com/fdroid/artwork">F&#8209;Droid project</a> and "Get it on GitHub" by <a href="https://github.com/Kunzisoft/Github-badge">Kunzisoft</a>, both <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>; Obtainium from the <a href="https://github.com/ImranR98/Obtainium">Obtainium project</a>; the HACS, Artifact Hub and Docker Compose badges are drawn for this site in Roboto (SIL OFL), around the icons of the <a href="https://github.com/hacs/integration">HACS project</a> (MIT) and the <a href="https://github.com/artifacthub/hub">Artifact Hub project</a> (Apache 2.0) and Docker's logo from its media kit; the AlternativeTo badge is their compact badge on a black panel. GitHub is a trademark of GitHub, Inc. Docker, Docker Compose and the Docker logo are trademarks of Docker, Inc. Helm is a trademark of The Linux Foundation.</p>
+    <p class="legal">{t("footer.trademarks")}</p>
+    <p class="legal credits">{t("footer.credits")}</p>
   </div>
 </footer>"""
 
 
-def head(title, desc, url, prefix, og_type="website", og_title=None, ld=None, alts=(), locale=None):
-    """alts: (hreflang, slug) pairs from alternates(); locale: og:locale of a page not in English."""
+def small_footer(pid):
+    """The footer of the developer page and the site's privacy notice."""
+    return f"""<footer class="footer">
+  <div class="wrap">
+    <p class="legal">{t("hub.footer")} {t("footer.no_tracking")}</p>
+    <p class="legal">{t("footer.imprint")}</p>
+    {lang_row(pid)}
+  </div>
+</footer>"""
+
+
+def small_nav(pid):
+    return f"""<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="/"><img class="mark" src="/img/ov-68.png" alt="" width="34" height="34"> Owen Vogelaar</a>
+    <div class="nav-cta">
+      {lang_menu(pid)}
+      <a class="btn btn-ghost btn-sm" href="https://github.com/owen282000">{GH} GitHub</a>
+    </div>
+  </div>
+</header>"""
+
+
+def head(pid, title, desc, og_type="website", og_title=None, ld=None, og_desc=None, og_image_alt=None, owner=False):
+    """The <head> of a page in the language being built: a canonical to itself, an hreflang
+    link to every language the page exists in (itself included) and x-default to English, and
+    the Open Graph and Twitter tags in this language. owner: the developer page and the site's
+    privacy notice, which carry Owen's mark instead of the app icon."""
+    url = url_of(pid)
     ldtag = f'\n<script type="application/ld+json">\n{ld}\n</script>' if ld else ""
-    hreflang = "".join(f'\n<link rel="alternate" hreflang="{l}" href="{BASE}{s}/">' for l, s in alts)
-    og_locale = f'\n<meta property="og:locale" content="{locale}">' if locale else ""
+    hreflang = "".join(f'\n<link rel="alternate" hreflang="{h}" href="{u}">' for h, u in alternates(pid))
+    locales = f'\n<meta property="og:locale" content="{LANGS[L]["og_locale"]}">' + "".join(
+        f'\n<meta property="og:locale:alternate" content="{LANGS[c]["og_locale"]}">' for c in LANGS if c != L and exists(pid, c))
+    icons = ('<link rel="icon" href="/favicon.ico" sizes="48x48">\n<link rel="icon" type="image/png" sizes="32x32" href="/img/ov-32.png">\n'
+             '<link rel="apple-touch-icon" href="/img/ov-180.png">' if owner else
+             f'<link rel="icon" type="image/png" sizes="32x32" href="{LD}img/icon-32.png">\n<link rel="apple-touch-icon" href="{LD}img/icon-180.png">')
+    image, iw, ih = (f"{DOMAIN}img/social.png", 1200, 630) if owner else (f"{BASE}img/social.png", 1280, 640)
+    alt = html.escape(og_image_alt or t("og_image_alt"))
+    og_t, og_d = html.escape(og_title or title), html.escape(og_desc or desc)
+    site_name = "Owen Vogelaar" if owner else "Life Dashboard"
     return f"""<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -858,20 +979,25 @@ def head(title, desc, url, prefix, og_type="website", og_title=None, ld=None, al
 <meta name="description" content="{html.escape(desc)}">
 <link rel="canonical" href="{url}">{hreflang}
 <meta name="robots" content="max-image-preview:large">
-<meta name="theme-color" content="#101418">
-<link rel="icon" type="image/png" sizes="32x32" href="{prefix}img/icon-32.png">
-<link rel="apple-touch-icon" href="{prefix}img/icon-180.png">
-<link rel="stylesheet" href="{prefix}site.css">
-<meta property="og:type" content="{og_type}">{og_locale}
-<meta property="og:site_name" content="Life Dashboard">
-<meta property="og:title" content="{html.escape(og_title or title)}">
-<meta property="og:description" content="{html.escape(desc)}">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F7F9F8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#101418" media="(prefers-color-scheme: dark)">
+{icons}
+<link rel="stylesheet" href="{LD}site.css">
+<meta property="og:type" content="{og_type}">{locales}
+<meta property="og:site_name" content="{site_name}">
+<meta property="og:title" content="{og_t}">
+<meta property="og:description" content="{og_d}">
 <meta property="og:url" content="{url}">
-<meta property="og:image" content="{BASE}img/social.png">
-<meta property="og:image:width" content="1280">
-<meta property="og:image:height" content="640">
-<meta property="og:image:alt" content="Life Dashboard Companion: your health data, your server. No cloud.">
-<meta name="twitter:card" content="summary_large_image">{ldtag}
+<meta property="og:image" content="{image}">
+<meta property="og:image:width" content="{iw}">
+<meta property="og:image:height" content="{ih}">
+<meta property="og:image:alt" content="{alt}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{og_t}">
+<meta name="twitter:description" content="{og_d}">
+<meta name="twitter:image" content="{image}">
+<meta name="twitter:image:alt" content="{alt}">{ldtag}
 </head>"""
 
 
@@ -899,7 +1025,7 @@ def image(name, prefix, cls="", eager=False):
     if kind == "card":
         return f'<figure class="qr-card {cls}">{img}</figure>'
     return (f'<div class="wide-shot {cls}">'
-            f'<a class="shot-link" href="{prefix}img/{name}.webp" aria-label="{alt}, full size">{img}</a></div>')
+            f'<a class="shot-link" href="{prefix}img/{name}.webp" aria-label="{alt}, {t("full_size")}">{img}</a></div>')
 
 
 def faq_entity(qa):
@@ -907,23 +1033,25 @@ def faq_entity(qa):
         {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in qa]}
 
 
-def breadcrumb(name, url):
+def breadcrumb(*crumbs):
+    """crumbs: (name, address) from the top down; the developer page leads every trail."""
+    crumbs = (("Owen Vogelaar", url_of("hub")),) + crumbs
     return {"@type": "BreadcrumbList", "itemListElement": [
-        {"@type": "ListItem", "position": 1, "name": "Life Dashboard", "item": BASE},
-        {"@type": "ListItem", "position": 2, "name": name, "item": url}]}
+        {"@type": "ListItem", "position": i, "name": n, "item": u} for i, (n, u) in enumerate(crumbs, 1)]}
 
 
 def ld_json(graph):
     return json.dumps({"@context": "https://schema.org", "@graph": graph}, indent=2, ensure_ascii=False)
 
 
-def page(head_html, body, comment, lang="en"):
+def page(head_html, body, comment):
+    m = LANGS[L]
     return f"""<!DOCTYPE html>
 <!-- {comment} Generated by tools/site/build.py: edit the source there, not this file. -->
-<html lang="{lang}">
+<html lang="{m["hreflang"]}">
 {head_html}
 <body>
-<a class="skip" href="#main">{UI[lang]["skip"]}</a>
+<a class="skip" href="#main">{t("skip")}</a>
 
 {body}
 </body>
@@ -932,42 +1060,39 @@ def page(head_html, body, comment, lang="en"):
 
 
 # ---------------------------------------------------------------------------------------------
-# Guides
-
-def opt_meta(src, key):
-    m = re.search(rf"^\s*{key}:\s*(.+)$", src, re.M)
-    return m.group(1).strip() if m else None
-
-
-def meta(src, key):
-    m = re.search(rf"^\s*{key}:\s*(.+)$", src, re.M)
-    if not m:
-        sys.exit(f"missing {key}")
-    return m.group(1).strip()
-
+# Guides: one template for every guide in every language.
+#
+# A guide is i18n/<lang>/guides/<id>.html: a header comment (title, description, updated, and
+# for a translation optionally slug), then plain HTML: one <h1>, the introduction, <h2> sections,
+# and a <section class="faq"> of <details>. The template adds the rest: the breadcrumb, the
+# byline with the date and reading time, the first button, "On this page" from the <h2>s, ids on
+# the headings, accessible tables and code blocks, figures for the <!-- IMG: ... (name.png) -->
+# placeholders, the closing panel with the store buttons, related guides and the JSON-LD.
+# Components a guide can use: <ol> for steps, <p class="note">, <p class="tip"> and
+# <p class="warn"> for callouts, <p class="flow-line"> with <span>s for a chain of apps,
+# <table>, <pre><code>, <details> inside the FAQ.
 
 PURPLE = {"A4-screen-time", "H7-screen-time"}
+IMG_MARK = r"<!--\s*IMG:[^>]*?\(?(ios-[a-z]+|[A-Za-z]\d?-[a-z-]+)(?:\.png|\.webp)?\)?[^>]*-->"
 
 
-def figure(m, up="../", lang="en"):
+def figure(m):
     name = m.group(1)
     kind, w, h, alt = IMAGES[name]
-    alt = UI[lang].get("alts", {}).get(name, alt)
-    full = f'{alt}, {UI[lang]["full_size"]}'
+    full = f'{alt}, {t("full_size")}'
     tone = " purple" if name in PURPLE else ""
     if kind == "phone":
-        shot = image(name, up).replace(f'alt="{IMAGES[name][3]}"', f'alt="{alt}"')
-        return f'<figure class="shot{tone}"><a class="shot-link" href="{up}img/{name}.webp" aria-label="{full}">{shot}</a></figure>'
+        return f'<figure class="shot{tone}"><a class="shot-link" href="{LD}img/{name}.webp" aria-label="{full}">{image(name, LD)}</a></figure>'
     if kind == "diagram":
         # A drawn diagram brings its own card and text, so it gets the full column, without a frame.
-        return (f'<figure class="diagram"><a class="shot-link" href="{up}img/{name}.webp" aria-label="{full}">'
-                f'<img src="{up}img/{name}.webp" alt="{alt}" width="{w}" height="{h}" loading="lazy"></a></figure>')
+        return (f'<figure class="diagram"><a class="shot-link" href="{LD}img/{name}.webp" aria-label="{full}">'
+                f'<img src="{LD}img/{name}.webp" alt="{alt}" width="{w}" height="{h}" loading="lazy"></a></figure>')
     # A card (the QR dialog) stays narrow; a wide screenshot, such as a dashboard, gets the full column.
     size = " full" if kind == "wide" else ""
     note = f'<figcaption>{CAPTIONS[name]}</figcaption>' if name in CAPTIONS else ""
     captioned = " captioned" if note else ""
-    return (f'<figure class="shot wide{size}{captioned}"><a class="shot-link" href="{up}img/{name}.webp" aria-label="{full}">'
-            f'<img src="{up}img/{name}.webp" alt="{alt}" width="{w}" height="{h}" loading="lazy"></a>{note}</figure>')
+    return (f'<figure class="shot wide{size}{captioned}"><a class="shot-link" href="{LD}img/{name}.webp" aria-label="{full}">'
+            f'<img src="{LD}img/{name}.webp" alt="{alt}" width="{w}" height="{h}" loading="lazy"></a>{note}</figure>')
 
 
 def slugify(text):
@@ -977,193 +1102,187 @@ def slugify(text):
     return re.sub(r"[^a-z0-9]+", "-", text).strip("-")
 
 
-def enhance(body, lang="en"):
-    """Accessible tables and code blocks, ids on headings, the guide FAQ heading."""
+HEADING = re.compile(r"<(h[23])>(.*?)</\1>", re.S)
+
+
+def heading_ids(body):
+    return [slugify(m.group(2)) for m in HEADING.finditer(body)]
+
+
+def enhance(body, ids=None):
+    """Accessible tables and code blocks, ids on headings, the guide FAQ heading. ids: the
+    heading ids of the English guide. A translation with the same headings in the same order
+    takes them over, so #set-it-up is the same section in every language and a link with a
+    fragment keeps working; a guide with headings of its own gets ids from its own words."""
     def table(m):
         caps = re.findall(r"<h[23][^>]*>(.*?)</h[23]>", body[:m.start()], re.S)
-        label = strip_tags(caps[-1]) if caps else "Table"
-        t = m.group(0)
-        t = re.sub(r"<th></th>", f'<th scope="col">{UI[lang]["feature"]}</th>', t)
-        t = re.sub(r"<thead>(.*?)</thead>", lambda x: "<thead>" + x.group(1).replace("<th>", '<th scope="col">') + "</thead>", t, flags=re.S)
-        t = re.sub(r"(<tbody>.*?</tbody>)", lambda x: re.sub(r"<tr>\s*<td>(.*?)</td>", r'<tr><th scope="row">\1</th>', x.group(1), flags=re.S), t, flags=re.S)
-        return f'<div class="table-wrap" tabindex="0" role="region" aria-label="{html.escape(label)}">{t}</div>'
+        label = strip_tags(caps[-1]) if caps else t("table")
+        tb = m.group(0)
+        tb = re.sub(r"<th></th>", f'<th scope="col">{t("feature")}</th>', tb)
+        tb = re.sub(r"<thead>(.*?)</thead>", lambda x: "<thead>" + x.group(1).replace("<th>", '<th scope="col">') + "</thead>", tb, flags=re.S)
+        tb = re.sub(r"(<tbody>.*?</tbody>)", lambda x: re.sub(r"<tr>\s*<td>(.*?)</td>", r'<tr><th scope="row">\1</th>', x.group(1), flags=re.S), tb, flags=re.S)
+        return f'<div class="table-wrap" tabindex="0" role="region" aria-label="{html.escape(label)}">{tb}</div>'
     body = re.sub(r"<table>.*?</table>", table, body, flags=re.S)
 
     def pre(m):
         # A focusable code block needs a name: "Code: <the heading it sits under>".
         caps = re.findall(r"<h[23][^>]*>(.*?)</h[23]>", body[:m.start()], re.S)
-        label = "Code: " + (strip_tags(caps[-1]) if caps else "example")
+        label = t("code", name=strip_tags(caps[-1]) if caps else t("code_example"))
         return f'<pre tabindex="0" role="region" aria-label="{html.escape(label)}"><code>'
     body = re.sub(r"<pre><code>", pre, body)
-    body = re.sub(r"<h2>(.*?)</h2>", lambda m: f'<h2 id="{slugify(m.group(1))}">{m.group(1)}</h2>', body)
-    body = re.sub(r"<h3>(.*?)</h3>", lambda m: f'<h3 id="{slugify(m.group(1))}">{m.group(1)}</h3>', body)
-    body = body.replace('<h2 id="faq">FAQ</h2>', f'<h2 id="faq">{UI[lang]["faq"]}</h2>')
-    return body
+    own = heading_ids(body)
+    use = iter(ids if ids and len(ids) == len(own) else own)
+    body = HEADING.sub(lambda m: f'<{m.group(1)} id="{next(use)}">{m.group(2)}</{m.group(1)}>', body)
+    return re.sub(r'(<h2 id="faq">)FAQ(</h2>)', lambda m: m.group(1) + t("faq") + m.group(2), body)
 
 
-def aside_de(up):
-    """The German guide's app boxes: one per phone, each with its store badge, the price and, on
-    Android, the free routes, all from PARTS and the offers in ENTITIES."""
-    def eur(slug):
-        return next(o["price"] for o in ENTITIES[slug]["offers"] if o["price"] != "0").replace(".", ",") + "&nbsp;€"
-    play, appstore = store_of("android"), store_of("ios")
-    free = [dict(it, name={"apk": "APK auf GitHub"}.get(it["id"], it["name"]))
-            for it in PARTS["android"]["get"] if it is not play]
-    return f"""<div class="box cta">
-        <h2>Life Dashboard Companion für Android</h2>
-        <p>Liest Health Connect, also auch Samsung Health, Garmin Connect und Google Health. Kein Konto, keine Cloud. <a href="{up}android/" hreflang="en">Mehr zur App (Englisch)</a>.</p>
-        {lead_button(play, up)}
-        <p class="aside-alt">{eur("android")} einmalig bei Google Play, mit automatischen Updates.</p>
-        <p class="aside-alt">Oder kostenlos, dieselbe App mit demselben Signaturschlüssel: {alt_links(free, up)}</p>
-      </div>
-      <div class="box cta">
-        <h2>Life Dashboard Companion für das iPhone</h2>
-        <p>Liest Apple Health, also auch die Daten deiner Apple Watch. Kein Konto, keine Cloud. <a href="{up}ios/" hreflang="en">Mehr zur App (Englisch)</a>.</p>
-        {lead_button(appstore, up)}
-        <p class="aside-alt">{eur("ios")} einmalig im App Store, ohne Abo.</p>
-      </div>"""
+def guide_source(pid, lang):
+    return tokens(source(pid, lang).read_text())
 
 
-def lang_links(slug, lang, up):
-    """The byline's link to the other language: "Auf Deutsch" on an English guide a translation
-    is written from, and the English guides it is written from on the translation."""
-    if lang != "en":
-        t = next(t for t in TRANSLATIONS if t["slug"] == slug)
-        links = ", ".join(f'<a href="{up}{g}/" hreflang="en" lang="en">{GUIDE_NAMES[g]}</a>' for g in t["from"])
-        return f' {LANG_LINK["en"]}: {links}.'
-    return "".join(f' <a href="{up}{t["slug"]}/" hreflang="{t["lang"]}" lang="{t["lang"]}">{LANG_LINK[t["lang"]]}</a>'
-                   for t in TRANSLATIONS if slug in t["from"])
+def guide_apps(pid, about):
+    """Which app a guide leads with: the iPhone guides the iPhone app, a guide about both phones
+    both stores, Android first; every other guide the Android app."""
+    if pid in dict(GROUPS)["iphone"]:
+        return ["ios"]
+    return ["android", "ios"] if "#ios" in about else ["android"]
 
 
-def build_guide(slug, short, lang="en"):
-    src = tokens((HERE / "guides" / f"{slug}.html").read_text())
+def store_block(app):
+    """A store badge with its price line and the other routes, for the closing panel."""
+    lead = lead_item(app)
+    rest = [it for it in PARTS[app]["get"] if it is not lead]
+    alt = f'<p class="aside-alt">{alt_links(rest, LD)}</p>'
+    if free_follows(app, lead):
+        alt = (f'<p class="aside-alt">{lead["pitch"]}</p>\n        '
+               f'<p class="aside-alt">{PARTS[app]["free_line"]} {alt_links(rest, LD)}</p>')
+    elif lead.get("pitch"):
+        alt = f'<p class="aside-alt">{lead["pitch"]}</p>'
+    return f'<div class="panel-store">{lead_button(lead, LD)}\n        {alt}</div>'
+
+
+def related_guides(pid):
+    """Up to three guides from the same group, as cards, and a link to all of them."""
+    group = next(slugs for _, slugs in GROUPS if pid in slugs)
+    cards = "\n      ".join(guide_card(g, LD) for g in [g for g in group if g != pid][:3])
+    return f"""<section class="section tight related band" aria-labelledby="related">
+  <div class="wrap">
+    <div class="section-head split"><h2 id="related">{t("guide.related")}</h2><a class="link-arrow" href="{LD}guides/">{t("guide.all")}</a></div>
+    <div class="family three">
+      {cards}
+    </div>
+  </div>
+</section>"""
+
+
+def build_guide(pid):
+    lang = L
+    src = guide_source(pid, lang)
     title, desc = meta(src, "title"), meta(src, "description")
     updated = opt_meta(src, "updated") or UPDATED
-    PAGE_DATES[f"{slug}/"] = updated
-    # A translated guide sits one folder deeper (de/<slug>/), so its links climb one more level.
-    up = "../" * (slug.count("/") + 1)
-    ui = UI[lang]
-    body = re.sub(r"<!--.*?-->", lambda m: m.group(0) if "IMG" in m.group(0) else "", src, count=1, flags=re.S)
-    body = re.sub(r"<!--\s*IMG:[^>]*?\(?(ios-[a-z]+|[A-Za-z]\d?-[a-z-]+)(?:\.png|\.webp)?\)?[^>]*-->", lambda m: figure(m, up, lang), body)
+    published = opt_meta(src, "published") or UPDATED
+    PAGE_DATES[(pid, lang)] = updated
+    about = ["#" + a.strip().lstrip("#") for a in opt_meta(src, "about").split(",")] if opt_meta(src, "about") else GUIDE_ABOUT[pid]
+    crumb = GUIDE_NAMES[pid]
+    body = body_of(src)
+    body = re.sub(IMG_MARK, figure, body)
     body = re.sub(r"</li>(\s*)(<figure\b.*?</figure>)", r"\1\2</li>", body, flags=re.S)
-    body = enhance(body, lang)
-    text, buttons = NEXT[slug]
-    btns = "\n".join(f'  <a class="btn {c}" href="{h}">{t}</a>' for c, h, t in buttons)
-    body = body.replace('<section class="faq">', f'<div class="next">\n  <p>{text}</p>\n{btns}\n</div>\n\n<section class="faq">', 1)
-    byline = ui["byline"].format(date=date_text(updated, lang)) + lang_links(slug, lang, up)
-    body = re.sub(r"(</h1>)", lambda m: f'{m.group(1)}\n<p class="byline">{byline}</p>', body, count=1)
-    first_btn = buttons[0]
-    body = re.sub(r'(<p class="byline">.*?</p>\s*<p>.*?</p>)', lambda m: m.group(1) + f'\n<p class="guide-cta"><a class="btn btn-primary btn-store" href="{first_btn[1]}">{first_btn[2]}</a></p>', body, count=1, flags=re.S)
-    h1 = strip_tags(re.search(r"<h1>(.*?)</h1>", body, re.S).group(1))
-    qa = [(strip_tags(q), strip_tags(a)) for q, a in re.findall(r"<summary>(.*?)</summary>\s*(.*?)</details>", body, re.S)]
-    url = f"{BASE}{slug}/"
+    ids = heading_ids(body_of(guide_source(pid, "en"))) if lang != "en" else None
+    body = enhance(body, ids)
+    h1_html = re.search(r"<h1>(.*?)</h1>", body, re.S).group(1)
+    h1 = strip_tags(h1_html)
+    after = body[body.index("</h1>") + 5:]
+    cut_at = after.index("<h2") if "<h2" in after else len(after)
+    intro, rest = after[:cut_at].strip(), after[cut_at:].strip()
+    toc = "\n        ".join(f'<li><a href="#{i}">{strip_tags(x)}</a></li>' for i, x in re.findall(r'<h2 id="([^"]+)">(.*?)</h2>', rest, re.S))
+    minutes = max(1, round(len(strip_tags(body).split()) / 220))
+    text, buttons = NEXT[pid]
+    btns = "\n      ".join(f'<a class="btn {c}" href="{h}">{label}</a>' for c, h, label in buttons)
+    apps = guide_apps(pid, about)
+    if len(apps) == 2:
+        aside = t("guide.aside_both")
+    else:
+        aside = t("guide.aside_" + apps[0])
+    panel = f"""<section class="get-panel" aria-labelledby="get-the-app">
+      <h2 id="get-the-app">Life Dashboard Companion</h2>
+      <p>{text}</p>
+      <div class="stores">
+        {"".join(store_block(a) for a in apps)}
+      </div>
+      <p class="panel-btns">
+      {btns}
+      </p>
+      <p class="panel-note">{aside}</p>
+    </section>"""
+    if '<section class="faq">' in rest:
+        rest = rest.replace('<section class="faq">', panel + '\n\n<section class="faq">', 1)
+    else:
+        rest += "\n\n" + panel
+    first = buttons[0]
+    qa = [(strip_tags(q), strip_tags(a)) for q, a in re.findall(r"<summary>(.*?)</summary>\s*(.*?)</details>", rest, re.S)]
+    url = url_of(pid)
     graph = [
-        {"@type": "TechArticle", "headline": h1, "description": desc, "url": url, "inLanguage": lang,
-         "author": {"@id": f"{BASE}#owen"},
-         "about": [{"@type": "SoftwareApplication", "@id": f"{BASE}{i}", "name": ENTITY_NAME[i]} for i in GUIDE_ABOUT[slug]],
-         "datePublished": opt_meta(src, "published") or UPDATED, "dateModified": updated, "image": f"{BASE}img/social.png",
-         "isPartOf": {"@id": f"{BASE}#website"}},
-        breadcrumb(short, url),
-        ME, WEBSITE,
+        {"@type": "TechArticle", "@id": url + "#article", "headline": h1, "description": desc, "url": url,
+         "mainEntityOfPage": url, "inLanguage": LANGS[lang]["hreflang"],
+         "author": {"@id": f"{BASE}#owen"}, "publisher": {"@id": f"{DOMAIN}#org"},
+         "about": [{"@type": "SoftwareApplication", "@id": f"{BASE}{i}", "name": ENTITY_NAME[i]} for i in about],
+         "datePublished": published, "dateModified": updated, "image": f"{BASE}img/social.png",
+         "timeRequired": f"PT{minutes}M", "isPartOf": {"@id": f"{BASE}#website"}},
+        breadcrumb(("Life Dashboard", url_of("landing")), (t("nav.guides"), url_of("guides") if exists("guides", lang) else url_of("guides", "en")), (crumb, url)),
+        ME, ORG, WEBSITE,
     ]
-    if "#sleep-card" in GUIDE_ABOUT[slug]:
+    if "#sleep-card" in about:
         graph.append(ENTITIES["sleep-card"])
     if qa:
         graph.append(faq_entity(qa))
-    others = "\n          ".join(
-        f'<li><a href="{up}{g[0]}/"{" aria-current=\"page\"" if g[0] == slug else ""}>{g[1]}</a></li>' for g in GUIDES)
-    if lang != "en":
-        box = aside_de(up)
-    else:
-        # The iPhone guides lead the aside with the iPhone app. A guide about both phones shows
-        # both stores, Android first; every other guide shows the Android app.
-        if slug in dict(GUIDE_GROUPS)["iPhone"]:
-            apps = ["ios"]
-        elif "#ios" in GUIDE_ABOUT.get(slug, []):
-            apps = ["android", "ios"]
-        else:
-            apps = ["android"]
+    main = f"""{nav(LD, "guides", pid)}
 
-        def install(app):
-            lead = lead_item(app)
-            rest = [it for it in PARTS[app]["get"] if it is not lead]
-            alt = f'<p class="aside-alt">{alt_links(rest, up)}</p>'
-            if free_follows(app, lead):
-                alt = (f'<p class="aside-alt">{lead["pitch"]}</p>\n        '
-                       f'<p class="aside-alt">{PARTS[app]["free_line"]} {alt_links(rest, up)}</p>')
-            elif lead.get("pitch"):
-                alt = f'<p class="aside-alt">{lead["pitch"]}</p>'
-            return f"{lead_button(lead, up)}\n        {alt}"
-
-        if len(apps) == 2:
-            aside = ("The open-source apps this guide uses, for Android and iPhone. No account and no cloud."
-                     f' More about <a href="{up}android/">Android</a> and <a href="{up}ios/">iPhone</a>.')
-        else:
-            aside = ({"ios": "The open-source iPhone app this guide uses. No account, and the data goes only where you point it.",
-                      "android": "The open-source Android app this guide uses. No account and no cloud."}[apps[0]]
-                     + f' <a href="{up}{apps[0]}/">More about the app</a>.')
-        stores = '\n        <div class="aside-gap"></div>\n        '.join(install(a) for a in apps)
-        box = f"""<div class="box cta">
-        <h2>Life Dashboard Companion</h2>
-        <p>{aside}</p>
-        {stores}
-      </div>"""
-    english = "" if lang == "en" else ' lang="en"'
-    top, foot = nav(up), footer(up)
-    if english:
-        top = top.replace('<header class="nav">', f'<header class="nav"{english}>', 1)
-        foot = foot.replace('<footer class="footer">', f'<footer class="footer"{english}>', 1)
-    part_names = ui.get("parts", {})
-    main = f"""{top}
-
-<main id="main">
-  <div class="guide-hero"><div class="grid-bg"></div></div>
-  <div class="wrap guide-layout">
-    <article class="prose">
-      <nav class="crumbs" aria-label="Breadcrumb"><a href="{up}">Life Dashboard</a> / <span aria-current="page">{short}</span></nav>
-{body.strip()}
-    </article>
-    <aside class="aside">
-      {box}
-      <nav class="box" aria-label="{ui["guides"]}">
-        <h2>{ui["guides"]}</h2>
-        <ul{english}>
-          {others}
-        </ul>
-      </nav>
-      <div class="box">
-        <h2>{ui["products"]}</h2>
-        <ul>
-          {"".join(f'<li><a href="{up}{s}/">{part_names.get(s, PARTS[s]["name"])}</a></li>' for s in ORDER)}
-        </ul>
+<main id="main" class="guide">
+  <header class="guide-head">
+    <div class="grid-bg"></div>
+    <div class="wrap">
+      <nav class="crumbs" aria-label="{t("breadcrumb")}"><a href="{LD}">Life Dashboard</a><span aria-hidden="true">/</span><a href="{LD}guides/">{t("nav.guides")}</a><span aria-hidden="true">/</span><span aria-current="page">{crumb}</span></nav>
+      <h1>{h1_html}</h1>
+      <div class="guide-intro">
+{intro}
       </div>
-    </aside>
+      <p class="guide-meta"><span>{t("guide.byline")}</span> <span><time datetime="{updated}">{t("guide.updated", date=date_text(updated))}</time></span> <span>{t("guide.read_time", n=minutes)}</span></p>
+      <p class="guide-cta"><a class="btn btn-primary btn-store" href="{first[1]}">{first[2]}</a></p>
+    </div>
+  </header>
+  <div class="wrap guide-grid">
+    <nav class="toc" aria-labelledby="toc-title">
+      <h2 id="toc-title">{t("guide.toc")}</h2>
+      <ol>
+        {toc}
+      </ol>
+    </nav>
+    <article class="prose">
+{rest}
+    </article>
   </div>
+  {related_guides(pid)}
 </main>
 
-{foot}"""
-    out = OUT / slug
-    out.mkdir(parents=True, exist_ok=True)
-    head_html = head(title, desc, url, up, "article", h1, ld_json(graph), alternates(slug), ui["locale"])
-    (out / "index.html").write_text(placed(page(head_html, main, "Guide page of the Life Dashboard site.", lang), f"site-guide-{slug.replace('/', '-')}"))
-    print(f"guide {slug}: title {len(title)}, description {len(desc)}, faqs {len(qa)}")
+{footer(LD, pid)}"""
+    head_html = head(pid, title, desc, "article", h1, ld_json(graph))
+    emit(pid, lang, page(head_html, main, "Guide page of the Life Dashboard site."))
+    return f"guide {pid}: title {len(title)}, description {len(desc)}, faqs {len(qa)}"
 
-# ---------------------------------------------------------------------------------------------
-# Products
 
 def guide_card(g, prefix, compact=False):
     slug, name, tag, desc = next(x for x in GUIDES if x[0] == g)
     if compact:
         return f'<li><a class="guide-link" href="{prefix}{slug}/">{name}</a></li>'
     return (f'<a class="part" href="{prefix}{slug}/"><h3>{name}</h3>'
-            f'<p>{desc}</p><span class="go">Read the guide</span></a>')
+            f'<p>{desc}</p><span class="go">{t("read_guide")}</span></a>')
 
 
 def guide_groups(prefix):
     """The landing page's guides, under a few real headings instead of a tag per card."""
     listed = [s for _, slugs in GUIDE_GROUPS for s in slugs]
     missing = [g[0] for g in GUIDES if g[0] not in listed]
-    assert not missing and len(listed) == len(set(listed)), f"GUIDE_GROUPS: missing {missing} or a guide listed twice"
+    assert not missing and len(listed) == len(set(listed)), f"GROUPS: missing {missing} or a guide listed twice"
     cols = []
     for title, slugs in GUIDE_GROUPS:
         items = "".join(guide_card(s, prefix, compact=True) for s in slugs if s in GUIDE_NAMES)
@@ -1171,11 +1290,61 @@ def guide_groups(prefix):
     return '<div class="guide-groups">\n      ' + "\n      ".join(cols) + "\n    </div>"
 
 
+def build_index():
+    """/life-dashboard/guides/: every guide with its one-line description, under the same groups
+    as on the landing page. Made from strings.json alone."""
+    pid = "guides"
+    title, desc = t("index.title"), t("index.description")
+    PAGE_DATES[(pid, L)] = max(d for (p, l), d in PAGE_DATES.items() if p in GUIDE_IDS and l == L) if any(
+        p in GUIDE_IDS and l == L for p, l in PAGE_DATES) else UPDATED
+    groups = []
+    for (key, slugs), (name, _) in zip(GROUPS, GUIDE_GROUPS):
+        cards = "\n        ".join(guide_card(g, LD) for g in slugs)
+        groups.append(f"""<section class="index-group" aria-labelledby="g-{key}">
+      <h2 id="g-{key}">{name}</h2>
+      <div class="family three">
+        {cards}
+      </div>
+    </section>""")
+    url = url_of(pid)
+    graph = [{"@type": "CollectionPage", "@id": url, "url": url, "name": title, "description": desc,
+              "inLanguage": LANGS[L]["hreflang"], "isPartOf": {"@id": f"{BASE}#website"},
+              "mainEntity": {"@type": "ItemList", "itemListElement": [
+                  {"@type": "ListItem", "position": i, "name": g[1], "url": url_of(g[0]) if exists(g[0], L) else url_of(g[0], "en")}
+                  for i, g in enumerate(GUIDES, 1)]}},
+             breadcrumb(("Life Dashboard", url_of("landing")), (t("nav.guides"), url)), ME, ORG, WEBSITE]
+    main = f"""{nav(LD, "guides", pid)}
+
+<main id="main" class="guide">
+  <header class="guide-head index-head">
+    <div class="grid-bg"></div>
+    <div class="wrap">
+      <nav class="crumbs" aria-label="{t("breadcrumb")}"><a href="{LD}">Life Dashboard</a><span aria-hidden="true">/</span><span aria-current="page">{t("nav.guides")}</span></nav>
+      <h1>{t("index.h1")}</h1>
+      <div class="guide-intro"><p>{t("index.lead")}</p></div>
+    </div>
+  </header>
+  <div class="wrap index-groups">
+    {"".join(groups)}
+  </div>
+</main>
+
+{footer(LD, pid)}"""
+    emit(pid, L, page(head(pid, title, desc, "website", t("index.h1"), ld_json(graph)), main, "The guide index of the Life Dashboard site."))
+    return f"index: {len(GUIDES)} guides"
+
+# ---------------------------------------------------------------------------------------------
+# Products: i18n/<lang>/products/<slug>.json, one template.
+
 def build_product(slug):
-    d = json.loads(tokens((HERE / "products" / f"{slug}.json").read_text()))
+    d = json.loads(tokens(source(slug, L).read_text()))
+    # The ids of the sections come from the English page, so #get, #building and the like are
+    # the same in every language.
+    den = json.loads(source(slug, "en").read_text())
+    kickers = [x["kicker"] for x in (den if len(den["sections"]) == len(d["sections"]) else d)["sections"]]
     p = PARTS[slug]
-    url = f"{BASE}{slug}/"
-    prefix = "../"
+    url = url_of(slug)
+    prefix = LD
     lead = lead_item(slug)
     rest = [it for it in p["get"] if it is not lead]
     hero_kind = IMAGES[d["hero_image"]][0]
@@ -1219,7 +1388,7 @@ def build_product(slug):
         </ul>
         {link}"""
         if stack:
-            rows.append(f"""<div class="show stack" id="{slugify(s["kicker"])}">
+            rows.append(f"""<div class="show stack" id="{slugify(kickers[i])}">
       <div class="stack-text">
         <div>{label}<h2>{h2}</h2></div>
         <div>{body}</div>
@@ -1227,7 +1396,7 @@ def build_product(slug):
       {media}
     </div>""")
             continue
-        rows.append(f"""<div class="show{" flip" if i % 2 else ""}" id="{slugify(s["kicker"])}">
+        rows.append(f"""<div class="show{" flip" if i % 2 else ""}" id="{slugify(kickers[i])}">
       {media}
       <div>
         {label}<h2>{h2}</h2>
@@ -1237,27 +1406,21 @@ def build_product(slug):
     faq = "\n      ".join(f'<details{" id=" + chr(34) + f["id"] + chr(34) if f.get("id") else ""}{" open" if f.get("open") else ""}>\n        <summary>{html.escape(f["q"])}</summary>\n        <p>{f["a"]}</p>\n      </details>' for f in d["faq"])
     gl = d.get("guides", [])
     guides = "\n      ".join(guide_card(g, prefix) for g in gl)
-    single_label = {"ios": "The payload, step by step (the iPhone app sends the same JSON)",
-                    "grafana": "What the stack receives, step by step"}.get(slug, "Step by step")
-    single_guide = (f'<p class="faq-more">{single_label}: <a class="link-arrow" href="../{gl[0]}/">{GUIDE_NAMES[gl[0]]}</a></p>' if len(gl) == 1 else "")
+    single_label = t("product.single_" + slug) if slug in ("ios", "grafana") else t("product.single")
+    single_guide = (f'<p class="faq-more">{single_label}: <a class="link-arrow" href="{LD}{gl[0]}/">{GUIDE_NAMES[gl[0]]}</a></p>' if len(gl) == 1 else "")
     siblings = "\n      ".join(
-        f'<a class="part" href="../{s}/"><span class="part-ico">{svg(PARTS[s]["glyph"])}</span><h3>{PARTS[s]["full"]}</h3><p>{PARTS[s]["line"]}</p><span class="go">{PARTS[s]["more"]}</span></a>'
+        f'<a class="part" href="{LD}{s}/"><span class="part-ico">{svg(PARTS[s]["glyph"])}</span><h3>{PARTS[s]["full"]}</h3><p>{PARTS[s]["line"]}</p><span class="go">{PARTS[s]["more"]}</span></a>'
         for s in ORDER if s != slug)
-    works_with = {
-        "android": 'Sends to <a href="../home-assistant/">the Home Assistant integration</a>, <a href="../grafana/">the Grafana stack</a>, an MQTT broker or any webhook.',
-        "ios": 'Sends to <a href="../home-assistant/">the Home Assistant integration</a>, <a href="../grafana/">the Grafana stack</a>, an MQTT broker or any webhook.',
-        "home-assistant": 'Pairs with <a href="../android/">Life Dashboard Companion for Android</a> and <a href="../ios/">for iPhone</a>.',
-        "grafana": 'Receives from <a href="../android/">Life Dashboard Companion for Android</a> and <a href="../ios/">for iPhone</a>.',
-    }[slug]
+    works_with = t("product.works_with_" + ("app" if slug in ("android", "ios") else slug))
     # Listings elsewhere, each with its badge saved in img/badges/ like the store badges.
     listed = {
-        "android": '<p class="listed badges"><a class="badge-link" href="https://alternativeto.net/software/life-dashboard-companion/about/"><img class="badge-img" src="../img/badges/alternativeto.svg" alt="Life Dashboard Companion on AlternativeTo" width="229" height="77" loading="lazy"></a></p>',
+        "android": f'<p class="listed badges"><a class="badge-link" href="https://alternativeto.net/software/life-dashboard-companion/about/"><img class="badge-img" src="{LD}img/badges/alternativeto.svg" alt="{t("product.alternativeto")}" width="229" height="77" loading="lazy"></a></p>',
     }.get(slug, "")
     entity = ENTITIES[slug]
     compare = ""
     if d.get("compare"):
         c = d["compare"]
-        chead = "".join(f'<th scope="col">{h or "Feature"}</th>' for h in c["head"])
+        chead = "".join(f'<th scope="col">{h or t("feature")}</th>' for h in c["head"])
         cbody = "".join("<tr><th scope=\"row\">" + r[0] + "</th>" + "".join(f"<td>{x}</td>" for x in r[1:]) + "</tr>" for r in c["rows"])
         compare = f"""<section class="section tight" id="compare">
   <div class="wrap">
@@ -1274,24 +1437,23 @@ def build_product(slug):
         commands = (f'<div class="code-window"><div class="code-bar"><span>{ctitle}</span></div>'
                     f'<pre tabindex="0" role="region" aria-label="{ctitle}"><code>{html.escape(d["commands"]["code"])}</code></pre></div>'
                     f'<p class="fineprint">{d["commands"]["after"]}</p>')
-    graph = [breadcrumb(d["nav_name"], url),
+    graph = [breadcrumb(("Life Dashboard", url_of("landing")), (d["nav_name"], url)),
              {"@type": "WebPage", "@id": url, "url": url, "name": d["title"], "description": d["description"],
               "about": {"@id": f"{BASE}{ENTITY_ID[slug]}"}, "mainEntity": entity,
-              "isPartOf": WEBSITE, "inLanguage": "en", "dateModified": d.get("updated", UPDATED)},
-             faq_entity([(f["q"], strip_tags(f["a"])) for f in d["faq"]]), ME,
+              "isPartOf": {"@id": f"{BASE}#website"}, "inLanguage": LANGS[L]["hreflang"], "dateModified": d.get("updated", UPDATED)},
+             faq_entity([(f["q"], strip_tags(f["a"])) for f in d["faq"]]), ME, ORG, WEBSITE,
              {k: v for k, v in PROJECT.items() if k != "hasPart"}]
-    PAGE_DATES[f"{slug}/"] = d.get("updated", UPDATED)
+    PAGE_DATES[(slug, L)] = d.get("updated", UPDATED)
     guides_section = f"""<section class="section tight band">
   <div class="wrap">
-    <div class="section-head"><h2>Setup guides</h2></div>
+    <div class="section-head"><h2>{t("product.guides")}</h2></div>
     <div class="family{" three" if len(gl) in (3, 6) else ""}">
       {guides}
     </div>
   </div>
 </section>
 """ if len(gl) > 1 else ""
-    faq_title = {"android": "Questions about the Android app", "ios": "Questions about the iPhone app",
-                 "home-assistant": "Questions about the integration", "grafana": "Questions about the stack"}[slug]
+    faq_title = t("product.faq_" + slug)
     plain = [it for it in rest if not has_badge(it)]
     hero_alt = f'<p class="fineprint">{alt_links(plain, prefix)}</p>' if plain else ""
     # A badge-led part (HACS, Docker Compose) shows its badges in one row; the apps keep their
@@ -1302,7 +1464,7 @@ def build_product(slug):
         # Android: Google Play leads, its price and why under it, then the free routes.
         hero_top = (f'<div class="cta-row stores">\n        {badge(lead, prefix)}\n      </div>\n      '
                     f'<p class="fineprint">{lead["pitch"]} {p["free_line"]}</p>\n      {badge_row(rest, prefix)}')
-    main = f"""{nav(prefix, slug)}
+    main = f"""{nav(prefix, slug, slug)}
 
 <main id="main">
 
@@ -1310,7 +1472,7 @@ def build_product(slug):
   <div class="grid-bg"></div>
   <div class="wrap">
     <div>
-      <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">{d["nav_name"]}</span></nav>
+      <nav class="crumbs" aria-label="{t("breadcrumb")}"><a href="{LD}">Life Dashboard</a><span aria-hidden="true">/</span><span aria-current="page">{d["nav_name"]}</span></nav>
       <h1>{html.escape(d["h1"])}</h1>
       <p class="lead">{html.escape(d["lead"])}</p>
       {hero_top}
@@ -1325,7 +1487,7 @@ def build_product(slug):
 
 <section class="section tight band">
   <div class="wrap">
-    <h2 class="sr-only">What it does</h2>
+    <h2 class="sr-only">{t("product.what")}</h2>
     <div class="highlights">
         {highlights}
     </div>
@@ -1346,7 +1508,7 @@ def build_product(slug):
     <div class="get-split">
       {get_card(slug, prefix, req=False)}
       <div class="get-side">
-        <h3>What you need</h3>
+        <h3>{t("product.need")}</h3>
         <p>{d["requirements"]}</p>
         <p class="fineprint">{works_with}</p>
         {commands}
@@ -1371,7 +1533,7 @@ def build_product(slug):
 {guides_section}
 <section class="section tight">
   <div class="wrap">
-    <div class="section-head"><h2>The other parts</h2><p>Both apps send the same payload, so an Android phone and an iPhone can share one Home Assistant or one stack.</p></div>
+    <div class="section-head"><h2>{t("product.others")}</h2><p>{t("product.others_text")}</p></div>
     <div class="family three">
       {siblings}
     </div>
@@ -1380,15 +1542,13 @@ def build_product(slug):
 
 </main>
 
-{footer(prefix)}"""
-    out = OUT / slug
-    out.mkdir(exist_ok=True)
-    (out / "index.html").write_text(placed(page(head(d["title"], d["description"], url, prefix, "website", d["h1"], ld_json(graph)), main, f"Product page: {p['full']}."), f"site-{slug}"))
-    print(f"product {slug}: title {len(d['title'])}, description {len(d['description'])}, faqs {len(d['faq'])}")
+{footer(prefix, slug)}"""
+    emit(slug, L, page(head(slug, d["title"], d["description"], "website", d["h1"], ld_json(graph)), main, f"Product page: {ENTITY_BASE[slug]['name']}."))
+    return f"product {slug}: title {len(d['title'])}, description {len(d['description'])}, faqs {len(d['faq'])}"
 
 
 # ---------------------------------------------------------------------------------------------
-# Landing page, llms.txt, sitemap, checks
+# Landing page, the developer page, privacy, llms.txt, sitemap, checks
 
 def fill(src, name, content):
     pat = re.compile(rf"(<!-- BUILD:{name} -->).*?(<!-- /BUILD:{name} -->)", re.S)
@@ -1397,18 +1557,14 @@ def fill(src, name, content):
     return new
 
 
-PROOF = {
-    # Update when it changes; the numbers are floors, so they stay true.
-    "facts": [("45+", "Android releases since February 2026"), ("5", "outside contributors"), ("4", "parts, all MIT licensed")],
-    "projects": [
-        ("Health Assistant", "https://github.com/health-assistant-io/health-assistant",
-         "A self-hosted health record. Its webhook integration has a parser for the Life Dashboard payload and calls the app \u201cHighly Recommended for Android Users\u201d."),
-        ("HealthQuery", "https://github.com/nikira-studio/healthquery",
-         "A personal health dashboard in SQLite, with reports and an MCP server. Its data comes from Life Dashboard Companion."),
-        ("fitbridge", "https://github.com/x-senpai-x/fitbridge",
-         "Health Connect for ChatGPT and Claude, self-hosted on Cloudflare Workers. The app pairs with it by QR code and sends it signed updates."),
-    ],
-}
+# Projects that build on the payload; what each one is, in proof.projects.<name> of strings.json.
+PROOF_PROJECTS = [
+    ("Health Assistant", "https://github.com/health-assistant-io/health-assistant"),
+    ("HealthQuery", "https://github.com/nikira-studio/healthquery"),
+    ("fitbridge", "https://github.com/x-senpai-x/fitbridge"),
+]
+# Update when it changes; the numbers are floors, so they stay true.
+PROOF_FLOORS = [("45+", "releases"), ("5", "outside"), ("4", "parts")]
 
 
 def load_stats():
@@ -1421,7 +1577,6 @@ def load_stats():
 
 
 STATS = load_stats()
-STATS_NOTE = "Live from GitHub, updated every hour"
 
 
 def repo_stats(slug):
@@ -1429,34 +1584,33 @@ def repo_stats(slug):
     s = STATS and STATS["repos"].get(slug)
     if not s:
         return ""
-    words = [("stars", "star", "stars"), ("forks", "fork", "forks"), ("contributors", "contributor", "contributors")]
-    items = ", ".join(f"<b>{s[k]}</b> {one if s[k] == 1 else many}" for k, one, many in words if s[k])
+    items = ", ".join(f"<b>{s[k]}</b> {t(f'stats.{k}_one') if s[k] == 1 else t(f'stats.{k}')}"
+                      for k in ("stars", "forks", "contributors") if s[k])
     use = ""
     if s.get("active"):
-        use = f' <b>{s["active"]}</b> active installations in Home Assistant\u2019s opt-in analytics.'
+        use = " " + t("stats.active", n=s["active"])
     elif s.get("downloads") and slug == "home-assistant":
-        use = f' <b>{s["downloads"]}</b> downloads through the Marketplace and HACS.'
+        use = " " + t("stats.downloads_ha", n=s["downloads"])
     elif s.get("downloads") and slug == "grafana":
-        use = f' <b>{s["downloads"]}</b> pulls of the database image.'
-    return (f'<p class="repo-stats"><a href="https://github.com/{s["repo"]}">On GitHub</a>: {items}.{use} '
-            f'<span>Updated every hour.</span></p>')
+        use = " " + t("stats.downloads_stack", n=s["downloads"])
+    return (f'<p class="repo-stats"><a href="https://github.com/{s["repo"]}">{t("stats.on_github")}</a>: {items}.{use} '
+            f'<span>{t("stats.hourly")}</span></p>')
 
 
 def proof_section():
-    facts = PROOF["facts"]
+    facts = [(n, S(f"proof.facts.{k}")) for n, k in PROOF_FLOORS]
     if STATS:
-        facts = [(STATS["stars"], "stars on GitHub across the four repos"),
-                 (STATS["contributors"], "contributors"),
-                 (STATS["repos"]["android"]["releases"], "Android releases since February 2026"), facts[2]]
-    note = f'\n    <p class="stats-note">{STATS_NOTE}.</p>' if STATS else ""
-    facts = "".join(f"<li><b>{n}</b> {t}</li>" for n, t in facts)
+        facts = [(STATS["stars"], t("proof.stars")), (STATS["contributors"], t("proof.contributors")),
+                 (STATS["repos"]["android"]["releases"], S("proof.facts.releases")), facts[2]]
+    note = f'\n    <p class="stats-note">{t("proof.live")}</p>' if STATS else ""
+    facts = "".join(f"<li><b>{n}</b> {text}</li>" for n, text in facts)
     cards = "\n      ".join(
-        f'<a class="part proj" href="{u}"><span class="tag">Built on it</span><h3>{n}</h3><p>{d}</p><span class="go">On GitHub</span></a>'
-        for n, u, d in PROOF["projects"])
-    cards += (f'\n      <a class="part proj-cta" href="{REPO}/discussions"><span class="tag">Your project</span><h3>Built something on the payload?</h3>'
-              f'<p>Tell me in Discussions, and it can join this list.</p><span class="go">Open Discussions</span></a>')
+        f'<a class="part proj" href="{u}"><span class="tag">{t("proof.built_on")}</span><h3>{n}</h3><p>{S("proof.projects." + n)}</p><span class="go">{t("stats.on_github")}</span></a>'
+        for n, u in PROOF_PROJECTS)
+    cards += (f'\n      <a class="part proj-cta" href="{REPO}/discussions"><span class="tag">{t("proof.yours_tag")}</span><h3>{t("proof.yours_title")}</h3>'
+              f'<p>{t("proof.yours_text")}</p><span class="go">{t("proof.yours_go")}</span></a>')
     return f"""<div class="section-head">
-      <h2>Other open-source projects build on it</h2>
+      <h2>{t("proof.title")}</h2>
     </div>
     <ul class="proof-facts">{facts}</ul>{note}
     <div class="family">
@@ -1464,37 +1618,179 @@ def proof_section():
     </div>"""
 
 
+def page_source(pid):
+    return tokens(source(pid, L).read_text())
+
+
 def build_landing():
-    p = OUT / "index.html"
-    src = p.read_text()
-    src = fill(src, "nav", nav(""))
+    pid = "landing"
+    raw = page_source(pid)
+    src = body_of(raw)
+    PAGE_DATES[(pid, L)] = opt_meta(raw, "updated") or UPDATED
     src = fill(src, "proof", proof_section())
-    src = fill(src, "guides", guide_groups(""))
-    src = fill(src, "parts", parts_strip(""))
-    src = fill(src, "hero-stores", hero_stores(""))
-    src = fill(src, "get", get_section(""))
+    src = fill(src, "guides", guide_groups(LD))
+    src = fill(src, "parts", parts_strip(LD))
+    src = fill(src, "hero-stores", hero_stores(LD))
+    src = fill(src, "get", get_section(LD))
     if "<!-- BUILD:faq-get -->" in src:
-        src = fill(src, "faq-get", f"<p>The Android app: {STATUS_TEXT['android']} The iPhone app: {STATUS_TEXT['ios']} The <a href=\"#get\">install section</a> lists every option.</p>")
-    src = fill(src, "footer", footer(""))
+        src = fill(src, "faq-get", f"<p>{t('landing.faq_get', android=STATUS_TEXT['android'], ios=STATUS_TEXT['ios'])}</p>")
     faq = src[src.index('id="faq"'):]
     qa = [(strip_tags(q), strip_tags(a)) for q, a in re.findall(r"<summary>(.*?)</summary>\s*(.*?)</details>", faq, re.S)]
-    graph = [WEBSITE, ME, PROJECT] + [ENTITIES[s] for s in ORDER] + [ENTITIES["sleep-card"], SOURCE_CODE, faq_entity(qa)]
-    src = fill(src, "ld", f'<script type="application/ld+json">\n{ld_json(graph)}\n</script>')
-    p.write_text(placed(src, "site-landing"))
-    print(f"landing: faqs {len(qa)}")
+    graph = [WEBSITE, ME, ORG, PROJECT] + [ENTITIES[s] for s in ORDER] + [ENTITIES["sleep-card"], SOURCE_CODE, faq_entity(qa),
+                                                                             breadcrumb(("Life Dashboard", url_of(pid)))]
+    main = f"""{nav(LD, "landing", pid)}
+
+<main id="main">
+{src.strip()}
+</main>
+
+{footer(LD, pid)}"""
+    head_html = head(pid, meta(raw, "title"), meta(raw, "description"), "website", opt_meta(raw, "og_title"), ld_json(graph),
+                     opt_meta(raw, "og_description"), opt_meta(raw, "og_image_alt"))
+    emit(pid, L, page(head_html, main, "Landing page of Life Dashboard."))
+    return f"landing: faqs {len(qa)}"
 
 
 def build_hub():
-    """The domain root is a hand-written developer page; it only needs to exist."""
-    assert (SITE / "index.html").exists(), "site/index.html (the developer page) is missing"
+    """The domain root: the developer page, with a card per product."""
+    pid = "hub"
+    raw = page_source(pid)
+    PAGE_DATES[(pid, L)] = opt_meta(raw, "updated") or UPDATED
+    url = url_of(pid)
+    graph = [{"@type": "WebSite", "@id": f"{DOMAIN}#website", "url": DOMAIN, "name": "Owen Vogelaar",
+              "inLanguage": [m["hreflang"] for m in LANGS.values()], "publisher": {"@id": f"{DOMAIN}#org"}},
+             {"@type": "ProfilePage", "@id": url, "url": url, "name": meta(raw, "title"), "inLanguage": LANGS[L]["hreflang"],
+              "mainEntity": {"@id": f"{BASE}#owen"}, "isPartOf": {"@id": f"{DOMAIN}#website"}},
+             ME, ORG,
+             {"@type": "ItemList", "name": t("hub.list"), "itemListElement": [
+                 {"@type": "ListItem", "position": 1, "url": url_of("landing") if exists("landing", L) else url_of("landing", "en"), "name": "Life Dashboard"}]}]
+    main = f"""{small_nav(pid)}
+
+<main id="main">
+{body_of(raw).strip()}
+</main>
+
+{small_footer(pid)}"""
+    head_html = head(pid, meta(raw, "title"), meta(raw, "description"), "website", opt_meta(raw, "og_title"), ld_json(graph),
+                     opt_meta(raw, "og_description"), opt_meta(raw, "og_image_alt") or t("hub.og_image_alt"), owner=True)
+    emit(pid, L, page(head_html, main, "The root of owen282000.com: a small developer page with a card per product."))
+    return "hub"
+
+
+def build_privacy():
+    """The privacy notice of the website itself."""
+    pid = "privacy"
+    raw = page_source(pid)
+    updated = opt_meta(raw, "updated") or UPDATED
+    PAGE_DATES[(pid, L)] = updated
+    url = url_of(pid)
+    graph = [{"@type": "WebPage", "@id": url, "url": url, "name": meta(raw, "title"), "inLanguage": LANGS[L]["hreflang"],
+              "dateModified": updated, "isPartOf": {"@id": f"{DOMAIN}#website"}, "publisher": {"@id": f"{DOMAIN}#org"}}, ORG]
+    main = f"""{small_nav(pid)}
+
+<main id="main" class="wrap plain-page">
+  <article class="prose">
+{body_of(raw).strip()}
+    <p class="byline"><time datetime="{updated}">{t("last_updated", date=date_text(updated))}</time></p>
+  </article>
+</main>
+
+{small_footer(pid)}"""
+    head_html = head(pid, meta(raw, "title"), meta(raw, "description"), "website", None, ld_json(graph), owner=True)
+    emit(pid, L, page(head_html, main, "Privacy notice for the website owen282000.com itself. The apps have their own policies."))
+    return "privacy"
+
+
+IOS_PRIVACY_STYLE = """<style>
+  :root { --bg: #F6F8F7; --card: #FFFFFF; --text: #14181C; --muted: #4B5860; --link: #166534; --line: #DDE3E0; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #14181C; --card: #1B2126; --text: #E6EDF0; --muted: #9AA7B0; --link: #30B77E; --line: #2A3238; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+         font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; padding: 32px 16px 48px; }
+  main { max-width: 720px; margin: 0 auto; }
+  h1 { font-size: 1.6rem; line-height: 1.25; margin: 0 0 4px; }
+  h2 { font-size: 1.1rem; margin: 0 0 6px; }
+  p { margin: 0 0 12px; }
+  p:last-child { margin-bottom: 0; }
+  section { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; margin: 14px 0; }
+  .muted { color: var(--muted); }
+  .lead { font-size: 1.05rem; margin: 18px 0; }
+  a { color: var(--link); }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .92em; }
+  footer { margin-top: 24px; font-size: .9rem; }
+  .lang-row { margin-top: 12px; }
+  .lang-row a { margin-right: 10px; }
+  .lang-row a[aria-current] { color: var(--text); font-weight: 700; text-decoration: none; }
+</style>"""
+
+
+def build_ios_privacy():
+    """The iPhone app's privacy policy, at the fixed address App Store Connect and the app link
+    to. It stands alone: its own small style block, no stylesheet, no images, no requests."""
+    pid = "ios-privacy"
+    raw = page_source(pid)
+    PAGE_DATES[(pid, L)] = opt_meta(raw, "updated") or UPDATED
+    hreflang = "".join(f'\n<link rel="alternate" hreflang="{h}" href="{u}">' for h, u in alternates(pid))
+    doc = f"""<!DOCTYPE html>
+<!-- The privacy policy of Life Dashboard Companion for iPhone. Generated by tools/site/build.py: edit the source there, not this file. -->
+<html lang="{LANGS[L]["hreflang"]}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="{html.escape(meta(raw, "description"))}">
+<title>{html.escape(meta(raw, "title"))}</title>
+<link rel="canonical" href="{url_of(pid)}">{hreflang}
+<meta name="robots" content="max-image-preview:large">
+{IOS_PRIVACY_STYLE}
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+</head>
+<body>
+<main>
+{body_of(raw).strip()}
+{lang_row(pid)}
+</main>
+</body>
+</html>
+"""
+    emit(pid, L, doc)
+    return "ios-privacy"
 
 
 def build_404():
-    p = SITE / "404.html"
-    pages = [("/life-dashboard/", "Life Dashboard")] + [(f"/life-dashboard/{s}/", PARTS[s]["name"]) for s in ORDER] \
-        + [(f"/life-dashboard/{g[0]}/", g[1]) for g in GUIDES] + [("/", "Owen Vogelaar, the developer page"), ("/privacy/", "Privacy")]
+    """Served for any missing path (deploy/Caddyfile). English only."""
+    raw = (I18N / "en" / "pages" / "not-found.html").read_text()
+    pages = [(LD, "Life Dashboard")] + [(f"{LD}{s}/", PARTS[s]["name"]) for s in ORDER] + [(f"{LD}guides/", t("index.h1"))] \
+        + [(f"{LD}{g[0]}/", g[1]) for g in GUIDES] + [("/", "Owen Vogelaar, the developer page"), ("/privacy/", "Privacy")]
     items = "\n".join(f'      <li><a href="{u}">{html.escape(n)}</a></li>' for u, n in pages)
-    p.write_text(fill(p.read_text(), "pages", f'<ul class="ticks page-list">\n{items}\n    </ul>'))
+    body = fill(body_of(raw), "pages", f'<ul class="ticks page-list">\n{items}\n    </ul>')
+    doc = f"""<!DOCTYPE html>
+<!-- Served for any missing path on owen282000.com (see deploy/Caddyfile). Generated by tools/site/build.py. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="light dark">
+<title>{meta(raw, "title")}</title>
+<link rel="icon" type="image/png" sizes="32x32" href="{LD}img/icon-32.png">
+<link rel="stylesheet" href="{LD}site.css">
+</head>
+<body>
+<a class="skip" href="#main">{t("skip")}</a>
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="{LD}"><img class="mark" src="{LD}img/icon-96.webp" alt="" width="34" height="34"> Life Dashboard</a>
+  </div>
+</header>
+{body.strip()}
+</body>
+</html>
+"""
+    (SITE / "404.html").write_text(localize(doc, "hub", "en"))
 
 
 FEEDBACK_BOARD = "https://lifedashboard.userjot.com/"
@@ -1520,86 +1816,213 @@ def build_feedback():
 
 
 def build_llms():
+    """llms.txt stays one English file at the root and under /life-dashboard/: assistants ask for
+    it there, and the proposal has no per-language variant. It names the translations."""
     text = tokens((HERE / "llms.txt.in").read_text())
     for p in (SITE / "llms.txt", OUT / "llms.txt"):
         p.write_text(text)
 
 
 def build_sitemap():
-    urls = [("", max(PAGE_DATES.values()))] + [(f"{s}/", PAGE_DATES[f"{s}/"]) for s in ORDER] + [(f"{g[0]}/", PAGE_DATES[f"{g[0]}/"]) for g in GUIDES] + [(f"{t['slug']}/", PAGE_DATES[f"{t['slug']}/"]) for t in TRANSLATIONS] + [("ios/privacy/", "2026-10-18")]
-    lines = f"  <url><loc>{DOMAIN}</loc><lastmod>{UPDATED}</lastmod></url>\n  <url><loc>{DOMAIN}privacy/</loc><lastmod>{UPDATED}</lastmod></url>\n" + "\n".join(f"  <url><loc>{BASE}{u}</loc><lastmod>{d}</lastmod></url>" for u, d in urls)
-    (SITE / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{lines}\n</urlset>\n')
+    """Every page in every language, each with its lastmod and the same xhtml:link alternates as
+    its <head>. <lastmod> follows <loc> directly: indexnow.py reads the pair."""
+    order = ["hub", "privacy", "landing"] + ORDER + ["guides"] + GUIDE_IDS + ["ios-privacy"]
+    rows = []
+    for lang in LANGS:
+        for pid in order:
+            if (pid, lang) not in BUILT:
+                continue
+            links = "".join(f'<xhtml:link rel="alternate" hreflang="{h}" href="{u}"/>' for h, u in alternates(pid))
+            rows.append(f"  <url><loc>{url_of(pid, lang)}</loc><lastmod>{PAGE_DATES[(pid, lang)]}</lastmod>{links}</url>")
+    (SITE / "sitemap.xml").write_text(
+        '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
+        'xmlns:xhtml="http://www.w3.org/1999/xhtml">\n' + "\n".join(rows) + "\n</urlset>\n")
 
 
-def version_css():
-    """Every page links site.css and its images with a hash of their content, so a changed stylesheet or badge is a new URL:
-    Cloudflare and browsers keep the old one for a week otherwise (Cache-Control in the Caddyfile)."""
-    v = hashlib.sha256((OUT / "site.css").read_bytes()).hexdigest()[:8]
+# ---------------------------------------------------------------------------------------------
+# Checks
 
-    def local(f, m):
-        img = (f.parent / m.group(2)).resolve()
-        return f'{m.group(1)}?v={hashlib.sha256(img.read_bytes()).hexdigest()[:8]}"' if img.is_file() else m.group(0)
+def structure(pid, lang):
+    """What a translation must leave exactly as the English page has it: code, screenshots,
+    tables and the fields of a product page that are not prose."""
+    src = source(pid, lang).read_text()
+    if pid in ORDER:
+        d = json.loads(src)
+        return {"hero_image": d.get("hero_image"), "updated": d.get("updated"), "guides": d.get("guides"),
+                "sections": [(x.get("image"), x.get("image2"), (x.get("code") or {}).get("code"), len(x["bullets"]),
+                              (x.get("link") or {}).get("href")) for x in d["sections"]],
+                "highlights": len(d["highlights"]), "faq": [(f.get("id"), f.get("open")) for f in d["faq"]],
+                "commands": (d.get("commands") or {}).get("code"),
+                "compare": [len(r) for r in d["compare"]["rows"]] if d.get("compare") else None}
+    body = body_of(src)
+    return {"code blocks": re.findall(r"<pre><code>(.*?)</code></pre>", body, re.S) if pid != "landing" else len(re.findall(r"<pre", body)),
+            "screenshots": re.findall(IMG_MARK, body) + re.findall(r'<img[^>]* src="([^"]+)"', body),
+            "tables": [len(re.findall(r"<tr>", x)) for x in re.findall(r"<table>.*?</table>", body, re.S)],
+            "markers": re.findall(r"<!-- BUILD:([\w-]+) -->", body),
+            "ids": sorted(re.findall(r'\bid="([^"]+)"', body)),
+            "inline code": len(re.findall(r"<code>", body)),
+            "links to pages of this site": sorted(h for h in re.findall(r'href="([^"]+)"', body) if not h.startswith(("#", "http", "mailto:")))}
 
-    for f in SITE.rglob("*.html"):
-        t = f.read_text()
-        n = re.sub(r'(href="[^"]*site\.css)(\?v=[0-9a-f]+)?"', rf'\1?v={v}"', t)
-        n = re.sub(r'((?:href|src|srcset)="((?:\.\./)*img/[^"?]+))(\?v=[0-9a-f]+)?"', lambda m: local(f, m), n)
-        # The developer page's own images and favicon, linked from the root, get the same treatment.
-        n = re.sub(r'((?:href|src)="(/img/[^"?]+|/favicon\.ico))(\?v=[0-9a-f]+)?"',
-                   lambda m: f'{m.group(1)}?v={hashlib.sha256((SITE / m.group(2).lstrip("/")).read_bytes()).hexdigest()[:8]}"', n)
-        if n != t:
-            f.write_text(n)
 
-
-def check():
-    """Refuse a site that says a live store is still coming, or contains a dash we never use."""
-    live = {it["id"] for s in ORDER for it in PARTS[s]["get"] if it["status"] == "live"}
-    files = list(OUT.rglob("*.html")) + [SITE / "llms.txt", SITE / "index.html"]
-    problems = []
+def check(strict=()):
+    """Refuse a site that says a live store is still coming, contains a dash we never use, or
+    whose languages don't fit together: hreflang that isn't mutual, a translated page that
+    links to an English page although its translation exists, a fragment that leads nowhere,
+    a title or description used twice. For the languages in `strict` (those marked complete in
+    lang.json, or named with --strict) also: a page or string that is still missing, and a
+    translation whose code, screenshots or tables differ from the English page."""
+    live = {it["id"] for s in ORDER for it in PARTS_BASE[s]["get"] if it["status"] == "live"}
+    files = [f for f in SITE.rglob("*.html")] + [SITE / "llms.txt"]
+    problems, notes = [], []
+    rel = lambda f: str(f.relative_to(ROOT))
     for f in files:
-        t = f.read_text()
+        text = f.read_text()
         for store, phrases in STALE.items():
             if store in live:
-                problems += [f"{f.relative_to(ROOT)}: says '{ph}' but {store} is live" for ph in phrases if ph in t]
+                problems += [f"{rel(f)}: says '{ph}' but {store} is live" for ph in phrases if ph in text]
         for token in (PLACE, "{{play_url}}", "{{status:"):
-            if token in t:
-                problems.append(f"{f.relative_to(ROOT)}: still says {token}")
-        if "\u2014" in t or "\u2013" in t:
-            problems.append(f"{f.relative_to(ROOT)}: contains an em or en dash")
+            if token in text:
+                problems.append(f"{rel(f)}: still says {token}")
+        if "—" in text or "–" in text:
+            problems.append(f"{rel(f)}: contains an em or en dash")
+        # Every page with the navigation bar gets a skip link past it.
+        if '<header class="nav"' in text and ('class="skip" href="#main"' not in text or 'id="main"' not in text):
+            problems.append(f"{rel(f)}: needs the skip link and id=\"main\"")
     # Every badge is shown, linked or as "Coming soon", so every file must be there.
-    problems += [f"img/badges/{b[0]} is missing" for b in BADGES.values() if not (OUT / "img" / "badges" / b[0]).exists()]
-    # Every page with the navigation bar gets a skip link past it.
-    for f in [SITE / "404.html", SITE / "index.html"] + list(OUT.rglob("*.html")):
-        t = f.read_text()
-        if '<header class="nav"' in t and ('class="skip" href="#main"' not in t or 'id="main"' not in t):
-            problems.append(f"{f.relative_to(ROOT)}: needs the skip link and id=\"main\"")
+    problems += [f"img/badges/{b[0]} is missing" for b in BADGE_FILES.values() if not (OUT / "img" / "badges" / b[0]).exists()]
     # The IndexNow key (indexnow.py): one file in site/ that holds its own name, served at the root.
     if len([f for f in SITE.glob("*.txt") if f.read_text().strip() == f.stem]) != 1:
         problems.append("site/ needs exactly one IndexNow key file, <key>.txt holding <key>")
     llms = (SITE / "llms.txt").read_text()
-    problems += [f"llms.txt: the guide {g} is missing" for g in [g[0] for g in GUIDES] + [t["slug"] for t in TRANSLATIONS] if f"{BASE}{g}/" not in llms]
-    # A translation and its English guide name each other, both ways, or search engines ignore the pair.
-    for t in TRANSLATIONS:
-        for a, b in ((t["slug"], t["en"]), (t["en"], t["slug"])):
-            if f'hreflang="{t["lang"] if b == t["slug"] else "en"}" href="{BASE}{b}/"' not in (OUT / a / "index.html").read_text():
-                problems.append(f"{a}: no hreflang link to {b}")
+    problems += [f"llms.txt: the guide {g} is missing" for g in GUIDE_IDS if f"{BASE}{g}/" not in llms]
+
+    # --- languages
+    docs = {key: f.read_text() for key, f in BUILT.items()}
+    by_path = {"/" + path_of(pid, lang): (pid, lang) for pid, lang in BUILT}
+    seen_title, seen_desc = {}, {}
+    for (pid, lang), doc in docs.items():
+        name = f"{lang}:{pid}"
+        own = url_of(pid, lang)
+        if f'<html lang="{LANGS[lang]["hreflang"]}">' not in doc:
+            problems.append(f"{name}: <html lang> is not {LANGS[lang]['hreflang']}")
+        if f'<link rel="canonical" href="{own}">' not in doc:
+            problems.append(f"{name}: the canonical is not the page itself")
+        # hreflang: itself, x-default, and every page it names names it back
+        alts = re.findall(r'<link rel="alternate" hreflang="([^"]+)" href="([^"]+)">', doc)
+        if alts != alternates(pid):
+            problems.append(f"{name}: hreflang links are {alts}, expected {alternates(pid)}")
+        if alts and ((LANGS[lang]["hreflang"], own) not in alts or not any(h == "x-default" for h, _ in alts)):
+            problems.append(f"{name}: hreflang needs the page itself and x-default")
+        for h, u in alts:
+            target = by_path.get("/" + u[len(DOMAIN):])
+            if not target:
+                problems.append(f"{name}: hreflang {h} points at {u}, which is not built")
+            elif f'href="{own}">' not in "".join(re.findall(r'<link rel="alternate"[^>]+>', docs[target])):
+                problems.append(f"{name}: hreflang is not mutual, {u} does not link back")
+        # titles and descriptions: one of each on the whole site
+        title = re.search(r"<title>(.*?)</title>", doc, re.S).group(1)
+        desc = re.search(r'<meta name="description" content="(.*?)">', doc, re.S).group(1)
+        for seen, val, what in ((seen_title, title, "title"), (seen_desc, desc, "description")):
+            if val in seen:
+                problems.append(f"{name}: the same {what} as {seen[val]}")
+            seen[val] = name
+        if lang != "en" and (len(html.unescape(title)) > 65 or len(html.unescape(desc)) > 165):
+            notes.append(f"{name}: title {len(html.unescape(title))}, description {len(html.unescape(desc))} characters (aim for 60 and 160)")
+        # links in the page itself (not the <head>, not the JSON-LD)
+        body = doc[doc.index("</head>"):]
+        ids = set(re.findall(r'\bid="([^"]+)"', body))
+        for tag, href in re.findall(r'(<a\b[^>]*\bhref="([^"]*)"[^>]*>)', body):
+            if ' lang="' in tag:   # the language menu: the same page in another language
+                continue
+            if href.startswith(DOMAIN):
+                href = "/" + href[len(DOMAIN):]
+            if href.startswith("#"):
+                if href[1:] and href[1:] not in ids:
+                    problems.append(f"{name}: links to {href}, which is not on the page")
+                continue
+            if not href.startswith("/"):
+                continue
+            path, _, frag = href.partition("#")
+            path = path.split("?")[0]
+            if lang != "en" and path in EN_PATH_TO_ID and exists(EN_PATH_TO_ID[path], lang):
+                problems.append(f"{name}: links to the English {path} although /{path_of(EN_PATH_TO_ID[path], lang)} exists")
+            if frag and path in by_path and f'id="{frag}"' not in docs[by_path[path]]:
+                problems.append(f"{name}: links to {href}, but that page has no #{frag}")
+    slugs = [path_of(pid, lang) for pid, lang in BUILT]
+    problems += [f"two pages share the address /{p}" for p in set(slugs) if slugs.count(p) > 1]
+
+    # --- completeness, for a language that is marked complete or named with --strict
+    for lang in LANGS:
+        if lang == "en":
+            continue
+        todo = [pid for pid in PAGES if not exists(pid, lang)]
+        own = []
+        for pid in PAGES:
+            if not exists(pid, lang) or pid == "guides":
+                continue
+            src = source(pid, lang).read_text()
+            en = source(pid, "en").read_text()
+            if opt_meta(src, "structure") != "own" and structure(pid, lang) != structure(pid, "en"):
+                a, b = structure(pid, lang), structure(pid, "en")
+                own.append(f"{lang}:{pid}: differs from the English page in {', '.join(k for k in a if a[k] != b[k])}")
+            if pid not in ORDER and (opt_meta(src, "title") == opt_meta(en, "title") or opt_meta(src, "description") == opt_meta(en, "description")):
+                own.append(f"{lang}:{pid}: the title or description is still the English one")
+        missing = sorted(MISSING[lang]) if lang in STRINGS else ["strings.json"]
+        if lang in strict:
+            problems += [f"{lang}: the page {pid} is not translated ({source(pid, lang).relative_to(ROOT) if source(pid, lang) else 'ui.index in strings.json'})" for pid in todo]
+            problems += [f"{lang}: strings.json lacks {k}" for k in missing]
+            problems += own
+        else:
+            notes.append(f"{lang}: still to translate: {len(todo)} of {len(PAGES)} pages, {len(missing)} strings"
+                         + (f", {len(own)} pages that differ from the English structure" if own else "")
+                         + f" (python3 tools/site/build.py --strict {lang} lists them)")
+    for n in notes:
+        print("note:", n)
     if problems:
         sys.exit("build check failed:\n  " + "\n  ".join(problems))
 
 
-if __name__ == "__main__":
+def build_language(lang):
+    activate(lang)
+    out = []
     for s in ORDER:
-        build_product(s)
-    build_hub()
-    for g in GUIDES:
-        build_guide(g[0], g[1])
-    for t in TRANSLATIONS:
-        build_guide(t["slug"], t["short"], t["lang"])
-    build_landing()
+        if exists(s, lang):
+            out.append(build_product(s))
+    for g in GUIDE_IDS:
+        if exists(g, lang):
+            out.append(build_guide(g))
+    if exists("guides", lang):
+        out.append(build_index())
+    for pid, fn in (("landing", build_landing), ("hub", build_hub), ("privacy", build_privacy), ("ios-privacy", build_ios_privacy)):
+        if exists(pid, lang):
+            out.append(fn())
+    return out
+
+
+if __name__ == "__main__":
+    args = sys.argv[1:]
+    strict = {c for c, m in LANGS.items() if m.get("complete") and c != "en"}
+    if "--strict" in args:
+        named = [a for a in args[args.index("--strict") + 1:] if not a.startswith("-")]
+        named = [c for a in named for c in a.split(",")]
+        unknown = [c for c in named if c not in LANGS]
+        if unknown:
+            sys.exit(f"--strict: no such language {unknown}; there are {list(LANGS)}")
+        strict |= set(named) if named else {c for c in LANGS if c != "en"}
+    # A translation's pages are generated in full, so its folder starts empty every time.
+    for m in LANGS.values():
+        if m["dir"] and (SITE / m["dir"]).exists():
+            shutil.rmtree(SITE / m["dir"])
+    for lang in LANGS:
+        lines = build_language(lang)
+        if lang == "en":
+            print("\n".join(lines))
+        else:
+            print(f"{lang}: {len(lines)} pages")
+    activate("en")
     build_404()
     build_feedback()
     build_llms()
     build_sitemap()
-    version_css()
-    check()
+    check(strict)
     print("ok")

@@ -8,11 +8,14 @@
 <meta name="description" content="Four iPhone apps that send Apple Health to Home Assistant, side by side: price, subscription, what arrives as sensors, history, workouts and open source.">
 <link rel="canonical" href="https://owen282000.com/life-dashboard/apple-health-home-assistant-apps/">
 <meta name="robots" content="max-image-preview:large">
-<meta name="theme-color" content="#101418">
-<link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png?v=355467f5">
-<link rel="apple-touch-icon" href="../img/icon-180.png?v=e1842852">
-<link rel="stylesheet" href="../site.css?v=0724c4a5">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F7F9F8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#101418" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/png" sizes="32x32" href="/life-dashboard/img/icon-32.png?v=355467f5">
+<link rel="apple-touch-icon" href="/life-dashboard/img/icon-180.png?v=e1842852">
+<link rel="stylesheet" href="/life-dashboard/site.css?v=f9587ceb">
 <meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="Which app gets Apple Health into Home Assistant?">
 <meta property="og:description" content="Four iPhone apps that send Apple Health to Home Assistant, side by side: price, subscription, what arrives as sensors, history, workouts and open source.">
@@ -22,18 +25,27 @@
 <meta property="og:image:height" content="640">
 <meta property="og:image:alt" content="Life Dashboard Companion: your health data, your server. No cloud.">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Which app gets Apple Health into Home Assistant?">
+<meta name="twitter:description" content="Four iPhone apps that send Apple Health to Home Assistant, side by side: price, subscription, what arrives as sensors, history, workouts and open source.">
+<meta name="twitter:image" content="https://owen282000.com/life-dashboard/img/social.png">
+<meta name="twitter:image:alt" content="Life Dashboard Companion: your health data, your server. No cloud.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@graph": [
     {
       "@type": "TechArticle",
+      "@id": "https://owen282000.com/life-dashboard/apple-health-home-assistant-apps/#article",
       "headline": "Which app gets Apple Health into Home Assistant?",
       "description": "Four iPhone apps that send Apple Health to Home Assistant, side by side: price, subscription, what arrives as sensors, history, workouts and open source.",
       "url": "https://owen282000.com/life-dashboard/apple-health-home-assistant-apps/",
+      "mainEntityOfPage": "https://owen282000.com/life-dashboard/apple-health-home-assistant-apps/",
       "inLanguage": "en",
       "author": {
         "@id": "https://owen282000.com/life-dashboard/#owen"
+      },
+      "publisher": {
+        "@id": "https://owen282000.com/#org"
       },
       "about": [
         {
@@ -50,6 +62,7 @@
       "datePublished": "2026-11-20",
       "dateModified": "2026-11-20",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
+      "timeRequired": "PT9M",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
       }
@@ -60,12 +73,24 @@
         {
           "@type": "ListItem",
           "position": 1,
+          "name": "Owen Vogelaar",
+          "item": "https://owen282000.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
           "name": "Life Dashboard",
           "item": "https://owen282000.com/life-dashboard/"
         },
         {
           "@type": "ListItem",
-          "position": 2,
+          "position": 3,
+          "name": "Guides",
+          "item": "https://owen282000.com/life-dashboard/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
           "name": "Apple Health in Home Assistant: four apps compared",
           "item": "https://owen282000.com/life-dashboard/apple-health-home-assistant-apps/"
         }
@@ -78,6 +103,23 @@
       "url": "https://owen282000.com/",
       "sameAs": [
         "https://github.com/owen282000"
+      ],
+      "worksFor": {
+        "@id": "https://owen282000.com/#org"
+      }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://owen282000.com/#org",
+      "name": "oVog Enterprise",
+      "url": "https://owen282000.com/",
+      "logo": "https://owen282000.com/img/ov-180.png",
+      "email": "owen282000@hotmail.com",
+      "founder": {
+        "@id": "https://owen282000.com/life-dashboard/#owen"
+      },
+      "sameAs": [
+        "https://github.com/owen282000"
       ]
     },
     {
@@ -85,7 +127,17 @@
       "@id": "https://owen282000.com/life-dashboard/#website",
       "url": "https://owen282000.com/life-dashboard/",
       "name": "Life Dashboard",
-      "inLanguage": "en"
+      "inLanguage": [
+        "en",
+        "nl",
+        "de",
+        "fr",
+        "es",
+        "pt-BR"
+      ],
+      "publisher": {
+        "@id": "https://owen282000.com/#org"
+      }
     },
     {
       "@type": "FAQPage",
@@ -149,41 +201,60 @@
 
 <header class="nav">
   <div class="wrap">
-    <a class="brand" href="../" aria-label="Life Dashboard home">
-      <img class="mark" src="../img/icon-96.webp?v=1f5b3657" alt="" width="34" height="34">
+    <a class="brand" href="/life-dashboard/" aria-label="Life Dashboard home">
+      <img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="34" height="34">
       Life Dashboard
     </a>
     <nav class="nav-links" aria-label="Main">
-      <a href="../android/">Android</a>
-      <a href="../ios/">iPhone</a>
-      <a href="../home-assistant/">Home Assistant</a>
-      <a href="../grafana/">Grafana</a>
-      <a href="../#guides">Guides</a>
-      <a href="../#faq">FAQ</a>
+      <a href="/life-dashboard/android/">Android</a>
+      <a href="/life-dashboard/ios/">iPhone</a>
+      <a href="/life-dashboard/home-assistant/">Home Assistant</a>
+      <a href="/life-dashboard/grafana/">Grafana</a>
+      <a href="/life-dashboard/guides/" aria-current="page">Guides</a>
+      <a href="/life-dashboard/#faq">FAQ</a>
     </nav>
     <div class="nav-cta">
-      <a class="btn btn-ghost btn-sm" href="https://github.com/owen282000/life-dashboard-companion-app">
+      
+      <a class="btn btn-ghost btn-sm nav-gh" href="https://github.com/owen282000/life-dashboard-companion-app">
         <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
         GitHub
       </a>
-      <a class="btn btn-primary btn-sm" href="../#get">Install options</a>
+      <a class="btn btn-primary btn-sm" href="/life-dashboard/#get">Install options</a>
     </div>
   </div>
 </header>
 
-<main id="main">
-  <div class="guide-hero"><div class="grid-bg"></div></div>
-  <div class="wrap guide-layout">
-    <article class="prose">
-      <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Apple Health in Home Assistant: four apps compared</span></nav>
-<h1>Which app gets Apple Health into Home Assistant?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 20, 2026.</p>
-
+<main id="main" class="guide">
+  <header class="guide-head">
+    <div class="grid-bg"></div>
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/life-dashboard/">Life Dashboard</a><span aria-hidden="true">/</span><a href="/life-dashboard/guides/">Guides</a><span aria-hidden="true">/</span><span aria-current="page">Apple Health in Home Assistant: four apps compared</span></nav>
+      <h1>Which app gets Apple Health into Home Assistant?</h1>
+      <div class="guide-intro">
 <p>Apple Health has no web API, so an app on the iPhone has to send the data. As of November 2026 there are four that are built for Home Assistant: the Home Assistant companion app itself, HealthSync for Home Assistant, Health Assistant Link and Life Dashboard Companion. They differ in what they cost, how far back they reach and what arrives in Home Assistant. This page puts them next to each other, from each app's own App Store page, website and repository. I make the last one, so check the sources where it matters to you.</p>
-<p class="guide-cta"><a class="btn btn-primary btn-store" href="../ios/#get">Get the iPhone app</a></p>
 
 <p class="flow-line"><span>iPhone or Apple Watch</span><span>Apple Health</span><span>An app on the iPhone</span><span>Home Assistant</span></p>
-
+      </div>
+      <p class="guide-meta"><span>By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard</span> <span><time datetime="2026-11-20">Updated November 20, 2026</time></span> <span>9 min read</span></p>
+      <p class="guide-cta"><a class="btn btn-primary btn-store" href="/life-dashboard/ios/#get">Get the iPhone app</a></p>
+    </div>
+  </header>
+  <div class="wrap guide-grid">
+    <nav class="toc" aria-labelledby="toc-title">
+      <h2 id="toc-title">On this page</h2>
+      <ol>
+        <li><a href="#the-short-version">The short version</a></li>
+        <li><a href="#the-home-assistant-companion-app">The Home Assistant companion app</a></li>
+        <li><a href="#healthsync-for-home-assistant">HealthSync for Home Assistant</a></li>
+        <li><a href="#health-assistant-link">Health Assistant Link</a></li>
+        <li><a href="#life-dashboard-companion">Life Dashboard Companion</a></li>
+        <li><a href="#side-by-side">Side by side</a></li>
+        <li><a href="#what-none-of-them-can-change">What none of them can change</a></li>
+        <li><a href="#how-to-choose">How to choose</a></li>
+        <li><a href="#faq">Common questions</a></li>
+      </ol>
+    </nav>
+    <article class="prose">
 <h2 id="the-short-version">The short version</h2>
 
 <ul>
@@ -237,20 +308,20 @@
 
 <h2 id="life-dashboard-companion">Life Dashboard Companion</h2>
 
-<p><a href="../ios/">Life Dashboard Companion</a> is the iPhone app of this project, with the <a href="../home-assistant/">Life Dashboard integration</a> from the Marketplace (HACS before Home Assistant 2026.11). You pair the two with a QR code.</p>
+<p><a href="/life-dashboard/ios/">Life Dashboard Companion</a> is the iPhone app of this project, with the <a href="/life-dashboard/home-assistant/">Life Dashboard integration</a> from the Marketplace (HACS before Home Assistant 2026.11). You pair the two with a QR code.</p>
 
 <ul>
   <li><strong>Price.</strong> €6.99 once (US$5.99) on the <a href="https://apps.apple.com/app/apple-store/id6824075761?pt=128699800&amp;ct=site-guide-apple-health-apps&amp;mt=8">App Store</a>, with no subscription and nothing to buy inside the app. There's no free version in the store. Building it from source costs nothing extra if you already have an Apple Developer Program membership.</li>
-  <li><strong>What arrives.</strong> The app reads 28 data types. 20 of them become sensors, plus sleep stages per night, three workout sensors and what you ate today. <a href="../apple-health-data-types/">Apple Health data types, app by app</a> lists each one.</li>
+  <li><strong>What arrives.</strong> The app reads 28 data types. 20 of them become sensors, plus sleep stages per night, three workout sensors and what you ate today. <a href="/life-dashboard/apple-health-data-types/">Apple Health data types, app by app</a> lists each one.</li>
   <li><strong>History.</strong> <strong>Send history</strong> sends 30 days up to everything Apple Health holds. The integration files it in long-term statistics: one value per day for steps, distance, calories and sleep, and a mean, minimum and maximum per hour for readings such as heart rate and weight, each on its own date.</li>
   <li><strong>Day totals.</strong> Steps, distance and calories come from Apple Health's own statistics, so a walk recorded by the iPhone and the Watch counts once. Every sync sends today and the two days before, and a day is replaced, not added to.</li>
   <li><strong>Other destinations.</strong> The same data can go to an MQTT broker or any URL that accepts a JSON POST, next to Home Assistant or without it.</li>
-  <li><strong>Android too.</strong> An Android phone with <a href="../android/">the Android app</a> uses the same integration, so a household with both ends up in the same sensors and graphs.</li>
+  <li><strong>Android too.</strong> An Android phone with <a href="/life-dashboard/android/">the Android app</a> uses the same integration, so a household with both ends up in the same sensors and graphs.</li>
   <li><strong>Privacy.</strong> No account and no Life Dashboard server: the iPhone posts straight to your Home Assistant.</li>
   <li><strong>Open source.</strong> The app and the integration are both MIT licensed.</li>
 </ul>
 
-<p>What it doesn't do: it never writes into Apple Health, it has no Apple Watch app, it doesn't read medications, and it can't sync while the iPhone is locked. <a href="../apple-health-home-assistant/">Apple Health in Home Assistant</a> has the setup, step by step.</p>
+<p>What it doesn't do: it never writes into Apple Health, it has no Apple Watch app, it doesn't read medications, and it can't sync while the iPhone is locked. <a href="/life-dashboard/apple-health-home-assistant/">Apple Health in Home Assistant</a> has the setup, step by step.</p>
 
 <h2 id="side-by-side">Side by side</h2>
 
@@ -278,7 +349,7 @@
   </tbody>
 </table></div>
 
-<p>Checked on November 20, 2026, against each app's App Store page, the companion app's <a href="https://companion.home-assistant.io/docs/core/sensors#apple-health-sensors">sensor documentation</a>, the <a href="https://github.com/mannotfood/healthsync">HealthSync</a> and <a href="https://github.com/gregt1993/Health_Bridge">Health Bridge</a> repositories and <a href="https://healthassistantlink.com/apple-health-home-assistant/">healthassistantlink.com</a>. Dollar prices are from the US store, euro prices from the Dutch one. "Not described" means I didn't find it in those sources, not that it can't be done. These apps change often: if a line here is out of date, <a href="../feedback/">tell me</a> and I'll correct it.</p>
+<p>Checked on November 20, 2026, against each app's App Store page, the companion app's <a href="https://companion.home-assistant.io/docs/core/sensors#apple-health-sensors">sensor documentation</a>, the <a href="https://github.com/mannotfood/healthsync">HealthSync</a> and <a href="https://github.com/gregt1993/Health_Bridge">Health Bridge</a> repositories and <a href="https://healthassistantlink.com/apple-health-home-assistant/">healthassistantlink.com</a>. Dollar prices are from the US store, euro prices from the Dutch one. "Not described" means I didn't find it in those sources, not that it can't be done. These apps change often: if a line here is out of date, <a href="/life-dashboard/feedback/">tell me</a> and I'll correct it.</p>
 
 <h2 id="what-none-of-them-can-change">What none of them can change</h2>
 
@@ -301,11 +372,19 @@
 
 <p>They don't exclude each other. Each app asks for its own Apple Health access and brings its own entities, and the companion app stays the one for presence, notifications and device sensors.</p>
 
-<div class="next">
-  <p>For Life Dashboard: the integration from the Marketplace or HACS and the app on your iPhone, paired with one QR code. The setup guide has every step.</p>
-  <a class="btn btn-primary btn-store" href="../ios/#get">Get the iPhone app</a>
-  <a class="btn btn-ghost" href="../apple-health-home-assistant/">Apple Health in Home Assistant</a>
-</div>
+<section class="get-panel" aria-labelledby="get-the-app">
+      <h2 id="get-the-app">Life Dashboard Companion</h2>
+      <p>For Life Dashboard: the integration from the Marketplace or HACS and the app on your iPhone, paired with one QR code. The setup guide has every step.</p>
+      <div class="stores">
+        <div class="panel-store"><a class="badge-link" href="https://apps.apple.com/app/life-dashboard-companion/id6824075761"><img class="badge-img" src="/life-dashboard/img/badges/app-store.svg?v=a26fc5b3" alt="Download on the App Store" width="120" height="40" loading="lazy"></a>
+        <p class="aside-alt"><a class="nowrap" href="https://github.com/owen282000/life-dashboard-companion-app-ios#build-and-install">Build with Xcode</a></p></div>
+      </div>
+      <p class="panel-btns">
+      <a class="btn btn-primary btn-store" href="/life-dashboard/ios/#get">Get the iPhone app</a>
+      <a class="btn btn-ghost" href="/life-dashboard/apple-health-home-assistant/">Apple Health in Home Assistant</a>
+      </p>
+      <p class="panel-note">The open-source iPhone app this guide uses. No account, and the data goes only where you point it. <a href="/life-dashboard/ios/">More about the app</a>.</p>
+    </section>
 
 <section class="faq">
   <h2 id="faq">Common questions</h2>
@@ -335,95 +414,64 @@
   </details>
 </section>
     </article>
-    <aside class="aside">
-      <div class="box cta">
-        <h2>Life Dashboard Companion</h2>
-        <p>The open-source iPhone app this guide uses. No account, and the data goes only where you point it. <a href="../ios/">More about the app</a>.</p>
-        <a class="badge-link" href="https://apps.apple.com/app/life-dashboard-companion/id6824075761"><img class="badge-img" src="../img/badges/app-store.svg?v=a26fc5b3" alt="Download on the App Store" width="120" height="40" loading="lazy"></a>
-        <p class="aside-alt"><a class="nowrap" href="https://github.com/owen282000/life-dashboard-companion-app-ios#build-and-install">Build with Xcode</a></p>
-      </div>
-      <nav class="box" aria-label="Guides">
-        <h2>Guides</h2>
-        <ul>
-          <li><a href="../health-connect-home-assistant/">Health Connect in Home Assistant</a></li>
-          <li><a href="../samsung-health-home-assistant/">Samsung Health and Galaxy Watch in Home Assistant</a></li>
-          <li><a href="../companion-app-health-connect/">The companion app and Health Connect</a></li>
-          <li><a href="../health-connect-webhook/">Health Connect to a webhook</a></li>
-          <li><a href="../screen-time-home-assistant/">Screen time in Home Assistant</a></li>
-          <li><a href="../sleep-stages-home-assistant/">Sleep stages in Home Assistant</a></li>
-          <li><a href="../smart-scale-to-samsung-health/">Smart scale to Samsung Health</a></li>
-          <li><a href="../health-connect-n8n/">Health Connect to n8n</a></li>
-          <li><a href="../health-connect-data-types/">Health Connect data types, app by app</a></li>
-          <li><a href="../health-data-api/">A web API for Health Connect or Apple Health</a></li>
-          <li><a href="../samsung-health-export/">Samsung Health to your own server</a></li>
-          <li><a href="../fitbit-home-assistant/">Fitbit and Pixel Watch in Home Assistant</a></li>
-          <li><a href="../garmin-home-assistant/">Garmin in Home Assistant</a></li>
-          <li><a href="../health-data-own-ai/">Health Connect and Apple Health over MCP</a></li>
-          <li><a href="../health-data-qr-pairing/">Let your users connect with one QR code</a></li>
-          <li><a href="../health-connect-steps-home-assistant/">Health Connect steps that look wrong in Home Assistant</a></li>
-          <li><a href="../troubleshooting/">Troubleshooting: syncs, sensors and pairing</a></li>
-          <li><a href="../apple-health-home-assistant/">Apple Health in Home Assistant</a></li>
-          <li><a href="../apple-health-home-assistant-apps/" aria-current="page">Apple Health in Home Assistant: four apps compared</a></li>
-          <li><a href="../apple-watch-home-assistant/">Apple Watch in Home Assistant</a></li>
-          <li><a href="../apple-health-webhook/">Apple Health to a webhook</a></li>
-          <li><a href="../apple-health-n8n/">Apple Health to n8n</a></li>
-          <li><a href="../apple-health-data-types/">Apple Health data types, app by app</a></li>
-        </ul>
-      </nav>
-      <div class="box">
-        <h2>Products</h2>
-        <ul>
-          <li><a href="../android/">Android app</a></li><li><a href="../ios/">iPhone app</a></li><li><a href="../home-assistant/">Home Assistant integration</a></li><li><a href="../grafana/">Grafana stack</a></li>
-        </ul>
-      </div>
-    </aside>
   </div>
+  <section class="section tight related band" aria-labelledby="related">
+  <div class="wrap">
+    <div class="section-head split"><h2 id="related">Related guides</h2><a class="link-arrow" href="/life-dashboard/guides/">All guides</a></div>
+    <div class="family three">
+      <a class="part" href="/life-dashboard/apple-health-home-assistant/"><h3>Apple Health in Home Assistant</h3><p>Apple Watch and iPhone data as sensors, with all your history from a backfill.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="/life-dashboard/apple-watch-home-assistant/"><h3>Apple Watch in Home Assistant</h3><p>Heart rate, HRV, sleep stages, workouts and VO2 max from the watch, through Apple Health.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="/life-dashboard/apple-health-webhook/"><h3>Apple Health to a webhook</h3><p>Signed JSON from Apple Health, automatically: the payload, retries, deletions and Shortcuts.</p><span class="go">Read the guide</span></a>
+    </div>
+  </div>
+</section>
 </main>
 
 <footer class="footer">
   <div class="wrap">
     <div class="cols">
       <div class="about">
-        <a class="brand" href="../"><img class="mark" src="../img/icon-96.webp?v=1f5b3657" alt="" width="34" height="34"> Life Dashboard</a>
+        <a class="brand" href="/life-dashboard/"><img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="34" height="34"> Life Dashboard</a>
         <p>Life Dashboard is an open-source project by <a href="https://github.com/owen282000">Owen Vogelaar</a>, in four parts: the Life Dashboard Companion apps for Android and iPhone, a Home Assistant integration and a Grafana stack. It isn't related to other apps or templates called Life Dashboard. Questions go to <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
         <p>This site sets no cookies, runs no analytics and loads nothing from anyone else. <a href="/privacy/">Site privacy</a>.</p>
         <p class="imprint">Owen Vogelaar, trading as oVog Enterprise · KvK 81085583 · <a href="mailto:owen282000@hotmail.com">owen282000@hotmail.com</a></p>
+        
       </div>
       <div>
         <h2 class="foot-h">Products</h2>
         <ul>
-          <li><a href="../android/">Android app</a></li>
-          <li><a href="../ios/">iPhone app</a></li>
-          <li><a href="../home-assistant/">Home Assistant integration</a></li>
-          <li><a href="../grafana/">Grafana stack</a></li>
+          <li><a href="/life-dashboard/android/">Android app</a></li>
+          <li><a href="/life-dashboard/ios/">iPhone app</a></li>
+          <li><a href="/life-dashboard/home-assistant/">Home Assistant integration</a></li>
+          <li><a href="/life-dashboard/grafana/">Grafana stack</a></li>
         </ul>
       </div>
       <div>
-        <h2 class="foot-h">Guides</h2>
+        <h2 class="foot-h"><a href="/life-dashboard/guides/">Guides</a></h2>
         <ul>
-          <li><a href="../health-connect-home-assistant/">Health Connect in Home Assistant</a></li>
-          <li><a href="../samsung-health-home-assistant/">Samsung Health and Galaxy Watch in Home Assistant</a></li>
-          <li><a href="../companion-app-health-connect/">The companion app and Health Connect</a></li>
-          <li><a href="../health-connect-webhook/">Health Connect to a webhook</a></li>
-          <li><a href="../screen-time-home-assistant/">Screen time in Home Assistant</a></li>
-          <li><a href="../sleep-stages-home-assistant/">Sleep stages in Home Assistant</a></li>
-          <li><a href="../smart-scale-to-samsung-health/">Smart scale to Samsung Health</a></li>
-          <li><a href="../health-connect-n8n/">Health Connect to n8n</a></li>
-          <li><a href="../health-connect-data-types/">Health Connect data types, app by app</a></li>
-          <li><a href="../health-data-api/">A web API for Health Connect or Apple Health</a></li>
-          <li><a href="../samsung-health-export/">Samsung Health to your own server</a></li>
-          <li><a href="../fitbit-home-assistant/">Fitbit and Pixel Watch in Home Assistant</a></li>
-          <li><a href="../garmin-home-assistant/">Garmin in Home Assistant</a></li>
-          <li><a href="../health-data-own-ai/">Health Connect and Apple Health over MCP</a></li>
-          <li><a href="../health-data-qr-pairing/">Let your users connect with one QR code</a></li>
-          <li><a href="../health-connect-steps-home-assistant/">Health Connect steps that look wrong in Home Assistant</a></li>
-          <li><a href="../troubleshooting/">Troubleshooting: syncs, sensors and pairing</a></li>
-          <li><a href="../apple-health-home-assistant/">Apple Health in Home Assistant</a></li>
-          <li><a href="../apple-health-home-assistant-apps/">Apple Health in Home Assistant: four apps compared</a></li>
-          <li><a href="../apple-watch-home-assistant/">Apple Watch in Home Assistant</a></li>
-          <li><a href="../apple-health-webhook/">Apple Health to a webhook</a></li>
-          <li><a href="../apple-health-n8n/">Apple Health to n8n</a></li>
-          <li><a href="../apple-health-data-types/">Apple Health data types, app by app</a></li>
+          <li><a href="/life-dashboard/health-connect-home-assistant/">Health Connect in Home Assistant</a></li>
+          <li><a href="/life-dashboard/samsung-health-home-assistant/">Samsung Health and Galaxy Watch in Home Assistant</a></li>
+          <li><a href="/life-dashboard/companion-app-health-connect/">The companion app and Health Connect</a></li>
+          <li><a href="/life-dashboard/health-connect-webhook/">Health Connect to a webhook</a></li>
+          <li><a href="/life-dashboard/screen-time-home-assistant/">Screen time in Home Assistant</a></li>
+          <li><a href="/life-dashboard/sleep-stages-home-assistant/">Sleep stages in Home Assistant</a></li>
+          <li><a href="/life-dashboard/smart-scale-to-samsung-health/">Smart scale to Samsung Health</a></li>
+          <li><a href="/life-dashboard/health-connect-n8n/">Health Connect to n8n</a></li>
+          <li><a href="/life-dashboard/health-connect-data-types/">Health Connect data types, app by app</a></li>
+          <li><a href="/life-dashboard/health-data-api/">A web API for Health Connect or Apple Health</a></li>
+          <li><a href="/life-dashboard/samsung-health-export/">Samsung Health to your own server</a></li>
+          <li><a href="/life-dashboard/fitbit-home-assistant/">Fitbit and Pixel Watch in Home Assistant</a></li>
+          <li><a href="/life-dashboard/garmin-home-assistant/">Garmin in Home Assistant</a></li>
+          <li><a href="/life-dashboard/health-data-own-ai/">Health Connect and Apple Health over MCP</a></li>
+          <li><a href="/life-dashboard/health-data-qr-pairing/">Let your users connect with one QR code</a></li>
+          <li><a href="/life-dashboard/health-connect-steps-home-assistant/">Health Connect steps that look wrong in Home Assistant</a></li>
+          <li><a href="/life-dashboard/troubleshooting/">Troubleshooting: syncs, sensors and pairing</a></li>
+          <li><a href="/life-dashboard/apple-health-home-assistant/">Apple Health in Home Assistant</a></li>
+          <li><a href="/life-dashboard/apple-health-home-assistant-apps/">Apple Health in Home Assistant: four apps compared</a></li>
+          <li><a href="/life-dashboard/apple-watch-home-assistant/">Apple Watch in Home Assistant</a></li>
+          <li><a href="/life-dashboard/apple-health-webhook/">Apple Health to a webhook</a></li>
+          <li><a href="/life-dashboard/apple-health-n8n/">Apple Health to n8n</a></li>
+          <li><a href="/life-dashboard/apple-health-data-types/">Apple Health data types, app by app</a></li>
         </ul>
       </div>
       <div>
@@ -434,9 +482,9 @@
           <li><a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md">Integration: sensors and statistics</a></li>
           <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md">Payload reference</a></li>
           <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/brands/README.md">Brand guides</a></li>
-          <li><a href="../feedback/">Feedback board</a></li>
+          <li><a href="/life-dashboard/feedback/">Feedback board</a></li>
           <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/PRIVACY.md">Privacy policy for Android</a></li>
-          <li><a href="../ios/privacy/">Privacy policy for iPhone</a></li>
+          <li><a href="/life-dashboard/ios/privacy/">Privacy policy for iPhone</a></li>
           <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/AI_POLICY.md">AI policy</a></li>
           <li><a href="https://github.com/owen282000?tab=repositories&amp;q=life-dashboard">All repositories</a></li>
         </ul>

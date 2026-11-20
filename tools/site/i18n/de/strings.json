@@ -1,0 +1,78 @@
+{
+  "ui": {
+    "skip": "Zum Inhalt springen",
+    "faq": "Häufige Fragen",
+    "feature": "Funktion",
+    "full_size": "in voller Größe",
+    "footer": {
+      "products": "Produkte"
+    },
+    "guide": {
+      "byline": "Von <a href=\"/\">Owen Vogelaar</a>, der Life Dashboard entwickelt",
+      "updated": "Aktualisiert am {date}"
+    }
+  },
+  "parts": {
+    "android": {
+      "name": "Android-App",
+      "free_line": "Oder kostenlos, dieselbe App mit demselben Signaturschlüssel:",
+      "get": {
+        "play": {
+          "pitch": "4,99&nbsp;€ einmalig bei Google Play, mit automatischen Updates."
+        },
+        "apk": {
+          "name": "APK auf GitHub"
+        }
+      }
+    },
+    "ios": {
+      "name": "iPhone-App"
+    },
+    "home-assistant": {
+      "name": "Home-Assistant-Integration"
+    },
+    "grafana": {
+      "name": "Grafana-Stack"
+    }
+  },
+  "guides": {
+    "health-connect-home-assistant": {
+      "name": "Gesundheitsdaten in Home Assistant",
+      "next": "Zwei Installationen: die Integration aus dem Marketplace oder aus HACS und die App auf deinem iPhone oder Android-Telefon. Danach koppelst du beide mit einem QR-Code und holst deinen ganzen Verlauf nach.",
+      "buttons": [
+        {
+          "class": "btn-primary btn-store",
+          "href": "https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration",
+          "label": "Im Marketplace öffnen"
+        },
+        {
+          "class": "btn-ghost",
+          "href": "/life-dashboard/ios/#get",
+          "label": "iPhone-App"
+        },
+        {
+          "class": "btn-ghost",
+          "href": "/life-dashboard/android/#get",
+          "label": "Android-App"
+        }
+      ]
+    },
+    "health-connect-webhook": {
+      "name": "Health-Connect-Daten exportieren",
+      "next": "Installiere die App, trag deine Adresse ein und tippe auf <strong>Test senden</strong>. Die Payload-Referenz beschreibt jedes Feld und hat einen Empfänger in Python und Node.js.",
+      "buttons": [
+        "Android-App",
+        "Payload-Referenz (Englisch)"
+      ]
+    }
+  },
+  "images": {
+    "H2-qr": "Die Life-Dashboard-Integration in Home Assistant mit dem QR-Code zum Koppeln",
+    "A2-pair": "Die Seite zum Koppeln mit einem Empfänger in der Android-App",
+    "A1-health": "Der Tab „Gesundheit“ der Android-App mit einer Zeile pro Ziel und den Werten von heute",
+    "ios-health": "Der Tab „Gesundheit“ der iPhone-App mit einer Zeile pro Ziel und den Werten von heute",
+    "H6-health": "Das Beispiel-Dashboard Health in Home Assistant mit Demodaten: heutige Werte, das letzte Training, Erholung und Schlaf",
+    "ios-schedule": "„Wann senden“ in der iPhone-App mit festen Zeiten und Ruhezeiten",
+    "A6-webhook": "Ein Webhook-Ziel in der Android-App mit seinem HMAC-Signaturschlüssel und seinen Headern"
+  }
+}

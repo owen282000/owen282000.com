@@ -1,4 +1,6 @@
 <!--
+slug: health-connect-daten-exportieren
+structure: own
 title: Health-Connect-Daten auf den eigenen Server exportieren | Life Dashboard
 description: Life Dashboard Companion sendet Health-Connect-Daten von Samsung Health, Garmin und Fitbit als signiertes JSON an deinen eigenen Server. Ohne Konto, ohne Cloud.
 primary query: health connect daten exportieren
@@ -23,7 +25,7 @@ published: 2026-11-20
 
 <ul>
   <li>Android 9 oder neuer mit Health Connect und eine App, die dort hineinschreibt, etwa Samsung Health, Garmin Connect oder Google Health. Health Connect ist ab Android 14 eingebaut, unter Android 9 bis 13 kommt es aus Google Play.</li>
-  <li><a href="../../android/" hreflang="en">Life Dashboard Companion für Android</a>, bei <a href="{{play_url}}">Google Play</a> für 4,99&nbsp;€ einmalig. Oder kostenlos über GitHub, Obtainium oder F-Droid: dieselbe App mit demselben Signaturschlüssel. Die App ist auf Deutsch.</li>
+  <li><a href="../android/">Life Dashboard Companion für Android</a>, bei <a href="{{play_url}}">Google Play</a> für 4,99&nbsp;€ einmalig. Oder kostenlos über GitHub, Obtainium oder F-Droid: dieselbe App mit demselben Signaturschlüssel. Die App ist auf Deutsch.</li>
   <li>Einen Server, der einen JSON-POST über HTTPS annimmt, mit einem Limit von mindestens 10 MB pro Anfrage. Für einfaches HTTP im eigenen Netz schaltest du unter <strong>Mehr</strong> &gt; <strong>Erweitert</strong> die Option <strong>Einfache HTTP-Webhooks erlauben</strong> ein.</li>
 </ul>
 
@@ -100,8 +102,8 @@ valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
 <h2>Empfänger, die funktionieren</h2>
 
 <ul>
-  <li><strong>Der Life-Dashboard-Stack.</strong> Fertige Images für einen Empfänger, der die Signatur prüft, Postgres und Grafana mit sechs Dashboards, aus einer Compose-Datei oder per Helm-Chart. Mehr dazu: <a href="../../grafana/" hreflang="en">der Life-Dashboard-Stack (Englisch)</a>.</li>
-  <li><strong>n8n.</strong> Ein Webhook-Node mit <strong>Raw Body</strong>, eine Signaturprüfung und ein Node <strong>Respond to Webhook</strong>. Der ganze Workflow steht in <a href="../../health-connect-n8n/" hreflang="en">Health Connect to n8n (Englisch)</a>.</li>
+  <li><strong>Der Life-Dashboard-Stack.</strong> Fertige Images für einen Empfänger, der die Signatur prüft, Postgres und Grafana mit sechs Dashboards, aus einer Compose-Datei oder per Helm-Chart. Mehr dazu: <a href="../grafana/">der Life-Dashboard-Stack (Englisch)</a>.</li>
+  <li><strong>n8n.</strong> Ein Webhook-Node mit <strong>Raw Body</strong>, eine Signaturprüfung und ein Node <strong>Respond to Webhook</strong>. Der ganze Workflow steht in <a href="../health-connect-n8n/">Health Connect to n8n (Englisch)</a>.</li>
   <li><strong>Node-RED oder ein eigenes Skript.</strong> Die Payload-Referenz hat einen Empfänger in <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md#receiver-in-python-flask" hreflang="en">Python</a> und in <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md#receiver-in-nodejs-express" hreflang="en">Node.js</a> als Ausgangspunkt.</li>
   <li><strong>Home Assistant.</strong> Die Life-Dashboard-Integration macht aus den Daten Sensoren und Langzeitstatistiken: <a href="../home-assistant-gesundheitsdaten/">Gesundheitsdaten in Home Assistant</a>.</li>
 </ul>
@@ -138,6 +140,6 @@ valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
   </details>
   <details>
     <summary>Geht das auch mit dem iPhone?</summary>
-    <p>Ja. <a href="../../ios/" hreflang="en">Life Dashboard Companion für iPhone</a> sendet Apple Health mit denselben Schlüsseln, Einheiten und derselben Signatur, sodass ein Empfänger beide Telefone annimmt.</p>
+    <p>Ja. <a href="../ios/">Life Dashboard Companion für iPhone</a> sendet Apple Health mit denselben Schlüsseln, Einheiten und derselben Signatur, sodass ein Empfänger beide Telefone annimmt.</p>
   </details>
 </section>

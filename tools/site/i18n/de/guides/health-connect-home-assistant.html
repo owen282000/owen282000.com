@@ -1,4 +1,7 @@
 <!--
+slug: home-assistant-gesundheitsdaten
+structure: own
+about: android, ios, integration
 title: Apple Health und Health Connect in Home Assistant | Life Dashboard
 description: Schritte, Schlaf, Herzfrequenz und Gewicht von iPhone, Apple Watch oder Samsung Health als Sensoren in Home Assistant, mit deinem ganzen Verlauf.
 primary query: home assistant gesundheitsdaten
@@ -18,9 +21,9 @@ published: 2026-10-27
 <h2>Was du brauchst</h2>
 
 <ul>
-  <li>Home Assistant 2026.3 oder neuer, für die <a href="../../home-assistant/" hreflang="en">Life-Dashboard-Integration</a>. Ab 2026.11 musst du nichts weiter installieren, ältere Versionen brauchen <a href="https://hacs.xyz">HACS</a>. Sie steht im Marketplace und in der Standardliste von HACS.</li>
-  <li>Für das iPhone: iOS 17 oder neuer und <a href="../../ios/" hreflang="en">Life Dashboard Companion für iPhone</a>, im App Store für 6,99&nbsp;€ einmalig, ohne Abo.</li>
-  <li>Für Android: Android 9 oder neuer und <a href="../../android/" hreflang="en">Life Dashboard Companion für Android</a>, bei <a href="{{play_url}}">Google Play</a> für 4,99&nbsp;€ einmalig. Oder kostenlos über GitHub, Obtainium oder F-Droid: dieselbe App mit demselben Signaturschlüssel. Health Connect ist ab Android 14 eingebaut, unter Android 9 bis 13 kommt es aus Google Play.</li>
+  <li>Home Assistant 2026.3 oder neuer, für die <a href="../home-assistant/">Life-Dashboard-Integration</a>. Ab 2026.11 musst du nichts weiter installieren, ältere Versionen brauchen <a href="https://hacs.xyz">HACS</a>. Sie steht im Marketplace und in der Standardliste von HACS.</li>
+  <li>Für das iPhone: iOS 17 oder neuer und <a href="../ios/">Life Dashboard Companion für iPhone</a>, im App Store für 6,99&nbsp;€ einmalig, ohne Abo.</li>
+  <li>Für Android: Android 9 oder neuer und <a href="../android/">Life Dashboard Companion für Android</a>, bei <a href="{{play_url}}">Google Play</a> für 4,99&nbsp;€ einmalig. Oder kostenlos über GitHub, Obtainium oder F-Droid: dieselbe App mit demselben Signaturschlüssel. Health Connect ist ab Android 14 eingebaut, unter Android 9 bis 13 kommt es aus Google Play.</li>
 </ul>
 
 <p>Rechne beim ersten Mal mit 15 bis 30 Minuten, das meiste davon in Home Assistant. Richte Home Assistant zuerst ein, denn die App scannt bei der Einrichtung den QR-Code der Integration. Beide Apps und die Integration sind auf Deutsch.</p>
@@ -41,7 +44,7 @@ published: 2026-10-27
 <h2>Auf dem iPhone: Apple Health</h2>
 
 <ol>
-  <li>Installiere <a href="../../ios/#get" hreflang="en">Life Dashboard Companion aus dem App Store</a> und öffne die App. Beim Schritt, wohin deine Daten gehen sollen, tippst du auf <strong>Kopplungscode scannen</strong>, scannst den Code und tippst auf <strong>Koppeln</strong>. Die App sendet einen Test-Ping, damit das iPhone sofort in Home Assistant erscheint. Die Kamera-App geht auch: Sie öffnet die Kopplungsseite in Safari, und ein Button dort gibt den Code an die App weiter.</li>
+  <li>Installiere <a href="../ios/#get">Life Dashboard Companion aus dem App Store</a> und öffne die App. Beim Schritt, wohin deine Daten gehen sollen, tippst du auf <strong>Kopplungscode scannen</strong>, scannst den Code und tippst auf <strong>Koppeln</strong>. Die App sendet einen Test-Ping, damit das iPhone sofort in Home Assistant erscheint. Die Kamera-App geht auch: Sie öffnet die Kopplungsseite in Safari, und ein Button dort gibt den Code an die App weiter.</li>
   <li>Wenn iOS nach dem Zugriff auf das lokale Netzwerk fragt, erlaube ihn. Ohne diesen Zugriff erreicht nichts dein Home Assistant zu Hause.</li>
   <li>Wähle deine Datentypen: <strong>Das Wesentliche</strong>, <strong>Alle Typen</strong> oder <strong>Später wählen</strong>. Erlaube danach den Zugriff auf Apple Health. Kommt später ein Typ dazu, nach dem iOS noch nicht gefragt hat, zeigt die Zeile <strong>Zugriff auf Apple Health</strong> unter <strong>Was senden</strong> den Button <strong>Erteilen</strong>. iOS verrät keiner App, ob du das Lesen erlaubt hast: Ein abgelehnter Typ sendet einfach nichts. Ändern kannst du das in der Health-App unter deinem Profil, <strong>Apps</strong>, <strong>Life Dashboard</strong>.</li>
   <li>Gleich danach läuft eine erste Synchronisierung, und die App zeigt, was angekommen ist. Später sendet <strong>Jetzt synchronisieren</strong> auf dem Tab <strong>Gesundheit</strong> sofort, was neu ist. Das iPhone erscheint in Home Assistant unter <strong>Einstellungen</strong> &gt; <strong>Geräte &amp; Dienste</strong> &gt; <strong>Life Dashboard</strong>, mit einem Sensor für jeden gesendeten Typ. Bei der ersten Synchronisierung schickt jeder Typ seine letzten 7 Tage.</li>
@@ -54,7 +57,7 @@ published: 2026-10-27
 
 <ol>
   <li>Lass die App deiner Uhr in Health Connect schreiben. In Samsung Health geht das unter <strong>Einstellungen</strong> &gt; <strong>Health Connect</strong>: Wähle die Daten aus und erlaube den Zugriff. Bei den anderen Apps steht der Schalter ebenfalls in ihren Einstellungen; die Tabelle unten sagt, was jede App teilt.</li>
-  <li>Installiere <a href="{{play_url}}">Life Dashboard Companion von Google Play</a> und öffne die App. Nimmst du stattdessen die kostenlose APK, warnt Android vielleicht vor der Installation: Das tut es bei jeder App aus einer anderen Quelle als dem Play Store. Jede Version ist mit demselben Schlüssel signiert und hat eine Build-Attestierung (<a href="../../android/#get" hreflang="en">alle Wege zur App</a>). Bei <strong>Wohin sollen deine Daten?</strong> tippst du auf <strong>Kopplungscode scannen</strong>, scannst den Code und tippst auf <strong>Koppeln</strong>. Ein Test-Ping bestätigt die Verbindung.</li>
+  <li>Installiere <a href="{{play_url}}">Life Dashboard Companion von Google Play</a> und öffne die App. Nimmst du stattdessen die kostenlose APK, warnt Android vielleicht vor der Installation: Das tut es bei jeder App aus einer anderen Quelle als dem Play Store. Jede Version ist mit demselben Schlüssel signiert und hat eine Build-Attestierung (<a href="../android/#get">alle Wege zur App</a>). Bei <strong>Wohin sollen deine Daten?</strong> tippst du auf <strong>Kopplungscode scannen</strong>, scannst den Code und tippst auf <strong>Koppeln</strong>. Ein Test-Ping bestätigt die Verbindung.</li>
   <!-- IMG: pairing page (A2-pair.png) -->
   <li>Tippe auf dem Tab <strong>Gesundheit</strong> auf <strong>Erteilen</strong>, erlaube deine Datentypen und das Lesen im Hintergrund, damit die geplanten Synchronisierungen laufen. Die Auswahl <strong>Das Wesentliche</strong> schaltet Schritte, Schlaf, Herzfrequenz, Ruheherzfrequenz, Distanz, Kalorien und Gewicht ein. Alle weiteren Typen schaltest du unter <strong>Was senden</strong> ein.</li>
   <li>Auf Telefonen von Samsung, Xiaomi und ähnlichen Herstellern stoppt Android die Synchronisierungen gern, um Akku zu sparen. Stell unter <strong>Einstellungen</strong> &gt; <strong>Apps</strong> &gt; <strong>Life Dashboard</strong> &gt; <strong>Akku</strong> auf <strong>Nicht eingeschränkt</strong>. Auf einem Samsung trägst du Life Dashboard außerdem unter <strong>Einstellungen</strong> &gt; <strong>Akku</strong> bei den Einschränkungen der Hintergrundnutzung als App ein, die nie in den Standby-Modus geht. Die anderen Hersteller stehen in der <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/usage.md#let-the-app-run-in-the-background" hreflang="en">Einrichtungsanleitung (Englisch)</a>.</li>
@@ -81,7 +84,7 @@ published: 2026-10-27
   </tbody>
 </table>
 
-<p>Mit einer Galaxy Watch oder einer Garmin-Uhr fehlen also die Sensoren für Ruheherzfrequenz und HRV. Mit einer Apple Watch am iPhone kommen beide an, denn die Uhr schreibt Ruheherzfrequenz und HRV in Apple Health. Die Details pro Marke stehen in den englischen Anleitungen zu <a href="../../samsung-health-home-assistant/" hreflang="en">Samsung Health</a>, <a href="../../garmin-home-assistant/" hreflang="en">Garmin</a> und <a href="../../fitbit-home-assistant/" hreflang="en">Fitbit</a>.</p>
+<p>Mit einer Galaxy Watch oder einer Garmin-Uhr fehlen also die Sensoren für Ruheherzfrequenz und HRV. Mit einer Apple Watch am iPhone kommen beide an, denn die Uhr schreibt Ruheherzfrequenz und HRV in Apple Health. Die Details pro Marke stehen in den englischen Anleitungen zu <a href="../samsung-health-home-assistant/">Samsung Health</a>, <a href="../garmin-home-assistant/">Garmin</a> und <a href="../fitbit-home-assistant/">Fitbit</a>.</p>
 
 <h2>Was du in Home Assistant bekommst</h2>
 
@@ -92,7 +95,7 @@ published: 2026-10-27
   <li><strong>Nichts doppelt gezählt</strong>: Schritte, Distanz und Kalorien kommen aus den Tagessummen von Health Connect und Apple Health. Ein Spaziergang, den Telefon und Uhr beide aufzeichnen, zählt einmal.</li>
 </ul>
 
-<p>Mahlzeiten, Zykluseinträge und die Details eines Trainings sind Ereignisse und keine Messwerte, deshalb bekommen sie keinen Sensor. Vollständig gehen sie nur an einen <a href="../../health-connect-webhook/" hreflang="en">eigenen Webhook</a>.</p>
+<p>Mahlzeiten, Zykluseinträge und die Details eines Trainings sind Ereignisse und keine Messwerte, deshalb bekommen sie keinen Sensor. Vollständig gehen sie nur an einen <a href="../health-connect-webhook/">eigenen Webhook</a>.</p>
 
 <h2>Kacheln und Diagramme</h2>
 
@@ -128,7 +131,7 @@ entities:
   <li>Daten kommen an, sobald die App des Herstellers sie in Health Connect oder Apple Health geschrieben hat, meist nachdem sich die Uhr mit dem Telefon synchronisiert hat.</li>
   <li>iOS verschlüsselt Apple Health, solange das iPhone gesperrt ist. Eine Synchronisierung wartet dann aufs Entsperren, und das Nachtragen pausiert.</li>
   <li>Mit einer Adresse aus deinem Heimnetz synchronisiert das Telefon nur zu Hause. Was unterwegs anfällt, wartet auf dem Telefon bis zur nächsten Synchronisierung. Eine öffentliche HTTPS-Adresse oder Home Assistant Cloud funktioniert überall; mit Home Assistant Cloud laufen deine Daten unterwegs über deren Server.</li>
-  <li>Bildschirmzeit gibt es nur von Android, als Minuten pro App (<a href="../../screen-time-home-assistant/" hreflang="en">Anleitung auf Englisch</a>). iOS zeigt Bildschirmzeit-Daten nur in einer abgeschotteten Umgebung, aus der nichts nach außen gehen kann.</li>
+  <li>Bildschirmzeit gibt es nur von Android, als Minuten pro App (<a href="../screen-time-home-assistant/">Anleitung auf Englisch</a>). iOS zeigt Bildschirmzeit-Daten nur in einer abgeschotteten Umgebung, aus der nichts nach außen gehen kann.</li>
 </ul>
 
 <section class="faq">
@@ -147,7 +150,7 @@ entities:
   </details>
   <details>
     <summary>Ich habe gekoppelt, aber es kommen keine Daten meiner Uhr an. Woran liegt das?</summary>
-    <p>Meistens schreibt die App deiner Uhr noch nicht in Health Connect oder Apple Health. Schalte das ein und öffne die App der Uhr, damit sie synchronisiert. Prüfe außerdem, ob der Typ in der App eingeschaltet und die Berechtigung erteilt ist. Mehr steht in der <a href="../../troubleshooting/" hreflang="en">Fehlersuche (Englisch)</a>.</p>
+    <p>Meistens schreibt die App deiner Uhr noch nicht in Health Connect oder Apple Health. Schalte das ein und öffne die App der Uhr, damit sie synchronisiert. Prüfe außerdem, ob der Typ in der App eingeschaltet und die Berechtigung erteilt ist. Mehr steht in der <a href="../troubleshooting/">Fehlersuche (Englisch)</a>.</p>
   </details>
   <details>
     <summary>Funktioniert es, wenn das iPhone gesperrt ist?</summary>
@@ -159,6 +162,6 @@ entities:
   </details>
   <details>
     <summary>Kann Home Assistant Daten zurückschreiben?</summary>
-    <p>In Apple Health nicht: Die iPhone-App liest nur. Auf Android ja: Messwerte einer Waage oder eines Blutdruckmessgeräts in Home Assistant schickt die Integration ans Telefon, und die App schreibt sie in Health Connect, wo Samsung Health und Google Health sie lesen (<a href="../../smart-scale-to-samsung-health/" hreflang="en">Anleitung auf Englisch</a>).</p>
+    <p>In Apple Health nicht: Die iPhone-App liest nur. Auf Android ja: Messwerte einer Waage oder eines Blutdruckmessgeräts in Home Assistant schickt die Integration ans Telefon, und die App schreibt sie in Health Connect, wo Samsung Health und Google Health sie lesen (<a href="../smart-scale-to-samsung-health/">Anleitung auf Englisch</a>).</p>
   </details>
 </section>
