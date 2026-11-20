@@ -4,8 +4,8 @@ title: Fases del sueño en Home Assistant | Life Dashboard
 description: Fases del sueño en Home Assistant desde Health Connect o Apple Health: profundo, ligero, REM y despierto como sensores, y una tarjeta con el hipnograma.
 primary query: fases del sueño home assistant
 secondary queries: hipnograma home assistant, tarjeta de sueño home assistant, gráfico de fases del sueño home assistant, sensor de sueño profundo home assistant, sueño rem home assistant, health connect fases del sueño home assistant, apple watch fases del sueño home assistant, tarjeta hipnograma
-updated: 2026-11-11
-published: 2026-11-20
+updated: 2026-11-20
+published: 2026-11-09
 -->
 
 <h1>¿Cómo veo las fases del sueño en Home Assistant?</h1>
@@ -68,7 +68,7 @@ entities:
 
 <p>La tarjeta está en el Marketplace. En <strong>Ajustes &gt; Marketplace</strong> (HACS antes de Home Assistant 2026.11), busca <strong>Life Dashboard Sleep Card</strong> y descárgala, o usa <a href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-sleep-card&amp;category=plugin">este enlace</a>, que la abre en tu Home Assistant.</p>
 
-<p>En los dashboards en modo de almacenamiento, el recurso se registra solo. Si tus dashboards están en modo YAML, añádelo tú:</p>
+<p>En los dashboards en modo de almacenamiento, el recurso se registra solo. Si tus dashboards están en modo YAML, agrégalo tú:</p>
 
 <pre><code>lovelace:
   resources:
@@ -77,9 +77,9 @@ entities:
 
 <p>El <a href="https://github.com/owen282000/life-dashboard-sleep-card#by-hand">README de la tarjeta</a> explica también la instalación sin el Marketplace, desde un archivo en tu carpeta <code>www</code>.</p>
 
-<h2>Añádela a un dashboard</h2>
+<h2>Agrégala a un dashboard</h2>
 
-<p>Añade la tarjeta desde el selector de tarjetas, que ofrece los sensores que llevan una noche, o en YAML:</p>
+<p>Agrega la tarjeta desde el selector de tarjetas, que ofrece los sensores que llevan una noche, o en YAML:</p>
 
 <pre><code>type: custom:life-dashboard-sleep-card
 entity: sensor.your_phone_last_sleep_asleep
@@ -114,11 +114,11 @@ state_mapping:
 <p>En Android la tarjeta funciona por sí sola con la app Companion oficial de Home Assistant. Lee <code>sensor.your_phone_health_connect_sleep_duration</code>, y necesita:</p>
 
 <ul>
-  <li>La app Companion para Android 2026.11.1 o posterior, la versión que añadió las fases.</li>
+  <li>La app Companion para Android 2026.11.1 o posterior, la versión que agregó las fases.</li>
   <li>El sensor <strong>Sleep duration</strong> activado, en <strong>Ajustes</strong>, <strong>Companion app</strong>, <strong>Manage sensors</strong>, con acceso de Health Connect al sueño. Las fases solo vienen con ese sensor, no con los sensores aparte de duración por fase.</li>
 </ul>
 
-<p>El estado del sensor está en minutos y la tarjeta no lo usa: el tiempo dormido sale de las fases. La app Companion para iOS no tiene una cronología de fases, así que la tarjeta no puede dibujar una noche a partir de ella. En un iPhone, usa la app y la integración Life Dashboard. Lo que Life Dashboard añade en Android es el historial alrededor de la noche, cada día en las estadísticas a largo plazo, y los dos teléfonos; <a href="../companion-app-health-connect/">La app Companion y Health Connect</a> repasa el resto.</p>
+<p>El estado del sensor está en minutos y la tarjeta no lo usa: el tiempo dormido sale de las fases. La app Companion para iOS no tiene una cronología de fases, así que la tarjeta no puede dibujar una noche a partir de ella. En un iPhone, usa la app y la integración Life Dashboard. Lo que Life Dashboard agrega en Android es el historial alrededor de la noche, cada día en las estadísticas a largo plazo, y los dos teléfonos; <a href="../companion-app-health-connect/">La app Companion y Health Connect</a> repasa el resto.</p>
 
 <h2>Limitaciones</h2>
 
@@ -148,7 +148,7 @@ state_mapping:
   </details>
   <details>
     <summary>¿Funciona la tarjeta con otros sensores de sueño?</summary>
-    <p>Lee los dos formatos de esta página. Un sensor con un historial de estados real, como una app de seguimiento del sueño que informa en directo, es para lo que está hecha la <a href="https://github.com/Lavve/lovelace-hypnogram-card">Hypnogram card</a> de Lavve. Esta tarjeta es para noches que llegan a posteriori, como una lista de fases.</p>
+    <p>Lee los dos formatos de esta página. Un sensor con un historial de estados real, como una app de seguimiento del sueño que informa en tiempo real, es para lo que está hecha la <a href="https://github.com/Lavve/lovelace-hypnogram-card">Hypnogram card</a> de Lavve. Esta tarjeta es para noches que llegan a posteriori, como una lista de fases.</p>
   </details>
   <details>
     <summary>¿Envía la tarjeta mis datos de sueño a algún sitio?</summary>

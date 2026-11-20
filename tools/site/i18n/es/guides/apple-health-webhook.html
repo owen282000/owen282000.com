@@ -3,13 +3,13 @@ title: Apple Health a un webhook, automáticamente | Life Dashboard
 description: Life Dashboard Companion envía los datos de Apple Health de tu iPhone a tu webhook como JSON firmado, en segundo plano, con reintentos, borrados y Atajos.
 primary query: apple health webhook
 secondary queries: exportar apple health automáticamente, apple health json, exportar apple health a un servidor, api apple health autoalojada, healthkit webhook, apple health node-red, apple health postgres, enviar datos de apple health a un servidor
-updated: 2026-11-04
-published: 2026-11-20
+updated: 2026-11-20
+published: 2026-10-21
 -->
 
 <h1>¿Cómo envío los datos de Apple Health a un webhook automáticamente?</h1>
 
-<p>Instala Life Dashboard Companion en tu iPhone, añade tu URL con <strong>Agregar destino</strong> en la pestaña <strong>Salud</strong> y elige en <strong>Qué enviar</strong> los tipos de Apple Health (la app Salud del iPhone) que quieres enviar. A partir de ahí la app lee Apple Health en segundo plano según el horario que definas y envía cada registro nuevo a tu URL como JSON: pasos, sueño con sus fases, frecuencia cardíaca, HRV, peso, presión arterial, entrenamientos y más, 28 tipos en total, cada registro con un <code>uuid</code> estable y la app o el dispositivo que lo escribió.</p>
+<p>Instala Life Dashboard Companion en tu iPhone, agrega tu URL con <strong>Agregar destino</strong> en la pestaña <strong>Salud</strong> y elige en <strong>Qué enviar</strong> los tipos de Apple Health (la app Salud del iPhone) que quieres enviar. A partir de ahí la app lee Apple Health en segundo plano según el horario que definas y envía cada registro nuevo a tu URL como JSON: pasos, sueño con sus fases, frecuencia cardíaca, HRV, peso, presión arterial, entrenamientos y más, 28 tipos en total, cada registro con un <code>uuid</code> estable y la app o el dispositivo que lo escribió.</p>
 
 <p>Con un secreto definido, cada petición va firmada con HMAC-SHA256 en un encabezado <code>X-Signature</code>. Un payload que no se puede entregar espera en una cola en el iPhone, y un registro que borras en Apple Health aparece nombrado en el siguiente payload. El payload es el de la app para Android, así que un solo receptor acepta por igual un iPhone y un teléfono Android.</p>
 
@@ -29,7 +29,7 @@ published: 2026-11-20
 <h2>Configuración paso a paso</h2>
 
 <ol>
-  <li>En la configuración inicial de la app, introduce tu URL como <strong>URL del webhook</strong>. Más adelante, toca <strong>Agregar destino</strong> en la pestaña <strong>Salud</strong>, introdúcela y toca <strong>Agregar webhook</strong>. Puedes añadir varias; una sincronización cuenta como entregada cuando una de ellas la acepta.</li>
+  <li>En la configuración inicial de la app, introduce tu URL como <strong>URL del webhook</strong>. Más adelante, toca <strong>Agregar destino</strong> en la pestaña <strong>Salud</strong>, introdúcela y toca <strong>Agregar webhook</strong>. Puedes agregar varias; una sincronización cuenta como entregada cuando una de ellas la acepta.</li>
   <li>Opcional: toca el destino en la pestaña <strong>Salud</strong>. En <strong>Encabezados personalizados</strong>, toca <strong>Agregar un encabezado</strong> para un encabezado <code>Authorization</code> o una clave de API. Introduce un <strong>Secreto de firma HMAC</strong> que tu servidor también conozca, o toca <strong>Generar</strong> y <strong>Copiar secreto</strong>. Después toca <strong>Guardar</strong>. Cada dirección tiene su propio secreto y sus propios encabezados.</li>
   <li>Toca <strong>Ping de prueba</strong> en la configuración inicial, o <strong>Enviar prueba</strong> en la hoja del destino. Envía un payload pequeño con <code>"test": true</code> y sin registros, usando lo que está guardado. Si tu servidor está en casa, permite <strong>Red local</strong> cuando iOS lo pida.</li>
   <li>En <strong>Qué enviar</strong>, activa tus tipos y permite el acceso a Apple Health. Ahí mismo, <strong>Vista previa del payload</strong> muestra los últimos 7 días tal como quedaría el payload, y <strong>Sincronizar ahora</strong>, en la pestaña <strong>Salud</strong>, envía lo nuevo. La primera sincronización de un tipo envía sus últimos 7 días.</li>

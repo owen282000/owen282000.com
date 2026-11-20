@@ -5,7 +5,7 @@ description: Life Dashboard Companion envía a Home Assistant el tiempo de panta
 primary query: tiempo de pantalla home assistant
 secondary queries: tiempo de pantalla android home assistant, tiempo de uso por app home assistant, exportar bienestar digital, bienestar digital home assistant, uso de apps android home assistant, límite de tiempo de pantalla home assistant
 updated: 2026-11-20
-published: 2026-11-20
+published: 2026-10-06
 -->
 
 <h1>¿Cómo llevo el tiempo de pantalla de Android por app a Home Assistant?</h1>
@@ -87,11 +87,11 @@ actions:
     data:
       message: Three hours on the phone today.</code></pre>
 
-<p>La línea <code>value_template</code> convierte las horas en minutos y deja los minutos como están, así que <code>above: 180</code> significa tres horas tanto con la integración como por MQTT. Pon <code>sensor.&lt;phone&gt;_youtube_screen_time</code> y <code>above: 60</code> para un límite en una sola app, con la misma línea <code>value_template</code>. La <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/recipes/screen-time-limits.md">receta de límites de tiempo de pantalla</a> añade una versión para MQTT y una comprobación del uso del teléfono a altas horas de la noche.</p>
+<p>La línea <code>value_template</code> convierte las horas en minutos y deja los minutos como están, así que <code>above: 180</code> significa tres horas tanto con la integración como por MQTT. Pon <code>sensor.&lt;phone&gt;_youtube_screen_time</code> y <code>above: 60</code> para un límite en una sola app, con la misma línea <code>value_template</code>. La <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/recipes/screen-time-limits.md">receta de límites de tiempo de pantalla</a> agrega una versión para MQTT y una comprobación del uso del teléfono a altas horas de la noche.</p>
 
 <h2>Varios teléfonos en un mismo Home Assistant</h2>
 
-<p>Añade la integración una vez por teléfono y dale a cada uno un nombre claro. Los ID de entidad siguen el nombre, así que una tableta llamada “Living room tablet” da <code>sensor.living_room_tablet_youtube_screen_time</code> junto a los sensores de tu teléfono. Cada teléfono tiene su propio dispositivo, su secreto y sus estadísticas.</p>
+<p>Agrega la integración una vez por teléfono y dale a cada uno un nombre claro. Los ID de entidad siguen el nombre, así que una tableta llamada “Living room tablet” da <code>sensor.living_room_tablet_youtube_screen_time</code> junto a los sensores de tu teléfono. Cada teléfono tiene su propio dispositivo, su secreto y sus estadísticas.</p>
 
 <p>Por MQTT, dale un nombre a cada teléfono en <strong>Más</strong> &gt; <strong>Avanzado</strong> &gt; <strong>Nombre del teléfono</strong>. Un teléfono con nombre se convierte en su propio dispositivo, como Life Dashboard Companion (Pixel 8). Dos teléfonos sin nombre publican en los mismos sensores.</p>
 

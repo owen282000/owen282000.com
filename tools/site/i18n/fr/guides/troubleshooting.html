@@ -4,7 +4,7 @@ description: Synchronisations arrêtées en arrière-plan, données Santé Conne
 primary query: health connect ne synchronise plus
 secondary queries: santé connect synchronisation en arrière-plan arrêtée, samsung batterie ferme application, capteurs santé home assistant absents, autorisations santé connect, dépannage life dashboard
 slug: depannage
-published: 2026-11-20
+published: 2026-10-19
 updated: 2026-11-20
 -->
 
@@ -57,7 +57,7 @@ updated: 2026-11-20
   <li><strong><code>homeassistant.local</code> échoue souvent sur Android,</strong> qui ne résout pas de façon fiable les noms en <code>.local</code>. Utilisez plutôt l’adresse IP de Home Assistant, par exemple <code>http://192.168.1.10:8123</code> ; elle se trouve dans Paramètres &gt; Système &gt; Réseau.</li>
   <li><strong>Une adresse du réseau domestique</strong> ne fonctionne que sur votre Wi-Fi domestique. Les synchronisations hors de chez vous échouent, le téléphone garde les données, et la première synchronisation de retour à la maison les envoie. Une notification de synchronisations en échec pendant que vous êtes sorti, c’est cela.</li>
   <li><strong>Une adresse publique,</strong> comme une URL Home Assistant Cloud ou votre propre domaine en <code>https://</code>, fonctionne partout.</li>
-  <li><strong>Le HTTP non chiffré est bloqué&nbsp;:</strong> l’adresse commence par <code>http://</code>. Activez <strong>Autoriser les webhooks en HTTP non chiffré</strong> sous <strong>Plus</strong> &gt; <strong>Avancé</strong> pour un serveur situé sur votre propre réseau ou votre VPN&nbsp;; les données circulent alors en clair sur ce réseau.</li>
+  <li><strong>«&nbsp;HTTP non chiffré désactivé&nbsp;»&nbsp;:</strong> l’adresse commence par <code>http://</code>. Activez <strong>Autoriser les webhooks en HTTP non chiffré</strong> sous <strong>Plus</strong> &gt; <strong>Avancé</strong> pour un serveur situé sur votre propre réseau ou votre VPN&nbsp;; les données circulent alors en clair sur ce réseau.</li>
   <li><strong>Une erreur de certificat en <code>https://</code> :</strong> votre serveur utilise un certificat de votre propre autorité de certification, ou un certificat auto-signé. Sous <strong>Plus &gt; Avancé &gt; Certificats du serveur</strong> (application 1.27.0 et plus récente), faites confiance aux certificats d’autorité installés sur le téléphone pour cet hôte, ou lisez le certificat du serveur, vérifiez son empreinte et faites confiance à celui-là précisément. Aucune option n’ignore les erreurs de certificat.</li>
 </ul>
 

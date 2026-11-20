@@ -5,7 +5,7 @@ description: Os 28 tipos do Apple Health que o app Life Dashboard para iPhone en
 primary query: tipos de dados apple health
 secondary queries: lista de tipos de dados apple health, tipos de dados healthkit, exportar dados apple health campos, apple health json chaves, tipos de dados apple watch, healthkit home assistant, unidades apple health
 updated: 2026-11-20
-published: 2026-11-20
+published: 2026-10-21
 -->
 
 <h1>Quais tipos de dados do Apple Health o Life Dashboard envia?</h1>
@@ -126,7 +126,7 @@ published: 2026-11-20
 <h3 id="respiratory_rate">Frequência Respiratória</h3>
 <p>Chave <code>respiratory_rate</code>: <code>rate</code> em respirações por minuto, em um momento. Até 500 registros novos por sincronização.</p>
 
-<h3 id="vo2_max">VO2 máx.</h3>
+<h3 id="vo2_max">VO2 máx</h3>
 <p>Chave <code>vo2_max</code>: <code>vo2_ml_per_min_per_kg</code>, em um momento.</p>
 
 <h2>Sono e mente</h2>
@@ -174,13 +174,14 @@ published: 2026-11-20
 
 <p>Por MQTT, os registros do monitoramento do ciclo não são publicados, porque um tópico retido não é lugar para dados reprodutivos; a temperatura corporal basal é publicada. A integração do Home Assistant e um webhook recebem todos.</p>
 
-<h2>As quatro chaves do Android que um iPhone nunca envia</h2>
+<h2>As cinco chaves do Android que um iPhone nunca envia</h2>
 
 <table>
   <thead>
     <tr><th>Chave do Android</th><th>Por que não</th></tr>
   </thead>
   <tbody>
+    <tr><td><code>speed</code></td><td>O app do iPhone ainda não lê a velocidade.</td></tr>
     <tr><td><code>bone_mass</code></td><td>O Apple Health não tem um tipo de massa óssea.</td></tr>
     <tr><td><code>body_water_mass</code></td><td>O Apple Health não tem um tipo de água corporal.</td></tr>
     <tr><td><code>skin_temperature</code></td><td>O Apple Health guarda a temperatura absoluta do pulso durante o sono, não a variação em relação a uma linha de base que essa chave carrega.</td></tr>

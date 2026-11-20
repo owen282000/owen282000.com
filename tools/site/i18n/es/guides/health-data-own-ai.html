@@ -4,8 +4,8 @@ title: Servidor MCP para Apple Health y Health Connect, autoalojado
 description: Un servidor MCP de solo lectura en tu equipo: Claude o un modelo local lee el historial de Apple Health y Health Connect de tu teléfono, también en Europa.
 primary query: servidor mcp datos de salud
 secondary queries: health connect mcp, servidor mcp health connect, samsung health mcp, apple health mcp, servidor mcp apple health, apple watch mcp, apple health claude, apple health llm local, health connect claude, health connect chatgpt, claude health connect europa, chatgpt salud europa, preguntar a una ia por mis datos de salud, datos de salud llm local, home assistant mcp salud, ollama datos de salud, ia de salud autoalojada, claude desktop datos de salud
-updated: 2026-11-09
-published: 2026-11-20
+updated: 2026-11-20
+published: 2026-10-06
 -->
 
 <h1>¿Cómo le pregunto a mi propia IA por mis datos de Health Connect o Apple Health mediante MCP?</h1>
@@ -36,7 +36,7 @@ published: 2026-11-20
 <ol>
   <li>Tus datos están en tu propio stack, en Home Assistant o en Postgres, enviados allí por la app.</li>
   <li>Encima funciona un servidor MCP de solo lectura: el del stack, ha-mcp o DBHub.</li>
-  <li>Cualquier modelo que sepa usar herramientas MCP los lee. Puede ser un modelo local, o Claude: Claude Desktop ejecuta servidores MCP en tu propio ordenador, y un conector personalizado en Claude se conecta desde la nube de Anthropic, así que ese servidor tiene que ser accesible desde internet (<a href="https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp">página de ayuda de Anthropic</a>).</li>
+  <li>Cualquier modelo que sepa usar herramientas MCP los lee. Puede ser un modelo local, o Claude: Claude Desktop ejecuta servidores MCP en tu propio equipo, y un conector personalizado en Claude se conecta desde la nube de Anthropic, así que ese servidor tiene que ser accesible desde internet (<a href="https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp">página de ayuda de Anthropic</a>).</li>
 </ol>
 
 <p>Tú administras el servidor y decides qué modelo puede leerlo. Con un modelo en la nube, tus preguntas y los resultados de las herramientas van a su proveedor.</p>
@@ -58,10 +58,10 @@ published: 2026-11-20
 <ol>
   <li>En el <code>.env</code> del stack, pon en <code>MCP_TOKEN</code> una cadena aleatoria larga, distinta de <code>API_TOKEN</code>. Sin ella, el servidor se niega a arrancar:
 <pre><code>echo "MCP_TOKEN=$(openssl rand -hex 32)" &gt;&gt; .env</code></pre></li>
-  <li>Inícialo con su perfil. Un <code>docker compose up</code> a secas lo deja fuera, así que añade <code>COMPOSE_PROFILES=mcp</code> al <code>.env</code> si quieres que las actualizaciones lo incluyan:
+  <li>Inícialo con su perfil. Un <code>docker compose up</code> a secas lo deja fuera, así que agrega <code>COMPOSE_PROFILES=mcp</code> al <code>.env</code> si quieres que las actualizaciones lo incluyan:
 <pre><code>docker compose --profile mcp up -d</code></pre></li>
-  <li>Conecta un cliente por Streamable HTTP, en <code>http://&lt;address of this machine&gt;:8090/mcp</code>, con el encabezado <code>Authorization: Bearer &lt;MCP_TOKEN&gt;</code>. En Open WebUI, añádelo en <strong>Admin settings</strong> &gt; <strong>Integrations</strong> &gt; <strong>External tool servers</strong> con el tipo MCP (Streamable HTTP) y el token como autenticación bearer, y después activa las herramientas en un chat con tu modelo de Ollama. En LM Studio, añade la URL y el encabezado a <code>mcp.json</code>.</li>
-  <li>O usa Claude Desktop en el mismo equipo, por stdio, sin el puerto ni el token. En <strong>Settings</strong> &gt; <strong>Developer</strong> &gt; <strong>Edit Config</strong>, añade el stack, con la carpeta de tu <code>docker-compose.yml</code> como ruta, y reinicia Claude Desktop:
+  <li>Conecta un cliente por Streamable HTTP, en <code>http://&lt;address of this machine&gt;:8090/mcp</code>, con el encabezado <code>Authorization: Bearer &lt;MCP_TOKEN&gt;</code>. En Open WebUI, agrégalo en <strong>Admin settings</strong> &gt; <strong>Integrations</strong> &gt; <strong>External tool servers</strong> con el tipo MCP (Streamable HTTP) y el token como autenticación bearer, y después activa las herramientas en un chat con tu modelo de Ollama. En LM Studio, agrega la URL y el encabezado a <code>mcp.json</code>.</li>
+  <li>O usa Claude Desktop en el mismo equipo, por stdio, sin el puerto ni el token. En <strong>Settings</strong> &gt; <strong>Developer</strong> &gt; <strong>Edit Config</strong>, agrega el stack, con la carpeta de tu <code>docker-compose.yml</code> como ruta, y reinicia Claude Desktop:
 <pre><code>{
   "mcpServers": {
     "life-dashboard": {
@@ -103,10 +103,10 @@ published: 2026-11-20
 <p>La integración guarda tu historial en las estadísticas a largo plazo, con ID como <code>life_dashboard:&lt;entry&gt;_steps</code>. Con su API de Assist, el servidor MCP integrado de Home Assistant solo ofrece los estados actuales, así que puede responder “cuántos pasos llevo hoy”, pero no cómo queda este mes frente al anterior. <a href="https://github.com/homeassistant-ai/ha-mcp">ha-mcp</a>, un proyecto de la comunidad, tiene una herramienta de historial que lee las estadísticas a largo plazo.</p>
 
 <ol>
-  <li>En el Marketplace (HACS antes de Home Assistant 2026.11), añade <code>homeassistant-ai/ha-mcp-integration</code> como repositorio personalizado e instálalo. En el Marketplace eso es <strong>Add from link</strong>, que pide una conexión con GitHub. Necesita Home Assistant 2026.8 o posterior. Reinicia si Home Assistant lo pide, luego añade <strong>HA-MCP Custom Component</strong> en <strong>Añadir integración</strong> y elige <strong>HA-MCP Server</strong>.</li>
+  <li>En el Marketplace (HACS antes de Home Assistant 2026.11), agrega <code>homeassistant-ai/ha-mcp-integration</code> como repositorio personalizado e instálalo. En el Marketplace eso es <strong>Add from link</strong>, que pide una conexión con GitHub. Necesita Home Assistant 2026.8 o posterior. Reinicia si Home Assistant lo pide, luego agrega <strong>HA-MCP Custom Component</strong> en <strong>Añadir integración</strong> y elige <strong>HA-MCP Server</strong>.</li>
   <li>En el panel <strong>HA-MCP</strong> de la barra lateral, activa <strong>Read Only Mode</strong>.</li>
   <li>En <strong>Configurar</strong>, desactiva <strong>Remote access via webhook</strong> y pon <strong>Network access</strong> en <code>127.0.0.1</code>, salvo que lo necesite un cliente en otro equipo.</li>
-  <li>Conecta un modelo. Dentro de Home Assistant, añade la integración de Ollama, crea un agente de conversación con un modelo que admita herramientas y elige <strong>HA-MCP Server (tool search)</strong> en <strong>Control Home Assistant</strong>. O añade la URL de ha-mcp en Open WebUI o LM Studio, y activa su búsqueda de herramientas en el panel <strong>HA-MCP</strong>. Trata esa URL como una contraseña de administrador.</li>
+  <li>Conecta un modelo. Dentro de Home Assistant, agrega la integración de Ollama, crea un agente de conversación con un modelo que admita herramientas y elige <strong>HA-MCP Server (tool search)</strong> en <strong>Control Home Assistant</strong>. O agrega la URL de ha-mcp en Open WebUI o LM Studio, y activa su búsqueda de herramientas en el panel <strong>HA-MCP</strong>. Trata esa URL como una contraseña de administrador.</li>
   <li>Dale al modelo el ID de la estadística, que aparece en <strong>Herramientas para desarrolladores</strong> &gt; <strong>Estadísticas</strong>, y pídele medias mensuales con <code>ha_get_history</code> a partir de sus estadísticas.</li>
 </ol>
 
@@ -123,9 +123,9 @@ ALTER ROLE llm_ro SET statement_timeout = '30s';
 GRANT CONNECT ON DATABASE health TO llm_ro;
 GRANT USAGE ON SCHEMA public TO llm_ro;
 GRANT SELECT ON records, daily_totals TO llm_ro;</code></pre>
-  Usa los nombres de tus propias tablas y de tu base de datos, y concede <code>SELECT</code> sobre cada vista que añadas después.</li>
-  <li>Ejecuta DBHub en modo de solo lectura, conectado con ese rol, y añade su URL en Open WebUI o LM Studio. La <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/recipes/ask-your-own-llm.md#route-3-your-own-postgres">receta de esta ruta</a> incluye un <code>docker-compose.yml</code> y un <code>dbhub.toml</code>.</li>
-  <li>Añade vistas con una fila por día y por noche. Un modelo responde mucho mejor con ellas que con sesiones de sueño en JSON. El <a href="https://github.com/owen282000/life-dashboard-stack/blob/main/receiver/views.sql"><code>views.sql</code></a> del stack es una plantilla: adapta sus nombres de tablas y columnas a los tuyos.</li>
+  Usa los nombres de tus propias tablas y de tu base de datos, y concede <code>SELECT</code> sobre cada vista que agregues después.</li>
+  <li>Ejecuta DBHub en modo de solo lectura, conectado con ese rol, y agrega su URL en Open WebUI o LM Studio. La <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/recipes/ask-your-own-llm.md#route-3-your-own-postgres">receta de esta ruta</a> incluye un <code>docker-compose.yml</code> y un <code>dbhub.toml</code>.</li>
+  <li>Agrega vistas con una fila por día y por noche. Un modelo responde mucho mejor con ellas que con sesiones de sueño en JSON. El <a href="https://github.com/owen282000/life-dashboard-stack/blob/main/receiver/views.sql"><code>views.sql</code></a> del stack es una plantilla: adapta sus nombres de tablas y columnas a los tuyos.</li>
 </ol>
 
 <p>En Kubernetes, el chart de Helm del stack también puede usar un Postgres 18 que ya tengas, con una base de datos propia (su modo externo), y entonces la ruta 1 funciona ahí. Con Docker Compose, su documentación no cubre el uso del stack con tu propia base de datos.</p>
@@ -154,10 +154,10 @@ GRANT SELECT ON records, daily_totals TO llm_ro;</code></pre>
 <h2>Limitaciones</h2>
 
 <ul>
-  <li>Con un modelo en la nube, incluido Claude Desktop, tus preguntas, cada resultado de herramienta que pide y sus respuestas van al proveedor, sujetos a su configuración de retención y de entrenamiento. Claude Desktop ejecuta el servidor del stack en tu ordenador, pero la conversación va a Anthropic.</li>
+  <li>Con un modelo en la nube, incluido Claude Desktop, tus preguntas, cada resultado de herramienta que pide y sus respuestas van al proveedor, sujetos a su configuración de retención y de entrenamiento. Claude Desktop ejecuta el servidor del stack en tu equipo, pero la conversación va a Anthropic.</li>
   <li>Las herramientas del stack responden por día, por noche y por entrenamiento, con hasta 92 días por llamada, y una tendencia de hasta 365. No entregan lecturas sueltas ni registros en bruto.</li>
   <li>Docker publica el puerto MCP del stack en todas las interfaces de red del equipo, y con HTTP sin cifrar el token y cada respuesta cruzan tu red de forma legible. Define <code>MCP_PORT=127.0.0.1:8090</code> para limitarlo al equipo, y usa TLS o una VPN fuera de tu propia red. Un conector personalizado en una app web llama desde la nube del proveedor y necesitaría el servidor en internet; la documentación del stack no cubre ese caso.</li>
-  <li>El <code>.env</code> del stack empieza con contraseñas predeterminadas para Grafana y para los dos usuarios de solo lectura. Cámbialas antes de añadir otra vía de entrada.</li>
+  <li>El <code>.env</code> del stack empieza con contraseñas predeterminadas para Grafana y para los dos usuarios de solo lectura. Cámbialas antes de agregar otra vía de entrada.</li>
   <li>ha-mcp trabaja con acceso de administrador. Cualquiera que pueda hablar con su agente de conversación puede preguntar por tus datos de salud, así que dale un agente propio, fuera de los canales de voz compartidos. Una pregunta hecha por voz pasa además por tu motor de voz, que con Home Assistant Cloud no es local.</li>
   <li>Los tipos que no activaste, o los días en que el teléfono no sincronizó, no están ahí para leerlos. El historial de tiempo de pantalla solo viene de teléfonos Android. El stack guarda aparte las series enviadas por intervalos de tiempo, y solo sus vistas de frecuencia cardíaca las leen, así que deja <strong>Resolución de datos</strong> en <strong>Cada registro</strong>, el valor predeterminado.</li>
   <li>Los tipos que la app de tu reloj no comparte con Health Connect tampoco están, y de ellos depende qué preguntas puede responder un modelo. Samsung Health se guarda la HRV, la frecuencia cardíaca en reposo y la frecuencia respiratoria, y Garmin Connect no escribe ninguna HRV en Health Connect y se guarda la frecuencia cardíaca en reposo.</li>
@@ -173,7 +173,7 @@ GRANT SELECT ON records, daily_totals TO llm_ro;</code></pre>
   </details>
   <details>
     <summary>¿Puedo usar un modelo en la nube como Claude?</summary>
-    <p>Sí. Claude Desktop puede iniciar el servidor MCP del stack en tu propio ordenador por stdio, y cualquier cliente que hable Streamable HTTP puede usarlo con el token. En ese caso tus preguntas, cada resultado de herramienta y las respuestas van al proveedor. Un conector personalizado en Claude, o un conector en otra app web, se conecta desde la nube del proveedor y necesita que tu servidor sea accesible desde internet.</p>
+    <p>Sí. Claude Desktop puede iniciar el servidor MCP del stack en tu propio equipo por stdio, y cualquier cliente que hable Streamable HTTP puede usarlo con el token. En ese caso tus preguntas, cada resultado de herramienta y las respuestas van al proveedor. Un conector personalizado en Claude, o un conector en otra app web, se conecta desde la nube del proveedor y necesita que tu servidor sea accesible desde internet.</p>
   </details>
   <details>
     <summary>¿Puedo conectar Health Connect con Claude o ChatGPT en Europa?</summary>

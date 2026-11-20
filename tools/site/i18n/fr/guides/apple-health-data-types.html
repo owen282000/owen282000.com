@@ -4,7 +4,7 @@ description: Les 28 types Apple Health (Santé) qu’envoie l’application iPho
 primary query: types de données apple health
 secondary queries: apple santé types de données, liste des données apple santé, types de données healthkit, champs export apple santé, clés json apple health, types de données apple watch, types healthkit home assistant, unités apple santé
 updated: 2026-11-20
-published: 2026-11-20
+published: 2026-10-21
 -->
 
 <h1>Quels types de données Apple Health Life Dashboard envoie-t-il&nbsp;?</h1>
@@ -173,13 +173,14 @@ published: 2026-11-20
 
 <p>Avec MQTT, les entrées du suivi du cycle ne sont pas publiées, car un topic retained n’est pas un endroit pour des données de santé reproductive&nbsp;; la température basale, elle, l’est. L’intégration Home Assistant et un webhook les reçoivent toutes.</p>
 
-<h2>Les quatre clés Android qu’un iPhone n’envoie jamais</h2>
+<h2>Les cinq clés Android qu’un iPhone n’envoie jamais</h2>
 
 <table>
   <thead>
     <tr><th>Clé Android</th><th>Pourquoi</th></tr>
   </thead>
   <tbody>
+    <tr><td><code>speed</code></td><td>L’application iPhone ne lit pas encore la vitesse.</td></tr>
     <tr><td><code>bone_mass</code></td><td>Apple Santé n’a pas de type pour la masse osseuse.</td></tr>
     <tr><td><code>body_water_mass</code></td><td>Apple Santé n’a pas de type pour l’eau corporelle.</td></tr>
     <tr><td><code>skin_temperature</code></td><td>Apple Santé enregistre la température absolue au poignet pendant le sommeil, pas l’écart par rapport à une valeur de référence que transporte cette clé.</td></tr>

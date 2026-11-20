@@ -55,7 +55,7 @@
       "image": "A2-pair",
       "link": {
         "href": "../health-connect-home-assistant/",
-        "text": "Cómo añadir Health Connect a Home Assistant"
+        "text": "Cómo agregar Health Connect a Home Assistant"
       }
     },
     {
@@ -123,7 +123,7 @@
     },
     {
       "q": "¿Puede enviar a Home Assistant y a un webhook al mismo tiempo?",
-      "a": "Sí. Cada dirección tiene su propio secreto de firma y sus encabezados, y la vinculación con Home Assistant solo los configura para la dirección que añade, así que un segundo receptor conserva los suyos. Algo que conviene saber hoy: un payload se da por entregado en cuanto un destino lo acepta, así que un destino que en ese momento no responde se lo pierde. Health Connect y Tiempo de pantalla pueden enviar cada uno a varios webhooks y a MQTT a la vez. Está prevista una entrega independiente para cada destino."
+      "a": "Sí. Cada dirección tiene su propio secreto de firma y sus encabezados, y la vinculación con Home Assistant solo los configura para la dirección que agrega, así que un segundo receptor conserva los suyos. Algo que conviene saber hoy: un payload se da por entregado en cuanto un destino lo acepta, así que un destino que en ese momento no responde se lo pierde. Health Connect y Tiempo de pantalla pueden enviar cada uno a varios webhooks y a MQTT a la vez. Está prevista una entrega independiente para cada destino."
     },
     {
       "q": "¿Qué pasa si mi servidor no responde?",
@@ -166,7 +166,7 @@
       "a": "Sí. Google Play, el APK de GitHub, Obtainium y F-Droid instalan la misma app, con el mismo nombre de paquete y la misma clave de firma, así que puedes cambiar sin reinstalar: una se instala encima de la otra y tu configuración se conserva."
     }
   ],
-  "updated": "2026-11-09",
+  "updated": "2026-11-20",
   "guides": [
     "health-connect-home-assistant",
     "health-connect-webhook",

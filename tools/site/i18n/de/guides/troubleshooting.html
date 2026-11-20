@@ -4,7 +4,7 @@ title: Health Connect synchronisiert nicht: Hilfe | Life Dashboard
 description: Synchronisierung stoppt im Hintergrund, Health-Connect-Daten fehlen, keine Sensoren in Home Assistant, Fehler beim Koppeln: was du Schritt für Schritt prüfst.
 primary query: health connect synchronisiert nicht
 secondary queries: health connect synchronisierung funktioniert nicht, health connect hintergrund synchronisierung stoppt, samsung akku beendet app, home assistant gesundheit sensoren fehlen, health connect berechtigungen, life dashboard fehlerbehebung
-published: 2026-11-20
+published: 2026-10-19
 updated: 2026-11-20
 -->
 
@@ -57,7 +57,7 @@ updated: 2026-11-20
   <li><strong><code>homeassistant.local</code> scheitert auf Android oft,</strong> weil Android <code>.local</code>-Namen nicht zuverlässig auflöst. Nimm stattdessen die IP-Adresse von Home Assistant, etwa <code>http://192.168.1.10:8123</code>; sie steht unter Einstellungen &gt; System &gt; Netzwerk.</li>
   <li><strong>Eine Adresse im Heimnetz</strong> funktioniert nur in deinem WLAN zu Hause. Unterwegs schlagen Synchronisierungen fehl, das Telefon behält die Daten, und die erste Synchronisierung zu Hause sendet sie. Eine Benachrichtigung über fehlgeschlagene Synchronisierungen, während du unterwegs bist, ist genau das.</li>
   <li><strong>Eine öffentliche Adresse,</strong> etwa eine URL von Home Assistant Cloud oder deine eigene <code>https://</code>-Domain, funktioniert überall.</li>
-  <li><strong>Unverschlüsseltes HTTP ist blockiert:</strong> Die Adresse beginnt mit <code>http://</code>. Schalte unter <strong>Mehr</strong> &gt; <strong>Erweitert</strong> die Option <strong>Einfache HTTP-Webhooks erlauben</strong> ein, für einen Server in deinem eigenen Netz oder VPN; die Daten sind in diesem Netz dann unverschlüsselt unterwegs.</li>
+  <li><strong>„Unverschlüsseltes HTTP ist aus“:</strong> Die Adresse beginnt mit <code>http://</code>. Schalte unter <strong>Mehr</strong> &gt; <strong>Erweitert</strong> die Option <strong>Einfache HTTP-Webhooks erlauben</strong> ein, für einen Server in deinem eigenen Netz oder VPN; die Daten sind in diesem Netz dann unverschlüsselt unterwegs.</li>
   <li><strong>Ein Zertifikatsfehler bei <code>https://</code>:</strong> Dein Server nutzt ein Zertifikat deiner eigenen CA oder ein selbst signiertes. Unter <strong>Mehr &gt; Erweitert &gt; Server-Zertifikate</strong> (App 1.27.0 und neuer) vertraust du für diesen Host den auf dem Telefon installierten CA-Zertifikaten, oder du liest das Zertifikat des Servers aus, prüfst seinen Fingerabdruck und vertraust genau diesem einen. Eine Option, die Zertifikatsfehler ignoriert, gibt es nicht.</li>
 </ul>
 

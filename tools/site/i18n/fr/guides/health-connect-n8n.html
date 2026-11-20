@@ -3,8 +3,8 @@ title: Health Connect et Apple Health vers n8n | Life Dashboard
 description: Un workflow n8n complet pour les données Health Connect et Apple Health : nœud Webhook, vérification HMAC dans un nœud Code, puis Postgres ou Google Sheets.
 primary query: health connect n8n
 secondary queries: samsung health n8n, apple health n8n, apple santé n8n, santé connect n8n, webhook health connect n8n, n8n données de santé, garmin n8n, n8n webhook signature hmac, n8n webhook raw body
-updated: 2026-11-05
-published: 2026-11-20
+updated: 2026-11-20
+published: 2026-10-14
 -->
 
 <h1>Comment envoyer les données de Health Connect vers n8n&nbsp;?</h1>
@@ -18,7 +18,8 @@ published: 2026-11-20
 <h2>Ce qu’il vous faut</h2>
 
 <ul>
-  <li><a href="../android/">Life Dashboard Companion pour Android</a> sur Android 9 ou plus récent avec Santé Connect, ou <a href="../ios/">l’application iPhone</a>. {{status:ios}}</li>
+  <li><a href="../android/">Life Dashboard Companion pour Android</a> sur Android 9 ou plus récent avec Santé Connect. {{status:android}}</li>
+  <li>Ou <a href="../ios/">l’application iPhone</a> sur iOS 17 ou plus récent. {{status:ios}}</li>
   <li>n8n, sur n8n Cloud ou auto-hébergé, joignable depuis le téléphone. Utilisez HTTPS. Le HTTP non chiffré sur votre propre réseau demande d’activer <strong>Autoriser les webhooks en HTTP non chiffré</strong> sous <strong>Plus</strong> &gt; <strong>Avancé</strong> dans l’application Android&nbsp;; l’application iPhone n’autorise le HTTP non chiffré que vers une adresse IP, un nom en <code>.local</code> ou un nom sans point.</li>
   <li>De la place pour les grosses requêtes. Autorisez au moins 10 Mo par requête. n8n accepte jusqu’à 16 Mo par défaut, mais un reverse proxy placé devant doit l’autoriser aussi&nbsp;: nginx autorise 1 Mo par défaut.</li>
   <li>Le module <code>crypto</code> dans le nœud Code. n8n Cloud le fournit. Sur un n8n auto-hébergé, définissez <code>NODE_FUNCTION_ALLOW_BUILTIN=crypto</code>, sur le task runner si vous en utilisez un.</li>

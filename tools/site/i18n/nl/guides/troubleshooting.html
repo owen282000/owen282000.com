@@ -5,7 +5,7 @@ description: Syncs die op de achtergrond stoppen, lege Health Connect, geen sens
 primary query: health connect werkt niet
 secondary queries: health connect synchroniseert niet, health connect sync stopt op achtergrond, samsung batterij sluit app af, home assistant gezondheidssensoren ontbreken, health connect machtigingen, life dashboard problemen oplossen
 updated: 2026-11-20
-published: 2026-11-20
+published: 2026-10-19
 -->
 
 <h1>Waarom komt mijn gezondheidsdata niet aan?</h1>
@@ -57,7 +57,7 @@ published: 2026-11-20
   <li><strong><code>homeassistant.local</code> werkt vaak niet op Android,</strong> dat namen op <code>.local</code> niet betrouwbaar opzoekt. Gebruik in plaats daarvan het IP-adres van Home Assistant, zoals <code>http://192.168.1.10:8123</code>. Het staat onder Instellingen &gt; Systeem &gt; Netwerk.</li>
   <li><strong>Een adres in je thuisnetwerk</strong> werkt alleen op je wifi thuis. Onderweg mislukken de syncs, de telefoon bewaart de data, en de eerste sync als je weer thuis bent verstuurt alles. Een melding over mislukte syncs terwijl je weg bent is dit.</li>
   <li><strong>Een publiek adres,</strong> zoals een URL van Home Assistant Cloud of je eigen <code>https://</code>-domein, werkt overal.</li>
-  <li><strong>"Plain HTTP is blocked":</strong> het adres begint met <code>http://</code>. Zet <strong>Onversleutelde HTTP-webhooks toestaan</strong> aan onder <strong>Meer</strong> &gt; <strong>Geavanceerd</strong> voor een server op je eigen netwerk of VPN. De data gaat dan onversleuteld over dat netwerk.</li>
+  <li><strong>"Onversleutelde HTTP staat uit":</strong> het adres begint met <code>http://</code>. Zet <strong>Onversleutelde HTTP-webhooks toestaan</strong> aan onder <strong>Meer</strong> &gt; <strong>Geavanceerd</strong> voor een server op je eigen netwerk of VPN. De data gaat dan onversleuteld over dat netwerk.</li>
   <li><strong>Een certificaatfout bij <code>https://</code>:</strong> je server gebruikt een certificaat van je eigen CA, of een zelfondertekend certificaat. Vertrouw onder <strong>Meer &gt; Geavanceerd &gt; Servercertificaten</strong> (app 1.27.0 en nieuwer) voor die host de CA-certificaten die op de telefoon zijn geïnstalleerd, of lees het certificaat van de server uit, controleer de vingerafdruk en vertrouw precies dat ene. Er is geen optie die certificaatfouten negeert.</li>
 </ul>
 

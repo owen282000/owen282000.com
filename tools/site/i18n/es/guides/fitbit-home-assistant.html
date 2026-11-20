@@ -3,8 +3,8 @@ title: Fitbit en Home Assistant tras cerrar la API | Life Dashboard
 description: Google apagó la Fitbit Web API el 2 de noviembre de 2026. Life Dashboard Companion lleva Fitbit y Pixel Watch a Home Assistant mediante Health Connect.
 primary query: fitbit home assistant
 secondary queries: fitbit 410 gone home assistant, error fetching fitbit data 410, cierre api fitbit home assistant, integración fitbit dejó de funcionar home assistant, fitbit web api 30 de octubre de 2026, pixel watch home assistant, fitbit web api obsoleta, google health home assistant, integración google health home assistant, home assistant google health, fitbit health connect, integración fitbit no disponible, pixel watch health connect, sueño fitbit home assistant
-updated: 2026-11-09
-published: 2026-11-20
+updated: 2026-11-20
+published: 2026-10-06
 -->
 
 <h1>¿Cómo llevo los datos de Fitbit y Pixel Watch a Home Assistant tras el cierre de la Fitbit Web API?</h1>
@@ -62,7 +62,7 @@ published: 2026-11-20
   <li>En <strong>Ajustes</strong> &gt; <strong>Marketplace</strong> (HACS antes de Home Assistant 2026.11), busca <strong>Life Dashboard</strong> e instálala. En HACS, descárgala y reinicia Home Assistant.</li>
   <li>Si la configuración no se abrió sola, ve a <strong>Ajustes</strong> &gt; <strong>Dispositivos y servicios</strong> &gt; <strong>Añadir integración</strong> y busca <strong>Life Dashboard</strong>. Ponle un nombre al teléfono. En el campo <strong>Home Assistant address</strong>, pon la dirección IP de Home Assistant, por ejemplo <code>http://192.168.1.20:8123</code>; Home Assistant la muestra en <strong>Ajustes</strong> &gt; <strong>Sistema</strong> &gt; <strong>Red</strong>, en la sección <strong>Adaptador de red</strong>. El cuadro de diálogo muestra entonces un código QR.</li>
   <!-- IMG: the QR code in Home Assistant (H2-qr.png) -->
-  <li>Instala <a href="{{play_url}}">Life Dashboard Companion desde Google Play</a>, donde aparece como Health Data for Home Assistant: 4,99&nbsp;€, pago único, y Google Play la mantiene actualizada. O instálala gratis, la misma app con la misma clave de firma: abre en el teléfono el APK de GitHub y permite una vez las instalaciones desde tu navegador, o añádela en Obtainium o F-Droid (<a href="../android/#get">opciones de instalación</a>). Puede que Android te avise antes de instalar un APK que no viene de Play Store; lo hace con cualquier app de otra fuente. Abre la app y, en <strong>¿Adónde deben ir tus datos?</strong>, toca <strong>Escanear un código de vinculación</strong>, escanea el código y toca <strong>Vincular</strong>.</li>
+  <li>Instala <a href="{{play_url}}">Life Dashboard Companion desde Google Play</a>, donde aparece como Health Data for Home Assistant: 4,99&nbsp;€, pago único, y Google Play la mantiene actualizada. O instálala gratis, la misma app con la misma clave de firma: abre en el teléfono el APK de GitHub y permite una vez las instalaciones desde tu navegador, o agrégala en Obtainium o F-Droid (<a href="../android/#get">opciones de instalación</a>). Puede que Android te avise antes de instalar un APK que no viene de Play Store; lo hace con cualquier app de otra fuente. Abre la app y, en <strong>¿Adónde deben ir tus datos?</strong>, toca <strong>Escanear un código de vinculación</strong>, escanea el código y toca <strong>Vincular</strong>.</li>
   <li>En la pestaña <strong>Salud</strong>, toca <strong>Conceder</strong> y permite tus tipos de datos y la lectura en segundo plano. El ajuste predefinido <strong>Lo esencial</strong> cubre los pasos, el sueño, la frecuencia cardíaca, la frecuencia cardíaca en reposo, la distancia, las calorías y el peso; activa la HRV, la frecuencia respiratoria, la temperatura de la piel y lo demás en <strong>Qué enviar</strong>.</li>
   <li>Toca <strong>Sincronizar ahora</strong>. Para los datos más antiguos, toca <strong>Enviar historial</strong> en <strong>Qué enviar</strong> y elige hasta dónde retroceder, desde <strong>30 días</strong> hasta <strong>Todo el historial</strong>, después de <strong>Conceder acceso al historial</strong> si la página lo muestra.</li>
 </ol>
@@ -97,7 +97,7 @@ published: 2026-11-20
 
 <h2>La integración Google Health de Home Assistant, comparada</h2>
 
-<p>Home Assistant 2026.8 añadió una <a href="https://www.home-assistant.io/integrations/google_health/">integración Google Health</a>. Lee la nube de Google con la nueva Google Health API, la que sustituyó a la Fitbit Web API. Las dos pueden funcionar a la vez.</p>
+<p>Home Assistant 2026.8 agregó una <a href="https://www.home-assistant.io/integrations/google_health/">integración Google Health</a>. Lee la nube de Google con la nueva Google Health API, la que sustituyó a la Fitbit Web API. Las dos pueden funcionar a la vez.</p>
 
 <table>
   <thead>

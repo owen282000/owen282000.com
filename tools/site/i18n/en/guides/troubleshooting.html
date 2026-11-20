@@ -56,7 +56,7 @@ updated: 2026-11-20
   <li><strong><code>homeassistant.local</code> often fails on Android,</strong> which doesn't reliably look up <code>.local</code> names. Use the IP address of Home Assistant instead, such as <code>http://192.168.1.10:8123</code>; it's under Settings &gt; System &gt; Network.</li>
   <li><strong>A home network address</strong> only works on your home Wi-Fi. Syncs away from home fail, the phone keeps the data, and the first sync back home sends it. A notification about failed syncs while you're out is this.</li>
   <li><strong>A public address,</strong> such as a Home Assistant Cloud URL or your own <code>https://</code> domain, works everywhere.</li>
-  <li><strong>"Plain HTTP is blocked":</strong> the address starts with <code>http://</code>. Switch on <strong>Allow plain HTTP webhooks</strong> under <strong>More</strong> &gt; <strong>Advanced</strong> for a server on your own network or VPN; the data then travels unencrypted on that network.</li>
+  <li><strong>"Plain HTTP is off":</strong> the address starts with <code>http://</code>. Switch on <strong>Allow plain HTTP webhooks</strong> under <strong>More</strong> &gt; <strong>Advanced</strong> for a server on your own network or VPN; the data then travels unencrypted on that network.</li>
   <li><strong>A certificate error on <code>https://</code>:</strong> your server uses a certificate from your own CA, or a self-signed one. Under <strong>More &gt; Advanced &gt; Server certificates</strong> (app 1.27.0 and newer), trust the CA certificates installed on the phone for that host, or read the server's certificate, check its fingerprint and trust exactly that one. There is no option that ignores certificate errors.</li>
 </ul>
 
@@ -66,7 +66,7 @@ updated: 2026-11-20
 
 <ul>
   <li><strong>Scanning opens a web page instead of the app.</strong> Android checks the pairing link against the app's signature when it's installed. The page has an <strong>Open in the app</strong> button that always works, and scanning from inside the app, with <strong>Scan a pairing code</strong>, never depends on that check.</li>
-  <li><strong>"This code is from a newer version".</strong> The integration is newer than the app. Update the app and scan again.</li>
+  <li><strong>"This code was made by a newer version".</strong> The integration is newer than the app. Update the app and scan again.</li>
   <li><strong>Pairing works but nothing arrives.</strong> The address in the code isn't reachable from the phone: see the section above.</li>
 </ul>
 

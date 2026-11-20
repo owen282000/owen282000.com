@@ -4,7 +4,7 @@ description: Life Dashboard Companion, una app de código abierto para Android, 
 primary query: health connect webhook
 secondary queries: exportar health connect a un servidor, health connect json, health connect node-red, health connect grafana, health connect influxdb, exportar datos de health connect, datos de salud autoalojados
 updated: 2026-11-20
-published: 2026-11-20
+published: 2026-10-06
 -->
 
 <h1>¿Cómo envío los datos de Health Connect a mi propio webhook como JSON?</h1>
@@ -29,7 +29,7 @@ published: 2026-11-20
 
 <ol>
   <li>En la pestaña <strong>Salud</strong>, toca <strong>Agregar destino</strong> (si aún no hay nada configurado, <strong>Usar tu propio servidor</strong>), pega tu URL en <strong>URL del webhook</strong> y toca <strong>Agregar webhook</strong>. La pestaña <strong>Tiempo de pantalla</strong> tiene su propia lista.</li>
-  <li>La dirección se abre en una página propia. Opcional: añade un encabezado <code>Authorization</code> o una clave de API en <strong>Encabezados</strong>.</li>
+  <li>La dirección se abre en una página propia. Opcional: agrega un encabezado <code>Authorization</code> o una clave de API en <strong>Encabezados</strong>.</li>
   <li>En <strong>Secreto de firma HMAC (opcional)</strong>, toca <strong>Generar</strong> y pon el mismo valor en tu servidor. Cada dirección tiene su propio secreto, así que un segundo servidor recibe el suyo.</li>
   <li>Toca <strong>Guardar</strong> arriba, abre otra vez la fila de la dirección en la pestaña y toca <strong>Enviar prueba</strong> para comprobar que tu servidor acepta la petición.</li>
   <li>Concede los permisos de Health Connect y toca <strong>Sincronizar ahora</strong>. <strong>Enviar historial</strong>, en <strong>Qué enviar</strong>, envía desde 30 días hasta 5 años, o <strong>Todo el historial</strong>.</li>
@@ -83,7 +83,7 @@ published: 2026-11-20
 <pre><code>expected = "sha256=" + hmac.new(SECRET, body, hashlib.sha256).hexdigest()
 valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
 
-<p>Para un proxy inverso que exige un certificado de cliente, instálalo en los ajustes de Android y elígelo en <strong>Más</strong> &gt; <strong>Avanzado</strong> &gt; <strong>Certificado de cliente (mTLS)</strong>.</p>
+<p>Para un proxy inverso que exige un certificado de cliente, instálalo en la configuración de Android y elígelo en <strong>Más</strong> &gt; <strong>Avanzado</strong> &gt; <strong>Certificado de cliente (mTLS)</strong>.</p>
 
 <h2>Reintentos, cola de salida y borrados</h2>
 

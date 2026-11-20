@@ -5,7 +5,7 @@ description: Los 28 tipos de Apple Health que envía Life Dashboard para iPhone,
 primary query: tipos de datos apple health
 secondary queries: lista de tipos de datos apple health, tipos de datos healthkit, campos exportar apple health, claves json apple health, tipos de datos apple watch, tipos healthkit home assistant, unidades apple health
 updated: 2026-11-20
-published: 2026-11-20
+published: 2026-10-21
 -->
 
 <h1>¿Qué tipos de datos de Apple Health envía Life Dashboard?</h1>
@@ -32,9 +32,9 @@ published: 2026-11-20
     <tr><td><a href="#height">Altura</a></td><td><code>height</code></td><td><code>meters</code></td><td>Último valor</td><td>No</td></tr>
     <tr><td><a href="#body_fat">Porcentaje de grasa corporal</a></td><td><code>body_fat</code></td><td><code>percentage</code></td><td>Último valor</td><td>No</td></tr>
     <tr><td><a href="#lean_body_mass">Masa corporal magra</a></td><td><code>lean_body_mass</code></td><td><code>kilograms</code></td><td>Último valor</td><td>No</td></tr>
-    <tr><td><a href="#heart_rate">Frecuencia cardiaca</a></td><td><code>heart_rate</code></td><td><code>bpm</code></td><td>Último valor</td><td>Sí</td></tr>
-    <tr><td><a href="#resting_heart_rate">Frecuencia cardiaca en reposo</a></td><td><code>resting_heart_rate</code></td><td><code>bpm</code></td><td>Último valor</td><td>Sí</td></tr>
-    <tr><td><a href="#heart_rate_variability">Variabilidad de la frecuencia cardiaca</a></td><td><code>heart_rate_variability</code></td><td><code>heart_rate_variability_millis</code>, ms (SDNN)</td><td>Último valor</td><td>Sí</td></tr>
+    <tr><td><a href="#heart_rate">Frecuencia cardíaca</a></td><td><code>heart_rate</code></td><td><code>bpm</code></td><td>Último valor</td><td>Sí</td></tr>
+    <tr><td><a href="#resting_heart_rate">Frecuencia cardíaca en reposo</a></td><td><code>resting_heart_rate</code></td><td><code>bpm</code></td><td>Último valor</td><td>Sí</td></tr>
+    <tr><td><a href="#heart_rate_variability">Variabilidad de la frecuencia cardíaca</a></td><td><code>heart_rate_variability</code></td><td><code>heart_rate_variability_millis</code>, ms (SDNN)</td><td>Último valor</td><td>Sí</td></tr>
     <tr><td><a href="#blood_pressure">Presión arterial</a></td><td><code>blood_pressure</code></td><td><code>systolic</code>, <code>diastolic</code>, mmHg</td><td>Dos sensores</td><td>No</td></tr>
     <tr><td><a href="#oxygen_saturation">Oxígeno en sangre</a></td><td><code>oxygen_saturation</code></td><td><code>percentage</code></td><td>Último valor</td><td>Algunos modelos y regiones</td></tr>
     <tr><td><a href="#respiratory_rate">Frecuencia respiratoria</a></td><td><code>respiratory_rate</code></td><td><code>rate</code>, respiraciones por minuto</td><td>Último valor</td><td>Sí, mientras duermes</td></tr>
@@ -61,7 +61,7 @@ published: 2026-11-20
 <ul>
   <li><strong>Apple Watch</strong>: pasos, distancia, energía activa y en reposo, entrenamientos, frecuencia cardíaca, frecuencia cardíaca en reposo, HRV, sueño con sus fases, frecuencia respiratoria mientras duermes, VO2 máx. durante algunos entrenamientos al aire libre, y oxígeno en sangre en los modelos y las regiones que lo tienen. <a href="../apple-watch-home-assistant/">Apple Watch en Home Assistant</a> tiene los detalles y las páginas de Apple.</li>
   <li><strong>iPhone</strong>: pasos y distancia. Un iPhone sin reloj no suele registrar energía en reposo, así que <code>total_calories</code> llega sobre todo con un reloj.</li>
-  <li><strong>Otras apps y dispositivos</strong>: las apps de otros relojes, anillos y básculas, como Garmin Connect, Oura y Withings, pueden escribir en Apple Health, y también las apps en las que anotas comida, agua, seguimiento del ciclo o meditación. Lo que escriben depende de la app y de tus ajustes en ella; cada registro nombra la app en <code>source</code>.</li>
+  <li><strong>Otras apps y dispositivos</strong>: las apps de otros relojes, anillos y básculas, como Garmin Connect, Oura y Withings, pueden escribir en Apple Health, y también las apps en las que anotas comida, agua, seguimiento del ciclo o meditación. Lo que escriben depende de la app y de tu configuración en ella; cada registro nombra la app en <code>source</code>.</li>
 </ul>
 
 <p>Apple Health guarda dos veces un paseo que registraron tanto el iPhone como el reloj, una por dispositivo. Los <code>daily_totals</code> de cada payload lo cuentan una sola vez, en el orden de las fuentes de datos que estableces en la app Salud, así que usa esos para los totales del día.</p>
@@ -99,13 +99,13 @@ published: 2026-11-20
 
 <h2>Corazón y signos vitales</h2>
 
-<h3 id="heart_rate">Frecuencia cardiaca</h3>
+<h3 id="heart_rate">Frecuencia cardíaca</h3>
 <p>Clave <code>heart_rate</code>: <code>bpm</code>, un número entero, en un momento, un registro por muestra. Hasta 1000 registros nuevos por sincronización. Cada muestra tiene su propio <code>uuid</code>; la forma <code>&lt;uuid&gt;#&lt;time&gt;</code> de Android no se aplica.</p>
 
-<h3 id="resting_heart_rate">Frecuencia cardiaca en reposo</h3>
+<h3 id="resting_heart_rate">Frecuencia cardíaca en reposo</h3>
 <p>Clave <code>resting_heart_rate</code>: <code>bpm</code>, un número entero, en un momento.</p>
 
-<h3 id="heart_rate_variability">Variabilidad de la frecuencia cardiaca</h3>
+<h3 id="heart_rate_variability">Variabilidad de la frecuencia cardíaca</h3>
 <p>Clave <code>heart_rate_variability</code>: <code>heart_rate_variability_millis</code>, en un momento. Es SDNN, la medida que guarda Apple Health. Android envía RMSSD, la que guarda Health Connect, con la misma clave; no son el mismo número, así que mantenlos separados. Hasta 500 registros nuevos por sincronización.</p>
 
 <h3 id="blood_pressure">Presión arterial</h3>
@@ -135,7 +135,7 @@ published: 2026-11-20
 <p>Clave <code>sleep</code>: <code>session_end_time</code>, <code>duration_seconds</code> y <code>stages</code>, cada fase con su propio <code>stage</code>, sus horas, su <code>uuid</code> y su <code>source</code>. Apple Health no tiene sesiones de sueño, así que la app agrupa las muestras de fases en noches, y un hueco de más de una hora empieza una nueva.</p>
 <ul>
   <li>Fases: <code>light</code> (la fase Core de Apple), <code>deep</code>, <code>rem</code>, <code>awake</code>, <code>sleeping</code> y <code>unknown</code>, que Android también envía, e <code>in_bed</code>, que solo envía un iPhone: el tiempo en la cama alrededor de las fases, no una fase en sí.</li>
-  <li>El <code>uuid</code> de una noche viene de su fase más temprana, así que no cambia mientras la noche crece. Sustituye la noche cuando vuelva más larga. Una fase añadida después vuelve a enviar la noche entera.</li>
+  <li>El <code>uuid</code> de una noche viene de su fase más temprana, así que no cambia mientras la noche crece. Sustituye la noche cuando vuelva más larga. Una fase agregada después vuelve a enviar la noche entera.</li>
   <li>El <code>source</code> de la noche es la app o el dispositivo que registró la mayoría de sus fases.</li>
 </ul>
 
@@ -174,13 +174,14 @@ published: 2026-11-20
 
 <p>Por MQTT no se publican las entradas del seguimiento del ciclo, porque un topic retenido no es lugar para datos reproductivos; la temperatura corporal basal sí se publica. La integración de Home Assistant y un webhook las reciben todas.</p>
 
-<h2>Las cuatro claves de Android que un iPhone nunca envía</h2>
+<h2>Las cinco claves de Android que un iPhone nunca envía</h2>
 
 <table>
   <thead>
     <tr><th>Clave de Android</th><th>Por qué no</th></tr>
   </thead>
   <tbody>
+    <tr><td><code>speed</code></td><td>La app para iPhone todavía no lee la velocidad.</td></tr>
     <tr><td><code>bone_mass</code></td><td>Apple Health no tiene un tipo para la masa ósea.</td></tr>
     <tr><td><code>body_water_mass</code></td><td>Apple Health no tiene un tipo para el agua corporal.</td></tr>
     <tr><td><code>skin_temperature</code></td><td>Apple Health guarda la temperatura absoluta de la muñeca durante el sueño, no la variación respecto a un valor de referencia que lleva esta clave.</td></tr>

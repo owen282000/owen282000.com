@@ -5,7 +5,7 @@ description: Sincronização que para em segundo plano, dados que faltam no Heal
 primary query: health connect não sincroniza
 secondary queries: conexão saúde não sincroniza, health connect não funciona, samsung fecha app em segundo plano, sensores de saúde não aparecem no home assistant, permissões do health connect, life dashboard solução de problemas
 updated: 2026-11-20
-published: 2026-11-20
+published: 2026-10-19
 -->
 
 <h1>Por que meus dados de saúde não estão chegando?</h1>
@@ -57,7 +57,7 @@ published: 2026-11-20
   <li><strong><code>homeassistant.local</code> falha com frequência no Android,</strong> que não resolve nomes <code>.local</code> de forma confiável. Use o endereço IP do Home Assistant no lugar, como <code>http://192.168.1.10:8123</code>; ele está em Configurações &gt; Sistema &gt; Rede.</li>
   <li><strong>Um endereço da rede de casa</strong> só funciona no Wi-Fi de casa. As sincronizações fora de casa falham, o celular guarda os dados, e a primeira sincronização de volta em casa os envia. Uma notificação sobre sincronizações com falha enquanto você está fora é isso.</li>
   <li><strong>Um endereço público,</strong> como uma URL do Home Assistant Cloud ou o seu próprio domínio <code>https://</code>, funciona em qualquer lugar.</li>
-  <li><strong>"O HTTP sem criptografia está bloqueado":</strong> o endereço começa com <code>http://</code>. Ative <strong>Permitir webhooks com HTTP sem criptografia</strong> em <strong>Mais</strong> &gt; <strong>Avançado</strong> para um servidor na sua própria rede ou VPN; os dados então trafegam sem criptografia nessa rede.</li>
+  <li><strong>"O HTTP sem criptografia está desativado":</strong> o endereço começa com <code>http://</code>. Ative <strong>Permitir webhooks com HTTP sem criptografia</strong> em <strong>Mais</strong> &gt; <strong>Avançado</strong> para um servidor na sua própria rede ou VPN; os dados então trafegam sem criptografia nessa rede.</li>
   <li><strong>Um erro de certificado em <code>https://</code>:</strong> o seu servidor usa um certificado da sua própria CA, ou um autoassinado. Em <strong>Mais &gt; Avançado &gt; Certificados do servidor</strong> (app 1.27.0 e mais recentes), confie nos certificados de CA instalados no celular para aquele host, ou leia o certificado do servidor, confira a impressão digital dele e confie exatamente naquele. Não existe opção que ignore erros de certificado.</li>
 </ul>
 

@@ -5,7 +5,7 @@ description: Alle 28 Apple-Health-Typen, die die iPhone-App von Life Dashboard s
 primary query: apple health datentypen
 secondary queries: apple health datentypen liste, healthkit datentypen, apple health export felder, apple health json schlüssel, apple watch datentypen, healthkit typen home assistant, apple health einheiten
 updated: 2026-11-20
-published: 2026-11-20
+published: 2026-10-21
 -->
 
 <h1>Welche Apple-Health-Datentypen sendet Life Dashboard?</h1>
@@ -174,13 +174,14 @@ published: 2026-11-20
 
 <p>Über MQTT werden die Einträge des Zyklusprotokolls nicht veröffentlicht, denn ein Topic mit Retain-Flag ist kein Ort für Daten zur Fortpflanzung; die Basaltemperatur wird veröffentlicht. Die Integration von Home Assistant und ein Webhook bekommen alle.</p>
 
-<h2>Die vier Android-Schlüssel, die ein iPhone nie sendet</h2>
+<h2>Die fünf Android-Schlüssel, die ein iPhone nie sendet</h2>
 
 <table>
   <thead>
     <tr><th>Android-Schlüssel</th><th>Warum nicht</th></tr>
   </thead>
   <tbody>
+    <tr><td><code>speed</code></td><td>Die iPhone-App liest die Geschwindigkeit noch nicht.</td></tr>
     <tr><td><code>bone_mass</code></td><td>Apple Health hat keinen Typ für die Knochenmasse.</td></tr>
     <tr><td><code>body_water_mass</code></td><td>Apple Health hat keinen Typ für das Körperwasser.</td></tr>
     <tr><td><code>skin_temperature</code></td><td>Apple Health speichert die absolute Temperatur am Handgelenk im Schlaf, nicht die Abweichung von einem Basiswert, die dieser Schlüssel vorsieht.</td></tr>

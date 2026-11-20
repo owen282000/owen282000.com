@@ -173,13 +173,14 @@ published: 2026-10-21
 
 <p>Over MQTT, the cycle tracking entries aren't published, because a retained topic is no place for reproductive data; basal body temperature is. Home Assistant's integration and a webhook get them all.</p>
 
-<h2>The four Android keys an iPhone never sends</h2>
+<h2>The five Android keys an iPhone never sends</h2>
 
 <table>
   <thead>
     <tr><th>Android key</th><th>Why not</th></tr>
   </thead>
   <tbody>
+    <tr><td><code>speed</code></td><td>The iPhone app doesn't read speed yet.</td></tr>
     <tr><td><code>bone_mass</code></td><td>Apple Health has no bone mass type.</td></tr>
     <tr><td><code>body_water_mass</code></td><td>Apple Health has no body water type.</td></tr>
     <tr><td><code>skin_temperature</code></td><td>Apple Health stores the absolute wrist temperature during sleep, not the change against a baseline that this key carries.</td></tr>

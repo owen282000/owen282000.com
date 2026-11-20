@@ -65,7 +65,7 @@
         },
         {
           "main": "Un teléfono nuevo sigue donde lo dejó el anterior",
-          "sub": "Al añadir un teléfono se te ofrece heredar las estadísticas de uno que quitaste, así que sus gráficos y sus totales acumulados continúan en vez de empezar de cero."
+          "sub": "Al agregar un teléfono se te ofrece heredar las estadísticas de uno que quitaste, así que sus gráficos y sus totales acumulados continúan en vez de empezar de cero."
         }
       ],
       "image": "H9-health-phone",
@@ -101,11 +101,11 @@
     {
       "kicker": "Vinculación y seguridad",
       "h2": "Un código QR por teléfono y una firma en cada payload",
-      "text": "Añade la integración una vez por teléfono y te mostrará un código QR con una URL de webhook y un secreto que ella misma generó: 64 caracteres hexadecimales. Un payload sin una firma HMAC-SHA256 válida recibe un 401 y se registra sin su contenido. <a href=\"../health-connect-home-assistant/\">Cómo añadir Health Connect a Home Assistant</a> explica la vinculación paso a paso.",
+      "text": "Agrega la integración una vez por teléfono y te mostrará un código QR con una URL de webhook y un secreto que ella misma generó: 64 caracteres hexadecimales. Un payload sin una firma HMAC-SHA256 válida recibe un 401 y se registra sin su contenido. <a href=\"../health-connect-home-assistant/\">Cómo agregar Health Connect a Home Assistant</a> explica la vinculación paso a paso.",
       "bullets": [
         {
           "main": "Dirección de casa, dirección pública o Home Assistant Cloud",
-          "sub": "Una dirección de casa mantiene los datos en tu red, por HTTP sin cifrar salvo que añadas TLS. Un cloudhook sincroniza desde cualquier lugar sin abrir puertos, a través de los servidores de Home Assistant Cloud."
+          "sub": "Una dirección de casa mantiene los datos en tu red, por HTTP sin cifrar salvo que agregues TLS. Un cloudhook sincroniza desde cualquier lugar sin abrir puertos, a través de los servidores de Home Assistant Cloud."
         },
         {
           "main": "Respuestas firmadas",
@@ -191,11 +191,11 @@
     },
     {
       "q": "¿Pueden varios teléfonos compartir un mismo Home Assistant?",
-      "a": "Sí. Añade la integración una vez por teléfono, sea Android o iPhone. Cada uno tiene su propio ID de webhook, su secreto, su dispositivo y sus estadísticas, y los ID de las entidades siguen el nombre que le pongas, como <code>sensor.owen_s_pixel_steps_today</code>."
+      "a": "Sí. Agrega la integración una vez por teléfono, sea Android o iPhone. Cada uno tiene su propio ID de webhook, su secreto, su dispositivo y sus estadísticas, y los ID de las entidades siguen el nombre que le pongas, como <code>sensor.owen_s_pixel_steps_today</code>."
     },
     {
       "q": "¿Qué datos no tienen sensor?",
-      "a": "Siete de los 34 tipos de Health Connect: las sesiones de mindfulness, la actividad sexual y los cinco tipos de seguimiento del ciclo. Son eventos, y un único valor no puede representarlos. Tampoco tiene sensor cada comida por separado, pero desde la versión 1.2.0 sí lo tienen las calorías, las proteínas, los carbohidratos y las grasas que has comido hoy. Los entrenamientos tienen un sensor del último entrenamiento y los minutos de hoy y de ayer, y el mindfulness cuenta como tiempo por día, en horas, en las estadísticas. Para los registros en bruto, añade en la app un segundo webhook que apunte a <a href=\"../health-connect-webhook/\">tu propio backend</a>."
+      "a": "Siete de los 34 tipos de Health Connect: las sesiones de mindfulness, la actividad sexual y los cinco tipos de seguimiento del ciclo. Son eventos, y un único valor no puede representarlos. Tampoco tiene sensor cada comida por separado, pero desde la versión 1.2.0 sí lo tienen las calorías, las proteínas, los carbohidratos y las grasas que has comido hoy. Los entrenamientos tienen un sensor del último entrenamiento y los minutos de hoy y de ayer, y el mindfulness cuenta como tiempo por día, en horas, en las estadísticas. Para los registros en bruto, agrega en la app un segundo webhook que apunte a <a href=\"../health-connect-webhook/\">tu propio backend</a>."
     },
     {
       "q": "¿Puede Home Assistant enviar al teléfono la medición de una báscula?",
@@ -215,7 +215,7 @@
     },
     {
       "q": "¿Qué pasa cuando quito un teléfono?",
-      "a": "Al eliminar la entrada se quitan el dispositivo y sus sensores, se borra su cloudhook si lo tenía y se borran los archivos del teléfono en <code>.storage</code>. Sus estadísticas a largo plazo se quedan en el recorder, como ocurre con cualquier integración que quitas. Si más adelante añades un teléfono, se te ofrece heredarlas, así que los gráficos y los totales acumulados continúan donde se quedaron."
+      "a": "Al eliminar la entrada se quitan el dispositivo y sus sensores, se borra su cloudhook si lo tenía y se borran los archivos del teléfono en <code>.storage</code>. Sus estadísticas a largo plazo se quedan en el recorder, como ocurre con cualquier integración que quitas. Si más adelante agregas un teléfono, se te ofrece heredarlas, así que los gráficos y los totales acumulados continúan donde se quedaron."
     }
   ],
   "updated": "2026-11-20",
@@ -229,7 +229,7 @@
   ],
   "compare": {
     "title": "Junto a la app Companion de Home Assistant",
-    "intro": "Conserva la app Companion para la presencia, las notificaciones y los sensores del dispositivo. Las dos funcionan a la vez; esto es lo que la integración añade para los datos de salud.",
+    "intro": "Conserva la app Companion para la presencia, las notificaciones y los sensores del dispositivo. Las dos funcionan a la vez; esto es lo que la integración agrega para los datos de salud.",
     "head": [
       "",
       "App Companion de Home Assistant",

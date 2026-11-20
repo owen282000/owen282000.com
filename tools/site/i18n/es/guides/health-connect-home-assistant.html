@@ -1,17 +1,17 @@
 <!--
-title: Health Connect en Home Assistant: sensores | Life Dashboard
+title: Health Connect en Home Assistant: integración | Life Dashboard
 description: Pasos, sueño, frecuencia cardíaca y peso de Samsung Health, Garmin, Fitbit u Oura como sensores de Home Assistant, cada día en su fecha, con un código QR.
 primary query: health connect home assistant
-secondary queries: garmin home assistant health connect, oura home assistant, withings home assistant, sensor de pasos home assistant, sensor de sueño home assistant, sensor de frecuencia cardíaca home assistant, integración health connect home assistant
+secondary queries: garmin home assistant health connect, oura home assistant, withings home assistant, sensor de pasos home assistant, sensor de sueño home assistant, sensor de frecuencia cardíaca home assistant, integración health connect home assistant, health connect home assistant integration
 updated: 2026-11-20
-published: 2026-11-20
+published: 2026-10-06
 -->
 
 <h1>¿Cómo llevo los datos de Health Connect a Home Assistant?</h1>
 
 <p>Instala la integración Life Dashboard en Home Assistant y Life Dashboard Companion, una app de código abierto para Android, en tu teléfono, y vincula las dos con un código QR. Los datos de tu reloj llegan entonces como sensores, y cada día queda guardado en las estadísticas a largo plazo.</p>
 
-<p>Funciona con todo lo que escribe en Health Connect: Samsung Health, Garmin Connect, Google Health (Fitbit y Pixel Watch), Oura, Withings y más. Un backfill, el envío de todo tu historial anterior, añade los datos hasta donde el teléfono los tenga. Las dos partes tienen licencia MIT, nada se ejecuta en un servidor de Life Dashboard y Home Assistant no necesita en ningún momento tus credenciales de Samsung, Garmin o Google.</p>
+<p>Funciona con todo lo que escribe en Health Connect: Samsung Health, Garmin Connect, Google Health (Fitbit y Pixel Watch), Oura, Withings y más. Un backfill, el envío de todo tu historial anterior, agrega los datos hasta donde el teléfono los tenga. Las dos partes tienen licencia MIT, nada se ejecuta en un servidor de Life Dashboard y Home Assistant no necesita en ningún momento tus credenciales de Samsung, Garmin o Google.</p>
 
 <p class="flow-line"><span>Reloj</span><span>Su app, como Samsung Health</span><span>Health Connect</span><span>Life Dashboard Companion</span><span>Home Assistant</span></p>
 
@@ -21,7 +21,7 @@ published: 2026-11-20
   <li>Android 9 o posterior. Health Connect forma parte de Android desde la versión 14; en Android 9 a 13 se instala desde Google Play.</li>
   <li>Una app que escriba en Health Connect, como Samsung Health, Garmin Connect o Google Health. Garmin Connect solo lo hace en Android 14 o posterior.</li>
   <li>Home Assistant 2026.3 o posterior, para la <a href="../home-assistant/">integración Life Dashboard</a>. Desde la versión 2026.11 no hay que instalar nada más; las versiones anteriores necesitan <a href="https://hacs.xyz">HACS</a>.</li>
-  <li><a href="../android/">Life Dashboard Companion para Android</a>. En <a href="{{play_url}}">Google Play</a> por 4,99&nbsp;€, pago único, o gratis desde GitHub Releases, Obtainium o F-Droid; las <a href="../android/#get">opciones de instalación</a> enumeran todas las vías.</li>
+  <li><a href="../android/">Life Dashboard Companion para Android</a>. {{status:android}}</li>
 </ul>
 
 <p>Cuenta con entre 15 y 30 minutos la primera vez, la mayor parte en Home Assistant. Configura primero Home Assistant: la configuración de la app escanea el código QR que muestra la integración.</p>
@@ -36,7 +36,7 @@ published: 2026-11-20
   <li>Instala y abre en el teléfono <a href="{{play_url}}">Life Dashboard Companion desde Google Play</a>, donde aparece como Health Data for Home Assistant. Si en su lugar instalas el APK gratuito, puede que Android te avise antes de instalar un APK que no viene de Play Store: lo hace con cualquier app de otra fuente, y cada versión está firmada con la misma clave y lleva una atestación de compilación (<a href="../android/#get">opciones de instalación</a>). En <strong>¿Adónde deben ir tus datos?</strong>, toca <strong>Escanear un código de vinculación</strong>, escanea el código y toca <strong>Vincular</strong>. Un ping de prueba confirma la conexión.</li>
   <!-- IMG: pairing page (A2-pair.png) -->
   <li>En la pestaña <strong>Salud</strong>, toca <strong>Conceder</strong>, permite tus tipos de datos y permite la lectura en segundo plano para las sincronizaciones programadas. El ajuste predefinido <strong>Lo esencial</strong> de la configuración activa los pasos, el sueño, la frecuencia cardíaca, la frecuencia cardíaca en reposo, la distancia, las calorías y el peso; activa cualquier otro tipo en <strong>Qué enviar</strong>. Samsung Health y Garmin Connect no comparten con Health Connect la frecuencia cardíaca en reposo ni la HRV, así que con esos relojes esos sensores no aparecen nunca; la <a href="#your-watch-s-app-and-health-connect">tabla de abajo</a> indica lo que se guarda cada app.</li>
-  <li>En teléfonos Samsung, Xiaomi y similares, evita que Android detenga las sincronizaciones: <strong>Ajustes</strong> &gt; <strong>Aplicaciones</strong> &gt; <strong>Life Dashboard</strong> &gt; <strong>Batería</strong>, y elige <strong>Sin restricciones</strong>. En Samsung, añade además <strong>Life Dashboard</strong> a <strong>Never sleeping apps</strong> en <strong>Ajustes</strong> &gt; <strong>Batería</strong> &gt; <strong>Límites de uso en segundo plano</strong>. Las demás marcas están en la <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/usage.md#let-the-app-run-in-the-background">guía de configuración</a>.</li>
+  <li>En teléfonos Samsung, Xiaomi y similares, evita que Android detenga las sincronizaciones: <strong>Ajustes</strong> &gt; <strong>Aplicaciones</strong> &gt; <strong>Life Dashboard</strong> &gt; <strong>Batería</strong>, y elige <strong>Sin restricciones</strong>. En Samsung, agrega además <strong>Life Dashboard</strong> a <strong>Never sleeping apps</strong> en <strong>Ajustes</strong> &gt; <strong>Batería</strong> &gt; <strong>Límites de uso en segundo plano</strong>. Las demás marcas están en la <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/usage.md#let-the-app-run-in-the-background">guía de configuración</a>.</li>
   <li>Toca <strong>Sincronizar ahora</strong>. El teléfono aparece en <strong>Ajustes</strong> &gt; <strong>Dispositivos y servicios</strong> &gt; <strong>Life Dashboard</strong>.</li>
   <li>Para los datos más antiguos, toca <strong>Enviar historial</strong> en <strong>Qué enviar</strong> y elige hasta dónde retroceder, desde <strong>30 días</strong> hasta <strong>Todo el historial</strong>. Para ir más allá de los 30 días anteriores a tu primer permiso, toca antes <strong>Conceder acceso al historial</strong>.</li>
 </ol>

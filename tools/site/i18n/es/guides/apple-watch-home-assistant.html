@@ -3,8 +3,8 @@ title: Apple Watch en Home Assistant | Life Dashboard
 description: Frecuencia cardíaca, HRV, sueño y entrenamientos del Apple Watch en Home Assistant, mediante Apple Health en tu iPhone, con historial y sin app en el reloj.
 primary query: apple watch home assistant
 secondary queries: integrar apple watch en home assistant, frecuencia cardíaca apple watch home assistant, sueño apple watch home assistant, hrv apple watch home assistant, entrenamientos apple watch home assistant, datos del apple watch en home assistant
-updated: 2026-11-09
-published: 2026-11-20
+updated: 2026-11-20
+published: 2026-10-21
 -->
 
 <h1>¿Cómo llevo los datos del Apple Watch a Home Assistant?</h1>
@@ -26,7 +26,7 @@ published: 2026-11-20
 <h2>Configuración paso a paso</h2>
 
 <ol>
-  <li>En <strong>Ajustes</strong> &gt; <strong>Marketplace</strong> (HACS antes de Home Assistant 2026.11), busca <strong>Life Dashboard</strong> e instálala. En HACS, descárgala y reinicia Home Assistant. Si la configuración no se abrió sola, añade la integración en <strong>Ajustes</strong> &gt; <strong>Dispositivos y servicios</strong>. Ponle un nombre para el iPhone, y muestra un código QR.</li>
+  <li>En <strong>Ajustes</strong> &gt; <strong>Marketplace</strong> (HACS antes de Home Assistant 2026.11), busca <strong>Life Dashboard</strong> e instálala. En HACS, descárgala y reinicia Home Assistant. Si la configuración no se abrió sola, agrega la integración en <strong>Ajustes</strong> &gt; <strong>Dispositivos y servicios</strong>. Ponle un nombre para el iPhone, y muestra un código QR.</li>
   <!-- IMG: the QR code in Home Assistant (H2-qr.png) -->
   <li>Instala Life Dashboard Companion en el iPhone, toca <strong>Escanear un código de vinculación</strong> en su configuración inicial, escanea el código y toca <strong>Vincular</strong>.</li>
   <li>En <strong>Qué enviar</strong>, activa los tipos que registra el reloj, enumerados más abajo, y permite el acceso a Apple Health.</li>
@@ -37,7 +37,7 @@ published: 2026-11-20
 
 <h2>Qué registra un Apple Watch y dónde acaba</h2>
 
-<p>Cuáles de los 28 tipos de la app se llenan depende del modelo de tu reloj, de sus ajustes y de para qué lo llevas puesto. Esta tabla enumera lo que la propia documentación de Apple dice que registra un reloj, la clave del payload con la que la app lo envía y lo que Home Assistant hace con ello.</p>
+<p>Cuáles de los 28 tipos de la app se llenan depende del modelo de tu reloj, de su configuración y de para qué lo llevas puesto. Esta tabla enumera lo que la propia documentación de Apple dice que registra un reloj, la clave del payload con la que la app lo envía y lo que Home Assistant hace con ello.</p>
 
 <table>
   <thead>

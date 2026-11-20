@@ -4,7 +4,7 @@ description: De 28 Apple Health-types die de iPhone-app van Life Dashboard verst
 primary query: apple health datatypes
 secondary queries: apple health datatypes lijst, healthkit datatypes, apple gezondheid gegevens exporteren velden, apple health json sleutels, apple watch datatypes, healthkit types home assistant, apple health eenheden
 updated: 2026-11-20
-published: 2026-11-20
+published: 2026-10-21
 -->
 
 <h1>Welke Apple Health-datatypes verstuurt Life Dashboard?</h1>
@@ -173,13 +173,14 @@ published: 2026-11-20
 
 <p>Via MQTT worden de cyclusgegevens niet gepubliceerd, omdat een retained topic geen plek is voor gegevens over voortplanting; basale lichaamstemperatuur wel. De integratie van Home Assistant en een webhook krijgen ze allemaal.</p>
 
-<h2>De vier Android-sleutels die een iPhone nooit verstuurt</h2>
+<h2>De vijf Android-sleutels die een iPhone nooit verstuurt</h2>
 
 <table>
   <thead>
     <tr><th>Android-sleutel</th><th>Waarom niet</th></tr>
   </thead>
   <tbody>
+    <tr><td><code>speed</code></td><td>De iPhone-app leest snelheid nog niet.</td></tr>
     <tr><td><code>bone_mass</code></td><td>Apple Health heeft geen type voor botmassa.</td></tr>
     <tr><td><code>body_water_mass</code></td><td>Apple Health heeft geen type voor lichaamswater.</td></tr>
     <tr><td><code>skin_temperature</code></td><td>Apple Health bewaart de absolute polstemperatuur tijdens de slaap, niet de afwijking ten opzichte van een basislijn die deze sleutel bevat.</td></tr>

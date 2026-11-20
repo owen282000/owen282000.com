@@ -4,7 +4,7 @@ description: Los datos de Apple Health de tu iPhone y tu Apple Watch como sensor
 primary query: apple health home assistant
 secondary queries: integrar apple health en home assistant, datos de salud iphone home assistant, home assistant healthkit, sensores apple health home assistant, apple health estadísticas a largo plazo, home assistant pasos iphone, home assistant sueño iphone
 updated: 2026-11-20
-published: 2026-11-20
+published: 2026-10-21
 -->
 
 <h1>¿Cómo llevo los datos de Apple Health a Home Assistant?</h1>
@@ -83,13 +83,13 @@ entities:
 
 <p>La app Companion de Home Assistant para iOS también lee Apple Health. Sus sensores de Apple Health (<a href="https://github.com/home-assistant/iOS/pull/5272">#5272</a>, <a href="https://github.com/home-assistant/iOS/pull/5638">#5638</a>) cubren los pasos, la frecuencia cardíaca, el peso, la presión arterial, las fases del sueño y más, cada uno como un sensor con el total de hoy o la medición más reciente. Su historial en Home Assistant empieza el día en que los activas, y los detalles de los entrenamientos, las comidas y el seguimiento del ciclo no están entre ellos.</p>
 
-<p>Son suficientes cuando quieres los pasos de hoy o el último peso en una automatización o en una tarjeta Tile, y te basta un gráfico desde el día en que los activaste. Life Dashboard añade los 28 tipos con cada registro y la app o el dispositivo que lo escribió, un backfill de todo tu historial con cada día en su propia fecha, y MQTT o un webhook junto a Home Assistant. Conserva la app Companion en cualquier caso: se ocupa de la presencia, las notificaciones y los sensores del dispositivo, y las dos funcionan a la vez.</p>
+<p>Son suficientes cuando quieres los pasos de hoy o el último peso en una automatización o en una tarjeta Tile, y te basta un gráfico desde el día en que los activaste. Life Dashboard agrega los 28 tipos con cada registro y la app o el dispositivo que lo escribió, un backfill de todo tu historial con cada día en su propia fecha, y MQTT o un webhook junto a Home Assistant. Conserva la app Companion en cualquier caso: se ocupa de la presencia, las notificaciones y los sensores del dispositivo, y las dos funcionan a la vez.</p>
 
 <p>Otras apps para iPhone también envían Apple Health a Home Assistant. <a href="../apple-health-home-assistant-apps/">Cuatro apps comparadas</a> pone una junto a otra la app Companion, HealthSync for Home Assistant, Health Assistant Link y Life Dashboard.</p>
 
 <h2>Un teléfono Android en la misma casa</h2>
 
-<p>Un iPhone y un teléfono Android envían el mismo payload, así que una sola integración acepta los dos. Añade la integración una vez por teléfono y vincula cada uno con su propio código QR; cada uno se convierte en un dispositivo propio. El teléfono Android usa <a href="../android/">Life Dashboard Companion para Android</a>, que lee Health Connect y además envía el tiempo de pantalla por app; la <a href="../health-connect-home-assistant/">guía de Health Connect</a> tiene sus pasos. El dashboard de ejemplo tiene una vista que pone dos teléfonos uno junto al otro.</p>
+<p>Un iPhone y un teléfono Android envían el mismo payload, así que una sola integración acepta los dos. Agrega la integración una vez por teléfono y vincula cada uno con su propio código QR; cada uno se convierte en un dispositivo propio. El teléfono Android usa <a href="../android/">Life Dashboard Companion para Android</a>, que lee Health Connect y además envía el tiempo de pantalla por app; la <a href="../health-connect-home-assistant/">guía de Health Connect</a> tiene sus pasos. El dashboard de ejemplo tiene una vista que pone dos teléfonos uno junto al otro.</p>
 
 <!-- IMG: two phones on one dashboard (H8-two-phones.png) -->
 

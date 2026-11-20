@@ -3,8 +3,8 @@ title: Apple Health a n8n con un webhook | Life Dashboard
 description: Lleva los datos de Apple Health de tu iPhone a un workflow de n8n: un nodo Webhook, la firma HMAC en un nodo Code y después Postgres, Google Sheets o Telegram.
 primary query: apple health n8n
 secondary queries: apple health n8n webhook, datos de salud del iphone en n8n, healthkit n8n, apple watch n8n, workflow n8n apple health, apple health a postgres con n8n, apple health google sheets
-updated: 2026-11-04
-published: 2026-11-20
+updated: 2026-11-20
+published: 2026-10-21
 -->
 
 <h1>¿Cómo llevo los datos de Apple Health a n8n?</h1>
@@ -39,9 +39,9 @@ published: 2026-11-20
 <h2>Configura el nodo Webhook</h2>
 
 <ol>
-  <li>Añade un nodo <strong>Webhook</strong>. Pon <strong>HTTP Method</strong> en <code>POST</code> y elige un <strong>Path</strong>, por ejemplo <code>life-dashboard</code>.</li>
+  <li>Agrega un nodo <strong>Webhook</strong>. Pon <strong>HTTP Method</strong> en <code>POST</code> y elige un <strong>Path</strong>, por ejemplo <code>life-dashboard</code>.</li>
   <li>Pon <strong>Respond</strong> en <strong>Using 'Respond to Webhook' Node</strong>. Con <strong>Immediately</strong>, n8n responde 200 antes de que se compruebe la firma, así que un payload con una firma incorrecta cuenta igualmente como entregado.</li>
-  <li>En <strong>Options</strong>, añade <strong>Raw Body</strong> y actívalo. El nodo entrega entonces los bytes tal como llegaron en la propiedad binaria <code>data</code>, junto al JSON ya interpretado en <code>body</code> y los encabezados en <code>headers</code>.</li>
+  <li>En <strong>Options</strong>, agrega <strong>Raw Body</strong> y actívalo. El nodo entrega entonces los bytes tal como llegaron en la propiedad binaria <code>data</code>, junto al JSON ya interpretado en <code>body</code> y los encabezados en <code>headers</code>.</li>
   <li>Publica el workflow y copia la URL de producción. La URL de prueba solo escucha mientras el editor espera un evento de prueba. Una sincronización enviada cuando nada escucha recibe un 404, y el iPhone guarda ese payload y los siguientes en su cola hasta que la URL vuelve a responder.</li>
 </ol>
 
@@ -51,7 +51,7 @@ published: 2026-11-20
 
 <h2>Comprueba la firma en un nodo Code</h2>
 
-<p>El iPhone firma exactamente igual que la app para Android: <code>X-Signature: sha256=&lt;hex&gt;</code>, el HMAC-SHA256 del cuerpo en bruto con tu secreto como clave. Añade un nodo <strong>Code</strong> en JavaScript, en el modo <strong>Run Once for All Items</strong>:</p>
+<p>El iPhone firma exactamente igual que la app para Android: <code>X-Signature: sha256=&lt;hex&gt;</code>, el HMAC-SHA256 del cuerpo en bruto con tu secreto como clave. Agrega un nodo <strong>Code</strong> en JavaScript, en el modo <strong>Run Once for All Items</strong>:</p>
 
 <pre><code>const crypto = require('crypto');
 
@@ -75,7 +75,7 @@ return [{ json: { valid, payload: valid ? JSON.parse(raw.toString('utf8')) : nul
   <li>Cualquiera que pueda abrir el workflow puede leer el secreto en el código. La <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md#n8n-and-node-red">referencia del payload</a> muestra la misma comprobación con un nodo <strong>Crypto</strong>, que guarda el secreto en una credencial de n8n.</li>
 </ul>
 
-<p>Después añade un nodo <strong>If</strong> con una sola condición: el booleano <code>{{ $json.valid }}</code> es verdadero.</p>
+<p>Después agrega un nodo <strong>If</strong> con una sola condición: el booleano <code>{{ $json.valid }}</code> es verdadero.</p>
 
 <h2>Responde antes de la parte lenta</h2>
 
@@ -133,14 +133,14 @@ return rows;</code></pre>
   PRIMARY KEY (type, uuid)
 );</code></pre>
 
-<p>Añade un nodo <strong>Postgres</strong> con la operación <strong>Execute Query</strong>:</p>
+<p>Agrega un nodo <strong>Postgres</strong> con la operación <strong>Execute Query</strong>:</p>
 
 <pre><code>INSERT INTO health_records (type, uuid, source, time, data)
 VALUES ($1, $2, $3, $4::timestamptz, $5::jsonb)
 ON CONFLICT (type, uuid) DO UPDATE
 SET source = EXCLUDED.source, time = EXCLUDED.time, data = EXCLUDED.data;</code></pre>
 
-<p>En <strong>Options</strong>, añade <strong>Query Parameters</strong> con esta expresión:</p>
+<p>En <strong>Options</strong>, agrega <strong>Query Parameters</strong> con esta expresión:</p>
 
 <pre><code>{{ [ $json.type, $json.uuid, $json.source, $json.time, JSON.stringify($json.data) ] }}</code></pre>
 
@@ -164,7 +164,7 @@ WHERE type = $1 AND (uuid = $2 OR starts_with(uuid, $2 || '#'));</code></pre>
 
 <p>Los <code>uuid</code> de un iPhone nunca llevan un <code>#</code>, así que para un iPhone solo importa la primera mitad; la segunda es para las muestras de frecuencia cardíaca y de temperatura de la piel de Android, y permite que un solo workflow sirva para ambos. Un <code>uuid</code> borrado que no tienes no borra nada, que es lo que pide la página del payload de iOS.</p>
 
-<p>Hay un caso de iPhone que la consulta anterior no cubre: un borrado de sueño nombra una fase de la noche, por su <code>uuid</code> en <code>stages</code>, no la noche. Para quitar esa fase de la noche guardada, añade un segundo nodo Postgres con los mismos Query Parameters:</p>
+<p>Hay un caso de iPhone que la consulta anterior no cubre: un borrado de sueño nombra una fase de la noche, por su <code>uuid</code> en <code>stages</code>, no la noche. Para quitar esa fase de la noche guardada, agrega un segundo nodo Postgres con los mismos Query Parameters:</p>
 
 <pre><code>UPDATE health_records
 SET data = jsonb_set(data, '{stages}', (

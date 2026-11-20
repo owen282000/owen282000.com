@@ -3,8 +3,8 @@ title: Health Connect e Apple Health no n8n | Life Dashboard
 description: Um workflow do n8n que funciona para os dados do Health Connect e do Apple Health: nó Webhook, verificação HMAC em um nó Code e depois Postgres, Sheets ou Telegram.
 primary query: health connect n8n
 secondary queries: samsung health n8n, apple health n8n, n8n webhook health connect, dados de saúde n8n, garmin n8n, n8n webhook assinatura hmac, n8n webhook raw body
-updated: 2026-11-05
-published: 2026-11-20
+updated: 2026-11-20
+published: 2026-10-14
 -->
 
 <h1>Como levar os dados do Conexão Saúde (Health Connect) para o n8n?</h1>
@@ -18,7 +18,8 @@ published: 2026-11-20
 <h2>O que você precisa</h2>
 
 <ul>
-  <li>O <a href="../android/">Life Dashboard Companion para Android</a> em um Android 9 ou mais recente com o Conexão Saúde, ou <a href="../ios/">o app para iPhone</a>. {{status:ios}}</li>
+  <li>O <a href="../android/">Life Dashboard Companion para Android</a> em um Android 9 ou mais recente com o Conexão Saúde. {{status:android}}</li>
+  <li>Ou <a href="../ios/">o app para iPhone</a> com iOS 17 ou mais recente. {{status:ios}}</li>
   <li>O n8n, no n8n Cloud ou no seu próprio servidor, acessível a partir do celular. Use HTTPS. HTTP sem criptografia na sua própria rede exige <strong>Permitir webhooks com HTTP sem criptografia</strong> em <strong>Mais</strong> &gt; <strong>Avançado</strong> no app para Android; o app para iPhone só permite HTTP sem criptografia para um endereço IP, um nome <code>.local</code> ou um nome sem ponto.</li>
   <li>Espaço para requisições grandes. Permita pelo menos 10 MB por requisição. O n8n aceita até 16 MB por padrão, mas um proxy reverso na frente dele também precisa permitir isso: o nginx permite 1 MB por padrão.</li>
   <li>O módulo <code>crypto</code> no nó Code. O n8n Cloud já o oferece. No n8n auto-hospedado, defina <code>NODE_FUNCTION_ALLOW_BUILTIN=crypto</code>, no task runner se você usa um.</li>

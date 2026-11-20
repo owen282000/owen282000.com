@@ -3,8 +3,8 @@ title: Health Connect y Apple Health a n8n | Life Dashboard
 description: Un workflow de n8n que funciona con datos de Health Connect y Apple Health: nodo Webhook, firma HMAC en un nodo Code y luego Postgres, Google Sheets o Telegram.
 primary query: health connect n8n
 secondary queries: samsung health n8n, apple health n8n, health connect webhook n8n, datos de salud en n8n, garmin n8n, n8n webhook firma hmac, n8n webhook raw body
-updated: 2026-11-05
-published: 2026-11-20
+updated: 2026-11-20
+published: 2026-10-14
 -->
 
 <h1>¿Cómo llevo los datos de Health Connect a n8n?</h1>
@@ -18,7 +18,8 @@ published: 2026-11-20
 <h2>Qué necesitas</h2>
 
 <ul>
-  <li><a href="../android/">Life Dashboard Companion para Android</a> con Android 9 o posterior y Health Connect, o <a href="../ios/">la app para iPhone</a>. {{status:ios}}</li>
+  <li><a href="../android/">Life Dashboard Companion para Android</a> con Android 9 o posterior y Health Connect. {{status:android}}</li>
+  <li>O <a href="../ios/">la app para iPhone</a> con iOS 17 o posterior. {{status:ios}}</li>
   <li>n8n, en n8n Cloud o autoalojado, accesible desde el teléfono. Usa HTTPS. Para HTTP sin cifrar en tu propia red hay que activar <strong>Permitir webhooks con HTTP sin cifrar</strong> en <strong>Más</strong> &gt; <strong>Avanzado</strong> en la app para Android; la app para iPhone solo permite HTTP sin cifrar hacia una dirección IP, un nombre <code>.local</code> o un nombre sin punto.</li>
   <li>Margen para peticiones grandes. Permite al menos 10 MB por petición. n8n acepta hasta 16 MB de forma predeterminada, pero un proxy inverso delante de él también tiene que permitirlo: nginx permite 1 MB de forma predeterminada.</li>
   <li>El módulo <code>crypto</code> en el nodo Code. n8n Cloud lo incluye. En n8n autoalojado, define <code>NODE_FUNCTION_ALLOW_BUILTIN=crypto</code>, en el task runner si usas uno.</li>
@@ -39,9 +40,9 @@ published: 2026-11-20
 <h2>Configura el nodo Webhook</h2>
 
 <ol>
-  <li>Añade un nodo <strong>Webhook</strong>. Pon <strong>HTTP Method</strong> en <code>POST</code> y elige un <strong>Path</strong>, por ejemplo <code>life-dashboard</code>.</li>
+  <li>Agrega un nodo <strong>Webhook</strong>. Pon <strong>HTTP Method</strong> en <code>POST</code> y elige un <strong>Path</strong>, por ejemplo <code>life-dashboard</code>.</li>
   <li>Pon <strong>Respond</strong> en <strong>Using 'Respond to Webhook' Node</strong>. Con <strong>Immediately</strong>, n8n responde 200 antes de que se compruebe la firma, así que un payload con una firma incorrecta cuenta igualmente como entregado.</li>
-  <li>En <strong>Options</strong>, añade <strong>Raw Body</strong> y actívalo. El nodo entrega entonces los bytes tal como llegaron en la propiedad binaria <code>data</code>, junto al JSON ya interpretado en <code>body</code> y los encabezados en <code>headers</code>.</li>
+  <li>En <strong>Options</strong>, agrega <strong>Raw Body</strong> y actívalo. El nodo entrega entonces los bytes tal como llegaron en la propiedad binaria <code>data</code>, junto al JSON ya interpretado en <code>body</code> y los encabezados en <code>headers</code>.</li>
   <li>Publica el workflow y copia la URL de producción. La URL de prueba solo escucha mientras el editor espera un evento de prueba, y la URL de producción solo funciona mientras el workflow está publicado. Una sincronización enviada en otro momento recibe un 404, y la app guarda ese payload y los siguientes hasta que la URL vuelve a responder.</li>
 </ol>
 
@@ -51,7 +52,7 @@ published: 2026-11-20
 
 <h2>Comprueba la firma en un nodo Code</h2>
 
-<p>Cada petición lleva <code>X-Signature: sha256=&lt;hex&gt;</code>, el HMAC-SHA256 del cuerpo en bruto con tu secreto como clave. Añade un nodo <strong>Code</strong> en JavaScript, en el modo <strong>Run Once for All Items</strong>:</p>
+<p>Cada petición lleva <code>X-Signature: sha256=&lt;hex&gt;</code>, el HMAC-SHA256 del cuerpo en bruto con tu secreto como clave. Agrega un nodo <strong>Code</strong> en JavaScript, en el modo <strong>Run Once for All Items</strong>:</p>
 
 <pre><code>const crypto = require('crypto');
 
@@ -76,7 +77,7 @@ return [{ json: { valid, payload: valid ? JSON.parse(raw.toString('utf8')) : nul
   <li>Cualquiera que pueda abrir el workflow puede leer el secreto en el código. Si eso importa, la <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md#n8n-and-node-red">referencia del payload</a> muestra la misma comprobación con un nodo <strong>Crypto</strong>, que guarda el secreto en una credencial de n8n.</li>
 </ul>
 
-<p>Después añade un nodo <strong>If</strong> con una sola condición: el booleano <code>{{ $json.valid }}</code> es verdadero.</p>
+<p>Después agrega un nodo <strong>If</strong> con una sola condición: el booleano <code>{{ $json.valid }}</code> es verdadero.</p>
 
 <h2>Responde antes de la parte lenta</h2>
 
@@ -126,14 +127,14 @@ return rows;</code></pre>
   PRIMARY KEY (type, uuid)
 );</code></pre>
 
-<p>Añade un nodo <strong>Postgres</strong> con la operación <strong>Execute Query</strong>:</p>
+<p>Agrega un nodo <strong>Postgres</strong> con la operación <strong>Execute Query</strong>:</p>
 
 <pre><code>INSERT INTO health_records (type, uuid, source, time, data)
 VALUES ($1, $2, $3, $4::timestamptz, $5::jsonb)
 ON CONFLICT (type, uuid) DO UPDATE
 SET source = EXCLUDED.source, time = EXCLUDED.time, data = EXCLUDED.data;</code></pre>
 
-<p>En <strong>Options</strong>, añade <strong>Query Parameters</strong> con esta expresión:</p>
+<p>En <strong>Options</strong>, agrega <strong>Query Parameters</strong> con esta expresión:</p>
 
 <pre><code>{{ [ $json.type, $json.uuid, $json.source, $json.time, JSON.stringify($json.data) ] }}</code></pre>
 
