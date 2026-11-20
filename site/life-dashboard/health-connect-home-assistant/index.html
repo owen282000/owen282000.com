@@ -51,7 +51,7 @@
         }
       ],
       "datePublished": "2026-10-06",
-      "dateModified": "2026-11-09",
+      "dateModified": "2026-11-20",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -172,7 +172,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Health Connect in Home Assistant</span></nav>
 <h1>How do I get Health Connect data into Home Assistant?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 9, 2026. <a href="../de/home-assistant-gesundheitsdaten/" hreflang="de" lang="de">Auf Deutsch</a></p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 20, 2026. <a href="../de/home-assistant-gesundheitsdaten/" hreflang="de" lang="de">Auf Deutsch</a></p>
 
 <p>Install the Life Dashboard integration in Home Assistant and Life Dashboard Companion, an open-source Android app, on your phone, then pair the two with a QR code. Your watch's data then arrives as sensors, and every day is kept in long-term statistics.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in the Marketplace</a></p>
@@ -231,7 +231,7 @@
 <h2 id="what-you-get">What you get</h2>
 
 <ul>
-  <li><strong>Sensors</strong> for 26 of the 34 types: today's steps, distance and calories (such as <code>sensor.pixel_8_steps_today</code>), and the latest heart rate, resting heart rate, HRV, last sleep, weight, blood pressure, glucose, the last workout and more. Latest values name the app that wrote them. Which ones you get depends on your watch's app; see the table above.</li>
+  <li><strong>Sensors</strong> for 27 of the 34 types: today's steps, distance and calories (such as <code>sensor.pixel_8_steps_today</code>), and the latest heart rate, resting heart rate, HRV, last sleep, weight, blood pressure, glucose, the last workout, what you ate today and more. Latest values name the app that wrote them. Which ones you get depends on your watch's app; see the table above.</li>
   <li><strong>History</strong> in long-term statistics: one value per day for steps, distance in km, calories, sleep, exercise and mindfulness time in hours, hydration and screen time in hours, and an hourly mean, minimum and maximum for heart rate, weight and other measurements. Use the <strong>Statistics graph</strong> card; <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md">Sensors and statistics</a> lists every entity.</li>
   <li><strong>Sleep stages.</strong> With the integration 1.1.0 or newer, deep, light, REM, awake and time asleep per night become sensors and statistics, and the <a href="../sleep-stages-home-assistant/">Life Dashboard Sleep Card</a> draws the night as a hypnogram.</li>
   <li><strong>No double counting.</strong> Steps, distance and calories use Health Connect's daily totals, so a walk recorded by phone and watch counts once.</li>
@@ -273,7 +273,7 @@
 
 <h2 id="next-to-the-home-assistant-companion-app">Next to the Home Assistant companion app</h2>
 
-<p>Keep the companion app for presence, notifications and device sensors. Its 26 Health Connect sensors show the latest value or today's total, with no backfill, and each value is filed when the sensor updates, not on the date it happened. The two run side by side; <a href="../companion-app-health-connect/">the companion app and Health Connect</a> compares them.</p>
+<p>Keep the companion app for presence, notifications and device sensors. Its 36 Health Connect sensors show the latest value or today's total, with no backfill, and each value is filed when the sensor updates, not on the date it happened. The two run side by side; <a href="../companion-app-health-connect/">the companion app and Health Connect</a> compares them.</p>
 
 <div class="next">
   <p>Two installs: the integration from the Marketplace or HACS and the app on your phone. After that, pairing takes a minute.</p>
@@ -331,6 +331,7 @@
           <li><a href="../garmin-home-assistant/">Garmin in Home Assistant</a></li>
           <li><a href="../health-data-own-ai/">Health Connect and Apple Health over MCP</a></li>
           <li><a href="../health-data-qr-pairing/">Let your users connect with one QR code</a></li>
+          <li><a href="../health-connect-steps-home-assistant/">Health Connect steps that look wrong in Home Assistant</a></li>
           <li><a href="../troubleshooting/">Troubleshooting: syncs, sensors and pairing</a></li>
           <li><a href="../apple-health-home-assistant/">Apple Health in Home Assistant</a></li>
           <li><a href="../apple-watch-home-assistant/">Apple Watch in Home Assistant</a></li>
@@ -385,6 +386,7 @@
           <li><a href="../garmin-home-assistant/">Garmin in Home Assistant</a></li>
           <li><a href="../health-data-own-ai/">Health Connect and Apple Health over MCP</a></li>
           <li><a href="../health-data-qr-pairing/">Let your users connect with one QR code</a></li>
+          <li><a href="../health-connect-steps-home-assistant/">Health Connect steps that look wrong in Home Assistant</a></li>
           <li><a href="../troubleshooting/">Troubleshooting: syncs, sensors and pairing</a></li>
           <li><a href="../apple-health-home-assistant/">Apple Health in Home Assistant</a></li>
           <li><a href="../apple-watch-home-assistant/">Apple Watch in Home Assistant</a></li>

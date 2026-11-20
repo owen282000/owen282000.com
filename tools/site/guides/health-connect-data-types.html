@@ -3,7 +3,7 @@ title: Health Connect data types, app by app | Life Dashboard
 description: All 34 Health Connect data types Life Dashboard sends, with payload keys and units, and which ones Samsung Health, Garmin, Google Health and Oura write.
 primary query: health connect data types
 secondary queries: health connect data types list, what does samsung health sync to health connect, garmin health connect what syncs, samsung health connect hrv, fitbit health connect data, oura health connect, withings health connect, gadgetbridge health connect, health connect hrv, health connect payload keys
-updated: 2026-11-05
+updated: 2026-11-20
 published: 2026-10-14
 -->
 
@@ -108,6 +108,8 @@ published: 2026-10-14
 <p>* Not in Google's list, but Fitbit's nightly SpO2 was seen arriving through Health Connect in September 2026, as <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/DATA_SOURCES.md#fitbit-comfitbitfitbitmobile">DATA_SOURCES.md</a> records.</p>
 
 <p>Each app can change what it shares with any update, so look on your own phone under Health Connect &gt; App permissions &gt; the app. Types none of these six apps lists, such as ovulation tests or mindfulness sessions, come from other apps: cycle trackers, food loggers or meditation apps that write to Health Connect.</p>
+
+<p>Coros writes to Health Connect too, with one catch seen in October 2026: its total calories hold the active energy only, so the day's total comes out several hundred kcal too low. The <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/brands/coros.md">Coros page</a> has a Home Assistant template that adds the resting part.</p>
 
 <h2>What each app keeps to itself</h2>
 

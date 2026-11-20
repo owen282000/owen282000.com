@@ -132,7 +132,7 @@
           "name": "Which Health Connect types become Home Assistant sensors?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "26 of the 34 through the integration, 25 over MQTT. The other eight (nutrition, mindfulness, sexual activity and five cycle tracking types) are events rather than values, so they get no sensor; the integration counts mindfulness time per day. Workouts get a last workout sensor and the minutes of today and yesterday in the integration. A webhook of your own gets those records in full."
+            "text": "27 of the 34 through the integration, 25 over MQTT. Mindfulness, sexual activity and the five cycle tracking types are events rather than values, so they get no sensor; the integration counts mindfulness time per day. In the integration, workouts get a last workout sensor and the minutes of today and yesterday, and from version 1.2.0 your meals add up to the calories, protein, carbs and fat you ate today. A webhook of your own gets those records in full."
           }
         },
         {
@@ -316,7 +316,7 @@
         <h2>Into Home Assistant, with or without a broker</h2>
         <p>The Life Dashboard integration pairs with one QR code and keeps every day in long-term statistics. MQTT with Home Assistant Discovery suits a setup that already runs a broker and only needs current values.</p>
         <ul class="ticks">
-          <li>Sensors for 26 of the 34 types <span>Today's steps, distance and calories, the latest heart rate, sleep, weight, blood pressure, glucose and more, and the last workout. MQTT gets 25, without the workout.</span></li>
+          <li>Sensors for 27 of the 34 types <span>Today's steps, distance and calories, the latest heart rate, sleep, weight, blood pressure, glucose and more, the last workout and what you ate today. MQTT gets 25, without the workout and the food.</span></li>
           <li>Screen time in total and per app <span>Both routes get the totals. The sensor per app comes with the integration.</span></li>
           <li>Two phones on one broker <span>Give each a Phone name under More > Advanced, and each gets its own device and topics.</span></li>
         </ul>
@@ -387,7 +387,7 @@
     <div class="faq">
       <details>
         <summary>Which Health Connect types become Home Assistant sensors?</summary>
-        <p>26 of the 34 through the integration, 25 over MQTT. The other eight (nutrition, mindfulness, sexual activity and five cycle tracking types) are events rather than values, so they get no sensor; the integration counts mindfulness time per day. Workouts get a last workout sensor and the minutes of today and yesterday in the integration. A <a href="../health-connect-webhook/">webhook of your own</a> gets those records in full.</p>
+        <p>27 of the 34 through the integration, 25 over MQTT. Mindfulness, sexual activity and the five cycle tracking types are events rather than values, so they get no sensor; the integration counts mindfulness time per day. In the integration, workouts get a last workout sensor and the minutes of today and yesterday, and from version 1.2.0 your meals add up to the calories, protein, carbs and fat you ate today. A <a href="../health-connect-webhook/">webhook of your own</a> gets those records in full.</p>
       </details>
       <details>
         <summary>Can it send to Home Assistant and a webhook at the same time?</summary>
@@ -503,6 +503,7 @@
           <li><a href="../garmin-home-assistant/">Garmin in Home Assistant</a></li>
           <li><a href="../health-data-own-ai/">Health Connect and Apple Health over MCP</a></li>
           <li><a href="../health-data-qr-pairing/">Let your users connect with one QR code</a></li>
+          <li><a href="../health-connect-steps-home-assistant/">Health Connect steps that look wrong in Home Assistant</a></li>
           <li><a href="../troubleshooting/">Troubleshooting: syncs, sensors and pairing</a></li>
           <li><a href="../apple-health-home-assistant/">Apple Health in Home Assistant</a></li>
           <li><a href="../apple-watch-home-assistant/">Apple Watch in Home Assistant</a></li>

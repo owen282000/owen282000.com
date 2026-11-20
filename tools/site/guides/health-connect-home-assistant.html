@@ -3,7 +3,7 @@ title: Health Connect to Home Assistant: sensors and history | Life Dashboard
 description: Steps, sleep, heart rate and weight from Samsung Health, Garmin, Fitbit or Oura as Home Assistant sensors, each day on its own date, paired by QR code.
 primary query: health connect home assistant
 secondary queries: garmin home assistant health connect, oura home assistant, withings home assistant, home assistant steps sensor, home assistant sleep sensor, home assistant heart rate sensor, health connect home assistant integration
-updated: 2026-11-09
+updated: 2026-11-20
 -->
 
 <h1>How do I get Health Connect data into Home Assistant?</h1>
@@ -64,7 +64,7 @@ updated: 2026-11-09
 <h2>What you get</h2>
 
 <ul>
-  <li><strong>Sensors</strong> for 26 of the 34 types: today's steps, distance and calories (such as <code>sensor.pixel_8_steps_today</code>), and the latest heart rate, resting heart rate, HRV, last sleep, weight, blood pressure, glucose, the last workout and more. Latest values name the app that wrote them. Which ones you get depends on your watch's app; see the table above.</li>
+  <li><strong>Sensors</strong> for 27 of the 34 types: today's steps, distance and calories (such as <code>sensor.pixel_8_steps_today</code>), and the latest heart rate, resting heart rate, HRV, last sleep, weight, blood pressure, glucose, the last workout, what you ate today and more. Latest values name the app that wrote them. Which ones you get depends on your watch's app; see the table above.</li>
   <li><strong>History</strong> in long-term statistics: one value per day for steps, distance in km, calories, sleep, exercise and mindfulness time in hours, hydration and screen time in hours, and an hourly mean, minimum and maximum for heart rate, weight and other measurements. Use the <strong>Statistics graph</strong> card; <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md">Sensors and statistics</a> lists every entity.</li>
   <li><strong>Sleep stages.</strong> With the integration 1.1.0 or newer, deep, light, REM, awake and time asleep per night become sensors and statistics, and the <a href="../sleep-stages-home-assistant/">Life Dashboard Sleep Card</a> draws the night as a hypnogram.</li>
   <li><strong>No double counting.</strong> Steps, distance and calories use Health Connect's daily totals, so a walk recorded by phone and watch counts once.</li>
@@ -106,7 +106,7 @@ updated: 2026-11-09
 
 <h2>Next to the Home Assistant companion app</h2>
 
-<p>Keep the companion app for presence, notifications and device sensors. Its 26 Health Connect sensors show the latest value or today's total, with no backfill, and each value is filed when the sensor updates, not on the date it happened. The two run side by side; <a href="../companion-app-health-connect/">the companion app and Health Connect</a> compares them.</p>
+<p>Keep the companion app for presence, notifications and device sensors. Its 36 Health Connect sensors show the latest value or today's total, with no backfill, and each value is filed when the sensor updates, not on the date it happened. The two run side by side; <a href="../companion-app-health-connect/">the companion app and Health Connect</a> compares them.</p>
 
 <section class="faq">
   <h2>FAQ</h2>

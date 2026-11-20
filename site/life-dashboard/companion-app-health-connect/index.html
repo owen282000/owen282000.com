@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Home Assistant companion app or Life Dashboard Companion? | Life Dashboard</title>
-<meta name="description" content="The companion app&#x27;s 26 Health Connect sensors show the latest value. Life Dashboard Companion adds history on the right dates, 34 types and write-back.">
+<meta name="description" content="The companion app&#x27;s 36 Health Connect sensors show the latest value. Life Dashboard Companion adds history on the right dates, 34 types and write-back.">
 <link rel="canonical" href="https://owen282000.com/life-dashboard/companion-app-health-connect/">
 <meta name="robots" content="max-image-preview:large">
 <meta name="theme-color" content="#101418">
@@ -15,7 +15,7 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="Is the Home Assistant companion app enough for Health Connect data?">
-<meta property="og:description" content="The companion app&#x27;s 26 Health Connect sensors show the latest value. Life Dashboard Companion adds history on the right dates, 34 types and write-back.">
+<meta property="og:description" content="The companion app&#x27;s 36 Health Connect sensors show the latest value. Life Dashboard Companion adds history on the right dates, 34 types and write-back.">
 <meta property="og:url" content="https://owen282000.com/life-dashboard/companion-app-health-connect/">
 <meta property="og:image" content="https://owen282000.com/life-dashboard/img/social.png">
 <meta property="og:image:width" content="1280">
@@ -29,7 +29,7 @@
     {
       "@type": "TechArticle",
       "headline": "Is the Home Assistant companion app enough for Health Connect data?",
-      "description": "The companion app's 26 Health Connect sensors show the latest value. Life Dashboard Companion adds history on the right dates, 34 types and write-back.",
+      "description": "The companion app's 36 Health Connect sensors show the latest value. Life Dashboard Companion adds history on the right dates, 34 types and write-back.",
       "url": "https://owen282000.com/life-dashboard/companion-app-health-connect/",
       "inLanguage": "en",
       "author": {
@@ -48,7 +48,7 @@
         }
       ],
       "datePublished": "2026-10-14",
-      "dateModified": "2026-11-09",
+      "dateModified": "2026-11-20",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -103,7 +103,7 @@
           "name": "Can the companion app import my Health Connect history?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No, as of release 2026.8.4. Its history starts the day you enable a sensor. Life Dashboard can backfill all your history into long-term statistics, each day on its own date."
+            "text": "No, as of release 2026.11.1. Its history starts the day you enable a sensor. Life Dashboard can backfill all your history into long-term statistics, each day on its own date."
           }
         },
         {
@@ -127,7 +127,7 @@
           "name": "Can the companion app write a scale reading into Health Connect?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. As of October 2026, writing is a feature request, issue #5650, still open. Life Dashboard writes weight, body composition and blood pressure from Home Assistant into Health Connect."
+            "text": "No. As of November 2026, writing is a feature request, issue #5650, still open. Life Dashboard writes weight, body composition and blood pressure from Home Assistant into Health Connect."
           }
         }
       ]
@@ -169,16 +169,16 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">The companion app and Health Connect</span></nav>
 <h1>Is the Home Assistant companion app enough for Health Connect data?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 9, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 20, 2026.</p>
 
-<p>For the latest value, yes. The Android companion app has 26 Health Connect sensors, each with the newest reading or today's total. It has no way to load older data, it files a value at the moment the sensor updates rather than on the day it belongs to, and it doesn't write into Health Connect. Life Dashboard reads 34 types and adds a backfill of all your history on the right dates, scale and blood pressure readings written back, and screen time per app. The two run side by side.</p>
+<p>For the latest value, yes. The Android companion app has 36 Health Connect sensors, each with the newest reading or today's total. It has no way to load older data, it files a value at the moment the sensor updates rather than on the day it belongs to, and it doesn't write into Health Connect. Life Dashboard reads 34 types and adds a backfill of all your history on the right dates, scale and blood pressure readings written back, and screen time per app. The two run side by side.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in the Marketplace</a></p>
 
 <p class="flow-line"><span>Health Connect</span><span>Life Dashboard Companion</span><span>Life Dashboard integration</span><span>Every day on its own date</span></p>
 
 <h2 id="what-the-companion-app-reads">What the companion app reads</h2>
 
-<p>As of October 2026, the latest release of the companion app for Android, 2026.8.4, has 26 Health Connect sensors. They cover 25 types; blood pressure is split into a systolic and a diastolic sensor.</p>
+<p>As of November 2026, the latest release of the companion app for Android, 2026.11.1, has 36 Health Connect sensors. They cover 25 types: blood pressure is split into a systolic and a diastolic sensor, and sleep into eleven. Up to release 2026.10.1 there were 26, with one for sleep.</p>
 
 <div class="table-wrap" tabindex="0" role="region" aria-label="What the companion app reads"><table>
   <thead>
@@ -186,7 +186,8 @@
   </thead>
   <tbody>
     <tr><th scope="row">Total since midnight (6)</th><td>Steps, distance, total calories, hydration, floors climbed, elevation gained</td></tr>
-    <tr><th scope="row">Newest reading (20)</th><td>Heart rate, resting heart rate, heart rate variability, sleep duration, weight, height, body fat, lean body mass, bone mass, body water mass, systolic and diastolic blood pressure, blood glucose, oxygen saturation, respiratory rate, body temperature, basal body temperature, basal metabolic rate, VO2 max, active calories</td></tr>
+    <tr><th scope="row">Newest reading (20)</th><td>Heart rate, resting heart rate, heart rate variability, weight, height, body fat, lean body mass, bone mass, body water mass, systolic and diastolic blood pressure, blood glucose, oxygen saturation, respiratory rate, body temperature, basal body temperature, basal metabolic rate, VO2 max, active calories, sleep duration</td></tr>
+    <tr><th scope="row">Last night's sleep, since 2026.11.1 (10)</th><td>When the night started and ended, and the minutes of light, deep, REM, awake, awake in bed, out of bed, unspecified and unknown sleep</td></tr>
   </tbody>
 </table></div>
 
@@ -196,7 +197,7 @@
   <li><strong>Switching them on.</strong> The sensors are off by default. You enable each one under <strong>Manage Sensors</strong>, which also asks for its Health Connect permission.</li>
 </ul>
 
-<p>Since release 2026.11.1, the Android app's <strong>Sleep duration</strong> sensor also carries the night's stages as attributes, and the <a href="../sleep-stages-home-assistant/">Life Dashboard Sleep Card</a> can draw a night from them. Not covered as of October 2026: exercise sessions, nutrition, cycle tracking, mindfulness and skin temperature. The request for them is <a href="https://github.com/home-assistant/android/issues/4804">issue #4804</a>, still open.</p>
+<p>Since release 2026.11.1, the Android app's <strong>Sleep duration</strong> sensor also carries the night's stages as attributes, and the <a href="../sleep-stages-home-assistant/">Life Dashboard Sleep Card</a> can draw a night from them. Not covered as of November 2026: exercise sessions, nutrition, cycle tracking, mindfulness and skin temperature. The request for them is <a href="https://github.com/home-assistant/android/issues/4804">issue #4804</a>, still open.</p>
 
 <h2 id="when-the-companion-app-is-enough">When the companion app is enough</h2>
 
@@ -217,7 +218,7 @@
   <li><strong>Values land at update time.</strong> A night's sleep that your watch hands over at 09:00 shows up in the history at 09:00. The time it describes is only in an attribute, which graphs and statistics don't use.</li>
   <li><strong>Totals cover today.</strong> The six daily sensors count from midnight. Steps that a watch hands over after midnight for the day before never reach yesterday's figure.</li>
   <li><strong>Long-term statistics for six sensors.</strong> Only the six totals have a state class, so only they get long-term statistics. Heart rate, weight, sleep and the other newest-reading sensors stay in the recorder's history, which Home Assistant keeps for 10 days unless you change it.</li>
-  <li><strong>No older data.</strong> History starts the day you enable a sensor. As of release 2026.8.4, the app has no way to import what Health Connect already holds.</li>
+  <li><strong>No older data.</strong> History starts the day you enable a sensor. As of release 2026.11.1, the app has no way to import what Health Connect already holds.</li>
 </ul>
 
 <h2 id="what-life-dashboard-adds">What Life Dashboard adds</h2>
@@ -225,7 +226,8 @@
 <p>Life Dashboard is an open-source Android app, Life Dashboard Companion, plus the <a href="../home-assistant/">Life Dashboard integration</a> from the Marketplace (HACS before Home Assistant 2026.11). The app reads Health Connect and sends every record with its own time, and the integration files it on that date.</p>
 
 <ul>
-  <li><strong>34 types, 26 as sensors.</strong> Since integration 0.10.0 that includes three for workouts: the last workout, and the minutes of today and yesterday. Over MQTT it's 25, without the workouts. Meals, mindfulness, sexual activity and cycle tracking have no single value to show; a webhook of your own gets them as records.</li>
+  <li><strong>34 types, 27 as sensors.</strong> That includes three sensors for workouts, the last one and the minutes of today and yesterday, and since integration 1.2.0 the calories, protein, carbs and fat you ate today. Over MQTT it's 25, without the workouts and the food. Single meals, mindfulness, sexual activity and cycle tracking have no single value to show; a webhook of your own gets them as records.</li>
+  <li><strong>Sleep stages for every night.</strong> Hours of deep, light, REM and awake per night in long-term statistics, as far back as your history goes, where the companion app holds the last night.</li>
   <li><strong>History on the right day.</strong> Daily totals land on their own date, and readings such as heart rate and weight get a mean, minimum and maximum per hour. Data that arrives late is filed where it belongs: each sync reaches back a week for records a source writes late.</li>
   <li><strong>A backfill of your history.</strong> <strong>Send history</strong> under <strong>What to send</strong> on the <strong>Health</strong> tab sends 30 days up to 5 years, or <strong>All history</strong>, of every enabled type, so your graphs start full. Home Assistant files every day of it on its own date.</li>
   <li><strong>Readings written back.</strong> Weight, height, body fat, lean body mass, bone mass, body water mass and blood pressure from a scale or monitor in Home Assistant go into Health Connect. Samsung Health and Google Health pick up weight and body fat from there. See <a href="../smart-scale-to-samsung-health/">smart scale readings into Samsung Health</a>.</li>
@@ -244,7 +246,8 @@
     <tr><th scope="col">Feature</th><th scope="col">Home Assistant companion app</th><th scope="col">Life Dashboard</th></tr>
   </thead>
   <tbody>
-    <tr><th scope="row">Health Connect</th><td>26 sensors from 25 types</td><td>34 types; 26 become sensors, and a webhook gets every record</td></tr>
+    <tr><th scope="row">Health Connect</th><td>36 sensors from 25 types</td><td>34 types; 27 become sensors, and a webhook gets every record</td></tr>
+    <tr><th scope="row">Sleep stages</th><td>The last night, in minutes per stage</td><td>Every night, in long-term statistics, and the last night with its timeline</td></tr>
     <tr><th scope="row">Types the other lacks</th><td>Floors climbed, elevation gained</td><td>Exercise sessions, nutrition, cycle tracking, mindfulness, skin temperature</td></tr>
     <tr><th scope="row">Where a value is filed</th><td>At the moment the sensor updates</td><td>On the date and hour it belongs to</td></tr>
     <tr><th scope="row">Long-term statistics</th><td>The six daily totals</td><td>Every type with a sensor, plus mindfulness time</td></tr>
@@ -259,7 +262,7 @@
   </tbody>
 </table></div>
 
-<p>The companion app column is from its <a href="https://companion.home-assistant.io/docs/core/sensors#health-connect-sensors">sensor documentation</a> and its code, as of release 2026.8.4.</p>
+<p>The companion app column is from its <a href="https://companion.home-assistant.io/docs/core/sensors#health-connect-sensors">sensor documentation</a> and its code, as of release 2026.11.1.</p>
 
 <h2 id="run-both">Run both</h2>
 
@@ -274,7 +277,7 @@
 <ul>
   <li>Life Dashboard is a second app on the phone, next to the companion app.</li>
   <li>It doesn't read floors climbed or elevation gained.</li>
-  <li>Meals, mindfulness sessions and cycle tracking get no sensor. They go to a webhook as records, and mindfulness counts toward the day statistics.</li>
+  <li>Single meals, mindfulness sessions and cycle tracking get no sensor. They go to a webhook as records; what you ate today adds up in four sensors, and mindfulness counts toward the day statistics.</li>
   <li>MQTT carries only the newest value and has no workout sensors. The backfill and the statistics need the integration.</li>
   <li>A home network address only syncs at home. A public HTTPS address or Home Assistant Cloud works everywhere.</li>
 </ul>
@@ -293,7 +296,7 @@
   </details>
   <details>
     <summary>Can the companion app import my Health Connect history?</summary>
-    <p>No, as of release 2026.8.4. Its history starts the day you enable a sensor. Life Dashboard can backfill all your history into long-term statistics, each day on its own date.</p>
+    <p>No, as of release 2026.11.1. Its history starts the day you enable a sensor. Life Dashboard can backfill all your history into long-term statistics, each day on its own date.</p>
   </details>
   <details>
     <summary>Why is there no heart rate in my long-term statistics?</summary>
@@ -305,7 +308,7 @@
   </details>
   <details>
     <summary>Can the companion app write a scale reading into Health Connect?</summary>
-    <p>No. As of October 2026, writing is a feature request, <a href="https://github.com/home-assistant/android/issues/5650">issue #5650</a>, still open. Life Dashboard writes weight, body composition and blood pressure from Home Assistant into Health Connect.</p>
+    <p>No. As of November 2026, writing is a feature request, <a href="https://github.com/home-assistant/android/issues/5650">issue #5650</a>, still open. Life Dashboard writes weight, body composition and blood pressure from Home Assistant into Health Connect.</p>
   </details>
 </section>
     </article>
@@ -335,6 +338,7 @@
           <li><a href="../garmin-home-assistant/">Garmin in Home Assistant</a></li>
           <li><a href="../health-data-own-ai/">Health Connect and Apple Health over MCP</a></li>
           <li><a href="../health-data-qr-pairing/">Let your users connect with one QR code</a></li>
+          <li><a href="../health-connect-steps-home-assistant/">Health Connect steps that look wrong in Home Assistant</a></li>
           <li><a href="../troubleshooting/">Troubleshooting: syncs, sensors and pairing</a></li>
           <li><a href="../apple-health-home-assistant/">Apple Health in Home Assistant</a></li>
           <li><a href="../apple-watch-home-assistant/">Apple Watch in Home Assistant</a></li>
@@ -389,6 +393,7 @@
           <li><a href="../garmin-home-assistant/">Garmin in Home Assistant</a></li>
           <li><a href="../health-data-own-ai/">Health Connect and Apple Health over MCP</a></li>
           <li><a href="../health-data-qr-pairing/">Let your users connect with one QR code</a></li>
+          <li><a href="../health-connect-steps-home-assistant/">Health Connect steps that look wrong in Home Assistant</a></li>
           <li><a href="../troubleshooting/">Troubleshooting: syncs, sensors and pairing</a></li>
           <li><a href="../apple-health-home-assistant/">Apple Health in Home Assistant</a></li>
           <li><a href="../apple-watch-home-assistant/">Apple Watch in Home Assistant</a></li>

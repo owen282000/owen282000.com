@@ -43,7 +43,7 @@
         }
       ],
       "datePublished": "2026-10-21",
-      "dateModified": "2026-11-09",
+      "dateModified": "2026-11-20",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -114,7 +114,7 @@
           "name": "Which types become sensors in Home Assistant?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "20 of the 28, with blood pressure as two sensors. Workouts get a last workout sensor and the minutes of today and yesterday, and workouts and mindfulness count toward the day statistics, in hours. Nutrition and cycle tracking get no sensor; a webhook gets them in full."
+            "text": "20 of the 28, with blood pressure as two sensors. Workouts get a last workout sensor and the minutes of today and yesterday, and workouts and mindfulness count toward the day statistics, in hours. From integration 1.2.0, your meals add up to the calories, protein, carbs and fat you ate today. Single meals and cycle tracking get no sensor; a webhook gets them in full."
           }
         },
         {
@@ -164,7 +164,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Apple Health data types, app by app</span></nav>
 <h1>Which Apple Health data types does Life Dashboard send?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 9, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 20, 2026.</p>
 
 <p>The iPhone app reads 28 Apple Health types, and each one is off until you switch it on under <strong>What to send</strong>, by category or with <strong>Essentials</strong> or <strong>All types</strong>. It sends them under the Android app's payload keys, with the same fields and units: steps, distance and calories, workouts, weight and body composition, heart rate, resting heart rate and HRV, blood pressure, glucose, oxygen saturation, respiratory rate, VO2 max, sleep with stages, hydration, nutrition, mindfulness, body temperature and cycle tracking. Menstruation goes out as two keys, so an iPhone sends 29 of the Android app's 34 keys.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="../ios/#get">Get the iPhone app</a></p>
@@ -202,7 +202,7 @@
     <tr><th scope="row"><a href="#sleep">Sleep</a></th><td><code>sleep</code></td><td><code>duration_seconds</code>, <code>stages</code></td><td>Last sleep duration, time asleep and hours per stage</td><td>Yes, with stages</td></tr>
     <tr><th scope="row"><a href="#mindfulness">Mindfulness</a></th><td><code>mindfulness</code></td><td><code>duration_seconds</code></td><td>Minutes per day, in the statistics</td><td>Unknown</td></tr>
     <tr><th scope="row"><a href="#hydration">Hydration</a></th><td><code>hydration</code></td><td><code>liters</code></td><td>Last drink</td><td>No</td></tr>
-    <tr><th scope="row"><a href="#nutrition">Nutrition</a></th><td><code>nutrition</code></td><td><code>calories</code>, grams and 34 more nutrients</td><td>No sensor</td><td>No</td></tr>
+    <tr><th scope="row"><a href="#nutrition">Nutrition</a></th><td><code>nutrition</code></td><td><code>calories</code>, grams and 34 more nutrients</td><td>Calories, protein, carbs and fat eaten today</td><td>No</td></tr>
     <tr><th scope="row"><a href="#menstruation">Menstruation</a></th><td><code>menstruation_flow</code>, <code>menstruation_period</code></td><td><code>flow</code>; <code>start_time</code>, <code>end_time</code></td><td>No sensor</td><td>No</td></tr>
     <tr><th scope="row"><a href="#intermenstrual_bleeding">Intermenstrual Bleeding</a></th><td><code>intermenstrual_bleeding</code></td><td>The time only</td><td>No sensor</td><td>No</td></tr>
     <tr><th scope="row"><a href="#ovulation_test">Ovulation Test</a></th><td><code>ovulation_test</code></td><td><code>result</code></td><td>No sensor</td><td>No</td></tr>
@@ -356,7 +356,7 @@
 <p>The <a href="https://github.com/owen282000/life-dashboard-companion-app-ios/blob/main/docs/webhook.md">iOS payload page</a> has every detail, and the Android app's <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook-schema.json">JSON Schema</a> covers both apps. For Android, see <a href="../health-connect-data-types/">Health Connect data types, app by app</a>.</p>
 
 <div class="next">
-  <p>Switch on your types on the <strong>Health</strong> tab and tap <strong>View</strong> to see what the next sync would send.</p>
+  <p>Switch on your types under <strong>What to send</strong> and tap <strong>Preview payload</strong> to see what the next sync would send.</p>
   <a class="btn btn-primary btn-store" href="../ios/#get">Get the iPhone app</a>
   <a class="btn btn-ghost" href="https://github.com/owen282000/life-dashboard-companion-app-ios/blob/main/docs/webhook.md#what-ios-sends">iOS payload reference</a>
 </div>
@@ -377,7 +377,7 @@
   </details>
   <details>
     <summary>Which types become sensors in Home Assistant?</summary>
-    <p>20 of the 28, with blood pressure as two sensors. Workouts get a last workout sensor and the minutes of today and yesterday, and workouts and mindfulness count toward the day statistics, in hours. Nutrition and cycle tracking get no sensor; a webhook gets them in full.</p>
+    <p>20 of the 28, with blood pressure as two sensors. Workouts get a last workout sensor and the minutes of today and yesterday, and workouts and mindfulness count toward the day statistics, in hours. From integration 1.2.0, your meals add up to the calories, protein, carbs and fat you ate today. Single meals and cycle tracking get no sensor; a webhook gets them in full.</p>
   </details>
   <details>
     <summary>Does the app read Screen Time or the ECG?</summary>
@@ -410,6 +410,7 @@
           <li><a href="../garmin-home-assistant/">Garmin in Home Assistant</a></li>
           <li><a href="../health-data-own-ai/">Health Connect and Apple Health over MCP</a></li>
           <li><a href="../health-data-qr-pairing/">Let your users connect with one QR code</a></li>
+          <li><a href="../health-connect-steps-home-assistant/">Health Connect steps that look wrong in Home Assistant</a></li>
           <li><a href="../troubleshooting/">Troubleshooting: syncs, sensors and pairing</a></li>
           <li><a href="../apple-health-home-assistant/">Apple Health in Home Assistant</a></li>
           <li><a href="../apple-watch-home-assistant/">Apple Watch in Home Assistant</a></li>
@@ -464,6 +465,7 @@
           <li><a href="../garmin-home-assistant/">Garmin in Home Assistant</a></li>
           <li><a href="../health-data-own-ai/">Health Connect and Apple Health over MCP</a></li>
           <li><a href="../health-data-qr-pairing/">Let your users connect with one QR code</a></li>
+          <li><a href="../health-connect-steps-home-assistant/">Health Connect steps that look wrong in Home Assistant</a></li>
           <li><a href="../troubleshooting/">Troubleshooting: syncs, sensors and pairing</a></li>
           <li><a href="../apple-health-home-assistant/">Apple Health in Home Assistant</a></li>
           <li><a href="../apple-watch-home-assistant/">Apple Watch in Home Assistant</a></li>

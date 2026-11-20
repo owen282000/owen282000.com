@@ -52,6 +52,10 @@
           "sub": "Heart rate, resting heart rate, HRV, last sleep, weight, blood pressure, glucose, SpO2, VO2 max, the last workout and more, with measured_at and source."
         },
         {
+          "main": "What you ate today",
+          "sub": "Calories, protein, carbs and fat of today's meals, from the app you log your food in, from version 1.2.0. Every day is a statistic too."
+        },
+        {
           "main": "One value per day",
           "sub": "Steps, distance in km, calories, sleep, exercise and mindfulness time in hours, hydration and screen time."
         },
@@ -153,11 +157,11 @@
     {
       "kicker": "Screen time",
       "h2": "Screen time per app, with its history",
-      "text": "On Android, the app sends screen time from the same usage statistics Digital Wellbeing reads. The example dashboard has a view of its own for it.",
+      "text": "On Android, the app sends screen time from the same usage statistics Digital Wellbeing reads. The example dashboard has a view of its own for it, and the <a href=\"https://github.com/owen282000/life-dashboard-screen-time-card\">Life Dashboard Screen Time cards</a>, a separate install from the Marketplace, show today, the week and the whole family, each against a daily limit you set.",
       "bullets": [
         {
           "main": "Today and yesterday",
-          "sub": "Screen time in hours, the most used app, and the top five with their minutes."
+          "sub": "Screen time in hours, the most used app, and from version 1.2.0 every app of the day with its minutes."
         },
         {
           "main": "A sensor per app",
@@ -191,7 +195,7 @@
     },
     {
       "q": "Which data gets no sensor?",
-      "a": "Eight of the 34 Health Connect types are events: meals, mindfulness sessions, sexual activity and the five cycle tracking types. Workouts get a last workout sensor and the minutes of today and yesterday, and mindfulness counts as time per day, in hours, in the statistics. For the raw records, add a second webhook in the app that points at <a href=\"../health-connect-webhook/\">your own backend</a>."
+      "a": "Seven of the 34 Health Connect types: mindfulness sessions, sexual activity and the five cycle tracking types. They are events, and a single value can't show them. Single meals get no sensor either, but from version 1.2.0 the calories, protein, carbs and fat you ate today do. Workouts get a last workout sensor and the minutes of today and yesterday, and mindfulness counts as time per day, in hours, in the statistics. For the raw records, add a second webhook in the app that points at <a href=\"../health-connect-webhook/\">your own backend</a>."
     },
     {
       "q": "Can Home Assistant send a scale reading to the phone?",
@@ -214,7 +218,7 @@
       "a": "Deleting the entry removes the device and its sensors, deletes its cloudhook if it had one, and deletes the phone's files in <code>.storage</code>. Its long-term statistics stay in the recorder, as they do for any integration you remove. Add a phone later, and it offers to take them over, so the graphs and running totals carry on where they stopped."
     }
   ],
-  "updated": "2026-11-09",
+  "updated": "2026-11-20",
   "guides": [
     "health-connect-home-assistant",
     "apple-health-home-assistant",
@@ -234,8 +238,8 @@
     "rows": [
       [
         "Health Connect",
-        "26 sensors",
-        "34 types; 26 become sensors, and a webhook gets every record"
+        "36 sensors",
+        "34 types; 27 become sensors, and a webhook gets every record"
       ],
       [
         "History",
@@ -258,6 +262,6 @@
         "Also MQTT, any webhook and <a href=\"../grafana/\">the Grafana stack</a>"
       ]
     ],
-    "source": "From the companion app's <a href=\"https://companion.home-assistant.io/docs/core/sensors\">sensor documentation</a> and its code, as of release 2026.8.4. <a href=\"../companion-app-health-connect/\">The companion app and Health Connect</a> goes row by row."
+    "source": "From the companion app's <a href=\"https://companion.home-assistant.io/docs/core/sensors\">sensor documentation</a> and its code, as of release 2026.11.1. <a href=\"../companion-app-health-connect/\">The companion app and Health Connect</a> goes row by row."
   }
 }

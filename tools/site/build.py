@@ -235,7 +235,7 @@ GUIDE_GROUPS = [
                          "health-data-qr-pairing"]),
     ("iPhone", ["apple-health-home-assistant", "apple-watch-home-assistant", "apple-health-webhook",
                 "apple-health-n8n", "apple-health-data-types"]),
-    ("Reference", ["health-connect-data-types", "troubleshooting"]),
+    ("Reference", ["health-connect-data-types", "health-connect-steps-home-assistant", "troubleshooting"]),
 ]
 
 GUIDES = [
@@ -244,7 +244,7 @@ GUIDES = [
     ("samsung-health-home-assistant", "Samsung Health and Galaxy Watch in Home Assistant", "Samsung",
      "Steps, sleep, heart rate and workouts through Health Connect, with no Samsung login."),
     ("companion-app-health-connect", "The companion app and Health Connect", "Companion app",
-     "When its 26 sensors are enough, and what history, backfill and 34 types add."),
+     "When its 36 sensors are enough, and what history, backfill and 34 types add."),
     ("health-connect-webhook", "Health Connect to a webhook", "Webhooks",
      "The JSON payload, signatures, retries and receivers for n8n and Node-RED."),
     ("screen-time-home-assistant", "Screen time in Home Assistant", "Screen time",
@@ -269,6 +269,8 @@ GUIDES = [
      "The stack's read-only MCP server lets a local model or Claude read your history. Works in Europe too."),
     ("health-data-qr-pairing", "Let your users connect with one QR code", "QR pairing",
      "For your own service: the pairing link, a generator in Python and Node.js, and the signed test ping."),
+    ("health-connect-steps-home-assistant", "Health Connect steps that look wrong in Home Assistant", "Wrong steps",
+     "Sensors that lag, steps after midnight, totals that go down, and day totals that are replaced per day."),
     ("troubleshooting", "Troubleshooting: syncs, sensors and pairing", "Troubleshooting",
      "Syncs that stop in the background, Health Connect permissions, missing sensors and pairing, step by step."),
     ("apple-health-home-assistant", "Apple Health in Home Assistant", "Apple Health",
@@ -301,12 +303,14 @@ GUIDE_ABOUT = {
     "sleep-stages-home-assistant": ["#sleep-card", "#integration", "#android", "#ios"],
     "smart-scale-to-samsung-health": ["#integration", "#android"],
     "troubleshooting": ["#android", "#integration", "#ios"],
+    "health-connect-steps-home-assistant": ["#android", "#integration"],
     "apple-health-home-assistant": ["#ios", "#integration"],
     "apple-watch-home-assistant": ["#ios", "#integration"],
     "apple-health-webhook": ["#ios", "#stack"],
     "apple-health-n8n": ["#ios"],
     "apple-health-data-types": ["#ios"],
     "de/home-assistant-gesundheitsdaten": ["#android", "#ios", "#integration"],
+    "de/health-connect-daten-exportieren": ["#android"],
 }
 
 # Guides in another language, written from guides/<slug>.html like the others, under a folder
@@ -319,6 +323,9 @@ TRANSLATIONS = [
     {"slug": "de/home-assistant-gesundheitsdaten", "lang": "de", "short": "Gesundheitsdaten in Home Assistant",
      "en": "health-connect-home-assistant",
      "from": ["health-connect-home-assistant", "apple-health-home-assistant"]},
+    {"slug": "de/health-connect-daten-exportieren", "lang": "de", "short": "Health-Connect-Daten exportieren",
+     "en": "health-connect-webhook",
+     "from": ["health-connect-webhook", "samsung-health-export"]},
 ]
 TRANSLATIONS = [t for t in TRANSLATIONS if (HERE / "guides" / f"{t['slug']}.html").exists()]
 LANG_LINK = {"de": "Auf Deutsch", "en": "Auf Englisch"}
@@ -336,7 +343,8 @@ UI = {
                     "A1-health": "Der Tab „Gesundheit“ der Android-App mit einer Zeile pro Ziel und den Werten von heute",
                     "ios-health": "Der Tab „Gesundheit“ der iPhone-App mit einer Zeile pro Ziel und den Werten von heute",
                     "H6-health": "Das Beispiel-Dashboard Health in Home Assistant mit Demodaten: heutige Werte, das letzte Training, Erholung und Schlaf",
-                    "ios-schedule": "„Wann senden“ in der iPhone-App mit festen Zeiten und Ruhezeiten"}},
+                    "ios-schedule": "„Wann senden“ in der iPhone-App mit festen Zeiten und Ruhezeiten",
+                    "A6-webhook": "Ein Webhook-Ziel in der Android-App mit seinem HMAC-Signaturschlüssel und seinen Headern"}},
 }
 
 
@@ -386,6 +394,8 @@ CAPTIONS = {"S1-sleep-card": "Sample data", "S2-sleep-card-phone": "Sample data"
 PHONE_SHOT = {"S1-sleep-card": "S2-sleep-card-phone"}
 
 NEXT = {
+    "health-connect-steps-home-assistant": ("Compare the total in Health Connect with Home Assistant first. For day totals that are replaced per day, install the integration and pair the app with its QR code.",
+        [("btn-primary btn-store", "../android/#get", "Get the Android app"), ("btn-ghost", "../health-connect-home-assistant/", "Health Connect in Home Assistant")]),
     "troubleshooting": ("Still stuck? Ask in Discussions and include the row from the <strong>Logs</strong> tab; the setup guide has the full list of known problems.",
         [("btn-primary", f"{REPO}/discussions", "Ask in Discussions"), ("btn-ghost", f"{REPO}/blob/main/docs/usage.md#troubleshooting", "Full troubleshooting list")]),
     "health-connect-n8n": ("Install the app, put the production URL of your published workflow in it and tap <strong>Send test</strong>. The payload reference has the same check with a Crypto node.",
@@ -426,10 +436,12 @@ NEXT = {
         [("btn-primary btn-store", "../ios/#get", "Get the iPhone app"), ("btn-ghost", f"{REPO_IOS}/blob/main/docs/webhook.md", "iOS payload reference")]),
     "apple-health-n8n": ("Install the app, put the production URL of your published workflow in it and tap <strong>Test ping</strong>. The payload reference has the same check with a Crypto node.",
         [("btn-primary btn-store", "../ios/#get", "Get the iPhone app"), ("btn-ghost", f"{REPO}/blob/main/docs/webhook.md#n8n-and-node-red", "n8n in the payload reference")]),
-    "apple-health-data-types": ("Switch on your types on the <strong>Health</strong> tab and tap <strong>View</strong> to see what the next sync would send.",
+    "apple-health-data-types": ("Switch on your types under <strong>What to send</strong> and tap <strong>Preview payload</strong> to see what the next sync would send.",
         [("btn-primary btn-store", "../ios/#get", "Get the iPhone app"), ("btn-ghost", f"{REPO_IOS}/blob/main/docs/webhook.md#what-ios-sends", "iOS payload reference")]),
     "de/home-assistant-gesundheitsdaten": ("Zwei Installationen: die Integration aus dem Marketplace oder aus HACS und die App auf deinem iPhone oder Android-Telefon. Danach koppelst du beide mit einem QR-Code und holst deinen ganzen Verlauf nach.",
         [("btn-primary btn-store", HACS, "Im Marketplace öffnen"), ("btn-ghost", "../../ios/#get", "iPhone-App"), ("btn-ghost", "../../android/#get", "Android-App")]),
+    "de/health-connect-daten-exportieren": ("Installiere die App, trag deine Adresse ein und tippe auf <strong>Test senden</strong>. Die Payload-Referenz beschreibt jedes Feld und hat einen Empfänger in Python und Node.js.",
+        [("btn-primary btn-store", "../../android/#get", "Android-App"), ("btn-ghost", f"{REPO}/blob/main/docs/webhook.md", "Payload-Referenz (Englisch)")]),
 }
 
 # Structured data for the project and its four parts, written into the landing page and, for

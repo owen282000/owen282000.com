@@ -4,7 +4,7 @@ description: Syncs that stop in the background, missing Health Connect data, no 
 primary query: health connect sync not working
 secondary queries: health connect background sync stops, samsung battery kills app, home assistant health sensors missing, health connect permissions, life dashboard troubleshooting
 published: 2026-10-19
-updated: 2026-11-05
+updated: 2026-11-20
 -->
 
 <h1>Why isn't my health data arriving?</h1>
@@ -73,7 +73,7 @@ updated: 2026-11-05
 <h2>Numbers that look wrong</h2>
 
 <ul>
-  <li><strong>Steps counted twice?</strong> Not in Home Assistant. When Samsung Health and Garmin both write a walk, Health Connect keeps both copies but also calculates a daily total that counts the overlap once, and the integration uses that total. Keep <strong>Daily totals in payload</strong> switched on under <strong>More</strong> &gt; <strong>Advanced</strong>.</li>
+  <li><strong>Steps counted twice?</strong> Not in Home Assistant. When Samsung Health and Garmin both write a walk, Health Connect keeps both copies but also calculates a daily total that counts the overlap once, and the integration uses that total. Keep <strong>Daily totals in payload</strong> switched on under <strong>More</strong> &gt; <strong>Advanced</strong>. <a href="../health-connect-steps-home-assistant/">Health Connect steps that look wrong</a> goes through the other causes.</li>
   <li><strong>Screen time differs from Digital Wellbeing.</strong> The app's day starts at 04:00 by default, apps used for a minute or less are left out, and only time on screen counts.</li>
   <li><strong>A field is missing,</strong> such as a nutrient. The app sends every field Health Connect has, but only when the app that wrote the record filled it in.</li>
 </ul>
