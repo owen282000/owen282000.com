@@ -1,0 +1,154 @@
+<!--
+title: Fitbit no Home Assistant após o fim da API | Life Dashboard
+description: O Google desligou a Fitbit Web API em 2 de novembro de 2026. Veja como levar os dados do Fitbit e do Pixel Watch para o Home Assistant pelo Health Connect.
+primary query: fitbit home assistant
+secondary queries: fitbit 410 gone home assistant, error fetching fitbit data 410, fim da api fitbit home assistant, integração fitbit parou de funcionar home assistant, fitbit web api desativada, pixel watch home assistant, google health home assistant, integração google health home assistant, fitbit health connect, integração fitbit indisponível, pixel watch health connect, sono fitbit home assistant
+updated: 2026-11-09
+published: 2026-11-20
+-->
+
+<h1>Como levar os dados do Fitbit e do Pixel Watch para o Home Assistant depois do fim da Fitbit Web API?</h1>
+
+<p>O Google desligou a Fitbit Web API em 2 de novembro de 2026. Desde então, a integração Fitbit do Home Assistant não recebe dados novos: os sensores pararam de atualizar e aparecem como indisponíveis, e o log mostra um erro 410 Gone. O seu relógio e o app Google Health continuam funcionando, e o app continua gravando os seus dados no Conexão Saúde (Health Connect) no seu celular Android. O Life Dashboard Companion, um app de código aberto para Android, lê os dados ali e os envia para a integração Life Dashboard no Home Assistant. Esse caminho não usa a Fitbit Web API e não precisa de projeto no Google Cloud nem de cliente OAuth.</p>
+
+<p class="flow-line"><span>Fitbit ou Pixel Watch</span><span>App Google Health</span><span>Conexão Saúde</span><span>Life Dashboard Companion</span><span>Home Assistant</span></p>
+
+<h2>O que parou de funcionar em 2 de novembro de 2026</h2>
+
+<p>A integração Fitbit do Home Assistant usa a antiga Fitbit Web API. O Google encerrou o suporte a essa API em 30 de setembro de 2026 e a desligou em 2 de novembro de 2026. As requisições à antiga Fitbit Web API e aos endpoints OAuth da Fitbit agora falham com HTTP 410 Gone (<a href="https://status.healthapp.google.com/">página de status do Google</a>). No log do Home Assistant, aparece assim:</p>
+
+<pre><code>Error fetching Fitbit data: Server error response: 410, message='Gone', url='https://api.fitbit.com/oauth2/token'</code></pre>
+
+<table>
+  <thead>
+    <tr><th>O quê</th><th>Desde 2 de novembro de 2026</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>A integração Fitbit do Home Assistant</td><td>Parou. Sem dados novos, sensores indisponíveis</td></tr>
+    <tr><td>O seu Fitbit ou Pixel Watch e o app Google Health</td><td>Continuam funcionando</td></tr>
+    <tr><td>A sincronização do app Google Health com o Conexão Saúde</td><td>Continua funcionando; ela não usa a Fitbit Web API</td></tr>
+    <tr><td>A integração Google Health do Home Assistant</td><td>Continua funcionando; ela usa a nova Google Health API</td></tr>
+    <tr><td>As estatísticas do Fitbit que já estão no Home Assistant</td><td>Ficam, até você apagá-las</td></tr>
+  </tbody>
+</table>
+
+<p>O app Google Health se chamava app Fitbit até maio de 2026.</p>
+
+<p>Dashboards e ferramentas de exportação que leem dados do Fitbit para outras pessoas também migram para a Google Health API, e isso leva mais tempo do que uma mudança de código. Quase todos os escopos dela são restritos: até o Google verificar um app, ele fica limitado a 100 usuários, e um app que tira os dados do seu celular também precisa de uma avaliação de segurança anual feita por uma empresa externa (<a href="https://developers.google.com/health/app-verification">verificação de apps do Google</a>). Alguns desses serviços pausam ou fecham os cadastros enquanto passam por isso. A integração Google Health do Home Assistant roda no seu próprio projeto do Google Cloud, com você como único usuário, e o caminho pelo Conexão Saúde descrito abaixo não usa nenhuma API do Google, então nenhum dos dois precisa esperar.</p>
+
+<h2>Se você usa a integração Fitbit hoje</h2>
+
+<ol>
+  <li><strong>Os sensores dela param de vez.</strong> Ficam indisponíveis e continuam assim. Entrar de novo na conta ou reinstalar a integração não os traz de volta, porque a API por trás dela não existe mais.</li>
+  <li><strong>Guarde o seu histórico.</strong> Sensores do Fitbit como passos, calorias, distância, peso e frequência cardíaca em repouso mantêm as estatísticas de longo prazo no Home Assistant. Se você remover a integração, <strong>Ferramentas de desenvolvedor</strong> &gt; <strong>Estatísticas</strong> pode listar essas estatísticas como um problema e oferecer para apagá-las. Deixe-as lá se quiser as linhas antigas nos seus gráficos.</li>
+  <li><strong>Configure o caminho pelo Conexão Saúde</strong> com os passos abaixo.</li>
+  <li><strong>Preencha o passado.</strong> Toque em <strong>Enviar histórico</strong>, em <strong>O que enviar</strong>, e escolha <strong>1 ano</strong> ou mais. Cada dia do último ano entra nas estatísticas de longo prazo na sua própria data, então o cartão <strong>Gráfico de estatísticas</strong> mostra o ano que passou. O Conexão Saúde só guarda o que o app Google Health gravou nele, então, se você ativou essa sincronização há pouco tempo, os dias mais antigos podem não estar lá para enviar.</li>
+  <li><strong>Migre os seus dashboards e automações.</strong> Os novos sensores pertencem a um dispositivo com o nome do seu celular, como <code>sensor.owen_s_pixel_steps_today</code>, então substitua os IDs de entidade antigos do Fitbit. As estatísticas antigas e as novas ficam separadas, e um cartão <strong>Gráfico de estatísticas</strong> pode mostrar as duas.</li>
+</ol>
+
+<h2>O que você precisa</h2>
+
+<ul>
+  <li>Um celular Android com Android 9 ou mais recente. A sincronização do Google com o Conexão Saúde também exige uma Conta do Google de adulto.</li>
+  <li>O app Google Health, pareado com o seu Fitbit ou Pixel Watch.</li>
+  <li>Home Assistant 2026.3 ou mais recente, para a <a href="../home-assistant/">integração Life Dashboard</a>. A partir da 2026.11 não é preciso instalar mais nada; versões anteriores precisam do <a href="https://hacs.xyz">HACS</a>.</li>
+  <li><a href="../android/">Life Dashboard Companion para Android</a>. {{status:android}}</li>
+</ul>
+
+<h2>Como configurar</h2>
+
+<ol>
+  <li>No app Google Health, toque em <strong>Connections</strong>, no canto superior esquerdo, e depois em <strong>Partner apps</strong>. Em <strong>Add connections</strong>, toque em <strong>Sync your favorite health apps</strong> &gt; <strong>Set up</strong>, aceite, escolha os tipos de dados e toque em <strong>Permitir</strong>. A <a href="https://support.google.com/googlehealth/answer/14506680">página de ajuda</a> do Google traz os mesmos passos.</li>
+  <li>Em <strong>Configurações</strong> &gt; <strong>Marketplace</strong> (HACS antes do Home Assistant 2026.11), procure por <strong>Life Dashboard</strong> e instale. No HACS, baixe a integração e reinicie o Home Assistant.</li>
+  <li>Se a configuração não abrir sozinha, vá em <strong>Configurações</strong> &gt; <strong>Dispositivos e serviços</strong> &gt; <strong>Adicionar integração</strong> e procure por <strong>Life Dashboard</strong>. Dê um nome ao celular. Coloque o endereço IP do Home Assistant no campo <strong>Home Assistant address</strong>, como <code>http://192.168.1.20:8123</code>; o Home Assistant o mostra em <strong>Configurações</strong> &gt; <strong>Sistema</strong> &gt; <strong>Rede</strong>, na seção <strong>Adaptador de rede</strong>. Em seguida, a janela mostra um QR code.</li>
+  <!-- IMG: the QR code in Home Assistant (H2-qr.png) -->
+  <li>Instale o <a href="{{play_url}}">Life Dashboard Companion pelo Google Play</a>, €&nbsp;4,99 uma única vez, que mantém o app atualizado. Ou instale de graça, o mesmo app com a mesma chave de assinatura: abra o APK do GitHub no celular e permita, uma única vez, a instalação a partir do navegador, ou adicione o app no Obtainium ou no F-Droid (<a href="../android/#get">opções de instalação</a>). O Android pode mostrar um aviso antes de instalar um APK de fora da Play Store; ele faz isso com qualquer app de outra origem. Abra o app e, em <strong>Para onde seus dados devem ir?</strong>, toque em <strong>Escanear um código de pareamento</strong>, escaneie o código e toque em <strong>Parear</strong>.</li>
+  <li>Na aba <strong>Saúde</strong>, toque em <strong>Permitir</strong> e libere os seus tipos de dados e a leitura em segundo plano. A predefinição <strong>O essencial</strong> cobre passos, sono, frequência cardíaca, frequência cardíaca em repouso, distância, calorias e peso; ative a VFC, a frequência respiratória, a temperatura da pele e o restante em <strong>O que enviar</strong>.</li>
+  <li>Toque em <strong>Sincronizar agora</strong>. Para dados mais antigos, toque em <strong>Enviar histórico</strong>, em <strong>O que enviar</strong>, e escolha o período, de <strong>30 dias</strong> até <strong>Todo o histórico</strong>, depois de <strong>Permitir acesso ao histórico</strong>, se a tela mostrar essa opção.</li>
+</ol>
+
+<!-- IMG: Health tab (A1-health.png) -->
+
+<h2>O que você recebe</h2>
+
+<p>Da lista do Google com o que o Google Health grava no Conexão Saúde, o app repassa:</p>
+
+<table>
+  <thead>
+    <tr><th>Área</th><th>Tipos</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Atividade</td><td>Passos, distância, calorias totais, sessões de exercício, VO2 máx.</td></tr>
+    <tr><td>Sono</td><td>Sessões de sono com fases</td></tr>
+    <tr><td>Coração e respiração</td><td>Frequência cardíaca, frequência cardíaca em repouso, variabilidade da frequência cardíaca, frequência respiratória</td></tr>
+    <tr><td>Corpo</td><td>Peso, gordura corporal, temperatura corporal, temperatura da pele, glicose no sangue</td></tr>
+    <tr><td>Comida e bebida</td><td>Hidratação, nutrição</td></tr>
+    <tr><td>Ciclo menstrual</td><td>Período menstrual, fluxo menstrual, sangramento intermenstrual</td></tr>
+  </tbody>
+</table>
+
+<p>Os totais diários e as leituras mais recentes viram sensores, e cada dia fica guardado nas estatísticas de longo prazo na sua própria data. Um backfill (o envio de todo o histórico de uma vez) manda todo o histórico que o Google Health gravou no Conexão Saúde, por inteiro. Desde a versão 0.10.0 da integração, as suas sessões de exercício também viram sensores de treino: o último treino com tipo e duração, e os seus minutos de exercício de hoje e de ontem.</p>
+
+<p>Com a integração 1.1.0 ou mais recente, as suas noites também viram sensores e estatísticas por fase, e o <a href="../sleep-stages-home-assistant/">Life Dashboard Sleep Card</a> desenha a noite como um hipnograma.</p>
+
+<p>Fora da lista do Google em outubro de 2026: SpO2 e calorias ativas. Um usuário chegou a ver o SpO2 noturno do Fitbit chegar, então confira no seu celular, nas permissões do app no Conexão Saúde. O Google Health também grava andares, velocidade e rotas de exercício, que o app não envia.</p>
+
+<!-- IMG: the example Health dashboard on a phone (H9-health-phone.png) -->
+
+<h2>A integração Google Health do Home Assistant, em comparação</h2>
+
+<p>O Home Assistant 2026.8 ganhou uma <a href="https://www.home-assistant.io/integrations/google_health/">integração Google Health</a>. Ela lê a nuvem do Google com a nova Google Health API, a que substituiu a Fitbit Web API. As duas podem rodar lado a lado.</p>
+
+<table>
+  <thead>
+    <tr><th></th><th>Integração Google Health</th><th>Life Dashboard</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Configuração</td><td>Projeto no Google Cloud, a Google Health API, um cliente OAuth publicado, vínculo da conta</td><td>Instalar e escanear um QR code</td></tr>
+    <tr><td>De onde vêm os dados</td><td>Da nuvem do Google, consultada a cada 15 minutos ou a cada hora</td><td>Do seu celular, enviados pelo app</td></tr>
+    <tr><td>Histórico</td><td>Valores atuais, sem backfill</td><td>Todos os dias nas estatísticas de longo prazo, backfill de todo o seu histórico</td></tr>
+    <tr><td>VFC, frequência respiratória, temperatura da pele</td><td>Sem sensor</td><td>Sim</td></tr>
+    <tr><td>Outros apps e aparelhos</td><td>O que chega à sua conta do Google Health</td><td>Qualquer app que grave no Conexão Saúde</td></tr>
+  </tbody>
+</table>
+
+<h2>Limites</h2>
+
+<ul>
+  <li>Métricas noturnas como sono, VFC e frequência respiratória chegam ao Conexão Saúde quando o app Google Health sincroniza depois que você acorda, muitas vezes uma hora ou mais depois. A próxima sincronização as recolhe.</li>
+  <li>O Conexão Saúde faz parte do Android, então este caminho exige um celular Android.</li>
+  <li>Um backfill só consegue enviar o que está no Conexão Saúde. Os dias que o app Google Health nunca gravou ali não podem ser preenchidos.</li>
+  <li>Um endereço da rede de casa só sincroniza em casa. Um endereço HTTPS público ou o Home Assistant Cloud funciona em qualquer lugar.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Existe uma integração do Google Health para o Home Assistant?</summary>
+    <p>Sim, no próprio Home Assistant desde a 2026.8. Ela exige o seu próprio projeto no Google Cloud com a Google Health API ativada e um cliente OAuth que você publica, senão as credenciais expiram a cada 7 dias. Depois disso, ela lê a nuvem do Google a cada 15 minutos ou a cada hora. Isso atende bem os valores diários atuais. Para a VFC, para todo o seu histórico ou para não ter projeto no Google Cloud, use o caminho desta página; os dois podem rodar lado a lado. Não confunda com o app Google Health, o antigo app Fitbit, que é quem grava os seus dados no Conexão Saúde no celular.</p>
+  </details>
+  <details>
+    <summary>A integração Fitbit do Home Assistant ainda funciona?</summary>
+    <p>Não. Ela usa a antiga Fitbit Web API, que o Google desligou em 2 de novembro de 2026, então não recebe dados novos.</p>
+  </details>
+  <details>
+    <summary>Minha integração Fitbit parou de funcionar no Home Assistant. Dá para consertar?</summary>
+    <p>Não, se ela parou em 2 de novembro de 2026 ou depois, ou se o log mostra 410 Gone para <code>api.fitbit.com/oauth2/token</code>. Isso é o fim da Fitbit Web API, não uma falha na sua configuração, então entrar de novo na conta ou reinstalar não adianta. A resposta completa diz que a API foi desativada em 30 de outubro, a data que o Google anunciou primeiro; a página de status do Google aponta 2 de novembro como o dia em que o tráfego parou. Migre para o Conexão Saúde com os passos acima, ou para a integração Google Health do Home Assistant.</p>
+  </details>
+  <details>
+    <summary>Eu perco o meu histórico do Fitbit no Home Assistant?</summary>
+    <p>Não. As estatísticas de longo prazo que os sensores do Fitbit já gravaram ficam até você apagá-las. Os dados novos chegam em entidades novas, e um backfill as preenche até onde o Conexão Saúde tiver os seus dados.</p>
+  </details>
+  <details>
+    <summary>Preciso de um projeto no Google Cloud ou de uma conta de desenvolvedor da Fitbit?</summary>
+    <p>Não. O Life Dashboard Companion lê o Conexão Saúde no celular e envia direto para o Home Assistant. A única configuração do Google é a sincronização com o Conexão Saúde no app Google Health.</p>
+  </details>
+  <details>
+    <summary>Posso enviar os dados para outro lugar além do Home Assistant?</summary>
+    <p>Sim. Os mesmos dados podem ir para um broker MQTT ou para qualquer URL que aceite um POST com JSON. Veja <a href="../health-connect-webhook/">Conexão Saúde para um webhook</a>.</p>
+  </details>
+  <details>
+    <summary>Uma balança no Home Assistant consegue chegar ao Google Health?</summary>
+    <p>Sim, para peso e gordura corporal. O app grava essas medições no Conexão Saúde, e o Google Health as lê dali. O Google Health não lê a pressão arterial do Conexão Saúde. Veja <a href="../smart-scale-to-samsung-health/">medições da balança inteligente no Samsung Health</a>.</p>
+  </details>
+</section>

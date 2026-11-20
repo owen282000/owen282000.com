@@ -1,0 +1,148 @@
+<!--
+title: Apple Health no Home Assistant com histórico | Life Dashboard
+description: Dados do Apple Health do iPhone e do Apple Watch como sensores no Home Assistant, com todo o seu histórico: uma integração do Marketplace e um QR code.
+primary query: apple health home assistant
+secondary queries: integrar apple health home assistant, apple health home assistant integração, dados de saúde iphone home assistant, home assistant healthkit, sensores apple health home assistant, passos iphone home assistant, sono iphone home assistant
+updated: 2026-11-20
+published: 2026-11-20
+-->
+
+<h1>Como levar os dados do Apple Health para o Home Assistant?</h1>
+
+<p>Instale a integração Life Dashboard no Home Assistant pelo Marketplace (HACS antes da versão 2026.11) e o Life Dashboard Companion no iPhone, depois pareie os dois com o QR code que a integração mostra. Toque em <strong>Sincronizar agora</strong>, e seus passos, frequência cardíaca, sono, peso e treinos chegam como sensores. Um backfill (o envio de todo o histórico de uma vez) preenche as estatísticas de longo prazo, com cada dia na sua própria data.</p>
+
+<p>Funciona com tudo o que grava no Apple Health (o app Saúde do iPhone): o próprio iPhone, um Apple Watch e os apps de outros relógios, anéis e balanças que salvam os dados ali. As duas partes têm licença MIT. Não há conta nem servidor do Life Dashboard: o iPhone envia direto para o seu Home Assistant, e o app só lê o Apple Health, nunca grava nele.</p>
+
+<p class="flow-line"><span>iPhone ou Apple Watch</span><span>Apple Health</span><span>Life Dashboard Companion</span><span>Home Assistant</span></p>
+
+<h2>O que você precisa</h2>
+
+<ul>
+  <li>Um iPhone com iOS 17 ou mais recente.</li>
+  <li>Home Assistant 2026.3 ou mais recente, para a <a href="../home-assistant/">integração Life Dashboard</a>. A partir da 2026.11 não é preciso instalar mais nada; versões anteriores precisam do <a href="https://hacs.xyz">HACS</a>. O app do iPhone precisa da integração 0.7.1 ou mais recente; os dois caminhos instalam a versão mais nova.</li>
+  <li>O <a href="../ios/">Life Dashboard Companion para iPhone</a>. {{status:ios}}</li>
+</ul>
+
+<p>Configure o Home Assistant primeiro: a configuração do app escaneia o QR code que a integração mostra.</p>
+
+<h2>Como configurar</h2>
+
+<ol>
+  <li>Em <strong>Configurações</strong> &gt; <strong>Marketplace</strong> (HACS antes do Home Assistant 2026.11), procure por <strong>Life Dashboard</strong>, ou use <a href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Abrir no Marketplace</a>, e instale. No HACS, baixe a integração e reinicie o Home Assistant.</li>
+  <li>Se a configuração não abrir sozinha, vá em <strong>Configurações</strong> &gt; <strong>Dispositivos e serviços</strong> &gt; <strong>Adicionar integração</strong> e procure por <strong>Life Dashboard</strong>. Dê um nome ao iPhone. Confira o campo <strong>Home Assistant address</strong>: é o endereço para onde o iPhone envia. O iOS só permite <code>http://</code> sem criptografia para um endereço IP, um nome <code>.local</code> como <code>homeassistant.local</code> ou um nome sem ponto, então <code>http://192.168.1.20:8123</code> funciona e <code>http://ha.lan:8123</code> não. Para qualquer outro caso, use <code>https://</code> ou o Home Assistant Cloud. Em seguida, a janela mostra um QR code.</li>
+  <!-- IMG: the QR code in Home Assistant (H2-qr.png) -->
+  <li>Instale e abra o <a href="../ios/#get">Life Dashboard Companion</a>. Em <strong>Para onde seus dados devem ir?</strong>, toque em <strong>Escanear um código de pareamento</strong>, escaneie o código e toque em <strong>Parear</strong>. O app envia um ping de teste, e o iPhone aparece no Home Assistant na hora. A câmera do iPhone também serve: ela abre a página de pareamento no Safari, e um botão ali passa o código para o app.</li>
+  <li>Quando o iOS pedir acesso à rede local, permita. Sem isso, nada chega a um Home Assistant que está em casa.</li>
+  <li>Escolha seus tipos de dados: <strong>Essenciais</strong>, <strong>Todos os tipos</strong> ou <strong>Escolher depois</strong>. Depois permita o acesso ao Apple Health. Quando há um tipo ativado sobre o qual o iOS ainda não perguntou, a linha <strong>Acesso ao app Saúde</strong>, em <strong>O que enviar</strong>, mostra <strong>Permitir</strong>. O iOS nunca conta a um app se você liberou a leitura, então um tipo recusado simplesmente não envia nada; mude isso no app Saúde, no seu perfil, em <strong>Apps</strong>, <strong>Life Dashboard</strong>.</li>
+  <li>Uma primeira sincronização acontece logo em seguida e mostra o que chegou. Depois disso, <strong>Sincronizar agora</strong>, na aba <strong>Saúde</strong>, envia de imediato o que há de novo. O iPhone aparece em <strong>Configurações</strong> &gt; <strong>Dispositivos e serviços</strong> &gt; <strong>Life Dashboard</strong>, com um sensor para cada tipo enviado. A primeira sincronização de um tipo envia os últimos 7 dias dele.</li>
+  <li>Para dados mais antigos, toque em <strong>Enviar histórico</strong>, em <strong>O que enviar</strong>, e escolha até onde voltar, de 30 dias até <strong>Todo o histórico</strong>. Cada dia entra no Home Assistant na sua própria data. O envio roda enquanto o app está aberto e o iPhone desbloqueado, e mantém a tela ligada nesse meio-tempo. No iOS 26, ele continua quando você troca de app e mostra o progresso na interface do sistema.</li>
+</ol>
+
+<!-- IMG: Health tab (ios-health.png) -->
+
+<h2>O que você recebe</h2>
+
+<ul>
+  <li><strong>Sensores para 20 dos 28 tipos</strong>, com a pressão arterial contando como dois: os passos, a distância, as calorias ativas e as calorias totais de hoje (por exemplo <code>sensor.alex_s_iphone_steps_today</code>), e o valor mais recente de frequência cardíaca, frequência cardíaca em repouso, VFC, último sono, peso, altura, pressão arterial, glicose no sangue, oxigênio no sangue, frequência respiratória, temperatura corporal, temperatura corporal basal, gordura corporal, massa corporal magra, VO2 máx. e a última bebida. Cada valor mais recente traz o horário a que se refere e o app ou aparelho que o gravou.</li>
+  <li><strong>Fases do sono.</strong> Com a integração 1.1.0 ou mais recente, sono profundo, leve, REM, tempo acordado e tempo dormindo de cada noite viram sensores e estatísticas, e o <a href="../sleep-stages-home-assistant/">Life Dashboard Sleep Card</a> desenha a noite como um hipnograma.</li>
+  <li><strong>Treinos</strong>: o último treino e os minutos de hoje e de ontem, com o tipo, o início e o fim de cada sessão.</li>
+  <li><strong>O que você come.</strong> Com a integração 1.2.0 ou mais recente, as calorias, as proteínas, os carboidratos e as gorduras das refeições de hoje, vindos do app em que você registra a alimentação, com cada dia como uma estatística.</li>
+  <li><strong>Histórico nas estatísticas de longo prazo</strong>: um valor por dia para passos, distância em km, calorias, sono, tempo de exercício e de mindfulness em horas e hidratação, e uma média, um mínimo e um máximo por hora para frequência cardíaca, peso e as outras medições. Um backfill coloca cada dia na sua própria data.</li>
+  <li><strong>Sem contagem em dobro.</strong> Passos, distância e calorias vêm das estatísticas do próprio Apple Health, do jeito que o app Saúde conta, então uma caminhada registrada pelo iPhone e pelo Watch conta uma vez só.</li>
+</ul>
+
+<p>Refeições, registros do monitoramento do ciclo e detalhes de treinos são eventos, não valores, então não ganham sensor. Um <a href="../apple-health-webhook/">webhook seu</a> recebe tudo isso por inteiro.</p>
+
+<h2>Gráficos e um dashboard</h2>
+
+<p>O histórico do próprio sensor mostra quando cada valor chegou, então depois de um backfill ele coloca tudo em hoje. Faça o gráfico da estatística, com o cartão <strong>Gráfico de estatísticas</strong>. As estatísticas aparecem no seletor de entidades dele com o nome do iPhone:</p>
+
+<pre><code>type: statistics-graph
+title: Steps per week
+chart_type: bar
+period: week
+days_to_show: 90
+stat_types:
+  - change
+entities:
+  - life_dashboard:&lt;entry&gt;_steps   # pick "Alex's iPhone steps" from the picker</code></pre>
+
+<p>A integração vem com um <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/dashboard.md">dashboard Health</a> de exemplo e um tema para copiar, montados com os cartões do próprio Home Assistant, para colar no editor de configuração bruta de um dashboard novo. Troque <code>your_phone</code> nos IDs das entidades pelo nome do seu iPhone e <code>&lt;entry&gt;</code> nos IDs das estatísticas pelo que o seletor mostra, depois remova os cartões dos tipos que você não sincroniza. Um iPhone não envia temperatura da pele, e a variabilidade da frequência cardíaca dele é SDNN, então compare com a linha de base dela mesma, não com a de um celular Android. O tempo de tela tem uma visualização própria, de que um iPhone não precisa. <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md">Sensores e estatísticas</a> lista todas as entidades.</p>
+
+<!-- IMG: the example Health dashboard (H6-health.png) -->
+
+<h2>Quando as sincronizações rodam</h2>
+
+<p>Em <strong>Quando enviar</strong>, defina um intervalo de 15 minutos ou mais (60 por padrão) ou horários fixos do dia, com dias da semana e horário de silêncio. É o iOS que decide quando um app roda em segundo plano, então um horário fixo quer dizer "não antes de": a sincronização roda na primeira chance que o iOS der depois dele. A Atualização em 2º Plano precisa estar ativada para o app, e o Modo de Pouca Energia a desativa.</p>
+
+<p>Para sincronizar em um minuto exato, crie uma automação no app Atalhos nesse horário que execute <strong>Sincronizar dados de saúde</strong>. A mesma ação está por trás do widget da tela de Início, de um controle da Central de Controle no iOS 18 e mais recentes, e da Siri.</p>
+
+<!-- IMG: Sync schedule (ios-schedule.png) -->
+
+<h2>Os sensores de saúde do app Companion do Home Assistant</h2>
+
+<p>O app Companion do Home Assistant para iOS também lê o Apple Health. Os sensores do Apple Health dele (<a href="https://github.com/home-assistant/iOS/pull/5272">#5272</a>, <a href="https://github.com/home-assistant/iOS/pull/5638">#5638</a>) cobrem passos, frequência cardíaca, peso, pressão arterial, fases do sono e mais, cada um como um sensor com o total de hoje ou a medição mais nova. O histórico deles no Home Assistant começa no dia em que você os ativa, e detalhes de treinos, refeições e monitoramento do ciclo não estão entre eles.</p>
+
+<p>Eles bastam quando você quer os passos de hoje ou o último peso em uma automação ou em um cartão Tile, e um gráfico a partir do dia da ativação já serve. O Life Dashboard acrescenta os 28 tipos com todos os registros e o app ou aparelho que gravou cada um, um backfill de todo o seu histórico com cada dia na sua própria data, e MQTT ou um webhook ao lado do Home Assistant. Fique com o app Companion de qualquer forma: ele cuida de presença, notificações e sensores do aparelho, e os dois rodam lado a lado.</p>
+
+<p>Outros apps de iPhone também enviam o Apple Health para o Home Assistant. <a href="../apple-health-home-assistant-apps/">Quatro apps comparados</a> coloca lado a lado o app Companion, o HealthSync for Home Assistant, o Health Assistant Link e o Life Dashboard.</p>
+
+<h2>Um celular Android na mesma casa</h2>
+
+<p>Um iPhone e um celular Android enviam o mesmo payload, então uma integração só recebe os dois. Adicione a integração uma vez por celular e pareie cada um com o seu próprio QR code; cada um vira um dispositivo próprio. O celular Android usa o <a href="../android/">Life Dashboard Companion para Android</a>, que lê o Conexão Saúde (Health Connect) e também envia o tempo de tela por app; o <a href="../health-connect-home-assistant/">guia do Conexão Saúde</a> traz os passos. O dashboard de exemplo tem uma visualização que coloca dois celulares lado a lado.</p>
+
+<!-- IMG: two phones on one dashboard (H8-two-phones.png) -->
+
+<h2>MQTT como alternativa</h2>
+
+<p>Se você já tem um broker MQTT rodando, toque em <strong>Adicionar destino</strong> na aba <strong>Saúde</strong> e depois em <strong>Broker MQTT</strong>. Ative <strong>Ativar publicação MQTT</strong>, preencha os dados do seu broker e toque em <strong>Salvar</strong>. Um dispositivo chamado <strong>Life Dashboard Companion (iOS)</strong> aparece com 21 sensores para os mesmos 20 tipos, pelo MQTT Discovery e sem YAML. Escolha um caminho só: com os dois, você fica com dois dispositivos com os mesmos números.</p>
+
+<table>
+  <thead>
+    <tr><th></th><th>Integração Life Dashboard</th><th>MQTT</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Configuração</td><td>Marketplace (HACS antes da 2026.11), depois um QR code</td><td>Informe o seu broker</td></tr>
+    <tr><td>Histórico</td><td>Todos os dias, até onde o Apple Health tem dados, com um backfill</td><td>A partir da primeira sincronização</td></tr>
+    <tr><td>Treinos e mindfulness</td><td>Horas por dia</td><td>Não</td></tr>
+    <tr><td>Sensores de treino</td><td>Sim</td><td>Não</td></tr>
+    <tr><td>Um celular Android também</td><td>Um dispositivo próprio ao lado</td><td>Um dispositivo e um tópico base próprios</td></tr>
+  </tbody>
+</table>
+
+<h2>Limites</h2>
+
+<ul>
+  <li>O iOS criptografa o Apple Health enquanto o iPhone está bloqueado, então uma sincronização que o iOS inicia nesse momento espera o desbloqueio, e um backfill fica em pausa.</li>
+  <li>Um endereço da rede de casa só sincroniza em casa. O que não pode ser entregue espera em uma fila no iPhone até a próxima sincronização. Um endereço HTTPS público ou o Home Assistant Cloud funciona fora de casa; com o Home Assistant Cloud, os payloads passam pelos servidores dele no caminho.</li>
+  <li>Não há tempo de tela em um iPhone: o iOS só mostra os dados do Tempo de Uso dentro de uma sandbox que não consegue enviar nada para fora.</li>
+  <li>Os dados de um Apple Watch chegam depois que o relógio sincroniza com o iPhone.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Funciona com o iPhone bloqueado?</summary>
+    <p>Não enquanto ele está bloqueado. Nesse estado o iOS criptografa o Apple Health, e nenhum app consegue ler. Uma sincronização que começa com o iPhone bloqueado espera você desbloquear e então envia tudo o que entrou nesse intervalo.</p>
+  </details>
+  <details>
+    <summary>Por que a sincronização não roda no horário exato que eu defini?</summary>
+    <p>Nenhum app de iOS consegue rodar em segundo plano em um minuto escolhido. É o iOS que decide quando, então um horário fixo quer dizer "não antes de". Para um horário exato, uma automação do Atalhos nesse horário executa <strong>Sincronizar dados de saúde</strong>. Confira também se a Atualização em 2º Plano está ativada e o Modo de Pouca Energia desativado.</p>
+  </details>
+  <details>
+    <summary>O Home Assistant consegue gravar de volta no Apple Health?</summary>
+    <p>Não. O app do iPhone pede só acesso de leitura e nunca grava no Apple Health. Gravar medições de balança e de pressão arterial a partir do Home Assistant é um recurso do Android, no Conexão Saúde.</p>
+  </details>
+  <details>
+    <summary>Preciso do iCloud ou de uma conta de desenvolvedor da Apple?</summary>
+    <p>Para a versão da App Store, nenhuma conta de desenvolvedor da Apple: você compra uma vez, como qualquer outro app. O app lê o Apple Health no iPhone e envia direto para o seu Home Assistant. Para compilar você mesmo, é preciso um Mac com o Xcode e uma assinatura do Apple Developer Program, porque uma Conta Apple gratuita não consegue assinar um app que lê o Apple Health.</p>
+  </details>
+  <details>
+    <summary>Recebo todo o meu histórico de imediato?</summary>
+    <p>Sim, até onde o Apple Health guarda. Toque em <strong>Enviar histórico</strong>, em <strong>O que enviar</strong>, e escolha <strong>Todo o histórico</strong>. Cada dia entra na sua própria data nas estatísticas de longo prazo. Os sensores em si só mostram o valor mais novo.</p>
+  </details>
+  <details>
+    <summary>Apaguei um registro no Apple Health. O Home Assistant fica com ele?</summary>
+    <p>A sincronização seguinte informa o registro apagado. Um treino apagado sai dos sensores de treino, e passos, distância e calorias seguem os totais diários do próprio Apple Health, que cada sincronização envia para hoje e os dois dias anteriores. Um <a href="../apple-health-webhook/#deleted-records">webhook seu</a> recebe todas as exclusões, para você remover o registro do seu próprio armazenamento.</p>
+  </details>
+</section>
