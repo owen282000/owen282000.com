@@ -1,0 +1,194 @@
+<!--
+slug: datos-de-salud-mcp
+title: Servidor MCP para Apple Health y Health Connect, autoalojado
+description: Un servidor MCP de solo lectura en tu equipo: Claude o un modelo local lee el historial de Apple Health y Health Connect de tu teléfono, también en Europa.
+primary query: servidor mcp datos de salud
+secondary queries: health connect mcp, servidor mcp health connect, samsung health mcp, apple health mcp, servidor mcp apple health, apple watch mcp, apple health claude, apple health llm local, health connect claude, health connect chatgpt, claude health connect europa, chatgpt salud europa, preguntar a una ia por mis datos de salud, datos de salud llm local, home assistant mcp salud, ollama datos de salud, ia de salud autoalojada, claude desktop datos de salud
+updated: 2026-11-09
+published: 2026-11-20
+-->
+
+<h1>¿Cómo le pregunto a mi propia IA por mis datos de Health Connect o Apple Health mediante MCP?</h1>
+
+<p>Envía tus datos con Life Dashboard Companion, desde un teléfono Android o un iPhone, al stack Life Dashboard, inicia el servidor MCP que el stack trae integrado y conecta un modelo que sepa usar herramientas MCP. Un modelo local con Ollama lo mantiene todo en tu propio hardware, y Claude Desktop u otro cliente en la nube pueden usar el mismo servidor. Si tus datos van a Home Assistant, ha-mcp lee su historial; si van a un Postgres tuyo, lo hace DBHub. Funciona con los datos de Health Connect de Samsung Health, Fitbit, Garmin y otras apps, con los datos de Apple Health de un iPhone y un Apple Watch, y en Europa, donde los conectores de salud de Claude y ChatGPT no están disponibles.</p>
+
+<p>La app no contiene ninguna IA y nunca habla con un modelo, y el stack tampoco. El servidor MCP solo responde a un cliente que tú conectas, y el modelo lee lo que tu receptor ya guarda, por una conexión que no puede cambiar nada.</p>
+
+<p class="flow-line"><span>Teléfono</span><span>El stack, Home Assistant o tu Postgres</span><span>Servidor MCP de solo lectura</span><span>Tu modelo</span></p>
+
+<h2>Cómo encaja todo</h2>
+
+<p><a href="https://modelcontextprotocol.io">MCP</a> es la forma estándar de que un modelo llame a herramientas, y un servidor MCP de solo lectura en el receptor le da al modelo herramientas para consultar tu historial. La <a href="../ios/">app para iPhone</a> envía el mismo payload que la app para Android al mismo stack y a la misma integración, así que todas las rutas sirven también para los datos de Apple Health, y un solo stack o un solo Home Assistant puede tener un teléfono Android y un iPhone uno junto al otro. <a href="#with-an-iphone">Con un iPhone</a>, más abajo, enumera lo que cambia.</p>
+
+<p>Usa la ruta 1 si tienes <a href="../grafana/">el stack Life Dashboard</a>: su servidor MCP forma parte de él. Usa la ruta 2 si envías a la integración Life Dashboard de Home Assistant, y la ruta 3 si n8n o un receptor tuyo ya escribe en un Postgres que administras tú.</p>
+
+<h2>En Europa, donde los conectores de salud oficiales no están disponibles</h2>
+
+<p>A octubre de 2026, los conectores de salud que ofrecen los propios Claude y ChatGPT son solo para usuarios de EE.&nbsp;UU.:</p>
+
+<ul>
+  <li><strong>Claude</strong> lee Apple Health y Health Connect en sus apps para iPhone y Android. Está en beta en los planes Pro y Max y "actualmente limitado a usuarios de EE.&nbsp;UU.", según las páginas de ayuda de Anthropic para <a href="https://support.claude.com/en/articles/11869629-use-claude-with-android-apps">Android</a> y <a href="https://support.claude.com/en/articles/11869619-use-claude-with-ios-apps">iPhone</a>. En Android necesita Android 14 o posterior.</li>
+  <li><strong>Health en ChatGPT</strong> es para usuarios con sesión iniciada en EE.&nbsp;UU. de 18 años o más, en la web y en iOS. Conecta Apple Health en un iPhone, y la página de ayuda no menciona Health Connect ni Android (<a href="https://help.openai.com/en/articles/20001036-health-in-chatgpt">página de ayuda de OpenAI</a>). En el acceso anticipado de enero de 2026, OpenAI dejó fuera el Espacio Económico Europeo, Suiza y el Reino Unido (<a href="https://openai.com/index/introducing-chatgpt-health/">anuncio de OpenAI</a>).</li>
+</ul>
+
+<p>Así que fuera de EE.&nbsp;UU., incluidos el EEE, el Reino Unido y Suiza, ninguno de los dos asistentes lee por sí mismo tus datos de Health Connect o Apple Health. La ruta de esta página no depende de dónde vivas:</p>
+
+<ol>
+  <li>Tus datos están en tu propio stack, en Home Assistant o en Postgres, enviados allí por la app.</li>
+  <li>Encima funciona un servidor MCP de solo lectura: el del stack, ha-mcp o DBHub.</li>
+  <li>Cualquier modelo que sepa usar herramientas MCP los lee. Puede ser un modelo local, o Claude: Claude Desktop ejecuta servidores MCP en tu propio ordenador, y un conector personalizado en Claude se conecta desde la nube de Anthropic, así que ese servidor tiene que ser accesible desde internet (<a href="https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp">página de ayuda de Anthropic</a>).</li>
+</ol>
+
+<p>Tú administras el servidor y decides qué modelo puede leerlo. Con un modelo en la nube, tus preguntas y los resultados de las herramientas van a su proveedor.</p>
+
+<h2>Qué necesitas</h2>
+
+<ul>
+  <li><strong>Un modelo compatible con herramientas.</strong> Si lo quieres local, <a href="https://ollama.com">Ollama</a> ejecuta un modelo como <code>qwen3</code> (8B o 14B) o <code>gpt-oss:20b</code>. Elige uno sin la etiqueta <code>-cloud</code>: esos se ejecutan en los servidores de Ollama. Un modelo de 8B pide 16 GB de memoria; uno de 20 a 30B pide una tarjeta gráfica de 24 GB o un Mac con 32 GB o más.</li>
+  <li><strong>Un cliente de chat que hable MCP</strong>, como Open WebUI, LM Studio o Claude Desktop, salvo que uses el asistente del propio Home Assistant. Ollama ejecuta el modelo; el cliente de chat establece la conexión MCP.</li>
+  <li><strong>Historial sobre el que preguntar.</strong> <strong>Enviar historial</strong>, en <strong>Qué enviar</strong>, tanto en Android como en un iPhone, envía hasta todo tu historial, y Home Assistant y el stack guardan cada uno de sus días.</li>
+</ul>
+
+<h2>Configuración paso a paso</h2>
+
+<h3>Ruta 1: el servidor MCP del propio stack</h3>
+
+<p>El stack tiene un servidor MCP opcional como cuarta imagen, junto al receptor, Postgres y Grafana. Lee las vistas <code>dash</code> del stack, que ya convierten los registros en días, noches y entrenamientos en tu zona horaria, así que un modelo nunca tiene que escribir SQL contra JSON anidado.</p>
+
+<ol>
+  <li>En el <code>.env</code> del stack, pon en <code>MCP_TOKEN</code> una cadena aleatoria larga, distinta de <code>API_TOKEN</code>. Sin ella, el servidor se niega a arrancar:
+<pre><code>echo "MCP_TOKEN=$(openssl rand -hex 32)" &gt;&gt; .env</code></pre></li>
+  <li>Inícialo con su perfil. Un <code>docker compose up</code> a secas lo deja fuera, así que añade <code>COMPOSE_PROFILES=mcp</code> al <code>.env</code> si quieres que las actualizaciones lo incluyan:
+<pre><code>docker compose --profile mcp up -d</code></pre></li>
+  <li>Conecta un cliente por Streamable HTTP, en <code>http://&lt;address of this machine&gt;:8090/mcp</code>, con el encabezado <code>Authorization: Bearer &lt;MCP_TOKEN&gt;</code>. En Open WebUI, añádelo en <strong>Admin settings</strong> &gt; <strong>Integrations</strong> &gt; <strong>External tool servers</strong> con el tipo MCP (Streamable HTTP) y el token como autenticación bearer, y después activa las herramientas en un chat con tu modelo de Ollama. En LM Studio, añade la URL y el encabezado a <code>mcp.json</code>.</li>
+  <li>O usa Claude Desktop en el mismo equipo, por stdio, sin el puerto ni el token. En <strong>Settings</strong> &gt; <strong>Developer</strong> &gt; <strong>Edit Config</strong>, añade el stack, con la carpeta de tu <code>docker-compose.yml</code> como ruta, y reinicia Claude Desktop:
+<pre><code>{
+  "mcpServers": {
+    "life-dashboard": {
+      "command": "docker",
+      "args": ["compose", "--project-directory", "/path/to/life-dashboard",
+               "--profile", "mcp", "run", "--rm", "--no-deps", "-T",
+               "mcp", "python", "server.py", "--stdio"]
+    }
+  }
+}</code></pre>
+  Descarga antes la imagen una vez con <code>docker compose --profile mcp pull mcp</code>.</li>
+  <li>Haz una pregunta directa con un periodo: “Usa trend para sleep_h en 28 días, luego workouts para el mismo periodo, y dime si dormí más los días que entrené”.</li>
+</ol>
+
+<p>Las ocho herramientas:</p>
+
+<table>
+  <thead>
+    <tr><th>Herramienta</th><th>Qué devuelve</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>list_phones</code></td><td>Los teléfonos con su plataforma, Android o iPhone, su última sincronización y el primer y el último día con datos, además de la zona horaria y la fecha de hoy. El modelo debería llamarla primero.</td></tr>
+    <tr><td><code>data_catalog</code></td><td>Lo que tiene guardado cada teléfono, con las apps que escribieron cada tipo, y lo que las demás herramientas pueden responder a partir de ello, para que un modelo pida solo lo que existe.</td></tr>
+    <tr><td><code>sync_status</code></td><td>Cuándo envió cada teléfono su último payload y, por tipo y por app de origen, cuándo llegó el registro más reciente y si dejó de llegar, como un reloj que dejó de escribir la frecuencia cardíaca.</td></tr>
+    <tr><td><code>daily_summary</code></td><td>Una fila por teléfono y día: pasos, distancia, calorías, sueño, entrenamientos, tiempo de pantalla, frecuencia cardíaca en reposo y peso. Hasta 92 días.</td></tr>
+    <tr><td><code>sleep_nights</code></td><td>Una noche por teléfono: hora de acostarse, hora de despertar, horas dormido y en la cama, sueño profundo, ligero, REM y tiempo despierto, y la frecuencia cardíaca más baja de la noche.</td></tr>
+    <tr><td><code>workouts</code></td><td>Cada entrenamiento con su actividad, su inicio, su fin y sus minutos.</td></tr>
+    <tr><td><code>trend</code></td><td>Una métrica, como los pasos, el sueño o la frecuencia cardíaca en reposo, durante los últimos 7 a 365 días frente al mismo número de días anteriores.</td></tr>
+    <tr><td><code>screen_time</code></td><td>El tiempo de pantalla de un día, con las 10 apps más usadas. Solo Android.</td></tr>
+  </tbody>
+</table>
+
+<p>Todas las herramientas leen como <code>dash_ro</code>, un usuario de la base de datos que solo puede leer las vistas <code>dash</code>, en sesiones de solo lectura que se cortan a los 15 segundos. No hay ninguna herramienta que escriba ni ninguna que acepte SQL, así que un modelo no puede cambiar ni borrar nada, y tampoco puede leer los registros en bruto. Además, ocho herramientas con parámetros fijos le resultan mucho más fáciles a un modelo pequeño que el SQL. En Kubernetes, el chart de Helm del stack ejecuta el mismo servidor con <code>mcp.enabled</code>; la <a href="https://github.com/owen282000/life-dashboard-stack/blob/main/docs/mcp.md">documentación de MCP</a> recoge todos los clientes y parámetros.</p>
+
+<p>Para un script en lugar de un modelo, el receptor del stack ofrece las mismas consultas como una API JSON de solo lectura bajo <code>/api/</code>, una vez que defines <code>API_TOKEN</code>: días, noches, entrenamientos, tiempo de pantalla, una métrica como serie y una tendencia. La <a href="https://github.com/owen282000/life-dashboard-stack/blob/main/docs/api.md">documentación de la API</a> enumera todos los endpoints.</p>
+
+<h3>Ruta 2: Home Assistant con ha-mcp</h3>
+
+<p>La integración guarda tu historial en las estadísticas a largo plazo, con ID como <code>life_dashboard:&lt;entry&gt;_steps</code>. Con su API de Assist, el servidor MCP integrado de Home Assistant solo ofrece los estados actuales, así que puede responder “cuántos pasos llevo hoy”, pero no cómo queda este mes frente al anterior. <a href="https://github.com/homeassistant-ai/ha-mcp">ha-mcp</a>, un proyecto de la comunidad, tiene una herramienta de historial que lee las estadísticas a largo plazo.</p>
+
+<ol>
+  <li>En el Marketplace (HACS antes de Home Assistant 2026.11), añade <code>homeassistant-ai/ha-mcp-integration</code> como repositorio personalizado e instálalo. En el Marketplace eso es <strong>Add from link</strong>, que pide una conexión con GitHub. Necesita Home Assistant 2026.8 o posterior. Reinicia si Home Assistant lo pide, luego añade <strong>HA-MCP Custom Component</strong> en <strong>Añadir integración</strong> y elige <strong>HA-MCP Server</strong>.</li>
+  <li>En el panel <strong>HA-MCP</strong> de la barra lateral, activa <strong>Read Only Mode</strong>.</li>
+  <li>En <strong>Configurar</strong>, desactiva <strong>Remote access via webhook</strong> y pon <strong>Network access</strong> en <code>127.0.0.1</code>, salvo que lo necesite un cliente en otro equipo.</li>
+  <li>Conecta un modelo. Dentro de Home Assistant, añade la integración de Ollama, crea un agente de conversación con un modelo que admita herramientas y elige <strong>HA-MCP Server (tool search)</strong> en <strong>Control Home Assistant</strong>. O añade la URL de ha-mcp en Open WebUI o LM Studio, y activa su búsqueda de herramientas en el panel <strong>HA-MCP</strong>. Trata esa URL como una contraseña de administrador.</li>
+  <li>Dale al modelo el ID de la estadística, que aparece en <strong>Herramientas para desarrolladores</strong> &gt; <strong>Estadísticas</strong>, y pídele medias mensuales con <code>ha_get_history</code> a partir de sus estadísticas.</li>
+</ol>
+
+<h3>Ruta 3: tu propio Postgres con DBHub</h3>
+
+<p>Si n8n o un receptor tuyo ya guarda los payloads en un Postgres que administras tú, un servidor MCP genérico para bases de datos como <a href="https://github.com/bytebase/dbhub">DBHub</a> puede darle a un modelo acceso de solo lectura.</p>
+
+<ol>
+  <li>Guarda los registros con <code>uuid</code> como clave, en formato de texto, guarda <code>daily_totals</code> como una fila por fecha y aplica <code>deleted_records</code>, para que un modelo no pueda contar un paseo dos veces ni leer un registro que borraste. <a href="../health-connect-webhook/#store-it-in-postgres">Guárdalo en Postgres</a> tiene los detalles.</li>
+  <li>Crea un rol que solo pueda leer esas tablas:
+<pre><code>CREATE ROLE llm_ro LOGIN PASSWORD 'change-me';
+ALTER ROLE llm_ro SET default_transaction_read_only = on;
+ALTER ROLE llm_ro SET statement_timeout = '30s';
+GRANT CONNECT ON DATABASE health TO llm_ro;
+GRANT USAGE ON SCHEMA public TO llm_ro;
+GRANT SELECT ON records, daily_totals TO llm_ro;</code></pre>
+  Usa los nombres de tus propias tablas y de tu base de datos, y concede <code>SELECT</code> sobre cada vista que añadas después.</li>
+  <li>Ejecuta DBHub en modo de solo lectura, conectado con ese rol, y añade su URL en Open WebUI o LM Studio. La <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/recipes/ask-your-own-llm.md#route-3-your-own-postgres">receta de esta ruta</a> incluye un <code>docker-compose.yml</code> y un <code>dbhub.toml</code>.</li>
+  <li>Añade vistas con una fila por día y por noche. Un modelo responde mucho mejor con ellas que con sesiones de sueño en JSON. El <a href="https://github.com/owen282000/life-dashboard-stack/blob/main/receiver/views.sql"><code>views.sql</code></a> del stack es una plantilla: adapta sus nombres de tablas y columnas a los tuyos.</li>
+</ol>
+
+<p>En Kubernetes, el chart de Helm del stack también puede usar un Postgres 18 que ya tengas, con una base de datos propia (su modo externo), y entonces la ruta 1 funciona ahí. Con Docker Compose, su documentación no cubre el uso del stack con tu propia base de datos.</p>
+
+<h2>Con un iPhone</h2>
+
+<p>Muchos servidores MCP para Apple Health leen una exportación que haces a mano en la app Salud, así que sus respuestas se quedan en el día de esa exportación. Aquí la app para iPhone sigue enviando los datos nuevos al stack en tu propio servidor, y las mismas herramientas leen un teléfono Android a su lado.</p>
+
+<p>Vincula <a href="../ios/">Life Dashboard Companion para iPhone</a> con el stack o con la integración mediante su código QR, activa en <strong>Qué enviar</strong> los tipos de Apple Health que quieras y lanza ahí <strong>Enviar historial</strong> con <strong>1 año</strong> para darle al modelo un año que leer. Lo que registra un Apple Watch, como la frecuencia cardíaca, la HRV, las fases del sueño y los entrenamientos, llega a través de Apple Health; <a href="../apple-watch-home-assistant/">Apple Watch en Home Assistant</a> lo enumera. Algunas cosas cambian respecto a Android:</p>
+
+<ul>
+  <li><strong>HRV.</strong> Apple Health guarda SDNN y Health Connect guarda RMSSD. El stack los mantiene separados como dos métricas de <code>trend</code>, <code>hrv_sdnn</code> para un iPhone y <code>hrv_rmssd</code> para Android, y nunca hace la media de los dos juntos. Pide la que envía tu teléfono.</li>
+  <li><strong>Sueño.</strong> Una noche de iPhone mezcla las fases del reloj con el tiempo en la cama del iPhone. El <code>sleep_nights</code> del stack cuenta solo las fases de la fuente propia de la noche, es decir, el sueño profundo, ligero (el Core de Apple) y REM y el tiempo despierto del reloj.</li>
+  <li><strong>Sin tiempo de pantalla.</strong> iOS no deja que una app lo envíe a ningún sitio, así que <code>screen_time</code> y el tiempo de pantalla de <code>daily_summary</code> solo vienen de teléfonos Android.</li>
+  <li><strong>Días con retraso.</strong> iOS decide cuándo se ejecuta la app en segundo plano, y la app no puede leer Apple Health mientras el iPhone está bloqueado, así que el último día puede faltar hasta la siguiente sincronización. <code>sync_status</code> le dice al modelo cuándo envió datos el iPhone por última vez.</li>
+  <li><strong>Tu propio Postgres.</strong> En la ruta 3, un iPhone envía una misma muestra de energía activa tanto en <code>active_calories</code> como en <code>total_calories</code>, y un borrado de sueño nombra una sola fase. <a href="../apple-health-n8n/">Apple Health a n8n</a> tiene un upsert y las consultas de borrado para ambos casos.</li>
+</ul>
+
+<h2>Qué obtienes</h2>
+
+<ul>
+  <li>Respuestas sobre tu propio historial, como la media mensual de pasos o tu sueño en las semanas en que entrenaste más, de un modelo que eliges tú, en tu propio hardware si quieres.</li>
+  <li>Acceso de solo lectura. Con las herramientas del stack, un rol de solo lectura o <strong>Read Only Mode</strong>, el modelo no puede cambiar un ajuste, borrar un registro ni accionar un dispositivo.</li>
+</ul>
+
+<h2>Limitaciones</h2>
+
+<ul>
+  <li>Con un modelo en la nube, incluido Claude Desktop, tus preguntas, cada resultado de herramienta que pide y sus respuestas van al proveedor, sujetos a su configuración de retención y de entrenamiento. Claude Desktop ejecuta el servidor del stack en tu ordenador, pero la conversación va a Anthropic.</li>
+  <li>Las herramientas del stack responden por día, por noche y por entrenamiento, con hasta 92 días por llamada, y una tendencia de hasta 365. No entregan lecturas sueltas ni registros en bruto.</li>
+  <li>Docker publica el puerto MCP del stack en todas las interfaces de red del equipo, y con HTTP sin cifrar el token y cada respuesta cruzan tu red de forma legible. Define <code>MCP_PORT=127.0.0.1:8090</code> para limitarlo al equipo, y usa TLS o una VPN fuera de tu propia red. Un conector personalizado en una app web llama desde la nube del proveedor y necesitaría el servidor en internet; la documentación del stack no cubre ese caso.</li>
+  <li>El <code>.env</code> del stack empieza con contraseñas predeterminadas para Grafana y para los dos usuarios de solo lectura. Cámbialas antes de añadir otra vía de entrada.</li>
+  <li>ha-mcp trabaja con acceso de administrador. Cualquiera que pueda hablar con su agente de conversación puede preguntar por tus datos de salud, así que dale un agente propio, fuera de los canales de voz compartidos. Una pregunta hecha por voz pasa además por tu motor de voz, que con Home Assistant Cloud no es local.</li>
+  <li>Los tipos que no activaste, o los días en que el teléfono no sincronizó, no están ahí para leerlos. El historial de tiempo de pantalla solo viene de teléfonos Android. El stack guarda aparte las series enviadas por intervalos de tiempo, y solo sus vistas de frecuencia cardíaca las leen, así que deja <strong>Resolución de datos</strong> en <strong>Cada registro</strong>, el valor predeterminado.</li>
+  <li>Los tipos que la app de tu reloj no comparte con Health Connect tampoco están, y de ellos depende qué preguntas puede responder un modelo. Samsung Health se guarda la HRV, la frecuencia cardíaca en reposo y la frecuencia respiratoria, y Garmin Connect no escribe ninguna HRV en Health Connect y se guarda la frecuencia cardíaca en reposo.</li>
+  <li>En un iPhone, la app lee 28 tipos de Apple Health. Lo que contienen depende de lo que tu reloj, tu iPhone y otras apps escriban en Apple Health, y todo lo que queda fuera de esos tipos, como la temperatura de la muñeca, se queda en el iPhone.</li>
+  <li>Un modelo no es un médico. Puede sumar bien tus pasos y aun así sacar una conclusión equivocada.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>¿Envía Life Dashboard Companion mis datos a una IA?</summary>
+    <p>No. La app no contiene ninguna IA y nunca habla con un modelo, y el stack no envía nada a ninguna IA por sí mismo. La app envía solo a los destinos que configuras; un modelo lee de tu receptor cuando tú conectas uno.</p>
+  </details>
+  <details>
+    <summary>¿Puedo usar un modelo en la nube como Claude?</summary>
+    <p>Sí. Claude Desktop puede iniciar el servidor MCP del stack en tu propio ordenador por stdio, y cualquier cliente que hable Streamable HTTP puede usarlo con el token. En ese caso tus preguntas, cada resultado de herramienta y las respuestas van al proveedor. Un conector personalizado en Claude, o un conector en otra app web, se conecta desde la nube del proveedor y necesita que tu servidor sea accesible desde internet.</p>
+  </details>
+  <details>
+    <summary>¿Puedo conectar Health Connect con Claude o ChatGPT en Europa?</summary>
+    <p>No con sus propios conectores de salud. A octubre de 2026, la integración de Claude con Apple Health y Health Connect y Health en ChatGPT son solo para usuarios de EE.&nbsp;UU., y la página de ayuda de ChatGPT nombra Apple Health, no Health Connect. Tu propio servidor MCP funciona en cualquier lugar: el modelo lee el historial que guardas en el stack, en Home Assistant o en Postgres.</p>
+  </details>
+  <details>
+    <summary>¿Existe un servidor MCP para Health Connect?</summary>
+    <p>No en el teléfono: Health Connect no tiene API web, así que un servidor no puede leerlo directamente. Life Dashboard Companion envía los datos a un servidor tuyo, y el stack Life Dashboard trae un servidor MCP integrado, con ocho herramientas de solo lectura para días, noches, entrenamientos, tendencias, tiempo de pantalla y lo que ha enviado cada teléfono. En Home Assistant, ha-mcp lee el historial de la integración, y en un Postgres tuyo lo hace DBHub en modo de solo lectura. Eso sirve para Samsung Health, Fitbit, Garmin y cualquier otra app que escriba en Health Connect, con los tipos que cada app comparte ahí.</p>
+  </details>
+  <details>
+    <summary>¿Existe un servidor MCP para Apple Health?</summary>
+    <p>No en el iPhone: Apple Health no tiene API web, así que un servidor no puede leerlo directamente. Life Dashboard Companion para iPhone envía los datos de Apple Health, incluidos los del Apple Watch, al stack Life Dashboard, cuyo servidor MCP le da a un modelo las mismas ocho herramientas de solo lectura que en Android. En Home Assistant, ha-mcp lee el historial de la integración, y en un Postgres tuyo lo hace DBHub en modo de solo lectura.</p>
+  </details>
+  <details>
+    <summary>¿Por qué no el servidor MCP integrado de Home Assistant?</summary>
+    <p>Con la API de Assist, le da a un modelo el estado actual de las entidades que expusiste a Assist, sin ninguna herramienta para el historial ni las estadísticas. Puede responder preguntas sobre hoy, no sobre el mes pasado.</p>
+  </details>
+</section>
