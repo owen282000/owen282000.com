@@ -907,7 +907,7 @@ table.compare { border: 0; margin: 0; border-radius: 0; }
 @media (max-width: 520px) { .get-list li.with-badge { grid-template-columns: 1fr; gap: 6px; } }
 /* The widest badge (Docker Compose, 230px) fits a card on a 320px screen */
 @media (max-width: 400px) { .get-card { padding: 20px 16px; } }
-.hero .claims { margin: -12px 0 26px; font-size: 0.95rem; color: var(--muted); }
+.hero .hero-claims { margin: -8px 0 26px; gap: 8px; font-size: 0.95rem; max-width: 580px; }
 
 /* A section that stacks instead of zigzagging: heading and text side by side, the picture in a
    full-width row under them. Used for the wide Grafana screenshots and once on every page. */
