@@ -61,7 +61,8 @@ Launch day for Google Play or the App Store:
 Both are live now: the App Store since October 21, 2026, Google Play since October 27, 2026.
 On Android, Google Play leads with its "pitch" (price and why), and the free routes follow under
 the part's "free_line". Play links carry a campaign referrer per page and language (PLAY_LINK,
-PLACES and emit()).
+PLACES and emit()), App Store links a campaign token per page and language (APP_STORE_LINK,
+app_place() and emit()); in a page's text they are {{play_url}} and {{app_store_url}}.
 
 F-Droid goes live (once https://f-droid.org/packages/com.owen282000.lifedashboard/ answers
 instead of a 404): in PARTS_BASE, set the "fdroid" entry's "status" to "live". That one line turns
@@ -158,6 +159,14 @@ PLAY = "https://play.google.com/store/apps/details?id=com.owen282000.lifedashboa
 # refuses a page where it is left. The referrer is URL-encoded and the & is escaped for HTML.
 PLACE = "{{place}}"
 PLAY_LINK = f"{PLAY}&amp;referrer=utm_source%3D{PLACE}%26utm_medium%3Dwebsite"
+# The same for the App Store, in the form App Store Connect counts as a campaign (Analytics,
+# Acquisition, Campaigns): the provider token pt is the account's, ct names the page. Links are
+# written with CT in them and each page fills it in (site-landing, site-ios, site-guide-<short
+# name>, see app_place()). Apple keeps at most CT_MAX characters of a ct; check() refuses a
+# longer one and a link to the listing without one. The JSON-LD keeps the plain listing (APP_STORE).
+CT = "{{ct}}"
+CT_MAX = 40
+APP_STORE_LINK = f"https://apps.apple.com/app/apple-store/id6824075761?pt=128699800&amp;ct={CT}&amp;mt=8"
 
 
 HACS = "https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration"
@@ -170,9 +179,9 @@ REPO_ST_CARD = "https://github.com/owen282000/life-dashboard-screen-time-card"
 HACS_ST_CARD = "https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-screen-time-card&amp;category=plugin"
 
 
-def placed(text, place):
-    """A page's HTML with the campaign source of its Play links filled in."""
-    return text.replace(PLACE, place)
+def placed(text, place, ct):
+    """A page's HTML with the campaign of its Play links and of its App Store links filled in."""
+    return text.replace(PLACE, place).replace(CT, ct)
 
 # ---------------------------------------------------------------------------------------------
 # The four parts and where to get them. "kind": "store" is the store the site leads with once it
@@ -192,7 +201,7 @@ PARTS_BASE = {
     "ios": {
         "glyph": '<rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/>',
         "get": [
-            {"id": "appstore", "kind": "store", "status": "live", "href": APP_STORE},
+            {"id": "appstore", "kind": "store", "status": "live", "href": APP_STORE_LINK},
             {"id": "xcode", "status": "live", "href": REPO_IOS + "#build-and-install", "primary": True},
         ],
     },
@@ -494,6 +503,20 @@ STRING_PAGES = {"guides": "ui.index.title", "legal": "ui.legal.title"}
 # translation adds its language (site-de-guide-<id>).
 PLACES = {"landing": "landing", "guides": "guides", "hub": "hub", "privacy": "privacy", "legal": "legal", "ios-privacy": "ios-privacy",
           **{s: s for s in PRODUCTS}, **{g: f"guide-{g}" for g in GUIDE_IDS}}
+# The App Store campaign of a page has the same shape, but Apple keeps 40 characters, so a guide
+# goes by a short name: its id without "home-assistant" (where nearly every guide leads) and with
+# "health-connect" written "hc" (site-guide-samsung-health, site-de-guide-hc-webhook). An id
+# that is still too long gets its short name here.
+GUIDE_SHORT = {"smart-scale-to-samsung-health": "smart-scale"}
+
+
+def app_place(pid, lang):
+    """The App Store campaign (ct) of a page: site-ios, site-de-guide-hc-webhook."""
+    short = PLACES[pid]
+    if pid in GUIDE_IDS:
+        short = "guide-" + GUIDE_SHORT.get(pid, pid.replace("-home-assistant", "")
+                                           .replace("health-connect", "hc"))
+    return "site-" + ("" if lang == "en" else lang + "-") + short
 
 
 def source(pid, lang):
@@ -618,11 +641,11 @@ BUILT = {}   # (page id, language) -> the file written
 
 
 def emit(pid, lang, doc):
-    """Write one page: its Play campaign source filled in, its links localized."""
+    """Write one page: its Play and App Store campaigns filled in, its links localized."""
     place = "site-" + ("" if lang == "en" else lang + "-") + PLACES[pid]
     f = SITE / path_of(pid, lang) / "index.html"
     f.parent.mkdir(parents=True, exist_ok=True)
-    f.write_text(localize(placed(doc, place), pid, lang))
+    f.write_text(localize(placed(doc, place, app_place(pid, lang)), pid, lang))
     BUILT[(pid, lang)] = f
 
 
@@ -1132,10 +1155,11 @@ def strip_tags(s):
 
 
 def tokens(s):
-    """{{status:android}} and {{status:ios}} become the store sentences, {{play_url}} the link to
-    the Play listing (with the page's campaign source filled in when the page is written)."""
+    """{{status:android}} and {{status:ios}} become the store sentences, {{play_url}} and
+    {{app_store_url}} the links to the Play and App Store listings (with the page's campaign
+    filled in when the page is written)."""
     return (s.replace("{{status:android}}", STATUS_TEXT["android"]).replace("{{status:ios}}", STATUS_TEXT["ios"])
-            .replace("{{play_url}}", PLAY_LINK))
+            .replace("{{play_url}}", PLAY_LINK).replace("{{app_store_url}}", APP_STORE_LINK))
 
 
 def image(name, prefix, cls="", eager=False):
@@ -1958,7 +1982,7 @@ def build_404():
 </body>
 </html>
 """
-    (SITE / "404.html").write_text(localize(placed(doc, "site-404"), "hub", "en"))
+    (SITE / "404.html").write_text(localize(placed(doc, "site-404", "site-404"), "hub", "en"))
 
 
 FEEDBACK_BOARD = "https://lifedashboard.userjot.com/"
@@ -2043,14 +2067,25 @@ def check(strict=()):
     files = [f for f in SITE.rglob("*.html")] + [SITE / "llms.txt"]
     problems, notes = [], []
     rel = lambda f: str(f.relative_to(ROOT))
+    # The App Store campaign of every page in every language, also of a page not translated yet.
+    problems += [f"{lang}:{pid}: the App Store campaign {app_place(pid, lang)} is longer than {CT_MAX} characters"
+                 for lang in LANGS for pid in PAGES if len(app_place(pid, lang)) > CT_MAX]
     for f in files:
         text = f.read_text()
         for store, phrases in STALE.items():
             if store in live:
                 problems += [f"{rel(f)}: says '{ph}' but {store} is live" for ph in phrases if ph in text]
-        for token in (PLACE, "{{play_url}}", "{{status:"):
+        for token in (PLACE, CT, "{{play_url}}", "{{app_store_url}}", "{{status:"):
             if token in text:
                 problems.append(f"{rel(f)}: still says {token}")
+        # Every link to our App Store listing carries its campaign, short enough for Apple (the
+        # JSON-LD names the plain listing, outside an href).
+        for link in re.findall(r'href="(https://apps\.apple\.com/[^"]*/id6824075761[^"]*)"', text):
+            ct = re.search(r"[?&;]ct=([^&]*)", link)
+            if not ct:
+                problems.append(f"{rel(f)}: an App Store link without a campaign (ct): {link}")
+            elif len(ct.group(1)) > CT_MAX:
+                problems.append(f"{rel(f)}: the App Store campaign {ct.group(1)} is longer than {CT_MAX} characters")
         if "—" in text or "–" in text:
             problems.append(f"{rel(f)}: contains an em or en dash")
         # Every page with the navigation bar gets a skip link past it.
