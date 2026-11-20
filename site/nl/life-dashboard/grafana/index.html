@@ -36,12 +36,12 @@
 <meta property="og:image" content="https://owen282000.com/life-dashboard/img/social.png">
 <meta property="og:image:width" content="1280">
 <meta property="og:image:height" content="640">
-<meta property="og:image:alt" content="Life Dashboard Companion: jouw gezondheidsdata, jouw server. Geen cloud.">
+<meta property="og:image:alt" content="Life Dashboard: jouw gezondheidsdata, jouw server. Geen cloud.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Je gezondheidsdata in je eigen Postgres en Grafana">
 <meta name="twitter:description" content="Postgres, zes Grafana-dashboards, een alleen-lezen API en een MCP-server voor je data uit Health Connect en Apple Health. Met Docker Compose of Helm.">
 <meta name="twitter:image" content="https://owen282000.com/life-dashboard/img/social.png">
-<meta name="twitter:image:alt" content="Life Dashboard Companion: jouw gezondheidsdata, jouw server. Geen cloud.">
+<meta name="twitter:image:alt" content="Life Dashboard: jouw gezondheidsdata, jouw server. Geen cloud.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -99,7 +99,7 @@
           "price": "0",
           "priceCurrency": "EUR"
         },
-        "description": "De Life Dashboard-stack is een open-source, zelf gehoste backend voor de Life Dashboard Companion-apps: een ontvanger, Postgres en zes Grafana-dashboards, met een alleen-lezen API en een optionele MCP-server, geïnstalleerd met Docker Compose of een Helm-chart.",
+        "description": "De Life Dashboard-stack is een open-source, zelf gehoste backend voor de Life Dashboard-apps: een ontvanger, Postgres en zes Grafana-dashboards, met een alleen-lezen API en een optionele MCP-server, geïnstalleerd met Docker Compose of een Helm-chart.",
         "operatingSystem": "Linux, macOS of Windows met Docker, of Kubernetes",
         "applicationSubCategory": "Zelf gehoste backend",
         "featureList": [
@@ -459,8 +459,8 @@ helm test lifedash -n life-dashboard --logs</code></pre></div></div>
       </article>
       <div class="get-side">
         <h3>Wat je nodig hebt</h3>
-        <p>Docker met Compose, op een machine die je telefoon op hetzelfde netwerk of via een VPN kan bereiken: een thuisserver, een NAS of een Raspberry Pi met een 64-bits besturingssysteem, want de images zijn er alleen voor amd64 en arm64. Of een Kubernetes-cluster met Helm 3 of 4, met CloudNativePG voor de standaard-Postgres. Op elke telefoon Life Dashboard Companion voor Android of voor iPhone, gekoppeld met een QR-code of ingesteld op de webhook-URL van de ontvanger op poort 8080, met een label voor die telefoon en hetzelfde geheim als <code>WEBHOOK_SECRET</code>. Stel dat geheim in: zonder geheim accepteert de ontvanger niet-ondertekende payloads en toont hij geen koppelcode. Wil je de ontvanger van buitenaf bereiken, zet er dan een reverse proxy met TLS voor. De stack is bedoeld als startpunt dat je kunt aanpassen, niet als afgewerkt product.</p>
-        <p class="fineprint">Ontvangt van <a href="/nl/life-dashboard/android/">Life Dashboard Companion voor Android</a> en <a href="/nl/life-dashboard/ios/">voor iPhone</a>.</p>
+        <p>Docker met Compose, op een machine die je telefoon op hetzelfde netwerk of via een VPN kan bereiken: een thuisserver, een NAS of een Raspberry Pi met een 64-bits besturingssysteem, want de images zijn er alleen voor amd64 en arm64. Of een Kubernetes-cluster met Helm 3 of 4, met CloudNativePG voor de standaard-Postgres. Op elke telefoon Life Dashboard voor Android of voor iPhone, gekoppeld met een QR-code of ingesteld op de webhook-URL van de ontvanger op poort 8080, met een label voor die telefoon en hetzelfde geheim als <code>WEBHOOK_SECRET</code>. Stel dat geheim in: zonder geheim accepteert de ontvanger niet-ondertekende payloads en toont hij geen koppelcode. Wil je de ontvanger van buitenaf bereiken, zet er dan een reverse proxy met TLS voor. De stack is bedoeld als startpunt dat je kunt aanpassen, niet als afgewerkt product.</p>
+        <p class="fineprint">Ontvangt van <a href="/nl/life-dashboard/android/">Life Dashboard voor Android</a> en <a href="/nl/life-dashboard/ios/">voor iPhone</a>.</p>
         <div class="code-window"><div class="code-bar"><span>Proberen met demodata</span></div><pre tabindex="0" role="region" aria-label="Proberen met demodata"><code>mkdir lifedash-demo &amp;&amp; cd lifedash-demo
 GH=https://github.com/owen282000/life-dashboard-stack
 curl -fsSLO $GH/releases/latest/download/docker-compose.yml
@@ -549,8 +549,8 @@ RECEIVER_PORT=18080 GRAFANA_PORT=13000 \
   <div class="wrap">
     <div class="section-head"><h2>De andere onderdelen</h2><p>Beide apps versturen dezelfde payload. Een Android-telefoon en een iPhone kunnen dus dezelfde Home Assistant of dezelfde stack delen.</p></div>
     <div class="family three">
-      <a class="part" href="/nl/life-dashboard/android/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span><h3>Life Dashboard Companion voor Android</h3><p>Health Connect en schermtijd per app</p><span class="go">Bekijk de Android-app</span></a>
-      <a class="part" href="/nl/life-dashboard/ios/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg></span><h3>Life Dashboard Companion voor iPhone</h3><p>Apple Health, met dezelfde payload</p><span class="go">Bekijk de iPhone-app</span></a>
+      <a class="part" href="/nl/life-dashboard/android/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span><h3>Life Dashboard voor Android</h3><p>Health Connect en schermtijd per app</p><span class="go">Bekijk de Android-app</span></a>
+      <a class="part" href="/nl/life-dashboard/ios/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg></span><h3>Life Dashboard voor iPhone</h3><p>Apple Health, met dezelfde payload</p><span class="go">Bekijk de iPhone-app</span></a>
       <a class="part" href="/nl/life-dashboard/home-assistant/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 11 12 3.5l8.5 7.5"/><path d="M5.5 9.5V20h13V9.5"/><circle cx="12" cy="13.5" r="2"/><path d="M12 15.5V20"/></svg></span><h3>Life Dashboard-integratie voor Home Assistant</h3><p>Sensoren, statistieken en je hele geschiedenis</p><span class="go">Bekijk de integratie</span></a>
     </div>
   </div>
@@ -563,7 +563,7 @@ RECEIVER_PORT=18080 GRAFANA_PORT=13000 \
     <div class="foot-top">
       <div class="foot-about">
         <a class="brand" href="/nl/life-dashboard/"><img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="32" height="32" loading="lazy"> <span>Life Dashboard</span></a>
-        <p>Life Dashboard is een open-source project van <a href="https://github.com/owen282000">Owen Vogelaar</a> en bestaat uit vier onderdelen: de Life Dashboard Companion-apps voor Android en iPhone, een Home Assistant-integratie en een Grafana-stack. Het heeft niets te maken met andere apps of sjablonen die Life Dashboard heten. Vragen kun je stellen in <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
+        <p>Life Dashboard is een open-source project van <a href="https://github.com/owen282000">Owen Vogelaar</a> en bestaat uit vier onderdelen: de Life Dashboard-apps voor Android en iPhone, een Home Assistant-integratie en een Grafana-stack. Het heeft niets te maken met andere apps of sjablonen die Life Dashboard heten. Vragen kun je stellen in <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
       </div>
       <div class="foot-col">
         <h2 class="foot-h">Producten</h2>

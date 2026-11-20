@@ -9,16 +9,16 @@ published: 2026-10-14
 
 <h1>Como levar os dados do Conexão Saúde (Health Connect) para o n8n?</h1>
 
-<p>Instale o Life Dashboard Companion, um app Android de código aberto, e informe a URL de produção de um nó Webhook do n8n como o webhook dele. No n8n, ative a opção <strong>Raw Body</strong> do nó Webhook, confira o HMAC do <code>X-Signature</code> em um nó Code, responda 204 com um nó <strong>Respond to Webhook</strong> e depois grave cada registro usando o <code>type</code> e o <code>uuid</code> como chave. Os dados do Samsung Health, do Garmin Connect, do Google Health, do Oura e do Withings chegam ao n8n desse jeito, porque esses apps os gravam no Conexão Saúde (Health Connect) no celular.</p>
+<p>Instale o Life Dashboard para Android, um app de código aberto, e informe a URL de produção de um nó Webhook do n8n como o webhook dele. No n8n, ative a opção <strong>Raw Body</strong> do nó Webhook, confira o HMAC do <code>X-Signature</code> em um nó Code, responda 204 com um nó <strong>Respond to Webhook</strong> e depois grave cada registro usando o <code>type</code> e o <code>uuid</code> como chave. Os dados do Samsung Health, do Garmin Connect, do Google Health, do Oura e do Withings chegam ao n8n desse jeito, porque esses apps os gravam no Conexão Saúde (Health Connect) no celular.</p>
 
 <p>O app para iPhone envia os dados do Apple Health no mesmo formato, então um único workflow atende os dois celulares. Esta página trata do lado do n8n. O payload em si, as novas tentativas e a fila de saída estão em <a href="../health-connect-webhook/">Conexão Saúde para um webhook</a>.</p>
 
-<p class="flow-line"><span>Relógio ou anel</span><span>O app dele</span><span>Conexão Saúde</span><span>Life Dashboard Companion</span><span>n8n</span></p>
+<p class="flow-line"><span>Relógio ou anel</span><span>O app dele</span><span>Conexão Saúde</span><span>App Life Dashboard</span><span>n8n</span></p>
 
 <h2>O que você precisa</h2>
 
 <ul>
-  <li>O <a href="../android/">Life Dashboard Companion para Android</a> em um Android 9 ou mais recente com o Conexão Saúde. {{status:android}}</li>
+  <li>O <a href="../android/">Life Dashboard para Android</a> em um Android 9 ou mais recente com o Conexão Saúde. {{status:android}}</li>
   <li>Ou <a href="../ios/">o app para iPhone</a> com iOS 17 ou mais recente. {{status:ios}}</li>
   <li>O n8n, no n8n Cloud ou no seu próprio servidor, acessível a partir do celular. Use HTTPS. HTTP sem criptografia na sua própria rede exige <strong>Permitir webhooks com HTTP sem criptografia</strong> em <strong>Mais</strong> &gt; <strong>Avançado</strong> no app para Android; o app para iPhone só permite HTTP sem criptografia para um endereço IP, um nome <code>.local</code> ou um nome sem ponto.</li>
   <li>Espaço para requisições grandes. Permita pelo menos 10 MB por requisição. O n8n aceita até 16 MB por padrão, mas um proxy reverso na frente dele também precisa permitir isso: o nginx permite 1 MB por padrão.</li>

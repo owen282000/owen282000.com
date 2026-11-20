@@ -9,16 +9,16 @@ published: 2026-10-14
 
 <h1>How do I get Health Connect data into n8n?</h1>
 
-<p>Install Life Dashboard Companion, an open-source Android app, and enter the production URL of an n8n Webhook node as its webhook. In n8n, turn on the Webhook node's <strong>Raw Body</strong> option, check the <code>X-Signature</code> HMAC in a Code node, answer 204 with a <strong>Respond to Webhook</strong> node, and then store each record keyed on its <code>type</code> and <code>uuid</code>. Data from Samsung Health, Garmin Connect, Google Health, Oura and Withings reaches n8n this way, because those apps write it to Health Connect on the phone.</p>
+<p>Install Life Dashboard for Android, an open-source app, and enter the production URL of an n8n Webhook node as its webhook. In n8n, turn on the Webhook node's <strong>Raw Body</strong> option, check the <code>X-Signature</code> HMAC in a Code node, answer 204 with a <strong>Respond to Webhook</strong> node, and then store each record keyed on its <code>type</code> and <code>uuid</code>. Data from Samsung Health, Garmin Connect, Google Health, Oura and Withings reaches n8n this way, because those apps write it to Health Connect on the phone.</p>
 
 <p>The iPhone app sends Apple Health data in the same format, so one workflow takes both phones. This page covers the n8n side. The payload itself, retries and the outbox are in <a href="../health-connect-webhook/">Health Connect to a webhook</a>.</p>
 
-<p class="flow-line"><span>Watch or ring</span><span>Its app</span><span>Health Connect</span><span>Life Dashboard Companion</span><span>n8n</span></p>
+<p class="flow-line"><span>Watch or ring</span><span>Its app</span><span>Health Connect</span><span>Life Dashboard app</span><span>n8n</span></p>
 
 <h2>What you need</h2>
 
 <ul>
-  <li><a href="../android/">Life Dashboard Companion for Android</a> on Android 9 or newer with Health Connect. {{status:android}}</li>
+  <li><a href="../android/">Life Dashboard for Android</a> on Android 9 or newer with Health Connect. {{status:android}}</li>
   <li>Or <a href="../ios/">the iPhone app</a> on iOS 17 or newer. {{status:ios}}</li>
   <li>n8n, on n8n Cloud or self-hosted, reachable from the phone. Use HTTPS. Plain HTTP on your own network needs <strong>Allow plain HTTP webhooks</strong> under <strong>More</strong> &gt; <strong>Advanced</strong> in the Android app; the iPhone app allows plain HTTP only to an IP address, a <code>.local</code> name or a name without a dot.</li>
   <li>Room for large requests. Allow at least 10 MB per request. n8n takes up to 16 MB by default, but a reverse proxy in front of it must allow that too: nginx allows 1 MB by default.</li>

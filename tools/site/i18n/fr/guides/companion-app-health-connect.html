@@ -11,7 +11,7 @@ published: 2026-10-14
 
 <p>Pour la dernière valeur, oui. L’application Companion pour Android a 36 capteurs Health Connect (Santé Connect en français), chacun avec la mesure la plus récente ou le total du jour. Elle n’a aucun moyen de charger des données plus anciennes, elle enregistre une valeur au moment où le capteur se met à jour plutôt qu’au jour auquel elle appartient, et elle n’écrit pas dans Santé Connect. Life Dashboard lit 34 types et ajoute un backfill (le rattrapage de l’historique) de tout votre passé aux bonnes dates, l’écriture des mesures de balance et de tension, et le temps d’écran par application. Les deux fonctionnent côte à côte.</p>
 
-<p class="flow-line"><span>Santé Connect</span><span>Life Dashboard Companion</span><span>Intégration Life Dashboard</span><span>Chaque jour à sa propre date</span></p>
+<p class="flow-line"><span>Santé Connect</span><span>Application Life Dashboard</span><span>Intégration Life Dashboard</span><span>Chaque jour à sa propre date</span></p>
 
 <h2>Ce que lit l’application Companion</h2>
 
@@ -60,7 +60,7 @@ published: 2026-10-14
 
 <h2>Ce que Life Dashboard ajoute</h2>
 
-<p>Life Dashboard, c’est une application Android open source, Life Dashboard Companion, plus l’<a href="../home-assistant/">intégration Life Dashboard</a> du Marketplace (HACS avant Home Assistant 2026.11). L’application lit Santé Connect et envoie chaque enregistrement avec sa propre heure, et l’intégration l’enregistre à cette date.</p>
+<p>Life Dashboard, c’est une application open source, Life Dashboard pour Android, plus l’<a href="../home-assistant/">intégration Life Dashboard</a> du Marketplace (HACS avant Home Assistant 2026.11). L’application lit Santé Connect et envoie chaque enregistrement avec sa propre heure, et l’intégration l’enregistre à cette date.</p>
 
 <ul>
   <li><strong>34 types, dont 27 en capteurs.</strong> Cela comprend trois capteurs pour les entraînements, le dernier et les minutes d’aujourd’hui et d’hier, et depuis l’intégration 1.2.0 les calories, les protéines, les glucides et les lipides consommés aujourd’hui. Avec MQTT, il y en a 25, sans les entraînements ni l’alimentation. Les repas pris un par un, la pleine conscience, l’activité sexuelle et le suivi du cycle n’ont pas de valeur unique à afficher&nbsp;; un webhook à vous les reçoit sous forme d’enregistrements.</li>
@@ -105,7 +105,7 @@ published: 2026-10-14
 
 <p>Les deux ne se gênent pas. Chacune lit Santé Connect avec sa propre autorisation, et Home Assistant les affiche comme des appareils distincts. Gardez l’application Companion pour la présence, les notifications et les capteurs de l’appareil. Si vous ajoutez Life Dashboard pour les données de santé, vous pouvez désactiver les capteurs Santé Connect de l’application Companion sous <strong>Manage Sensors</strong> pour ne pas voir chaque valeur en double.</p>
 
-<p>Pour ajouter Life Dashboard, il vous faut Home Assistant 2026.3 ou plus récent, ainsi que <a href="https://hacs.xyz">HACS</a> sur les versions antérieures à 2026.11, et <a href="../android/">Life Dashboard Companion pour Android</a>. {{status:android}} Le <a href="../health-connect-home-assistant/">guide Santé Connect pour Home Assistant</a> détaille chaque étape, du QR code à la tuile sur votre tableau de bord.</p>
+<p>Pour ajouter Life Dashboard, il vous faut Home Assistant 2026.3 ou plus récent, ainsi que <a href="https://hacs.xyz">HACS</a> sur les versions antérieures à 2026.11, et <a href="../android/">Life Dashboard pour Android</a>. {{status:android}} Le <a href="../health-connect-home-assistant/">guide Santé Connect pour Home Assistant</a> détaille chaque étape, du QR code à la tuile sur votre tableau de bord.</p>
 
 <!-- IMG: the QR code in Home Assistant (H2-qr.png) -->
 

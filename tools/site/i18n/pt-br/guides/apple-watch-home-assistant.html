@@ -9,18 +9,18 @@ published: 2026-10-21
 
 <h1>Como levar os dados do Apple Watch para o Home Assistant?</h1>
 
-<p>Seu Apple Watch já grava o que mede no Apple Health (o app Saúde) do iPhone com que está pareado. Instale o Life Dashboard Companion nesse iPhone e a integração Life Dashboard no Home Assistant, pareie os dois com um QR code, e a frequência cardíaca, a VFC, o sono, os treinos e o VO2 máx. do relógio chegam como sensores, com todo o seu histórico nas estatísticas de longo prazo.</p>
+<p>Seu Apple Watch já grava o que mede no Apple Health (o app Saúde) do iPhone com que está pareado. Instale o app Life Dashboard nesse iPhone e a integração Life Dashboard no Home Assistant, pareie os dois com um QR code, e a frequência cardíaca, a VFC, o sono, os treinos e o VO2 máx. do relógio chegam como sensores, com todo o seu histórico nas estatísticas de longo prazo.</p>
 
 <p>Não há nada para instalar no relógio, e o Home Assistant nunca precisa da sua Conta Apple. O app do iPhone lê o Apple Health e envia direto para o seu Home Assistant; não há servidor do Life Dashboard no meio.</p>
 
-<p class="flow-line"><span>Apple Watch</span><span>Apple Health no iPhone</span><span>Life Dashboard Companion</span><span>Home Assistant</span></p>
+<p class="flow-line"><span>Apple Watch</span><span>Apple Health no iPhone</span><span>App Life Dashboard</span><span>Home Assistant</span></p>
 
 <h2>O que você precisa</h2>
 
 <ul>
   <li>Um Apple Watch pareado com um iPhone com iOS 17 ou mais recente.</li>
   <li>Home Assistant 2026.3 ou mais recente e a <a href="../home-assistant/">integração Life Dashboard</a> 0.7.1 ou mais recente. A partir da 2026.11 não é preciso instalar mais nada; versões anteriores precisam do <a href="https://hacs.xyz">HACS</a>.</li>
-  <li>O <a href="../ios/">Life Dashboard Companion para iPhone</a>. {{status:ios}}</li>
+  <li>O <a href="../ios/">Life Dashboard para iPhone</a>. {{status:ios}}</li>
 </ul>
 
 <h2>Como configurar</h2>
@@ -28,7 +28,7 @@ published: 2026-10-21
 <ol>
   <li>Em <strong>Configurações</strong> &gt; <strong>Marketplace</strong> (HACS antes do Home Assistant 2026.11), procure por <strong>Life Dashboard</strong> e instale. No HACS, baixe a integração e reinicie o Home Assistant. Se a configuração não abrir sozinha, adicione a integração em <strong>Configurações</strong> &gt; <strong>Dispositivos e serviços</strong>. Dê a ela um nome para o iPhone, e ela mostra um QR code.</li>
   <!-- IMG: the QR code in Home Assistant (H2-qr.png) -->
-  <li>Instale o Life Dashboard Companion no iPhone, toque em <strong>Escanear um código de pareamento</strong> na configuração dele, escaneie o código e toque em <strong>Parear</strong>.</li>
+  <li>Instale o app Life Dashboard no iPhone, toque em <strong>Escanear um código de pareamento</strong> na configuração dele, escaneie o código e toque em <strong>Parear</strong>.</li>
   <li>Em <strong>O que enviar</strong>, ative os tipos que o relógio registra, listados abaixo, e permita o acesso ao Apple Health.</li>
   <li>Toque em <strong>Sincronizar agora</strong>, depois em <strong>Enviar histórico</strong>, em <strong>O que enviar</strong>, e escolha até onde voltar, de 30 dias até <strong>Todo o histórico</strong>. O Home Assistant guarda cada dia na sua própria data.</li>
 </ol>
@@ -92,7 +92,7 @@ published: 2026-10-21
   <h2>FAQ</h2>
   <details>
     <summary>Preciso de um app no Apple Watch?</summary>
-    <p>Não. O relógio grava sozinho no Apple Health do iPhone, e o Life Dashboard Companion no iPhone lê os dados dali.</p>
+    <p>Não. O relógio grava sozinho no Apple Health do iPhone, e o app Life Dashboard no iPhone lê os dados dali.</p>
   </details>
   <details>
     <summary>Por que os dados do meu relógio chegam atrasados ao Home Assistant?</summary>

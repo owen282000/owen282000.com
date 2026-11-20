@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Health Connect y Apple Health no tienen API | Life Dashboard</title>
-<meta name="description" content="Health Connect y Apple Health no tienen API web. Life Dashboard Companion los lee en el teléfono y envía JSON firmado a tu servidor o a Home Assistant.">
+<meta name="description" content="Health Connect y Apple Health no tienen API web. La app Life Dashboard los lee en el teléfono y envía JSON firmado a tu servidor o a Home Assistant.">
 <link rel="canonical" href="https://owen282000.com/es/life-dashboard/api-health-connect-apple-health/">
 <link rel="alternate" hreflang="en" href="https://owen282000.com/life-dashboard/health-data-api/">
 <link rel="alternate" hreflang="nl" href="https://owen282000.com/nl/life-dashboard/health-data-api/">
@@ -31,17 +31,17 @@
 <meta property="og:locale:alternate" content="pt_BR">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="¿Existe una API web para Health Connect o Apple Health?">
-<meta property="og:description" content="Health Connect y Apple Health no tienen API web. Life Dashboard Companion los lee en el teléfono y envía JSON firmado a tu servidor o a Home Assistant.">
+<meta property="og:description" content="Health Connect y Apple Health no tienen API web. La app Life Dashboard los lee en el teléfono y envía JSON firmado a tu servidor o a Home Assistant.">
 <meta property="og:url" content="https://owen282000.com/es/life-dashboard/api-health-connect-apple-health/">
 <meta property="og:image" content="https://owen282000.com/life-dashboard/img/social.png">
 <meta property="og:image:width" content="1280">
 <meta property="og:image:height" content="640">
-<meta property="og:image:alt" content="Life Dashboard Companion: tus datos de salud, tu servidor. Sin nube.">
+<meta property="og:image:alt" content="Life Dashboard: tus datos de salud, tu servidor. Sin nube.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="¿Existe una API web para Health Connect o Apple Health?">
-<meta name="twitter:description" content="Health Connect y Apple Health no tienen API web. Life Dashboard Companion los lee en el teléfono y envía JSON firmado a tu servidor o a Home Assistant.">
+<meta name="twitter:description" content="Health Connect y Apple Health no tienen API web. La app Life Dashboard los lee en el teléfono y envía JSON firmado a tu servidor o a Home Assistant.">
 <meta name="twitter:image" content="https://owen282000.com/life-dashboard/img/social.png">
-<meta name="twitter:image:alt" content="Life Dashboard Companion: tus datos de salud, tu servidor. Sin nube.">
+<meta name="twitter:image:alt" content="Life Dashboard: tus datos de salud, tu servidor. Sin nube.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -50,7 +50,7 @@
       "@type": "TechArticle",
       "@id": "https://owen282000.com/es/life-dashboard/api-health-connect-apple-health/#article",
       "headline": "¿Existe una API web para Health Connect o Apple Health?",
-      "description": "Health Connect y Apple Health no tienen API web. Life Dashboard Companion los lee en el teléfono y envía JSON firmado a tu servidor o a Home Assistant.",
+      "description": "Health Connect y Apple Health no tienen API web. La app Life Dashboard los lee en el teléfono y envía JSON firmado a tu servidor o a Home Assistant.",
       "url": "https://owen282000.com/es/life-dashboard/api-health-connect-apple-health/",
       "mainEntityOfPage": "https://owen282000.com/es/life-dashboard/api-health-connect-apple-health/",
       "inLanguage": "es",
@@ -64,12 +64,12 @@
         {
           "@type": "SoftwareApplication",
           "@id": "https://owen282000.com/life-dashboard/#android",
-          "name": "Life Dashboard Companion"
+          "name": "Life Dashboard for Android"
         },
         {
           "@type": "SoftwareApplication",
           "@id": "https://owen282000.com/life-dashboard/#ios",
-          "name": "Life Dashboard Companion for iPhone"
+          "name": "Life Dashboard for iPhone"
         }
       ],
       "datePublished": "2026-10-06",
@@ -160,7 +160,7 @@
           "name": "¿Puede mi servidor pedir datos a Health Connect?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. Health Connect no tiene interfaz de red. Una app en el teléfono tiene que leerlo y enviar los datos hacia fuera, como hace Life Dashboard Companion."
+            "text": "No. Health Connect no tiene interfaz de red. Una app en el teléfono tiene que leerlo y enviar los datos hacia fuera, como hace la app Life Dashboard."
           }
         },
         {
@@ -168,7 +168,7 @@
           "name": "¿Existe una API REST de Apple Health?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. Las apps leen Apple Health a través de HealthKit en el iPhone. Life Dashboard Companion para iPhone lo lee ahí y envía el mismo JSON que la app para Android."
+            "text": "No. Las apps leen Apple Health a través de HealthKit en el iPhone. Life Dashboard para iPhone lo lee ahí y envía el mismo JSON que la app para Android."
           }
         },
         {
@@ -176,7 +176,7 @@
           "name": "¿Debería usar la Google Health API en su lugar?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Encaja si todos tus datos están en una cuenta de Google, de un Fitbit o un Pixel Watch, y no te importa tener un proyecto de Google Cloud y un cliente OAuth. Health Connect en el teléfono también contiene lo que escriben Samsung Health, Garmin Connect, Oura y Withings, y Life Dashboard Companion lo envía todo en un solo payload."
+            "text": "Encaja si todos tus datos están en una cuenta de Google, de un Fitbit o un Pixel Watch, y no te importa tener un proyecto de Google Cloud y un cliente OAuth. Health Connect en el teléfono también contiene lo que escriben Samsung Health, Garmin Connect, Oura y Withings, y la app Life Dashboard lo envía todo en un solo payload."
           }
         },
         {
@@ -239,9 +239,9 @@
       <nav class="crumbs" aria-label="Ruta de navegación"><a href="/es/life-dashboard/">Life Dashboard</a><span aria-hidden="true">/</span><a href="/es/life-dashboard/guides/">Guías</a><span aria-hidden="true">/</span><span aria-current="page">Una API web para Health Connect o Apple Health</span></nav>
       <h1>¿Existe una API web para Health Connect o Apple Health?</h1>
       <div class="guide-intro">
-<p>No. Health Connect y Apple Health son almacenes en el teléfono que las apps leen a través de Android o iOS, y ninguno ofrece un endpoint al que tu servidor pueda llamar. Para llevar los datos a un servidor, una app en el teléfono tiene que leerlos y reenviarlos, que es lo que hace Life Dashboard Companion en Android y en el iPhone.</p>
+<p>No. Health Connect y Apple Health son almacenes en el teléfono que las apps leen a través de Android o iOS, y ninguno ofrece un endpoint al que tu servidor pueda llamar. Para llevar los datos a un servidor, una app en el teléfono tiene que leerlos y reenviarlos, que es lo que hace la app Life Dashboard en Android y en el iPhone.</p>
 
-<p class="flow-line"><span>Reloj, anillo o báscula</span><span>Su app</span><span>Health Connect o Apple Health</span><span>Life Dashboard Companion</span><span>Tu servidor</span></p>
+<p class="flow-line"><span>Reloj, anillo o báscula</span><span>Su app</span><span>Health Connect o Apple Health</span><span>App Life Dashboard</span><span>Tu servidor</span></p>
       </div>
       <p class="guide-meta"><span>Por <a href="/es/">Owen Vogelaar</a>, que mantiene Life Dashboard</span> <span><time datetime="2026-11-20">Actualizado el 20 de noviembre de 2026</time></span> <span>5 min de lectura</span></p>
       <p class="guide-cta"><a class="btn btn-primary" href="/es/life-dashboard/android/#get">Consigue la app para Android</a></p>
@@ -282,8 +282,8 @@
 
 <ul>
   <li>Un teléfono Android con Android 9 o posterior y Health Connect, o un iPhone con iOS 17 o posterior.</li>
-  <li><a href="/es/life-dashboard/android/">Life Dashboard Companion para Android</a>. Está en Google Play por 4,99&nbsp;€ (4,99&nbsp;USD), pago único, sin suscripción: la forma más cómoda, con actualizaciones automáticas, y al comprarla apoyas el desarrollo. Las vías gratuitas instalan la misma app con la misma clave de firma: el APK firmado de GitHub, Obtainium, que mantiene ese APK actualizado, y F&#8209;Droid, que la compila a partir del código fuente.</li>
-  <li>O <a href="/es/life-dashboard/ios/">Life Dashboard Companion para iPhone</a>. Está en App Store por 6,99&nbsp;€ (5,99&nbsp;USD), pago único, sin suscripción. Compilarla a partir del código fuente con Xcode no cuesta nada más si ya tienes una suscripción al Apple Developer Program.</li>
+  <li><a href="/es/life-dashboard/android/">Life Dashboard para Android</a>. Está en Google Play por 4,99&nbsp;€ (4,99&nbsp;USD), pago único, sin suscripción: la forma más cómoda, con actualizaciones automáticas, y al comprarla apoyas el desarrollo. Las vías gratuitas instalan la misma app con la misma clave de firma: el APK firmado de GitHub, Obtainium, que mantiene ese APK actualizado, y F&#8209;Droid, que la compila a partir del código fuente.</li>
+  <li>O <a href="/es/life-dashboard/ios/">Life Dashboard para iPhone</a>. Está en App Store por 6,99&nbsp;€ (5,99&nbsp;USD), pago único, sin suscripción. Compilarla a partir del código fuente con Xcode no cuesta nada más si ya tienes una suscripción al Apple Developer Program.</li>
   <li>Un sitio al que enviar los datos: un servidor que acepte un POST con JSON por HTTPS, <a href="/es/life-dashboard/home-assistant/">Home Assistant</a>, un broker MQTT o <a href="/es/life-dashboard/grafana/">el stack de Life Dashboard</a>.</li>
 </ul>
 
@@ -322,7 +322,7 @@
 </ul>
 
 <section class="get-panel" aria-labelledby="get-the-app">
-      <h2 id="get-the-app">Life Dashboard Companion</h2>
+      <h2 id="get-the-app">Life Dashboard</h2>
       <p>Instala la app en el teléfono y apúntala a tu URL. La referencia del payload tiene cada campo y un receptor en Python y en Node.js.</p>
       <div class="stores">
         <div class="panel-store"><a class="badge-link" href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-es-guide-health-data-api%26utm_medium%3Dwebsite"><img class="badge-img" src="/life-dashboard/img/badges/google-play.png?v=a13294f3" alt="Disponible en Google Play" width="564" height="168" loading="lazy"></a>
@@ -342,15 +342,15 @@
   <h2 id="faq">Preguntas frecuentes</h2>
   <details>
     <summary>¿Puede mi servidor pedir datos a Health Connect?</summary>
-    <p>No. Health Connect no tiene interfaz de red. Una app en el teléfono tiene que leerlo y enviar los datos hacia fuera, como hace Life Dashboard Companion.</p>
+    <p>No. Health Connect no tiene interfaz de red. Una app en el teléfono tiene que leerlo y enviar los datos hacia fuera, como hace la app Life Dashboard.</p>
   </details>
   <details>
     <summary>¿Existe una API REST de Apple Health?</summary>
-    <p>No. Las apps leen Apple Health a través de HealthKit en el iPhone. <a href="/es/life-dashboard/ios/">Life Dashboard Companion para iPhone</a> lo lee ahí y envía el mismo JSON que la app para Android.</p>
+    <p>No. Las apps leen Apple Health a través de HealthKit en el iPhone. <a href="/es/life-dashboard/ios/">Life Dashboard para iPhone</a> lo lee ahí y envía el mismo JSON que la app para Android.</p>
   </details>
   <details>
     <summary>¿Debería usar la Google Health API en su lugar?</summary>
-    <p>Encaja si todos tus datos están en una cuenta de Google, de un Fitbit o un Pixel Watch, y no te importa tener un proyecto de Google Cloud y un cliente OAuth. Health Connect en el teléfono también contiene lo que escriben Samsung Health, Garmin Connect, Oura y Withings, y Life Dashboard Companion lo envía todo en un solo payload.</p>
+    <p>Encaja si todos tus datos están en una cuenta de Google, de un Fitbit o un Pixel Watch, y no te importa tener un proyecto de Google Cloud y un cliente OAuth. Health Connect en el teléfono también contiene lo que escriben Samsung Health, Garmin Connect, Oura y Withings, y la app Life Dashboard lo envía todo en un solo payload.</p>
   </details>
   <details>
     <summary>¿Pasan mis datos por alguna nube en el camino?</summary>
@@ -376,7 +376,7 @@
     <div class="foot-top">
       <div class="foot-about">
         <a class="brand" href="/es/life-dashboard/"><img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="32" height="32" loading="lazy"> <span>Life Dashboard</span></a>
-        <p>Life Dashboard es un proyecto de código abierto de <a href="https://github.com/owen282000">Owen Vogelaar</a>, en cuatro partes: las apps Life Dashboard Companion para Android y iPhone, una integración para Home Assistant y un stack de Grafana. No tiene relación con otras apps o plantillas llamadas Life Dashboard. Las preguntas van a <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
+        <p>Life Dashboard es un proyecto de código abierto de <a href="https://github.com/owen282000">Owen Vogelaar</a>, en cuatro partes: las apps Life Dashboard para Android y iPhone, una integración para Home Assistant y un stack de Grafana. No tiene relación con otras apps o plantillas llamadas Life Dashboard. Las preguntas van a <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
       </div>
       <div class="foot-col">
         <h2 class="foot-h">Productos</h2>

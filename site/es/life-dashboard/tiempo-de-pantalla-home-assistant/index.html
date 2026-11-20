@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tiempo de pantalla Android a Home Assistant | Life Dashboard</title>
-<meta name="description" content="Life Dashboard Companion envía a Home Assistant el tiempo de pantalla de Android por app: minutos diarios, apps más usadas y un sensor por app para automatizar.">
+<meta name="description" content="La app Life Dashboard envía a Home Assistant el tiempo de pantalla de Android por app: minutos diarios, apps más usadas y un sensor por app para automatizar.">
 <link rel="canonical" href="https://owen282000.com/es/life-dashboard/tiempo-de-pantalla-home-assistant/">
 <link rel="alternate" hreflang="en" href="https://owen282000.com/life-dashboard/screen-time-home-assistant/">
 <link rel="alternate" hreflang="nl" href="https://owen282000.com/nl/life-dashboard/schermtijd-home-assistant/">
@@ -31,17 +31,17 @@
 <meta property="og:locale:alternate" content="pt_BR">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="¿Cómo llevo el tiempo de pantalla de Android por app a Home Assistant?">
-<meta property="og:description" content="Life Dashboard Companion envía a Home Assistant el tiempo de pantalla de Android por app: minutos diarios, apps más usadas y un sensor por app para automatizar.">
+<meta property="og:description" content="La app Life Dashboard envía a Home Assistant el tiempo de pantalla de Android por app: minutos diarios, apps más usadas y un sensor por app para automatizar.">
 <meta property="og:url" content="https://owen282000.com/es/life-dashboard/tiempo-de-pantalla-home-assistant/">
 <meta property="og:image" content="https://owen282000.com/life-dashboard/img/social.png">
 <meta property="og:image:width" content="1280">
 <meta property="og:image:height" content="640">
-<meta property="og:image:alt" content="Life Dashboard Companion: tus datos de salud, tu servidor. Sin nube.">
+<meta property="og:image:alt" content="Life Dashboard: tus datos de salud, tu servidor. Sin nube.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="¿Cómo llevo el tiempo de pantalla de Android por app a Home Assistant?">
-<meta name="twitter:description" content="Life Dashboard Companion envía a Home Assistant el tiempo de pantalla de Android por app: minutos diarios, apps más usadas y un sensor por app para automatizar.">
+<meta name="twitter:description" content="La app Life Dashboard envía a Home Assistant el tiempo de pantalla de Android por app: minutos diarios, apps más usadas y un sensor por app para automatizar.">
 <meta name="twitter:image" content="https://owen282000.com/life-dashboard/img/social.png">
-<meta name="twitter:image:alt" content="Life Dashboard Companion: tus datos de salud, tu servidor. Sin nube.">
+<meta name="twitter:image:alt" content="Life Dashboard: tus datos de salud, tu servidor. Sin nube.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -50,7 +50,7 @@
       "@type": "TechArticle",
       "@id": "https://owen282000.com/es/life-dashboard/tiempo-de-pantalla-home-assistant/#article",
       "headline": "¿Cómo llevo el tiempo de pantalla de Android por app a Home Assistant?",
-      "description": "Life Dashboard Companion envía a Home Assistant el tiempo de pantalla de Android por app: minutos diarios, apps más usadas y un sensor por app para automatizar.",
+      "description": "La app Life Dashboard envía a Home Assistant el tiempo de pantalla de Android por app: minutos diarios, apps más usadas y un sensor por app para automatizar.",
       "url": "https://owen282000.com/es/life-dashboard/tiempo-de-pantalla-home-assistant/",
       "mainEntityOfPage": "https://owen282000.com/es/life-dashboard/tiempo-de-pantalla-home-assistant/",
       "inLanguage": "es",
@@ -69,7 +69,7 @@
         {
           "@type": "SoftwareApplication",
           "@id": "https://owen282000.com/life-dashboard/#android",
-          "name": "Life Dashboard Companion"
+          "name": "Life Dashboard for Android"
         },
         {
           "@type": "SoftwareApplication",
@@ -296,7 +296,7 @@
       <nav class="crumbs" aria-label="Ruta de navegación"><a href="/es/life-dashboard/">Life Dashboard</a><span aria-hidden="true">/</span><a href="/es/life-dashboard/guides/">Guías</a><span aria-hidden="true">/</span><span aria-current="page">Tiempo de pantalla en Home Assistant</span></nav>
       <h1>¿Cómo llevo el tiempo de pantalla de Android por app a Home Assistant?</h1>
       <div class="guide-intro">
-<p>Life Dashboard Companion, una app de código abierto para Android, lee las estadísticas de uso de Android, los mismos números que muestra Bienestar digital, y envía los minutos por app a Home Assistant según un horario. Con la integración Life Dashboard obtienes el tiempo de pantalla de hoy y de ayer, la app más usada, las cinco apps principales, un sensor por app si lo quieres y cada día en las estadísticas a largo plazo. Por MQTT obtienes los mismos totales sin los sensores por app. Las automatizaciones pueden avisarte entonces cuando superas un límite que tú mismo defines.</p>
+<p>Life Dashboard para Android, una app de código abierto, lee las estadísticas de uso de Android, los mismos números que muestra Bienestar digital, y envía los minutos por app a Home Assistant según un horario. Con la integración Life Dashboard obtienes el tiempo de pantalla de hoy y de ayer, la app más usada, las cinco apps principales, un sensor por app si lo quieres y cada día en las estadísticas a largo plazo. Por MQTT obtienes los mismos totales sin los sensores por app. Las automatizaciones pueden avisarte entonces cuando superas un límite que tú mismo defines.</p>
       </div>
       <p class="guide-meta"><span>Por <a href="/es/">Owen Vogelaar</a>, que mantiene Life Dashboard</span> <span><time datetime="2026-11-20">Actualizado el 20 de noviembre de 2026</time></span> <span>6 min de lectura</span></p>
       <p class="guide-cta"><a class="btn btn-primary" href="/es/life-dashboard/android/#get">Consigue la app para Android</a></p>
@@ -321,7 +321,7 @@
 
 <ul>
   <li>Un teléfono o una tableta Android con Android 8.0 o posterior. Health Connect no hace falta.</li>
-  <li><a href="/es/life-dashboard/android/">Life Dashboard Companion para Android</a>, desde <a href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-es-guide-screen-time-home-assistant%26utm_medium%3Dwebsite">Google Play</a> por 4,99&nbsp;€, pago único, o gratis desde GitHub Releases, Obtainium o F&#8209;Droid. Las <a href="/es/life-dashboard/android/#get">opciones de instalación</a> enumeran todas las vías.</li>
+  <li><a href="/es/life-dashboard/android/">Life Dashboard para Android</a>, desde <a href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-es-guide-screen-time-home-assistant%26utm_medium%3Dwebsite">Google Play</a> por 4,99&nbsp;€, pago único, o gratis desde GitHub Releases, Obtainium o F&#8209;Droid. Las <a href="/es/life-dashboard/android/#get">opciones de instalación</a> enumeran todas las vías.</li>
   <li>Home Assistant con la <a href="/es/life-dashboard/home-assistant/">integración Life Dashboard</a>, vinculada como en la <a href="/es/life-dashboard/health-connect-home-assistant/">guía de Health Connect</a>, o un broker MQTT que use Home Assistant. Los sensores por app necesitan la integración 0.9.0 o posterior.</li>
 </ul>
 
@@ -412,7 +412,7 @@ actions:
 </ul>
 
 <section class="get-panel" aria-labelledby="get-the-app">
-      <h2 id="get-the-app">Life Dashboard Companion</h2>
+      <h2 id="get-the-app">Life Dashboard para Android</h2>
       <p>El tiempo de pantalla no necesita Health Connect. Sirve cualquier teléfono o tableta con Android 8.0 o posterior.</p>
       <div class="stores">
         <div class="panel-store"><a class="badge-link" href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-es-guide-screen-time-home-assistant%26utm_medium%3Dwebsite"><img class="badge-img" src="/life-dashboard/img/badges/google-play.png?v=a13294f3" alt="Disponible en Google Play" width="564" height="168" loading="lazy"></a>
@@ -464,7 +464,7 @@ actions:
     <div class="foot-top">
       <div class="foot-about">
         <a class="brand" href="/es/life-dashboard/"><img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="32" height="32" loading="lazy"> <span>Life Dashboard</span></a>
-        <p>Life Dashboard es un proyecto de código abierto de <a href="https://github.com/owen282000">Owen Vogelaar</a>, en cuatro partes: las apps Life Dashboard Companion para Android y iPhone, una integración para Home Assistant y un stack de Grafana. No tiene relación con otras apps o plantillas llamadas Life Dashboard. Las preguntas van a <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
+        <p>Life Dashboard es un proyecto de código abierto de <a href="https://github.com/owen282000">Owen Vogelaar</a>, en cuatro partes: las apps Life Dashboard para Android y iPhone, una integración para Home Assistant y un stack de Grafana. No tiene relación con otras apps o plantillas llamadas Life Dashboard. Las preguntas van a <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
       </div>
       <div class="foot-col">
         <h2 class="foot-h">Productos</h2>

@@ -1,7 +1,7 @@
 <!--
 slug: exportar-dados-samsung-health
 title: Exportar dados do Samsung Health em JSON | Life Dashboard
-description: O Life Dashboard Companion exporta os dados do Samsung Health e do Galaxy Watch pelo Health Connect para o seu servidor, n8n ou script, em JSON assinado.
+description: O app Life Dashboard exporta os dados do Samsung Health e do Galaxy Watch pelo Health Connect para o seu servidor, n8n ou script, em JSON assinado.
 primary query: exportar dados samsung health
 secondary queries: samsung health exportar dados, samsung health api, exportar dados galaxy watch, samsung health banco de dados, samsung health json, samsung health postgres, samsung health webhook, galaxy watch api
 updated: 2026-11-20
@@ -10,9 +10,9 @@ published: 2026-10-06
 
 <h1>Como exportar os dados do Samsung Health para o meu próprio servidor?</h1>
 
-<p>Ative a sincronização do Samsung Health com o Conexão Saúde (Health Connect) e deixe o Life Dashboard Companion, um app Android de código aberto, enviar os dados em JSON para uma URL que você escolher. Cada sincronização envia os registros novos do Samsung Health e do Galaxy Watch para o seu banco de dados, fluxo do n8n ou script, e um backfill (o envio de todo o histórico de uma vez) envia tudo o que está no Conexão Saúde.</p>
+<p>Ative a sincronização do Samsung Health com o Conexão Saúde (Health Connect) e deixe o Life Dashboard para Android, um app de código aberto, enviar os dados em JSON para uma URL que você escolher. Cada sincronização envia os registros novos do Samsung Health e do Galaxy Watch para o seu banco de dados, fluxo do n8n ou script, e um backfill (o envio de todo o histórico de uma vez) envia tudo o que está no Conexão Saúde.</p>
 
-<p class="flow-line"><span>Galaxy Watch</span><span>Samsung Health</span><span>Conexão Saúde</span><span>Life Dashboard Companion</span><span>Seu servidor</span></p>
+<p class="flow-line"><span>Galaxy Watch</span><span>Samsung Health</span><span>Conexão Saúde</span><span>App Life Dashboard</span><span>Seu servidor</span></p>
 
 <h2>Por que passa pelo Conexão Saúde</h2>
 
@@ -22,7 +22,7 @@ published: 2026-10-06
 
 <ul>
   <li>Um celular Android com Android 9 ou mais recente, o Conexão Saúde e o Samsung Health. Pareie o seu Galaxy Watch com o Samsung Health para ter os dados dele.</li>
-  <li>O <a href="../android/">Life Dashboard Companion para Android</a>. {{status:android}}</li>
+  <li>O <a href="../android/">Life Dashboard para Android</a>. {{status:android}}</li>
   <li>Um servidor que aceite um POST com JSON por HTTPS, com limite de corpo de pelo menos 10 MB. HTTP sem criptografia na sua própria rede exige <strong>Permitir webhooks com HTTP sem criptografia</strong> em <strong>Mais</strong> &gt; <strong>Avançado</strong>.</li>
 </ul>
 
@@ -30,7 +30,7 @@ published: 2026-10-06
 
 <ol>
   <li>No Samsung Health, vá em <strong>Configurações</strong> &gt; <strong>Conexão Saúde</strong>, toque em <strong>Get started</strong>, escolha os dados e toque em <strong>Permitir</strong>. A leitura e a gravação são permitidas separadamente.</li>
-  <li>No Life Dashboard Companion, na aba <strong>Saúde</strong>, toque em <strong>Adicionar destino</strong> (se ainda não houver nada configurado, <strong>Usar seu próprio servidor</strong>), informe a sua URL em <strong>URL do webhook</strong> e toque em <strong>Adicionar webhook</strong>.</li>
+  <li>No app Life Dashboard, na aba <strong>Saúde</strong>, toque em <strong>Adicionar destino</strong> (se ainda não houver nada configurado, <strong>Usar seu próprio servidor</strong>), informe a sua URL em <strong>URL do webhook</strong> e toque em <strong>Adicionar webhook</strong>.</li>
   <li>Em <strong>Segredo de assinatura HMAC (opcional)</strong>, toque em <strong>Gerar</strong> e coloque o mesmo valor no seu servidor.</li>
   <li>Toque em <strong>Salvar</strong> no topo, abra de novo a linha do endereço na aba e toque em <strong>Enviar teste</strong>.</li>
   <li>Toque em <strong>Permitir</strong> e autorize os seus tipos de dados e a leitura em segundo plano. Ative os tipos que você quer em <strong>O que enviar</strong>.</li>

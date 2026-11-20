@@ -14,7 +14,7 @@
     "coming": "Komt eraan",
     "read_guide": "Lees de gids",
     "last_updated": "Laatst bijgewerkt op {date}.",
-    "og_image_alt": "Life Dashboard Companion: jouw gezondheidsdata, jouw server. Geen cloud.",
+    "og_image_alt": "Life Dashboard: jouw gezondheidsdata, jouw server. Geen cloud.",
     "nav": {
       "menu": "Menu",
       "guides": "Gidsen",
@@ -69,9 +69,9 @@
       "single_ios": "De payload, stap voor stap (de iPhone-app verstuurt dezelfde JSON)",
       "single_grafana": "Wat de stack ontvangt, stap voor stap",
       "works_with_app": "Stuurt naar <a href=\"/life-dashboard/home-assistant/\">de Home Assistant-integratie</a>, <a href=\"/life-dashboard/grafana/\">de Grafana-stack</a>, een MQTT-broker of een webhook naar keuze.",
-      "works_with_home-assistant": "Werkt samen met <a href=\"/life-dashboard/android/\">Life Dashboard Companion voor Android</a> en <a href=\"/life-dashboard/ios/\">voor iPhone</a>. Op het dashboard: <a href=\"/life-dashboard/screen-time-card/\">de Screen Time-kaarten</a> en <a href=\"/life-dashboard/sleep-card/\">de Sleep Card</a>.",
-      "works_with_grafana": "Ontvangt van <a href=\"/life-dashboard/android/\">Life Dashboard Companion voor Android</a> en <a href=\"/life-dashboard/ios/\">voor iPhone</a>.",
-      "alternativeto": "Life Dashboard Companion op AlternativeTo",
+      "works_with_home-assistant": "Werkt samen met <a href=\"/life-dashboard/android/\">Life Dashboard voor Android</a> en <a href=\"/life-dashboard/ios/\">voor iPhone</a>. Op het dashboard: <a href=\"/life-dashboard/screen-time-card/\">de Screen Time-kaarten</a> en <a href=\"/life-dashboard/sleep-card/\">de Sleep Card</a>.",
+      "works_with_grafana": "Ontvangt van <a href=\"/life-dashboard/android/\">Life Dashboard voor Android</a> en <a href=\"/life-dashboard/ios/\">voor iPhone</a>.",
+      "alternativeto": "Life Dashboard op AlternativeTo",
       "guides": "Installatiegidsen",
       "what": "Wat het doet",
       "need": "Wat je nodig hebt",
@@ -132,7 +132,7 @@
     "footer": {
       "all_guides": "Alle {n} gidsen",
       "legal": "Merken en bronvermelding",
-      "about": "Life Dashboard is een open-source project van <a href=\"https://github.com/owen282000\">Owen Vogelaar</a> en bestaat uit vier onderdelen: de Life Dashboard Companion-apps voor Android en iPhone, een Home Assistant-integratie en een Grafana-stack. Het heeft niets te maken met andere apps of sjablonen die Life Dashboard heten. Vragen kun je stellen in <a href=\"{discussions}\">Discussions</a>.",
+      "about": "Life Dashboard is een open-source project van <a href=\"https://github.com/owen282000\">Owen Vogelaar</a> en bestaat uit vier onderdelen: de Life Dashboard-apps voor Android en iPhone, een Home Assistant-integratie en een Grafana-stack. Het heeft niets te maken met andere apps of sjablonen die Life Dashboard heten. Vragen kun je stellen in <a href=\"{discussions}\">Discussions</a>.",
       "no_tracking": "Deze site plaatst geen cookies, gebruikt geen analytics en laadt niets van anderen. <a href=\"/privacy/\">Privacy op deze site</a>.",
       "imprint": "Owen Vogelaar, handelend onder de naam oVog Enterprise · KvK 81085583 · <a href=\"mailto:owen282000@hotmail.com\">owen282000@hotmail.com</a>",
       "products": "Producten",
@@ -161,7 +161,7 @@
   "parts": {
     "android": {
       "name": "Android-app",
-      "full": "Life Dashboard Companion voor Android",
+      "full": "Life Dashboard voor Android",
       "line": "Health Connect en schermtijd per app",
       "more": "Bekijk de Android-app",
       "get_title": "Download de Android-app",
@@ -193,7 +193,7 @@
     },
     "ios": {
       "name": "iPhone-app",
-      "full": "Life Dashboard Companion voor iPhone",
+      "full": "Life Dashboard voor iPhone",
       "line": "Apple Health, met dezelfde payload",
       "more": "Bekijk de iPhone-app",
       "get_title": "Download de iPhone-app",
@@ -598,7 +598,7 @@
   },
   "entities": {
     "android": {
-      "description": "Life Dashboard Companion is een open-source Android-app die Health Connect-data en schermtijd per app naar Home Assistant, MQTT of je eigen webhook stuurt, zonder cloud en zonder account.",
+      "description": "Life Dashboard voor Android is een open-source app die Health Connect-data en schermtijd per app naar Home Assistant, MQTT of je eigen webhook stuurt, zonder cloud en zonder account.",
       "operatingSystem": "Android 8.0 of nieuwer (gezondheidsdata: Android 9 of nieuwer met Health Connect)",
       "applicationSubCategory": "Domotica",
       "featureList": [
@@ -611,16 +611,16 @@
       ]
     },
     "ios": {
-      "description": "Life Dashboard Companion voor iPhone is een open-source iPhone-app die Apple Health-data naar Home Assistant, MQTT of je eigen webhook stuurt, zonder cloud en zonder account.",
+      "description": "Life Dashboard voor iPhone is een open-source iPhone-app die Apple Health-data naar Home Assistant, MQTT of je eigen webhook stuurt, zonder cloud en zonder account.",
       "operatingSystem": "iOS 17 of nieuwer"
     },
     "home-assistant": {
-      "description": "De Life Dashboard-integratie is een open-source custom integratie voor Home Assistant, die je installeert via de Marketplace of HACS. Ze maakt van de data uit de Life Dashboard Companion-apps sensoren en langetermijnstatistieken, en je koppelt met een QR-code.",
+      "description": "De Life Dashboard-integratie is een open-source custom integratie voor Home Assistant, die je installeert via de Marketplace of HACS. Ze maakt van de data uit de Life Dashboard-apps sensoren en langetermijnstatistieken, en je koppelt met een QR-code.",
       "operatingSystem": "Home Assistant 2026.3 of nieuwer",
       "applicationSubCategory": "Home Assistant-integratie"
     },
     "grafana": {
-      "description": "De Life Dashboard-stack is een open-source, zelf gehoste backend voor de Life Dashboard Companion-apps: een ontvanger, Postgres en zes Grafana-dashboards, met een alleen-lezen API en een optionele MCP-server, geïnstalleerd met Docker Compose of een Helm-chart.",
+      "description": "De Life Dashboard-stack is een open-source, zelf gehoste backend voor de Life Dashboard-apps: een ontvanger, Postgres en zes Grafana-dashboards, met een alleen-lezen API en een optionele MCP-server, geïnstalleerd met Docker Compose of een Helm-chart.",
       "operatingSystem": "Linux, macOS of Windows met Docker, of Kubernetes",
       "applicationSubCategory": "Zelf gehoste backend",
       "featureList": [
@@ -660,7 +660,7 @@
     },
     "projects": {
       "Health Assistant": "Een zelf gehost gezondheidsdossier. De webhookintegratie heeft een parser voor de payload van Life Dashboard en noemt de app “Highly Recommended for Android Users”.",
-      "HealthQuery": "Een persoonlijk gezondheidsdashboard in SQLite, met rapporten en een MCP-server. De data komt van Life Dashboard Companion.",
+      "HealthQuery": "Een persoonlijk gezondheidsdashboard in SQLite, met rapporten en een MCP-server. De data komt van de Life Dashboard-app.",
       "fitbridge": "Health Connect voor ChatGPT en Claude, zelf gehost op Cloudflare Workers. De app koppelt ermee via een QR-code en stuurt ondertekende updates."
     }
   }

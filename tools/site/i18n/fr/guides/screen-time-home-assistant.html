@@ -1,6 +1,6 @@
 <!--
 title: Temps d’écran Android dans Home Assistant | Life Dashboard
-description: Life Dashboard Companion envoie le temps d’écran Android par application vers Home Assistant : minutes par jour, top des applications et un capteur par application.
+description: L’application Life Dashboard envoie le temps d’écran Android vers Home Assistant : minutes par jour, top des applications et un capteur par application.
 primary query: temps d'écran home assistant android
 secondary queries: temps d'écran par application home assistant, exporter bien-être numérique, bien-être numérique home assistant, utilisation des applications android home assistant, limite de temps d'écran home assistant
 slug: temps-ecran-home-assistant
@@ -10,13 +10,13 @@ published: 2026-10-06
 
 <h1>Comment envoyer le temps d’écran Android par application vers Home Assistant&nbsp;?</h1>
 
-<p>Life Dashboard Companion, une application Android open source, lit les statistiques d’utilisation d’Android, les mêmes chiffres que ceux de Bien-être numérique, et envoie les minutes par application à Home Assistant selon une planification. Avec l’intégration Life Dashboard, vous obtenez le temps d’écran d’aujourd’hui et d’hier, l’application la plus utilisée, les cinq premières applications, un capteur par application si vous en voulez un, et chaque jour dans les statistiques à long terme. Avec MQTT, vous obtenez les mêmes totaux sans les capteurs par application. Des automatisations peuvent alors vous avertir quand vous dépassez une limite que vous fixez vous-même.</p>
+<p>Life Dashboard pour Android, une application open source, lit les statistiques d’utilisation d’Android, les mêmes chiffres que ceux de Bien-être numérique, et envoie les minutes par application à Home Assistant selon une planification. Avec l’intégration Life Dashboard, vous obtenez le temps d’écran d’aujourd’hui et d’hier, l’application la plus utilisée, les cinq premières applications, un capteur par application si vous en voulez un, et chaque jour dans les statistiques à long terme. Avec MQTT, vous obtenez les mêmes totaux sans les capteurs par application. Des automatisations peuvent alors vous avertir quand vous dépassez une limite que vous fixez vous-même.</p>
 
 <h2>Ce qu’il vous faut</h2>
 
 <ul>
   <li>Un téléphone ou une tablette Android sous Android 8.0 ou plus récent. Santé Connect (Health Connect) n’est pas nécessaire.</li>
-  <li><a href="../android/">Life Dashboard Companion pour Android</a>, sur <a href="{{play_url}}">Google Play</a> pour 4,99&nbsp;€ en achat unique, ou gratuitement depuis GitHub Releases, Obtainium ou F-Droid. Les <a href="../android/#get">options d’installation</a> présentent toutes les voies.</li>
+  <li><a href="../android/">Life Dashboard pour Android</a>, sur <a href="{{play_url}}">Google Play</a> pour 4,99&nbsp;€ en achat unique, ou gratuitement depuis GitHub Releases, Obtainium ou F-Droid. Les <a href="../android/#get">options d’installation</a> présentent toutes les voies.</li>
   <li>Home Assistant avec l’<a href="../home-assistant/">intégration Life Dashboard</a>, associée comme dans le <a href="../health-connect-home-assistant/">guide Santé Connect</a>, ou un broker MQTT utilisé par Home Assistant. Les capteurs par application demandent l’intégration 0.9.0 ou plus récente.</li>
 </ul>
 

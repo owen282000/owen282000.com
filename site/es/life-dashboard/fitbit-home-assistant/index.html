@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fitbit en Home Assistant tras cerrar la API | Life Dashboard</title>
-<meta name="description" content="Google apagó la Fitbit Web API el 2 de noviembre de 2026. Life Dashboard Companion lleva Fitbit y Pixel Watch a Home Assistant mediante Health Connect.">
+<meta name="description" content="Google apagó la Fitbit Web API el 2 de noviembre de 2026. La app Life Dashboard lleva Fitbit y Pixel Watch a Home Assistant mediante Health Connect.">
 <link rel="canonical" href="https://owen282000.com/es/life-dashboard/fitbit-home-assistant/">
 <link rel="alternate" hreflang="en" href="https://owen282000.com/life-dashboard/fitbit-home-assistant/">
 <link rel="alternate" hreflang="nl" href="https://owen282000.com/nl/life-dashboard/fitbit-home-assistant/">
@@ -31,17 +31,17 @@
 <meta property="og:locale:alternate" content="pt_BR">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="¿Cómo llevo los datos de Fitbit y Pixel Watch a Home Assistant tras el cierre de la Fitbit Web API?">
-<meta property="og:description" content="Google apagó la Fitbit Web API el 2 de noviembre de 2026. Life Dashboard Companion lleva Fitbit y Pixel Watch a Home Assistant mediante Health Connect.">
+<meta property="og:description" content="Google apagó la Fitbit Web API el 2 de noviembre de 2026. La app Life Dashboard lleva Fitbit y Pixel Watch a Home Assistant mediante Health Connect.">
 <meta property="og:url" content="https://owen282000.com/es/life-dashboard/fitbit-home-assistant/">
 <meta property="og:image" content="https://owen282000.com/life-dashboard/img/social.png">
 <meta property="og:image:width" content="1280">
 <meta property="og:image:height" content="640">
-<meta property="og:image:alt" content="Life Dashboard Companion: tus datos de salud, tu servidor. Sin nube.">
+<meta property="og:image:alt" content="Life Dashboard: tus datos de salud, tu servidor. Sin nube.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="¿Cómo llevo los datos de Fitbit y Pixel Watch a Home Assistant tras el cierre de la Fitbit Web API?">
-<meta name="twitter:description" content="Google apagó la Fitbit Web API el 2 de noviembre de 2026. Life Dashboard Companion lleva Fitbit y Pixel Watch a Home Assistant mediante Health Connect.">
+<meta name="twitter:description" content="Google apagó la Fitbit Web API el 2 de noviembre de 2026. La app Life Dashboard lleva Fitbit y Pixel Watch a Home Assistant mediante Health Connect.">
 <meta name="twitter:image" content="https://owen282000.com/life-dashboard/img/social.png">
-<meta name="twitter:image:alt" content="Life Dashboard Companion: tus datos de salud, tu servidor. Sin nube.">
+<meta name="twitter:image:alt" content="Life Dashboard: tus datos de salud, tu servidor. Sin nube.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -50,7 +50,7 @@
       "@type": "TechArticle",
       "@id": "https://owen282000.com/es/life-dashboard/fitbit-home-assistant/#article",
       "headline": "¿Cómo llevo los datos de Fitbit y Pixel Watch a Home Assistant tras el cierre de la Fitbit Web API?",
-      "description": "Google apagó la Fitbit Web API el 2 de noviembre de 2026. Life Dashboard Companion lleva Fitbit y Pixel Watch a Home Assistant mediante Health Connect.",
+      "description": "Google apagó la Fitbit Web API el 2 de noviembre de 2026. La app Life Dashboard lleva Fitbit y Pixel Watch a Home Assistant mediante Health Connect.",
       "url": "https://owen282000.com/es/life-dashboard/fitbit-home-assistant/",
       "mainEntityOfPage": "https://owen282000.com/es/life-dashboard/fitbit-home-assistant/",
       "inLanguage": "es",
@@ -64,7 +64,7 @@
         {
           "@type": "SoftwareApplication",
           "@id": "https://owen282000.com/life-dashboard/#android",
-          "name": "Life Dashboard Companion"
+          "name": "Life Dashboard for Android"
         },
         {
           "@type": "SoftwareApplication",
@@ -192,7 +192,7 @@
           "name": "¿Necesito un proyecto de Google Cloud o una cuenta de desarrollador de Fitbit?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. Life Dashboard Companion lee Health Connect en el teléfono y envía directamente a Home Assistant. El único ajuste de Google es la sincronización con Health Connect en la app Google Health."
+            "text": "No. La app Life Dashboard lee Health Connect en el teléfono y envía directamente a Home Assistant. El único ajuste de Google es la sincronización con Health Connect en la app Google Health."
           }
         },
         {
@@ -263,9 +263,9 @@
       <nav class="crumbs" aria-label="Ruta de navegación"><a href="/es/life-dashboard/">Life Dashboard</a><span aria-hidden="true">/</span><a href="/es/life-dashboard/guides/">Guías</a><span aria-hidden="true">/</span><span aria-current="page">Fitbit y Pixel Watch en Home Assistant</span></nav>
       <h1>¿Cómo llevo los datos de Fitbit y Pixel Watch a Home Assistant tras el cierre de la Fitbit Web API?</h1>
       <div class="guide-intro">
-<p>Google apagó la Fitbit Web API el 2 de noviembre de 2026. Desde entonces, la integración Fitbit de Home Assistant no recibe datos nuevos: sus sensores dejaron de actualizarse y aparecen como no disponibles, y su log muestra un error 410 Gone. Tu reloj y la app Google Health siguen funcionando, y la app sigue escribiendo tus datos en Health Connect en tu teléfono Android. Life Dashboard Companion, una app de código abierto para Android, los lee ahí y los envía a la integración Life Dashboard de Home Assistant. Esa ruta no usa la Fitbit Web API, y no necesita un proyecto de Google Cloud ni un cliente OAuth.</p>
+<p>Google apagó la Fitbit Web API el 2 de noviembre de 2026. Desde entonces, la integración Fitbit de Home Assistant no recibe datos nuevos: sus sensores dejaron de actualizarse y aparecen como no disponibles, y su log muestra un error 410 Gone. Tu reloj y la app Google Health siguen funcionando, y la app sigue escribiendo tus datos en Health Connect en tu teléfono Android. Life Dashboard para Android, una app de código abierto, los lee ahí y los envía a la integración Life Dashboard de Home Assistant. Esa ruta no usa la Fitbit Web API, y no necesita un proyecto de Google Cloud ni un cliente OAuth.</p>
 
-<p class="flow-line"><span>Fitbit o Pixel Watch</span><span>App Google Health</span><span>Health Connect</span><span>Life Dashboard Companion</span><span>Home Assistant</span></p>
+<p class="flow-line"><span>Fitbit o Pixel Watch</span><span>App Google Health</span><span>Health Connect</span><span>App Life Dashboard</span><span>Home Assistant</span></p>
       </div>
       <p class="guide-meta"><span>Por <a href="/es/">Owen Vogelaar</a>, que mantiene Life Dashboard</span> <span><time datetime="2026-11-20">Actualizado el 20 de noviembre de 2026</time></span> <span>9 min de lectura</span></p>
       <p class="guide-cta"><a class="btn btn-primary" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Abrir en el Marketplace</a></p>
@@ -325,7 +325,7 @@
   <li>Un teléfono Android con Android 9 o posterior. La sincronización de Google con Health Connect necesita además una cuenta de Google de un adulto.</li>
   <li>La app Google Health, vinculada con tu Fitbit o Pixel Watch.</li>
   <li>Home Assistant 2026.3 o posterior, para la <a href="/es/life-dashboard/home-assistant/">integración Life Dashboard</a>. Desde la versión 2026.11 no hay que instalar nada más; las versiones anteriores necesitan <a href="https://hacs.xyz">HACS</a>.</li>
-  <li><a href="/es/life-dashboard/android/">Life Dashboard Companion para Android</a>. Está en Google Play por 4,99&nbsp;€ (4,99&nbsp;USD), pago único, sin suscripción: la forma más cómoda, con actualizaciones automáticas, y al comprarla apoyas el desarrollo. Las vías gratuitas instalan la misma app con la misma clave de firma: el APK firmado de GitHub, Obtainium, que mantiene ese APK actualizado, y F&#8209;Droid, que la compila a partir del código fuente.</li>
+  <li><a href="/es/life-dashboard/android/">Life Dashboard para Android</a>. Está en Google Play por 4,99&nbsp;€ (4,99&nbsp;USD), pago único, sin suscripción: la forma más cómoda, con actualizaciones automáticas, y al comprarla apoyas el desarrollo. Las vías gratuitas instalan la misma app con la misma clave de firma: el APK firmado de GitHub, Obtainium, que mantiene ese APK actualizado, y F&#8209;Droid, que la compila a partir del código fuente.</li>
 </ul>
 
 <h2 id="set-it-up">Configuración paso a paso</h2>
@@ -335,7 +335,7 @@
   <li>En <strong>Ajustes</strong> &gt; <strong>Marketplace</strong> (HACS antes de Home Assistant 2026.11), busca <strong>Life Dashboard</strong> e instálala. En HACS, descárgala y reinicia Home Assistant.</li>
   <li>Si la configuración no se abrió sola, ve a <strong>Ajustes</strong> &gt; <strong>Dispositivos y servicios</strong> &gt; <strong>Añadir integración</strong> y busca <strong>Life Dashboard</strong>. Ponle un nombre al teléfono. En el campo <strong>Home Assistant address</strong>, pon la dirección IP de Home Assistant, por ejemplo <code>http://192.168.1.20:8123</code>; Home Assistant la muestra en <strong>Ajustes</strong> &gt; <strong>Sistema</strong> &gt; <strong>Red</strong>, en la sección <strong>Adaptador de red</strong>. El cuadro de diálogo muestra entonces un código QR.
   <figure class="shot wide"><a class="shot-link" href="/life-dashboard/img/H2-qr.webp?v=abb2ed19" aria-label="La integración Life Dashboard en Home Assistant mostrando un código QR de vinculación, tamaño completo"><img src="/life-dashboard/img/H2-qr.webp?v=abb2ed19" alt="La integración Life Dashboard en Home Assistant mostrando un código QR de vinculación" width="800" height="668" loading="lazy"></a></figure></li>
-  <li>Instala <a href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-es-guide-fitbit-home-assistant%26utm_medium%3Dwebsite">Life Dashboard Companion desde Google Play</a>, donde aparece como Health Data for Home Assistant: 4,99&nbsp;€, pago único, y Google Play la mantiene actualizada. O instálala gratis, la misma app con la misma clave de firma: abre en el teléfono el APK de GitHub y permite una vez las instalaciones desde tu navegador, o agrégala en Obtainium o F&#8209;Droid (<a href="/es/life-dashboard/android/#get">opciones de instalación</a>). Puede que Android te avise antes de instalar un APK que no viene de Play Store; lo hace con cualquier app de otra fuente. Abre la app y, en <strong>¿Adónde deben ir tus datos?</strong>, toca <strong>Escanear un código de vinculación</strong>, escanea el código y toca <strong>Vincular</strong>.</li>
+  <li>Instala <a href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-es-guide-fitbit-home-assistant%26utm_medium%3Dwebsite">Life Dashboard para Android desde Google Play</a>, donde aparece como Health Data for Home Assistant: 4,99&nbsp;€, pago único, y Google Play la mantiene actualizada. O instálala gratis, la misma app con la misma clave de firma: abre en el teléfono el APK de GitHub y permite una vez las instalaciones desde tu navegador, o agrégala en Obtainium o F&#8209;Droid (<a href="/es/life-dashboard/android/#get">opciones de instalación</a>). Puede que Android te avise antes de instalar un APK que no viene de Play Store; lo hace con cualquier app de otra fuente. Abre la app y, en <strong>¿Adónde deben ir tus datos?</strong>, toca <strong>Escanear un código de vinculación</strong>, escanea el código y toca <strong>Vincular</strong>.</li>
   <li>En la pestaña <strong>Salud</strong>, toca <strong>Conceder</strong> y permite tus tipos de datos y la lectura en segundo plano. El ajuste predefinido <strong>Lo esencial</strong> cubre los pasos, el sueño, la frecuencia cardíaca, la frecuencia cardíaca en reposo, la distancia, las calorías y el peso; activa la HRV, la frecuencia respiratoria, la temperatura de la piel y lo demás en <strong>Qué enviar</strong>.</li>
   <li>Toca <strong>Sincronizar ahora</strong>. Para los datos más antiguos, toca <strong>Enviar historial</strong> en <strong>Qué enviar</strong> y elige hasta dónde retroceder, desde <strong>30 días</strong> hasta <strong>Todo el historial</strong>, después de <strong>Conceder acceso al historial</strong> si la página lo muestra.</li>
 </ol>
@@ -395,7 +395,7 @@
 </ul>
 
 <section class="get-panel" aria-labelledby="get-the-app">
-      <h2 id="get-the-app">Life Dashboard Companion</h2>
+      <h2 id="get-the-app">Life Dashboard para Android</h2>
       <p>Dos instalaciones: la integración desde el Marketplace o HACS y la app en tu teléfono. Después, la vinculación es cosa de un minuto.</p>
       <div class="stores">
         <div class="panel-store"><a class="badge-link" href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-es-guide-fitbit-home-assistant%26utm_medium%3Dwebsite"><img class="badge-img" src="/life-dashboard/img/badges/google-play.png?v=a13294f3" alt="Disponible en Google Play" width="564" height="168" loading="lazy"></a>
@@ -429,7 +429,7 @@
   </details>
   <details>
     <summary>¿Necesito un proyecto de Google Cloud o una cuenta de desarrollador de Fitbit?</summary>
-    <p>No. Life Dashboard Companion lee Health Connect en el teléfono y envía directamente a Home Assistant. El único ajuste de Google es la sincronización con Health Connect en la app Google Health.</p>
+    <p>No. La app Life Dashboard lee Health Connect en el teléfono y envía directamente a Home Assistant. El único ajuste de Google es la sincronización con Health Connect en la app Google Health.</p>
   </details>
   <details>
     <summary>¿Puedo enviarlos a otro sitio que no sea Home Assistant?</summary>
@@ -459,7 +459,7 @@
     <div class="foot-top">
       <div class="foot-about">
         <a class="brand" href="/es/life-dashboard/"><img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="32" height="32" loading="lazy"> <span>Life Dashboard</span></a>
-        <p>Life Dashboard es un proyecto de código abierto de <a href="https://github.com/owen282000">Owen Vogelaar</a>, en cuatro partes: las apps Life Dashboard Companion para Android y iPhone, una integración para Home Assistant y un stack de Grafana. No tiene relación con otras apps o plantillas llamadas Life Dashboard. Las preguntas van a <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
+        <p>Life Dashboard es un proyecto de código abierto de <a href="https://github.com/owen282000">Owen Vogelaar</a>, en cuatro partes: las apps Life Dashboard para Android y iPhone, una integración para Home Assistant y un stack de Grafana. No tiene relación con otras apps o plantillas llamadas Life Dashboard. Las preguntas van a <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
       </div>
       <div class="foot-col">
         <h2 class="foot-h">Productos</h2>

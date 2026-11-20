@@ -10,9 +10,9 @@ published: 2026-10-06
 
 <h1>Wie exportiere ich Samsung-Health-Daten auf meinen eigenen Server?</h1>
 
-<p>Schalte die Synchronisierung von Samsung Health mit Health Connect ein und lass dann Life Dashboard Companion, eine Open-Source-App für Android, die Daten als JSON an eine URL deiner Wahl senden. Jede Synchronisierung sendet die neuen Datensätze aus Samsung Health und von der Galaxy Watch an deine Datenbank, deinen n8n-Workflow oder dein Skript, und ein Backfill, also das Nachtragen deines Verlaufs, sendet alles, was in Health Connect liegt.</p>
+<p>Schalte die Synchronisierung von Samsung Health mit Health Connect ein und lass dann Life Dashboard für Android, eine Open-Source-App, die Daten als JSON an eine URL deiner Wahl senden. Jede Synchronisierung sendet die neuen Datensätze aus Samsung Health und von der Galaxy Watch an deine Datenbank, deinen n8n-Workflow oder dein Skript, und ein Backfill, also das Nachtragen deines Verlaufs, sendet alles, was in Health Connect liegt.</p>
 
-<p class="flow-line"><span>Galaxy Watch</span><span>Samsung Health</span><span>Health Connect</span><span>Life Dashboard Companion</span><span>Dein Server</span></p>
+<p class="flow-line"><span>Galaxy Watch</span><span>Samsung Health</span><span>Health Connect</span><span>Life-Dashboard-App</span><span>Dein Server</span></p>
 
 <h2>Warum es über Health Connect läuft</h2>
 
@@ -22,7 +22,7 @@ published: 2026-10-06
 
 <ul>
   <li>Ein Android-Telefon mit Android 9 oder neuer, Health Connect und Samsung Health. Für die Daten deiner Galaxy Watch koppelst du sie mit Samsung Health.</li>
-  <li><a href="../android/">Life Dashboard Companion für Android</a>. {{status:android}}</li>
+  <li><a href="../android/">Life Dashboard für Android</a>. {{status:android}}</li>
   <li>Einen Server, der einen JSON-POST über HTTPS annimmt, mit einem Limit von mindestens 10 MB pro Anfrage. Für einfaches HTTP im eigenen Netz schaltest du unter <strong>Mehr</strong> &gt; <strong>Erweitert</strong> die Option <strong>Einfache HTTP-Webhooks erlauben</strong> ein.</li>
 </ul>
 
@@ -30,7 +30,7 @@ published: 2026-10-06
 
 <ol>
   <li>Geh in Samsung Health zu <strong>Einstellungen</strong> &gt; <strong>Health Connect</strong>, starte die Einrichtung, wähle die Daten aus und erlaube den Zugriff. Lesen und Schreiben werden getrennt erlaubt.</li>
-  <li>Tippe in Life Dashboard Companion auf dem Tab <strong>Gesundheit</strong> auf <strong>Ziel hinzufügen</strong> (solange noch nichts eingerichtet ist: <strong>Eigenen Server verwenden</strong>), trag deine URL unter <strong>Webhook-URL</strong> ein und tippe auf <strong>Webhook hinzufügen</strong>.</li>
+  <li>Tippe in der Life-Dashboard-App auf dem Tab <strong>Gesundheit</strong> auf <strong>Ziel hinzufügen</strong> (solange noch nichts eingerichtet ist: <strong>Eigenen Server verwenden</strong>), trag deine URL unter <strong>Webhook-URL</strong> ein und tippe auf <strong>Webhook hinzufügen</strong>.</li>
   <li>Tippe unter <strong>HMAC-Signaturschlüssel (optional)</strong> auf <strong>Erzeugen</strong> und hinterlege denselben Wert auf deinem Server.</li>
   <li>Tippe oben auf <strong>Sichern</strong>, öffne die Zeile der Adresse auf dem Tab noch einmal und tippe auf <strong>Test senden</strong>.</li>
   <li>Tippe auf <strong>Erteilen</strong> und erlaube deine Datentypen und das Lesen im Hintergrund. Schalte unter <strong>Was senden</strong> die Typen ein, die du haben willst.</li>

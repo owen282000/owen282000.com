@@ -36,12 +36,12 @@
 <meta property="og:image" content="https://owen282000.com/life-dashboard/img/social.png">
 <meta property="og:image:width" content="1280">
 <meta property="og:image:height" content="640">
-<meta property="og:image:alt" content="Life Dashboard Companion : vos données de santé, votre serveur. Sans cloud.">
+<meta property="og:image:alt" content="Life Dashboard : vos données de santé, votre serveur. Sans cloud.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Comment envoyer les données de l’Apple Watch vers Home Assistant ?">
 <meta name="twitter:description" content="Fréquence cardiaque, VFC, phases de sommeil, entraînements et VO2 max de l’Apple Watch dans Home Assistant, via Apple Health sur l’iPhone, avec tout l’historique.">
 <meta name="twitter:image" content="https://owen282000.com/life-dashboard/img/social.png">
-<meta name="twitter:image:alt" content="Life Dashboard Companion : vos données de santé, votre serveur. Sans cloud.">
+<meta name="twitter:image:alt" content="Life Dashboard : vos données de santé, votre serveur. Sans cloud.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -64,7 +64,7 @@
         {
           "@type": "SoftwareApplication",
           "@id": "https://owen282000.com/life-dashboard/#ios",
-          "name": "Life Dashboard Companion for iPhone"
+          "name": "Life Dashboard for iPhone"
         },
         {
           "@type": "SoftwareApplication",
@@ -160,7 +160,7 @@
           "name": "Ai-je besoin d’une application sur l’Apple Watch ?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Non. La montre écrit d’elle-même dans Apple Santé sur l’iPhone, et Life Dashboard Companion, sur l’iPhone, l’y lit."
+            "text": "Non. La montre écrit d’elle-même dans Apple Santé sur l’iPhone, et l’application Life Dashboard, sur l’iPhone, l’y lit."
           }
         },
         {
@@ -247,11 +247,11 @@
       <nav class="crumbs" aria-label="Fil d’Ariane"><a href="/fr/life-dashboard/">Life Dashboard</a><span aria-hidden="true">/</span><a href="/fr/life-dashboard/guides/">Guides</a><span aria-hidden="true">/</span><span aria-current="page">L’Apple Watch dans Home Assistant</span></nav>
       <h1>Comment envoyer les données de l’Apple Watch vers Home Assistant&nbsp;?</h1>
       <div class="guide-intro">
-<p>Votre Apple Watch écrit déjà ce qu’elle mesure dans Apple Health (l’app Santé) sur l’iPhone auquel elle est jumelée. Installez Life Dashboard Companion sur cet iPhone et l’intégration Life Dashboard dans Home Assistant, associez les deux avec un QR code, et la fréquence cardiaque, la variabilité de la fréquence cardiaque, le sommeil, les entraînements et le VO2 max de la montre arrivent sous forme de capteurs, avec tout votre historique dans les statistiques à long terme.</p>
+<p>Votre Apple Watch écrit déjà ce qu’elle mesure dans Apple Health (l’app Santé) sur l’iPhone auquel elle est jumelée. Installez l’application Life Dashboard sur cet iPhone et l’intégration Life Dashboard dans Home Assistant, associez les deux avec un QR code, et la fréquence cardiaque, la variabilité de la fréquence cardiaque, le sommeil, les entraînements et le VO2 max de la montre arrivent sous forme de capteurs, avec tout votre historique dans les statistiques à long terme.</p>
 
 <p>Il n’y a rien à installer sur la montre, et Home Assistant n’a jamais besoin de votre compte Apple. L’application iPhone lit Apple Santé et envoie directement à votre Home Assistant&nbsp;; il n’y a aucun serveur Life Dashboard entre les deux.</p>
 
-<p class="flow-line"><span>Apple Watch</span><span>Apple Santé sur l’iPhone</span><span>Life Dashboard Companion</span><span>Home Assistant</span></p>
+<p class="flow-line"><span>Apple Watch</span><span>Apple Santé sur l’iPhone</span><span>Application Life Dashboard</span><span>Home Assistant</span></p>
       </div>
       <p class="guide-meta"><span>Par <a href="/fr/">Owen Vogelaar</a>, qui développe Life Dashboard</span> <span><time datetime="2026-11-20">Mis à jour le 20 novembre 2026</time></span> <span>6 min de lecture</span></p>
       <p class="guide-cta"><a class="btn btn-primary" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Ouvrir dans le Marketplace</a></p>
@@ -276,7 +276,7 @@
 <ul>
   <li>Une Apple Watch jumelée à un iPhone sous iOS 17 ou plus récent.</li>
   <li>Home Assistant 2026.3 ou plus récent, et l’<a href="/fr/life-dashboard/home-assistant/">intégration Life Dashboard</a> 0.7.1 ou plus récente. À partir de la version 2026.11, il n’y a rien d’autre à installer&nbsp;; les versions plus anciennes ont besoin de <a href="https://hacs.xyz">HACS</a>.</li>
-  <li><a href="/fr/life-dashboard/ios/">Life Dashboard Companion pour iPhone</a>. Elle est sur l’App Store pour 6,99 € en achat unique (5,99 $US), sans abonnement. La compiler à partir du code source avec Xcode ne coûte rien de plus si vous avez déjà une adhésion à l’Apple Developer Program.</li>
+  <li><a href="/fr/life-dashboard/ios/">Life Dashboard pour iPhone</a>. Elle est sur l’App Store pour 6,99 € en achat unique (5,99 $US), sans abonnement. La compiler à partir du code source avec Xcode ne coûte rien de plus si vous avez déjà une adhésion à l’Apple Developer Program.</li>
 </ul>
 
 <h2 id="set-it-up">La mise en place</h2>
@@ -284,7 +284,7 @@
 <ol>
   <li>Dans <strong>Paramètres</strong> &gt; <strong>Marketplace</strong> (HACS avant Home Assistant 2026.11), cherchez <strong>Life Dashboard</strong> et installez-le. Avec HACS, téléchargez-le puis redémarrez Home Assistant. Si la configuration ne s’est pas ouverte d’elle-même, ajoutez l’intégration dans <strong>Paramètres</strong> &gt; <strong>Appareils et services</strong>. Donnez-lui un nom pour l’iPhone, et elle affiche un QR code.
   <figure class="shot wide"><a class="shot-link" href="/life-dashboard/img/H2-qr.webp?v=abb2ed19" aria-label="L’intégration Life Dashboard dans Home Assistant, qui affiche un QR code d’association, taille réelle"><img src="/life-dashboard/img/H2-qr.webp?v=abb2ed19" alt="L’intégration Life Dashboard dans Home Assistant, qui affiche un QR code d’association" width="800" height="668" loading="lazy"></a></figure></li>
-  <li>Installez Life Dashboard Companion sur l’iPhone, touchez <strong>Scanner un code d’association</strong> pendant sa configuration, scannez le code puis touchez <strong>Associer</strong>.</li>
+  <li>Installez l’application Life Dashboard sur l’iPhone, touchez <strong>Scanner un code d’association</strong> pendant sa configuration, scannez le code puis touchez <strong>Associer</strong>.</li>
   <li>Sous <strong>Données à envoyer</strong>, activez les types que la montre enregistre, énumérés ci-dessous, et autorisez l’accès à Santé.</li>
   <li>Touchez <strong>Synchroniser maintenant</strong>, puis <strong>Envoyer l’historique</strong> sous <strong>Données à envoyer</strong>, et choisissez jusqu’où remonter, de 30 jours à <strong>Tout l’historique</strong>. Home Assistant enregistre chaque jour à sa propre date.</li>
 </ol>
@@ -345,7 +345,7 @@
 </ul>
 
 <section class="get-panel" aria-labelledby="get-the-app">
-      <h2 id="get-the-app">Life Dashboard Companion</h2>
+      <h2 id="get-the-app">Life Dashboard pour iPhone</h2>
       <p>Votre montre écrit déjà dans Apple Santé. Ajoutez l’intégration depuis le Marketplace ou HACS et l’application sur votre iPhone, puis associez-les avec un seul QR code.</p>
       <div class="stores">
         <div class="panel-store"><a class="badge-link" href="https://apps.apple.com/app/apple-store/id6824075761?pt=128699800&amp;ct=site-fr-guide-apple-watch&amp;mt=8"><img class="badge-img" src="/life-dashboard/img/badges/app-store.svg?v=a26fc5b3" alt="Télécharger dans l’App Store" width="120" height="40" loading="lazy"></a>
@@ -363,7 +363,7 @@
   <h2 id="faq">Questions fréquentes</h2>
   <details>
     <summary>Ai-je besoin d’une application sur l’Apple Watch&nbsp;?</summary>
-    <p>Non. La montre écrit d’elle-même dans Apple Santé sur l’iPhone, et Life Dashboard Companion, sur l’iPhone, l’y lit.</p>
+    <p>Non. La montre écrit d’elle-même dans Apple Santé sur l’iPhone, et l’application Life Dashboard, sur l’iPhone, l’y lit.</p>
   </details>
   <details>
     <summary>Pourquoi les données de ma montre arrivent-elles en retard dans Home Assistant&nbsp;?</summary>
@@ -401,7 +401,7 @@
     <div class="foot-top">
       <div class="foot-about">
         <a class="brand" href="/fr/life-dashboard/"><img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="32" height="32" loading="lazy"> <span>Life Dashboard</span></a>
-        <p>Life Dashboard est un projet open source d’<a href="https://github.com/owen282000">Owen Vogelaar</a>, en quatre éléments : les applications Life Dashboard Companion pour Android et iPhone, une intégration Home Assistant et une stack Grafana. Il n’a aucun lien avec d’autres applications ou modèles appelés Life Dashboard. Pour vos questions, rendez-vous dans <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
+        <p>Life Dashboard est un projet open source d’<a href="https://github.com/owen282000">Owen Vogelaar</a>, en quatre éléments : les applications Life Dashboard pour Android et iPhone, une intégration Home Assistant et une stack Grafana. Il n’a aucun lien avec d’autres applications ou modèles appelés Life Dashboard. Pour vos questions, rendez-vous dans <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
       </div>
       <div class="foot-col">
         <h2 class="foot-h">Produits</h2>

@@ -1,7 +1,7 @@
 <!--
 slug: samsung-health-gegevens-exporteren
 title: Samsung Health gegevens exporteren als JSON | Life Dashboard
-description: Life Dashboard Companion exporteert gegevens van Samsung Health en Galaxy Watch via Health Connect naar je eigen server, n8n-flow of script, als ondertekende JSON.
+description: De Life Dashboard-app exporteert gegevens van Samsung Health en Galaxy Watch via Health Connect naar je eigen server, n8n-flow of script, als ondertekende JSON.
 primary query: samsung health gegevens exporteren
 secondary queries: samsung health exporteren, samsung health api, galaxy watch gegevens exporteren, samsung health naar database, samsung health json, samsung health postgres, samsung health webhook, galaxy watch api
 updated: 2026-11-20
@@ -10,9 +10,9 @@ published: 2026-10-06
 
 <h1>Hoe exporteer ik mijn Samsung Health-gegevens naar mijn eigen server?</h1>
 
-<p>Zet in Samsung Health de synchronisatie met Health Connect aan en laat daarna Life Dashboard Companion, een open-source app voor Android, de data als JSON naar een URL sturen die je zelf kiest. Elke sync stuurt de nieuwe records van Samsung Health en je Galaxy Watch naar je database, n8n-flow of script, en een backfill, waarmee de app je oude data alsnog verstuurt, stuurt alles wat er in Health Connect staat.</p>
+<p>Zet in Samsung Health de synchronisatie met Health Connect aan en laat daarna Life Dashboard voor Android, een open-source app, de data als JSON naar een URL sturen die je zelf kiest. Elke sync stuurt de nieuwe records van Samsung Health en je Galaxy Watch naar je database, n8n-flow of script, en een backfill, waarmee de app je oude data alsnog verstuurt, stuurt alles wat er in Health Connect staat.</p>
 
-<p class="flow-line"><span>Galaxy Watch</span><span>Samsung Health</span><span>Health Connect</span><span>Life Dashboard Companion</span><span>Je server</span></p>
+<p class="flow-line"><span>Galaxy Watch</span><span>Samsung Health</span><span>Health Connect</span><span>Life Dashboard-app</span><span>Je server</span></p>
 
 <h2>Waarom het via Health Connect gaat</h2>
 
@@ -22,7 +22,7 @@ published: 2026-10-06
 
 <ul>
   <li>Een Android-telefoon met Android 9 of nieuwer, Health Connect en Samsung Health. Koppel je Galaxy Watch met Samsung Health voor de data van het horloge.</li>
-  <li><a href="../android/">Life Dashboard Companion voor Android</a>. {{status:android}}</li>
+  <li><a href="../android/">Life Dashboard voor Android</a>. {{status:android}}</li>
   <li>Een server die een JSON-POST over HTTPS accepteert, met een limiet voor de body van minstens 10 MB. Voor onversleutelde HTTP op je eigen netwerk zet je <strong>Onversleutelde HTTP-webhooks toestaan</strong> aan onder <strong>Meer</strong> &gt; <strong>Geavanceerd</strong>.</li>
 </ul>
 
@@ -30,7 +30,7 @@ published: 2026-10-06
 
 <ol>
   <li>Ga in Samsung Health naar <strong>Instellingen</strong> &gt; <strong>Health Connect</strong>, tik op <strong>Get started</strong>, kies de data en tik op <strong>Toestaan</strong>. Lezen en schrijven sta je apart toe.</li>
-  <li>Tik in Life Dashboard Companion op het tabblad <strong>Gezondheid</strong> op <strong>Bestemming toevoegen</strong> (als er nog niets is ingesteld: <strong>Je eigen server gebruiken</strong>), vul je URL in onder <strong>Webhook-URL</strong> en tik op <strong>Webhook toevoegen</strong>.</li>
+  <li>Tik in de Life Dashboard-app op het tabblad <strong>Gezondheid</strong> op <strong>Bestemming toevoegen</strong> (als er nog niets is ingesteld: <strong>Je eigen server gebruiken</strong>), vul je URL in onder <strong>Webhook-URL</strong> en tik op <strong>Webhook toevoegen</strong>.</li>
   <li>Tik onder <strong>HMAC-ondertekeningssleutel (optioneel)</strong> op <strong>Genereren</strong> en zet dezelfde waarde op je server.</li>
   <li>Tik bovenaan op <strong>Bewaren</strong>, open de rij van het adres op het tabblad opnieuw en tik op <strong>Test versturen</strong>.</li>
   <li>Tik op <strong>Toestaan</strong> en geef toestemming voor je datatypes en voor lezen op de achtergrond. Zet onder <strong>Wat versturen</strong> de types aan die je wilt.</li>

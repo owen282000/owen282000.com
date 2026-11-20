@@ -12,12 +12,12 @@ published: 2026-10-06
 
 <p class="signpost">Quer o contrário, os dados do Samsung Health do seu relógio no Home Assistant? Veja <a href="../samsung-health-home-assistant/">Samsung Health e Galaxy Watch no Home Assistant</a>.</p>
 
-<p>Mapeie as entidades da balança na integração Life Dashboard e ative <strong>Receber</strong> no Life Dashboard Companion, o app Android de código aberto que pareia com ela. Na sincronização seguinte, a integração entrega cada medição nova ao app, e o app a grava no Conexão Saúde (Health Connect) com o horário em que ela foi feita. O Samsung Health e o Google Health leem peso e gordura corporal do Conexão Saúde, então o peso e a gordura corporal de uma balança que só conversa com o Home Assistant vão parar nesses apps. O mesmo vale para um medidor de pressão arterial, mas se um app mostra essa medição depende do app.</p>
+<p>Mapeie as entidades da balança na integração Life Dashboard e ative <strong>Receber</strong> no Life Dashboard para Android, o app de código aberto que pareia com ela. Na sincronização seguinte, a integração entrega cada medição nova ao app, e o app a grava no Conexão Saúde (Health Connect) com o horário em que ela foi feita. O Samsung Health e o Google Health leem peso e gordura corporal do Conexão Saúde, então o peso e a gordura corporal de uma balança que só conversa com o Home Assistant vão parar nesses apps. O mesmo vale para um medidor de pressão arterial, mas se um app mostra essa medição depende do app.</p>
 
 <h2>O que você precisa</h2>
 
 <ul>
-  <li>Um celular Android com o Conexão Saúde e o Life Dashboard Companion, pareado com a <a href="../home-assistant/">integração Life Dashboard</a> 0.7.0 ou mais recente. O <a href="../health-connect-home-assistant/">guia do Conexão Saúde</a> explica o pareamento. O app para iPhone não recebe medições, e o MQTT não consegue transportá-las.</li>
+  <li>Um celular Android com o Conexão Saúde e o app Life Dashboard, pareado com a <a href="../home-assistant/">integração Life Dashboard</a> 0.7.0 ou mais recente. O <a href="../health-connect-home-assistant/">guia do Conexão Saúde</a> explica o pareamento. O app para iPhone não recebe medições, e o MQTT não consegue transportá-las.</li>
   <li>As medições da balança como sensores no Home Assistant. Uma balança Bluetooth precisa de Bluetooth a poucos metros: um adaptador na máquina do Home Assistant, ou um proxy Bluetooth do ESPHome perto do banheiro.</li>
 </ul>
 

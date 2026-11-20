@@ -1,7 +1,7 @@
 <!--
 slug: exportar-datos-samsung-health
 title: Exportar datos Samsung Health a tu servidor | Life Dashboard
-description: Life Dashboard Companion exporta los datos de Samsung Health y Galaxy Watch desde Health Connect a tu servidor, flujo de n8n o script, como JSON firmado.
+description: La app Life Dashboard exporta los datos de Samsung Health y Galaxy Watch desde Health Connect a tu servidor, flujo de n8n o script, como JSON firmado.
 primary query: exportar datos samsung health
 secondary queries: samsung health exportar, api de samsung health, exportar datos galaxy watch, samsung health a base de datos, samsung health json, samsung health postgres, samsung health webhook, api galaxy watch
 updated: 2026-11-20
@@ -10,9 +10,9 @@ published: 2026-10-06
 
 <h1>¿Cómo exporto los datos de Samsung Health a mi propio servidor?</h1>
 
-<p>Activa la sincronización de Samsung Health con Health Connect y deja que Life Dashboard Companion, una app de código abierto para Android, envíe los datos como JSON a la URL que elijas. Cada sincronización envía los registros nuevos de Samsung Health y del Galaxy Watch a tu base de datos, flujo de n8n o script, y un backfill, el envío de todo tu historial anterior, envía todo lo que hay en Health Connect.</p>
+<p>Activa la sincronización de Samsung Health con Health Connect y deja que Life Dashboard para Android, una app de código abierto, envíe los datos como JSON a la URL que elijas. Cada sincronización envía los registros nuevos de Samsung Health y del Galaxy Watch a tu base de datos, flujo de n8n o script, y un backfill, el envío de todo tu historial anterior, envía todo lo que hay en Health Connect.</p>
 
-<p class="flow-line"><span>Galaxy Watch</span><span>Samsung Health</span><span>Health Connect</span><span>Life Dashboard Companion</span><span>Tu servidor</span></p>
+<p class="flow-line"><span>Galaxy Watch</span><span>Samsung Health</span><span>Health Connect</span><span>App Life Dashboard</span><span>Tu servidor</span></p>
 
 <h2>Por qué pasa por Health Connect</h2>
 
@@ -22,7 +22,7 @@ published: 2026-10-06
 
 <ul>
   <li>Un teléfono Android con Android 9 o posterior, Health Connect y Samsung Health. Vincula tu Galaxy Watch con Samsung Health para tener sus datos.</li>
-  <li><a href="../android/">Life Dashboard Companion para Android</a>. {{status:android}}</li>
+  <li><a href="../android/">Life Dashboard para Android</a>. {{status:android}}</li>
   <li>Un servidor que acepte un POST con JSON por HTTPS, con un límite de cuerpo de al menos 10 MB. El HTTP sin cifrar en tu propia red necesita <strong>Permitir webhooks con HTTP sin cifrar</strong> en <strong>Más</strong> &gt; <strong>Avanzado</strong>.</li>
 </ul>
 
@@ -30,7 +30,7 @@ published: 2026-10-06
 
 <ol>
   <li>En Samsung Health, ve a <strong>Ajustes</strong> &gt; <strong>Health Connect</strong>, toca <strong>Get started</strong>, elige los datos y toca <strong>Permitir</strong>. La lectura y la escritura se conceden por separado.</li>
-  <li>En Life Dashboard Companion, en la pestaña <strong>Salud</strong>, toca <strong>Agregar destino</strong> (si todavía no hay nada configurado, <strong>Usar tu propio servidor</strong>), escribe tu URL en <strong>URL del webhook</strong> y toca <strong>Agregar webhook</strong>.</li>
+  <li>En la app Life Dashboard, en la pestaña <strong>Salud</strong>, toca <strong>Agregar destino</strong> (si todavía no hay nada configurado, <strong>Usar tu propio servidor</strong>), escribe tu URL en <strong>URL del webhook</strong> y toca <strong>Agregar webhook</strong>.</li>
   <li>En <strong>Secreto de firma HMAC (opcional)</strong>, toca <strong>Generar</strong> y pon el mismo valor en tu servidor.</li>
   <li>Toca <strong>Guardar</strong> en la parte superior, abre otra vez la fila de la dirección en la pestaña y toca <strong>Enviar prueba</strong>.</li>
   <li>Toca <strong>Conceder</strong> y permite tus tipos de datos y la lectura en segundo plano. Activa los tipos que quieras en <strong>Qué enviar</strong>.</li>

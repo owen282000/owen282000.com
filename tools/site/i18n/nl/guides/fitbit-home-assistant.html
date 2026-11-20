@@ -1,6 +1,6 @@
 <!--
 title: Fitbit in Home Assistant nu de API is gestopt | Life Dashboard
-description: Google heeft de Fitbit Web API op 2 november 2026 uitgezet. Life Dashboard Companion haalt Fitbit- en Pixel Watch-gegevens via Health Connect naar Home Assistant.
+description: Google heeft de Fitbit Web API op 2 november 2026 uitgezet. De Life Dashboard-app haalt Fitbit- en Pixel Watch-gegevens via Health Connect naar Home Assistant.
 primary query: fitbit home assistant
 secondary queries: fitbit 410 gone home assistant, error fetching fitbit data 410, fitbit api gestopt home assistant, fitbit integratie werkt niet meer home assistant, fitbit home assistant werkt niet, pixel watch home assistant, fitbit web api stopt, google health home assistant, google health home assistant integratie, fitbit health connect, fitbit integratie niet beschikbaar, pixel watch health connect, fitbit slaap home assistant
 updated: 2026-11-20
@@ -9,9 +9,9 @@ published: 2026-10-06
 
 <h1>Hoe krijg ik data van Fitbit en Pixel Watch in Home Assistant nu de Fitbit Web API is gestopt?</h1>
 
-<p>Google heeft de Fitbit Web API op 2 november 2026 uitgezet. Sindsdien krijgt de Fitbit-integratie van Home Assistant geen nieuwe data meer: de sensoren werken niet meer bij en staan op niet beschikbaar, en in het log staat een fout 410 Gone. Je horloge en de Google Health-app blijven werken, en de app blijft je data naar Health Connect op je Android-telefoon schrijven. Life Dashboard Companion, een open-source Android-app, leest ze daar en stuurt ze naar de Life Dashboard-integratie in Home Assistant. Die route gebruikt de Fitbit Web API niet, en je hebt er geen Google Cloud-project of OAuth-client voor nodig.</p>
+<p>Google heeft de Fitbit Web API op 2 november 2026 uitgezet. Sindsdien krijgt de Fitbit-integratie van Home Assistant geen nieuwe data meer: de sensoren werken niet meer bij en staan op niet beschikbaar, en in het log staat een fout 410 Gone. Je horloge en de Google Health-app blijven werken, en de app blijft je data naar Health Connect op je Android-telefoon schrijven. Life Dashboard voor Android, een open-source app, leest ze daar en stuurt ze naar de Life Dashboard-integratie in Home Assistant. Die route gebruikt de Fitbit Web API niet, en je hebt er geen Google Cloud-project of OAuth-client voor nodig.</p>
 
-<p class="flow-line"><span>Fitbit of Pixel Watch</span><span>Google Health-app</span><span>Health Connect</span><span>Life Dashboard Companion</span><span>Home Assistant</span></p>
+<p class="flow-line"><span>Fitbit of Pixel Watch</span><span>Google Health-app</span><span>Health Connect</span><span>Life Dashboard-app</span><span>Home Assistant</span></p>
 
 <h2>Wat er op 2 november 2026 is gestopt</h2>
 
@@ -52,7 +52,7 @@ published: 2026-10-06
   <li>Een Android-telefoon met Android 9 of nieuwer. Voor de Health Connect-sync van Google heb je ook een Google-account van een volwassene nodig.</li>
   <li>De Google Health-app, gekoppeld met je Fitbit of Pixel Watch.</li>
   <li>Home Assistant 2026.3 of nieuwer, voor de <a href="../home-assistant/">Life Dashboard-integratie</a>. Vanaf 2026.11 hoef je verder niets te installeren; oudere versies hebben <a href="https://hacs.xyz">HACS</a> nodig.</li>
-  <li><a href="../android/">Life Dashboard Companion voor Android</a>. {{status:android}}</li>
+  <li><a href="../android/">Life Dashboard voor Android</a>. {{status:android}}</li>
 </ul>
 
 <h2>Zo stel je het in</h2>
@@ -62,7 +62,7 @@ published: 2026-10-06
   <li>Zoek onder <strong>Instellingen</strong> &gt; <strong>Marketplace</strong> (HACS vóór Home Assistant 2026.11) naar <strong>Life Dashboard</strong> en installeer de integratie. Met HACS download je de integratie en herstart je Home Assistant.</li>
   <li>Ging de installatie niet vanzelf open, ga dan naar <strong>Instellingen</strong> &gt; <strong>Apparaten &amp; diensten</strong> &gt; <strong>Integratie toevoegen</strong> en zoek naar <strong>Life Dashboard</strong>. Geef de telefoon een naam. Vul in het veld <strong>Home Assistant address</strong> het IP-adres van Home Assistant in, zoals <code>http://192.168.1.20:8123</code>; Home Assistant toont het onder <strong>Instellingen</strong> &gt; <strong>Systeem</strong> &gt; <strong>Netwerk</strong>, in het gedeelte <strong>Network adapter</strong>. Daarna toont het venster een QR-code.</li>
   <!-- IMG: the QR code in Home Assistant (H2-qr.png) -->
-  <li>Installeer <a href="{{play_url}}">Life Dashboard Companion uit Google Play</a> (daar heet de app Health Data for Home Assistant), €&nbsp;4,99 eenmalig, dan blijft de app vanzelf bijgewerkt. Of installeer de app gratis, dezelfde app met dezelfde ondertekeningssleutel: open de APK van GitHub op de telefoon en sta installeren vanuit je browser één keer toe, of voeg de app toe in Obtainium of F-Droid (<a href="../android/#get">installatieopties</a>). Android kan je waarschuwen voordat het een APK van buiten de Play Store installeert; dat doet het bij elke app uit een andere bron. Open de app, tik bij <strong>Waar moet je data naartoe?</strong> op <strong>Koppelcode scannen</strong>, scan de code en tik op <strong>Koppelen</strong>.</li>
+  <li>Installeer <a href="{{play_url}}">Life Dashboard voor Android uit Google Play</a> (daar heet de app Health Data for Home Assistant), €&nbsp;4,99 eenmalig, dan blijft de app vanzelf bijgewerkt. Of installeer de app gratis, dezelfde app met dezelfde ondertekeningssleutel: open de APK van GitHub op de telefoon en sta installeren vanuit je browser één keer toe, of voeg de app toe in Obtainium of F-Droid (<a href="../android/#get">installatieopties</a>). Android kan je waarschuwen voordat het een APK van buiten de Play Store installeert; dat doet het bij elke app uit een andere bron. Open de app, tik bij <strong>Waar moet je data naartoe?</strong> op <strong>Koppelcode scannen</strong>, scan de code en tik op <strong>Koppelen</strong>.</li>
   <li>Tik op het tabblad <strong>Gezondheid</strong> op <strong>Toestaan</strong> en geef toegang tot je datatypes en tot lezen op de achtergrond. De voorinstelling <strong>De basis</strong> bevat stappen, slaap, hartslag, hartslag in rust, afstand, calorieën en gewicht; HRV, ademfrequentie, huidtemperatuur en de rest zet je aan onder <strong>Wat versturen</strong>.</li>
   <li>Tik op <strong>Nu synchroniseren</strong>. Tik voor oudere data op <strong>Geschiedenis versturen</strong> onder <strong>Wat versturen</strong> en kies hoe ver terug, van <strong>30 dagen</strong> tot <strong>Alles</strong>, na <strong>Toegang tot geschiedenis geven</strong> als de pagina dat toont.</li>
 </ol>
@@ -141,7 +141,7 @@ published: 2026-10-06
   </details>
   <details>
     <summary>Heb ik een Google Cloud-project of een Fitbit-ontwikkelaarsaccount nodig?</summary>
-    <p>Nee. Life Dashboard Companion leest Health Connect op de telefoon en stuurt rechtstreeks naar Home Assistant. De enige instelling bij Google is de Health Connect-sync in de Google Health-app.</p>
+    <p>Nee. De Life Dashboard-app leest Health Connect op de telefoon en stuurt rechtstreeks naar Home Assistant. De enige instelling bij Google is de Health Connect-sync in de Google Health-app.</p>
   </details>
   <details>
     <summary>Kan ik het ook ergens anders naartoe sturen dan Home Assistant?</summary>

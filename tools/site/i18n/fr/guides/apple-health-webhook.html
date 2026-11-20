@@ -1,6 +1,6 @@
 <!--
 title: Apple Health vers un webhook, automatiquement | Life Dashboard
-description: Exportez Apple Health (Santé) automatiquement : Life Dashboard Companion envoie les données de votre iPhone vers votre webhook en JSON signé, en arrière-plan.
+description: Exportez Apple Health (Santé) automatiquement : l’application Life Dashboard envoie les données de votre iPhone vers votre webhook en JSON signé, en arrière-plan.
 primary query: apple health webhook
 secondary queries: exporter apple santé automatiquement, apple health json, exporter apple santé vers un serveur, api apple health auto-hébergée, webhook healthkit, apple health node-red, apple health postgres, envoyer données apple santé vers un serveur
 updated: 2026-11-20
@@ -9,20 +9,20 @@ published: 2026-10-21
 
 <h1>Comment envoyer automatiquement les données d’Apple Health vers un webhook&nbsp;?</h1>
 
-<p>Installez Life Dashboard Companion sur votre iPhone, ajoutez votre URL avec <strong>Ajouter une destination</strong> dans l’onglet <strong>Santé</strong>, et choisissez sous <strong>Données à envoyer</strong> les types d’Apple Health (l’app Santé de l’iPhone) à envoyer. Dès lors, l’application lit Apple Santé en arrière-plan selon la planification que vous réglez et envoie chaque nouvel enregistrement à votre URL en JSON&nbsp;: pas, sommeil avec ses phases, fréquence cardiaque, variabilité de la fréquence cardiaque, poids, tension artérielle, entraînements et d’autres encore, 28 types au total, chaque enregistrement avec un <code>uuid</code> stable et l’application ou l’appareil qui l’a écrit.</p>
+<p>Installez l’application Life Dashboard sur votre iPhone, ajoutez votre URL avec <strong>Ajouter une destination</strong> dans l’onglet <strong>Santé</strong>, et choisissez sous <strong>Données à envoyer</strong> les types d’Apple Health (l’app Santé de l’iPhone) à envoyer. Dès lors, l’application lit Apple Santé en arrière-plan selon la planification que vous réglez et envoie chaque nouvel enregistrement à votre URL en JSON&nbsp;: pas, sommeil avec ses phases, fréquence cardiaque, variabilité de la fréquence cardiaque, poids, tension artérielle, entraînements et d’autres encore, 28 types au total, chaque enregistrement avec un <code>uuid</code> stable et l’application ou l’appareil qui l’a écrit.</p>
 
 <p>Avec un secret défini, chaque requête est signée en HMAC-SHA256 dans un en-tête <code>X-Signature</code>. Un payload qui ne peut pas être livré attend dans une file sur l’iPhone, et un enregistrement que vous supprimez dans Apple Santé est nommé dans le payload suivant. Le payload est celui de l’application Android&nbsp;: un seul récepteur accepte donc aussi bien un iPhone qu’un téléphone Android.</p>
 
-<p class="flow-line"><span>iPhone ou Apple Watch</span><span>Apple Santé</span><span>Life Dashboard Companion</span><span>Votre URL</span></p>
+<p class="flow-line"><span>iPhone ou Apple Watch</span><span>Apple Santé</span><span>Application Life Dashboard</span><span>Votre URL</span></p>
 
 <h2>Pourquoi il faut une application sur l’iPhone</h2>
 
-<p>Apple Santé n’a pas d’API web. Les données vivent sur l’iPhone, et les applications les lisent par HealthKit d’Apple&nbsp;: quelque chose sur l’iPhone doit donc les lire et les transmettre. Life Dashboard Companion s’en charge et envoie directement aux URL que vous saisissez. Il n’y a ni compte ni serveur Life Dashboard sur le trajet, et l’application n’a ni mesure d’audience, ni rapport de plantage, ni publicité. Le guide <a href="../health-data-api/">Une API web pour Santé Connect ou Apple Santé</a> en dit plus.</p>
+<p>Apple Santé n’a pas d’API web. Les données vivent sur l’iPhone, et les applications les lisent par HealthKit d’Apple&nbsp;: quelque chose sur l’iPhone doit donc les lire et les transmettre. L’application Life Dashboard s’en charge et envoie directement aux URL que vous saisissez. Il n’y a ni compte ni serveur Life Dashboard sur le trajet, et l’application n’a ni mesure d’audience, ni rapport de plantage, ni publicité. Le guide <a href="../health-data-api/">Une API web pour Santé Connect ou Apple Santé</a> en dit plus.</p>
 
 <h2>Ce qu’il vous faut</h2>
 
 <ul>
-  <li>Un iPhone sous iOS 17 ou plus récent, et <a href="../ios/">Life Dashboard Companion pour iPhone</a>. {{status:ios}}</li>
+  <li>Un iPhone sous iOS 17 ou plus récent, et <a href="../ios/">Life Dashboard pour iPhone</a>. {{status:ios}}</li>
   <li>Un serveur qui accepte un POST JSON. Utilisez <code>https://</code>. iOS n’autorise le simple <code>http://</code> que vers une adresse IP, un nom en <code>.local</code> ou un nom sans point, ce qui est prévu pour votre propre réseau.</li>
 </ul>
 

@@ -1,6 +1,6 @@
 <!--
 title: Garmin in Home Assistant über Health Connect | Life Dashboard
-description: Life Dashboard Companion sendet Daten aus Garmin Connect über Health Connect an Home Assistant: Schritte, Schlafphasen und Herzfrequenz, ohne Garmin-Login.
+description: Die Life-Dashboard-App sendet Daten aus Garmin Connect über Health Connect an Home Assistant: Schritte, Schlafphasen und Herzfrequenz, ohne Garmin-Login.
 primary query: garmin home assistant
 secondary queries: garmin connect home assistant, garmin health connect, garmin uhr home assistant, garmin schlaf home assistant, garmin schritte home assistant, garmin home assistant ohne login, garmin connect integration login fehler, forerunner home assistant, garmin herzfrequenz home assistant
 updated: 2026-11-20
@@ -9,9 +9,9 @@ published: 2026-10-06
 
 <h1>Wie bekomme ich Garmin-Daten in Home Assistant?</h1>
 
-<p>Lass Garmin Connect auf deinem Android-Telefon in Health Connect schreiben und lass dann Life Dashboard Companion, eine Open-Source-App für Android, die Daten an die Life-Dashboard-Integration in Home Assistant senden. Home Assistant braucht nie deinen Garmin-Benutzernamen, dein Passwort oder deinen MFA-Code. Eine Änderung an Garmins Login kann diesen Weg also nicht kaputt machen.</p>
+<p>Lass Garmin Connect auf deinem Android-Telefon in Health Connect schreiben und lass dann Life Dashboard für Android, eine Open-Source-App, die Daten an die Life-Dashboard-Integration in Home Assistant senden. Home Assistant braucht nie deinen Garmin-Benutzernamen, dein Passwort oder deinen MFA-Code. Eine Änderung an Garmins Login kann diesen Weg also nicht kaputt machen.</p>
 
-<p class="flow-line"><span>Garmin-Uhr</span><span>Garmin Connect</span><span>Health Connect</span><span>Life Dashboard Companion</span><span>Home Assistant</span></p>
+<p class="flow-line"><span>Garmin-Uhr</span><span>Garmin Connect</span><span>Health Connect</span><span>Life-Dashboard-App</span><span>Home Assistant</span></p>
 
 <h2>Was ankommt und was bei Garmin bleibt</h2>
 
@@ -34,7 +34,7 @@ published: 2026-10-06
 <ul>
   <li>Ein Android-Telefon mit Android 14 oder neuer und Garmin Connect 5.14.1 oder neuer, gekoppelt mit deiner Uhr.</li>
   <li>Home Assistant 2026.3 oder neuer, für die <a href="../home-assistant/">Life-Dashboard-Integration</a>. Ab 2026.11 musst du nichts weiter installieren; ältere Versionen brauchen <a href="https://hacs.xyz">HACS</a>.</li>
-  <li><a href="../android/">Life Dashboard Companion für Android</a>. {{status:android}}</li>
+  <li><a href="../android/">Life Dashboard für Android</a>. {{status:android}}</li>
 </ul>
 
 <h2>So richtest du es ein</h2>
@@ -44,7 +44,7 @@ published: 2026-10-06
   <li>Suche unter <strong>Einstellungen</strong> &gt; <strong>Marketplace</strong> (vor Home Assistant 2026.11: HACS) nach <strong>Life Dashboard</strong> und installiere die Integration. Mit HACS lädst du sie herunter und startest Home Assistant neu.</li>
   <li>Wenn sich die Einrichtung nicht von selbst öffnet, geh zu <strong>Einstellungen</strong> &gt; <strong>Geräte &amp; Dienste</strong> &gt; <strong>Integration hinzufügen</strong> und suche nach <strong>Life Dashboard</strong>. Gib dem Telefon einen Namen. Trag im Feld <strong>Home-Assistant-Adresse</strong> die IP-Adresse von Home Assistant ein, etwa <code>http://192.168.1.20:8123</code>; Home Assistant zeigt sie unter <strong>Einstellungen</strong> &gt; <strong>System</strong> &gt; <strong>Netzwerk</strong>, im Abschnitt <strong>Netzwerkadapter</strong>. Danach zeigt der Dialog einen QR-Code.</li>
   <!-- IMG: the QR code in Home Assistant (H2-qr.png) -->
-  <li>Installiere <a href="{{play_url}}">Life Dashboard Companion von Google Play</a>, dort unter dem Namen „Health Data for Home Assistant“, für 4,99&nbsp;€ einmalig. Dann bleibt die App von selbst aktuell. Oder installiere sie kostenlos, dieselbe App mit demselben Signaturschlüssel: Öffne die APK von GitHub auf dem Telefon und erlaube deinem Browser einmalig die Installation, oder füge sie in Obtainium oder F-Droid hinzu (<a href="../android/#get">alle Wege zur App</a>). Android warnt vielleicht, bevor es eine APK von außerhalb des Play Store installiert; das tut es bei jeder App aus einer anderen Quelle. Öffne die App, tippe bei <strong>Wohin sollen deine Daten?</strong> auf <strong>Kopplungscode scannen</strong>, scanne den Code und tippe auf <strong>Koppeln</strong>.</li>
+  <li>Installiere <a href="{{play_url}}">Life Dashboard für Android von Google Play</a>, dort unter dem Namen „Health Data for Home Assistant“, für 4,99&nbsp;€ einmalig. Dann bleibt die App von selbst aktuell. Oder installiere sie kostenlos, dieselbe App mit demselben Signaturschlüssel: Öffne die APK von GitHub auf dem Telefon und erlaube deinem Browser einmalig die Installation, oder füge sie in Obtainium oder F-Droid hinzu (<a href="../android/#get">alle Wege zur App</a>). Android warnt vielleicht, bevor es eine APK von außerhalb des Play Store installiert; das tut es bei jeder App aus einer anderen Quelle. Öffne die App, tippe bei <strong>Wohin sollen deine Daten?</strong> auf <strong>Kopplungscode scannen</strong>, scanne den Code und tippe auf <strong>Koppeln</strong>.</li>
   <li>Tippe auf dem Tab <strong>Gesundheit</strong> auf <strong>Erteilen</strong> und erlaube deine Datentypen und das Lesen im Hintergrund. Die Auswahl <strong>Das Wesentliche</strong> schaltet auch die Ruheherzfrequenz ein, die Garmin nicht teilt; sie bekommt also keinen Sensor. Körperfett und Trainings schaltest du bei Bedarf unter <strong>Was senden</strong> ein.</li>
   <li>Tippe auf <strong>Jetzt synchronisieren</strong>. Für ältere Daten tippst du unter <strong>Was senden</strong> auf <strong>Verlauf senden</strong> und wählst, wie weit zurück, von <strong>30 Tage</strong> bis <strong>Alles</strong>. Zeigt die Seite <strong>Verlaufszugriff erteilen</strong>, tippst du vorher darauf.</li>
 </ol>

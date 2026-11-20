@@ -1,6 +1,6 @@
 <!--
 title: Home Assistant Companion y Health Connect | Life Dashboard
-description: Los 36 sensores de Health Connect de la app Companion muestran el último valor. Life Dashboard Companion agrega el historial en su fecha y 34 tipos de datos.
+description: Los 36 sensores de Health Connect de la app Companion muestran el último valor. La app Life Dashboard agrega el historial en su fecha y 34 tipos de datos.
 primary query: home assistant companion health connect
 secondary queries: sensores health connect home assistant historial, app companion home assistant health connect solo último valor, app companion health connect estadísticas a largo plazo, health connect backfill home assistant, app companion health connect fases del sueño, app companion health connect ejercicio
 updated: 2026-11-20
@@ -11,7 +11,7 @@ published: 2026-10-14
 
 <p>Para el último valor, sí. La app Companion para Android tiene 36 sensores de Health Connect, cada uno con la lectura más reciente o el total de hoy. No tiene forma de cargar datos más antiguos, guarda cada valor en el momento en que el sensor se actualiza y no en el día al que pertenece, y no escribe en Health Connect. Life Dashboard lee 34 tipos y agrega un backfill, el envío de todo tu historial anterior, en las fechas correctas, las mediciones de básculas y tensiómetros escritas de vuelta y el tiempo de pantalla por app. Las dos funcionan a la vez.</p>
 
-<p class="flow-line"><span>Health Connect</span><span>Life Dashboard Companion</span><span>Integración Life Dashboard</span><span>Cada día en su fecha</span></p>
+<p class="flow-line"><span>Health Connect</span><span>App Life Dashboard</span><span>Integración Life Dashboard</span><span>Cada día en su fecha</span></p>
 
 <h2>Qué lee la app Companion</h2>
 
@@ -60,7 +60,7 @@ published: 2026-10-14
 
 <h2>Qué agrega Life Dashboard</h2>
 
-<p>Life Dashboard es una app de código abierto para Android, Life Dashboard Companion, más la <a href="../home-assistant/">integración Life Dashboard</a> del Marketplace (HACS antes de Home Assistant 2026.11). La app lee Health Connect y envía cada registro con su propia hora, y la integración lo guarda en esa fecha.</p>
+<p>Life Dashboard es una app de código abierto, Life Dashboard para Android, más la <a href="../home-assistant/">integración Life Dashboard</a> del Marketplace (HACS antes de Home Assistant 2026.11). La app lee Health Connect y envía cada registro con su propia hora, y la integración lo guarda en esa fecha.</p>
 
 <ul>
   <li><strong>34 tipos, 27 como sensores.</strong> Eso incluye tres sensores para los entrenamientos, el último y los minutos de hoy y de ayer, y desde la integración 1.2.0 las calorías, las proteínas, los carbohidratos y las grasas que comiste hoy. Por MQTT son 25, sin los entrenamientos ni la comida. Las comidas sueltas, el mindfulness, la actividad sexual y el seguimiento del ciclo no tienen un valor único que mostrar; un webhook propio los recibe como registros.</li>
@@ -105,7 +105,7 @@ published: 2026-10-14
 
 <p>Ninguna estorba a la otra. Cada una lee Health Connect con su propio permiso, y Home Assistant las muestra como dispositivos separados. Conserva la app Companion para la presencia, las notificaciones y los sensores del dispositivo. Si agregas Life Dashboard para los datos de salud, puedes desactivar los sensores de Health Connect de la app Companion en <strong>Manage Sensors</strong> para no ver cada valor dos veces.</p>
 
-<p>Para agregar Life Dashboard necesitas Home Assistant 2026.3 o posterior, más <a href="https://hacs.xyz">HACS</a> en las versiones anteriores a la 2026.11, y <a href="../android/">Life Dashboard Companion para Android</a>. {{status:android}} La <a href="../health-connect-home-assistant/">guía de Health Connect para Home Assistant</a> tiene todos los pasos, desde el código QR hasta una tarjeta en tu dashboard.</p>
+<p>Para agregar Life Dashboard necesitas Home Assistant 2026.3 o posterior, más <a href="https://hacs.xyz">HACS</a> en las versiones anteriores a la 2026.11, y <a href="../android/">Life Dashboard para Android</a>. {{status:android}} La <a href="../health-connect-home-assistant/">guía de Health Connect para Home Assistant</a> tiene todos los pasos, desde el código QR hasta una tarjeta en tu dashboard.</p>
 
 <!-- IMG: the QR code in Home Assistant (H2-qr.png) -->
 

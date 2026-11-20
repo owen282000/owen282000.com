@@ -36,12 +36,12 @@
 <meta property="og:image" content="https://owen282000.com/life-dashboard/img/social.png">
 <meta property="og:image:width" content="1280">
 <meta property="og:image:height" content="640">
-<meta property="og:image:alt" content="Life Dashboard Companion: deine Gesundheitsdaten, dein Server. Keine Cloud.">
+<meta property="og:image:alt" content="Life Dashboard: deine Gesundheitsdaten, dein Server. Keine Cloud.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Reicht die Companion-App von Home Assistant für Health-Connect-Daten?">
 <meta name="twitter:description" content="Die 36 Health-Connect-Sensoren der Companion-App zeigen den letzten Wert. Life Dashboard ergänzt den Verlauf am richtigen Datum, 34 Typen und das Zurückschreiben.">
 <meta name="twitter:image" content="https://owen282000.com/life-dashboard/img/social.png">
-<meta name="twitter:image:alt" content="Life Dashboard Companion: deine Gesundheitsdaten, dein Server. Keine Cloud.">
+<meta name="twitter:image:alt" content="Life Dashboard: deine Gesundheitsdaten, dein Server. Keine Cloud.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -64,7 +64,7 @@
         {
           "@type": "SoftwareApplication",
           "@id": "https://owen282000.com/life-dashboard/#android",
-          "name": "Life Dashboard Companion"
+          "name": "Life Dashboard for Android"
         },
         {
           "@type": "SoftwareApplication",
@@ -249,7 +249,7 @@
       <div class="guide-intro">
 <p>Für den letzten Wert: ja. Die Companion-App für Android hat 36 Health-Connect-Sensoren, jeder mit dem neuesten Messwert oder der Summe von heute. Ältere Daten kann sie nicht laden, sie legt einen Wert in dem Moment ab, in dem sich der Sensor aktualisiert, statt an dem Tag, zu dem er gehört, und sie schreibt nicht in Health Connect. Life Dashboard liest 34 Typen und ergänzt einen Backfill, also das Nachtragen deines ganzen Verlaufs am richtigen Datum, dazu zurückgeschriebene Messwerte von Waage und Blutdruckmessgerät und die Bildschirmzeit pro App. Beide laufen nebeneinander.</p>
 
-<p class="flow-line"><span>Health Connect</span><span>Life Dashboard Companion</span><span>Life-Dashboard-Integration</span><span>Jeder Tag auf seinem eigenen Datum</span></p>
+<p class="flow-line"><span>Health Connect</span><span>Life-Dashboard-App</span><span>Life-Dashboard-Integration</span><span>Jeder Tag auf seinem eigenen Datum</span></p>
       </div>
       <p class="guide-meta"><span>Von <a href="/de/">Owen Vogelaar</a>, der Life Dashboard entwickelt</span> <span><time datetime="2026-11-20">Aktualisiert am 20. November 2026</time></span> <span>7 Min. Lesezeit</span></p>
       <p class="guide-cta"><a class="btn btn-primary" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Im Marketplace öffnen</a></p>
@@ -317,7 +317,7 @@
 
 <h2 id="what-life-dashboard-adds">Was Life Dashboard ergänzt</h2>
 
-<p>Life Dashboard besteht aus einer Open-Source-App für Android, Life Dashboard Companion, und der <a href="/de/life-dashboard/home-assistant/">Life-Dashboard-Integration</a> aus dem Marketplace (vor Home Assistant 2026.11: HACS). Die App liest Health Connect und sendet jeden Datensatz mit seiner eigenen Zeit, und die Integration legt ihn auf diesem Datum ab.</p>
+<p>Life Dashboard besteht aus einer Open-Source-App, Life Dashboard für Android, und der <a href="/de/life-dashboard/home-assistant/">Life-Dashboard-Integration</a> aus dem Marketplace (vor Home Assistant 2026.11: HACS). Die App liest Health Connect und sendet jeden Datensatz mit seiner eigenen Zeit, und die Integration legt ihn auf diesem Datum ab.</p>
 
 <ul>
   <li><strong>34 Typen, 27 als Sensoren.</strong> Dazu gehören drei Sensoren für Trainings, das letzte und die Minuten von heute und gestern, und seit Version 1.2.0 der Integration die Kalorien, das Eiweiß, die Kohlenhydrate und das Fett, die du heute gegessen hast. Über MQTT sind es 25, ohne die Trainings und das Essen. Einzelne Mahlzeiten, Achtsamkeit, sexuelle Aktivität und Zyklusprotokoll lassen sich nicht als einzelner Wert zeigen; ein eigener Webhook bekommt sie als Datensätze.</li>
@@ -362,7 +362,7 @@
 
 <p>Die beiden kommen sich nicht in die Quere. Jede liest Health Connect mit ihrer eigenen Berechtigung, und Home Assistant zeigt sie als getrennte Geräte. Behalte die Companion-App für Anwesenheit, Benachrichtigungen und Gerätesensoren. Nimmst du Life Dashboard für die Gesundheitsdaten dazu, kannst du die Health-Connect-Sensoren der Companion-App unter <strong>Sensoren verwalten</strong> ausschalten, damit du nicht jeden Wert doppelt siehst.</p>
 
-<p>Für Life Dashboard brauchst du Home Assistant 2026.3 oder neuer, bei Versionen vor 2026.11 zusätzlich <a href="https://hacs.xyz">HACS</a>, und <a href="/de/life-dashboard/android/">Life Dashboard Companion für Android</a>. Es gibt sie bei Google Play für 4,99&nbsp;€ einmalig (4,99&nbsp;US$), ohne Abo: der bequeme Weg, mit automatischen Updates, und mit dem Kauf unterstützt du die Entwicklung. Die kostenlosen Wege installieren dieselbe App mit demselben Signaturschlüssel: die signierte APK von GitHub, Obtainium, das diese APK aktuell hält, und F&#8209;Droid, das sie aus dem Quellcode baut. Die <a href="/de/life-dashboard/home-assistant-gesundheitsdaten/">Anleitung Gesundheitsdaten in Home Assistant</a> beschreibt jeden Schritt, vom QR-Code bis zur Kachel auf deinem Dashboard.</p>
+<p>Für Life Dashboard brauchst du Home Assistant 2026.3 oder neuer, bei Versionen vor 2026.11 zusätzlich <a href="https://hacs.xyz">HACS</a>, und <a href="/de/life-dashboard/android/">Life Dashboard für Android</a>. Es gibt sie bei Google Play für 4,99&nbsp;€ einmalig (4,99&nbsp;US$), ohne Abo: der bequeme Weg, mit automatischen Updates, und mit dem Kauf unterstützt du die Entwicklung. Die kostenlosen Wege installieren dieselbe App mit demselben Signaturschlüssel: die signierte APK von GitHub, Obtainium, das diese APK aktuell hält, und F&#8209;Droid, das sie aus dem Quellcode baut. Die <a href="/de/life-dashboard/home-assistant-gesundheitsdaten/">Anleitung Gesundheitsdaten in Home Assistant</a> beschreibt jeden Schritt, vom QR-Code bis zur Kachel auf deinem Dashboard.</p>
 
 <figure class="shot wide"><a class="shot-link" href="/life-dashboard/img/H2-qr.webp?v=abb2ed19" aria-label="Die Life-Dashboard-Integration in Home Assistant mit dem QR-Code zum Koppeln, in voller Größe"><img src="/life-dashboard/img/H2-qr.webp?v=abb2ed19" alt="Die Life-Dashboard-Integration in Home Assistant mit dem QR-Code zum Koppeln" width="800" height="668" loading="lazy"></a></figure>
 
@@ -377,7 +377,7 @@
 </ul>
 
 <section class="get-panel" aria-labelledby="get-the-app">
-      <h2 id="get-the-app">Life Dashboard Companion</h2>
+      <h2 id="get-the-app">Life Dashboard für Android</h2>
       <p>Behalte die Companion-App. Dazu kommen die Integration aus dem Marketplace oder aus HACS und die App auf deinem Telefon. Kopple mit einem QR-Code und starte danach einen Backfill.</p>
       <div class="stores">
         <div class="panel-store"><a class="badge-link" href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-de-guide-companion-app-health-connect%26utm_medium%3Dwebsite"><img class="badge-img" src="/life-dashboard/img/badges/google-play.png?v=a13294f3" alt="Jetzt bei Google Play" width="564" height="168" loading="lazy"></a>
@@ -433,7 +433,7 @@
     <div class="foot-top">
       <div class="foot-about">
         <a class="brand" href="/de/life-dashboard/"><img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="32" height="32" loading="lazy"> <span>Life Dashboard</span></a>
-        <p>Life Dashboard ist ein Open-Source-Projekt von <a href="https://github.com/owen282000">Owen Vogelaar</a> und besteht aus vier Teilen: den Apps Life Dashboard Companion für Android und iPhone, einer Home-Assistant-Integration und einem Grafana-Stack. Mit anderen Apps oder Vorlagen namens Life Dashboard hat es nichts zu tun. Fragen kannst du in den <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a> stellen.</p>
+        <p>Life Dashboard ist ein Open-Source-Projekt von <a href="https://github.com/owen282000">Owen Vogelaar</a> und besteht aus vier Teilen: den Life-Dashboard-Apps für Android und iPhone, einer Home-Assistant-Integration und einem Grafana-Stack. Mit anderen Apps oder Vorlagen namens Life Dashboard hat es nichts zu tun. Fragen kannst du in den <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a> stellen.</p>
       </div>
       <div class="foot-col">
         <h2 class="foot-h">Produkte</h2>

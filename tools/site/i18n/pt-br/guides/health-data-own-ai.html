@@ -10,7 +10,7 @@ published: 2026-10-06
 
 <h1>Como perguntar à minha própria IA sobre meus dados do Conexão Saúde (Health Connect) ou do Apple Health via MCP?</h1>
 
-<p>Envie seus dados com o Life Dashboard Companion, de um celular Android ou de um iPhone, para a stack Life Dashboard, inicie o servidor MCP que já vem na stack e conecte um modelo que saiba usar ferramentas MCP. Um modelo local pelo Ollama mantém tudo no seu próprio hardware, e o Claude Desktop ou outro cliente na nuvem pode usar o mesmo servidor. Se os seus dados vão para o Home Assistant, o ha-mcp lê o histórico dele; se vão para um Postgres seu, o DBHub faz isso. Funciona para os dados do Conexão Saúde (Health Connect) vindos do Samsung Health, da Fitbit, da Garmin e de outros apps, para os dados do Apple Health (o app Saúde do iPhone) vindos de um iPhone e de um Apple Watch, e também na Europa, onde os conectores de saúde do Claude e do ChatGPT não estão disponíveis.</p>
+<p>Envie seus dados com o app Life Dashboard, de um celular Android ou de um iPhone, para a stack Life Dashboard, inicie o servidor MCP que já vem na stack e conecte um modelo que saiba usar ferramentas MCP. Um modelo local pelo Ollama mantém tudo no seu próprio hardware, e o Claude Desktop ou outro cliente na nuvem pode usar o mesmo servidor. Se os seus dados vão para o Home Assistant, o ha-mcp lê o histórico dele; se vão para um Postgres seu, o DBHub faz isso. Funciona para os dados do Conexão Saúde (Health Connect) vindos do Samsung Health, da Fitbit, da Garmin e de outros apps, para os dados do Apple Health (o app Saúde do iPhone) vindos de um iPhone e de um Apple Watch, e também na Europa, onde os conectores de saúde do Claude e do ChatGPT não estão disponíveis.</p>
 
 <p>O app em si não contém IA e nunca fala com um modelo, e a stack também não. O servidor MCP só responde a um cliente que você conecta, e o modelo lê o que o seu receptor já armazena, por uma conexão que não consegue alterar nada.</p>
 
@@ -134,7 +134,7 @@ GRANT SELECT ON records, daily_totals TO llm_ro;</code></pre>
 
 <p>Muitos servidores MCP para o Apple Health leem uma exportação que você faz à mão no app Saúde, então as respostas deles param no dia dessa exportação. Aqui o app do iPhone continua enviando dados novos para a stack no seu próprio servidor, e as mesmas ferramentas leem um celular Android ao lado dele.</p>
 
-<p>Pareie o <a href="../ios/">Life Dashboard Companion para iPhone</a> com a stack ou com a integração pelo QR code, ative os tipos do Apple Health que você quer em <strong>O que enviar</strong> e rode ali o <strong>Enviar histórico</strong> com <strong>1 ano</strong>, para dar ao modelo um ano para ler. O que um Apple Watch registra, como frequência cardíaca, VFC, fases do sono e treinos, vem junto pelo Apple Health; <a href="../apple-watch-home-assistant/">Apple Watch no Home Assistant</a> lista tudo. Algumas coisas são diferentes do Android:</p>
+<p>Pareie o <a href="../ios/">Life Dashboard para iPhone</a> com a stack ou com a integração pelo QR code, ative os tipos do Apple Health que você quer em <strong>O que enviar</strong> e rode ali o <strong>Enviar histórico</strong> com <strong>1 ano</strong>, para dar ao modelo um ano para ler. O que um Apple Watch registra, como frequência cardíaca, VFC, fases do sono e treinos, vem junto pelo Apple Health; <a href="../apple-watch-home-assistant/">Apple Watch no Home Assistant</a> lista tudo. Algumas coisas são diferentes do Android:</p>
 
 <ul>
   <li><strong>VFC.</strong> O Apple Health guarda SDNN e o Conexão Saúde guarda RMSSD. A stack mantém os dois separados como duas métricas de <code>trend</code>, <code>hrv_sdnn</code> para um iPhone e <code>hrv_rmssd</code> para o Android, e nunca faz a média dos dois juntos. Peça a que o seu celular envia.</li>
@@ -168,7 +168,7 @@ GRANT SELECT ON records, daily_totals TO llm_ro;</code></pre>
 <section class="faq">
   <h2>FAQ</h2>
   <details>
-    <summary>O Life Dashboard Companion envia meus dados para uma IA?</summary>
+    <summary>O app Life Dashboard envia meus dados para uma IA?</summary>
     <p>Não. O app não contém IA e nunca fala com um modelo, e a stack não envia nada a nenhuma IA por conta própria. O app envia só para os destinos que você configura; um modelo lê do seu receptor depois que você conecta um.</p>
   </details>
   <details>
@@ -181,11 +181,11 @@ GRANT SELECT ON records, daily_totals TO llm_ro;</code></pre>
   </details>
   <details>
     <summary>Existe um servidor MCP para o Health Connect?</summary>
-    <p>Não no celular: o Conexão Saúde não tem API web, então um servidor não consegue lê-lo diretamente. O Life Dashboard Companion envia os dados para um servidor seu, e a stack Life Dashboard tem um servidor MCP embutido, com oito ferramentas somente leitura para dias, noites, treinos, tendências, tempo de tela e o que cada celular enviou. No Home Assistant, o ha-mcp lê o histórico da integração, e em um Postgres seu, o DBHub em modo somente leitura faz isso. Funciona para o Samsung Health, a Fitbit, a Garmin e qualquer outro app que grave no Conexão Saúde, para os tipos que cada app compartilha ali.</p>
+    <p>Não no celular: o Conexão Saúde não tem API web, então um servidor não consegue lê-lo diretamente. O app Life Dashboard envia os dados para um servidor seu, e a stack Life Dashboard tem um servidor MCP embutido, com oito ferramentas somente leitura para dias, noites, treinos, tendências, tempo de tela e o que cada celular enviou. No Home Assistant, o ha-mcp lê o histórico da integração, e em um Postgres seu, o DBHub em modo somente leitura faz isso. Funciona para o Samsung Health, a Fitbit, a Garmin e qualquer outro app que grave no Conexão Saúde, para os tipos que cada app compartilha ali.</p>
   </details>
   <details>
     <summary>Existe um servidor MCP para o Apple Health?</summary>
-    <p>Não no iPhone: o Apple Health não tem API web, então um servidor não consegue lê-lo diretamente. O Life Dashboard Companion para iPhone envia os dados do Apple Health, os do Apple Watch incluídos, para a stack Life Dashboard, cujo servidor MCP dá a um modelo as mesmas oito ferramentas somente leitura do Android. No Home Assistant, o ha-mcp lê o histórico da integração, e em um Postgres seu, o DBHub em modo somente leitura faz isso.</p>
+    <p>Não no iPhone: o Apple Health não tem API web, então um servidor não consegue lê-lo diretamente. O Life Dashboard para iPhone envia os dados do Apple Health, os do Apple Watch incluídos, para a stack Life Dashboard, cujo servidor MCP dá a um modelo as mesmas oito ferramentas somente leitura do Android. No Home Assistant, o ha-mcp lê o histórico da integração, e em um Postgres seu, o DBHub em modo somente leitura faz isso.</p>
   </details>
   <details>
     <summary>Por que não o servidor MCP nativo do Home Assistant?</summary>

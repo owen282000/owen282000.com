@@ -36,12 +36,12 @@
 <meta property="og:image" content="https://owen282000.com/life-dashboard/img/social.png">
 <meta property="og:image:width" content="1280">
 <meta property="og:image:height" content="640">
-<meta property="og:image:alt" content="Life Dashboard Companion: seus dados de saúde, seu servidor. Sem nuvem.">
+<meta property="og:image:alt" content="Life Dashboard: seus dados de saúde, seu servidor. Sem nuvem.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Como levar os dados do Apple Health para o n8n?">
 <meta name="twitter:description" content="Dados do Apple Health do iPhone em um workflow do n8n: um nó Webhook, a verificação HMAC em um nó Code e depois Postgres, Google Sheets ou aviso no Telegram.">
 <meta name="twitter:image" content="https://owen282000.com/life-dashboard/img/social.png">
-<meta name="twitter:image:alt" content="Life Dashboard Companion: seus dados de saúde, seu servidor. Sem nuvem.">
+<meta name="twitter:image:alt" content="Life Dashboard: seus dados de saúde, seu servidor. Sem nuvem.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -64,7 +64,7 @@
         {
           "@type": "SoftwareApplication",
           "@id": "https://owen282000.com/life-dashboard/#ios",
-          "name": "Life Dashboard Companion for iPhone"
+          "name": "Life Dashboard for iPhone"
         }
       ],
       "datePublished": "2026-10-21",
@@ -242,11 +242,11 @@
       <nav class="crumbs" aria-label="Trilha de navegação"><a href="/pt-br/life-dashboard/">Life Dashboard</a><span aria-hidden="true">/</span><a href="/pt-br/life-dashboard/guides/">Guias</a><span aria-hidden="true">/</span><span aria-current="page">Apple Health para o n8n</span></nav>
       <h1>Como levar os dados do Apple Health para o n8n?</h1>
       <div class="guide-intro">
-<p>Instale o Life Dashboard Companion no iPhone e informe a URL de produção de um nó Webhook do n8n como o webhook dele. No n8n, ative a opção <strong>Raw Body</strong> do nó Webhook, verifique o HMAC do <code>X-Signature</code> em um nó Code, responda 204 com um nó <strong>Respond to Webhook</strong> e depois armazene cada registro usando <code>type</code> e <code>uuid</code> como chave. Tudo o que está no Apple Health (o app Saúde do iPhone) chega ao n8n assim, venha do iPhone, de um Apple Watch ou de outro app que grave ali.</p>
+<p>Instale o app Life Dashboard no iPhone e informe a URL de produção de um nó Webhook do n8n como o webhook dele. No n8n, ative a opção <strong>Raw Body</strong> do nó Webhook, verifique o HMAC do <code>X-Signature</code> em um nó Code, responda 204 com um nó <strong>Respond to Webhook</strong> e depois armazene cada registro usando <code>type</code> e <code>uuid</code> como chave. Tudo o que está no Apple Health (o app Saúde do iPhone) chega ao n8n assim, venha do iPhone, de um Apple Watch ou de outro app que grave ali.</p>
 
 <p>O app do iPhone envia o mesmo payload do app para Android, então o workflow é o de <a href="/pt-br/life-dashboard/health-connect-n8n/">Conexão Saúde (Health Connect) para o n8n</a>, e um único workflow atende os dois celulares. Esta página traz o workflow inteiro de novo, com os pontos em que o payload de um iPhone difere. O payload em si, as novas tentativas e a fila estão em <a href="/pt-br/life-dashboard/apple-health-webhook/">Apple Health para um webhook</a>.</p>
 
-<p class="flow-line"><span>iPhone ou Apple Watch</span><span>Apple Health</span><span>Life Dashboard Companion</span><span>n8n</span></p>
+<p class="flow-line"><span>iPhone ou Apple Watch</span><span>Apple Health</span><span>App Life Dashboard</span><span>n8n</span></p>
       </div>
       <p class="guide-meta"><span>Por <a href="/pt-br/">Owen Vogelaar</a>, que mantém o Life Dashboard</span> <span><time datetime="2026-11-20">Atualizado em 20 de novembro de 2026</time></span> <span>11 min de leitura</span></p>
       <p class="guide-cta"><a class="btn btn-primary" href="/pt-br/life-dashboard/ios/#get">Baixar o app para iPhone</a></p>
@@ -274,7 +274,7 @@
 <h2 id="what-you-need">O que você precisa</h2>
 
 <ul>
-  <li>O <a href="/pt-br/life-dashboard/ios/">Life Dashboard Companion para iPhone</a> no iOS 17 ou mais recente. Está na App Store por €&nbsp;6,99 uma única vez (US$&nbsp;5,99), sem assinatura. Compilar a partir do código-fonte com o Xcode não custa nada a mais se você já tem uma assinatura do Apple Developer Program.</li>
+  <li>O <a href="/pt-br/life-dashboard/ios/">Life Dashboard para iPhone</a> no iOS 17 ou mais recente. Está na App Store por €&nbsp;6,99 uma única vez (US$&nbsp;5,99), sem assinatura. Compilar a partir do código-fonte com o Xcode não custa nada a mais se você já tem uma assinatura do Apple Developer Program.</li>
   <li>O n8n, no n8n Cloud ou auto-hospedado, acessível a partir do iPhone. Use HTTPS. O iOS só permite <code>http://</code> sem criptografia para um endereço IP, um nome <code>.local</code> ou um nome sem ponto, e pergunta uma vez sobre o acesso à rede local: permita, se o n8n fica em casa.</li>
   <li>Espaço para requisições grandes. O n8n aceita até 16 MB por padrão, mas um proxy reverso na frente dele também precisa permitir isso: o nginx permite 1 MB por padrão.</li>
   <li>O módulo <code>crypto</code> no nó Code. O n8n Cloud já o oferece. No n8n auto-hospedado, defina <code>NODE_FUNCTION_ALLOW_BUILTIN=crypto</code>, no task runner se você usa um.</li>
@@ -466,7 +466,7 @@ return (p?.daily_totals ?? []).map(d =&gt; ({ json: d }));</code></pre>
 </ul>
 
 <section class="get-panel" aria-labelledby="get-the-app">
-      <h2 id="get-the-app">Life Dashboard Companion</h2>
+      <h2 id="get-the-app">Life Dashboard para iPhone</h2>
       <p>Instale o app, coloque nele a URL de produção do seu workflow publicado e toque em <strong>Ping de teste</strong>. A referência do payload traz a mesma verificação com um nó Crypto.</p>
       <div class="stores">
         <div class="panel-store"><a class="badge-link" href="https://apps.apple.com/app/apple-store/id6824075761?pt=128699800&amp;ct=site-pt-br-guide-apple-health-n8n&amp;mt=8"><img class="badge-img" src="/life-dashboard/img/badges/app-store.svg?v=a26fc5b3" alt="Baixar na App Store" width="120" height="40" loading="lazy"></a>
@@ -522,7 +522,7 @@ return (p?.daily_totals ?? []).map(d =&gt; ({ json: d }));</code></pre>
     <div class="foot-top">
       <div class="foot-about">
         <a class="brand" href="/pt-br/life-dashboard/"><img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="32" height="32" loading="lazy"> <span>Life Dashboard</span></a>
-        <p>O Life Dashboard é um projeto de código aberto de <a href="https://github.com/owen282000">Owen Vogelaar</a>, em quatro partes: os apps Life Dashboard Companion para Android e iPhone, uma integração para o Home Assistant e uma stack do Grafana. Não tem relação com outros apps ou modelos chamados Life Dashboard. Dúvidas vão para as <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
+        <p>O Life Dashboard é um projeto de código aberto de <a href="https://github.com/owen282000">Owen Vogelaar</a>, em quatro partes: os apps Life Dashboard para Android e iPhone, uma integração para o Home Assistant e uma stack do Grafana. Não tem relação com outros apps ou modelos chamados Life Dashboard. Dúvidas vão para as <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
       </div>
       <div class="foot-col">
         <h2 class="foot-h">Produtos</h2>

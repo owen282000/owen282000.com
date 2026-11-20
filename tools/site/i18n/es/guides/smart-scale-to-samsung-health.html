@@ -12,12 +12,12 @@ published: 2026-10-06
 
 <p class="signpost">¿Quieres al revés, los datos de Samsung Health de tu reloj en Home Assistant? Consulta <a href="../samsung-health-home-assistant/">Samsung Health y Galaxy Watch en Home Assistant</a>.</p>
 
-<p>Asigna las entidades de la báscula en la integración Life Dashboard y activa <strong>Recibir</strong> en Life Dashboard Companion, la app de código abierto para Android que se vincula con ella. En la siguiente sincronización, la integración entrega cada medición nueva a la app, y la app la escribe en Health Connect con la hora en que se midió. Samsung Health y Google Health leen el peso y la grasa corporal de Health Connect, así que el peso y la grasa corporal de una báscula que solo se comunica con Home Assistant acaban en esas apps. Lo mismo funciona con un tensiómetro, aunque que una app muestre esa medición depende de la app.</p>
+<p>Asigna las entidades de la báscula en la integración Life Dashboard y activa <strong>Recibir</strong> en Life Dashboard para Android, la app de código abierto que se vincula con ella. En la siguiente sincronización, la integración entrega cada medición nueva a la app, y la app la escribe en Health Connect con la hora en que se midió. Samsung Health y Google Health leen el peso y la grasa corporal de Health Connect, así que el peso y la grasa corporal de una báscula que solo se comunica con Home Assistant acaban en esas apps. Lo mismo funciona con un tensiómetro, aunque que una app muestre esa medición depende de la app.</p>
 
 <h2>Qué necesitas</h2>
 
 <ul>
-  <li>Un teléfono Android con Health Connect y Life Dashboard Companion, vinculado con la <a href="../home-assistant/">integración Life Dashboard</a> 0.7.0 o posterior. La <a href="../health-connect-home-assistant/">guía de Health Connect</a> explica la vinculación. La app para iPhone no recibe mediciones, y MQTT no puede transportarlas.</li>
+  <li>Un teléfono Android con Health Connect y la app Life Dashboard, vinculado con la <a href="../home-assistant/">integración Life Dashboard</a> 0.7.0 o posterior. La <a href="../health-connect-home-assistant/">guía de Health Connect</a> explica la vinculación. La app para iPhone no recibe mediciones, y MQTT no puede transportarlas.</li>
   <li>Las mediciones de la báscula como sensores en Home Assistant. Una báscula Bluetooth necesita Bluetooth a pocos metros: un adaptador en el equipo de Home Assistant o un proxy Bluetooth de ESPHome cerca del baño.</li>
 </ul>
 

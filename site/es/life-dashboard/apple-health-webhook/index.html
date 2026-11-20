@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Apple Health a un webhook, automáticamente | Life Dashboard</title>
-<meta name="description" content="Life Dashboard Companion envía los datos de Apple Health de tu iPhone a tu webhook como JSON firmado, en segundo plano, con reintentos, borrados y Atajos.">
+<meta name="description" content="La app Life Dashboard envía los datos de Apple Health de tu iPhone a tu webhook como JSON firmado, en segundo plano, con reintentos, borrados y Atajos.">
 <link rel="canonical" href="https://owen282000.com/es/life-dashboard/apple-health-webhook/">
 <link rel="alternate" hreflang="en" href="https://owen282000.com/life-dashboard/apple-health-webhook/">
 <link rel="alternate" hreflang="nl" href="https://owen282000.com/nl/life-dashboard/apple-health-webhook/">
@@ -31,17 +31,17 @@
 <meta property="og:locale:alternate" content="pt_BR">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="¿Cómo envío los datos de Apple Health a un webhook automáticamente?">
-<meta property="og:description" content="Life Dashboard Companion envía los datos de Apple Health de tu iPhone a tu webhook como JSON firmado, en segundo plano, con reintentos, borrados y Atajos.">
+<meta property="og:description" content="La app Life Dashboard envía los datos de Apple Health de tu iPhone a tu webhook como JSON firmado, en segundo plano, con reintentos, borrados y Atajos.">
 <meta property="og:url" content="https://owen282000.com/es/life-dashboard/apple-health-webhook/">
 <meta property="og:image" content="https://owen282000.com/life-dashboard/img/social.png">
 <meta property="og:image:width" content="1280">
 <meta property="og:image:height" content="640">
-<meta property="og:image:alt" content="Life Dashboard Companion: tus datos de salud, tu servidor. Sin nube.">
+<meta property="og:image:alt" content="Life Dashboard: tus datos de salud, tu servidor. Sin nube.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="¿Cómo envío los datos de Apple Health a un webhook automáticamente?">
-<meta name="twitter:description" content="Life Dashboard Companion envía los datos de Apple Health de tu iPhone a tu webhook como JSON firmado, en segundo plano, con reintentos, borrados y Atajos.">
+<meta name="twitter:description" content="La app Life Dashboard envía los datos de Apple Health de tu iPhone a tu webhook como JSON firmado, en segundo plano, con reintentos, borrados y Atajos.">
 <meta name="twitter:image" content="https://owen282000.com/life-dashboard/img/social.png">
-<meta name="twitter:image:alt" content="Life Dashboard Companion: tus datos de salud, tu servidor. Sin nube.">
+<meta name="twitter:image:alt" content="Life Dashboard: tus datos de salud, tu servidor. Sin nube.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -50,7 +50,7 @@
       "@type": "TechArticle",
       "@id": "https://owen282000.com/es/life-dashboard/apple-health-webhook/#article",
       "headline": "¿Cómo envío los datos de Apple Health a un webhook automáticamente?",
-      "description": "Life Dashboard Companion envía los datos de Apple Health de tu iPhone a tu webhook como JSON firmado, en segundo plano, con reintentos, borrados y Atajos.",
+      "description": "La app Life Dashboard envía los datos de Apple Health de tu iPhone a tu webhook como JSON firmado, en segundo plano, con reintentos, borrados y Atajos.",
       "url": "https://owen282000.com/es/life-dashboard/apple-health-webhook/",
       "mainEntityOfPage": "https://owen282000.com/es/life-dashboard/apple-health-webhook/",
       "inLanguage": "es",
@@ -64,7 +64,7 @@
         {
           "@type": "SoftwareApplication",
           "@id": "https://owen282000.com/life-dashboard/#ios",
-          "name": "Life Dashboard Companion for iPhone"
+          "name": "Life Dashboard for iPhone"
         },
         {
           "@type": "SoftwareApplication",
@@ -247,11 +247,11 @@
       <nav class="crumbs" aria-label="Ruta de navegación"><a href="/es/life-dashboard/">Life Dashboard</a><span aria-hidden="true">/</span><a href="/es/life-dashboard/guides/">Guías</a><span aria-hidden="true">/</span><span aria-current="page">Apple Health a un webhook</span></nav>
       <h1>¿Cómo envío los datos de Apple Health a un webhook automáticamente?</h1>
       <div class="guide-intro">
-<p>Instala Life Dashboard Companion en tu iPhone, agrega tu URL con <strong>Agregar destino</strong> en la pestaña <strong>Salud</strong> y elige en <strong>Qué enviar</strong> los tipos de Apple Health (la app Salud del iPhone) que quieres enviar. A partir de ahí la app lee Apple Health en segundo plano según el horario que definas y envía cada registro nuevo a tu URL como JSON: pasos, sueño con sus fases, frecuencia cardíaca, HRV, peso, presión arterial, entrenamientos y más, 28 tipos en total, cada registro con un <code>uuid</code> estable y la app o el dispositivo que lo escribió.</p>
+<p>Instala la app Life Dashboard en tu iPhone, agrega tu URL con <strong>Agregar destino</strong> en la pestaña <strong>Salud</strong> y elige en <strong>Qué enviar</strong> los tipos de Apple Health (la app Salud del iPhone) que quieres enviar. A partir de ahí la app lee Apple Health en segundo plano según el horario que definas y envía cada registro nuevo a tu URL como JSON: pasos, sueño con sus fases, frecuencia cardíaca, HRV, peso, presión arterial, entrenamientos y más, 28 tipos en total, cada registro con un <code>uuid</code> estable y la app o el dispositivo que lo escribió.</p>
 
 <p>Con un secreto definido, cada petición va firmada con HMAC-SHA256 en un encabezado <code>X-Signature</code>. Un payload que no se puede entregar espera en una cola en el iPhone, y un registro que borras en Apple Health aparece nombrado en el siguiente payload. El payload es el de la app para Android, así que un solo receptor acepta por igual un iPhone y un teléfono Android.</p>
 
-<p class="flow-line"><span>iPhone o Apple Watch</span><span>Apple Health</span><span>Life Dashboard Companion</span><span>Tu URL</span></p>
+<p class="flow-line"><span>iPhone o Apple Watch</span><span>Apple Health</span><span>App Life Dashboard</span><span>Tu URL</span></p>
       </div>
       <p class="guide-meta"><span>Por <a href="/es/">Owen Vogelaar</a>, que mantiene Life Dashboard</span> <span><time datetime="2026-11-20">Actualizado el 20 de noviembre de 2026</time></span> <span>11 min de lectura</span></p>
       <p class="guide-cta"><a class="btn btn-primary" href="/es/life-dashboard/ios/#get">Consigue la app para iPhone</a></p>
@@ -279,12 +279,12 @@
     <article class="prose">
 <h2 id="why-it-takes-an-app-on-the-iphone">Por qué hace falta una app en el iPhone</h2>
 
-<p>Apple Health no tiene API web. Vive en el iPhone, y las apps lo leen a través de HealthKit de Apple, así que algo en el iPhone tiene que leerlo y reenviarlo. Life Dashboard Companion hace eso y envía directamente a las URL que introduces. No hay cuenta ni ningún servidor de Life Dashboard de por medio, y la app no tiene analíticas, informes de fallos ni anuncios. <a href="/es/life-dashboard/api-health-connect-apple-health/">Una API web para Health Connect o Apple Health</a> lo explica con más detalle.</p>
+<p>Apple Health no tiene API web. Vive en el iPhone, y las apps lo leen a través de HealthKit de Apple, así que algo en el iPhone tiene que leerlo y reenviarlo. La app Life Dashboard hace eso y envía directamente a las URL que introduces. No hay cuenta ni ningún servidor de Life Dashboard de por medio, y la app no tiene analíticas, informes de fallos ni anuncios. <a href="/es/life-dashboard/api-health-connect-apple-health/">Una API web para Health Connect o Apple Health</a> lo explica con más detalle.</p>
 
 <h2 id="what-you-need">Qué necesitas</h2>
 
 <ul>
-  <li>Un iPhone con iOS 17 o posterior, y <a href="/es/life-dashboard/ios/">Life Dashboard Companion para iPhone</a>. Está en App Store por 6,99&nbsp;€ (5,99&nbsp;USD), pago único, sin suscripción. Compilarla a partir del código fuente con Xcode no cuesta nada más si ya tienes una suscripción al Apple Developer Program.</li>
+  <li>Un iPhone con iOS 17 o posterior, y <a href="/es/life-dashboard/ios/">Life Dashboard para iPhone</a>. Está en App Store por 6,99&nbsp;€ (5,99&nbsp;USD), pago único, sin suscripción. Compilarla a partir del código fuente con Xcode no cuesta nada más si ya tienes una suscripción al Apple Developer Program.</li>
   <li>Un servidor que acepte un POST con JSON. Usa <code>https://</code>. iOS solo permite <code>http://</code> sin cifrar hacia una dirección IP, un nombre <code>.local</code> o un nombre sin punto, pensado para tu propia red.</li>
 </ul>
 
@@ -429,7 +429,7 @@ valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
 <p>Un receptor escrito para Android funciona sin cambios, siempre que trate esas diferencias como opcionales. La <a href="https://github.com/owen282000/life-dashboard-companion-app-ios/blob/main/docs/webhook.md">página del payload de iOS</a> enumera todas las diferencias.</p>
 
 <section class="get-panel" aria-labelledby="get-the-app">
-      <h2 id="get-the-app">Life Dashboard Companion</h2>
+      <h2 id="get-the-app">Life Dashboard para iPhone</h2>
       <p>Instala la app, agrega tu URL y toca <strong>Ping de prueba</strong>. La página del payload de iOS enumera todo lo que envía un iPhone.</p>
       <div class="stores">
         <div class="panel-store"><a class="badge-link" href="https://apps.apple.com/app/apple-store/id6824075761?pt=128699800&amp;ct=site-es-guide-apple-health-webhook&amp;mt=8"><img class="badge-img" src="/life-dashboard/img/badges/app-store.svg?v=a26fc5b3" alt="Descárgala en App Store" width="120" height="40" loading="lazy"></a>
@@ -485,7 +485,7 @@ valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
     <div class="foot-top">
       <div class="foot-about">
         <a class="brand" href="/es/life-dashboard/"><img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="32" height="32" loading="lazy"> <span>Life Dashboard</span></a>
-        <p>Life Dashboard es un proyecto de código abierto de <a href="https://github.com/owen282000">Owen Vogelaar</a>, en cuatro partes: las apps Life Dashboard Companion para Android y iPhone, una integración para Home Assistant y un stack de Grafana. No tiene relación con otras apps o plantillas llamadas Life Dashboard. Las preguntas van a <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
+        <p>Life Dashboard es un proyecto de código abierto de <a href="https://github.com/owen282000">Owen Vogelaar</a>, en cuatro partes: las apps Life Dashboard para Android y iPhone, una integración para Home Assistant y un stack de Grafana. No tiene relación con otras apps o plantillas llamadas Life Dashboard. Las preguntas van a <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
       </div>
       <div class="foot-col">
         <h2 class="foot-h">Productos</h2>

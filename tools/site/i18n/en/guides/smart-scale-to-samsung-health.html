@@ -11,12 +11,12 @@ published: 2026-10-06
 
 <p class="signpost">Want your watch's Samsung Health data in Home Assistant instead? See <a href="../samsung-health-home-assistant/">Samsung Health and Galaxy Watch in Home Assistant</a>.</p>
 
-<p>Map the scale's entities in the Life Dashboard integration and switch on <strong>Receive</strong> in Life Dashboard Companion, the open-source Android app that pairs with it. At the next sync, the integration hands each new reading to the app, and the app writes it into Health Connect with the time it was measured. Samsung Health and Google Health read weight and body fat from Health Connect, so the weight and body fat from a scale that only talks to Home Assistant end up in those apps. The same works for a blood pressure monitor, though whether an app shows that reading is up to the app.</p>
+<p>Map the scale's entities in the Life Dashboard integration and switch on <strong>Receive</strong> in Life Dashboard for Android, the open-source app that pairs with it. At the next sync, the integration hands each new reading to the app, and the app writes it into Health Connect with the time it was measured. Samsung Health and Google Health read weight and body fat from Health Connect, so the weight and body fat from a scale that only talks to Home Assistant end up in those apps. The same works for a blood pressure monitor, though whether an app shows that reading is up to the app.</p>
 
 <h2>What you need</h2>
 
 <ul>
-  <li>An Android phone with Health Connect and Life Dashboard Companion, paired with the <a href="../home-assistant/">Life Dashboard integration</a> 0.7.0 or newer. The <a href="../health-connect-home-assistant/">Health Connect guide</a> covers the pairing. The iPhone app doesn't receive measurements, and MQTT can't carry them.</li>
+  <li>An Android phone with Health Connect and the Life Dashboard app, paired with the <a href="../home-assistant/">Life Dashboard integration</a> 0.7.0 or newer. The <a href="../health-connect-home-assistant/">Health Connect guide</a> covers the pairing. The iPhone app doesn't receive measurements, and MQTT can't carry them.</li>
   <li>The scale's readings as sensors in Home Assistant. A Bluetooth scale needs Bluetooth within a few meters: an adapter on the Home Assistant machine, or an ESPHome Bluetooth proxy near the bathroom.</li>
 </ul>
 

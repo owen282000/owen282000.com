@@ -9,18 +9,18 @@ published: 2026-10-21
 
 <h1>Comment envoyer les données de l’Apple Watch vers Home Assistant&nbsp;?</h1>
 
-<p>Votre Apple Watch écrit déjà ce qu’elle mesure dans Apple Health (l’app Santé) sur l’iPhone auquel elle est jumelée. Installez Life Dashboard Companion sur cet iPhone et l’intégration Life Dashboard dans Home Assistant, associez les deux avec un QR code, et la fréquence cardiaque, la variabilité de la fréquence cardiaque, le sommeil, les entraînements et le VO2 max de la montre arrivent sous forme de capteurs, avec tout votre historique dans les statistiques à long terme.</p>
+<p>Votre Apple Watch écrit déjà ce qu’elle mesure dans Apple Health (l’app Santé) sur l’iPhone auquel elle est jumelée. Installez l’application Life Dashboard sur cet iPhone et l’intégration Life Dashboard dans Home Assistant, associez les deux avec un QR code, et la fréquence cardiaque, la variabilité de la fréquence cardiaque, le sommeil, les entraînements et le VO2 max de la montre arrivent sous forme de capteurs, avec tout votre historique dans les statistiques à long terme.</p>
 
 <p>Il n’y a rien à installer sur la montre, et Home Assistant n’a jamais besoin de votre compte Apple. L’application iPhone lit Apple Santé et envoie directement à votre Home Assistant&nbsp;; il n’y a aucun serveur Life Dashboard entre les deux.</p>
 
-<p class="flow-line"><span>Apple Watch</span><span>Apple Santé sur l’iPhone</span><span>Life Dashboard Companion</span><span>Home Assistant</span></p>
+<p class="flow-line"><span>Apple Watch</span><span>Apple Santé sur l’iPhone</span><span>Application Life Dashboard</span><span>Home Assistant</span></p>
 
 <h2>Ce qu’il vous faut</h2>
 
 <ul>
   <li>Une Apple Watch jumelée à un iPhone sous iOS 17 ou plus récent.</li>
   <li>Home Assistant 2026.3 ou plus récent, et l’<a href="../home-assistant/">intégration Life Dashboard</a> 0.7.1 ou plus récente. À partir de la version 2026.11, il n’y a rien d’autre à installer&nbsp;; les versions plus anciennes ont besoin de <a href="https://hacs.xyz">HACS</a>.</li>
-  <li><a href="../ios/">Life Dashboard Companion pour iPhone</a>. {{status:ios}}</li>
+  <li><a href="../ios/">Life Dashboard pour iPhone</a>. {{status:ios}}</li>
 </ul>
 
 <h2>La mise en place</h2>
@@ -28,7 +28,7 @@ published: 2026-10-21
 <ol>
   <li>Dans <strong>Paramètres</strong> &gt; <strong>Marketplace</strong> (HACS avant Home Assistant 2026.11), cherchez <strong>Life Dashboard</strong> et installez-le. Avec HACS, téléchargez-le puis redémarrez Home Assistant. Si la configuration ne s’est pas ouverte d’elle-même, ajoutez l’intégration dans <strong>Paramètres</strong> &gt; <strong>Appareils et services</strong>. Donnez-lui un nom pour l’iPhone, et elle affiche un QR code.</li>
   <!-- IMG: the QR code in Home Assistant (H2-qr.png) -->
-  <li>Installez Life Dashboard Companion sur l’iPhone, touchez <strong>Scanner un code d’association</strong> pendant sa configuration, scannez le code puis touchez <strong>Associer</strong>.</li>
+  <li>Installez l’application Life Dashboard sur l’iPhone, touchez <strong>Scanner un code d’association</strong> pendant sa configuration, scannez le code puis touchez <strong>Associer</strong>.</li>
   <li>Sous <strong>Données à envoyer</strong>, activez les types que la montre enregistre, énumérés ci-dessous, et autorisez l’accès à Santé.</li>
   <li>Touchez <strong>Synchroniser maintenant</strong>, puis <strong>Envoyer l’historique</strong> sous <strong>Données à envoyer</strong>, et choisissez jusqu’où remonter, de 30 jours à <strong>Tout l’historique</strong>. Home Assistant enregistre chaque jour à sa propre date.</li>
 </ol>
@@ -92,7 +92,7 @@ published: 2026-10-21
   <h2>FAQ</h2>
   <details>
     <summary>Ai-je besoin d’une application sur l’Apple Watch&nbsp;?</summary>
-    <p>Non. La montre écrit d’elle-même dans Apple Santé sur l’iPhone, et Life Dashboard Companion, sur l’iPhone, l’y lit.</p>
+    <p>Non. La montre écrit d’elle-même dans Apple Santé sur l’iPhone, et l’application Life Dashboard, sur l’iPhone, l’y lit.</p>
   </details>
   <details>
     <summary>Pourquoi les données de ma montre arrivent-elles en retard dans Home Assistant&nbsp;?</summary>

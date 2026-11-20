@@ -1,6 +1,6 @@
 <!--
 title: Samsung Health en Galaxy Watch in Home Assistant | Life Dashboard
-description: Life Dashboard Companion stuurt Samsung Health- en Galaxy Watch-gegevens via Health Connect naar Home Assistant: stappen, slaap, hartslag en work-outs als sensoren.
+description: De Life Dashboard-app stuurt Samsung Health- en Galaxy Watch-gegevens via Health Connect naar Home Assistant: stappen, slaap, hartslag en work-outs als sensoren.
 primary query: samsung health home assistant
 secondary queries: galaxy watch home assistant, samsung watch home assistant integratie, home assistant galaxy watch hartslag, samsung health home assistant integratie, samsung health gegevens home assistant, samsung health koppelen home assistant
 updated: 2026-11-20
@@ -9,9 +9,9 @@ published: 2026-10-14
 
 <h1>Hoe krijg ik data van Samsung Health en mijn Galaxy Watch in Home Assistant?</h1>
 
-<p>Zet op je Android-telefoon de sync van Samsung Health met Health Connect aan, en laat Life Dashboard Companion, een open-source Android-app, die data naar de Life Dashboard-integratie in Home Assistant sturen. Stappen, slaap, hartslag, work-outs en lichaamsmetingen van je Galaxy Watch worden sensoren, en elke dag wordt bewaard in de langetermijnstatistieken. Home Assistant heeft je Samsung-account nooit nodig.</p>
+<p>Zet op je Android-telefoon de sync van Samsung Health met Health Connect aan, en laat Life Dashboard voor Android, een open-source app, die data naar de Life Dashboard-integratie in Home Assistant sturen. Stappen, slaap, hartslag, work-outs en lichaamsmetingen van je Galaxy Watch worden sensoren, en elke dag wordt bewaard in de langetermijnstatistieken. Home Assistant heeft je Samsung-account nooit nodig.</p>
 
-<p class="flow-line"><span>Galaxy Watch</span><span>Samsung Health</span><span>Health Connect</span><span>Life Dashboard Companion</span><span>Home Assistant</span></p>
+<p class="flow-line"><span>Galaxy Watch</span><span>Samsung Health</span><span>Health Connect</span><span>Life Dashboard-app</span><span>Home Assistant</span></p>
 
 <h2>Waarom er geen Samsung Health-integratie is</h2>
 
@@ -38,7 +38,7 @@ published: 2026-10-14
 <ul>
   <li>Een Android-telefoon met Android 9 of nieuwer en Samsung Health, met je Galaxy Watch gekoppeld. Health Connect zit ingebouwd in Android 14 en later; op oudere versies vraagt Samsung Health je om het te installeren.</li>
   <li>Home Assistant 2026.3 of nieuwer, voor de <a href="../home-assistant/">Life Dashboard-integratie</a>. Vanaf 2026.11 hoef je verder niets te installeren; oudere versies hebben <a href="https://hacs.xyz">HACS</a> nodig. Voor de work-outsensoren is versie 0.10.0 of nieuwer nodig.</li>
-  <li><a href="../android/">Life Dashboard Companion voor Android</a>. {{status:android}}</li>
+  <li><a href="../android/">Life Dashboard voor Android</a>. {{status:android}}</li>
 </ul>
 
 <h2>Zo stel je het in</h2>
@@ -48,7 +48,7 @@ published: 2026-10-14
   <li>Zoek onder <strong>Instellingen</strong> &gt; <strong>Marketplace</strong> (HACS vóór Home Assistant 2026.11) naar <strong>Life Dashboard</strong> en installeer de integratie. Met HACS download je de integratie en herstart je Home Assistant.</li>
   <li>Ging de installatie niet vanzelf open, ga dan naar <strong>Instellingen</strong> &gt; <strong>Apparaten &amp; diensten</strong> &gt; <strong>Integratie toevoegen</strong> en zoek naar <strong>Life Dashboard</strong>. Geef de telefoon een naam. Vul in het veld <strong>Home Assistant address</strong> het IP-adres van Home Assistant in, zoals <code>http://192.168.1.20:8123</code>. Je vindt het onder <strong>Instellingen</strong> &gt; <strong>Systeem</strong> &gt; <strong>Netwerk</strong>, in het gedeelte <strong>Network adapter</strong>. Daarna toont het venster een QR-code.</li>
   <!-- IMG: the QR code in Home Assistant (H2-qr.png) -->
-  <li>Installeer <a href="{{play_url}}">Life Dashboard Companion uit Google Play</a> (daar heet de app Health Data for Home Assistant), €&nbsp;4,99 eenmalig, dan blijft de app vanzelf bijgewerkt. Of installeer de app gratis, dezelfde app met dezelfde ondertekeningssleutel: open de APK van GitHub op de telefoon en sta installeren vanuit je browser één keer toe, of voeg de app toe in Obtainium of F-Droid (<a href="../android/#get">installatieopties</a>). Android kan je waarschuwen voordat het een APK van buiten de Play Store installeert; dat doet het bij elke app uit een andere bron. Open de app, tik bij <strong>Waar moet je data naartoe?</strong> op <strong>Koppelcode scannen</strong>, scan de code en tik op <strong>Koppelen</strong>.</li>
+  <li>Installeer <a href="{{play_url}}">Life Dashboard voor Android uit Google Play</a> (daar heet de app Health Data for Home Assistant), €&nbsp;4,99 eenmalig, dan blijft de app vanzelf bijgewerkt. Of installeer de app gratis, dezelfde app met dezelfde ondertekeningssleutel: open de APK van GitHub op de telefoon en sta installeren vanuit je browser één keer toe, of voeg de app toe in Obtainium of F-Droid (<a href="../android/#get">installatieopties</a>). Android kan je waarschuwen voordat het een APK van buiten de Play Store installeert; dat doet het bij elke app uit een andere bron. Open de app, tik bij <strong>Waar moet je data naartoe?</strong> op <strong>Koppelcode scannen</strong>, scan de code en tik op <strong>Koppelen</strong>.</li>
   <li>Tik op het tabblad <strong>Gezondheid</strong> op <strong>Toestaan</strong> en geef toegang tot je datatypes en tot lezen op de achtergrond. De voorinstelling <strong>De basis</strong> zet ook hartslag in rust en actieve calorieën aan, die Samsung niet deelt, dus die krijgen geen sensor. Zet onder <strong>Wat versturen</strong> <strong>Work-outs</strong>, <strong>Saturatie</strong>, <strong>Bloeddruk</strong>, <strong>Percentage lichaamsvet</strong> aan, en wat je verder uit de tabel wilt hebben.</li>
   <li>Samsung-telefoons stoppen achtergrondtaken om de batterij te sparen. Ga naar <strong>Instellingen</strong> &gt; <strong>Apps</strong> &gt; <strong>Life Dashboard</strong> &gt; <strong>Batterij</strong> en kies <strong>Onbeperkt</strong>. Voeg daarna <strong>Life Dashboard</strong> toe aan <strong>Apps die nooit in slaapstand gaan</strong> onder <strong>Instellingen</strong> &gt; <strong>Batterij</strong> &gt; <strong>Limieten achtergrondgebruik</strong>; op sommige versies staat dat onder <strong>Apparaatonderhoud</strong>.</li>
   <li>Tik op <strong>Nu synchroniseren</strong>. Tik voor oudere data op <strong>Geschiedenis versturen</strong> onder <strong>Wat versturen</strong> en kies hoe ver terug, van <strong>30 dagen</strong> tot <strong>Alles</strong>, na <strong>Toegang tot geschiedenis geven</strong> als de pagina dat toont.</li>

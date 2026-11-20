@@ -1,6 +1,6 @@
 <!--
 title: Let your users connect health data with one QR code | Life Dashboard
-description: Build a QR code that connects Life Dashboard Companion to your own service: the pairing link, a generator in Python and Node.js, and the signed test ping.
+description: Build a QR code that connects the Life Dashboard app to your own service: the pairing link, a generator in Python and Node.js, and the signed test ping.
 primary query: health connect qr code pairing
 secondary queries: health connect webhook multiple users, health data webhook onboarding, apple health webhook qr code, pair app with server qr code, health connect data collection service, hmac secret qr code
 updated: 2026-11-05
@@ -9,7 +9,7 @@ published: 2026-10-29
 
 <h1>How do I let my users connect their health data with one QR code?</h1>
 
-<p>Show each user a QR code with your webhook address and a secret for that user in it. They scan it with Life Dashboard Companion, tap <strong>Pair</strong>, and from then on their phone posts Health Connect data, or Apple Health data from an iPhone, to your service as signed JSON. Nobody types a URL or copies a secret, and you know it worked because the app sends a signed test ping straight away. The Life Dashboard integration for Home Assistant works exactly like this, and the format is open, so any service can do the same.</p>
+<p>Show each user a QR code with your webhook address and a secret for that user in it. They scan it with the Life Dashboard app, tap <strong>Pair</strong>, and from then on their phone posts Health Connect data, or Apple Health data from an iPhone, to your service as signed JSON. Nobody types a URL or copies a secret, and you know it worked because the app sends a signed test ping straight away. The Life Dashboard integration for Home Assistant works exactly like this, and the format is open, so any service can do the same.</p>
 
 <!-- IMG: how pairing works (p-pairing-flow.png) -->
 
@@ -98,7 +98,7 @@ X-Signature: sha256=&lt;hex of HMAC-SHA256(secret, raw body)&gt;
 
 {
   "test": true,
-  "message": "Test ping from Life Dashboard Companion",
+  "message": "Test ping from Life Dashboard",
   "timestamp": "2026-10-04T12:00:00Z",
   "app_version": "1.29.0",
   "source": "health_connect"
@@ -108,7 +108,7 @@ X-Signature: sha256=&lt;hex of HMAC-SHA256(secret, raw body)&gt;
 
 <h2>iPhone</h2>
 
-<p>Life Dashboard Companion for iPhone reads the same codes. It sends Apple Health only, so a code must accept <code>health_connect</code> or leave <code>sources</code> out. Plain <code>http://</code> works there only to a home network address, so use https. The iPhone camera opens the landing page first, which hands the code to the app with an <strong>Open in the app</strong> button.</p>
+<p>Life Dashboard for iPhone reads the same codes. It sends Apple Health only, so a code must accept <code>health_connect</code> or leave <code>sources</code> out. Plain <code>http://</code> works there only to a home network address, so use https. The iPhone camera opens the landing page first, which hands the code to the app with an <strong>Open in the app</strong> button.</p>
 
 <h2>Keep it safe</h2>
 

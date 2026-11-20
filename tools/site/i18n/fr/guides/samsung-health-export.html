@@ -1,6 +1,6 @@
 <!--
 title: Exporter Samsung Health vers votre serveur | Life Dashboard
-description: Life Dashboard Companion exporte les données Samsung Health et Galaxy Watch de Santé Connect vers votre serveur ou n8n, en JSON signé à chaque synchronisation.
+description: L’application Life Dashboard exporte les données Samsung Health et Galaxy Watch de Santé Connect vers votre serveur ou n8n, en JSON signé à chaque synchronisation.
 primary query: exporter samsung health
 secondary queries: exporter données samsung health, api samsung health, exporter données galaxy watch, samsung health vers une base de données, samsung health json, samsung health postgres, samsung health webhook, api galaxy watch
 updated: 2026-11-20
@@ -9,9 +9,9 @@ published: 2026-10-06
 
 <h1>Comment exporter les données de Samsung Health vers mon propre serveur&nbsp;?</h1>
 
-<p>Activez la synchronisation de Samsung Health avec Health Connect (Santé Connect en français), puis laissez Life Dashboard Companion, une application Android open source, envoyer les données en JSON à l’URL de votre choix. Chaque synchronisation envoie les nouveaux enregistrements de Samsung Health et de la Galaxy Watch vers votre base de données, votre workflow n8n ou votre script, et un backfill (le rattrapage de l’historique) envoie tout ce que contient Santé Connect.</p>
+<p>Activez la synchronisation de Samsung Health avec Health Connect (Santé Connect en français), puis laissez Life Dashboard pour Android, une application open source, envoyer les données en JSON à l’URL de votre choix. Chaque synchronisation envoie les nouveaux enregistrements de Samsung Health et de la Galaxy Watch vers votre base de données, votre workflow n8n ou votre script, et un backfill (le rattrapage de l’historique) envoie tout ce que contient Santé Connect.</p>
 
-<p class="flow-line"><span>Galaxy Watch</span><span>Samsung Health</span><span>Santé Connect</span><span>Life Dashboard Companion</span><span>Votre serveur</span></p>
+<p class="flow-line"><span>Galaxy Watch</span><span>Samsung Health</span><span>Santé Connect</span><span>Application Life Dashboard</span><span>Votre serveur</span></p>
 
 <h2>Pourquoi cela passe par Santé Connect</h2>
 
@@ -21,7 +21,7 @@ published: 2026-10-06
 
 <ul>
   <li>Un téléphone Android avec Android 9 ou plus récent, Santé Connect et Samsung Health. Associez votre Galaxy Watch à Samsung Health pour obtenir ses données.</li>
-  <li><a href="../android/">Life Dashboard Companion pour Android</a>. {{status:android}}</li>
+  <li><a href="../android/">Life Dashboard pour Android</a>. {{status:android}}</li>
   <li>Un serveur qui accepte un POST JSON en HTTPS, avec une limite de corps d’au moins 10 Mo. Le HTTP non chiffré sur votre propre réseau demande d’activer <strong>Autoriser les webhooks en HTTP non chiffré</strong> sous <strong>Plus</strong> &gt; <strong>Avancé</strong>.</li>
 </ul>
 
@@ -29,7 +29,7 @@ published: 2026-10-06
 
 <ol>
   <li>Dans Samsung Health, allez dans <strong>Paramètres</strong> &gt; <strong>Santé Connect</strong>, touchez <strong>Démarrer</strong>, choisissez les données et touchez <strong>Autoriser</strong>. La lecture et l’écriture s’accordent séparément.</li>
-  <li>Dans Life Dashboard Companion, dans l’onglet <strong>Santé</strong>, touchez <strong>Ajouter une destination</strong> (ou <strong>Utiliser votre propre serveur</strong> si rien n’est encore configuré), saisissez votre URL sous <strong>URL de webhook</strong> et touchez <strong>Ajouter un webhook</strong>.</li>
+  <li>Dans l’application Life Dashboard, dans l’onglet <strong>Santé</strong>, touchez <strong>Ajouter une destination</strong> (ou <strong>Utiliser votre propre serveur</strong> si rien n’est encore configuré), saisissez votre URL sous <strong>URL de webhook</strong> et touchez <strong>Ajouter un webhook</strong>.</li>
   <li>Sous <strong>Secret de signature HMAC (facultatif)</strong>, touchez <strong>Générer</strong> et reportez la même valeur sur votre serveur.</li>
   <li>Touchez <strong>Enregistrer</strong> en haut, rouvrez la ligne de l’adresse dans l’onglet et touchez <strong>Envoyer un test</strong>.</li>
   <li>Touchez <strong>Autoriser</strong> et accordez l’accès à vos types de données ainsi que la lecture en arrière-plan. Activez les types que vous voulez sous <strong>Données à envoyer</strong>.</li>

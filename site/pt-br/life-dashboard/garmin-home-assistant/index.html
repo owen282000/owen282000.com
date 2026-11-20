@@ -36,12 +36,12 @@
 <meta property="og:image" content="https://owen282000.com/life-dashboard/img/social.png">
 <meta property="og:image:width" content="1280">
 <meta property="og:image:height" content="640">
-<meta property="og:image:alt" content="Life Dashboard Companion: seus dados de saúde, seu servidor. Sem nuvem.">
+<meta property="og:image:alt" content="Life Dashboard: seus dados de saúde, seu servidor. Sem nuvem.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Como levar os dados da Garmin para o Home Assistant?">
 <meta name="twitter:description" content="Como conectar o Garmin Connect ao Home Assistant pelo Health Connect: passos, fases do sono e frequência cardíaca como sensores, sem login da Garmin.">
 <meta name="twitter:image" content="https://owen282000.com/life-dashboard/img/social.png">
-<meta name="twitter:image:alt" content="Life Dashboard Companion: seus dados de saúde, seu servidor. Sem nuvem.">
+<meta name="twitter:image:alt" content="Life Dashboard: seus dados de saúde, seu servidor. Sem nuvem.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -64,7 +64,7 @@
         {
           "@type": "SoftwareApplication",
           "@id": "https://owen282000.com/life-dashboard/#android",
-          "name": "Life Dashboard Companion"
+          "name": "Life Dashboard for Android"
         },
         {
           "@type": "SoftwareApplication",
@@ -239,9 +239,9 @@
       <nav class="crumbs" aria-label="Trilha de navegação"><a href="/pt-br/life-dashboard/">Life Dashboard</a><span aria-hidden="true">/</span><a href="/pt-br/life-dashboard/guides/">Guias</a><span aria-hidden="true">/</span><span aria-current="page">Garmin no Home Assistant</span></nav>
       <h1>Como levar os dados da Garmin para o Home Assistant?</h1>
       <div class="guide-intro">
-<p>Deixe o Garmin Connect gravar no Conexão Saúde (Health Connect) no seu celular Android e deixe o Life Dashboard Companion, um app de código aberto para Android, enviar esses dados para a integração Life Dashboard no Home Assistant. O Home Assistant nunca precisa do seu usuário, da sua senha nem do seu código de MFA da Garmin, então uma mudança no login da Garmin não quebra nada.</p>
+<p>Deixe o Garmin Connect gravar no Conexão Saúde (Health Connect) no seu celular Android e deixe o Life Dashboard para Android, um app de código aberto, enviar esses dados para a integração Life Dashboard no Home Assistant. O Home Assistant nunca precisa do seu usuário, da sua senha nem do seu código de MFA da Garmin, então uma mudança no login da Garmin não quebra nada.</p>
 
-<p class="flow-line"><span>Relógio Garmin</span><span>Garmin Connect</span><span>Conexão Saúde</span><span>Life Dashboard Companion</span><span>Home Assistant</span></p>
+<p class="flow-line"><span>Relógio Garmin</span><span>Garmin Connect</span><span>Conexão Saúde</span><span>App Life Dashboard</span><span>Home Assistant</span></p>
       </div>
       <p class="guide-meta"><span>Por <a href="/pt-br/">Owen Vogelaar</a>, que mantém o Life Dashboard</span> <span><time datetime="2026-11-20">Atualizado em 20 de novembro de 2026</time></span> <span>5 min de leitura</span></p>
       <p class="guide-cta"><a class="btn btn-primary" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Abrir no Marketplace</a></p>
@@ -281,7 +281,7 @@
 <ul>
   <li>Um celular Android com Android 14 ou mais recente e o Garmin Connect 5.14.1 ou mais recente pareado com o seu relógio.</li>
   <li>Home Assistant 2026.3 ou mais recente, para a <a href="/pt-br/life-dashboard/home-assistant/">integração Life Dashboard</a>. A partir da 2026.11 não é preciso instalar mais nada; versões anteriores precisam do <a href="https://hacs.xyz">HACS</a>.</li>
-  <li><a href="/pt-br/life-dashboard/android/">Life Dashboard Companion para Android</a>. Está no Google Play por €&nbsp;4,99 uma única vez (US$&nbsp;4,99), sem assinatura: o jeito fácil, com atualizações automáticas, e a compra apoia o desenvolvimento. Os caminhos gratuitos instalam o mesmo app com a mesma chave de assinatura: o APK assinado no GitHub, o Obtainium, que mantém esse APK atualizado, e o F&#8209;Droid, que o compila a partir do código-fonte.</li>
+  <li><a href="/pt-br/life-dashboard/android/">Life Dashboard para Android</a>. Está no Google Play por €&nbsp;4,99 uma única vez (US$&nbsp;4,99), sem assinatura: o jeito fácil, com atualizações automáticas, e a compra apoia o desenvolvimento. Os caminhos gratuitos instalam o mesmo app com a mesma chave de assinatura: o APK assinado no GitHub, o Obtainium, que mantém esse APK atualizado, e o F&#8209;Droid, que o compila a partir do código-fonte.</li>
 </ul>
 
 <h2 id="set-it-up">Como configurar</h2>
@@ -291,7 +291,7 @@
   <li>Em <strong>Configurações</strong> &gt; <strong>Marketplace</strong> (HACS antes do Home Assistant 2026.11), procure por <strong>Life Dashboard</strong> e instale. No HACS, baixe a integração e reinicie o Home Assistant.</li>
   <li>Se a configuração não abrir sozinha, vá em <strong>Configurações</strong> &gt; <strong>Dispositivos e serviços</strong> &gt; <strong>Adicionar integração</strong> e procure por <strong>Life Dashboard</strong>. Dê um nome ao celular. Coloque o endereço IP do Home Assistant no campo <strong>Home Assistant address</strong>, como <code>http://192.168.1.20:8123</code>; o Home Assistant o mostra em <strong>Configurações</strong> &gt; <strong>Sistema</strong> &gt; <strong>Rede</strong>, na seção <strong>Adaptador de rede</strong>. Em seguida, a janela mostra um QR code.
   <figure class="shot wide"><a class="shot-link" href="/life-dashboard/img/H2-qr.webp?v=abb2ed19" aria-label="A integração Life Dashboard no Home Assistant mostrando um QR code de pareamento, tamanho real"><img src="/life-dashboard/img/H2-qr.webp?v=abb2ed19" alt="A integração Life Dashboard no Home Assistant mostrando um QR code de pareamento" width="800" height="668" loading="lazy"></a></figure></li>
-  <li>Instale o <a href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-pt-br-guide-garmin-home-assistant%26utm_medium%3Dwebsite">Life Dashboard Companion pelo Google Play</a>, onde ele aparece como Health Data for Home Assistant: €&nbsp;4,99 uma única vez, e o Google Play mantém o app atualizado. Ou instale de graça, o mesmo app com a mesma chave de assinatura: abra o APK do GitHub no celular e permita, uma única vez, a instalação a partir do navegador, ou adicione o app no Obtainium ou no F&#8209;Droid (<a href="/pt-br/life-dashboard/android/#get">opções de instalação</a>). O Android pode mostrar um aviso antes de instalar um APK de fora da Play Store; ele faz isso com qualquer app de outra origem. Abra o app e, em <strong>Para onde seus dados devem ir?</strong>, toque em <strong>Escanear um código de pareamento</strong>, escaneie o código e toque em <strong>Parear</strong>.</li>
+  <li>Instale o <a href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-pt-br-guide-garmin-home-assistant%26utm_medium%3Dwebsite">Life Dashboard para Android pelo Google Play</a>, onde ele aparece como Health Data for Home Assistant: €&nbsp;4,99 uma única vez, e o Google Play mantém o app atualizado. Ou instale de graça, o mesmo app com a mesma chave de assinatura: abra o APK do GitHub no celular e permita, uma única vez, a instalação a partir do navegador, ou adicione o app no Obtainium ou no F&#8209;Droid (<a href="/pt-br/life-dashboard/android/#get">opções de instalação</a>). O Android pode mostrar um aviso antes de instalar um APK de fora da Play Store; ele faz isso com qualquer app de outra origem. Abra o app e, em <strong>Para onde seus dados devem ir?</strong>, toque em <strong>Escanear um código de pareamento</strong>, escaneie o código e toque em <strong>Parear</strong>.</li>
   <li>Na aba <strong>Saúde</strong>, toque em <strong>Permitir</strong> e libere os seus tipos de dados e a leitura em segundo plano. A predefinição <strong>O essencial</strong> também ativa a frequência cardíaca em repouso, que a Garmin não compartilha, então ela não ganha sensor. Ative a gordura corporal e as sessões de exercício em <strong>O que enviar</strong>, se quiser.</li>
   <li>Toque em <strong>Sincronizar agora</strong>. Para dados mais antigos, toque em <strong>Enviar histórico</strong>, em <strong>O que enviar</strong>, e escolha o período, de <strong>30 dias</strong> até <strong>Todo o histórico</strong>, depois de <strong>Permitir acesso ao histórico</strong>, se a tela mostrar essa opção.</li>
 </ol>
@@ -320,7 +320,7 @@
 </ul>
 
 <section class="get-panel" aria-labelledby="get-the-app">
-      <h2 id="get-the-app">Life Dashboard Companion</h2>
+      <h2 id="get-the-app">Life Dashboard para Android</h2>
       <p>Duas instalações: a integração pelo Marketplace ou pelo HACS e o app no celular. Depois disso, ative o Conexão Saúde no Garmin Connect e pareie com um QR code.</p>
       <div class="stores">
         <div class="panel-store"><a class="badge-link" href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-pt-br-guide-garmin-home-assistant%26utm_medium%3Dwebsite"><img class="badge-img" src="/life-dashboard/img/badges/google-play.png?v=a13294f3" alt="Disponível no Google Play" width="564" height="168" loading="lazy"></a>
@@ -372,7 +372,7 @@
     <div class="foot-top">
       <div class="foot-about">
         <a class="brand" href="/pt-br/life-dashboard/"><img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="32" height="32" loading="lazy"> <span>Life Dashboard</span></a>
-        <p>O Life Dashboard é um projeto de código aberto de <a href="https://github.com/owen282000">Owen Vogelaar</a>, em quatro partes: os apps Life Dashboard Companion para Android e iPhone, uma integração para o Home Assistant e uma stack do Grafana. Não tem relação com outros apps ou modelos chamados Life Dashboard. Dúvidas vão para as <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
+        <p>O Life Dashboard é um projeto de código aberto de <a href="https://github.com/owen282000">Owen Vogelaar</a>, em quatro partes: os apps Life Dashboard para Android e iPhone, uma integração para o Home Assistant e uma stack do Grafana. Não tem relação com outros apps ou modelos chamados Life Dashboard. Dúvidas vão para as <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
       </div>
       <div class="foot-col">
         <h2 class="foot-h">Produtos</h2>

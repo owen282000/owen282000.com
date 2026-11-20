@@ -36,12 +36,12 @@
 <meta property="og:image" content="https://owen282000.com/life-dashboard/img/social.png">
 <meta property="og:image:width" content="1280">
 <meta property="og:image:height" content="640">
-<meta property="og:image:alt" content="Life Dashboard Companion : vos données de santé, votre serveur. Sans cloud.">
+<meta property="og:image:alt" content="Life Dashboard : vos données de santé, votre serveur. Sans cloud.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Life Dashboard : les données de santé de votre téléphone, sur votre serveur">
 <meta name="twitter:description" content="Des applications open source pour Android et iPhone qui envoient les données de Health Connect et d&#x27;Apple Health vers Home Assistant, Grafana, MQTT ou un webhook. Sans cloud, sans compte.">
 <meta name="twitter:image" content="https://owen282000.com/life-dashboard/img/social.png">
-<meta name="twitter:image:alt" content="Life Dashboard Companion : vos données de santé, votre serveur. Sans cloud.">
+<meta name="twitter:image:alt" content="Life Dashboard : vos données de santé, votre serveur. Sans cloud.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -122,10 +122,9 @@
     {
       "@type": "SoftwareApplication",
       "@id": "https://owen282000.com/life-dashboard/#android",
-      "name": "Life Dashboard Companion",
+      "name": "Life Dashboard for Android",
       "alternateName": [
         "Life Dashboard",
-        "Life Dashboard Companion for Android",
         "Health Data for Home Assistant"
       ],
       "identifier": "com.owen282000.lifedashboard",
@@ -170,7 +169,7 @@
           "url": "https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard"
         }
       ],
-      "description": "Life Dashboard Companion est une application Android open source qui envoie les données de Santé Connect (Health Connect) et le temps d’écran par application vers Home Assistant, MQTT ou votre propre webhook, sans cloud et sans compte.",
+      "description": "Life Dashboard pour Android est une application open source qui envoie les données de Santé Connect (Health Connect) et le temps d’écran par application vers Home Assistant, MQTT ou votre propre webhook, sans cloud et sans compte.",
       "operatingSystem": "Android 8.0 ou plus récent (données de santé : Android 9 ou plus récent avec Santé Connect)",
       "applicationSubCategory": "Domotique",
       "featureList": [
@@ -185,9 +184,9 @@
     {
       "@type": "SoftwareApplication",
       "@id": "https://owen282000.com/life-dashboard/#ios",
-      "name": "Life Dashboard Companion for iPhone",
+      "name": "Life Dashboard for iPhone",
       "alternateName": [
-        "Life Dashboard Companion for iOS",
+        "Life Dashboard for iOS",
         "Health Data for Home Assistant"
       ],
       "applicationCategory": "HealthApplication",
@@ -230,7 +229,7 @@
           "url": "https://apps.apple.com/app/health-data-for-home-assistant/id6824075761"
         }
       ],
-      "description": "Life Dashboard Companion pour iPhone est une application iPhone open source qui envoie les données d’Apple Santé (Apple Health) vers Home Assistant, MQTT ou votre propre webhook, sans cloud et sans compte.",
+      "description": "Life Dashboard pour iPhone est une application iPhone open source qui envoie les données d’Apple Santé (Apple Health) vers Home Assistant, MQTT ou votre propre webhook, sans cloud et sans compte.",
       "operatingSystem": "iOS 17 ou plus récent"
     },
     {
@@ -254,7 +253,7 @@
         "price": "0",
         "priceCurrency": "EUR"
       },
-      "description": "L’intégration Life Dashboard est une intégration personnalisée open source pour Home Assistant, installée depuis le Marketplace ou HACS, qui transforme les données des applications Life Dashboard Companion en capteurs et en statistiques à long terme, avec une association par QR code.",
+      "description": "L’intégration Life Dashboard est une intégration personnalisée open source pour Home Assistant, installée depuis le Marketplace ou HACS, qui transforme les données des applications Life Dashboard en capteurs et en statistiques à long terme, avec une association par QR code.",
       "operatingSystem": "Home Assistant 2026.3 ou plus récent",
       "applicationSubCategory": "Intégration Home Assistant"
     },
@@ -279,7 +278,7 @@
         "price": "0",
         "priceCurrency": "EUR"
       },
-      "description": "La stack Life Dashboard est un backend open source et auto-hébergé pour les applications Life Dashboard Companion : un récepteur, Postgres et six tableaux de bord Grafana, avec une API en lecture seule et un serveur MCP facultatif, installés avec Docker Compose ou un chart Helm.",
+      "description": "La stack Life Dashboard est un backend open source et auto-hébergé pour les applications Life Dashboard : un récepteur, Postgres et six tableaux de bord Grafana, avec une API en lecture seule et un serveur MCP facultatif, installés avec Docker Compose ou un chart Helm.",
       "operatingSystem": "Linux, macOS ou Windows avec Docker, ou Kubernetes",
       "applicationSubCategory": "Backend auto-hébergé",
       "featureList": [
@@ -404,7 +403,7 @@
           "name": "Pourquoi une application distincte plutôt que l’application Companion de Home Assistant ?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Gardez l’application Companion pour la présence, les notifications et les capteurs de l’appareil ; les deux fonctionnent côte à côte. Ses 36 capteurs Santé Connect affichent la dernière valeur ou un total quotidien, avec un historique qui commence le jour où vous les activez. Life Dashboard Companion lit 34 types, conserve chaque jour dans les statistiques à long terme, ajoute le temps d’écran par application et envoie aussi vers MQTT et des webhooks. Le comparatif détaille les différences."
+            "text": "Gardez l’application Companion pour la présence, les notifications et les capteurs de l’appareil ; les deux fonctionnent côte à côte. Ses 36 capteurs Santé Connect affichent la dernière valeur ou un total quotidien, avec un historique qui commence le jour où vous les activez. L’application Life Dashboard lit 34 types, conserve chaque jour dans les statistiques à long terme, ajoute le temps d’écran par application et envoie aussi vers MQTT et des webhooks. Le comparatif détaille les différences."
           }
         },
         {
@@ -436,7 +435,7 @@
           "name": "Est-ce un dispositif médical ?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Non. Life Dashboard Companion transfère vers un serveur que vous gérez des données que votre montre, votre bague ou votre balance ont déjà enregistrées. L’application ne mesure rien, ne diagnostique rien, ne traite rien et ne donne aucun conseil de santé. Demandez à un médecin ce que ces chiffres signifient pour vous."
+            "text": "Non. L’application Life Dashboard transfère vers un serveur que vous gérez des données que votre montre, votre bague ou votre balance ont déjà enregistrées. L’application ne mesure rien, ne diagnostique rien, ne traite rien et ne donne aucun conseil de santé. Demandez à un médecin ce que ces chiffres signifient pour vous."
           }
         },
         {
@@ -524,7 +523,7 @@
 <section class="hero landing-hero">
   <div class="wrap">
     <h1>Health Connect et Apple Health <span class="accent">dans Home Assistant ou sur votre propre&nbsp;serveur</span></h1>
-    <p class="lead">Life Dashboard Companion envoie ce qu’enregistrent votre montre, votre bague ou votre balance vers un serveur qui vous appartient&nbsp;: Home Assistant, la stack Grafana, MQTT ou votre propre webhook. Toutes les applications sources à la fois, sans compte à créer et sans compte Google intermédiaire. Sur Android, Health Connect s’appelle Santé Connect&nbsp;; sur iPhone, Apple Health est l’app Santé.</p>
+    <p class="lead">L’application Life Dashboard envoie ce qu’enregistrent votre montre, votre bague ou votre balance vers un serveur qui vous appartient&nbsp;: Home Assistant, la stack Grafana, MQTT ou votre propre webhook. Toutes les applications sources à la fois, sans compte à créer et sans compte Google intermédiaire. Sur Android, Health Connect s’appelle Santé Connect&nbsp;; sur iPhone, Apple Health est l’app Santé.</p>
     <div class="hero-stores">
 <!-- BUILD:hero-stores -->
 <div class="cta-row stores">
@@ -538,7 +537,7 @@
 <div class="hero-visual">
       <figure class="hv-phone">
         <div class="phone"><img src="/life-dashboard/img/A1-health.webp?v=48b0e4d1" alt="L’onglet Santé de l’application Android, avec une ligne par destination et les chiffres du jour" width="720" height="1600" fetchpriority="high"></div>
-        <figcaption><b>Life Dashboard Companion</b> <span>Sur votre téléphone</span></figcaption>
+        <figcaption><b>Life Dashboard</b> <span>Sur votre téléphone</span></figcaption>
       </figure>
       <svg class="hv-beat" viewBox="0 0 200 60" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
         <g fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -570,7 +569,7 @@
   <div class="wrap">
     <div class="section-head">
       <h2>De votre montre à votre serveur</h2>
-      <p>Santé Connect et Apple Santé gardent leurs données sur le téléphone, sans API web. Life Dashboard Companion les y lit selon votre planification et n’envoie que les nouveautés.</p>
+      <p>Santé Connect et Apple Santé gardent leurs données sur le téléphone, sans API web. L’application Life Dashboard les y lit selon votre planification et n’envoie que les nouveautés.</p>
     </div>
     <div class="chips how-chips" aria-label="Applications qui écrivent dans Santé Connect ou Apple Santé">
       <span class="chip">Samsung Health</span>
@@ -603,7 +602,7 @@
       <div class="node app">
         <img src="/life-dashboard/img/icon-180.png?v=e1842852" alt="" width="64" height="64">
         <div>
-          <h3>Life Dashboard Companion</h3>
+          <h3>L’application Life Dashboard</h3>
           <p><a href="/fr/life-dashboard/android/">Android</a> et <a href="/fr/life-dashboard/ios/">iPhone</a>, selon votre planification</p>
           <span class="plus">+ le temps d’écran sur Android</span>
         </div>
@@ -730,7 +729,7 @@
     <ul class="proof-facts"><li><b>45+</b> <span>versions Android depuis février 2026</span></li><li><b>5</b> <span>contributeurs externes</span></li><li><b>4</b> <span>éléments, tous sous licence MIT</span></li></ul>
     <div class="family">
       <a class="part proj" href="https://github.com/health-assistant-io/health-assistant"><h3>Health Assistant</h3><p>Un dossier de santé auto-hébergé. Son intégration webhook comprend un analyseur pour le payload de Life Dashboard et qualifie l’application de « Highly Recommended for Android Users ».</p><span class="go">Sur GitHub</span></a>
-      <a class="part proj" href="https://github.com/nikira-studio/healthquery"><h3>HealthQuery</h3><p>Un tableau de bord de santé personnel dans SQLite, avec des rapports et un serveur MCP. Ses données viennent de Life Dashboard Companion.</p><span class="go">Sur GitHub</span></a>
+      <a class="part proj" href="https://github.com/nikira-studio/healthquery"><h3>HealthQuery</h3><p>Un tableau de bord de santé personnel dans SQLite, avec des rapports et un serveur MCP. Ses données viennent de l’application Life Dashboard.</p><span class="go">Sur GitHub</span></a>
       <a class="part proj" href="https://github.com/x-senpai-x/fitbridge"><h3>fitbridge</h3><p>Santé Connect pour ChatGPT et Claude, auto-hébergé sur Cloudflare Workers. L’application s’y associe par QR code et lui envoie des mises à jour signées.</p><span class="go">Sur GitHub</span></a>
       <a class="part proj-cta" href="https://github.com/owen282000/life-dashboard-companion-app/discussions"><h3>Vous avez construit quelque chose sur le payload ?</h3><p>Dites-le-moi dans Discussions, et il pourra rejoindre cette liste.</p><span class="go">Ouvrir Discussions</span></a>
     </div>
@@ -780,13 +779,13 @@
     </ol>
     <div class="get-grid">
       <article class="get-card compact" id="get-android">
-        <header><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span><div><h3><a href="/fr/life-dashboard/android/">Life Dashboard Companion pour Android</a></h3><p>Android 8.0 ou plus récent ; données de santé à partir d’Android 9.</p></div></header>
+        <header><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span><div><h3><a href="/fr/life-dashboard/android/">Life Dashboard pour Android</a></h3><p>Android 8.0 ou plus récent ; données de santé à partir d’Android 9.</p></div></header>
         <div class="badges"><a class="badge-link" href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-fr-landing%26utm_medium%3Dwebsite"><img class="badge-img" src="/life-dashboard/img/badges/google-play.png?v=a13294f3" alt="Disponible sur Google Play" width="564" height="168" loading="lazy"></a></div>
         <p class="get-alt">4,99 € en achat unique sur Google Play : la voie simple, avec les mises à jour automatiques, et votre achat soutient le développement. Ou gratuitement, la même application avec la même clé de signature :</p>
         <div class="badges"><a class="badge-link" href="https://github.com/owen282000/life-dashboard-companion-app/releases/latest"><img class="badge-img" src="/life-dashboard/img/badges/github.svg?v=fabc4112" alt="Disponible sur GitHub" width="564" height="168" loading="lazy"></a><a class="badge-link" href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/owen282000/life-dashboard-companion-app"><img class="badge-img" src="/life-dashboard/img/badges/obtainium.png?v=0c4760d6" alt="Disponible sur Obtainium" width="564" height="168" loading="lazy"></a><a class="badge-link" href="https://f-droid.org/packages/com.owen282000.lifedashboard/"><img class="badge-img" src="/life-dashboard/img/badges/f-droid.svg?v=0cb07fbf" alt="Disponible sur F-Droid" width="564" height="168" loading="lazy"></a></div>
       </article>
       <article class="get-card compact" id="get-ios">
-        <header><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg></span><div><h3><a href="/fr/life-dashboard/ios/">Life Dashboard Companion pour iPhone</a></h3><p>iOS 17 ou plus récent. Sur l’App Store, ou compilez-la vous-même sur un Mac.</p></div></header>
+        <header><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg></span><div><h3><a href="/fr/life-dashboard/ios/">Life Dashboard pour iPhone</a></h3><p>iOS 17 ou plus récent. Sur l’App Store, ou compilez-la vous-même sur un Mac.</p></div></header>
         <div class="badges"><a class="badge-link" href="https://apps.apple.com/app/apple-store/id6824075761?pt=128699800&amp;ct=site-fr-landing&amp;mt=8"><img class="badge-img" src="/life-dashboard/img/badges/app-store.svg?v=a26fc5b3" alt="Télécharger dans l’App Store" width="120" height="40" loading="lazy"></a></div>
         <p class="get-alt">6,99 € en achat unique sur l’App Store, sans abonnement.</p>
         <p class="get-alt"><a class="nowrap" href="https://github.com/owen282000/life-dashboard-companion-app-ios#build-and-install">Compiler avec Xcode</a></p>
@@ -857,7 +856,7 @@
       </details>
       <details>
         <summary>Pourquoi une application distincte plutôt que l’application Companion de Home Assistant&nbsp;?</summary>
-        <p>Gardez l’application Companion pour la présence, les notifications et les capteurs de l’appareil&nbsp;; les deux fonctionnent côte à côte. Ses 36 capteurs Santé Connect affichent la dernière valeur ou un total quotidien, avec un historique qui commence le jour où vous les activez. Life Dashboard Companion lit 34 types, conserve chaque jour dans les statistiques à long terme, ajoute le temps d’écran par application et envoie aussi vers MQTT et des webhooks. Le <a href="/fr/life-dashboard/home-assistant/#compare">comparatif</a> détaille les différences.</p>
+        <p>Gardez l’application Companion pour la présence, les notifications et les capteurs de l’appareil&nbsp;; les deux fonctionnent côte à côte. Ses 36 capteurs Santé Connect affichent la dernière valeur ou un total quotidien, avec un historique qui commence le jour où vous les activez. L’application Life Dashboard lit 34 types, conserve chaque jour dans les statistiques à long terme, ajoute le temps d’écran par application et envoie aussi vers MQTT et des webhooks. Le <a href="/fr/life-dashboard/home-assistant/#compare">comparatif</a> détaille les différences.</p>
       </details>
       <details>
         <summary>Quelles montres, bagues et balances sont compatibles&nbsp;?</summary>
@@ -873,7 +872,7 @@
       </details>
       <details>
         <summary>Est-ce un dispositif médical&nbsp;?</summary>
-        <p>Non. Life Dashboard Companion transfère vers un serveur que vous gérez des données que votre montre, votre bague ou votre balance ont déjà enregistrées. L’application ne mesure rien, ne diagnostique rien, ne traite rien et ne donne aucun conseil de santé. Demandez à un médecin ce que ces chiffres signifient pour vous.</p>
+        <p>Non. L’application Life Dashboard transfère vers un serveur que vous gérez des données que votre montre, votre bague ou votre balance ont déjà enregistrées. L’application ne mesure rien, ne diagnostique rien, ne traite rien et ne donne aucun conseil de santé. Demandez à un médecin ce que ces chiffres signifient pour vous.</p>
       </details>
       <details>
         <summary>Comment est-elle développée, et quel rôle joue l’IA&nbsp;?</summary>
@@ -917,7 +916,7 @@
     <div class="foot-top">
       <div class="foot-about">
         <a class="brand" href="/fr/life-dashboard/"><img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="32" height="32" loading="lazy"> <span>Life Dashboard</span></a>
-        <p>Life Dashboard est un projet open source d’<a href="https://github.com/owen282000">Owen Vogelaar</a>, en quatre éléments : les applications Life Dashboard Companion pour Android et iPhone, une intégration Home Assistant et une stack Grafana. Il n’a aucun lien avec d’autres applications ou modèles appelés Life Dashboard. Pour vos questions, rendez-vous dans <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
+        <p>Life Dashboard est un projet open source d’<a href="https://github.com/owen282000">Owen Vogelaar</a>, en quatre éléments : les applications Life Dashboard pour Android et iPhone, une intégration Home Assistant et une stack Grafana. Il n’a aucun lien avec d’autres applications ou modèles appelés Life Dashboard. Pour vos questions, rendez-vous dans <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
       </div>
       <div class="foot-col">
         <h2 class="foot-h">Produits</h2>

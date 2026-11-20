@@ -12,12 +12,12 @@ published: 2026-10-06
 
 <p class="signpost">Du willst stattdessen die Samsung-Health-Daten deiner Uhr in Home Assistant? Siehe <a href="../samsung-health-home-assistant/">Samsung Health und Galaxy Watch in Home Assistant</a>.</p>
 
-<p>Ordne die Entitäten der Waage in der Life-Dashboard-Integration zu und schalte <strong>Empfangen</strong> in Life Dashboard Companion ein, der Open-Source-App für Android, die mit ihr gekoppelt wird. Bei der nächsten Synchronisierung übergibt die Integration jeden neuen Messwert an die App, und die App schreibt ihn mit dem Zeitpunkt der Messung in Health Connect. Samsung Health und Google Health lesen Gewicht und Körperfett aus Health Connect. Gewicht und Körperfett einer Waage, die nur mit Home Assistant spricht, landen so in diesen Apps. Dasselbe geht mit einem Blutdruckmessgerät, wobei jede App selbst entscheidet, ob sie diesen Messwert anzeigt.</p>
+<p>Ordne die Entitäten der Waage in der Life-Dashboard-Integration zu und schalte <strong>Empfangen</strong> in Life Dashboard für Android ein, der Open-Source-App, die mit ihr gekoppelt wird. Bei der nächsten Synchronisierung übergibt die Integration jeden neuen Messwert an die App, und die App schreibt ihn mit dem Zeitpunkt der Messung in Health Connect. Samsung Health und Google Health lesen Gewicht und Körperfett aus Health Connect. Gewicht und Körperfett einer Waage, die nur mit Home Assistant spricht, landen so in diesen Apps. Dasselbe geht mit einem Blutdruckmessgerät, wobei jede App selbst entscheidet, ob sie diesen Messwert anzeigt.</p>
 
 <h2>Was du brauchst</h2>
 
 <ul>
-  <li>Ein Android-Telefon mit Health Connect und Life Dashboard Companion, gekoppelt mit der <a href="../home-assistant/">Life-Dashboard-Integration</a> 0.7.0 oder neuer. Die <a href="../health-connect-home-assistant/">Anleitung Gesundheitsdaten in Home Assistant</a> beschreibt das Koppeln. Die iPhone-App empfängt keine Messwerte, und über MQTT lassen sie sich nicht übertragen.</li>
+  <li>Ein Android-Telefon mit Health Connect und der Life-Dashboard-App, gekoppelt mit der <a href="../home-assistant/">Life-Dashboard-Integration</a> 0.7.0 oder neuer. Die <a href="../health-connect-home-assistant/">Anleitung Gesundheitsdaten in Home Assistant</a> beschreibt das Koppeln. Die iPhone-App empfängt keine Messwerte, und über MQTT lassen sie sich nicht übertragen.</li>
   <li>Die Messwerte der Waage als Sensoren in Home Assistant. Eine Bluetooth-Waage braucht Bluetooth im Umkreis weniger Meter: einen Adapter am Rechner mit Home Assistant oder einen ESPHome-Bluetooth-Proxy in der Nähe des Badezimmers.</li>
 </ul>
 
