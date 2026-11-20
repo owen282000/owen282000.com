@@ -1,6 +1,6 @@
 <!--
-title: Home Assistant companion app or Life Dashboard Companion? | Life Dashboard
-description: The companion app's 36 Health Connect sensors show the latest value. Life Dashboard Companion adds history on the right dates, 34 types and write-back.
+title: Home Assistant companion app or the Life Dashboard app? | Life Dashboard
+description: The companion app's 36 Health Connect sensors show the latest value. The Life Dashboard app adds history on the right dates, 34 types and write-back.
 primary query: home assistant companion app health connect
 secondary queries: health connect sensors home assistant history, home assistant companion app health connect only latest value, companion app health connect long term statistics, health connect backfill home assistant, companion app health connect sleep stages, companion app health connect exercise
 updated: 2026-11-20
@@ -11,7 +11,7 @@ published: 2026-10-14
 
 <p>For the latest value, yes. The Android companion app has 36 Health Connect sensors, each with the newest reading or today's total. It has no way to load older data, it files a value at the moment the sensor updates rather than on the day it belongs to, and it doesn't write into Health Connect. Life Dashboard reads 34 types and adds a backfill of all your history on the right dates, scale and blood pressure readings written back, and screen time per app. The two run side by side.</p>
 
-<p class="flow-line"><span>Health Connect</span><span>Life Dashboard Companion</span><span>Life Dashboard integration</span><span>Every day on its own date</span></p>
+<p class="flow-line"><span>Health Connect</span><span>Life Dashboard app</span><span>Life Dashboard integration</span><span>Every day on its own date</span></p>
 
 <h2>What the companion app reads</h2>
 
@@ -60,7 +60,7 @@ published: 2026-10-14
 
 <h2>What Life Dashboard adds</h2>
 
-<p>Life Dashboard is an open-source Android app, Life Dashboard Companion, plus the <a href="../home-assistant/">Life Dashboard integration</a> from the Marketplace (HACS before Home Assistant 2026.11). The app reads Health Connect and sends every record with its own time, and the integration files it on that date.</p>
+<p>Life Dashboard is an open-source app, Life Dashboard for Android, plus the <a href="../home-assistant/">Life Dashboard integration</a> from the Marketplace (HACS before Home Assistant 2026.11). The app reads Health Connect and sends every record with its own time, and the integration files it on that date.</p>
 
 <ul>
   <li><strong>34 types, 27 as sensors.</strong> That includes three sensors for workouts, the last one and the minutes of today and yesterday, and since integration 1.2.0 the calories, protein, carbs and fat you ate today. Over MQTT it's 25, without the workouts and the food. Single meals, mindfulness, sexual activity and cycle tracking have no single value to show; a webhook of your own gets them as records.</li>
@@ -105,7 +105,7 @@ published: 2026-10-14
 
 <p>The two don't get in each other's way. Each reads Health Connect with its own permission, and Home Assistant shows them as separate devices. Keep the companion app for presence, notifications and device sensors. If you add Life Dashboard for health data, you can switch off the companion app's Health Connect sensors under <strong>Manage Sensors</strong> so you don't see every value twice.</p>
 
-<p>To add Life Dashboard you need Home Assistant 2026.3 or newer, plus <a href="https://hacs.xyz">HACS</a> on versions before 2026.11, and <a href="../android/">Life Dashboard Companion for Android</a>. {{status:android}} The <a href="../health-connect-home-assistant/">Health Connect guide for Home Assistant</a> has every step, from the QR code to a tile on your dashboard.</p>
+<p>To add Life Dashboard you need Home Assistant 2026.3 or newer, plus <a href="https://hacs.xyz">HACS</a> on versions before 2026.11, and <a href="../android/">Life Dashboard for Android</a>. {{status:android}} The <a href="../health-connect-home-assistant/">Health Connect guide for Home Assistant</a> has every step, from the QR code to a tile on your dashboard.</p>
 
 <!-- IMG: the QR code in Home Assistant (H2-qr.png) -->
 

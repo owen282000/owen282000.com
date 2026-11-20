@@ -1,7 +1,7 @@
 <!--
 slug: api-health-connect-apple-health
 title: Health Connect y Apple Health no tienen API | Life Dashboard
-description: Health Connect y Apple Health no tienen API web. Life Dashboard Companion los lee en el teléfono y envía JSON firmado a tu servidor o a Home Assistant.
+description: Health Connect y Apple Health no tienen API web. La app Life Dashboard los lee en el teléfono y envía JSON firmado a tu servidor o a Home Assistant.
 primary query: api health connect
 secondary queries: api apple health, health connect api web, apple health api rest, datos de health connect en un servidor, health connect api rest, healthkit api web, api google health, cierre de la fitbit web api, api samsung health
 updated: 2026-11-20
@@ -10,9 +10,9 @@ published: 2026-10-06
 
 <h1>¿Existe una API web para Health Connect o Apple Health?</h1>
 
-<p>No. Health Connect y Apple Health son almacenes en el teléfono que las apps leen a través de Android o iOS, y ninguno ofrece un endpoint al que tu servidor pueda llamar. Para llevar los datos a un servidor, una app en el teléfono tiene que leerlos y reenviarlos, que es lo que hace Life Dashboard Companion en Android y en el iPhone.</p>
+<p>No. Health Connect y Apple Health son almacenes en el teléfono que las apps leen a través de Android o iOS, y ninguno ofrece un endpoint al que tu servidor pueda llamar. Para llevar los datos a un servidor, una app en el teléfono tiene que leerlos y reenviarlos, que es lo que hace la app Life Dashboard en Android y en el iPhone.</p>
 
-<p class="flow-line"><span>Reloj, anillo o báscula</span><span>Su app</span><span>Health Connect o Apple Health</span><span>Life Dashboard Companion</span><span>Tu servidor</span></p>
+<p class="flow-line"><span>Reloj, anillo o báscula</span><span>Su app</span><span>Health Connect o Apple Health</span><span>App Life Dashboard</span><span>Tu servidor</span></p>
 
 <h2>Health Connect es una API de Android en el teléfono</h2>
 
@@ -34,8 +34,8 @@ published: 2026-10-06
 
 <ul>
   <li>Un teléfono Android con Android 9 o posterior y Health Connect, o un iPhone con iOS 17 o posterior.</li>
-  <li><a href="../android/">Life Dashboard Companion para Android</a>. {{status:android}}</li>
-  <li>O <a href="../ios/">Life Dashboard Companion para iPhone</a>. {{status:ios}}</li>
+  <li><a href="../android/">Life Dashboard para Android</a>. {{status:android}}</li>
+  <li>O <a href="../ios/">Life Dashboard para iPhone</a>. {{status:ios}}</li>
   <li>Un sitio al que enviar los datos: un servidor que acepte un POST con JSON por HTTPS, <a href="../home-assistant/">Home Assistant</a>, un broker MQTT o <a href="../grafana/">el stack de Life Dashboard</a>.</li>
 </ul>
 
@@ -77,15 +77,15 @@ published: 2026-10-06
   <h2>FAQ</h2>
   <details>
     <summary>¿Puede mi servidor pedir datos a Health Connect?</summary>
-    <p>No. Health Connect no tiene interfaz de red. Una app en el teléfono tiene que leerlo y enviar los datos hacia fuera, como hace Life Dashboard Companion.</p>
+    <p>No. Health Connect no tiene interfaz de red. Una app en el teléfono tiene que leerlo y enviar los datos hacia fuera, como hace la app Life Dashboard.</p>
   </details>
   <details>
     <summary>¿Existe una API REST de Apple Health?</summary>
-    <p>No. Las apps leen Apple Health a través de HealthKit en el iPhone. <a href="../ios/">Life Dashboard Companion para iPhone</a> lo lee ahí y envía el mismo JSON que la app para Android.</p>
+    <p>No. Las apps leen Apple Health a través de HealthKit en el iPhone. <a href="../ios/">Life Dashboard para iPhone</a> lo lee ahí y envía el mismo JSON que la app para Android.</p>
   </details>
   <details>
     <summary>¿Debería usar la Google Health API en su lugar?</summary>
-    <p>Encaja si todos tus datos están en una cuenta de Google, de un Fitbit o un Pixel Watch, y no te importa tener un proyecto de Google Cloud y un cliente OAuth. Health Connect en el teléfono también contiene lo que escriben Samsung Health, Garmin Connect, Oura y Withings, y Life Dashboard Companion lo envía todo en un solo payload.</p>
+    <p>Encaja si todos tus datos están en una cuenta de Google, de un Fitbit o un Pixel Watch, y no te importa tener un proyecto de Google Cloud y un cliente OAuth. Health Connect en el teléfono también contiene lo que escriben Samsung Health, Garmin Connect, Oura y Withings, y la app Life Dashboard lo envía todo en un solo payload.</p>
   </details>
   <details>
     <summary>¿Pasan mis datos por alguna nube en el camino?</summary>

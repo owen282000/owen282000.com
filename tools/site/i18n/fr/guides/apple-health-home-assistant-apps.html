@@ -9,7 +9,7 @@ published: 2026-11-20
 
 <h1>Quelle application envoie Apple Health vers Home Assistant&nbsp;?</h1>
 
-<p>Apple Health (l’app Santé de l’iPhone) n’a pas d’API web&nbsp;: c’est donc une application sur l’iPhone qui doit envoyer les données. En novembre 2026, quatre sont conçues pour Home Assistant&nbsp;: l’application Companion de Home Assistant elle-même, HealthSync for Home Assistant, Health Assistant Link et Life Dashboard Companion. Elles diffèrent par leur prix, par la profondeur de l’historique et par ce qui arrive dans Home Assistant. Cette page les met côte à côte, d’après la page App Store, le site web et le dépôt de chacune. Je développe la dernière&nbsp;: vérifiez donc les sources là où cela compte pour vous.</p>
+<p>Apple Health (l’app Santé de l’iPhone) n’a pas d’API web&nbsp;: c’est donc une application sur l’iPhone qui doit envoyer les données. En novembre 2026, quatre sont conçues pour Home Assistant&nbsp;: l’application Companion de Home Assistant elle-même, HealthSync for Home Assistant, Health Assistant Link et Life Dashboard pour iPhone. Elles diffèrent par leur prix, par la profondeur de l’historique et par ce qui arrive dans Home Assistant. Cette page les met côte à côte, d’après la page App Store, le site web et le dépôt de chacune. Je développe la dernière&nbsp;: vérifiez donc les sources là où cela compte pour vous.</p>
 
 <p class="flow-line"><span>iPhone ou Apple Watch</span><span>Apple Santé</span><span>Une application sur l’iPhone</span><span>Home Assistant</span></p>
 
@@ -19,7 +19,7 @@ published: 2026-11-20
   <li><strong>Les valeurs du jour, gratuitement.</strong> L’application Companion de Home Assistant intègre des capteurs Apple Santé. Rien d’autre à installer.</li>
   <li><strong>Des synchronisations manuelles gratuites, ou automatiques contre un achat unique.</strong> HealthSync for Home Assistant, avec sa propre intégration dans HACS.</li>
   <li><strong>Le plus de mesures, une application Apple Watch et des valeurs écrites en retour dans Apple Santé.</strong> Health Assistant Link, avec des synchronisations automatiques sur abonnement.</li>
-  <li><strong>Tout votre historique à ses propres dates, un téléphone Android dans la même intégration, et MQTT ou un webhook à côté de Home Assistant.</strong> Life Dashboard Companion, payée une fois à l’achat.</li>
+  <li><strong>Tout votre historique à ses propres dates, un téléphone Android dans la même intégration, et MQTT ou un webhook à côté de Home Assistant.</strong> Life Dashboard pour iPhone, payée une fois à l’achat.</li>
 </ul>
 
 <h2>L’application Companion de Home Assistant</h2>
@@ -64,9 +64,9 @@ published: 2026-11-20
 
 <p>Le même développeur publie Phone Assistant Link, qui amène le Temps d’écran d’Apple dans Home Assistant par la même intégration, avec des chiffres d’utilisation approximatifs par conception.</p>
 
-<h2>Life Dashboard Companion</h2>
+<h2>Life Dashboard pour iPhone</h2>
 
-<p><a href="../ios/">Life Dashboard Companion</a> (dans l’App Store&nbsp;: Health Data for Home Assistant) est l’application iPhone de ce projet, avec l’<a href="../home-assistant/">intégration Life Dashboard</a> du Marketplace (HACS avant Home Assistant 2026.11). Vous associez les deux avec un QR code.</p>
+<p><a href="../ios/">Life Dashboard pour iPhone</a> (dans l’App Store&nbsp;: Health Data for Home Assistant) est l’application iPhone de ce projet, avec l’<a href="../home-assistant/">intégration Life Dashboard</a> du Marketplace (HACS avant Home Assistant 2026.11). Vous associez les deux avec un QR code.</p>
 
 <ul>
   <li><strong>Prix.</strong> 6,99&nbsp;€ en achat unique (5,99&nbsp;$US) sur l’<a href="{{app_store_url}}">App Store</a>, sans abonnement et sans rien à acheter dans l’application. Il n’y a pas de version gratuite dans la boutique. La compiler à partir du code source ne coûte rien de plus si vous avez déjà une adhésion à l’Apple Developer Program.</li>
@@ -85,7 +85,7 @@ published: 2026-11-20
 
 <table>
   <thead>
-    <tr><th></th><th>Application Companion de Home Assistant</th><th>HealthSync for Home Assistant</th><th>Health Assistant Link</th><th>Life Dashboard Companion</th></tr>
+    <tr><th></th><th>Application Companion de Home Assistant</th><th>HealthSync for Home Assistant</th><th>Health Assistant Link</th><th>Life Dashboard</th></tr>
   </thead>
   <tbody>
     <tr><td>Prix</td><td>Gratuite</td><td>Gratuite&nbsp;; synchronisation automatique 7,99&nbsp;$US en achat unique</td><td>Gratuite&nbsp;; synchronisation automatique 1,99&nbsp;$US par mois ou 19,99&nbsp;$US par an</td><td>6,99&nbsp;€ en achat unique (5,99&nbsp;$US)</td></tr>
@@ -123,9 +123,9 @@ published: 2026-11-20
   <li>Vous voulez une tuile avec les pas du jour ou le dernier poids&nbsp;: l’application Companion suffit.</li>
   <li>Vous voulez essayer sans rien payer d’abord&nbsp;: l’application Companion, ou les synchronisations manuelles de HealthSync ou de Health Assistant Link.</li>
   <li>Vous voulez le poids d’une balance connectée de Home Assistant dans Apple Santé, les médicaments, ou des synchronisations nocturnes par la montre&nbsp;: Health Assistant Link.</li>
-  <li>Vous préférez payer une fois plutôt que vous abonner&nbsp;: HealthSync ou Life Dashboard Companion.</li>
-  <li>Vous voulez des années d’historique dans les statistiques à long terme, par jour pour les totaux comme les pas et le sommeil et par heure pour les mesures comme la fréquence cardiaque&nbsp;: Life Dashboard Companion.</li>
-  <li>Quelqu’un chez vous a un téléphone Android, ou les données doivent aussi aller vers MQTT, n8n ou une base de données à vous&nbsp;: Life Dashboard Companion.</li>
+  <li>Vous préférez payer une fois plutôt que vous abonner&nbsp;: HealthSync ou Life Dashboard pour iPhone.</li>
+  <li>Vous voulez des années d’historique dans les statistiques à long terme, par jour pour les totaux comme les pas et le sommeil et par heure pour les mesures comme la fréquence cardiaque&nbsp;: Life Dashboard pour iPhone.</li>
+  <li>Quelqu’un chez vous a un téléphone Android, ou les données doivent aussi aller vers MQTT, n8n ou une base de données à vous&nbsp;: Life Dashboard pour iPhone.</li>
 </ul>
 
 <p>Elles ne s’excluent pas. Chaque application demande son propre accès à Apple Santé et apporte ses propres entités, et l’application Companion reste celle de la présence, des notifications et des capteurs de l’appareil.</p>
@@ -138,15 +138,15 @@ published: 2026-11-20
   </details>
   <details>
     <summary>Puis-je envoyer Apple Santé vers Home Assistant sans abonnement&nbsp;?</summary>
-    <p>Oui. L’application Companion est gratuite. HealthSync for Home Assistant débloque les synchronisations automatiques avec un achat unique, et Life Dashboard Companion est un achat unique dès le départ. Health Assistant Link synchronise manuellement gratuitement et automatiquement avec un abonnement.</p>
+    <p>Oui. L’application Companion est gratuite. HealthSync for Home Assistant débloque les synchronisations automatiques avec un achat unique, et Life Dashboard pour iPhone est un achat unique dès le départ. Health Assistant Link synchronise manuellement gratuitement et automatiquement avec un abonnement.</p>
   </details>
   <details>
     <summary>Quelle application amène mes anciennes données Apple Santé dans Home Assistant&nbsp;?</summary>
-    <p>HealthSync for Home Assistant récupère des mois ou des années avec Sync History, Health Assistant Link rattrape jusqu’à 14 jours, et Life Dashboard Companion envoie de 30 jours à tout l’historique dans les statistiques à long terme. La documentation de l’application Companion ne décrit aucun import de données plus anciennes.</p>
+    <p>HealthSync for Home Assistant récupère des mois ou des années avec Sync History, Health Assistant Link rattrape jusqu’à 14 jours, et Life Dashboard pour iPhone envoie de 30 jours à tout l’historique dans les statistiques à long terme. La documentation de l’application Companion ne décrit aucun import de données plus anciennes.</p>
   </details>
   <details>
     <summary>Home Assistant peut-il écrire une valeur dans Apple Santé&nbsp;?</summary>
-    <p>Avec Health Assistant Link, oui&nbsp;: vous associez une entité numérique de Home Assistant, comme le poids d’une balance connectée, à une mesure d’Apple Santé. Life Dashboard Companion ne fait que lire Apple Santé.</p>
+    <p>Avec Health Assistant Link, oui&nbsp;: vous associez une entité numérique de Home Assistant, comme le poids d’une balance connectée, à une mesure d’Apple Santé. Life Dashboard pour iPhone ne fait que lire Apple Santé.</p>
   </details>
   <details>
     <summary>Mes données de santé passent-elles par le serveur de quelqu’un&nbsp;?</summary>

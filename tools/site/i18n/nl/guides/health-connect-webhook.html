@@ -1,6 +1,6 @@
 <!--
 title: Health Connect webhook naar je eigen server | Life Dashboard
-description: Life Dashboard Companion, een open-source Android-app, stuurt Health Connect-data als ondertekende JSON naar je eigen webhook, uit Samsung Health, Garmin en meer.
+description: Life Dashboard voor Android, een open-source app, stuurt Health Connect-data als ondertekende JSON naar je eigen webhook, uit Samsung Health, Garmin en meer.
 primary query: health connect webhook
 secondary queries: health connect api, health connect gegevens exporteren, health connect json, health connect node-red, health connect grafana, health connect influxdb, gezondheidsdata zelf hosten, health connect eigen server
 updated: 2026-11-20
@@ -9,19 +9,19 @@ published: 2026-10-06
 
 <h1>Hoe stuur ik Health Connect-data als JSON naar mijn eigen webhook?</h1>
 
-<p>Life Dashboard Companion, een open-source Android-app, leest Health Connect volgens een schema uit en stuurt elke nieuwe meting naar de URL's die je invult, als HTTPS-POST met een JSON-body. Elke payload bevat de metingen van de types die je hebt aangezet (34 in totaal, van stappen en slaapfasen tot hartslag, gewicht en bloeddruk), elk met een stabiele <code>uuid</code> en de app die de meting schreef, plus dagtotalen die een wandeling één keer tellen.</p>
+<p>Life Dashboard voor Android, een open-source app, leest Health Connect volgens een schema uit en stuurt elke nieuwe meting naar de URL's die je invult, als HTTPS-POST met een JSON-body. Elke payload bevat de metingen van de types die je hebt aangezet (34 in totaal, van stappen en slaapfasen tot hartslag, gewicht en bloeddruk), elk met een stabiele <code>uuid</code> en de app die de meting schreef, plus dagtotalen die een wandeling één keer tellen.</p>
 
 <p>Stel je een geheim in, dan wordt elk verzoek ondertekend met HMAC-SHA256 in een <code>X-Signature</code>-header. Payloads die niet afgeleverd kunnen worden, wachten in een wachtrij op de telefoon op de volgende sync. Elke ontvanger die JSON accepteert werkt, ook n8n, Node-RED, een klein script of de Life Dashboard-stack met Postgres en Grafana.</p>
 
 <h2>Waarom er een app op de telefoon voor nodig is</h2>
 
-<p>Health Connect heeft geen web-API. Het is een opslag op de telefoon die apps via Android uitlezen, dus iets op de telefoon moet de data lezen en doorsturen. Life Dashboard Companion doet dat en post rechtstreeks naar je URL, zonder cloudservice of Google-account ertussen. Eén payload bevat elke bron: wat Samsung Health, Google Health (Fitbit en Pixel Watch), Garmin Connect, Oura en Withings naar Health Connect schrijven, waarbij bij elke meting staat welke app die schreef. De cloudroute van Google, de Google Health API, vraagt om een Google Cloud-project en een OAuth-client, en ziet alleen wat in je Google-account terechtkomt.</p>
+<p>Health Connect heeft geen web-API. Het is een opslag op de telefoon die apps via Android uitlezen, dus iets op de telefoon moet de data lezen en doorsturen. De Life Dashboard-app doet dat en post rechtstreeks naar je URL, zonder cloudservice of Google-account ertussen. Eén payload bevat elke bron: wat Samsung Health, Google Health (Fitbit en Pixel Watch), Garmin Connect, Oura en Withings naar Health Connect schrijven, waarbij bij elke meting staat welke app die schreef. De cloudroute van Google, de Google Health API, vraagt om een Google Cloud-project en een OAuth-client, en ziet alleen wat in je Google-account terechtkomt.</p>
 
 <h2>Wat je nodig hebt</h2>
 
 <ul>
   <li>Android 9 of nieuwer met Health Connect, en een app die ernaar schrijft, zoals Samsung Health, Garmin Connect of Google Health.</li>
-  <li><a href="../android/">Life Dashboard Companion voor Android</a>, uit <a href="{{play_url}}">Google Play</a> voor €&nbsp;4,99 eenmalig, of gratis via GitHub Releases, Obtainium of F-Droid. Bij de <a href="../android/#get">installatieopties</a> staat elke route.</li>
+  <li><a href="../android/">Life Dashboard voor Android</a>, uit <a href="{{play_url}}">Google Play</a> voor €&nbsp;4,99 eenmalig, of gratis via GitHub Releases, Obtainium of F-Droid. Bij de <a href="../android/#get">installatieopties</a> staat elke route.</li>
   <li>Een server die een JSON-POST via HTTPS accepteert, met een limiet voor de body van minstens 10 MB. Voor onversleutelde HTTP in je eigen netwerk zet je <strong>Onversleutelde HTTP-webhooks toestaan</strong> aan onder <strong>Meer</strong> &gt; <strong>Geavanceerd</strong>.</li>
 </ul>
 
@@ -118,7 +118,7 @@ valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
 
 <h2>De iPhone-app stuurt dezelfde payload</h2>
 
-<p><a href="../ios/">Life Dashboard Companion voor iPhone</a> post Apple Health-data met dezelfde sleutels, eenheden en handtekening, en met <code>"source": "healthkit_ios"</code>, zodat één ontvanger beide telefoons aankan. De app stuurt dezelfde <code>sequence</code>-teller, en zijn HRV is SDNN waar Android RMSSD stuurt, dus houd die twee uit elkaar. {{status:ios}} Zie <a href="../ios/#get">hoe je hem krijgt</a>.</p>
+<p><a href="../ios/">Life Dashboard voor iPhone</a> post Apple Health-data met dezelfde sleutels, eenheden en handtekening, en met <code>"source": "healthkit_ios"</code>, zodat één ontvanger beide telefoons aankan. De app stuurt dezelfde <code>sequence</code>-teller, en zijn HRV is SDNN waar Android RMSSD stuurt, dus houd die twee uit elkaar. {{status:ios}} Zie <a href="../ios/#get">hoe je hem krijgt</a>.</p>
 
 <h2>Beperkingen</h2>
 
@@ -131,7 +131,7 @@ valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
   <h2>FAQ</h2>
   <details>
     <summary>Kan ik in plaats daarvan de Google Health API gebruiken?</summary>
-    <p>Voor data in je Google-account, zoals die van Fitbit en Pixel Watch, biedt Google in zijn cloud de Google Health API aan, waarvoor je een Google Cloud-project en een OAuth-client nodig hebt. Health Connect zelf heeft geen web-API. Life Dashboard Companion leest het uit op de telefoon, dus data van Samsung Health, Garmin Connect, Oura en Withings komt in dezelfde payload binnen, en onderweg gaat er niets via een Google-account.</p>
+    <p>Voor data in je Google-account, zoals die van Fitbit en Pixel Watch, biedt Google in zijn cloud de Google Health API aan, waarvoor je een Google Cloud-project en een OAuth-client nodig hebt. Health Connect zelf heeft geen web-API. De Life Dashboard-app leest het uit op de telefoon, dus data van Samsung Health, Garmin Connect, Oura en Withings komt in dezelfde payload binnen, en onderweg gaat er niets via een Google-account.</p>
   </details>
   <details>
     <summary>Kan ik een echte payload zien voordat ik een ontvanger schrijf?</summary>

@@ -9,7 +9,7 @@ published: 2026-11-20
 
 <h1>¿Qué app lleva Apple Health a Home Assistant?</h1>
 
-<p>Apple Health (la app Salud del iPhone) no tiene una API web, así que una app en el iPhone tiene que enviar los datos. A noviembre de 2026 hay cuatro hechas para Home Assistant: la propia app Companion de Home Assistant, HealthSync for Home Assistant, Health Assistant Link y Life Dashboard Companion. Se diferencian en lo que cuestan, en hasta dónde retroceden y en lo que llega a Home Assistant. Esta página las pone una junto a otra, a partir de la página del App Store, el sitio web y el repositorio de cada app. La última la hago yo, así que comprueba las fuentes en lo que te importe.</p>
+<p>Apple Health (la app Salud del iPhone) no tiene una API web, así que una app en el iPhone tiene que enviar los datos. A noviembre de 2026 hay cuatro hechas para Home Assistant: la propia app Companion de Home Assistant, HealthSync for Home Assistant, Health Assistant Link y Life Dashboard para iPhone. Se diferencian en lo que cuestan, en hasta dónde retroceden y en lo que llega a Home Assistant. Esta página las pone una junto a otra, a partir de la página del App Store, el sitio web y el repositorio de cada app. La última la hago yo, así que comprueba las fuentes en lo que te importe.</p>
 
 <p class="flow-line"><span>iPhone o Apple Watch</span><span>Apple Health</span><span>Una app en el iPhone</span><span>Home Assistant</span></p>
 
@@ -19,7 +19,7 @@ published: 2026-11-20
   <li><strong>Los valores de hoy, gratis.</strong> La app Companion de Home Assistant trae sensores de Apple Health integrados. No hay que instalar nada más.</li>
   <li><strong>Sincronizaciones manuales gratis, o automáticas con una compra única.</strong> HealthSync for Home Assistant, con su propia integración desde HACS.</li>
   <li><strong>La mayor cantidad de métricas, una app para el Apple Watch y valores escritos de vuelta en Apple Health.</strong> Health Assistant Link, con sincronizaciones automáticas por suscripción.</li>
-  <li><strong>Todo tu historial en sus propias fechas, un teléfono Android en la misma integración, y MQTT o un webhook junto a Home Assistant.</strong> Life Dashboard Companion, con un pago único por adelantado.</li>
+  <li><strong>Todo tu historial en sus propias fechas, un teléfono Android en la misma integración, y MQTT o un webhook junto a Home Assistant.</strong> Life Dashboard para iPhone, con un pago único por adelantado.</li>
 </ul>
 
 <h2>La app Companion de Home Assistant</h2>
@@ -64,9 +64,9 @@ published: 2026-11-20
 
 <p>El mismo desarrollador hace Phone Assistant Link, que lleva el tiempo de pantalla de Apple a Home Assistant a través de la misma integración, con cifras de uso que son aproximadas por diseño.</p>
 
-<h2>Life Dashboard Companion</h2>
+<h2>Life Dashboard para iPhone</h2>
 
-<p><a href="../ios/">Life Dashboard Companion</a> (en la App Store: Health Data for Home Assistant) es la app para iPhone de este proyecto, con la <a href="../home-assistant/">integración Life Dashboard</a> del Marketplace (HACS antes de Home Assistant 2026.11). Vinculas las dos con un código QR.</p>
+<p><a href="../ios/">Life Dashboard para iPhone</a> (en la App Store: Health Data for Home Assistant) es la app para iPhone de este proyecto, con la <a href="../home-assistant/">integración Life Dashboard</a> del Marketplace (HACS antes de Home Assistant 2026.11). Vinculas las dos con un código QR.</p>
 
 <ul>
   <li><strong>Precio.</strong> 6,99&nbsp;€, pago único (5,99&nbsp;USD), en el <a href="{{app_store_url}}">App Store</a>, sin suscripción y sin nada que comprar dentro de la app. No hay versión gratuita en la tienda. Compilarla desde el código fuente no cuesta nada más si ya tienes una membresía del Apple Developer Program.</li>
@@ -85,7 +85,7 @@ published: 2026-11-20
 
 <table>
   <thead>
-    <tr><th></th><th>App Companion de Home Assistant</th><th>HealthSync for Home Assistant</th><th>Health Assistant Link</th><th>Life Dashboard Companion</th></tr>
+    <tr><th></th><th>App Companion de Home Assistant</th><th>HealthSync for Home Assistant</th><th>Health Assistant Link</th><th>Life Dashboard</th></tr>
   </thead>
   <tbody>
     <tr><td>Precio</td><td>Gratis</td><td>Gratis; sincronización automática por 7,99&nbsp;USD, pago único</td><td>Gratis; sincronización automática por 1,99&nbsp;USD al mes o 19,99&nbsp;USD al año</td><td>6,99&nbsp;€, pago único (5,99&nbsp;USD)</td></tr>
@@ -123,9 +123,9 @@ published: 2026-11-20
   <li>Quieres una tarjeta Tile con los pasos de hoy o el último peso: la app Companion es suficiente.</li>
   <li>Quieres probar sin pagar nada antes: la app Companion, o las sincronizaciones manuales de HealthSync o Health Assistant Link.</li>
   <li>Quieres en Apple Health el peso de una báscula inteligente desde Home Assistant, la medicación, o sincronizaciones durante la noche a través del reloj: Health Assistant Link.</li>
-  <li>Prefieres pagar una vez antes que suscribirte: HealthSync o Life Dashboard Companion.</li>
-  <li>Quieres años de historial en las estadísticas a largo plazo, por día para totales como los pasos y el sueño y por hora para mediciones como la frecuencia cardíaca: Life Dashboard Companion.</li>
-  <li>Alguien en casa tiene un teléfono Android, o los datos también deben ir a MQTT, a n8n o a una base de datos propia: Life Dashboard Companion.</li>
+  <li>Prefieres pagar una vez antes que suscribirte: HealthSync o Life Dashboard para iPhone.</li>
+  <li>Quieres años de historial en las estadísticas a largo plazo, por día para totales como los pasos y el sueño y por hora para mediciones como la frecuencia cardíaca: Life Dashboard para iPhone.</li>
+  <li>Alguien en casa tiene un teléfono Android, o los datos también deben ir a MQTT, a n8n o a una base de datos propia: Life Dashboard para iPhone.</li>
 </ul>
 
 <p>No se excluyen entre sí. Cada app pide su propio acceso a Apple Health y trae sus propias entidades, y la app Companion sigue siendo la indicada para la presencia, las notificaciones y los sensores del dispositivo.</p>
@@ -138,15 +138,15 @@ published: 2026-11-20
   </details>
   <details>
     <summary>¿Puedo llevar Apple Health a Home Assistant sin suscripción?</summary>
-    <p>Sí. La app Companion es gratis. HealthSync for Home Assistant desbloquea las sincronizaciones automáticas con una compra única, y Life Dashboard Companion es una compra única por adelantado. Health Assistant Link sincroniza manualmente gratis y automáticamente con una suscripción.</p>
+    <p>Sí. La app Companion es gratis. HealthSync for Home Assistant desbloquea las sincronizaciones automáticas con una compra única, y Life Dashboard para iPhone es una compra única por adelantado. Health Assistant Link sincroniza manualmente gratis y automáticamente con una suscripción.</p>
   </details>
   <details>
     <summary>¿Qué app lleva mis datos antiguos de Apple Health a Home Assistant?</summary>
-    <p>HealthSync for Home Assistant trae meses o años con Sync History, Health Assistant Link hace un backfill de hasta 14 días, y Life Dashboard Companion envía desde 30 días hasta todo el historial a las estadísticas a largo plazo. La documentación de la app Companion no describe ninguna importación de datos antiguos.</p>
+    <p>HealthSync for Home Assistant trae meses o años con Sync History, Health Assistant Link hace un backfill de hasta 14 días, y Life Dashboard para iPhone envía desde 30 días hasta todo el historial a las estadísticas a largo plazo. La documentación de la app Companion no describe ninguna importación de datos antiguos.</p>
   </details>
   <details>
     <summary>¿Puede Home Assistant escribir un valor en Apple Health?</summary>
-    <p>Con Health Assistant Link, sí: emparejas una entidad numérica de Home Assistant, como el peso de una báscula inteligente, con una métrica de Apple Health. Life Dashboard Companion solo lee Apple Health.</p>
+    <p>Con Health Assistant Link, sí: emparejas una entidad numérica de Home Assistant, como el peso de una báscula inteligente, con una métrica de Apple Health. Life Dashboard para iPhone solo lee Apple Health.</p>
   </details>
   <details>
     <summary>¿Pasan mis datos de salud por el servidor de alguien?</summary>

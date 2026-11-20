@@ -36,12 +36,12 @@
 <meta property="og:image" content="https://owen282000.com/life-dashboard/img/social.png">
 <meta property="og:image:width" content="1280">
 <meta property="og:image:height" content="640">
-<meta property="og:image:alt" content="Life Dashboard Companion: seus dados de saúde, seu servidor. Sem nuvem.">
+<meta property="og:image:alt" content="Life Dashboard: seus dados de saúde, seu servidor. Sem nuvem.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Como levar as medições de uma balança inteligente do Home Assistant para o Samsung Health?">
 <meta name="twitter:description" content="Xiaomi, Renpho, Eufy ou Withings: se o Home Assistant lê a sua balança, peso e gordura corporal chegam ao Samsung Health e ao Google Health pelo Health Connect.">
 <meta name="twitter:image" content="https://owen282000.com/life-dashboard/img/social.png">
-<meta name="twitter:image:alt" content="Life Dashboard Companion: seus dados de saúde, seu servidor. Sem nuvem.">
+<meta name="twitter:image:alt" content="Life Dashboard: seus dados de saúde, seu servidor. Sem nuvem.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -69,7 +69,7 @@
         {
           "@type": "SoftwareApplication",
           "@id": "https://owen282000.com/life-dashboard/#android",
-          "name": "Life Dashboard Companion"
+          "name": "Life Dashboard for Android"
         }
       ],
       "datePublished": "2026-10-06",
@@ -241,7 +241,7 @@
       <div class="guide-intro">
 <p class="signpost">Quer o contrário, os dados do Samsung Health do seu relógio no Home Assistant? Veja <a href="/pt-br/life-dashboard/samsung-health-home-assistant/">Samsung Health e Galaxy Watch no Home Assistant</a>.</p>
 
-<p>Mapeie as entidades da balança na integração Life Dashboard e ative <strong>Receber</strong> no Life Dashboard Companion, o app Android de código aberto que pareia com ela. Na sincronização seguinte, a integração entrega cada medição nova ao app, e o app a grava no Conexão Saúde (Health Connect) com o horário em que ela foi feita. O Samsung Health e o Google Health leem peso e gordura corporal do Conexão Saúde, então o peso e a gordura corporal de uma balança que só conversa com o Home Assistant vão parar nesses apps. O mesmo vale para um medidor de pressão arterial, mas se um app mostra essa medição depende do app.</p>
+<p>Mapeie as entidades da balança na integração Life Dashboard e ative <strong>Receber</strong> no Life Dashboard para Android, o app de código aberto que pareia com ela. Na sincronização seguinte, a integração entrega cada medição nova ao app, e o app a grava no Conexão Saúde (Health Connect) com o horário em que ela foi feita. O Samsung Health e o Google Health leem peso e gordura corporal do Conexão Saúde, então o peso e a gordura corporal de uma balança que só conversa com o Home Assistant vão parar nesses apps. O mesmo vale para um medidor de pressão arterial, mas se um app mostra essa medição depende do app.</p>
       </div>
       <p class="guide-meta"><span>Por <a href="/pt-br/">Owen Vogelaar</a>, que mantém o Life Dashboard</span> <span><time datetime="2026-11-20">Atualizado em 20 de novembro de 2026</time></span> <span>5 min de leitura</span></p>
       <p class="guide-cta"><a class="btn btn-primary" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Abrir no Marketplace</a></p>
@@ -264,7 +264,7 @@
 <h2 id="what-you-need">O que você precisa</h2>
 
 <ul>
-  <li>Um celular Android com o Conexão Saúde e o Life Dashboard Companion, pareado com a <a href="/pt-br/life-dashboard/home-assistant/">integração Life Dashboard</a> 0.7.0 ou mais recente. O <a href="/pt-br/life-dashboard/health-connect-home-assistant/">guia do Conexão Saúde</a> explica o pareamento. O app para iPhone não recebe medições, e o MQTT não consegue transportá-las.</li>
+  <li>Um celular Android com o Conexão Saúde e o app Life Dashboard, pareado com a <a href="/pt-br/life-dashboard/home-assistant/">integração Life Dashboard</a> 0.7.0 ou mais recente. O <a href="/pt-br/life-dashboard/health-connect-home-assistant/">guia do Conexão Saúde</a> explica o pareamento. O app para iPhone não recebe medições, e o MQTT não consegue transportá-las.</li>
   <li>As medições da balança como sensores no Home Assistant. Uma balança Bluetooth precisa de Bluetooth a poucos metros: um adaptador na máquina do Home Assistant, ou um proxy Bluetooth do ESPHome perto do banheiro.</li>
 </ul>
 
@@ -334,7 +334,7 @@
 <p>Medições com mais de 30 dias são recusadas, a não ser que <strong>Aceitar medições antigas</strong> esteja ativado no app. O botão <strong>Send history to phone</strong> da integração coloca na fila até 30 dias, até onde o recorder do Home Assistant guarda os estados (10 dias por padrão). A ação <code>life_dashboard.queue_history</code> volta até 90 dias. Uma medição que o celular recusou não é oferecida de novo, então ative <strong>Aceitar medições antigas</strong> antes de enviar o histórico.</p>
 
 <section class="get-panel" aria-labelledby="get-the-app">
-      <h2 id="get-the-app">Life Dashboard Companion</h2>
+      <h2 id="get-the-app">Life Dashboard para Android</h2>
       <p>Você precisa da integração Life Dashboard 0.7.0 ou mais recente e do app no celular, pareados como no <a href="/pt-br/life-dashboard/health-connect-home-assistant/">guia do Conexão Saúde</a>.</p>
       <div class="stores">
         <div class="panel-store"><a class="badge-link" href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-pt-br-guide-smart-scale-to-samsung-health%26utm_medium%3Dwebsite"><img class="badge-img" src="/life-dashboard/img/badges/google-play.png?v=a13294f3" alt="Disponível no Google Play" width="564" height="168" loading="lazy"></a>
@@ -386,7 +386,7 @@
     <div class="foot-top">
       <div class="foot-about">
         <a class="brand" href="/pt-br/life-dashboard/"><img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="32" height="32" loading="lazy"> <span>Life Dashboard</span></a>
-        <p>O Life Dashboard é um projeto de código aberto de <a href="https://github.com/owen282000">Owen Vogelaar</a>, em quatro partes: os apps Life Dashboard Companion para Android e iPhone, uma integração para o Home Assistant e uma stack do Grafana. Não tem relação com outros apps ou modelos chamados Life Dashboard. Dúvidas vão para as <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
+        <p>O Life Dashboard é um projeto de código aberto de <a href="https://github.com/owen282000">Owen Vogelaar</a>, em quatro partes: os apps Life Dashboard para Android e iPhone, uma integração para o Home Assistant e uma stack do Grafana. Não tem relação com outros apps ou modelos chamados Life Dashboard. Dúvidas vão para as <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
       </div>
       <div class="foot-col">
         <h2 class="foot-h">Produtos</h2>

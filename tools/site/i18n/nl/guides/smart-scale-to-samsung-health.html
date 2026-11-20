@@ -12,12 +12,12 @@ published: 2026-10-06
 
 <p class="signpost">Wil je juist de Samsung Health-data van je horloge in Home Assistant? Zie <a href="../samsung-health-home-assistant/">Samsung Health en Galaxy Watch in Home Assistant</a>.</p>
 
-<p>Wijs de entiteiten van de weegschaal toe in de Life Dashboard-integratie en zet <strong>Ontvangen</strong> aan in Life Dashboard Companion, de open-source app voor Android die je ermee koppelt. Bij de volgende sync geeft de integratie elke nieuwe meting door aan de app, en de app schrijft die naar Health Connect met het tijdstip waarop er gemeten is. Samsung Health en Google Health lezen gewicht en lichaamsvet uit Health Connect. Zo komen het gewicht en het vetpercentage van een weegschaal die alleen met Home Assistant praat toch in die apps terecht. Hetzelfde werkt voor een bloeddrukmeter, al bepaalt een app zelf of hij die meting toont.</p>
+<p>Wijs de entiteiten van de weegschaal toe in de Life Dashboard-integratie en zet <strong>Ontvangen</strong> aan in Life Dashboard voor Android, de open-source app die je ermee koppelt. Bij de volgende sync geeft de integratie elke nieuwe meting door aan de app, en de app schrijft die naar Health Connect met het tijdstip waarop er gemeten is. Samsung Health en Google Health lezen gewicht en lichaamsvet uit Health Connect. Zo komen het gewicht en het vetpercentage van een weegschaal die alleen met Home Assistant praat toch in die apps terecht. Hetzelfde werkt voor een bloeddrukmeter, al bepaalt een app zelf of hij die meting toont.</p>
 
 <h2>Wat je nodig hebt</h2>
 
 <ul>
-  <li>Een Android-telefoon met Health Connect en Life Dashboard Companion, gekoppeld met de <a href="../home-assistant/">Life Dashboard-integratie</a> 0.7.0 of nieuwer. De <a href="../health-connect-home-assistant/">Health Connect-gids</a> legt het koppelen uit. De iPhone-app ontvangt geen metingen, en via MQTT kunnen ze niet mee.</li>
+  <li>Een Android-telefoon met Health Connect en de Life Dashboard-app, gekoppeld met de <a href="../home-assistant/">Life Dashboard-integratie</a> 0.7.0 of nieuwer. De <a href="../health-connect-home-assistant/">Health Connect-gids</a> legt het koppelen uit. De iPhone-app ontvangt geen metingen, en via MQTT kunnen ze niet mee.</li>
   <li>De metingen van de weegschaal als sensoren in Home Assistant. Een Bluetooth-weegschaal heeft Bluetooth binnen een paar meter nodig: een adapter op de machine waarop Home Assistant draait, of een ESPHome Bluetooth-proxy in de buurt van de badkamer.</li>
 </ul>
 

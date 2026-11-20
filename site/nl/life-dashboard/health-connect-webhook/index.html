@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Health Connect webhook naar je eigen server | Life Dashboard</title>
-<meta name="description" content="Life Dashboard Companion, een open-source Android-app, stuurt Health Connect-data als ondertekende JSON naar je eigen webhook, uit Samsung Health, Garmin en meer.">
+<meta name="description" content="Life Dashboard voor Android, een open-source app, stuurt Health Connect-data als ondertekende JSON naar je eigen webhook, uit Samsung Health, Garmin en meer.">
 <link rel="canonical" href="https://owen282000.com/nl/life-dashboard/health-connect-webhook/">
 <link rel="alternate" hreflang="en" href="https://owen282000.com/life-dashboard/health-connect-webhook/">
 <link rel="alternate" hreflang="nl" href="https://owen282000.com/nl/life-dashboard/health-connect-webhook/">
@@ -31,17 +31,17 @@
 <meta property="og:locale:alternate" content="pt_BR">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="Hoe stuur ik Health Connect-data als JSON naar mijn eigen webhook?">
-<meta property="og:description" content="Life Dashboard Companion, een open-source Android-app, stuurt Health Connect-data als ondertekende JSON naar je eigen webhook, uit Samsung Health, Garmin en meer.">
+<meta property="og:description" content="Life Dashboard voor Android, een open-source app, stuurt Health Connect-data als ondertekende JSON naar je eigen webhook, uit Samsung Health, Garmin en meer.">
 <meta property="og:url" content="https://owen282000.com/nl/life-dashboard/health-connect-webhook/">
 <meta property="og:image" content="https://owen282000.com/life-dashboard/img/social.png">
 <meta property="og:image:width" content="1280">
 <meta property="og:image:height" content="640">
-<meta property="og:image:alt" content="Life Dashboard Companion: jouw gezondheidsdata, jouw server. Geen cloud.">
+<meta property="og:image:alt" content="Life Dashboard: jouw gezondheidsdata, jouw server. Geen cloud.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Hoe stuur ik Health Connect-data als JSON naar mijn eigen webhook?">
-<meta name="twitter:description" content="Life Dashboard Companion, een open-source Android-app, stuurt Health Connect-data als ondertekende JSON naar je eigen webhook, uit Samsung Health, Garmin en meer.">
+<meta name="twitter:description" content="Life Dashboard voor Android, een open-source app, stuurt Health Connect-data als ondertekende JSON naar je eigen webhook, uit Samsung Health, Garmin en meer.">
 <meta name="twitter:image" content="https://owen282000.com/life-dashboard/img/social.png">
-<meta name="twitter:image:alt" content="Life Dashboard Companion: jouw gezondheidsdata, jouw server. Geen cloud.">
+<meta name="twitter:image:alt" content="Life Dashboard: jouw gezondheidsdata, jouw server. Geen cloud.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -50,7 +50,7 @@
       "@type": "TechArticle",
       "@id": "https://owen282000.com/nl/life-dashboard/health-connect-webhook/#article",
       "headline": "Hoe stuur ik Health Connect-data als JSON naar mijn eigen webhook?",
-      "description": "Life Dashboard Companion, een open-source Android-app, stuurt Health Connect-data als ondertekende JSON naar je eigen webhook, uit Samsung Health, Garmin en meer.",
+      "description": "Life Dashboard voor Android, een open-source app, stuurt Health Connect-data als ondertekende JSON naar je eigen webhook, uit Samsung Health, Garmin en meer.",
       "url": "https://owen282000.com/nl/life-dashboard/health-connect-webhook/",
       "mainEntityOfPage": "https://owen282000.com/nl/life-dashboard/health-connect-webhook/",
       "inLanguage": "nl",
@@ -64,12 +64,12 @@
         {
           "@type": "SoftwareApplication",
           "@id": "https://owen282000.com/life-dashboard/#android",
-          "name": "Life Dashboard Companion"
+          "name": "Life Dashboard for Android"
         },
         {
           "@type": "SoftwareApplication",
           "@id": "https://owen282000.com/life-dashboard/#ios",
-          "name": "Life Dashboard Companion for iPhone"
+          "name": "Life Dashboard for iPhone"
         }
       ],
       "datePublished": "2026-10-06",
@@ -160,7 +160,7 @@
           "name": "Kan ik in plaats daarvan de Google Health API gebruiken?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Voor data in je Google-account, zoals die van Fitbit en Pixel Watch, biedt Google in zijn cloud de Google Health API aan, waarvoor je een Google Cloud-project en een OAuth-client nodig hebt. Health Connect zelf heeft geen web-API. Life Dashboard Companion leest het uit op de telefoon, dus data van Samsung Health, Garmin Connect, Oura en Withings komt in dezelfde payload binnen, en onderweg gaat er niets via een Google-account."
+            "text": "Voor data in je Google-account, zoals die van Fitbit en Pixel Watch, biedt Google in zijn cloud de Google Health API aan, waarvoor je een Google Cloud-project en een OAuth-client nodig hebt. Health Connect zelf heeft geen web-API. De Life Dashboard-app leest het uit op de telefoon, dus data van Samsung Health, Garmin Connect, Oura en Withings komt in dezelfde payload binnen, en onderweg gaat er niets via een Google-account."
           }
         },
         {
@@ -247,7 +247,7 @@
       <nav class="crumbs" aria-label="Kruimelpad"><a href="/nl/life-dashboard/">Life Dashboard</a><span aria-hidden="true">/</span><a href="/nl/life-dashboard/guides/">Gidsen</a><span aria-hidden="true">/</span><span aria-current="page">Health Connect naar een webhook</span></nav>
       <h1>Hoe stuur ik Health Connect-data als JSON naar mijn eigen webhook?</h1>
       <div class="guide-intro">
-<p>Life Dashboard Companion, een open-source Android-app, leest Health Connect volgens een schema uit en stuurt elke nieuwe meting naar de URL's die je invult, als HTTPS-POST met een JSON-body. Elke payload bevat de metingen van de types die je hebt aangezet (34 in totaal, van stappen en slaapfasen tot hartslag, gewicht en bloeddruk), elk met een stabiele <code>uuid</code> en de app die de meting schreef, plus dagtotalen die een wandeling één keer tellen.</p>
+<p>Life Dashboard voor Android, een open-source app, leest Health Connect volgens een schema uit en stuurt elke nieuwe meting naar de URL's die je invult, als HTTPS-POST met een JSON-body. Elke payload bevat de metingen van de types die je hebt aangezet (34 in totaal, van stappen en slaapfasen tot hartslag, gewicht en bloeddruk), elk met een stabiele <code>uuid</code> en de app die de meting schreef, plus dagtotalen die een wandeling één keer tellen.</p>
 
 <p>Stel je een geheim in, dan wordt elk verzoek ondertekend met HMAC-SHA256 in een <code>X-Signature</code>-header. Payloads die niet afgeleverd kunnen worden, wachten in een wachtrij op de telefoon op de volgende sync. Elke ontvanger die JSON accepteert werkt, ook n8n, Node-RED, een klein script of de Life Dashboard-stack met Postgres en Grafana.</p>
       </div>
@@ -275,13 +275,13 @@
     <article class="prose">
 <h2 id="why-it-takes-an-app-on-the-phone">Waarom er een app op de telefoon voor nodig is</h2>
 
-<p>Health Connect heeft geen web-API. Het is een opslag op de telefoon die apps via Android uitlezen, dus iets op de telefoon moet de data lezen en doorsturen. Life Dashboard Companion doet dat en post rechtstreeks naar je URL, zonder cloudservice of Google-account ertussen. Eén payload bevat elke bron: wat Samsung Health, Google Health (Fitbit en Pixel Watch), Garmin Connect, Oura en Withings naar Health Connect schrijven, waarbij bij elke meting staat welke app die schreef. De cloudroute van Google, de Google Health API, vraagt om een Google Cloud-project en een OAuth-client, en ziet alleen wat in je Google-account terechtkomt.</p>
+<p>Health Connect heeft geen web-API. Het is een opslag op de telefoon die apps via Android uitlezen, dus iets op de telefoon moet de data lezen en doorsturen. De Life Dashboard-app doet dat en post rechtstreeks naar je URL, zonder cloudservice of Google-account ertussen. Eén payload bevat elke bron: wat Samsung Health, Google Health (Fitbit en Pixel Watch), Garmin Connect, Oura en Withings naar Health Connect schrijven, waarbij bij elke meting staat welke app die schreef. De cloudroute van Google, de Google Health API, vraagt om een Google Cloud-project en een OAuth-client, en ziet alleen wat in je Google-account terechtkomt.</p>
 
 <h2 id="what-you-need">Wat je nodig hebt</h2>
 
 <ul>
   <li>Android 9 of nieuwer met Health Connect, en een app die ernaar schrijft, zoals Samsung Health, Garmin Connect of Google Health.</li>
-  <li><a href="/nl/life-dashboard/android/">Life Dashboard Companion voor Android</a>, uit <a href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-nl-guide-health-connect-webhook%26utm_medium%3Dwebsite">Google Play</a> voor €&nbsp;4,99 eenmalig, of gratis via GitHub Releases, Obtainium of F&#8209;Droid. Bij de <a href="/nl/life-dashboard/android/#get">installatieopties</a> staat elke route.</li>
+  <li><a href="/nl/life-dashboard/android/">Life Dashboard voor Android</a>, uit <a href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-nl-guide-health-connect-webhook%26utm_medium%3Dwebsite">Google Play</a> voor €&nbsp;4,99 eenmalig, of gratis via GitHub Releases, Obtainium of F&#8209;Droid. Bij de <a href="/nl/life-dashboard/android/#get">installatieopties</a> staat elke route.</li>
   <li>Een server die een JSON-POST via HTTPS accepteert, met een limiet voor de body van minstens 10 MB. Voor onversleutelde HTTP in je eigen netwerk zet je <strong>Onversleutelde HTTP-webhooks toestaan</strong> aan onder <strong>Meer</strong> &gt; <strong>Geavanceerd</strong>.</li>
 </ul>
 
@@ -378,7 +378,7 @@ valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
 
 <h2 id="the-iphone-app-sends-the-same-payload">De iPhone-app stuurt dezelfde payload</h2>
 
-<p><a href="/nl/life-dashboard/ios/">Life Dashboard Companion voor iPhone</a> post Apple Health-data met dezelfde sleutels, eenheden en handtekening, en met <code>"source": "healthkit_ios"</code>, zodat één ontvanger beide telefoons aankan. De app stuurt dezelfde <code>sequence</code>-teller, en zijn HRV is SDNN waar Android RMSSD stuurt, dus houd die twee uit elkaar. Hij staat in de App Store voor €&nbsp;6,99 eenmalig (US$&nbsp;5,99), zonder abonnement. Zelf bouwen uit de broncode met Xcode kost niets extra als je al lid bent van het Apple Developer Program. Zie <a href="/nl/life-dashboard/ios/#get">hoe je hem krijgt</a>.</p>
+<p><a href="/nl/life-dashboard/ios/">Life Dashboard voor iPhone</a> post Apple Health-data met dezelfde sleutels, eenheden en handtekening, en met <code>"source": "healthkit_ios"</code>, zodat één ontvanger beide telefoons aankan. De app stuurt dezelfde <code>sequence</code>-teller, en zijn HRV is SDNN waar Android RMSSD stuurt, dus houd die twee uit elkaar. Hij staat in de App Store voor €&nbsp;6,99 eenmalig (US$&nbsp;5,99), zonder abonnement. Zelf bouwen uit de broncode met Xcode kost niets extra als je al lid bent van het Apple Developer Program. Zie <a href="/nl/life-dashboard/ios/#get">hoe je hem krijgt</a>.</p>
 
 <h2 id="limits">Beperkingen</h2>
 
@@ -388,7 +388,7 @@ valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
 </ul>
 
 <section class="get-panel" aria-labelledby="get-the-app">
-      <h2 id="get-the-app">Life Dashboard Companion</h2>
+      <h2 id="get-the-app">Life Dashboard</h2>
       <p>Installeer de app, laat hem naar je URL sturen en tik op <strong>Test versturen</strong>. In de payload-referentie staan elk veld en een ontvanger in Python en Node.js.</p>
       <div class="stores">
         <div class="panel-store"><a class="badge-link" href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-nl-guide-health-connect-webhook%26utm_medium%3Dwebsite"><img class="badge-img" src="/life-dashboard/img/badges/google-play.png?v=a13294f3" alt="Ontdek het op Google Play" width="564" height="168" loading="lazy"></a>
@@ -408,7 +408,7 @@ valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
   <h2 id="faq">Veelgestelde vragen</h2>
   <details>
     <summary>Kan ik in plaats daarvan de Google Health API gebruiken?</summary>
-    <p>Voor data in je Google-account, zoals die van Fitbit en Pixel Watch, biedt Google in zijn cloud de Google Health API aan, waarvoor je een Google Cloud-project en een OAuth-client nodig hebt. Health Connect zelf heeft geen web-API. Life Dashboard Companion leest het uit op de telefoon, dus data van Samsung Health, Garmin Connect, Oura en Withings komt in dezelfde payload binnen, en onderweg gaat er niets via een Google-account.</p>
+    <p>Voor data in je Google-account, zoals die van Fitbit en Pixel Watch, biedt Google in zijn cloud de Google Health API aan, waarvoor je een Google Cloud-project en een OAuth-client nodig hebt. Health Connect zelf heeft geen web-API. De Life Dashboard-app leest het uit op de telefoon, dus data van Samsung Health, Garmin Connect, Oura en Withings komt in dezelfde payload binnen, en onderweg gaat er niets via een Google-account.</p>
   </details>
   <details>
     <summary>Kan ik een echte payload zien voordat ik een ontvanger schrijf?</summary>
@@ -446,7 +446,7 @@ valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
     <div class="foot-top">
       <div class="foot-about">
         <a class="brand" href="/nl/life-dashboard/"><img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="32" height="32" loading="lazy"> <span>Life Dashboard</span></a>
-        <p>Life Dashboard is een open-source project van <a href="https://github.com/owen282000">Owen Vogelaar</a> en bestaat uit vier onderdelen: de Life Dashboard Companion-apps voor Android en iPhone, een Home Assistant-integratie en een Grafana-stack. Het heeft niets te maken met andere apps of sjablonen die Life Dashboard heten. Vragen kun je stellen in <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
+        <p>Life Dashboard is een open-source project van <a href="https://github.com/owen282000">Owen Vogelaar</a> en bestaat uit vier onderdelen: de Life Dashboard-apps voor Android en iPhone, een Home Assistant-integratie en een Grafana-stack. Het heeft niets te maken met andere apps of sjablonen die Life Dashboard heten. Vragen kun je stellen in <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
       </div>
       <div class="foot-col">
         <h2 class="foot-h">Producten</h2>

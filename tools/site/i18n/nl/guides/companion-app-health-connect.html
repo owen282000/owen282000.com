@@ -11,7 +11,7 @@ published: 2026-10-14
 
 <p>Voor de laatste waarde wel. De Companion-app voor Android heeft 36 Health Connect-sensoren, elk met de nieuwste meting of het totaal van vandaag. Oudere data inladen kan ze niet, ze legt een waarde vast op het moment dat de sensor bijwerkt in plaats van op de dag waar die bij hoort, en ze schrijft niet naar Health Connect. Life Dashboard leest 34 types en voegt daaraan toe: een backfill, waarmee de app je oude data alsnog verstuurt, van je hele geschiedenis op de juiste datums, metingen van weegschaal en bloeddrukmeter die worden teruggeschreven, en schermtijd per app. De twee draaien naast elkaar.</p>
 
-<p class="flow-line"><span>Health Connect</span><span>Life Dashboard Companion</span><span>Life Dashboard-integratie</span><span>Elke dag op zijn eigen datum</span></p>
+<p class="flow-line"><span>Health Connect</span><span>Life Dashboard-app</span><span>Life Dashboard-integratie</span><span>Elke dag op zijn eigen datum</span></p>
 
 <h2>Wat de Companion-app leest</h2>
 
@@ -60,7 +60,7 @@ published: 2026-10-14
 
 <h2>Wat Life Dashboard toevoegt</h2>
 
-<p>Life Dashboard is een open-source Android-app, Life Dashboard Companion, plus de <a href="../home-assistant/">Life Dashboard-integratie</a> uit de Marketplace (HACS vóór Home Assistant 2026.11). De app leest Health Connect en verstuurt elk record met zijn eigen tijdstip, en de integratie legt het op die datum vast.</p>
+<p>Life Dashboard is een open-source app, Life Dashboard voor Android, plus de <a href="../home-assistant/">Life Dashboard-integratie</a> uit de Marketplace (HACS vóór Home Assistant 2026.11). De app leest Health Connect en verstuurt elk record met zijn eigen tijdstip, en de integratie legt het op die datum vast.</p>
 
 <ul>
   <li><strong>34 types, 27 als sensor.</strong> Daar horen drie sensoren voor work-outs bij, de laatste work-out en de minuten van vandaag en gisteren, en sinds integratie 1.2.0 de calorieën, eiwitten, koolhydraten en vetten die je vandaag hebt gegeten. Via MQTT zijn het er 25, zonder de work-outs en het eten. Losse maaltijden, mindfulness, seksuele activiteit en cyclusregistratie hebben geen enkele waarde om te tonen; een eigen webhook krijgt ze als records.</li>
@@ -105,7 +105,7 @@ published: 2026-10-14
 
 <p>De twee zitten elkaar niet in de weg. Elk leest Health Connect met zijn eigen toestemming, en Home Assistant toont ze als aparte apparaten. Houd de Companion-app voor aanwezigheid, meldingen en apparaatsensoren. Voeg je Life Dashboard toe voor gezondheidsdata, dan kun je de Health Connect-sensoren van de Companion-app uitzetten onder <strong>Manage Sensors</strong>, zodat je niet elke waarde twee keer ziet.</p>
 
-<p>Om Life Dashboard toe te voegen heb je Home Assistant 2026.3 of nieuwer nodig, plus <a href="https://hacs.xyz">HACS</a> op versies vóór 2026.11, en <a href="../android/">Life Dashboard Companion voor Android</a>. {{status:android}} In de <a href="../health-connect-home-assistant/">Health Connect-gids voor Home Assistant</a> staat elke stap, van de QR-code tot een tegel op je dashboard.</p>
+<p>Om Life Dashboard toe te voegen heb je Home Assistant 2026.3 of nieuwer nodig, plus <a href="https://hacs.xyz">HACS</a> op versies vóór 2026.11, en <a href="../android/">Life Dashboard voor Android</a>. {{status:android}} In de <a href="../health-connect-home-assistant/">Health Connect-gids voor Home Assistant</a> staat elke stap, van de QR-code tot een tegel op je dashboard.</p>
 
 <!-- IMG: the QR code in Home Assistant (H2-qr.png) -->
 

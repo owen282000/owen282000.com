@@ -11,7 +11,7 @@ published: 2026-10-14
 
 <p>Para o valor mais recente, sim. O app Companion para Android tem 36 sensores do Conexão Saúde, cada um com a leitura mais recente ou o total de hoje. Ele não tem como carregar dados mais antigos, registra um valor no momento em que o sensor atualiza, e não no dia a que o valor pertence, e não grava no Conexão Saúde. O Life Dashboard lê 34 tipos e acrescenta um backfill (o envio de todo o histórico de uma vez) nas datas certas, a gravação de medições de balança e de pressão arterial, e o tempo de tela por app. Os dois rodam lado a lado.</p>
 
-<p class="flow-line"><span>Conexão Saúde</span><span>Life Dashboard Companion</span><span>Integração Life Dashboard</span><span>Cada dia na sua própria data</span></p>
+<p class="flow-line"><span>Conexão Saúde</span><span>App Life Dashboard</span><span>Integração Life Dashboard</span><span>Cada dia na sua própria data</span></p>
 
 <h2>O que o app Companion lê</h2>
 
@@ -60,7 +60,7 @@ published: 2026-10-14
 
 <h2>O que o Life Dashboard acrescenta</h2>
 
-<p>O Life Dashboard é um app de código aberto para Android, o Life Dashboard Companion, mais a <a href="../home-assistant/">integração Life Dashboard</a> do Marketplace (HACS antes do Home Assistant 2026.11). O app lê o Conexão Saúde e envia cada registro com o seu próprio horário, e a integração o registra naquela data.</p>
+<p>O Life Dashboard é um app de código aberto, o Life Dashboard para Android, mais a <a href="../home-assistant/">integração Life Dashboard</a> do Marketplace (HACS antes do Home Assistant 2026.11). O app lê o Conexão Saúde e envia cada registro com o seu próprio horário, e a integração o registra naquela data.</p>
 
 <ul>
   <li><strong>34 tipos, 27 como sensores.</strong> Isso inclui três sensores para treinos, o último e os minutos de hoje e de ontem, e, desde a integração 1.2.0, as calorias, as proteínas, os carboidratos e as gorduras do que você comeu hoje. Por MQTT são 25, sem os treinos e a comida. Refeições individuais, mindfulness, atividade sexual e ciclo menstrual não têm um valor único para mostrar; um webhook seu os recebe como registros.</li>
@@ -105,7 +105,7 @@ published: 2026-10-14
 
 <p>Um não atrapalha o outro. Cada um lê o Conexão Saúde com a sua própria permissão, e o Home Assistant os mostra como dispositivos separados. Fique com o app Companion para presença, notificações e sensores do aparelho. Se você adicionar o Life Dashboard para os dados de saúde, pode desativar os sensores do Conexão Saúde do app Companion em <strong>Manage Sensors</strong>, para não ver cada valor duas vezes.</p>
 
-<p>Para adicionar o Life Dashboard, você precisa do Home Assistant 2026.3 ou mais recente, mais o <a href="https://hacs.xyz">HACS</a> em versões anteriores à 2026.11, e do <a href="../android/">Life Dashboard Companion para Android</a>. {{status:android}} O <a href="../health-connect-home-assistant/">guia do Conexão Saúde para o Home Assistant</a> traz todos os passos, do QR code até um bloco no seu dashboard.</p>
+<p>Para adicionar o Life Dashboard, você precisa do Home Assistant 2026.3 ou mais recente, mais o <a href="https://hacs.xyz">HACS</a> em versões anteriores à 2026.11, e do <a href="../android/">Life Dashboard para Android</a>. {{status:android}} O <a href="../health-connect-home-assistant/">guia do Conexão Saúde para o Home Assistant</a> traz todos os passos, do QR code até um bloco no seu dashboard.</p>
 
 <!-- IMG: the QR code in Home Assistant (H2-qr.png) -->
 

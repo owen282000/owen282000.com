@@ -1,6 +1,6 @@
 <!--
 title: Apple Health to a webhook, automatically | Life Dashboard
-description: Life Dashboard Companion sends Apple Health data from your iPhone to your own webhook as signed JSON, in the background, with retries, deletions and Shortcuts.
+description: The Life Dashboard app sends Apple Health data from your iPhone to your own webhook as signed JSON, in the background, with retries, deletions and Shortcuts.
 primary query: apple health webhook
 secondary queries: export apple health automatically, apple health json, apple health export to server, apple health api self-hosted, healthkit webhook, apple health node-red, apple health postgres, send apple health data to server
 updated: 2026-11-04
@@ -9,20 +9,20 @@ published: 2026-10-21
 
 <h1>How do I send Apple Health data to a webhook automatically?</h1>
 
-<p>Install Life Dashboard Companion on your iPhone, add your URL with <strong>Add destination</strong> on the <strong>Health</strong> tab, and pick the Apple Health types to send under <strong>What to send</strong>. From then on the app reads Apple Health in the background on the schedule you set and posts every new record to your URL as JSON: steps, sleep with stages, heart rate, HRV, weight, blood pressure, workouts and more, 28 types in all, each record with a stable <code>uuid</code> and the app or device that wrote it.</p>
+<p>Install the Life Dashboard app on your iPhone, add your URL with <strong>Add destination</strong> on the <strong>Health</strong> tab, and pick the Apple Health types to send under <strong>What to send</strong>. From then on the app reads Apple Health in the background on the schedule you set and posts every new record to your URL as JSON: steps, sleep with stages, heart rate, HRV, weight, blood pressure, workouts and more, 28 types in all, each record with a stable <code>uuid</code> and the app or device that wrote it.</p>
 
 <p>With a secret set, every request is signed with HMAC-SHA256 in an <code>X-Signature</code> header. A payload that can't be delivered waits in a queue on the iPhone, and a record you delete in Apple Health is named in the next payload. The payload is the Android app's, so one receiver takes an iPhone and an Android phone alike.</p>
 
-<p class="flow-line"><span>iPhone or Apple Watch</span><span>Apple Health</span><span>Life Dashboard Companion</span><span>Your URL</span></p>
+<p class="flow-line"><span>iPhone or Apple Watch</span><span>Apple Health</span><span>Life Dashboard app</span><span>Your URL</span></p>
 
 <h2>Why it takes an app on the iPhone</h2>
 
-<p>Apple Health has no web API. It lives on the iPhone, and apps read it through Apple's HealthKit, so something on the iPhone has to read it and send it on. Life Dashboard Companion does that and posts straight to the URLs you enter. There's no account and no Life Dashboard server in the path, and the app has no analytics, crash reporting or ads. <a href="../health-data-api/">A web API for Health Connect or Apple Health</a> explains more.</p>
+<p>Apple Health has no web API. It lives on the iPhone, and apps read it through Apple's HealthKit, so something on the iPhone has to read it and send it on. The Life Dashboard app does that and posts straight to the URLs you enter. There's no account and no Life Dashboard server in the path, and the app has no analytics, crash reporting or ads. <a href="../health-data-api/">A web API for Health Connect or Apple Health</a> explains more.</p>
 
 <h2>What you need</h2>
 
 <ul>
-  <li>An iPhone with iOS 17 or newer, and <a href="../ios/">Life Dashboard Companion for iPhone</a>. {{status:ios}}</li>
+  <li>An iPhone with iOS 17 or newer, and <a href="../ios/">Life Dashboard for iPhone</a>. {{status:ios}}</li>
   <li>A server that accepts a JSON POST. Use <code>https://</code>. iOS allows plain <code>http://</code> only to an IP address, a <code>.local</code> name or a name without a dot, meant for your own network.</li>
 </ul>
 

@@ -36,12 +36,12 @@
 <meta property="og:image" content="https://owen282000.com/life-dashboard/img/social.png">
 <meta property="og:image:width" content="1280">
 <meta property="og:image:height" content="640">
-<meta property="og:image:alt" content="Life Dashboard Companion: tus datos de salud, tu servidor. Sin nube.">
+<meta property="og:image:alt" content="Life Dashboard: tus datos de salud, tu servidor. Sin nube.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="¿Cómo llevo los datos de Health Connect a Home Assistant?">
 <meta name="twitter:description" content="Pasos, sueño, frecuencia cardíaca y peso de Samsung Health, Garmin, Fitbit u Oura como sensores de Home Assistant, cada día en su fecha, con un código QR.">
 <meta name="twitter:image" content="https://owen282000.com/life-dashboard/img/social.png">
-<meta name="twitter:image:alt" content="Life Dashboard Companion: tus datos de salud, tu servidor. Sin nube.">
+<meta name="twitter:image:alt" content="Life Dashboard: tus datos de salud, tu servidor. Sin nube.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -64,7 +64,7 @@
         {
           "@type": "SoftwareApplication",
           "@id": "https://owen282000.com/life-dashboard/#android",
-          "name": "Life Dashboard Companion"
+          "name": "Life Dashboard for Android"
         },
         {
           "@type": "SoftwareApplication",
@@ -184,7 +184,7 @@
           "name": "¿Funciona en un iPhone?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Sí, con Life Dashboard Companion para iPhone, que lee Apple Health y envía a la misma integración. Está en el App Store por 6,99 €, pago único, o la compilas con Xcode si tienes una membresía del Apple Developer Program."
+            "text": "Sí, con Life Dashboard para iPhone, que lee Apple Health y envía a la misma integración. Está en el App Store por 6,99 €, pago único, o la compilas con Xcode si tienes una membresía del Apple Developer Program."
           }
         },
         {
@@ -247,11 +247,11 @@
       <nav class="crumbs" aria-label="Ruta de navegación"><a href="/es/life-dashboard/">Life Dashboard</a><span aria-hidden="true">/</span><a href="/es/life-dashboard/guides/">Guías</a><span aria-hidden="true">/</span><span aria-current="page">Health Connect en Home Assistant</span></nav>
       <h1>¿Cómo llevo los datos de Health Connect a Home Assistant?</h1>
       <div class="guide-intro">
-<p>Instala la integración Life Dashboard en Home Assistant y Life Dashboard Companion, una app de código abierto para Android, en tu teléfono, y vincula las dos con un código QR. Los datos de tu reloj llegan entonces como sensores, y cada día queda guardado en las estadísticas a largo plazo.</p>
+<p>Instala la integración Life Dashboard en Home Assistant y Life Dashboard para Android, una app de código abierto, en tu teléfono, y vincula las dos con un código QR. Los datos de tu reloj llegan entonces como sensores, y cada día queda guardado en las estadísticas a largo plazo.</p>
 
 <p>Funciona con todo lo que escribe en Health Connect: Samsung Health, Garmin Connect, Google Health (Fitbit y Pixel Watch), Oura, Withings y más. Un backfill, el envío de todo tu historial anterior, agrega los datos hasta donde el teléfono los tenga. Las dos partes tienen licencia MIT, nada se ejecuta en un servidor de Life Dashboard y Home Assistant no necesita en ningún momento tus credenciales de Samsung, Garmin o Google.</p>
 
-<p class="flow-line"><span>Reloj</span><span>Su app, como Samsung Health</span><span>Health Connect</span><span>Life Dashboard Companion</span><span>Home Assistant</span></p>
+<p class="flow-line"><span>Reloj</span><span>Su app, como Samsung Health</span><span>Health Connect</span><span>App Life Dashboard</span><span>Home Assistant</span></p>
       </div>
       <p class="guide-meta"><span>Por <a href="/es/">Owen Vogelaar</a>, que mantiene Life Dashboard</span> <span><time datetime="2026-11-20">Actualizado el 20 de noviembre de 2026</time></span> <span>9 min de lectura</span></p>
       <p class="guide-cta"><a class="btn btn-primary" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Abrir en el Marketplace</a></p>
@@ -279,7 +279,7 @@
   <li>Android 9 o posterior. Health Connect forma parte de Android desde la versión 14; en Android 9 a 13 se instala desde Google Play.</li>
   <li>Una app que escriba en Health Connect, como Samsung Health, Garmin Connect o Google Health. Garmin Connect solo lo hace en Android 14 o posterior.</li>
   <li>Home Assistant 2026.3 o posterior, para la <a href="/es/life-dashboard/home-assistant/">integración Life Dashboard</a>. Desde la versión 2026.11 no hay que instalar nada más; las versiones anteriores necesitan <a href="https://hacs.xyz">HACS</a>.</li>
-  <li><a href="/es/life-dashboard/android/">Life Dashboard Companion para Android</a>. Está en Google Play por 4,99&nbsp;€ (4,99&nbsp;USD), pago único, sin suscripción: la forma más cómoda, con actualizaciones automáticas, y al comprarla apoyas el desarrollo. Las vías gratuitas instalan la misma app con la misma clave de firma: el APK firmado de GitHub, Obtainium, que mantiene ese APK actualizado, y F&#8209;Droid, que la compila a partir del código fuente.</li>
+  <li><a href="/es/life-dashboard/android/">Life Dashboard para Android</a>. Está en Google Play por 4,99&nbsp;€ (4,99&nbsp;USD), pago único, sin suscripción: la forma más cómoda, con actualizaciones automáticas, y al comprarla apoyas el desarrollo. Las vías gratuitas instalan la misma app con la misma clave de firma: el APK firmado de GitHub, Obtainium, que mantiene ese APK actualizado, y F&#8209;Droid, que la compila a partir del código fuente.</li>
 </ul>
 
 <p>Cuenta con entre 15 y 30 minutos la primera vez, la mayor parte en Home Assistant. Configura primero Home Assistant: la configuración de la app escanea el código QR que muestra la integración.</p>
@@ -291,7 +291,7 @@
   <li>Si la configuración no se abrió sola, ve a <strong>Ajustes</strong> &gt; <strong>Dispositivos y servicios</strong> &gt; <strong>Añadir integración</strong> y busca <strong>Life Dashboard</strong>. Ponle un nombre al teléfono. Revisa el campo <strong>Home Assistant address</strong>: contiene la dirección a la que envía el teléfono. Usa la dirección IP de Home Assistant, por ejemplo <code>http://192.168.1.20:8123</code>, y no <code>homeassistant.local</code>, que Android a menudo no consigue resolver. Home Assistant muestra su dirección IP en <strong>Ajustes</strong> &gt; <strong>Sistema</strong> &gt; <strong>Red</strong>, en la sección <strong>Adaptador de red</strong>. Una dirección <code>http://</code> sin más no va cifrada. En la wifi de tu casa no hay problema; en cualquier red en la que no confíes del todo, usa HTTPS o Home Assistant Cloud. El cuadro de diálogo muestra entonces un código QR.
   <figure class="shot wide"><a class="shot-link" href="/life-dashboard/img/H2-qr.webp?v=abb2ed19" aria-label="La integración Life Dashboard en Home Assistant mostrando un código QR de vinculación, tamaño completo"><img src="/life-dashboard/img/H2-qr.webp?v=abb2ed19" alt="La integración Life Dashboard en Home Assistant mostrando un código QR de vinculación" width="800" height="668" loading="lazy"></a></figure></li>
   <li>Deja que la app de tu reloj escriba en Health Connect. En Samsung Health está en <strong>Ajustes</strong> &gt; <strong>Health Connect</strong>: toca <strong>Get started</strong>, elige los datos y toca <strong>Permitir</strong>. La tabla de abajo indica la ruta en otras apps.</li>
-  <li>Instala y abre en el teléfono <a href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-es-guide-health-connect-home-assistant%26utm_medium%3Dwebsite">Life Dashboard Companion desde Google Play</a>, donde aparece como Health Data for Home Assistant. Si en su lugar instalas el APK gratuito, puede que Android te avise antes de instalar un APK que no viene de Play Store: lo hace con cualquier app de otra fuente, y cada versión está firmada con la misma clave y lleva una atestación de compilación (<a href="/es/life-dashboard/android/#get">opciones de instalación</a>). En <strong>¿Adónde deben ir tus datos?</strong>, toca <strong>Escanear un código de vinculación</strong>, escanea el código y toca <strong>Vincular</strong>. Un ping de prueba confirma la conexión.
+  <li>Instala y abre en el teléfono <a href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-es-guide-health-connect-home-assistant%26utm_medium%3Dwebsite">Life Dashboard para Android desde Google Play</a>, donde aparece como Health Data for Home Assistant. Si en su lugar instalas el APK gratuito, puede que Android te avise antes de instalar un APK que no viene de Play Store: lo hace con cualquier app de otra fuente, y cada versión está firmada con la misma clave y lleva una atestación de compilación (<a href="/es/life-dashboard/android/#get">opciones de instalación</a>). En <strong>¿Adónde deben ir tus datos?</strong>, toca <strong>Escanear un código de vinculación</strong>, escanea el código y toca <strong>Vincular</strong>. Un ping de prueba confirma la conexión.
   <figure class="shot"><a class="shot-link" href="/life-dashboard/img/A2-pair.webp?v=c6969f0a" aria-label="La página de vinculación de la app para Android, que pregunta si quieres vincular con este receptor, tamaño completo"><div class="phone"><img src="/life-dashboard/img/A2-pair.webp?v=c6969f0a" alt="La página de vinculación de la app para Android, que pregunta si quieres vincular con este receptor" width="720" height="1600" loading="lazy"></div></a></figure></li>
   <li>En la pestaña <strong>Salud</strong>, toca <strong>Conceder</strong>, permite tus tipos de datos y permite la lectura en segundo plano para las sincronizaciones programadas. El ajuste predefinido <strong>Lo esencial</strong> de la configuración activa los pasos, el sueño, la frecuencia cardíaca, la frecuencia cardíaca en reposo, la distancia, las calorías y el peso; activa cualquier otro tipo en <strong>Qué enviar</strong>. Samsung Health y Garmin Connect no comparten con Health Connect la frecuencia cardíaca en reposo ni la HRV, así que con esos relojes esos sensores no aparecen nunca; la <a href="#your-watch-s-app-and-health-connect">tabla de abajo</a> indica lo que se guarda cada app.</li>
   <li>En teléfonos Samsung, Xiaomi y similares, evita que Android detenga las sincronizaciones: <strong>Ajustes</strong> &gt; <strong>Aplicaciones</strong> &gt; <strong>Life Dashboard</strong> &gt; <strong>Batería</strong>, y elige <strong>Sin restricciones</strong>. En Samsung, agrega además <strong>Life Dashboard</strong> a <strong>Never sleeping apps</strong> en <strong>Ajustes</strong> &gt; <strong>Batería</strong> &gt; <strong>Límites de uso en segundo plano</strong>. Las demás marcas están en la <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/usage.md#let-the-app-run-in-the-background">guía de configuración</a>.</li>
@@ -368,7 +368,7 @@
 <p>Conserva la app Companion para la presencia, las notificaciones y los sensores del dispositivo. Sus 36 sensores de Health Connect muestran el último valor o el total de hoy, sin backfill, y cada valor se guarda cuando el sensor se actualiza, no en la fecha en que ocurrió. Las dos funcionan a la vez; <a href="/es/life-dashboard/companion-app-health-connect/">La app Companion y Health Connect</a> las compara.</p>
 
 <section class="get-panel" aria-labelledby="get-the-app">
-      <h2 id="get-the-app">Life Dashboard Companion</h2>
+      <h2 id="get-the-app">Life Dashboard para Android</h2>
       <p>Dos instalaciones: la integración desde el Marketplace o HACS y la app en tu teléfono. Después, la vinculación lleva un minuto.</p>
       <div class="stores">
         <div class="panel-store"><a class="badge-link" href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-es-guide-health-connect-home-assistant%26utm_medium%3Dwebsite"><img class="badge-img" src="/life-dashboard/img/badges/google-play.png?v=a13294f3" alt="Disponible en Google Play" width="564" height="168" loading="lazy"></a>
@@ -398,7 +398,7 @@
   </details>
   <details>
     <summary>¿Funciona en un iPhone?</summary>
-    <p>Sí, con <a href="/es/life-dashboard/ios/">Life Dashboard Companion para iPhone</a>, que lee Apple Health y envía a la misma integración. Está en el App Store por 6,99&nbsp;€, pago único, o la compilas con Xcode si tienes una membresía del Apple Developer Program.</p>
+    <p>Sí, con <a href="/es/life-dashboard/ios/">Life Dashboard para iPhone</a>, que lee Apple Health y envía a la misma integración. Está en el App Store por 6,99&nbsp;€, pago único, o la compilas con Xcode si tienes una membresía del Apple Developer Program.</p>
   </details>
   <details>
     <summary>¿Puede Home Assistant enviar datos al teléfono?</summary>
@@ -424,7 +424,7 @@
     <div class="foot-top">
       <div class="foot-about">
         <a class="brand" href="/es/life-dashboard/"><img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="32" height="32" loading="lazy"> <span>Life Dashboard</span></a>
-        <p>Life Dashboard es un proyecto de código abierto de <a href="https://github.com/owen282000">Owen Vogelaar</a>, en cuatro partes: las apps Life Dashboard Companion para Android y iPhone, una integración para Home Assistant y un stack de Grafana. No tiene relación con otras apps o plantillas llamadas Life Dashboard. Las preguntas van a <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
+        <p>Life Dashboard es un proyecto de código abierto de <a href="https://github.com/owen282000">Owen Vogelaar</a>, en cuatro partes: las apps Life Dashboard para Android y iPhone, una integración para Home Assistant y un stack de Grafana. No tiene relación con otras apps o plantillas llamadas Life Dashboard. Las preguntas van a <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
       </div>
       <div class="foot-col">
         <h2 class="foot-h">Productos</h2>

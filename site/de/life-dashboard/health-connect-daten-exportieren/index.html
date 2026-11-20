@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Health-Connect-Daten exportieren per Webhook | Life Dashboard</title>
-<meta name="description" content="Life Dashboard Companion sendet Health-Connect-Daten von Samsung Health, Garmin und Fitbit als signiertes JSON an deinen eigenen Server. Ohne Konto, ohne Cloud.">
+<meta name="description" content="Die Life-Dashboard-App sendet Health-Connect-Daten von Samsung Health, Garmin und Fitbit als signiertes JSON an deinen eigenen Server. Ohne Konto, ohne Cloud.">
 <link rel="canonical" href="https://owen282000.com/de/life-dashboard/health-connect-daten-exportieren/">
 <link rel="alternate" hreflang="en" href="https://owen282000.com/life-dashboard/health-connect-webhook/">
 <link rel="alternate" hreflang="nl" href="https://owen282000.com/nl/life-dashboard/health-connect-webhook/">
@@ -31,17 +31,17 @@
 <meta property="og:locale:alternate" content="pt_BR">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="Wie exportiere ich Health-Connect-Daten auf meinen eigenen Server?">
-<meta property="og:description" content="Life Dashboard Companion sendet Health-Connect-Daten von Samsung Health, Garmin und Fitbit als signiertes JSON an deinen eigenen Server. Ohne Konto, ohne Cloud.">
+<meta property="og:description" content="Die Life-Dashboard-App sendet Health-Connect-Daten von Samsung Health, Garmin und Fitbit als signiertes JSON an deinen eigenen Server. Ohne Konto, ohne Cloud.">
 <meta property="og:url" content="https://owen282000.com/de/life-dashboard/health-connect-daten-exportieren/">
 <meta property="og:image" content="https://owen282000.com/life-dashboard/img/social.png">
 <meta property="og:image:width" content="1280">
 <meta property="og:image:height" content="640">
-<meta property="og:image:alt" content="Life Dashboard Companion: deine Gesundheitsdaten, dein Server. Keine Cloud.">
+<meta property="og:image:alt" content="Life Dashboard: deine Gesundheitsdaten, dein Server. Keine Cloud.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Wie exportiere ich Health-Connect-Daten auf meinen eigenen Server?">
-<meta name="twitter:description" content="Life Dashboard Companion sendet Health-Connect-Daten von Samsung Health, Garmin und Fitbit als signiertes JSON an deinen eigenen Server. Ohne Konto, ohne Cloud.">
+<meta name="twitter:description" content="Die Life-Dashboard-App sendet Health-Connect-Daten von Samsung Health, Garmin und Fitbit als signiertes JSON an deinen eigenen Server. Ohne Konto, ohne Cloud.">
 <meta name="twitter:image" content="https://owen282000.com/life-dashboard/img/social.png">
-<meta name="twitter:image:alt" content="Life Dashboard Companion: deine Gesundheitsdaten, dein Server. Keine Cloud.">
+<meta name="twitter:image:alt" content="Life Dashboard: deine Gesundheitsdaten, dein Server. Keine Cloud.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -50,7 +50,7 @@
       "@type": "TechArticle",
       "@id": "https://owen282000.com/de/life-dashboard/health-connect-daten-exportieren/#article",
       "headline": "Wie exportiere ich Health-Connect-Daten auf meinen eigenen Server?",
-      "description": "Life Dashboard Companion sendet Health-Connect-Daten von Samsung Health, Garmin und Fitbit als signiertes JSON an deinen eigenen Server. Ohne Konto, ohne Cloud.",
+      "description": "Die Life-Dashboard-App sendet Health-Connect-Daten von Samsung Health, Garmin und Fitbit als signiertes JSON an deinen eigenen Server. Ohne Konto, ohne Cloud.",
       "url": "https://owen282000.com/de/life-dashboard/health-connect-daten-exportieren/",
       "mainEntityOfPage": "https://owen282000.com/de/life-dashboard/health-connect-daten-exportieren/",
       "inLanguage": "de",
@@ -64,12 +64,12 @@
         {
           "@type": "SoftwareApplication",
           "@id": "https://owen282000.com/life-dashboard/#android",
-          "name": "Life Dashboard Companion"
+          "name": "Life Dashboard for Android"
         },
         {
           "@type": "SoftwareApplication",
           "@id": "https://owen282000.com/life-dashboard/#ios",
-          "name": "Life Dashboard Companion for iPhone"
+          "name": "Life Dashboard for iPhone"
         }
       ],
       "datePublished": "2026-11-20",
@@ -200,7 +200,7 @@
           "name": "Geht das auch mit dem iPhone?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Ja. Life Dashboard Companion für iPhone sendet Apple Health mit denselben Schlüsseln, Einheiten und derselben Signatur, sodass ein Empfänger beide Telefone annimmt."
+            "text": "Ja. Life Dashboard für iPhone sendet Apple Health mit denselben Schlüsseln, Einheiten und derselben Signatur, sodass ein Empfänger beide Telefone annimmt."
           }
         }
       ]
@@ -255,11 +255,11 @@
       <nav class="crumbs" aria-label="Brotkrumen-Navigation"><a href="/de/life-dashboard/">Life Dashboard</a><span aria-hidden="true">/</span><a href="/de/life-dashboard/guides/">Anleitungen</a><span aria-hidden="true">/</span><span aria-current="page">Health-Connect-Daten exportieren</span></nav>
       <h1>Wie exportiere ich Health-Connect-Daten auf meinen eigenen Server?</h1>
       <div class="guide-intro">
-<p>Life Dashboard Companion, eine Open-Source-App für Android, liest Health Connect nach einem Zeitplan und sendet jeden neuen Datensatz an die Adressen, die du einträgst: als HTTPS-POST mit JSON. Jede Sendung enthält die Datensätze der Typen, die du eingeschaltet hast (34 insgesamt, von Schritten und Schlafphasen bis Herzfrequenz, Gewicht und Blutdruck), jeden mit einer festen <code>uuid</code> und der App, die ihn geschrieben hat. Dazu kommen Tagessummen, die einen Spaziergang nur einmal zählen.</p>
+<p>Life Dashboard für Android, eine Open-Source-App, liest Health Connect nach einem Zeitplan und sendet jeden neuen Datensatz an die Adressen, die du einträgst: als HTTPS-POST mit JSON. Jede Sendung enthält die Datensätze der Typen, die du eingeschaltet hast (34 insgesamt, von Schritten und Schlafphasen bis Herzfrequenz, Gewicht und Blutdruck), jeden mit einer festen <code>uuid</code> und der App, die ihn geschrieben hat. Dazu kommen Tagessummen, die einen Spaziergang nur einmal zählen.</p>
 
 <p>Das ist kein einmaliger Export in eine Datei, sondern eine laufende Synchronisierung: Die erste sendet die letzten 7 Tage, jede weitere, was neu ist oder sich geändert hat, und <strong>Verlauf senden</strong> holt alles nach, was Health Connect hat. Du brauchst kein Konto, und es gibt keine Cloud dazwischen: Das Telefon sendet direkt an deinen Server.</p>
 
-<p class="flow-line"><span>Uhr, Ring oder Waage</span><span>Health Connect</span><span>Life Dashboard Companion</span><span>Dein Server</span></p>
+<p class="flow-line"><span>Uhr, Ring oder Waage</span><span>Health Connect</span><span>Life-Dashboard-App</span><span>Dein Server</span></p>
       </div>
       <p class="guide-meta"><span>Von <a href="/de/">Owen Vogelaar</a>, der Life Dashboard entwickelt</span> <span><time datetime="2026-11-20">Aktualisiert am 20. November 2026</time></span> <span>6 Min. Lesezeit</span></p>
       <p class="guide-cta"><a class="btn btn-primary" href="/de/life-dashboard/android/#get">Android-App</a></p>
@@ -284,13 +284,13 @@
     <article class="prose">
 <h2 id="warum-es-eine-app-auf-dem-telefon-braucht">Warum es eine App auf dem Telefon braucht</h2>
 
-<p>Health Connect hat keine Web-API. Es ist ein Speicher auf dem Telefon, den Apps über Android lesen. Etwas auf dem Telefon muss die Daten also lesen und weiterschicken. Life Dashboard Companion macht genau das. Eine Sendung enthält alle Quellen: was Samsung Health, Google Health (Fitbit und Pixel Watch), Garmin Connect, Oura und Withings in Health Connect schreiben, jeder Datensatz mit der App, die ihn geschrieben hat. Ein Entwicklerkonto, ein API-Token oder ein Login beim Hersteller ist nicht nötig.</p>
+<p>Health Connect hat keine Web-API. Es ist ein Speicher auf dem Telefon, den Apps über Android lesen. Etwas auf dem Telefon muss die Daten also lesen und weiterschicken. Die Life-Dashboard-App macht genau das. Eine Sendung enthält alle Quellen: was Samsung Health, Google Health (Fitbit und Pixel Watch), Garmin Connect, Oura und Withings in Health Connect schreiben, jeder Datensatz mit der App, die ihn geschrieben hat. Ein Entwicklerkonto, ein API-Token oder ein Login beim Hersteller ist nicht nötig.</p>
 
 <h2 id="was-du-brauchst">Was du brauchst</h2>
 
 <ul>
   <li>Android 9 oder neuer mit Health Connect und eine App, die dort hineinschreibt, etwa Samsung Health, Garmin Connect oder Google Health. Health Connect ist ab Android 14 eingebaut, unter Android 9 bis 13 kommt es aus Google Play.</li>
-  <li><a href="/de/life-dashboard/android/">Life Dashboard Companion für Android</a>, bei <a href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-de-guide-health-connect-webhook%26utm_medium%3Dwebsite">Google Play</a> für 4,99&nbsp;€ einmalig. Oder kostenlos über GitHub, Obtainium oder F&#8209;Droid: dieselbe App mit demselben Signaturschlüssel. Die App ist auf Deutsch.</li>
+  <li><a href="/de/life-dashboard/android/">Life Dashboard für Android</a>, bei <a href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-de-guide-health-connect-webhook%26utm_medium%3Dwebsite">Google Play</a> für 4,99&nbsp;€ einmalig. Oder kostenlos über GitHub, Obtainium oder F&#8209;Droid: dieselbe App mit demselben Signaturschlüssel. Die App ist auf Deutsch.</li>
   <li>Einen Server, der einen JSON-POST über HTTPS annimmt, mit einem Limit von mindestens 10 MB pro Anfrage. Für einfaches HTTP im eigenen Netz schaltest du unter <strong>Mehr</strong> &gt; <strong>Erweitert</strong> die Option <strong>Einfache HTTP-Webhooks erlauben</strong> ein.</li>
 </ul>
 
@@ -298,7 +298,7 @@
 
 <ol>
   <li>Lass die App deiner Uhr in Health Connect schreiben. In Samsung Health geht das unter <strong>Einstellungen</strong> &gt; <strong>Health Connect</strong>: Wähle die Daten aus und erlaube den Zugriff. Bei den anderen Apps steht der Schalter ebenfalls in ihren Einstellungen.</li>
-  <li>Tippe in Life Dashboard Companion auf dem Tab <strong>Gesundheit</strong> auf <strong>Ziel hinzufügen</strong> (solange noch nichts eingerichtet ist: <strong>Eigenen Server verwenden</strong>), trag deine Adresse unter <strong>Webhook-URL</strong> ein und tippe auf <strong>Webhook hinzufügen</strong>.</li>
+  <li>Tippe in der Life-Dashboard-App auf dem Tab <strong>Gesundheit</strong> auf <strong>Ziel hinzufügen</strong> (solange noch nichts eingerichtet ist: <strong>Eigenen Server verwenden</strong>), trag deine Adresse unter <strong>Webhook-URL</strong> ein und tippe auf <strong>Webhook hinzufügen</strong>.</li>
   <li>Die Adresse öffnet sich auf einer eigenen Seite. Tippe unter <strong>HMAC-Signaturschlüssel (optional)</strong> auf <strong>Erzeugen</strong> und hinterlege denselben Wert auf deinem Server. Jede Adresse hat ihren eigenen Schlüssel und ihre eigenen Header.</li>
   <li>Tippe oben auf <strong>Sichern</strong>, öffne die Zeile der Adresse noch einmal und tippe auf <strong>Test senden</strong>. So siehst du, ob dein Server die Anfrage annimmt.</li>
   <li>Tippe auf <strong>Erteilen</strong>, erlaube deine Datentypen und das Lesen im Hintergrund, und schalte unter <strong>Was senden</strong> die Typen ein, die du haben willst.</li>
@@ -394,7 +394,7 @@ valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
 </ul>
 
 <section class="get-panel" aria-labelledby="get-the-app">
-      <h2 id="get-the-app">Life Dashboard Companion</h2>
+      <h2 id="get-the-app">Life Dashboard</h2>
       <p>Installiere die App, trag deine Adresse ein und tippe auf <strong>Test senden</strong>. Die Payload-Referenz beschreibt jedes Feld und hat einen Empfänger in Python und Node.js.</p>
       <div class="stores">
         <div class="panel-store"><a class="badge-link" href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-de-guide-health-connect-webhook%26utm_medium%3Dwebsite"><img class="badge-img" src="/life-dashboard/img/badges/google-play.png?v=a13294f3" alt="Jetzt bei Google Play" width="564" height="168" loading="lazy"></a>
@@ -434,7 +434,7 @@ valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
   </details>
   <details>
     <summary>Geht das auch mit dem iPhone?</summary>
-    <p>Ja. <a href="/de/life-dashboard/ios/">Life Dashboard Companion für iPhone</a> sendet Apple Health mit denselben Schlüsseln, Einheiten und derselben Signatur, sodass ein Empfänger beide Telefone annimmt.</p>
+    <p>Ja. <a href="/de/life-dashboard/ios/">Life Dashboard für iPhone</a> sendet Apple Health mit denselben Schlüsseln, Einheiten und derselben Signatur, sodass ein Empfänger beide Telefone annimmt.</p>
   </details>
 </section>
     </article>
@@ -456,7 +456,7 @@ valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
     <div class="foot-top">
       <div class="foot-about">
         <a class="brand" href="/de/life-dashboard/"><img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="32" height="32" loading="lazy"> <span>Life Dashboard</span></a>
-        <p>Life Dashboard ist ein Open-Source-Projekt von <a href="https://github.com/owen282000">Owen Vogelaar</a> und besteht aus vier Teilen: den Apps Life Dashboard Companion für Android und iPhone, einer Home-Assistant-Integration und einem Grafana-Stack. Mit anderen Apps oder Vorlagen namens Life Dashboard hat es nichts zu tun. Fragen kannst du in den <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a> stellen.</p>
+        <p>Life Dashboard ist ein Open-Source-Projekt von <a href="https://github.com/owen282000">Owen Vogelaar</a> und besteht aus vier Teilen: den Life-Dashboard-Apps für Android und iPhone, einer Home-Assistant-Integration und einem Grafana-Stack. Mit anderen Apps oder Vorlagen namens Life Dashboard hat es nichts zu tun. Fragen kannst du in den <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a> stellen.</p>
       </div>
       <div class="foot-col">
         <h2 class="foot-h">Produkte</h2>

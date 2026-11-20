@@ -1,7 +1,7 @@
 <!--
 slug: pareamento-qr-code-dados-de-saude
 title: Pareamento por QR code para dados de saúde | Life Dashboard
-description: Monte um QR code que conecta o Life Dashboard Companion ao seu próprio serviço: o link de pareamento, um gerador em Python e Node.js e o ping de teste assinado.
+description: Monte um QR code que conecta o app Life Dashboard ao seu próprio serviço: o link de pareamento, um gerador em Python e Node.js e o ping de teste assinado.
 primary query: health connect pareamento qr code
 secondary queries: health connect webhook vários usuários, webhook dados de saúde onboarding, apple health webhook qr code, parear app com servidor qr code, serviço de coleta de dados health connect, segredo hmac qr code
 updated: 2026-11-20
@@ -10,7 +10,7 @@ published: 2026-10-29
 
 <h1>Como deixar meus usuários conectarem os dados de saúde deles com um QR code?</h1>
 
-<p>Mostre a cada usuário um QR code que traz o endereço do seu webhook e um segredo só daquele usuário. Ele escaneia o código com o Life Dashboard Companion, toca em <strong>Parear</strong> e, dali em diante, o celular dele envia os dados do Conexão Saúde (Health Connect), ou os do Apple Health em um iPhone, para o seu serviço em JSON assinado. Ninguém digita uma URL nem copia um segredo, e você sabe que deu certo porque o app envia na hora um ping de teste assinado. A integração Life Dashboard para o Home Assistant funciona exatamente assim, e o formato é aberto, então qualquer serviço pode fazer o mesmo.</p>
+<p>Mostre a cada usuário um QR code que traz o endereço do seu webhook e um segredo só daquele usuário. Ele escaneia o código com o app Life Dashboard, toca em <strong>Parear</strong> e, dali em diante, o celular dele envia os dados do Conexão Saúde (Health Connect), ou os do Apple Health em um iPhone, para o seu serviço em JSON assinado. Ninguém digita uma URL nem copia um segredo, e você sabe que deu certo porque o app envia na hora um ping de teste assinado. A integração Life Dashboard para o Home Assistant funciona exatamente assim, e o formato é aberto, então qualquer serviço pode fazer o mesmo.</p>
 
 <!-- IMG: how pairing works (p-pairing-flow.png) -->
 
@@ -99,7 +99,7 @@ X-Signature: sha256=&lt;hex of HMAC-SHA256(secret, raw body)&gt;
 
 {
   "test": true,
-  "message": "Test ping from Life Dashboard Companion",
+  "message": "Test ping from Life Dashboard",
   "timestamp": "2026-10-04T12:00:00Z",
   "app_version": "1.29.0",
   "source": "health_connect"
@@ -109,7 +109,7 @@ X-Signature: sha256=&lt;hex of HMAC-SHA256(secret, raw body)&gt;
 
 <h2>iPhone</h2>
 
-<p>O Life Dashboard Companion para iPhone lê os mesmos códigos. Ele envia só o Apple Health, então um código precisa aceitar <code>health_connect</code> ou deixar <code>sources</code> de fora. O <code>http://</code> sem criptografia só funciona ali para um endereço da rede de casa, então use https. A câmera do iPhone abre primeiro a página de destino, que passa o código para o app com um botão <strong>Open in the app</strong>.</p>
+<p>O Life Dashboard para iPhone lê os mesmos códigos. Ele envia só o Apple Health, então um código precisa aceitar <code>health_connect</code> ou deixar <code>sources</code> de fora. O <code>http://</code> sem criptografia só funciona ali para um endereço da rede de casa, então use https. A câmera do iPhone abre primeiro a página de destino, que passa o código para o app com um botão <strong>Open in the app</strong>.</p>
 
 <h2>Mantenha seguro</h2>
 

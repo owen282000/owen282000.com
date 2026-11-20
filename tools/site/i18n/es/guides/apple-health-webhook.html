@@ -1,6 +1,6 @@
 <!--
 title: Apple Health a un webhook, automáticamente | Life Dashboard
-description: Life Dashboard Companion envía los datos de Apple Health de tu iPhone a tu webhook como JSON firmado, en segundo plano, con reintentos, borrados y Atajos.
+description: La app Life Dashboard envía los datos de Apple Health de tu iPhone a tu webhook como JSON firmado, en segundo plano, con reintentos, borrados y Atajos.
 primary query: apple health webhook
 secondary queries: exportar apple health automáticamente, apple health json, exportar apple health a un servidor, api apple health autoalojada, healthkit webhook, apple health node-red, apple health postgres, enviar datos de apple health a un servidor
 updated: 2026-11-20
@@ -9,20 +9,20 @@ published: 2026-10-21
 
 <h1>¿Cómo envío los datos de Apple Health a un webhook automáticamente?</h1>
 
-<p>Instala Life Dashboard Companion en tu iPhone, agrega tu URL con <strong>Agregar destino</strong> en la pestaña <strong>Salud</strong> y elige en <strong>Qué enviar</strong> los tipos de Apple Health (la app Salud del iPhone) que quieres enviar. A partir de ahí la app lee Apple Health en segundo plano según el horario que definas y envía cada registro nuevo a tu URL como JSON: pasos, sueño con sus fases, frecuencia cardíaca, HRV, peso, presión arterial, entrenamientos y más, 28 tipos en total, cada registro con un <code>uuid</code> estable y la app o el dispositivo que lo escribió.</p>
+<p>Instala la app Life Dashboard en tu iPhone, agrega tu URL con <strong>Agregar destino</strong> en la pestaña <strong>Salud</strong> y elige en <strong>Qué enviar</strong> los tipos de Apple Health (la app Salud del iPhone) que quieres enviar. A partir de ahí la app lee Apple Health en segundo plano según el horario que definas y envía cada registro nuevo a tu URL como JSON: pasos, sueño con sus fases, frecuencia cardíaca, HRV, peso, presión arterial, entrenamientos y más, 28 tipos en total, cada registro con un <code>uuid</code> estable y la app o el dispositivo que lo escribió.</p>
 
 <p>Con un secreto definido, cada petición va firmada con HMAC-SHA256 en un encabezado <code>X-Signature</code>. Un payload que no se puede entregar espera en una cola en el iPhone, y un registro que borras en Apple Health aparece nombrado en el siguiente payload. El payload es el de la app para Android, así que un solo receptor acepta por igual un iPhone y un teléfono Android.</p>
 
-<p class="flow-line"><span>iPhone o Apple Watch</span><span>Apple Health</span><span>Life Dashboard Companion</span><span>Tu URL</span></p>
+<p class="flow-line"><span>iPhone o Apple Watch</span><span>Apple Health</span><span>App Life Dashboard</span><span>Tu URL</span></p>
 
 <h2>Por qué hace falta una app en el iPhone</h2>
 
-<p>Apple Health no tiene API web. Vive en el iPhone, y las apps lo leen a través de HealthKit de Apple, así que algo en el iPhone tiene que leerlo y reenviarlo. Life Dashboard Companion hace eso y envía directamente a las URL que introduces. No hay cuenta ni ningún servidor de Life Dashboard de por medio, y la app no tiene analíticas, informes de fallos ni anuncios. <a href="../health-data-api/">Una API web para Health Connect o Apple Health</a> lo explica con más detalle.</p>
+<p>Apple Health no tiene API web. Vive en el iPhone, y las apps lo leen a través de HealthKit de Apple, así que algo en el iPhone tiene que leerlo y reenviarlo. La app Life Dashboard hace eso y envía directamente a las URL que introduces. No hay cuenta ni ningún servidor de Life Dashboard de por medio, y la app no tiene analíticas, informes de fallos ni anuncios. <a href="../health-data-api/">Una API web para Health Connect o Apple Health</a> lo explica con más detalle.</p>
 
 <h2>Qué necesitas</h2>
 
 <ul>
-  <li>Un iPhone con iOS 17 o posterior, y <a href="../ios/">Life Dashboard Companion para iPhone</a>. {{status:ios}}</li>
+  <li>Un iPhone con iOS 17 o posterior, y <a href="../ios/">Life Dashboard para iPhone</a>. {{status:ios}}</li>
   <li>Un servidor que acepte un POST con JSON. Usa <code>https://</code>. iOS solo permite <code>http://</code> sin cifrar hacia una dirección IP, un nombre <code>.local</code> o un nombre sin punto, pensado para tu propia red.</li>
 </ul>
 

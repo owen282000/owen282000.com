@@ -108,7 +108,7 @@ Leave untouched:
 - **Entities.** `&nbsp;`, `&gt;`, `&amp;`. Write F-Droid with a plain hyphen everywhere: the
   build keeps it from breaking at the end of a line in the text of a page and leaves it plain
   in titles, descriptions, alt texts and structured data.
-- **Names.** Life Dashboard, Life Dashboard Companion, Home Assistant, Health Connect, Apple
+- **Names.** Life Dashboard, Home Assistant, Health Connect, Apple
   Health, Apple Watch, Samsung Health, Galaxy Watch, Google Health, Fitbit, Pixel Watch, Garmin
   Connect, Oura, Withings, Grafana, Postgres, MQTT, HACS, Marketplace, Obtainium, F-Droid,
   Google Play, App Store, GitHub, n8n, Node-RED, MCP, Docker Compose, Helm, Xcode, TestFlight,

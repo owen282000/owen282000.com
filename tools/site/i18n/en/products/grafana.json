@@ -208,7 +208,7 @@
       }
     }
   ],
-  "requirements": "Docker with Compose, on a machine your phone can reach on the same network or over a VPN: a home server, a NAS or a Raspberry Pi with a 64-bit OS, as the images are published for amd64 and arm64 only. Or a Kubernetes cluster with Helm 3 or 4, with CloudNativePG for the default Postgres. On each phone, Life Dashboard Companion for Android or for iPhone, paired by QR code or pointed at the receiver's webhook URL on port 8080 with a label for that phone and the same secret as <code>WEBHOOK_SECRET</code>. Set that secret: without one the receiver accepts unsigned payloads and shows no pairing code. To reach the receiver from outside, put a reverse proxy with TLS in front of it. The stack is offered as a starting point you can change, not as a finished product.",
+  "requirements": "Docker with Compose, on a machine your phone can reach on the same network or over a VPN: a home server, a NAS or a Raspberry Pi with a 64-bit OS, as the images are published for amd64 and arm64 only. Or a Kubernetes cluster with Helm 3 or 4, with CloudNativePG for the default Postgres. On each phone, Life Dashboard for Android or for iPhone, paired by QR code or pointed at the receiver's webhook URL on port 8080 with a label for that phone and the same secret as <code>WEBHOOK_SECRET</code>. Set that secret: without one the receiver accepts unsigned payloads and shows no pairing code. To reach the receiver from outside, put a reverse proxy with TLS in front of it. The stack is offered as a starting point you can change, not as a finished product.",
   "faq": [
     {
       "q": "Can I try it before I connect a phone?",

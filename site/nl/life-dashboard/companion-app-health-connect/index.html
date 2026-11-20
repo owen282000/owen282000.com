@@ -36,12 +36,12 @@
 <meta property="og:image" content="https://owen282000.com/life-dashboard/img/social.png">
 <meta property="og:image:width" content="1280">
 <meta property="og:image:height" content="640">
-<meta property="og:image:alt" content="Life Dashboard Companion: jouw gezondheidsdata, jouw server. Geen cloud.">
+<meta property="og:image:alt" content="Life Dashboard: jouw gezondheidsdata, jouw server. Geen cloud.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Is de Companion-app van Home Assistant genoeg voor Health Connect-data?">
 <meta name="twitter:description" content="De Companion-app toont met 36 Health Connect-sensoren de laatste waarde. Life Dashboard voegt geschiedenis op de juiste datum, 34 types en terugschrijven toe.">
 <meta name="twitter:image" content="https://owen282000.com/life-dashboard/img/social.png">
-<meta name="twitter:image:alt" content="Life Dashboard Companion: jouw gezondheidsdata, jouw server. Geen cloud.">
+<meta name="twitter:image:alt" content="Life Dashboard: jouw gezondheidsdata, jouw server. Geen cloud.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -64,7 +64,7 @@
         {
           "@type": "SoftwareApplication",
           "@id": "https://owen282000.com/life-dashboard/#android",
-          "name": "Life Dashboard Companion"
+          "name": "Life Dashboard for Android"
         },
         {
           "@type": "SoftwareApplication",
@@ -249,7 +249,7 @@
       <div class="guide-intro">
 <p>Voor de laatste waarde wel. De Companion-app voor Android heeft 36 Health Connect-sensoren, elk met de nieuwste meting of het totaal van vandaag. Oudere data inladen kan ze niet, ze legt een waarde vast op het moment dat de sensor bijwerkt in plaats van op de dag waar die bij hoort, en ze schrijft niet naar Health Connect. Life Dashboard leest 34 types en voegt daaraan toe: een backfill, waarmee de app je oude data alsnog verstuurt, van je hele geschiedenis op de juiste datums, metingen van weegschaal en bloeddrukmeter die worden teruggeschreven, en schermtijd per app. De twee draaien naast elkaar.</p>
 
-<p class="flow-line"><span>Health Connect</span><span>Life Dashboard Companion</span><span>Life Dashboard-integratie</span><span>Elke dag op zijn eigen datum</span></p>
+<p class="flow-line"><span>Health Connect</span><span>Life Dashboard-app</span><span>Life Dashboard-integratie</span><span>Elke dag op zijn eigen datum</span></p>
       </div>
       <p class="guide-meta"><span>Door <a href="/nl/">Owen Vogelaar</a>, de maker van Life Dashboard</span> <span><time datetime="2026-11-20">Bijgewerkt op 20 november 2026</time></span> <span>8 min leestijd</span></p>
       <p class="guide-cta"><a class="btn btn-primary" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Openen in de Marketplace</a></p>
@@ -317,7 +317,7 @@
 
 <h2 id="what-life-dashboard-adds">Wat Life Dashboard toevoegt</h2>
 
-<p>Life Dashboard is een open-source Android-app, Life Dashboard Companion, plus de <a href="/nl/life-dashboard/home-assistant/">Life Dashboard-integratie</a> uit de Marketplace (HACS vóór Home Assistant 2026.11). De app leest Health Connect en verstuurt elk record met zijn eigen tijdstip, en de integratie legt het op die datum vast.</p>
+<p>Life Dashboard is een open-source app, Life Dashboard voor Android, plus de <a href="/nl/life-dashboard/home-assistant/">Life Dashboard-integratie</a> uit de Marketplace (HACS vóór Home Assistant 2026.11). De app leest Health Connect en verstuurt elk record met zijn eigen tijdstip, en de integratie legt het op die datum vast.</p>
 
 <ul>
   <li><strong>34 types, 27 als sensor.</strong> Daar horen drie sensoren voor work-outs bij, de laatste work-out en de minuten van vandaag en gisteren, en sinds integratie 1.2.0 de calorieën, eiwitten, koolhydraten en vetten die je vandaag hebt gegeten. Via MQTT zijn het er 25, zonder de work-outs en het eten. Losse maaltijden, mindfulness, seksuele activiteit en cyclusregistratie hebben geen enkele waarde om te tonen; een eigen webhook krijgt ze als records.</li>
@@ -362,7 +362,7 @@
 
 <p>De twee zitten elkaar niet in de weg. Elk leest Health Connect met zijn eigen toestemming, en Home Assistant toont ze als aparte apparaten. Houd de Companion-app voor aanwezigheid, meldingen en apparaatsensoren. Voeg je Life Dashboard toe voor gezondheidsdata, dan kun je de Health Connect-sensoren van de Companion-app uitzetten onder <strong>Manage Sensors</strong>, zodat je niet elke waarde twee keer ziet.</p>
 
-<p>Om Life Dashboard toe te voegen heb je Home Assistant 2026.3 of nieuwer nodig, plus <a href="https://hacs.xyz">HACS</a> op versies vóór 2026.11, en <a href="/nl/life-dashboard/android/">Life Dashboard Companion voor Android</a>. Hij staat in Google Play voor €&nbsp;4,99 eenmalig (US$&nbsp;4,99), zonder abonnement: de makkelijke weg, met automatische updates, en met je aankoop steun je de ontwikkeling. De gratis routes installeren dezelfde app met dezelfde ondertekeningssleutel: de ondertekende APK van GitHub, Obtainium, dat die APK up-to-date houdt, en F&#8209;Droid, dat hem uit de broncode bouwt. In de <a href="/nl/life-dashboard/health-connect-home-assistant/">Health Connect-gids voor Home Assistant</a> staat elke stap, van de QR-code tot een tegel op je dashboard.</p>
+<p>Om Life Dashboard toe te voegen heb je Home Assistant 2026.3 of nieuwer nodig, plus <a href="https://hacs.xyz">HACS</a> op versies vóór 2026.11, en <a href="/nl/life-dashboard/android/">Life Dashboard voor Android</a>. Hij staat in Google Play voor €&nbsp;4,99 eenmalig (US$&nbsp;4,99), zonder abonnement: de makkelijke weg, met automatische updates, en met je aankoop steun je de ontwikkeling. De gratis routes installeren dezelfde app met dezelfde ondertekeningssleutel: de ondertekende APK van GitHub, Obtainium, dat die APK up-to-date houdt, en F&#8209;Droid, dat hem uit de broncode bouwt. In de <a href="/nl/life-dashboard/health-connect-home-assistant/">Health Connect-gids voor Home Assistant</a> staat elke stap, van de QR-code tot een tegel op je dashboard.</p>
 
 <figure class="shot wide"><a class="shot-link" href="/life-dashboard/img/H2-qr.webp?v=abb2ed19" aria-label="De Life Dashboard-integratie in Home Assistant met een QR-code om te koppelen, volledige grootte"><img src="/life-dashboard/img/H2-qr.webp?v=abb2ed19" alt="De Life Dashboard-integratie in Home Assistant met een QR-code om te koppelen" width="800" height="668" loading="lazy"></a></figure>
 
@@ -377,7 +377,7 @@
 </ul>
 
 <section class="get-panel" aria-labelledby="get-the-app">
-      <h2 id="get-the-app">Life Dashboard Companion</h2>
+      <h2 id="get-the-app">Life Dashboard voor Android</h2>
       <p>Houd de Companion-app. Voeg de integratie uit de Marketplace of HACS en de app op je telefoon toe, koppel met één QR-code en start daarna een backfill.</p>
       <div class="stores">
         <div class="panel-store"><a class="badge-link" href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-nl-guide-companion-app-health-connect%26utm_medium%3Dwebsite"><img class="badge-img" src="/life-dashboard/img/badges/google-play.png?v=a13294f3" alt="Ontdek het op Google Play" width="564" height="168" loading="lazy"></a>
@@ -433,7 +433,7 @@
     <div class="foot-top">
       <div class="foot-about">
         <a class="brand" href="/nl/life-dashboard/"><img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="32" height="32" loading="lazy"> <span>Life Dashboard</span></a>
-        <p>Life Dashboard is een open-source project van <a href="https://github.com/owen282000">Owen Vogelaar</a> en bestaat uit vier onderdelen: de Life Dashboard Companion-apps voor Android en iPhone, een Home Assistant-integratie en een Grafana-stack. Het heeft niets te maken met andere apps of sjablonen die Life Dashboard heten. Vragen kun je stellen in <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
+        <p>Life Dashboard is een open-source project van <a href="https://github.com/owen282000">Owen Vogelaar</a> en bestaat uit vier onderdelen: de Life Dashboard-apps voor Android en iPhone, een Home Assistant-integratie en een Grafana-stack. Het heeft niets te maken met andere apps of sjablonen die Life Dashboard heten. Vragen kun je stellen in <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
       </div>
       <div class="foot-col">
         <h2 class="foot-h">Producten</h2>

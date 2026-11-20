@@ -36,12 +36,12 @@
 <meta property="og:image" content="https://owen282000.com/life-dashboard/img/social.png">
 <meta property="og:image:width" content="1280">
 <meta property="og:image:height" content="640">
-<meta property="og:image:alt" content="Life Dashboard Companion: seus dados de saúde, seu servidor. Sem nuvem.">
+<meta property="og:image:alt" content="Life Dashboard: seus dados de saúde, seu servidor. Sem nuvem.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Como levar os dados do Apple Health para o Home Assistant?">
 <meta name="twitter:description" content="Dados do Apple Health do iPhone e do Apple Watch como sensores no Home Assistant, com todo o seu histórico: uma integração do Marketplace e um QR code.">
 <meta name="twitter:image" content="https://owen282000.com/life-dashboard/img/social.png">
-<meta name="twitter:image:alt" content="Life Dashboard Companion: seus dados de saúde, seu servidor. Sem nuvem.">
+<meta name="twitter:image:alt" content="Life Dashboard: seus dados de saúde, seu servidor. Sem nuvem.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -64,7 +64,7 @@
         {
           "@type": "SoftwareApplication",
           "@id": "https://owen282000.com/life-dashboard/#ios",
-          "name": "Life Dashboard Companion for iPhone"
+          "name": "Life Dashboard for iPhone"
         },
         {
           "@type": "SoftwareApplication",
@@ -255,11 +255,11 @@
       <nav class="crumbs" aria-label="Trilha de navegação"><a href="/pt-br/life-dashboard/">Life Dashboard</a><span aria-hidden="true">/</span><a href="/pt-br/life-dashboard/guides/">Guias</a><span aria-hidden="true">/</span><span aria-current="page">Apple Health no Home Assistant</span></nav>
       <h1>Como levar os dados do Apple Health para o Home Assistant?</h1>
       <div class="guide-intro">
-<p>Instale a integração Life Dashboard no Home Assistant pelo Marketplace (HACS antes da versão 2026.11) e o Life Dashboard Companion no iPhone, depois pareie os dois com o QR code que a integração mostra. Toque em <strong>Sincronizar agora</strong>, e seus passos, frequência cardíaca, sono, peso e treinos chegam como sensores. Um backfill (o envio de todo o histórico de uma vez) preenche as estatísticas de longo prazo, com cada dia na sua própria data.</p>
+<p>Instale a integração Life Dashboard no Home Assistant pelo Marketplace (HACS antes da versão 2026.11) e o app Life Dashboard no iPhone, depois pareie os dois com o QR code que a integração mostra. Toque em <strong>Sincronizar agora</strong>, e seus passos, frequência cardíaca, sono, peso e treinos chegam como sensores. Um backfill (o envio de todo o histórico de uma vez) preenche as estatísticas de longo prazo, com cada dia na sua própria data.</p>
 
 <p>Funciona com tudo o que grava no Apple Health (o app Saúde do iPhone): o próprio iPhone, um Apple Watch e os apps de outros relógios, anéis e balanças que salvam os dados ali. As duas partes têm licença MIT. Não há conta nem servidor do Life Dashboard: o iPhone envia direto para o seu Home Assistant, e o app só lê o Apple Health, nunca grava nele.</p>
 
-<p class="flow-line"><span>iPhone ou Apple Watch</span><span>Apple Health</span><span>Life Dashboard Companion</span><span>Home Assistant</span></p>
+<p class="flow-line"><span>iPhone ou Apple Watch</span><span>Apple Health</span><span>App Life Dashboard</span><span>Home Assistant</span></p>
       </div>
       <p class="guide-meta"><span>Por <a href="/pt-br/">Owen Vogelaar</a>, que mantém o Life Dashboard</span> <span><time datetime="2026-11-20">Atualizado em 20 de novembro de 2026</time></span> <span>10 min de leitura</span></p>
       <p class="guide-cta"><a class="btn btn-primary" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Abrir no Marketplace</a></p>
@@ -287,7 +287,7 @@
 <ul>
   <li>Um iPhone com iOS 17 ou mais recente.</li>
   <li>Home Assistant 2026.3 ou mais recente, para a <a href="/pt-br/life-dashboard/home-assistant/">integração Life Dashboard</a>. A partir da 2026.11 não é preciso instalar mais nada; versões anteriores precisam do <a href="https://hacs.xyz">HACS</a>. O app do iPhone precisa da integração 0.7.1 ou mais recente; os dois caminhos instalam a versão mais nova.</li>
-  <li>O <a href="/pt-br/life-dashboard/ios/">Life Dashboard Companion para iPhone</a>. Está na App Store por €&nbsp;6,99 uma única vez (US$&nbsp;5,99), sem assinatura. Compilar a partir do código-fonte com o Xcode não custa nada a mais se você já tem uma assinatura do Apple Developer Program.</li>
+  <li>O <a href="/pt-br/life-dashboard/ios/">Life Dashboard para iPhone</a>. Está na App Store por €&nbsp;6,99 uma única vez (US$&nbsp;5,99), sem assinatura. Compilar a partir do código-fonte com o Xcode não custa nada a mais se você já tem uma assinatura do Apple Developer Program.</li>
 </ul>
 
 <p>Configure o Home Assistant primeiro: a configuração do app escaneia o QR code que a integração mostra.</p>
@@ -298,7 +298,7 @@
   <li>Em <strong>Configurações</strong> &gt; <strong>Marketplace</strong> (HACS antes do Home Assistant 2026.11), procure por <strong>Life Dashboard</strong>, ou use <a href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Abrir no Marketplace</a>, e instale. No HACS, baixe a integração e reinicie o Home Assistant.</li>
   <li>Se a configuração não abrir sozinha, vá em <strong>Configurações</strong> &gt; <strong>Dispositivos e serviços</strong> &gt; <strong>Adicionar integração</strong> e procure por <strong>Life Dashboard</strong>. Dê um nome ao iPhone. Confira o campo <strong>Home Assistant address</strong>: é o endereço para onde o iPhone envia. O iOS só permite <code>http://</code> sem criptografia para um endereço IP, um nome <code>.local</code> como <code>homeassistant.local</code> ou um nome sem ponto, então <code>http://192.168.1.20:8123</code> funciona e <code>http://ha.lan:8123</code> não. Para qualquer outro caso, use <code>https://</code> ou o Home Assistant Cloud. Em seguida, a janela mostra um QR code.
   <figure class="shot wide"><a class="shot-link" href="/life-dashboard/img/H2-qr.webp?v=abb2ed19" aria-label="A integração Life Dashboard no Home Assistant mostrando um QR code de pareamento, tamanho real"><img src="/life-dashboard/img/H2-qr.webp?v=abb2ed19" alt="A integração Life Dashboard no Home Assistant mostrando um QR code de pareamento" width="800" height="668" loading="lazy"></a></figure></li>
-  <li>Instale e abra o <a href="/pt-br/life-dashboard/ios/#get">Life Dashboard Companion</a>. Em <strong>Para onde seus dados devem ir?</strong>, toque em <strong>Escanear um código de pareamento</strong>, escaneie o código e toque em <strong>Parear</strong>. O app envia um ping de teste, e o iPhone aparece no Home Assistant na hora. A câmera do iPhone também serve: ela abre a página de pareamento no Safari, e um botão ali passa o código para o app.</li>
+  <li>Instale e abra o <a href="/pt-br/life-dashboard/ios/#get">app Life Dashboard</a>. Em <strong>Para onde seus dados devem ir?</strong>, toque em <strong>Escanear um código de pareamento</strong>, escaneie o código e toque em <strong>Parear</strong>. O app envia um ping de teste, e o iPhone aparece no Home Assistant na hora. A câmera do iPhone também serve: ela abre a página de pareamento no Safari, e um botão ali passa o código para o app.</li>
   <li>Quando o iOS pedir acesso à rede local, permita. Sem isso, nada chega a um Home Assistant que está em casa.</li>
   <li>Escolha seus tipos de dados: <strong>Essenciais</strong>, <strong>Todos os tipos</strong> ou <strong>Escolher depois</strong>. Depois permita o acesso ao Apple Health. Quando há um tipo ativado sobre o qual o iOS ainda não perguntou, a linha <strong>Acesso ao app Saúde</strong>, em <strong>O que enviar</strong>, mostra <strong>Permitir</strong>. O iOS nunca conta a um app se você liberou a leitura, então um tipo recusado simplesmente não envia nada; mude isso no app Saúde, no seu perfil, em <strong>Apps</strong>, <strong>Life Dashboard</strong>.</li>
   <li>Uma primeira sincronização acontece logo em seguida e mostra o que chegou. Depois disso, <strong>Sincronizar agora</strong>, na aba <strong>Saúde</strong>, envia de imediato o que há de novo. O iPhone aparece em <strong>Configurações</strong> &gt; <strong>Dispositivos e serviços</strong> &gt; <strong>Life Dashboard</strong>, com um sensor para cada tipo enviado. A primeira sincronização de um tipo envia os últimos 7 dias dele.</li>
@@ -356,7 +356,7 @@ entities:
 
 <h2 id="an-android-phone-in-the-same-house">Um celular Android na mesma casa</h2>
 
-<p>Um iPhone e um celular Android enviam o mesmo payload, então uma integração só recebe os dois. Adicione a integração uma vez por celular e pareie cada um com o seu próprio QR code; cada um vira um dispositivo próprio. O celular Android usa o <a href="/pt-br/life-dashboard/android/">Life Dashboard Companion para Android</a>, que lê o Conexão Saúde (Health Connect) e também envia o tempo de tela por app; o <a href="/pt-br/life-dashboard/health-connect-home-assistant/">guia do Conexão Saúde</a> traz os passos. O dashboard de exemplo tem uma visualização que coloca dois celulares lado a lado.</p>
+<p>Um iPhone e um celular Android enviam o mesmo payload, então uma integração só recebe os dois. Adicione a integração uma vez por celular e pareie cada um com o seu próprio QR code; cada um vira um dispositivo próprio. O celular Android usa o <a href="/pt-br/life-dashboard/android/">Life Dashboard para Android</a>, que lê o Conexão Saúde (Health Connect) e também envia o tempo de tela por app; o <a href="/pt-br/life-dashboard/health-connect-home-assistant/">guia do Conexão Saúde</a> traz os passos. O dashboard de exemplo tem uma visualização que coloca dois celulares lado a lado.</p>
 
 <figure class="shot wide full"><a class="shot-link" href="/life-dashboard/img/H8-two-phones.webp?v=3e3e224c" aria-label="A visão para dois celulares no Home Assistant com dados de demonstração: um celular Android e um iPhone lado a lado, e os dois nos mesmos gráficos, tamanho real"><img src="/life-dashboard/img/H8-two-phones.webp?v=3e3e224c" alt="A visão para dois celulares no Home Assistant com dados de demonstração: um celular Android e um iPhone lado a lado, e os dois nos mesmos gráficos" width="1400" height="875" loading="lazy"></a></figure>
 
@@ -387,7 +387,7 @@ entities:
 </ul>
 
 <section class="get-panel" aria-labelledby="get-the-app">
-      <h2 id="get-the-app">Life Dashboard Companion</h2>
+      <h2 id="get-the-app">Life Dashboard para iPhone</h2>
       <p>Duas instalações: a integração pelo Marketplace ou pelo HACS e o app no iPhone. Depois disso, pareie com um QR code e rode um backfill.</p>
       <div class="stores">
         <div class="panel-store"><a class="badge-link" href="https://apps.apple.com/app/apple-store/id6824075761?pt=128699800&amp;ct=site-pt-br-guide-apple-health&amp;mt=8"><img class="badge-img" src="/life-dashboard/img/badges/app-store.svg?v=a26fc5b3" alt="Baixar na App Store" width="120" height="40" loading="lazy"></a>
@@ -447,7 +447,7 @@ entities:
     <div class="foot-top">
       <div class="foot-about">
         <a class="brand" href="/pt-br/life-dashboard/"><img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="32" height="32" loading="lazy"> <span>Life Dashboard</span></a>
-        <p>O Life Dashboard é um projeto de código aberto de <a href="https://github.com/owen282000">Owen Vogelaar</a>, em quatro partes: os apps Life Dashboard Companion para Android e iPhone, uma integração para o Home Assistant e uma stack do Grafana. Não tem relação com outros apps ou modelos chamados Life Dashboard. Dúvidas vão para as <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
+        <p>O Life Dashboard é um projeto de código aberto de <a href="https://github.com/owen282000">Owen Vogelaar</a>, em quatro partes: os apps Life Dashboard para Android e iPhone, uma integração para o Home Assistant e uma stack do Grafana. Não tem relação com outros apps ou modelos chamados Life Dashboard. Dúvidas vão para as <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
       </div>
       <div class="foot-col">
         <h2 class="foot-h">Produtos</h2>

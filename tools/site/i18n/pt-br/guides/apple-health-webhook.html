@@ -1,6 +1,6 @@
 <!--
 title: Apple Health para webhook, automaticamente | Life Dashboard
-description: O Life Dashboard Companion envia os dados do Apple Health do iPhone para o seu webhook como JSON assinado, em segundo plano, com novas tentativas e exclusões.
+description: O app Life Dashboard envia os dados do Apple Health do iPhone para o seu webhook como JSON assinado, em segundo plano, com novas tentativas e exclusões.
 primary query: apple health webhook
 secondary queries: exportar dados apple health automaticamente, apple health json, exportar dados do app saúde do iphone, apple health api, healthkit webhook, apple health node-red, apple health postgres, enviar dados do apple health para servidor
 updated: 2026-11-20
@@ -9,20 +9,20 @@ published: 2026-10-21
 
 <h1>Como enviar os dados do Apple Health para um webhook automaticamente?</h1>
 
-<p>Instale o Life Dashboard Companion no iPhone, adicione sua URL com <strong>Adicionar destino</strong> na aba <strong>Saúde</strong> e escolha os tipos do Apple Health (o app Saúde do iPhone) a enviar em <strong>O que enviar</strong>. A partir daí, o app lê o Apple Health em segundo plano, na agenda que você definir, e envia cada registro novo para a sua URL como JSON: passos, sono com fases, frequência cardíaca, VFC, peso, pressão arterial, treinos e mais, 28 tipos ao todo, cada registro com um <code>uuid</code> estável e o app ou aparelho que o gravou.</p>
+<p>Instale o app Life Dashboard no iPhone, adicione sua URL com <strong>Adicionar destino</strong> na aba <strong>Saúde</strong> e escolha os tipos do Apple Health (o app Saúde do iPhone) a enviar em <strong>O que enviar</strong>. A partir daí, o app lê o Apple Health em segundo plano, na agenda que você definir, e envia cada registro novo para a sua URL como JSON: passos, sono com fases, frequência cardíaca, VFC, peso, pressão arterial, treinos e mais, 28 tipos ao todo, cada registro com um <code>uuid</code> estável e o app ou aparelho que o gravou.</p>
 
 <p>Com um segredo definido, cada requisição é assinada com HMAC-SHA256 em um cabeçalho <code>X-Signature</code>. Um payload que não pôde ser entregue espera em uma fila no iPhone, e um registro que você apaga no Apple Health é citado no payload seguinte. O payload é o mesmo do app para Android, então um único receptor atende um iPhone e um celular Android.</p>
 
-<p class="flow-line"><span>iPhone ou Apple Watch</span><span>Apple Health</span><span>Life Dashboard Companion</span><span>Sua URL</span></p>
+<p class="flow-line"><span>iPhone ou Apple Watch</span><span>Apple Health</span><span>App Life Dashboard</span><span>Sua URL</span></p>
 
 <h2>Por que é preciso um app no iPhone</h2>
 
-<p>O Apple Health não tem API web. Ele fica no iPhone, e os apps o leem pelo HealthKit da Apple, então alguma coisa no iPhone precisa ler os dados e mandá-los adiante. O Life Dashboard Companion faz isso e envia direto para as URLs que você informar. Não há conta nem servidor do Life Dashboard no caminho, e o app não tem análise de uso, relatórios de falhas nem anúncios. <a href="../health-data-api/">Uma API web para o Conexão Saúde (Health Connect) ou o Apple Health</a> explica mais.</p>
+<p>O Apple Health não tem API web. Ele fica no iPhone, e os apps o leem pelo HealthKit da Apple, então alguma coisa no iPhone precisa ler os dados e mandá-los adiante. O app Life Dashboard faz isso e envia direto para as URLs que você informar. Não há conta nem servidor do Life Dashboard no caminho, e o app não tem análise de uso, relatórios de falhas nem anúncios. <a href="../health-data-api/">Uma API web para o Conexão Saúde (Health Connect) ou o Apple Health</a> explica mais.</p>
 
 <h2>O que você precisa</h2>
 
 <ul>
-  <li>Um iPhone com iOS 17 ou mais recente e o <a href="../ios/">Life Dashboard Companion para iPhone</a>. {{status:ios}}</li>
+  <li>Um iPhone com iOS 17 ou mais recente e o <a href="../ios/">Life Dashboard para iPhone</a>. {{status:ios}}</li>
   <li>Um servidor que aceite um POST com JSON. Use <code>https://</code>. O iOS só permite <code>http://</code> sem criptografia para um endereço IP, um nome <code>.local</code> ou um nome sem ponto, pensados para a sua própria rede.</li>
 </ul>
 

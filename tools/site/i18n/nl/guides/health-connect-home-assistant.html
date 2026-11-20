@@ -9,11 +9,11 @@ published: 2026-10-06
 
 <h1>Hoe krijg ik Health Connect-data in Home Assistant?</h1>
 
-<p>Installeer de Life Dashboard-integratie in Home Assistant en Life Dashboard Companion, een open-source Android-app, op je telefoon, en koppel de twee met een QR-code. De data van je horloge komt daarna binnen als sensoren, en elke dag wordt bewaard in de langetermijnstatistieken.</p>
+<p>Installeer de Life Dashboard-integratie in Home Assistant en Life Dashboard voor Android, een open-source app, op je telefoon, en koppel de twee met een QR-code. De data van je horloge komt daarna binnen als sensoren, en elke dag wordt bewaard in de langetermijnstatistieken.</p>
 
 <p>Het werkt met alles wat naar Health Connect schrijft: Samsung Health, Garmin Connect, Google Health (Fitbit en Pixel Watch), Oura, Withings en meer. Met een backfill, waarmee de app je oude data alsnog verstuurt, komt je hele geschiedenis erbij, zo ver terug als de telefoon data heeft. Beide onderdelen hebben een MIT-licentie, er draait niets op een server van Life Dashboard, en Home Assistant heeft je login van Samsung, Garmin of Google nooit nodig.</p>
 
-<p class="flow-line"><span>Horloge</span><span>De bijbehorende app, zoals Samsung Health</span><span>Health Connect</span><span>Life Dashboard Companion</span><span>Home Assistant</span></p>
+<p class="flow-line"><span>Horloge</span><span>De bijbehorende app, zoals Samsung Health</span><span>Health Connect</span><span>Life Dashboard-app</span><span>Home Assistant</span></p>
 
 <h2>Wat je nodig hebt</h2>
 
@@ -21,7 +21,7 @@ published: 2026-10-06
   <li>Android 9 of nieuwer. Health Connect is onderdeel van Android 14 en later; op Android 9 tot en met 13 komt het uit Google Play.</li>
   <li>Een app die naar Health Connect schrijft, zoals Samsung Health, Garmin Connect of Google Health. Garmin Connect doet dat alleen op Android 14 of nieuwer.</li>
   <li>Home Assistant 2026.3 of nieuwer, voor de <a href="../home-assistant/">Life Dashboard-integratie</a>. Vanaf 2026.11 hoef je verder niets te installeren; oudere versies hebben <a href="https://hacs.xyz">HACS</a> nodig.</li>
-  <li><a href="../android/">Life Dashboard Companion voor Android</a>. {{status:android}}</li>
+  <li><a href="../android/">Life Dashboard voor Android</a>. {{status:android}}</li>
 </ul>
 
 <p>Reken de eerste keer op 15 tot 30 minuten, waarvan de meeste tijd in Home Assistant. Stel eerst Home Assistant in: tijdens de installatie van de app scan je de QR-code die de integratie toont.</p>
@@ -33,7 +33,7 @@ published: 2026-10-06
   <li>Ging de installatie niet vanzelf open, ga dan naar <strong>Instellingen</strong> &gt; <strong>Apparaten &amp; diensten</strong> &gt; <strong>Integratie toevoegen</strong> en zoek naar <strong>Life Dashboard</strong>. Geef de telefoon een naam. Controleer het veld <strong>Home Assistant address</strong>: daarin staat het adres waar de telefoon naartoe stuurt. Gebruik het IP-adres van Home Assistant, zoals <code>http://192.168.1.20:8123</code>, en niet <code>homeassistant.local</code>, want dat kan Android vaak niet vinden. Home Assistant toont zijn IP-adres onder <strong>Instellingen</strong> &gt; <strong>Systeem</strong> &gt; <strong>Netwerk</strong>, in het gedeelte <strong>Network adapter</strong>. Gewoon <code>http://</code> is niet versleuteld. Op je eigen wifi thuis is dat prima; gebruik op elk netwerk dat je niet volledig vertrouwt HTTPS of Home Assistant Cloud. Daarna toont het venster een QR-code.</li>
   <!-- IMG: the QR code in Home Assistant (H2-qr.png) -->
   <li>Laat de app van je horloge naar Health Connect schrijven. In Samsung Health is dat <strong>Instellingen</strong> &gt; <strong>Health Connect</strong>: tik op <strong>Get started</strong>, kies de data en tik op <strong>Toestaan</strong>. In de tabel hieronder staat het pad voor andere apps.</li>
-  <li>Installeer en open <a href="{{play_url}}">Life Dashboard Companion uit Google Play</a> (daar heet de app Health Data for Home Assistant) op de telefoon. Installeer je in plaats daarvan de gratis APK, dan kan Android je waarschuwen voordat het een APK van buiten de Play Store installeert: dat doet het bij elke app uit een andere bron, en elke release is ondertekend met dezelfde sleutel en heeft een build-attestatie (<a href="../android/#get">installatieopties</a>). Tik bij <strong>Waar moet je data naartoe?</strong> op <strong>Koppelcode scannen</strong>, scan de code en tik op <strong>Koppelen</strong>. Een testping bevestigt de verbinding.</li>
+  <li>Installeer en open <a href="{{play_url}}">Life Dashboard voor Android uit Google Play</a> (daar heet de app Health Data for Home Assistant) op de telefoon. Installeer je in plaats daarvan de gratis APK, dan kan Android je waarschuwen voordat het een APK van buiten de Play Store installeert: dat doet het bij elke app uit een andere bron, en elke release is ondertekend met dezelfde sleutel en heeft een build-attestatie (<a href="../android/#get">installatieopties</a>). Tik bij <strong>Waar moet je data naartoe?</strong> op <strong>Koppelcode scannen</strong>, scan de code en tik op <strong>Koppelen</strong>. Een testping bevestigt de verbinding.</li>
   <!-- IMG: pairing page (A2-pair.png) -->
   <li>Tik op het tabblad <strong>Gezondheid</strong> op <strong>Toestaan</strong>, geef toegang tot je datatypes en sta lezen op de achtergrond toe voor geplande syncs. De voorinstelling <strong>De basis</strong> uit de installatie zet stappen, slaap, hartslag, hartslag in rust, afstand, calorieën en gewicht aan; elk ander type zet je aan onder <strong>Wat versturen</strong>. Samsung Health en Garmin Connect delen hartslag in rust en HRV niet met Health Connect, dus met die horloges verschijnen die sensoren nooit; in de <a href="#your-watch-s-app-and-health-connect">tabel hieronder</a> staat wat elke app voor zichzelf houdt.</li>
   <li>Voorkom op Samsung, Xiaomi en vergelijkbare telefoons dat Android de syncs stopt: <strong>Instellingen</strong> &gt; <strong>Apps</strong> &gt; <strong>Life Dashboard</strong> &gt; <strong>Batterij</strong>, en kies <strong>Onbeperkt</strong>. Voeg op Samsung ook <strong>Life Dashboard</strong> toe aan <strong>Apps die nooit in slaapstand gaan</strong> onder <strong>Instellingen</strong> &gt; <strong>Batterij</strong> &gt; <strong>Limieten achtergrondgebruik</strong>. Andere merken staan in de <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/usage.md#let-the-app-run-in-the-background">installatiegids</a>.</li>
@@ -125,7 +125,7 @@ published: 2026-10-06
   </details>
   <details>
     <summary>Werkt het op een iPhone?</summary>
-    <p>Ja, met <a href="../ios/">Life Dashboard Companion voor iPhone</a>, dat Apple Health leest en naar dezelfde integratie stuurt. De app staat in de App Store voor €&nbsp;6,99 eenmalig, of je bouwt hem zelf met Xcode als je lid bent van het Apple Developer Program.</p>
+    <p>Ja, met <a href="../ios/">Life Dashboard voor iPhone</a>, dat Apple Health leest en naar dezelfde integratie stuurt. De app staat in de App Store voor €&nbsp;6,99 eenmalig, of je bouwt hem zelf met Xcode als je lid bent van het Apple Developer Program.</p>
   </details>
   <details>
     <summary>Kan Home Assistant data naar de telefoon sturen?</summary>

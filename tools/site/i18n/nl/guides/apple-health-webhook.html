@@ -1,6 +1,6 @@
 <!--
 title: Apple Health webhook: automatisch versturen | Life Dashboard
-description: Life Dashboard Companion stuurt Apple Health-data (Apple Gezondheid) van je iPhone als ondertekende JSON naar je eigen webhook, op de achtergrond, met wachtrij.
+description: De Life Dashboard-app stuurt Apple Health-data (Apple Gezondheid) van je iPhone als ondertekende JSON naar je eigen webhook, op de achtergrond, met wachtrij.
 primary query: apple health webhook
 secondary queries: apple health automatisch exporteren, apple gezondheid gegevens exporteren, gezondheidsgegevens iphone exporteren, apple health json, apple health api, apple health naar eigen server, healthkit webhook, apple health node-red, apple health postgres
 updated: 2026-11-20
@@ -9,20 +9,20 @@ published: 2026-10-21
 
 <h1>Hoe stuur ik Apple Health-data automatisch naar een webhook?</h1>
 
-<p>Installeer Life Dashboard Companion op je iPhone, voeg je URL toe met <strong>Bestemming toevoegen</strong> op het tabblad <strong>Gezondheid</strong> en kies onder <strong>Wat versturen</strong> welke Apple Health-types je wilt versturen. Vanaf dan leest de app Apple Health (de app Gezondheid op je iPhone) op de achtergrond, volgens het schema dat je instelt, en post hij elk nieuw record als JSON naar je URL: stappen, slaap met slaapfasen, hartslag, HRV, gewicht, bloeddruk, work-outs en meer, 28 types in totaal, elk record met een vaste <code>uuid</code> en de app of het apparaat dat het schreef.</p>
+<p>Installeer de Life Dashboard-app op je iPhone, voeg je URL toe met <strong>Bestemming toevoegen</strong> op het tabblad <strong>Gezondheid</strong> en kies onder <strong>Wat versturen</strong> welke Apple Health-types je wilt versturen. Vanaf dan leest de app Apple Health (de app Gezondheid op je iPhone) op de achtergrond, volgens het schema dat je instelt, en post hij elk nieuw record als JSON naar je URL: stappen, slaap met slaapfasen, hartslag, HRV, gewicht, bloeddruk, work-outs en meer, 28 types in totaal, elk record met een vaste <code>uuid</code> en de app of het apparaat dat het schreef.</p>
 
 <p>Stel je een geheim in, dan is elk verzoek ondertekend met HMAC-SHA256 in een <code>X-Signature</code>-header. Een payload die niet kan worden afgeleverd, wacht in een wachtrij op de iPhone, en een record dat je in Apple Health verwijdert, wordt in de volgende payload genoemd. De payload is die van de Android-app, dus één ontvanger werkt voor een iPhone en een Android-telefoon.</p>
 
-<p class="flow-line"><span>iPhone of Apple Watch</span><span>Apple Health</span><span>Life Dashboard Companion</span><span>Je URL</span></p>
+<p class="flow-line"><span>iPhone of Apple Watch</span><span>Apple Health</span><span>Life Dashboard-app</span><span>Je URL</span></p>
 
 <h2>Waarom er een app op de iPhone voor nodig is</h2>
 
-<p>Apple Health heeft geen web-API. De data staat op de iPhone en apps lezen die via HealthKit van Apple, dus iets op de iPhone moet de data lezen en doorsturen. Life Dashboard Companion doet dat en post rechtstreeks naar de URL's die je invult. Er is geen account en er zit geen server van Life Dashboard tussen, en de app heeft geen analytics, crashrapportage of advertenties. <a href="../health-data-api/">Een web-API voor Health Connect of Apple Health</a> legt er meer over uit.</p>
+<p>Apple Health heeft geen web-API. De data staat op de iPhone en apps lezen die via HealthKit van Apple, dus iets op de iPhone moet de data lezen en doorsturen. De Life Dashboard-app doet dat en post rechtstreeks naar de URL's die je invult. Er is geen account en er zit geen server van Life Dashboard tussen, en de app heeft geen analytics, crashrapportage of advertenties. <a href="../health-data-api/">Een web-API voor Health Connect of Apple Health</a> legt er meer over uit.</p>
 
 <h2>Wat je nodig hebt</h2>
 
 <ul>
-  <li>Een iPhone met iOS 17 of nieuwer, en <a href="../ios/">Life Dashboard Companion voor iPhone</a>. {{status:ios}}</li>
+  <li>Een iPhone met iOS 17 of nieuwer, en <a href="../ios/">Life Dashboard voor iPhone</a>. {{status:ios}}</li>
   <li>Een server die een JSON-POST accepteert. Gebruik <code>https://</code>. iOS staat onversleuteld <code>http://</code> alleen toe naar een IP-adres, een <code>.local</code>-naam of een naam zonder punt, bedoeld voor je eigen netwerk.</li>
 </ul>
 

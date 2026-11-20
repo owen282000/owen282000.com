@@ -14,7 +14,7 @@
     "coming": "Demnächst",
     "read_guide": "Zur Anleitung",
     "last_updated": "Zuletzt aktualisiert am {date}.",
-    "og_image_alt": "Life Dashboard Companion: deine Gesundheitsdaten, dein Server. Keine Cloud.",
+    "og_image_alt": "Life Dashboard: deine Gesundheitsdaten, dein Server. Keine Cloud.",
     "nav": {
       "menu": "Menü",
       "guides": "Anleitungen",
@@ -69,9 +69,9 @@
       "single_ios": "Der Payload, Schritt für Schritt (die iPhone-App sendet dasselbe JSON)",
       "single_grafana": "Was der Stack empfängt, Schritt für Schritt",
       "works_with_app": "Sendet an <a href=\"/life-dashboard/home-assistant/\">die Home-Assistant-Integration</a>, <a href=\"/life-dashboard/grafana/\">den Grafana-Stack</a>, einen MQTT-Broker oder einen beliebigen Webhook.",
-      "works_with_home-assistant": "Wird gekoppelt mit <a href=\"/life-dashboard/android/\">Life Dashboard Companion für Android</a> und <a href=\"/life-dashboard/ios/\">für iPhone</a>. Auf dem Dashboard: <a href=\"/life-dashboard/screen-time-card/\">die Screen Time Cards</a> und <a href=\"/life-dashboard/sleep-card/\">die Sleep Card</a>.",
-      "works_with_grafana": "Empfängt von <a href=\"/life-dashboard/android/\">Life Dashboard Companion für Android</a> und <a href=\"/life-dashboard/ios/\">für iPhone</a>.",
-      "alternativeto": "Life Dashboard Companion bei AlternativeTo",
+      "works_with_home-assistant": "Wird gekoppelt mit <a href=\"/life-dashboard/android/\">Life Dashboard für Android</a> und <a href=\"/life-dashboard/ios/\">für iPhone</a>. Auf dem Dashboard: <a href=\"/life-dashboard/screen-time-card/\">die Screen Time Cards</a> und <a href=\"/life-dashboard/sleep-card/\">die Sleep Card</a>.",
+      "works_with_grafana": "Empfängt von <a href=\"/life-dashboard/android/\">Life Dashboard für Android</a> und <a href=\"/life-dashboard/ios/\">für iPhone</a>.",
+      "alternativeto": "Life Dashboard bei AlternativeTo",
       "guides": "Anleitungen zur Einrichtung",
       "what": "Was es kann",
       "need": "Was du brauchst",
@@ -132,7 +132,7 @@
     "footer": {
       "all_guides": "Alle {n} Anleitungen",
       "legal": "Marken und Nachweise",
-      "about": "Life Dashboard ist ein Open-Source-Projekt von <a href=\"https://github.com/owen282000\">Owen Vogelaar</a> und besteht aus vier Teilen: den Apps Life Dashboard Companion für Android und iPhone, einer Home-Assistant-Integration und einem Grafana-Stack. Mit anderen Apps oder Vorlagen namens Life Dashboard hat es nichts zu tun. Fragen kannst du in den <a href=\"{discussions}\">Discussions</a> stellen.",
+      "about": "Life Dashboard ist ein Open-Source-Projekt von <a href=\"https://github.com/owen282000\">Owen Vogelaar</a> und besteht aus vier Teilen: den Life-Dashboard-Apps für Android und iPhone, einer Home-Assistant-Integration und einem Grafana-Stack. Mit anderen Apps oder Vorlagen namens Life Dashboard hat es nichts zu tun. Fragen kannst du in den <a href=\"{discussions}\">Discussions</a> stellen.",
       "no_tracking": "Diese Website setzt keine Cookies, nutzt keine Analyse-Tools und lädt nichts von Dritten. <a href=\"/privacy/\">Datenschutz dieser Website</a>.",
       "imprint": "Owen Vogelaar, handelnd unter dem Namen oVog Enterprise · Handelsregister der Niederlande (KvK) 81085583 · <a href=\"mailto:owen282000@hotmail.com\">owen282000@hotmail.com</a>",
       "products": "Produkte",
@@ -161,7 +161,7 @@
   "parts": {
     "android": {
       "name": "Android-App",
-      "full": "Life Dashboard Companion für Android",
+      "full": "Life Dashboard für Android",
       "line": "Health Connect und Bildschirmzeit pro App",
       "more": "Zur Android-App",
       "get_title": "Die Android-App holen",
@@ -193,7 +193,7 @@
     },
     "ios": {
       "name": "iPhone-App",
-      "full": "Life Dashboard Companion für iPhone",
+      "full": "Life Dashboard für iPhone",
       "line": "Apple Health, mit demselben Payload",
       "more": "Zur iPhone-App",
       "get_title": "Die iPhone-App holen",
@@ -611,7 +611,7 @@
   },
   "entities": {
     "android": {
-      "description": "Life Dashboard Companion ist eine Open-Source-App für Android, die Health-Connect-Daten und die Bildschirmzeit pro App an Home Assistant, MQTT oder deinen eigenen Webhook sendet, ohne Cloud und ohne Konto.",
+      "description": "Life Dashboard für Android ist eine Open-Source-App, die Health-Connect-Daten und die Bildschirmzeit pro App an Home Assistant, MQTT oder deinen eigenen Webhook sendet, ohne Cloud und ohne Konto.",
       "operatingSystem": "Android 8.0 oder neuer (Gesundheitsdaten: Android 9 oder neuer mit Health Connect)",
       "applicationSubCategory": "Hausautomation",
       "featureList": [
@@ -624,16 +624,16 @@
       ]
     },
     "ios": {
-      "description": "Life Dashboard Companion für iPhone ist eine Open-Source-App für das iPhone, die Apple-Health-Daten an Home Assistant, MQTT oder deinen eigenen Webhook sendet, ohne Cloud und ohne Konto.",
+      "description": "Life Dashboard für iPhone ist eine Open-Source-App für das iPhone, die Apple-Health-Daten an Home Assistant, MQTT oder deinen eigenen Webhook sendet, ohne Cloud und ohne Konto.",
       "operatingSystem": "iOS 17 oder neuer"
     },
     "home-assistant": {
-      "description": "Die Life-Dashboard-Integration ist eine benutzerdefinierte Open-Source-Integration für Home Assistant, installiert über den Marketplace oder HACS. Sie macht aus den Daten der Apps Life Dashboard Companion Sensoren und Langzeitstatistiken, gekoppelt per QR-Code.",
+      "description": "Die Life-Dashboard-Integration ist eine benutzerdefinierte Open-Source-Integration für Home Assistant, installiert über den Marketplace oder HACS. Sie macht aus den Daten der Life-Dashboard-Apps Sensoren und Langzeitstatistiken, gekoppelt per QR-Code.",
       "operatingSystem": "Home Assistant 2026.3 oder neuer",
       "applicationSubCategory": "Home-Assistant-Integration"
     },
     "grafana": {
-      "description": "Der Life-Dashboard-Stack ist ein selbst gehostetes Open-Source-Backend für die Apps Life Dashboard Companion: ein Empfänger, Postgres und sechs Grafana-Dashboards, mit einer API nur zum Lesen und einem optionalen MCP-Server, installiert mit Docker Compose oder einem Helm-Chart.",
+      "description": "Der Life-Dashboard-Stack ist ein selbst gehostetes Open-Source-Backend für die Life-Dashboard-Apps: ein Empfänger, Postgres und sechs Grafana-Dashboards, mit einer API nur zum Lesen und einem optionalen MCP-Server, installiert mit Docker Compose oder einem Helm-Chart.",
       "operatingSystem": "Linux, macOS oder Windows mit Docker, oder Kubernetes",
       "applicationSubCategory": "Selbst gehostetes Backend",
       "featureList": [
@@ -673,7 +673,7 @@
     },
     "projects": {
       "Health Assistant": "Eine selbst gehostete Gesundheitsakte. Ihre Webhook-Integration hat einen Parser für den Life-Dashboard-Payload und nennt die App „Highly Recommended for Android Users“.",
-      "HealthQuery": "Ein persönliches Gesundheits-Dashboard in SQLite, mit Berichten und einem MCP-Server. Die Daten kommen von Life Dashboard Companion.",
+      "HealthQuery": "Ein persönliches Gesundheits-Dashboard in SQLite, mit Berichten und einem MCP-Server. Die Daten kommen von der Life-Dashboard-App.",
       "fitbridge": "Health Connect für ChatGPT und Claude, selbst gehostet auf Cloudflare Workers. Die App koppelt sich per QR-Code und sendet signierte Updates."
     }
   }

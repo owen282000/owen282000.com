@@ -12,12 +12,12 @@ published: 2026-10-06
 
 <p class="signpost">Vous voulez plutôt les données Samsung Health de votre montre dans Home Assistant&nbsp;? Voir <a href="../samsung-health-home-assistant/">Samsung Health et Galaxy Watch dans Home Assistant</a>.</p>
 
-<p>Associez les entités de la balance dans l’intégration Life Dashboard et activez <strong>Recevoir</strong> dans Life Dashboard Companion, l’application Android open source qui s’y associe. À la synchronisation suivante, l’intégration transmet chaque nouvelle mesure à l’application, et celle-ci l’écrit dans Health Connect (Santé Connect en français) avec l’heure à laquelle elle a été prise. Samsung Health et Google Health lisent le poids et la masse grasse dans Santé Connect&nbsp;: le poids et la masse grasse d’une balance qui ne communique qu’avec Home Assistant se retrouvent donc dans ces applications. Cela vaut aussi pour un tensiomètre, mais l’affichage de cette mesure dépend de chaque application.</p>
+<p>Associez les entités de la balance dans l’intégration Life Dashboard et activez <strong>Recevoir</strong> dans Life Dashboard pour Android, l’application open source qui s’y associe. À la synchronisation suivante, l’intégration transmet chaque nouvelle mesure à l’application, et celle-ci l’écrit dans Health Connect (Santé Connect en français) avec l’heure à laquelle elle a été prise. Samsung Health et Google Health lisent le poids et la masse grasse dans Santé Connect&nbsp;: le poids et la masse grasse d’une balance qui ne communique qu’avec Home Assistant se retrouvent donc dans ces applications. Cela vaut aussi pour un tensiomètre, mais l’affichage de cette mesure dépend de chaque application.</p>
 
 <h2>Ce qu’il vous faut</h2>
 
 <ul>
-  <li>Un téléphone Android avec Santé Connect et Life Dashboard Companion, associé à l’<a href="../home-assistant/">intégration Life Dashboard</a> 0.7.0 ou plus récente. Le <a href="../health-connect-home-assistant/">guide Santé Connect</a> décrit l’association. L’application iPhone ne reçoit pas de mesures, et MQTT ne peut pas les transporter.</li>
+  <li>Un téléphone Android avec Santé Connect et l’application Life Dashboard, associé à l’<a href="../home-assistant/">intégration Life Dashboard</a> 0.7.0 ou plus récente. Le <a href="../health-connect-home-assistant/">guide Santé Connect</a> décrit l’association. L’application iPhone ne reçoit pas de mesures, et MQTT ne peut pas les transporter.</li>
   <li>Les mesures de la balance sous forme de capteurs dans Home Assistant. Une balance Bluetooth demande du Bluetooth à quelques mètres&nbsp;: un adaptateur sur la machine Home Assistant, ou un proxy Bluetooth ESPHome près de la salle de bains.</li>
 </ul>
 

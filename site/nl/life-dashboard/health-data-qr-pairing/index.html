@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Health Connect koppelen met één QR-code | Life Dashboard</title>
-<meta name="description" content="Maak een QR-code die Life Dashboard Companion aan je eigen dienst koppelt: de koppellink, een generator in Python en Node.js en de ondertekende testping.">
+<meta name="description" content="Maak een QR-code die de Life Dashboard-app aan je eigen dienst koppelt: de koppellink, een generator in Python en Node.js en de ondertekende testping.">
 <link rel="canonical" href="https://owen282000.com/nl/life-dashboard/health-data-qr-pairing/">
 <link rel="alternate" hreflang="en" href="https://owen282000.com/life-dashboard/health-data-qr-pairing/">
 <link rel="alternate" hreflang="nl" href="https://owen282000.com/nl/life-dashboard/health-data-qr-pairing/">
@@ -31,17 +31,17 @@
 <meta property="og:locale:alternate" content="pt_BR">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="Hoe laat ik mijn gebruikers hun gezondheidsdata koppelen met één QR-code?">
-<meta property="og:description" content="Maak een QR-code die Life Dashboard Companion aan je eigen dienst koppelt: de koppellink, een generator in Python en Node.js en de ondertekende testping.">
+<meta property="og:description" content="Maak een QR-code die de Life Dashboard-app aan je eigen dienst koppelt: de koppellink, een generator in Python en Node.js en de ondertekende testping.">
 <meta property="og:url" content="https://owen282000.com/nl/life-dashboard/health-data-qr-pairing/">
 <meta property="og:image" content="https://owen282000.com/life-dashboard/img/social.png">
 <meta property="og:image:width" content="1280">
 <meta property="og:image:height" content="640">
-<meta property="og:image:alt" content="Life Dashboard Companion: jouw gezondheidsdata, jouw server. Geen cloud.">
+<meta property="og:image:alt" content="Life Dashboard: jouw gezondheidsdata, jouw server. Geen cloud.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Hoe laat ik mijn gebruikers hun gezondheidsdata koppelen met één QR-code?">
-<meta name="twitter:description" content="Maak een QR-code die Life Dashboard Companion aan je eigen dienst koppelt: de koppellink, een generator in Python en Node.js en de ondertekende testping.">
+<meta name="twitter:description" content="Maak een QR-code die de Life Dashboard-app aan je eigen dienst koppelt: de koppellink, een generator in Python en Node.js en de ondertekende testping.">
 <meta name="twitter:image" content="https://owen282000.com/life-dashboard/img/social.png">
-<meta name="twitter:image:alt" content="Life Dashboard Companion: jouw gezondheidsdata, jouw server. Geen cloud.">
+<meta name="twitter:image:alt" content="Life Dashboard: jouw gezondheidsdata, jouw server. Geen cloud.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -50,7 +50,7 @@
       "@type": "TechArticle",
       "@id": "https://owen282000.com/nl/life-dashboard/health-data-qr-pairing/#article",
       "headline": "Hoe laat ik mijn gebruikers hun gezondheidsdata koppelen met één QR-code?",
-      "description": "Maak een QR-code die Life Dashboard Companion aan je eigen dienst koppelt: de koppellink, een generator in Python en Node.js en de ondertekende testping.",
+      "description": "Maak een QR-code die de Life Dashboard-app aan je eigen dienst koppelt: de koppellink, een generator in Python en Node.js en de ondertekende testping.",
       "url": "https://owen282000.com/nl/life-dashboard/health-data-qr-pairing/",
       "mainEntityOfPage": "https://owen282000.com/nl/life-dashboard/health-data-qr-pairing/",
       "inLanguage": "nl",
@@ -64,12 +64,12 @@
         {
           "@type": "SoftwareApplication",
           "@id": "https://owen282000.com/life-dashboard/#android",
-          "name": "Life Dashboard Companion"
+          "name": "Life Dashboard for Android"
         },
         {
           "@type": "SoftwareApplication",
           "@id": "https://owen282000.com/life-dashboard/#ios",
-          "name": "Life Dashboard Companion for iPhone"
+          "name": "Life Dashboard for iPhone"
         }
       ],
       "datePublished": "2026-10-29",
@@ -239,9 +239,9 @@
       <nav class="crumbs" aria-label="Kruimelpad"><a href="/nl/life-dashboard/">Life Dashboard</a><span aria-hidden="true">/</span><a href="/nl/life-dashboard/guides/">Gidsen</a><span aria-hidden="true">/</span><span aria-current="page">Laat je gebruikers koppelen met één QR-code</span></nav>
       <h1>Hoe laat ik mijn gebruikers hun gezondheidsdata koppelen met één QR-code?</h1>
       <div class="guide-intro">
-<p>Laat elke gebruiker een QR-code zien met daarin je webhook-adres en een geheim voor die gebruiker. Ze scannen hem met Life Dashboard Companion, tikken op <strong>Koppelen</strong>, en vanaf dan post hun telefoon Health Connect-data, of Apple Health-data vanaf een iPhone, als ondertekende JSON naar je dienst. Niemand typt een URL of kopieert een geheim, en je weet dat het gelukt is omdat de app meteen een ondertekende testping stuurt. De Life Dashboard-integratie voor Home Assistant werkt precies zo, en het formaat is open, dus elke dienst kan hetzelfde doen.</p>
+<p>Laat elke gebruiker een QR-code zien met daarin je webhook-adres en een geheim voor die gebruiker. Ze scannen hem met de Life Dashboard-app, tikken op <strong>Koppelen</strong>, en vanaf dan post hun telefoon Health Connect-data, of Apple Health-data vanaf een iPhone, als ondertekende JSON naar je dienst. Niemand typt een URL of kopieert een geheim, en je weet dat het gelukt is omdat de app meteen een ondertekende testping stuurt. De Life Dashboard-integratie voor Home Assistant werkt precies zo, en het formaat is open, dus elke dienst kan hetzelfde doen.</p>
 
-<figure class="diagram"><a class="shot-link" href="/life-dashboard/img/p-pairing-flow.webp?v=6cb181a9" aria-label="Je dienst toont een QR-code, de telefoon opent hem op de koppelpagina, en na Koppelen krijgt je dienst een ondertekende testping, volledige grootte"><img src="/life-dashboard/img/p-pairing-flow.webp?v=6cb181a9" alt="Je dienst toont een QR-code, de telefoon opent hem op de koppelpagina, en na Koppelen krijgt je dienst een ondertekende testping" width="1400" height="700" loading="lazy"></a></figure>
+<figure class="diagram"><a class="shot-link" href="/life-dashboard/img/p-pairing-flow.webp?v=e9255d6d" aria-label="Je dienst toont een QR-code, de telefoon opent hem op de koppelpagina, en na Koppelen krijgt je dienst een ondertekende testping, volledige grootte"><img src="/life-dashboard/img/p-pairing-flow.webp?v=e9255d6d" alt="Je dienst toont een QR-code, de telefoon opent hem op de koppelpagina, en na Koppelen krijgt je dienst een ondertekende testping" width="1400" height="700" loading="lazy"></a></figure>
       </div>
       <p class="guide-meta"><span>Door <a href="/nl/">Owen Vogelaar</a>, de maker van Life Dashboard</span> <span><time datetime="2026-11-20">Bijgewerkt op 20 november 2026</time></span> <span>5 min leestijd</span></p>
       <p class="guide-cta"><a class="btn btn-primary" href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/pairing.md">Koppelreferentie</a></p>
@@ -348,7 +348,7 @@ X-Signature: sha256=&lt;hex of HMAC-SHA256(secret, raw body)&gt;
 
 {
   "test": true,
-  "message": "Test ping from Life Dashboard Companion",
+  "message": "Test ping from Life Dashboard",
   "timestamp": "2026-10-04T12:00:00Z",
   "app_version": "1.29.0",
   "source": "health_connect"
@@ -358,7 +358,7 @@ X-Signature: sha256=&lt;hex of HMAC-SHA256(secret, raw body)&gt;
 
 <h2 id="iphone">iPhone</h2>
 
-<p>Life Dashboard Companion voor iPhone leest dezelfde codes. De app stuurt alleen Apple Health, dus een code moet <code>health_connect</code> accepteren of <code>sources</code> weglaten. Onversleuteld <code>http://</code> werkt daar alleen naar een adres in je thuisnetwerk, dus gebruik https. De camera van de iPhone opent eerst de landingspagina, die de code met de knop <strong>Open in the app</strong> aan de app doorgeeft.</p>
+<p>Life Dashboard voor iPhone leest dezelfde codes. De app stuurt alleen Apple Health, dus een code moet <code>health_connect</code> accepteren of <code>sources</code> weglaten. Onversleuteld <code>http://</code> werkt daar alleen naar een adres in je thuisnetwerk, dus gebruik https. De camera van de iPhone opent eerst de landingspagina, die de code met de knop <strong>Open in the app</strong> aan de app doorgeeft.</p>
 
 <h2 id="keep-it-safe">Houd het veilig</h2>
 
@@ -370,7 +370,7 @@ X-Signature: sha256=&lt;hex of HMAC-SHA256(secret, raw body)&gt;
 </ul>
 
 <section class="get-panel" aria-labelledby="get-the-app">
-      <h2 id="get-the-app">Life Dashboard Companion</h2>
+      <h2 id="get-the-app">Life Dashboard</h2>
       <p>Maak een code voor één testgebruiker en scan hem met de app. In de koppelreferentie staan elke regel, de testvector en de verschillen op de iPhone.</p>
       <div class="stores">
         <div class="panel-store"><a class="badge-link" href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-nl-guide-health-data-qr-pairing%26utm_medium%3Dwebsite"><img class="badge-img" src="/life-dashboard/img/badges/google-play.png?v=a13294f3" alt="Ontdek het op Google Play" width="564" height="168" loading="lazy"></a>
@@ -424,7 +424,7 @@ X-Signature: sha256=&lt;hex of HMAC-SHA256(secret, raw body)&gt;
     <div class="foot-top">
       <div class="foot-about">
         <a class="brand" href="/nl/life-dashboard/"><img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="32" height="32" loading="lazy"> <span>Life Dashboard</span></a>
-        <p>Life Dashboard is een open-source project van <a href="https://github.com/owen282000">Owen Vogelaar</a> en bestaat uit vier onderdelen: de Life Dashboard Companion-apps voor Android en iPhone, een Home Assistant-integratie en een Grafana-stack. Het heeft niets te maken met andere apps of sjablonen die Life Dashboard heten. Vragen kun je stellen in <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
+        <p>Life Dashboard is een open-source project van <a href="https://github.com/owen282000">Owen Vogelaar</a> en bestaat uit vier onderdelen: de Life Dashboard-apps voor Android en iPhone, een Home Assistant-integratie en een Grafana-stack. Het heeft niets te maken met andere apps of sjablonen die Life Dashboard heten. Vragen kun je stellen in <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
       </div>
       <div class="foot-col">
         <h2 class="foot-h">Producten</h2>

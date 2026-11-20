@@ -9,16 +9,16 @@ published: 2026-10-14
 
 <h1>Wie bekomme ich Health-Connect-Daten in n8n?</h1>
 
-<p>Installiere Life Dashboard Companion, eine Open-Source-App für Android, und trag die Production-URL eines Webhook-Nodes in n8n als Webhook ein. In n8n schaltest du im Webhook-Node die Option <strong>Raw Body</strong> ein, prüfst den HMAC aus <code>X-Signature</code> in einem Code-Node, antwortest mit einem Node <strong>Respond to Webhook</strong> mit 204 und speicherst danach jeden Datensatz mit <code>type</code> und <code>uuid</code> als Schlüssel. Daten aus Samsung Health, Garmin Connect, Google Health, Oura und Withings erreichen n8n auf diesem Weg, weil diese Apps sie auf dem Telefon in Health Connect schreiben.</p>
+<p>Installiere Life Dashboard für Android, eine Open-Source-App, und trag die Production-URL eines Webhook-Nodes in n8n als Webhook ein. In n8n schaltest du im Webhook-Node die Option <strong>Raw Body</strong> ein, prüfst den HMAC aus <code>X-Signature</code> in einem Code-Node, antwortest mit einem Node <strong>Respond to Webhook</strong> mit 204 und speicherst danach jeden Datensatz mit <code>type</code> und <code>uuid</code> als Schlüssel. Daten aus Samsung Health, Garmin Connect, Google Health, Oura und Withings erreichen n8n auf diesem Weg, weil diese Apps sie auf dem Telefon in Health Connect schreiben.</p>
 
 <p>Die iPhone-App sendet Apple-Health-Daten im selben Format, ein Workflow nimmt also beide Telefone an. Diese Seite behandelt die Seite von n8n. Der Payload selbst, Wiederholungen und die Warteschlange stehen in <a href="../health-connect-webhook/">Health-Connect-Daten exportieren</a>.</p>
 
-<p class="flow-line"><span>Uhr oder Ring</span><span>Die zugehörige App</span><span>Health Connect</span><span>Life Dashboard Companion</span><span>n8n</span></p>
+<p class="flow-line"><span>Uhr oder Ring</span><span>Die zugehörige App</span><span>Health Connect</span><span>Life-Dashboard-App</span><span>n8n</span></p>
 
 <h2>Was du brauchst</h2>
 
 <ul>
-  <li><a href="../android/">Life Dashboard Companion für Android</a> auf Android 9 oder neuer mit Health Connect. {{status:android}}</li>
+  <li><a href="../android/">Life Dashboard für Android</a> auf Android 9 oder neuer mit Health Connect. {{status:android}}</li>
   <li>Oder <a href="../ios/">die iPhone-App</a> auf iOS 17 oder neuer. {{status:ios}}</li>
   <li>n8n, in der n8n Cloud oder selbst gehostet, vom Telefon aus erreichbar. Nimm HTTPS. Für einfaches HTTP im eigenen Netz schaltest du in der Android-App unter <strong>Mehr</strong> &gt; <strong>Erweitert</strong> die Option <strong>Einfache HTTP-Webhooks erlauben</strong> ein; die iPhone-App erlaubt einfaches HTTP nur zu einer IP-Adresse, zu einem <code>.local</code>-Namen oder zu einem Namen ohne Punkt.</li>
   <li>Platz für große Anfragen. Erlaube mindestens 10 MB pro Anfrage. n8n nimmt standardmäßig bis zu 16 MB an, aber ein Reverse Proxy davor muss das ebenfalls erlauben: nginx erlaubt standardmäßig 1 MB.</li>

@@ -9,18 +9,18 @@ published: 2026-10-21
 
 <h1>Como levar os dados do Apple Health para o Home Assistant?</h1>
 
-<p>Instale a integração Life Dashboard no Home Assistant pelo Marketplace (HACS antes da versão 2026.11) e o Life Dashboard Companion no iPhone, depois pareie os dois com o QR code que a integração mostra. Toque em <strong>Sincronizar agora</strong>, e seus passos, frequência cardíaca, sono, peso e treinos chegam como sensores. Um backfill (o envio de todo o histórico de uma vez) preenche as estatísticas de longo prazo, com cada dia na sua própria data.</p>
+<p>Instale a integração Life Dashboard no Home Assistant pelo Marketplace (HACS antes da versão 2026.11) e o app Life Dashboard no iPhone, depois pareie os dois com o QR code que a integração mostra. Toque em <strong>Sincronizar agora</strong>, e seus passos, frequência cardíaca, sono, peso e treinos chegam como sensores. Um backfill (o envio de todo o histórico de uma vez) preenche as estatísticas de longo prazo, com cada dia na sua própria data.</p>
 
 <p>Funciona com tudo o que grava no Apple Health (o app Saúde do iPhone): o próprio iPhone, um Apple Watch e os apps de outros relógios, anéis e balanças que salvam os dados ali. As duas partes têm licença MIT. Não há conta nem servidor do Life Dashboard: o iPhone envia direto para o seu Home Assistant, e o app só lê o Apple Health, nunca grava nele.</p>
 
-<p class="flow-line"><span>iPhone ou Apple Watch</span><span>Apple Health</span><span>Life Dashboard Companion</span><span>Home Assistant</span></p>
+<p class="flow-line"><span>iPhone ou Apple Watch</span><span>Apple Health</span><span>App Life Dashboard</span><span>Home Assistant</span></p>
 
 <h2>O que você precisa</h2>
 
 <ul>
   <li>Um iPhone com iOS 17 ou mais recente.</li>
   <li>Home Assistant 2026.3 ou mais recente, para a <a href="../home-assistant/">integração Life Dashboard</a>. A partir da 2026.11 não é preciso instalar mais nada; versões anteriores precisam do <a href="https://hacs.xyz">HACS</a>. O app do iPhone precisa da integração 0.7.1 ou mais recente; os dois caminhos instalam a versão mais nova.</li>
-  <li>O <a href="../ios/">Life Dashboard Companion para iPhone</a>. {{status:ios}}</li>
+  <li>O <a href="../ios/">Life Dashboard para iPhone</a>. {{status:ios}}</li>
 </ul>
 
 <p>Configure o Home Assistant primeiro: a configuração do app escaneia o QR code que a integração mostra.</p>
@@ -31,7 +31,7 @@ published: 2026-10-21
   <li>Em <strong>Configurações</strong> &gt; <strong>Marketplace</strong> (HACS antes do Home Assistant 2026.11), procure por <strong>Life Dashboard</strong>, ou use <a href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Abrir no Marketplace</a>, e instale. No HACS, baixe a integração e reinicie o Home Assistant.</li>
   <li>Se a configuração não abrir sozinha, vá em <strong>Configurações</strong> &gt; <strong>Dispositivos e serviços</strong> &gt; <strong>Adicionar integração</strong> e procure por <strong>Life Dashboard</strong>. Dê um nome ao iPhone. Confira o campo <strong>Home Assistant address</strong>: é o endereço para onde o iPhone envia. O iOS só permite <code>http://</code> sem criptografia para um endereço IP, um nome <code>.local</code> como <code>homeassistant.local</code> ou um nome sem ponto, então <code>http://192.168.1.20:8123</code> funciona e <code>http://ha.lan:8123</code> não. Para qualquer outro caso, use <code>https://</code> ou o Home Assistant Cloud. Em seguida, a janela mostra um QR code.</li>
   <!-- IMG: the QR code in Home Assistant (H2-qr.png) -->
-  <li>Instale e abra o <a href="../ios/#get">Life Dashboard Companion</a>. Em <strong>Para onde seus dados devem ir?</strong>, toque em <strong>Escanear um código de pareamento</strong>, escaneie o código e toque em <strong>Parear</strong>. O app envia um ping de teste, e o iPhone aparece no Home Assistant na hora. A câmera do iPhone também serve: ela abre a página de pareamento no Safari, e um botão ali passa o código para o app.</li>
+  <li>Instale e abra o <a href="../ios/#get">app Life Dashboard</a>. Em <strong>Para onde seus dados devem ir?</strong>, toque em <strong>Escanear um código de pareamento</strong>, escaneie o código e toque em <strong>Parear</strong>. O app envia um ping de teste, e o iPhone aparece no Home Assistant na hora. A câmera do iPhone também serve: ela abre a página de pareamento no Safari, e um botão ali passa o código para o app.</li>
   <li>Quando o iOS pedir acesso à rede local, permita. Sem isso, nada chega a um Home Assistant que está em casa.</li>
   <li>Escolha seus tipos de dados: <strong>Essenciais</strong>, <strong>Todos os tipos</strong> ou <strong>Escolher depois</strong>. Depois permita o acesso ao Apple Health. Quando há um tipo ativado sobre o qual o iOS ainda não perguntou, a linha <strong>Acesso ao app Saúde</strong>, em <strong>O que enviar</strong>, mostra <strong>Permitir</strong>. O iOS nunca conta a um app se você liberou a leitura, então um tipo recusado simplesmente não envia nada; mude isso no app Saúde, no seu perfil, em <strong>Apps</strong>, <strong>Life Dashboard</strong>.</li>
   <li>Uma primeira sincronização acontece logo em seguida e mostra o que chegou. Depois disso, <strong>Sincronizar agora</strong>, na aba <strong>Saúde</strong>, envia de imediato o que há de novo. O iPhone aparece em <strong>Configurações</strong> &gt; <strong>Dispositivos e serviços</strong> &gt; <strong>Life Dashboard</strong>, com um sensor para cada tipo enviado. A primeira sincronização de um tipo envia os últimos 7 dias dele.</li>
@@ -89,7 +89,7 @@ entities:
 
 <h2>Um celular Android na mesma casa</h2>
 
-<p>Um iPhone e um celular Android enviam o mesmo payload, então uma integração só recebe os dois. Adicione a integração uma vez por celular e pareie cada um com o seu próprio QR code; cada um vira um dispositivo próprio. O celular Android usa o <a href="../android/">Life Dashboard Companion para Android</a>, que lê o Conexão Saúde (Health Connect) e também envia o tempo de tela por app; o <a href="../health-connect-home-assistant/">guia do Conexão Saúde</a> traz os passos. O dashboard de exemplo tem uma visualização que coloca dois celulares lado a lado.</p>
+<p>Um iPhone e um celular Android enviam o mesmo payload, então uma integração só recebe os dois. Adicione a integração uma vez por celular e pareie cada um com o seu próprio QR code; cada um vira um dispositivo próprio. O celular Android usa o <a href="../android/">Life Dashboard para Android</a>, que lê o Conexão Saúde (Health Connect) e também envia o tempo de tela por app; o <a href="../health-connect-home-assistant/">guia do Conexão Saúde</a> traz os passos. O dashboard de exemplo tem uma visualização que coloca dois celulares lado a lado.</p>
 
 <!-- IMG: two phones on one dashboard (H8-two-phones.png) -->
 

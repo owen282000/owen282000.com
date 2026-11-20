@@ -36,12 +36,12 @@
 <meta property="og:image" content="https://owen282000.com/life-dashboard/img/social.png">
 <meta property="og:image:width" content="1280">
 <meta property="og:image:height" content="640">
-<meta property="og:image:alt" content="Life Dashboard Companion: your health data, your server. No cloud.">
+<meta property="og:image:alt" content="Life Dashboard: your health data, your server. No cloud.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="How do I get Health Connect data into n8n?">
 <meta name="twitter:description" content="A working n8n workflow for Health Connect and Apple Health data: a Webhook node, an HMAC check in a Code node, then Postgres, Google Sheets or Telegram.">
 <meta name="twitter:image" content="https://owen282000.com/life-dashboard/img/social.png">
-<meta name="twitter:image:alt" content="Life Dashboard Companion: your health data, your server. No cloud.">
+<meta name="twitter:image:alt" content="Life Dashboard: your health data, your server. No cloud.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -64,12 +64,12 @@
         {
           "@type": "SoftwareApplication",
           "@id": "https://owen282000.com/life-dashboard/#android",
-          "name": "Life Dashboard Companion"
+          "name": "Life Dashboard for Android"
         },
         {
           "@type": "SoftwareApplication",
           "@id": "https://owen282000.com/life-dashboard/#ios",
-          "name": "Life Dashboard Companion for iPhone"
+          "name": "Life Dashboard for iPhone"
         }
       ],
       "datePublished": "2026-10-14",
@@ -247,11 +247,11 @@
       <nav class="crumbs" aria-label="Breadcrumb"><a href="/life-dashboard/">Life Dashboard</a><span aria-hidden="true">/</span><a href="/life-dashboard/guides/">Guides</a><span aria-hidden="true">/</span><span aria-current="page">Health Connect to n8n</span></nav>
       <h1>How do I get Health Connect data into n8n?</h1>
       <div class="guide-intro">
-<p>Install Life Dashboard Companion, an open-source Android app, and enter the production URL of an n8n Webhook node as its webhook. In n8n, turn on the Webhook node's <strong>Raw Body</strong> option, check the <code>X-Signature</code> HMAC in a Code node, answer 204 with a <strong>Respond to Webhook</strong> node, and then store each record keyed on its <code>type</code> and <code>uuid</code>. Data from Samsung Health, Garmin Connect, Google Health, Oura and Withings reaches n8n this way, because those apps write it to Health Connect on the phone.</p>
+<p>Install Life Dashboard for Android, an open-source app, and enter the production URL of an n8n Webhook node as its webhook. In n8n, turn on the Webhook node's <strong>Raw Body</strong> option, check the <code>X-Signature</code> HMAC in a Code node, answer 204 with a <strong>Respond to Webhook</strong> node, and then store each record keyed on its <code>type</code> and <code>uuid</code>. Data from Samsung Health, Garmin Connect, Google Health, Oura and Withings reaches n8n this way, because those apps write it to Health Connect on the phone.</p>
 
 <p>The iPhone app sends Apple Health data in the same format, so one workflow takes both phones. This page covers the n8n side. The payload itself, retries and the outbox are in <a href="/life-dashboard/health-connect-webhook/">Health Connect to a webhook</a>.</p>
 
-<p class="flow-line"><span>Watch or ring</span><span>Its app</span><span>Health Connect</span><span>Life Dashboard Companion</span><span>n8n</span></p>
+<p class="flow-line"><span>Watch or ring</span><span>Its app</span><span>Health Connect</span><span>Life Dashboard app</span><span>n8n</span></p>
       </div>
       <p class="guide-meta"><span>By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard</span> <span><time datetime="2026-11-20">Updated November 20, 2026</time></span> <span>10 min read</span></p>
       <p class="guide-cta"><a class="btn btn-primary" href="/life-dashboard/android/#get">Get the Android app</a></p>
@@ -279,7 +279,7 @@
 <h2 id="what-you-need">What you need</h2>
 
 <ul>
-  <li><a href="/life-dashboard/android/">Life Dashboard Companion for Android</a> on Android 9 or newer with Health Connect. It's on Google Play for €4.99 once (US$4.99), no subscription: the easy way, with automatic updates, and buying it supports development. The free routes install the same app with the same signing key: the signed APK from GitHub, Obtainium, which keeps that APK up to date, and F&#8209;Droid, which builds it from the source.</li>
+  <li><a href="/life-dashboard/android/">Life Dashboard for Android</a> on Android 9 or newer with Health Connect. It's on Google Play for €4.99 once (US$4.99), no subscription: the easy way, with automatic updates, and buying it supports development. The free routes install the same app with the same signing key: the signed APK from GitHub, Obtainium, which keeps that APK up to date, and F&#8209;Droid, which builds it from the source.</li>
   <li>Or <a href="/life-dashboard/ios/">the iPhone app</a> on iOS 17 or newer. It's on the App Store for €6.99 once (US$5.99), no subscription. Building it from source with Xcode costs nothing extra if you already have an Apple Developer Program membership.</li>
   <li>n8n, on n8n Cloud or self-hosted, reachable from the phone. Use HTTPS. Plain HTTP on your own network needs <strong>Allow plain HTTP webhooks</strong> under <strong>More</strong> &gt; <strong>Advanced</strong> in the Android app; the iPhone app allows plain HTTP only to an IP address, a <code>.local</code> name or a name without a dot.</li>
   <li>Room for large requests. Allow at least 10 MB per request. n8n takes up to 16 MB by default, but a reverse proxy in front of it must allow that too: nginx allows 1 MB by default.</li>
@@ -450,7 +450,7 @@ return (p?.daily_totals ?? []).map(d =&gt; ({ json: d }));</code></pre>
 </ul>
 
 <section class="get-panel" aria-labelledby="get-the-app">
-      <h2 id="get-the-app">Life Dashboard Companion</h2>
+      <h2 id="get-the-app">Life Dashboard</h2>
       <p>Install the app, put the production URL of your published workflow in it and tap <strong>Send test</strong>. The payload reference has the same check with a Crypto node.</p>
       <div class="stores">
         <div class="panel-store"><a class="badge-link" href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-guide-health-connect-n8n%26utm_medium%3Dwebsite"><img class="badge-img" src="/life-dashboard/img/badges/google-play.png?v=a13294f3" alt="Get it on Google Play" width="564" height="168" loading="lazy"></a>
@@ -508,7 +508,7 @@ return (p?.daily_totals ?? []).map(d =&gt; ({ json: d }));</code></pre>
     <div class="foot-top">
       <div class="foot-about">
         <a class="brand" href="/life-dashboard/"><img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="32" height="32" loading="lazy"> <span>Life Dashboard</span></a>
-        <p>Life Dashboard is an open-source project by <a href="https://github.com/owen282000">Owen Vogelaar</a>, in four parts: the Life Dashboard Companion apps for Android and iPhone, a Home Assistant integration and a Grafana stack. It isn't related to other apps or templates called Life Dashboard. Questions go to <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
+        <p>Life Dashboard is an open-source project by <a href="https://github.com/owen282000">Owen Vogelaar</a>, in four parts: the Life Dashboard apps for Android and iPhone, a Home Assistant integration and a Grafana stack. It isn't related to other apps or templates called Life Dashboard. Questions go to <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
       </div>
       <div class="foot-col">
         <h2 class="foot-h">Products</h2>

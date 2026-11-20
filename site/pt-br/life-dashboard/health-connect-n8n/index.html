@@ -36,12 +36,12 @@
 <meta property="og:image" content="https://owen282000.com/life-dashboard/img/social.png">
 <meta property="og:image:width" content="1280">
 <meta property="og:image:height" content="640">
-<meta property="og:image:alt" content="Life Dashboard Companion: seus dados de saúde, seu servidor. Sem nuvem.">
+<meta property="og:image:alt" content="Life Dashboard: seus dados de saúde, seu servidor. Sem nuvem.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Como levar os dados do Conexão Saúde (Health Connect) para o n8n?">
 <meta name="twitter:description" content="Um workflow do n8n que funciona para os dados do Health Connect e do Apple Health: nó Webhook, verificação HMAC em um nó Code e depois Postgres, Sheets ou Telegram.">
 <meta name="twitter:image" content="https://owen282000.com/life-dashboard/img/social.png">
-<meta name="twitter:image:alt" content="Life Dashboard Companion: seus dados de saúde, seu servidor. Sem nuvem.">
+<meta name="twitter:image:alt" content="Life Dashboard: seus dados de saúde, seu servidor. Sem nuvem.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -64,12 +64,12 @@
         {
           "@type": "SoftwareApplication",
           "@id": "https://owen282000.com/life-dashboard/#android",
-          "name": "Life Dashboard Companion"
+          "name": "Life Dashboard for Android"
         },
         {
           "@type": "SoftwareApplication",
           "@id": "https://owen282000.com/life-dashboard/#ios",
-          "name": "Life Dashboard Companion for iPhone"
+          "name": "Life Dashboard for iPhone"
         }
       ],
       "datePublished": "2026-10-14",
@@ -247,11 +247,11 @@
       <nav class="crumbs" aria-label="Trilha de navegação"><a href="/pt-br/life-dashboard/">Life Dashboard</a><span aria-hidden="true">/</span><a href="/pt-br/life-dashboard/guides/">Guias</a><span aria-hidden="true">/</span><span aria-current="page">Conexão Saúde para o n8n</span></nav>
       <h1>Como levar os dados do Conexão Saúde (Health Connect) para o n8n?</h1>
       <div class="guide-intro">
-<p>Instale o Life Dashboard Companion, um app Android de código aberto, e informe a URL de produção de um nó Webhook do n8n como o webhook dele. No n8n, ative a opção <strong>Raw Body</strong> do nó Webhook, confira o HMAC do <code>X-Signature</code> em um nó Code, responda 204 com um nó <strong>Respond to Webhook</strong> e depois grave cada registro usando o <code>type</code> e o <code>uuid</code> como chave. Os dados do Samsung Health, do Garmin Connect, do Google Health, do Oura e do Withings chegam ao n8n desse jeito, porque esses apps os gravam no Conexão Saúde (Health Connect) no celular.</p>
+<p>Instale o Life Dashboard para Android, um app de código aberto, e informe a URL de produção de um nó Webhook do n8n como o webhook dele. No n8n, ative a opção <strong>Raw Body</strong> do nó Webhook, confira o HMAC do <code>X-Signature</code> em um nó Code, responda 204 com um nó <strong>Respond to Webhook</strong> e depois grave cada registro usando o <code>type</code> e o <code>uuid</code> como chave. Os dados do Samsung Health, do Garmin Connect, do Google Health, do Oura e do Withings chegam ao n8n desse jeito, porque esses apps os gravam no Conexão Saúde (Health Connect) no celular.</p>
 
 <p>O app para iPhone envia os dados do Apple Health no mesmo formato, então um único workflow atende os dois celulares. Esta página trata do lado do n8n. O payload em si, as novas tentativas e a fila de saída estão em <a href="/pt-br/life-dashboard/health-connect-webhook/">Conexão Saúde para um webhook</a>.</p>
 
-<p class="flow-line"><span>Relógio ou anel</span><span>O app dele</span><span>Conexão Saúde</span><span>Life Dashboard Companion</span><span>n8n</span></p>
+<p class="flow-line"><span>Relógio ou anel</span><span>O app dele</span><span>Conexão Saúde</span><span>App Life Dashboard</span><span>n8n</span></p>
       </div>
       <p class="guide-meta"><span>Por <a href="/pt-br/">Owen Vogelaar</a>, que mantém o Life Dashboard</span> <span><time datetime="2026-11-20">Atualizado em 20 de novembro de 2026</time></span> <span>11 min de leitura</span></p>
       <p class="guide-cta"><a class="btn btn-primary" href="/pt-br/life-dashboard/android/#get">Baixar o app para Android</a></p>
@@ -279,7 +279,7 @@
 <h2 id="what-you-need">O que você precisa</h2>
 
 <ul>
-  <li>O <a href="/pt-br/life-dashboard/android/">Life Dashboard Companion para Android</a> em um Android 9 ou mais recente com o Conexão Saúde. Está no Google Play por €&nbsp;4,99 uma única vez (US$&nbsp;4,99), sem assinatura: o jeito fácil, com atualizações automáticas, e a compra apoia o desenvolvimento. Os caminhos gratuitos instalam o mesmo app com a mesma chave de assinatura: o APK assinado no GitHub, o Obtainium, que mantém esse APK atualizado, e o F&#8209;Droid, que o compila a partir do código-fonte.</li>
+  <li>O <a href="/pt-br/life-dashboard/android/">Life Dashboard para Android</a> em um Android 9 ou mais recente com o Conexão Saúde. Está no Google Play por €&nbsp;4,99 uma única vez (US$&nbsp;4,99), sem assinatura: o jeito fácil, com atualizações automáticas, e a compra apoia o desenvolvimento. Os caminhos gratuitos instalam o mesmo app com a mesma chave de assinatura: o APK assinado no GitHub, o Obtainium, que mantém esse APK atualizado, e o F&#8209;Droid, que o compila a partir do código-fonte.</li>
   <li>Ou <a href="/pt-br/life-dashboard/ios/">o app para iPhone</a> com iOS 17 ou mais recente. Está na App Store por €&nbsp;6,99 uma única vez (US$&nbsp;5,99), sem assinatura. Compilar a partir do código-fonte com o Xcode não custa nada a mais se você já tem uma assinatura do Apple Developer Program.</li>
   <li>O n8n, no n8n Cloud ou no seu próprio servidor, acessível a partir do celular. Use HTTPS. HTTP sem criptografia na sua própria rede exige <strong>Permitir webhooks com HTTP sem criptografia</strong> em <strong>Mais</strong> &gt; <strong>Avançado</strong> no app para Android; o app para iPhone só permite HTTP sem criptografia para um endereço IP, um nome <code>.local</code> ou um nome sem ponto.</li>
   <li>Espaço para requisições grandes. Permita pelo menos 10 MB por requisição. O n8n aceita até 16 MB por padrão, mas um proxy reverso na frente dele também precisa permitir isso: o nginx permite 1 MB por padrão.</li>
@@ -450,7 +450,7 @@ return (p?.daily_totals ?? []).map(d =&gt; ({ json: d }));</code></pre>
 </ul>
 
 <section class="get-panel" aria-labelledby="get-the-app">
-      <h2 id="get-the-app">Life Dashboard Companion</h2>
+      <h2 id="get-the-app">Life Dashboard</h2>
       <p>Instale o app, coloque nele a URL de produção do seu workflow publicado e toque em <strong>Enviar teste</strong>. A referência do payload traz a mesma verificação com um nó Crypto.</p>
       <div class="stores">
         <div class="panel-store"><a class="badge-link" href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-pt-br-guide-health-connect-n8n%26utm_medium%3Dwebsite"><img class="badge-img" src="/life-dashboard/img/badges/google-play.png?v=a13294f3" alt="Disponível no Google Play" width="564" height="168" loading="lazy"></a>
@@ -508,7 +508,7 @@ return (p?.daily_totals ?? []).map(d =&gt; ({ json: d }));</code></pre>
     <div class="foot-top">
       <div class="foot-about">
         <a class="brand" href="/pt-br/life-dashboard/"><img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="32" height="32" loading="lazy"> <span>Life Dashboard</span></a>
-        <p>O Life Dashboard é um projeto de código aberto de <a href="https://github.com/owen282000">Owen Vogelaar</a>, em quatro partes: os apps Life Dashboard Companion para Android e iPhone, uma integração para o Home Assistant e uma stack do Grafana. Não tem relação com outros apps ou modelos chamados Life Dashboard. Dúvidas vão para as <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
+        <p>O Life Dashboard é um projeto de código aberto de <a href="https://github.com/owen282000">Owen Vogelaar</a>, em quatro partes: os apps Life Dashboard para Android e iPhone, uma integração para o Home Assistant e uma stack do Grafana. Não tem relação com outros apps ou modelos chamados Life Dashboard. Dúvidas vão para as <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
       </div>
       <div class="foot-col">
         <h2 class="foot-h">Produtos</h2>

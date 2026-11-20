@@ -9,16 +9,16 @@ published: 2026-10-21
 
 <h1>¿Cómo llevo los datos de Apple Health a n8n?</h1>
 
-<p>Instala Life Dashboard Companion en tu iPhone e introduce como webhook la URL de producción de un nodo Webhook de n8n. En n8n, activa la opción <strong>Raw Body</strong> del nodo Webhook, comprueba el HMAC de <code>X-Signature</code> en un nodo Code, responde 204 con un nodo <strong>Respond to Webhook</strong> y después guarda cada registro con su <code>type</code> y su <code>uuid</code> como clave. Todo lo que hay en Apple Health (la app Salud del iPhone) llega así a n8n, venga del iPhone, de un Apple Watch o de otra app que escriba ahí.</p>
+<p>Instala la app Life Dashboard en tu iPhone e introduce como webhook la URL de producción de un nodo Webhook de n8n. En n8n, activa la opción <strong>Raw Body</strong> del nodo Webhook, comprueba el HMAC de <code>X-Signature</code> en un nodo Code, responde 204 con un nodo <strong>Respond to Webhook</strong> y después guarda cada registro con su <code>type</code> y su <code>uuid</code> como clave. Todo lo que hay en Apple Health (la app Salud del iPhone) llega así a n8n, venga del iPhone, de un Apple Watch o de otra app que escriba ahí.</p>
 
 <p>La app para iPhone envía el mismo payload que la app para Android, así que el workflow es el de <a href="../health-connect-n8n/">Health Connect a n8n</a>, y un solo workflow recibe los dos teléfonos. Esta página repite el workflow completo, con los puntos en los que un payload de iPhone es distinto. El payload en sí, los reintentos y la cola están en <a href="../apple-health-webhook/">Apple Health a un webhook</a>.</p>
 
-<p class="flow-line"><span>iPhone o Apple Watch</span><span>Apple Health</span><span>Life Dashboard Companion</span><span>n8n</span></p>
+<p class="flow-line"><span>iPhone o Apple Watch</span><span>Apple Health</span><span>App Life Dashboard</span><span>n8n</span></p>
 
 <h2>Qué necesitas</h2>
 
 <ul>
-  <li><a href="../ios/">Life Dashboard Companion para iPhone</a> con iOS 17 o posterior. {{status:ios}}</li>
+  <li><a href="../ios/">Life Dashboard para iPhone</a> con iOS 17 o posterior. {{status:ios}}</li>
   <li>n8n, en n8n Cloud o autoalojado, accesible desde el iPhone. Usa HTTPS. iOS solo permite <code>http://</code> sin cifrar hacia una dirección IP, un nombre <code>.local</code> o un nombre sin punto, y pide una vez acceso a la red local: permítelo si tu n8n está en casa.</li>
   <li>Margen para peticiones grandes. n8n acepta hasta 16 MB de forma predeterminada, pero un proxy inverso delante de él también tiene que permitirlo: nginx permite 1 MB de forma predeterminada.</li>
   <li>El módulo <code>crypto</code> en el nodo Code. n8n Cloud lo incluye. En n8n autoalojado, define <code>NODE_FUNCTION_ALLOW_BUILTIN=crypto</code>, en el task runner si usas uno.</li>
