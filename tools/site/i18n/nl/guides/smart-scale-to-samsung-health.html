@@ -1,0 +1,107 @@
+<!--
+slug: slimme-weegschaal-samsung-health
+title: Slimme weegschaal naar Samsung Health via Home Assistant
+description: Xiaomi, Renpho, Eufy of Withings: kan Home Assistant je weegschaal uitlezen, dan komen gewicht en vetpercentage via Health Connect in Samsung Health terecht.
+primary query: slimme weegschaal samsung health
+secondary queries: slimme weegschaal home assistant, home assistant gewicht naar health connect, home assistant weegschaal samsung health, home assistant bloeddruk health connect, xiaomi weegschaal samsung health, renpho home assistant health connect, home assistant gewicht naar google health
+updated: 2026-11-09
+published: 2026-11-20
+-->
+
+<h1>Hoe krijg ik de metingen van mijn slimme weegschaal uit Home Assistant in Samsung Health?</h1>
+
+<p class="signpost">Wil je juist de Samsung Health-data van je horloge in Home Assistant? Zie <a href="../samsung-health-home-assistant/">Samsung Health en Galaxy Watch in Home Assistant</a>.</p>
+
+<p>Wijs de entiteiten van de weegschaal toe in de Life Dashboard-integratie en zet <strong>Ontvangen</strong> aan in Life Dashboard Companion, de open-source app voor Android die je ermee koppelt. Bij de volgende sync geeft de integratie elke nieuwe meting door aan de app, en de app schrijft die naar Health Connect met het tijdstip waarop er gemeten is. Samsung Health en Google Health lezen gewicht en lichaamsvet uit Health Connect. Zo komen het gewicht en het vetpercentage van een weegschaal die alleen met Home Assistant praat toch in die apps terecht. Hetzelfde werkt voor een bloeddrukmeter, al bepaalt een app zelf of hij die meting toont.</p>
+
+<h2>Wat je nodig hebt</h2>
+
+<ul>
+  <li>Een Android-telefoon met Health Connect en Life Dashboard Companion, gekoppeld met de <a href="../home-assistant/">Life Dashboard-integratie</a> 0.7.0 of nieuwer. De <a href="../health-connect-home-assistant/">Health Connect-gids</a> legt het koppelen uit. De iPhone-app ontvangt geen metingen, en via MQTT kunnen ze niet mee.</li>
+  <li>De metingen van de weegschaal als sensoren in Home Assistant. Een Bluetooth-weegschaal heeft Bluetooth binnen een paar meter nodig: een adapter op de machine waarop Home Assistant draait, of een ESPHome Bluetooth-proxy in de buurt van de badkamer.</li>
+</ul>
+
+<p>Veelgebruikte routes naar Home Assistant zijn Xiaomi BLE met bodymiscale voor weegschalen van Xiaomi, ble-scale-sync voor Renpho, Eufy, Yunmai en andere, en de Withings-integratie. Het <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/recipes/scale-to-health-connect.md">recept voor weegschalen</a> zegt per route welke entiteit je toewijst, en heeft de templates die sommige routes nodig hebben.</p>
+
+<p>Een weegschaal die alleen met de cloud van de fabrikant synchroniseert, zoals de Xiaomi S400 EU in Xiaomi Home, of een weegschaal in Zepp Life, Mi Fitness, My TANITA of Picooc, kan Home Assistant bereiken via <a href="https://github.com/AlexxIT/SmartScaleConnect">SmartScaleConnect</a>. Dat logt met jouw account in bij die cloud en stuurt elke nieuwe weging naar een webhook van Home Assistant, waar een automatisering er de sensoren van maakt die je hieronder toewijst.</p>
+
+<h2>Zo stel je het in</h2>
+
+<ol>
+  <li>Open in Home Assistant Instellingen &gt; Apparaten &amp; diensten &gt; Life Dashboard en kies <strong>Configureren</strong> bij de telefoon. Kies één entiteit per type. Elk type heeft een optioneel veld <strong>Measured at</strong> voor een tijdstempelsensor die bijhoudt wanneer er gewogen is.</li>
+  <li>Open in de app op het tabblad <strong>Gezondheid</strong> het onderdeel <strong>Ontvangen</strong> en zet <strong>Metingen ontvangen</strong> aan.</li>
+  <li>Zet elk type aan dat je hebt toegewezen. Bij elk type vraagt de app Health Connect om toestemming om dat type te schrijven. Als je weigert, blijft de schakelaar uit.</li>
+  <li>Ga op de weegschaal staan en tik daarna op <strong>Nu synchroniseren</strong>, of wacht op de volgende sync. Het tabblad <strong>Logs</strong> toont een rij van Home Assistant. Tik erop voor elke meting en of die is geschreven.</li>
+</ol>
+
+<!-- IMG: Receive settings (A5-receive.png) -->
+
+<h2>Wat er wordt geschreven</h2>
+
+<table>
+  <thead>
+    <tr><th>Type</th><th>Geaccepteerd bereik</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Gewicht</td><td>1 tot 500 kg</td></tr>
+    <tr><td>Lichaamsvet</td><td>1 tot 80 %</td></tr>
+    <tr><td>Vetvrije massa</td><td>1 tot 300 kg</td></tr>
+    <tr><td>Botmassa</td><td>0,1 tot 30 kg</td></tr>
+    <tr><td>Lichaamswater</td><td>1 tot 300 kg</td></tr>
+    <tr><td>Lengte</td><td>0,3 tot 2,8 m</td></tr>
+    <tr><td>Bloeddruk</td><td>Systolisch 30 tot 300, diastolisch 10 tot 250 mmHg</td></tr>
+  </tbody>
+</table>
+
+<p>Eenheden worden omgerekend, dus ponden en stones werken ook. Voor BMI, spiermassa, visceraal vet en metabole leeftijd heeft Health Connect geen record, dus die blijven in Home Assistant. De meeste weegschalen geven lichaamswater als percentage. Het recept heeft een template dat er kilo's van maakt.</p>
+
+<h2>Hoe metingen worden verwerkt</h2>
+
+<ul>
+  <li><strong>De tijd is het moment van wegen.</strong> Een weging van 07:00 die om 09:00 synchroniseert, staat in Health Connect op 07:00.</li>
+  <li><strong>Eén weging is één meting.</strong> Dezelfde waarde binnen tien minuten telt als dezelfde meting, en een andere waarde voor hetzelfde moment vervangt het eerdere record.</li>
+  <li><strong>In beide richtingen ondertekend.</strong> De metingen komen mee terug in het ondertekende antwoord van de integratie op het verzoek dat de app toch al doet. Er is geen tweede kanaal en geen tweede geheim.</li>
+  <li><strong>Niets komt als echo terug.</strong> Wat de app schrijft, laat hij weg uit wat hij verstuurt. Je gewicht komt dus niet als tweede sensor terug in Home Assistant.</li>
+  <li><strong>Een waarschuwing voor dubbele metingen.</strong> Als de eigen app van de weegschaal hetzelfde type al naar Health Connect schrijft, waarschuwt de app je wanneer je het aanzet. Houd één bron aan, anders komt elke weging er twee keer in.</li>
+</ul>
+
+<h2>Wat Samsung Health en Google Health tonen</h2>
+
+<p>De app kan alleen beloven dat een meting in Health Connect aankomt. De rest bepaalt elke app zelf.</p>
+
+<table>
+  <thead>
+    <tr><th>App</th><th>Wat hij uit Health Connect overneemt</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Samsung Health</td><td>Gewicht en lichaamsvet. Vetvrije massa, botmassa en lichaamswater verschijnen meestal niet, en bloeddruk uit andere apps is niet geverifieerd.</td></tr>
+    <tr><td>Google Health</td><td>Gewicht en lichaamsvet. Bloeddruk leest hij niet.</td></tr>
+    <tr><td>Garmin Connect</td><td>Geen gewicht uit Health Connect.</td></tr>
+  </tbody>
+</table>
+
+<p>Een meting met <strong>Geschreven</strong> op het tabblad <strong>Logs</strong> staat in Health Connect, onder het eigen type, met Life Dashboard als bron.</p>
+
+<h2>Oudere metingen</h2>
+
+<p>Metingen ouder dan 30 dagen worden geweigerd, tenzij <strong>Oudere metingen accepteren</strong> aanstaat in de app. De knop <strong>Send history to phone</strong> van de integratie zet tot 30 dagen in de wachtrij, zo ver terug als de recorder van Home Assistant statussen bewaart (standaard 10 dagen). De actie <code>life_dashboard.queue_history</code> gaat tot 90 dagen terug. Een meting die de telefoon heeft geweigerd wordt niet opnieuw aangeboden, dus zet <strong>Oudere metingen accepteren</strong> aan voordat je geschiedenis verstuurt.</p>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Waarom staat mijn gewicht dubbel in Samsung Health?</summary>
+    <p>De eigen app van de weegschaal, zoals Zepp, Mi Fitness of Withings, schrijft ook naar Health Connect. Zet het type uit onder <strong>Ontvangen</strong>, of zorg in de instellingen van de andere app dat die geen gewicht meer schrijft.</p>
+  </details>
+  <details>
+    <summary>Werkt dit met een iPhone en Apple Health?</summary>
+    <p>Nee. De iPhone-app leest alleen uit Apple Health en schrijft geen metingen terug.</p>
+  </details>
+  <details>
+    <summary>Hoe lang duurt het voordat een weging verschijnt?</summary>
+    <p>Tot de volgende sync van de telefoon: standaard elke 60 minuten, en op zijn kortst elke 15. <strong>Nu synchroniseren</strong> haalt hem meteen op.</p>
+  </details>
+  <details>
+    <summary>Gaan de metingen via een clouddienst?</summary>
+    <p>Niet aan de kant van Life Dashboard: ze gaan van Home Assistant naar de telefoon in het antwoord op het verzoek van de telefoon zelf. Een cloudintegratie voor een weegschaal in Home Assistant haalt ze nog wel uit de cloud van de fabrikant, en zonder tijdstempelsensor krijgen die metingen het tijdstip waarop Home Assistant ze ophaalde.</p>
+  </details>
+</section>

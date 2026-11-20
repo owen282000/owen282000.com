@@ -1,0 +1,191 @@
+<!--
+title: Apple Health webhook: automatisch versturen | Life Dashboard
+description: Life Dashboard Companion stuurt Apple Health-data (Apple Gezondheid) van je iPhone als ondertekende JSON naar je eigen webhook, op de achtergrond, met wachtrij.
+primary query: apple health webhook
+secondary queries: apple health automatisch exporteren, apple gezondheid gegevens exporteren, gezondheidsgegevens iphone exporteren, apple health json, apple health api, apple health naar eigen server, healthkit webhook, apple health node-red, apple health postgres
+updated: 2026-11-04
+published: 2026-11-20
+-->
+
+<h1>Hoe stuur ik Apple Health-data automatisch naar een webhook?</h1>
+
+<p>Installeer Life Dashboard Companion op je iPhone, voeg je URL toe met <strong>Bestemming toevoegen</strong> op het tabblad <strong>Gezondheid</strong> en kies onder <strong>Wat versturen</strong> welke Apple Health-types je wilt versturen. Vanaf dan leest de app Apple Health (de app Gezondheid op je iPhone) op de achtergrond, volgens het schema dat je instelt, en post hij elk nieuw record als JSON naar je URL: stappen, slaap met slaapfasen, hartslag, HRV, gewicht, bloeddruk, work-outs en meer, 28 types in totaal, elk record met een vaste <code>uuid</code> en de app of het apparaat dat het schreef.</p>
+
+<p>Stel je een geheim in, dan is elk verzoek ondertekend met HMAC-SHA256 in een <code>X-Signature</code>-header. Een payload die niet kan worden afgeleverd, wacht in een wachtrij op de iPhone, en een record dat je in Apple Health verwijdert, wordt in de volgende payload genoemd. De payload is die van de Android-app, dus één ontvanger werkt voor een iPhone en een Android-telefoon.</p>
+
+<p class="flow-line"><span>iPhone of Apple Watch</span><span>Apple Health</span><span>Life Dashboard Companion</span><span>Je URL</span></p>
+
+<h2>Waarom er een app op de iPhone voor nodig is</h2>
+
+<p>Apple Health heeft geen web-API. De data staat op de iPhone en apps lezen die via HealthKit van Apple, dus iets op de iPhone moet de data lezen en doorsturen. Life Dashboard Companion doet dat en post rechtstreeks naar de URL's die je invult. Er is geen account en er zit geen server van Life Dashboard tussen, en de app heeft geen analytics, crashrapportage of advertenties. <a href="../health-data-api/">Een web-API voor Health Connect of Apple Health</a> legt er meer over uit.</p>
+
+<h2>Wat je nodig hebt</h2>
+
+<ul>
+  <li>Een iPhone met iOS 17 of nieuwer, en <a href="../ios/">Life Dashboard Companion voor iPhone</a>. {{status:ios}}</li>
+  <li>Een server die een JSON-POST accepteert. Gebruik <code>https://</code>. iOS staat onversleuteld <code>http://</code> alleen toe naar een IP-adres, een <code>.local</code>-naam of een naam zonder punt, bedoeld voor je eigen netwerk.</li>
+</ul>
+
+<h2>Zo stel je het in</h2>
+
+<ol>
+  <li>Vul bij het instellen van de app je URL in als <strong>Webhook-URL</strong>. Later tik je op <strong>Bestemming toevoegen</strong> op het tabblad <strong>Gezondheid</strong>, vul je de URL in en tik je op <strong>Webhook toevoegen</strong>. Je kunt er meerdere toevoegen; een sync telt als afgeleverd zodra één ervan hem accepteert.</li>
+  <li>Optioneel: tik op de bestemming op het tabblad <strong>Gezondheid</strong>. Tik onder <strong>Eigen headers</strong> op <strong>Header toevoegen</strong> voor een <code>Authorization</code>-header of een API-sleutel. Vul een <strong>HMAC-ondertekeningsgeheim</strong> in dat je server ook kent, of tik op <strong>Genereren</strong> en <strong>Geheim kopiëren</strong>. Tik daarna op <strong>Bewaren</strong>. Elk adres heeft zijn eigen geheim en headers.</li>
+  <li>Tik op <strong>Testping</strong> bij het instellen, of op <strong>Test versturen</strong> in het paneel van de bestemming. Dat verstuurt een kleine payload met <code>"test": true</code> en zonder records, met wat er is bewaard. Staat je server thuis, sta dan <strong>Lokaal netwerk</strong> toe als iOS erom vraagt.</li>
+  <li>Zet onder <strong>Wat versturen</strong> je types aan en geef toegang tot Apple Health. <strong>Voorbeeld van payload</strong> laat daar de laatste 7 dagen zien zoals de payload eruit zou zien, en <strong>Nu synchroniseren</strong> op het tabblad <strong>Gezondheid</strong> verstuurt wat nieuw is. De eerste sync van een type verstuurt de laatste 7 dagen.</li>
+  <li>Voor oudere data tik je op <strong>Geschiedenis versturen</strong> onder <strong>Wat versturen</strong> en kies je hoe ver terug, van 30 dagen tot <strong>Alles</strong>.</li>
+</ol>
+
+<!-- IMG: A webhook destination (ios-webhook.png) -->
+
+<h2>Hoe de POST eruitziet</h2>
+
+<p>Elk verzoek is een JSON-POST. Een ingekorte payload, van de <a href="https://github.com/owen282000/life-dashboard-companion-app-ios/blob/main/docs/webhook.md">payloadpagina van de iOS-app</a>:</p>
+
+<pre><code>{
+  "timestamp": "2026-02-05T12:00:00Z",
+  "timezone": "Europe/Amsterdam",
+  "app_version": "1.9.0",
+  "source": "healthkit_ios",
+  "sequence": 42,
+  "steps": [
+    {
+      "count": 1234,
+      "start_time": "2026-02-05T08:00:00Z",
+      "end_time": "2026-02-05T09:00:00Z",
+      "uuid": "5B7A0C2E-8F3D-4B1A-9C6E-2D4F8A1B3C5D",
+      "source": "Alex's iPhone"
+    }
+  ],
+  "daily_totals": [
+    { "date": "2026-02-05", "steps": 8421, "distance_meters": 6210.4 }
+  ]
+}</code></pre>
+
+<ul>
+  <li><code>source</code> op het hoogste niveau is <code>healthkit_ios</code>, waar de Android-app <code>health_connect</code> zegt.</li>
+  <li><code>timezone</code> is de tijdzone van de iPhone op het moment dat de payload werd opgebouwd. Elke tijd in de payload is UTC, en dit is de zone waarin <code>daily_totals</code> hun dagen afbakenen, zodat een ontvanger de lokale dag kent na de overgang naar zomer- of wintertijd of na een reis. Sinds versie 1.9.0 staat het veld in elke payload.</li>
+  <li><code>sequence</code> gaat met één omhoog bij elke payload die de iPhone opbouwt, en een nieuwe poging houdt het nummer waarmee de payload is opgebouwd.</li>
+  <li>Elk record heeft een <code>uuid</code>, die van het Apple Health-sample zelf, die gelijk blijft zolang het record bestaat, en een <code>source</code>: de naam die Apple Health geeft aan de app of het apparaat dat het schreef. Voor data die de iPhone of de Watch zelf vastlegt, is dat de naam van het apparaat, en daar zit vaak de naam van de eigenaar in.</li>
+  <li><code>daily_totals</code> bevat stappen, afstand en calorieën per lokale dag, voor vandaag en de twee dagen ervoor, berekend met de statistieken van Apple Health zelf. Een wandeling die zowel de iPhone als de Watch heeft vastgelegd, telt daar één keer; tel je losse records op, dan telt hij dubbel.</li>
+</ul>
+
+<p>De sleutels, velden en eenheden zijn die van de Android-app. De <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md">payload-referentie</a> van de Android-app beschrijft elk type, en het <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook-schema.json">JSON Schema</a> ervan geldt voor beide apps. <a href="../apple-health-data-types/">Datatypes van Apple Health</a> zet per sleutel op een rij wat een iPhone verstuurt.</p>
+
+<h2>De handtekening controleren</h2>
+
+<p>Met een geheim ingesteld heeft elke POST de header <code>X-Signature: sha256=&lt;hex&gt;</code>, de HMAC-SHA256 van de ruwe request-body met je geheim als sleutel. Het is hetzelfde schema als dat van de Android-app, dus één controle werkt voor beide telefoons. Bereken hem over de bytes zoals ze binnenkwamen, voordat je ze parset, vergelijk in constante tijd en antwoord met 401 als hij niet klopt. In Node.js:</p>
+
+<pre><code>const crypto = require('crypto');
+
+function verifySignature(req, secret) {
+  const expected = 'sha256=' + crypto
+    .createHmac('sha256', secret)
+    .update(req.rawBody) // the exact raw request body bytes
+    .digest('hex');
+  const actual = req.get('X-Signature') || '';
+  return actual.length === expected.length &amp;&amp;
+    crypto.timingSafeEqual(Buffer.from(actual), Buffer.from(expected));
+}</code></pre>
+
+<p>In Python:</p>
+
+<pre><code>expected = "sha256=" + hmac.new(SECRET, body, hashlib.sha256).hexdigest()
+valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
+
+<p>Staat je server achter een reverse proxy die een clientcertificaat eist, importeer dat dan als <code>.p12</code>-bestand onder <strong>Meer</strong> &gt; <strong>Geavanceerd</strong>. Het blijft in de sleutelhanger van de iPhone, en elke webhook waarvan de server om een certificaat vraagt krijgt het, ook op de achtergrond.</p>
+
+<h2>Nieuwe pogingen en de wachtrij</h2>
+
+<ul>
+  <li><strong>Nieuwe pogingen.</strong> Elke 2xx telt als afgeleverd. Bij een netwerkfout, een time-out, 408, 429 of 5xx probeert de app het in totaal 3 keer, met eerst 1 en dan 2 seconden ertussen. Andere fouten, zoals 401 of 404, mislukken meteen. Een poging stopt zodra de verbinding 10 seconden stilstaat, dus antwoord eerst en sla daarna pas op.</li>
+  <li><strong>De wachtrij.</strong> Elke payload komt op de iPhone in de wachtrij voordat hij wordt gepost, zodat er niets verloren gaat bij een sync die iOS halverwege afbreekt. Een payload die niet is afgeleverd gaat opnieuw de deur uit als het netwerk terug is, bij de volgende sync of met <strong>Nu opnieuw proberen</strong>, de oudste eerst, naar de URL's en met de headers die op dat moment zijn ingesteld. De wachtrij stopt bij de eerste payload die mislukt, zodat de rest zijn volgorde houdt.</li>
+  <li><strong>Geweigerde payloads.</strong> Een payload die je server weigert met 400, 413 of 422 houdt de payloads erna niet tegen. Hij blijft in de wachtrij en wordt één keer per dag opnieuw aangeboden. Payloads die later in de wachtrij kwamen, kunnen dan eerder aankomen: gebruik <code>sequence</code> om de volgorde te bepalen.</li>
+  <li><strong>Oude en vervallen payloads.</strong> Een payload ouder dan 7 dagen vervalt als je server de volgende aflevering ervan met een fout beantwoordt, nooit terwijl de iPhone offline is. De wachtrij bevat hooguit 700 payloads; daarboven vervalt de oudste. Elke vervallen payload krijgt een regel op het tabblad <strong>Logs</strong> en een melding.</li>
+  <li><strong>Redirects</strong> worden alleen gevolgd binnen dezelfde host. Een redirect naar een andere host, zoals een inlogpagina vóór je server, telt als mislukte aflevering, en de log noemt de host waar hij naar wees.</li>
+</ul>
+
+<!-- IMG: Sync history (ios-logs.png) -->
+
+<h2>Verwijderde records</h2>
+
+<p>Van een record dat in Apple Health is verwijderd, valt bij een sync niets meer te lezen. Daarom volgt de app de lijst van verwijderingen die Apple Health zelf bijhoudt en noemt hij in de volgende payload wat er weg is, met de sleutel waaronder het record aankwam en de <code>uuid</code> waarmee het is afgeleverd:</p>
+
+<pre><code>"deleted_records": [
+  { "type": "nutrition", "uuid": "84E37E8A-1C2D-4E5F-8A9B-0C1D2E3F4A5B" }
+]</code></pre>
+
+<ul>
+  <li>Is een verwijdering de enige wijziging, dan verstuurt de sync een payload met <code>deleted_records</code> en zonder records.</li>
+  <li>Apple Health past een bestaand record nooit aan. Een app die een record bewerkt, verwijdert het en bewaart een nieuw record onder een nieuwe <code>uuid</code>, dus een bewerking komt aan als een verwijdering plus een nieuw record.</li>
+  <li>Een verwijdering bij slaap noemt één fase, niet de nacht. Haal die fase weg, of vervang de nachten die in een nieuwere payload zitten.</li>
+  <li><code>deletions_unavailable</code> noemt de sleutels waarvoor een payload niet kan instaan, bijvoorbeeld als Apple Health niet op tijd antwoordde of als een type langer dan 7 dagen niet is gelezen. Trek die recht met een backfill, waarmee de app je oude data alsnog verstuurt.</li>
+</ul>
+
+<h2>Wanneer de app verstuurt</h2>
+
+<p>Onder <strong>Wanneer versturen</strong> stel je een interval in van 15 minuten of langer, standaard 60, of vaste tijden op de dag, op de dagen die je kiest, met stille uren. iOS bepaalt wanneer een app op de achtergrond draait, dus een vaste tijd betekent "niet eerder dan". Apple Health wekt de app ook als een ingeschakeld type nieuwe data heeft, hooguit zo vaak als Apple voor dat type toestaat. Ververs op achtergrond moet voor de app aanstaan; de energiebesparingsmodus zet het uit.</p>
+
+<p>Wil je een sync op een exacte minuut, maak dan in Opdrachten een automatisering die op dat tijdstip <strong>Gezondheidsdata synchroniseren</strong> uitvoert. Dezelfde taak werkt bij thuiskomst, met je stem via Siri, vanuit de widget op het beginscherm en, op iOS 18 en nieuwer, vanuit een regelaar in het bedieningspaneel. Hij verstuurt wat in de wachtrij staat en wat nieuw is.</p>
+
+<p>iOS versleutelt Apple Health terwijl de iPhone vergrendeld is, dus een sync die dan begint wacht tot je hem ontgrendelt.</p>
+
+<!-- IMG: Sync schedule (ios-schedule.png) -->
+
+<h2>Backfill</h2>
+
+<p><strong>Geschiedenis versturen</strong> onder <strong>Wat versturen</strong> verstuurt de periode die je kiest, van 30 dagen tot je hele geschiedenis, in vensters van 3 dagen, de oudste eerst, met de velden <code>backfill</code>, <code>window_start</code>, <code>window_end</code> en <code>window_complete</code>. De records zijn dezelfde als bij een sync, met dezelfde <code>uuid</code>, dus de overlap kun je ontdubbelen. <code>window_complete</code> is vanaf een iPhone altijd <code>false</code>, omdat Apple Health een app niet vertelt welke types hij niet mag lezen. Backfill-payloads gaan alleen naar webhooks, nooit naar MQTT of de wachtrij.</p>
+
+<h2>Ontvangers die werken</h2>
+
+<ul>
+  <li><strong>De Life Dashboard-stack.</strong> Een ontvanger die <code>X-Signature</code> controleert, Postgres en Grafana-dashboards, uit één compose-bestand. Scan de QR-code van de stack in de app om te koppelen. Zie <a href="../grafana/">de Life Dashboard-stack</a>.</li>
+  <li><strong>n8n.</strong> Een Webhook-node met <strong>Raw Body</strong> aan, een handtekeningcontrole in een Code-node en een 204. In <a href="../apple-health-n8n/">Apple Health naar n8n</a> staat de workflow.</li>
+  <li><strong>Node-RED.</strong> Een <strong>http in</strong>-node met <strong>Do not parse request body</strong> aan (Node-RED 4.1 of nieuwer) geeft de ruwe bytes voor de HMAC.</li>
+  <li><strong>Home Assistant.</strong> De <a href="../apple-health-home-assistant/">Life Dashboard-integratie</a> maakt van de payload sensoren en langetermijnstatistieken.</li>
+  <li><strong>Een eigen script.</strong> De payload-referentie van de Android-app heeft <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md#example-backend-integrations">voorbeeldontvangers</a> in Python en Node.js.</li>
+</ul>
+
+<h2>Opslaan</h2>
+
+<ul>
+  <li>Doe voor elk record een upsert op de sleutel in de payload en de <code>uuid</code>. Een record kan twee keer aankomen: een backfill verstuurt zijn periode opnieuw, en een aflevering die iOS afbrak gaat opnieuw de deur uit vanuit de wachtrij. Eén sample actieve energie telt mee voor zowel <code>active_calories</code> als <code>total_calories</code>, dus neem beide in je sleutel op.</li>
+  <li>Bewaar <code>daily_totals</code> als één rij per datum, uit de payload met de hoogste <code>sequence</code> waarin die datum zat.</li>
+  <li>De <code>uuid</code> van een slaapnacht komt van de vroegste fase en blijft dus gelijk terwijl de nacht groeit: vervang de nacht als hij langer terugkomt.</li>
+  <li>Verwijder wat <code>deleted_records</code> noemt, op <code>type</code> en <code>uuid</code>, en negeer een <code>uuid</code> die je niet hebt.</li>
+</ul>
+
+<h2>Waar een iPhone-payload afwijkt van Android</h2>
+
+<ul>
+  <li>Hartslagvariabiliteit is SDNN, de maat die Apple Health opslaat. Android stuurt RMSSD onder dezelfde sleutel; dat is niet hetzelfde getal.</li>
+  <li>Het <code>type</code> van een work-out is een naam, zoals <code>running</code> of <code>hiit</code>; Android stuurt een nummer als string.</li>
+  <li>Bij de slaapfasen zit <code>in_bed</code>, de tijd in bed rond de fasen, die alleen een iPhone verstuurt.</li>
+  <li>Er is geen schermtijd-payload en geen <code>_diagnostics</code>-blok.</li>
+</ul>
+
+<p>Een ontvanger die voor Android is geschreven werkt ongewijzigd, zolang hij die velden als optioneel behandelt. De <a href="https://github.com/owen282000/life-dashboard-companion-app-ios/blob/main/docs/webhook.md">payloadpagina van de iOS-app</a> noemt elk verschil.</p>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Kan ik Apple Health automatisch exporteren, zonder de app te openen?</summary>
+    <p>Ja. Na het instellen synchroniseert de app op de achtergrond volgens je schema, en Apple Health wekt hem als er nieuwe data is. De iPhone moet ontgrendeld zijn om bij een sync Apple Health te kunnen lezen, en iOS kiest het exacte moment. Voor een vaste minuut gebruik je een automatisering in Opdrachten met <strong>Gezondheidsdata synchroniseren</strong>.</p>
+  </details>
+  <details>
+    <summary>Kan ik de JSON bekijken voordat ik een ontvanger schrijf?</summary>
+    <p>Ja. <strong>Voorbeeld van payload</strong> onder <strong>Wat versturen</strong> toont de laatste 7 dagen als payload, <strong>JSON kopiëren</strong> zet die op het klembord en <strong>Delen</strong> geeft hem door als .json-bestand. <strong>Data exporteren</strong> onder <strong>Meer</strong> bewaart hetzelfde met <strong>Als JSON exporteren</strong>, of met <strong>Als CSV exporteren</strong> als een rij per record.</p>
+  </details>
+  <details>
+    <summary>Hoe voorkom ik dat stappen dubbel worden geteld?</summary>
+    <p>Gebruik <code>daily_totals</code> voor stappen, afstand en calorieën. Die zijn geteld zoals de app Gezondheid ze telt, dus een iPhone en een Watch die allebei een wandeling hebben vastgelegd, tellen hem één keer.</p>
+  </details>
+  <details>
+    <summary>Werkt dezelfde ontvanger ook voor een Android-telefoon?</summary>
+    <p>Ja. Beide apps sturen dezelfde sleutels, eenheden en handtekening. Je houdt ze uit elkaar met <code>source</code> op het hoogste niveau: <code>healthkit_ios</code> of <code>health_connect</code>. <a href="../health-connect-webhook/">Health Connect naar een webhook</a> behandelt de Android-kant.</p>
+  </details>
+  <details>
+    <summary>Stuurt de app iets naar de ontwikkelaar?</summary>
+    <p>Nee. De app heeft geen analytics, crashrapportage of advertenties, en er is geen server van Life Dashboard. De data gaat alleen naar de URL's, de broker of de Home Assistant die je instelt.</p>
+  </details>
+</section>

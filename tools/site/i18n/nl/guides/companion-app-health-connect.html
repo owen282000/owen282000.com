@@ -1,0 +1,144 @@
+<!--
+title: Home Assistant Companion-app en Health Connect | Life Dashboard
+description: De Companion-app toont met 36 Health Connect-sensoren de laatste waarde. Life Dashboard voegt geschiedenis op de juiste datum, 34 types en terugschrijven toe.
+primary query: home assistant companion app health connect
+secondary queries: health connect sensoren home assistant geschiedenis, home assistant companion app health connect alleen laatste waarde, companion app health connect langetermijnstatistieken, health connect backfill home assistant, companion app health connect slaapfasen, companion app health connect work-outs
+updated: 2026-11-20
+published: 2026-11-20
+-->
+
+<h1>Is de Companion-app van Home Assistant genoeg voor Health Connect-data?</h1>
+
+<p>Voor de laatste waarde wel. De Companion-app voor Android heeft 36 Health Connect-sensoren, elk met de nieuwste meting of het totaal van vandaag. Oudere data inladen kan ze niet, ze legt een waarde vast op het moment dat de sensor bijwerkt in plaats van op de dag waar die bij hoort, en ze schrijft niet naar Health Connect. Life Dashboard leest 34 types en voegt daaraan toe: een backfill, waarmee de app je oude data alsnog verstuurt, van je hele geschiedenis op de juiste datums, metingen van weegschaal en bloeddrukmeter die worden teruggeschreven, en schermtijd per app. De twee draaien naast elkaar.</p>
+
+<p class="flow-line"><span>Health Connect</span><span>Life Dashboard Companion</span><span>Life Dashboard-integratie</span><span>Elke dag op zijn eigen datum</span></p>
+
+<h2>Wat de Companion-app leest</h2>
+
+<p>De nieuwste release van de Companion-app voor Android, 2026.11.1, heeft in november 2026 36 Health Connect-sensoren. Ze dekken 25 types: bloeddruk is gesplitst in een systolische en een diastolische sensor, en slaap in elf sensoren. Tot en met release 2026.10.1 waren het er 26, met één voor slaap.</p>
+
+<table>
+  <thead>
+    <tr><th>Soort sensor</th><th>Sensoren</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Totaal sinds middernacht (6)</td><td>Stappen, afstand, totale calorieën, vochtinname, beklommen verdiepingen, hoogtemeters</td></tr>
+    <tr><td>Nieuwste meting (20)</td><td>Hartslag, hartslag in rust, hartslagvariabiliteit, gewicht, lengte, lichaamsvet, vetvrije massa, botmassa, lichaamswater, systolische en diastolische bloeddruk, bloedglucose, zuurstofsaturatie, ademfrequentie, lichaamstemperatuur, basale lichaamstemperatuur, basaal metabolisme, VO2max, actieve calorieën, slaapduur</td></tr>
+    <tr><td>Slaap van afgelopen nacht, sinds 2026.11.1 (10)</td><td>Wanneer de nacht begon en eindigde, en de minuten lichte slaap, diepe slaap, REM, wakker, wakker in bed, uit bed, niet gespecificeerd en onbekend</td></tr>
+  </tbody>
+</table>
+
+<ul>
+  <li><strong>Android-versie.</strong> Op Android 9 tot en met 13 zitten de sensoren in de build uit Google Play, met de Health Connect-app geïnstalleerd. Op Android 14 en nieuwer heeft elke build ze.</li>
+  <li><strong>Bijwerken.</strong> Zoals alle sensoren van de app werken ze elke 15 minuten bij. Met <strong>Sensor Update Frequency</strong> kan dat elke minuut worden, altijd of tijdens het opladen.</li>
+  <li><strong>Aanzetten.</strong> De sensoren staan standaard uit. Je zet ze één voor één aan onder <strong>Manage Sensors</strong>, waar ook om de bijbehorende Health Connect-toestemming wordt gevraagd.</li>
+</ul>
+
+<p>Sinds release 2026.11.1 heeft de sensor <strong>Sleep duration</strong> van de Android-app ook de fasen van de nacht als attributen, en de <a href="../sleep-stages-home-assistant/">Life Dashboard Sleep Card</a> kan daar een nacht mee tekenen. Niet gedekt, stand november 2026: work-outs, voeding, cyclusregistratie, mindfulness en huidtemperatuur. Het verzoek daarvoor is <a href="https://github.com/home-assistant/android/issues/4804">issue #4804</a>, dat nog openstaat.</p>
+
+<h2>Wanneer de Companion-app genoeg is</h2>
+
+<ul>
+  <li>Je wilt het laatste gewicht, de laatste hartslag of de slaap van afgelopen nacht in een automatisering of op een tegel.</li>
+  <li>Je wilt de stappen van vandaag, en een grafiek van de dagen sinds je de sensor hebt aangezet is prima.</li>
+  <li>Je gebruikt de Companion-app al voor aanwezigheid, meldingen en apparaatsensoren, en wilt er geen app bij.</li>
+  <li>Je wilt beklommen verdiepingen of hoogtemeters. Die twee types leest Life Dashboard niet.</li>
+</ul>
+
+<p>Is dat alles wat je nodig hebt, blijf dan bij de Companion-app. Daarvoor heb je niets van wat hieronder staat nodig.</p>
+
+<h2>Waar het ophoudt: geschiedenis</h2>
+
+<p>Home Assistant legt de waarde van een sensor vast op het moment dat de waarde verandert. Dat werkt voor een lamp of een deur, maar gezondheidsdata komt vaak pas uren nadat het is gebeurd in Health Connect, dus de tijd in Home Assistant is de tijd van het bijwerken, niet de tijd van de meting.</p>
+
+<ul>
+  <li><strong>Waarden komen terecht op het moment van bijwerken.</strong> Een nacht slaap die je horloge om 09:00 doorgeeft, staat in de geschiedenis om 09:00. Het tijdstip waar ze over gaat staat alleen in een attribuut, dat grafieken en statistieken niet gebruiken.</li>
+  <li><strong>Totalen gaan over vandaag.</strong> De zes dagsensoren tellen vanaf middernacht. Stappen die een horloge na middernacht doorgeeft voor de dag ervoor, komen nooit bij het cijfer van gisteren.</li>
+  <li><strong>Langetermijnstatistieken voor zes sensoren.</strong> Alleen de zes totalen hebben een state class, dus alleen die krijgen langetermijnstatistieken. Hartslag, gewicht, slaap en de andere sensoren met de nieuwste meting blijven in de geschiedenis van de recorder, die Home Assistant 10 dagen bewaart tenzij je dat aanpast.</li>
+  <li><strong>Geen oudere data.</strong> De geschiedenis begint op de dag dat je een sensor aanzet. In release 2026.11.1 kan de app niet importeren wat Health Connect al bevat.</li>
+</ul>
+
+<h2>Wat Life Dashboard toevoegt</h2>
+
+<p>Life Dashboard is een open-source Android-app, Life Dashboard Companion, plus de <a href="../home-assistant/">Life Dashboard-integratie</a> uit de Marketplace (HACS vóór Home Assistant 2026.11). De app leest Health Connect en verstuurt elk record met zijn eigen tijdstip, en de integratie legt het op die datum vast.</p>
+
+<ul>
+  <li><strong>34 types, 27 als sensor.</strong> Daar horen drie sensoren voor work-outs bij, de laatste work-out en de minuten van vandaag en gisteren, en sinds integratie 1.2.0 de calorieën, eiwitten, koolhydraten en vetten die je vandaag hebt gegeten. Via MQTT zijn het er 25, zonder de work-outs en het eten. Losse maaltijden, mindfulness, seksuele activiteit en cyclusregistratie hebben geen enkele waarde om te tonen; een eigen webhook krijgt ze als records.</li>
+  <li><strong>Slaapfasen voor elke nacht.</strong> Uren diep, licht, REM en wakker per nacht in de langetermijnstatistieken, zo ver terug als je geschiedenis gaat, waar de Companion-app de laatste nacht bevat.</li>
+  <li><strong>Geschiedenis op de juiste dag.</strong> Dagtotalen komen op hun eigen datum terecht, en metingen zoals hartslag en gewicht krijgen per uur een gemiddelde, minimum en maximum. Data die laat binnenkomt wordt vastgelegd waar ze hoort: elke sync kijkt een week terug naar records die een bron laat schrijft.</li>
+  <li><strong>Een backfill van je geschiedenis.</strong> <strong>Geschiedenis versturen</strong> onder <strong>Wat versturen</strong> op het tabblad <strong>Gezondheid</strong> verstuurt 30 dagen tot 5 jaar, of <strong>Alles</strong>, van elk ingeschakeld type, zodat je grafieken gevuld beginnen. Home Assistant legt elke dag daarvan op zijn eigen datum vast.</li>
+  <li><strong>Metingen teruggeschreven.</strong> Gewicht, lengte, lichaamsvet, vetvrije massa, botmassa, lichaamswater en bloeddruk van een weegschaal of meter in Home Assistant gaan naar Health Connect. Samsung Health en Google Health pikken gewicht en lichaamsvet daar op. Zie <a href="../smart-scale-to-samsung-health/">metingen van een slimme weegschaal naar Samsung Health</a>.</li>
+  <li><strong>Schermtijd per app.</strong> Tijd per app, dezelfde getallen als Digitaal welzijn, met een daggrens die je zelf kiest, zoals 04:00. Een app waarvan je de sensor aanzet krijgt ook haar geschiedenis per dag. Zie <a href="../screen-time-home-assistant/">schermtijd in Home Assistant</a>.</li>
+  <li><strong>Andere bestemmingen.</strong> Dezelfde data kan ook naar een MQTT-broker of naar elke URL die een JSON-POST accepteert.</li>
+</ul>
+
+<p>Ook de sensoren in Life Dashboard bevatten alleen de nieuwste waarde. Het verschil zit in wat erachter staat: langetermijnstatistieken met elke dag op zijn eigen datum.</p>
+
+<!-- IMG: the example Health dashboard (H6-health.png) -->
+
+<h2>Naast elkaar</h2>
+
+<table>
+  <thead>
+    <tr><th></th><th>Companion-app van Home Assistant</th><th>Life Dashboard</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Health Connect</td><td>36 sensoren uit 25 types</td><td>34 types; 27 worden sensoren, en een webhook krijgt elk record</td></tr>
+    <tr><td>Slaapfasen</td><td>De laatste nacht, in minuten per fase</td><td>Elke nacht, in de langetermijnstatistieken, en de laatste nacht met haar tijdlijn</td></tr>
+    <tr><td>Types die de ander mist</td><td>Beklommen verdiepingen, hoogtemeters</td><td>Work-outs, voeding, cyclusregistratie, mindfulness, huidtemperatuur</td></tr>
+    <tr><td>Waar een waarde wordt vastgelegd</td><td>Op het moment dat de sensor bijwerkt</td><td>Op de datum en het uur waar ze bij hoort</td></tr>
+    <tr><td>Langetermijnstatistieken</td><td>De zes dagtotalen</td><td>Elk type met een sensor, plus mindfulnesstijd</td></tr>
+    <tr><td>Oudere data</td><td>Geen; de geschiedenis begint als je een sensor aanzet</td><td>Backfill van je hele geschiedenis</td></tr>
+    <tr><td>Naar Health Connect</td><td>Nee</td><td>Metingen van weegschaal en bloeddrukmeter uit Home Assistant</td></tr>
+    <tr><td>Schermtijd</td><td>Laatst gebruikte app; scherm aan of uit</td><td>Tijd per app met geschiedenis, en een daggrens die je zelf kiest</td></tr>
+    <tr><td>Bestemmingen</td><td>Home Assistant</td><td>Home Assistant, MQTT, elke webhook</td></tr>
+    <tr><td>Hoe vaak</td><td>Elke 15 minuten, of elke minuut</td><td>Standaard elke 60 minuten, op zijn kortst 15, of op vaste tijden</td></tr>
+    <tr><td>Android</td><td>9 of nieuwer met de Play-build, 14 of nieuwer met elke build</td><td>9 of nieuwer voor gezondheidsdata, 8.0 of nieuwer voor schermtijd</td></tr>
+    <tr><td>Aanwezigheid, meldingen, apparaatsensoren</td><td>Ja</td><td>Nee</td></tr>
+    <tr><td>Wat je installeert</td><td>Niets extra</td><td>Een tweede app op de telefoon en een integratie uit de Marketplace of HACS</td></tr>
+  </tbody>
+</table>
+
+<p>De kolom van de Companion-app komt uit haar <a href="https://companion.home-assistant.io/docs/core/sensors#health-connect-sensors">sensordocumentatie</a> en haar code, stand release 2026.11.1.</p>
+
+<h2>Gebruik ze allebei</h2>
+
+<p>De twee zitten elkaar niet in de weg. Elk leest Health Connect met zijn eigen toestemming, en Home Assistant toont ze als aparte apparaten. Houd de Companion-app voor aanwezigheid, meldingen en apparaatsensoren. Voeg je Life Dashboard toe voor gezondheidsdata, dan kun je de Health Connect-sensoren van de Companion-app uitzetten onder <strong>Manage Sensors</strong>, zodat je niet elke waarde twee keer ziet.</p>
+
+<p>Om Life Dashboard toe te voegen heb je Home Assistant 2026.3 of nieuwer nodig, plus <a href="https://hacs.xyz">HACS</a> op versies vóór 2026.11, en <a href="../android/">Life Dashboard Companion voor Android</a>. {{status:android}} In de <a href="../health-connect-home-assistant/">Health Connect-gids voor Home Assistant</a> staat elke stap, van de QR-code tot een tegel op je dashboard.</p>
+
+<!-- IMG: the QR code in Home Assistant (H2-qr.png) -->
+
+<h2>Beperkingen</h2>
+
+<ul>
+  <li>Life Dashboard is een tweede app op de telefoon, naast de Companion-app.</li>
+  <li>Het leest geen beklommen verdiepingen of hoogtemeters.</li>
+  <li>Losse maaltijden, mindfulnesssessies en cyclusregistratie krijgen geen sensor. Ze gaan als records naar een webhook; wat je vandaag hebt gegeten wordt opgeteld in vier sensoren, en mindfulness telt mee in de dagstatistieken.</li>
+  <li>MQTT bevat alleen de nieuwste waarde en heeft geen work-outsensoren. Voor de backfill en de statistieken is de integratie nodig.</li>
+  <li>Een adres in je thuisnetwerk synchroniseert alleen thuis. Een openbaar HTTPS-adres of Home Assistant Cloud werkt overal.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Waarom toont de Companion-app alleen de laatste Health Connect-waarde?</summary>
+    <p>Elk van haar Health Connect-sensoren leest het nieuwste record, of het totaal van vandaag, telkens als de sensoren bijwerken. Home Assistant legt die waarde dan vast op het tijdstip van het bijwerken. Er is geen stap die oudere records verstuurt.</p>
+  </details>
+  <details>
+    <summary>Kan de Companion-app mijn Health Connect-geschiedenis importeren?</summary>
+    <p>Nee, niet in release 2026.11.1. Haar geschiedenis begint op de dag dat je een sensor aanzet. Life Dashboard kan je hele geschiedenis met een backfill in de langetermijnstatistieken zetten, elke dag op zijn eigen datum.</p>
+  </details>
+  <details>
+    <summary>Waarom staat er geen hartslag in mijn langetermijnstatistieken?</summary>
+    <p>In de Companion-app hebben alleen de zes dagtotalen een state class. Hartslag, gewicht, slaap en de andere metingen blijven in de geschiedenis van de recorder, die Home Assistant 10 dagen bewaart tenzij je dat aanpast.</p>
+  </details>
+  <details>
+    <summary>Vervangt Life Dashboard de Companion-app?</summary>
+    <p>Nee. Het regelt gezondheidsdata en schermtijd, en laat aanwezigheid, meldingen en apparaatsensoren over aan de Companion-app. De twee draaien naast elkaar.</p>
+  </details>
+  <details>
+    <summary>Kan de Companion-app een meting van een weegschaal naar Health Connect schrijven?</summary>
+    <p>Nee. In november 2026 is schrijven een functieverzoek, <a href="https://github.com/home-assistant/android/issues/5650">issue #5650</a>, dat nog openstaat. Life Dashboard schrijft gewicht, lichaamssamenstelling en bloeddruk uit Home Assistant naar Health Connect.</p>
+  </details>
+</section>

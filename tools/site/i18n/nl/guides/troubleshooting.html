@@ -1,0 +1,107 @@
+<!--
+slug: problemen-oplossen
+title: Health Connect werkt niet? Problemen oplossen | Life Dashboard
+description: Syncs die op de achtergrond stoppen, lege Health Connect, geen sensoren in Home Assistant, fouten bij koppelen of certificaten: wat je nakijkt, stap voor stap.
+primary query: health connect werkt niet
+secondary queries: health connect synchroniseert niet, health connect sync stopt op achtergrond, samsung batterij sluit app af, home assistant gezondheidssensoren ontbreken, health connect machtigingen, life dashboard problemen oplossen
+updated: 2026-11-20
+published: 2026-11-20
+-->
+
+<h1>Waarom komt mijn gezondheidsdata niet aan?</h1>
+
+<p>De meeste problemen met Life Dashboard Companion komen neer op vier dingen: de telefoon stopt de app op de achtergrond, de app van het horloge schrijft niet naar Health Connect, er ontbreekt een toestemming, of de telefoon kan het adres waar hij naartoe stuurt niet bereiken. Deze pagina loopt ze langs in de volgorde waarin je ze het best nakijkt. Begin altijd bij het tabblad <strong>Logs</strong> van de app: daar staat elke sync en elke aflevering met het antwoord van de server, en een tik op een rij geeft de details.</p>
+
+<h2>Syncs stoppen als de app gesloten is</h2>
+
+<p>Als de app alleen synchroniseert wanneer je hem opent, stopt de telefoon zijn achtergrondtaken om de batterij te sparen. Samsung, Xiaomi, OnePlus, Huawei en andere merken doen dat, vaak zonder het te melden. Pas deze instellingen één keer aan, meteen na het installeren:</p>
+
+<ul>
+  <li><strong>Samsung:</strong> Instellingen &gt; Apps &gt; Life Dashboard &gt; Batterij, zet op <strong>Onbeperkt</strong>. Daarna Instellingen &gt; Batterij (in sommige versies onder Apparaatonderhoud) &gt; Limieten achtergrondgebruik &gt; <strong>Apps die nooit in slaapstand gaan</strong>, en voeg Life Dashboard toe.</li>
+  <li><strong>Xiaomi, Redmi en POCO:</strong> zet autostart aan voor Life Dashboard (in nieuwere versies <strong>Background autostart</strong> onder de machtigingen van de app), en zet de batterijbesparing van de app op <strong>Geen beperkingen</strong>. Als je de app vastzet in het scherm met recente apps, met lang indrukken en het hangslotje, wordt hij ook niet meer opgeruimd.</li>
+  <li><strong>Pixel en andere telefoons met bijna kale Android:</strong> Instellingen &gt; Apps &gt; Life Dashboard &gt; App battery usage, zet op <strong>Onbeperkt</strong>.</li>
+  <li><strong>OnePlus, Oppo, Huawei en andere merken:</strong> zet het batterijgebruik van de app op <strong>Onbeperkt</strong> of <strong>Geen beperkingen</strong> onder Instellingen &gt; Apps &gt; Life Dashboard, en zoek naar een aparte autostart- of opstartmanager. De menu's verschuiven per versie. <a href="https://dontkillmyapp.com">dontkillmyapp.com</a> houdt de actuele stappen per merk bij.</li>
+</ul>
+
+<p>Kijk daarna of lezen op de achtergrond nog is toegestaan in Health Connect (zie het volgende deel): zonder werkt alleen <strong>Nu synchroniseren</strong>. Ook als elke instelling goed staat, draait Android een achtergrondtaak hooguit elke 15 minuten, en kan het langer wachten als de telefoon stilligt. Het tabblad <strong>Logs</strong> toont wanneer er echt gesynchroniseerd is.</p>
+
+<h2>Health Connect is leeg of de app kan het niet lezen</h2>
+
+<ol>
+  <li><strong>Health Connect is aanwezig.</strong> Op Android 14 en nieuwer zit het in de systeeminstellingen. Zoek in de instellingen naar "Health Connect" (bij Samsung staat het onder Beveiliging en privacy). Op Android 9 tot en met 13 biedt het tabblad <strong>Gezondheid</strong> van de app aan om het te installeren of bij te werken. Android 8 ondersteunt het niet. Schermtijd werkt daar wel.</li>
+  <li><strong>De app van je horloge schrijft ernaar.</strong> Dat is een instelling in die andere app. In Samsung Health is het Instellingen &gt; Health Connect. In Garmin Connect is het Settings &gt; Connected Apps &gt; Health Connect, op Android 14 of nieuwer. De gidsen voor <a href="../samsung-health-home-assistant/">Samsung</a>, <a href="../garmin-home-assistant/">Garmin</a> en <a href="../fitbit-home-assistant/">Fitbit</a> hebben de details. <strong>App openen</strong> op de rij <strong>Toegang tot Health Connect</strong> onder <strong>Wat versturen</strong> op het tabblad Gezondheid opent Health Connect, zodat je kunt zien of de data er überhaupt is.</li>
+  <li><strong>De app mag het lezen.</strong> Tik op <strong>Toestaan</strong> op de rij <strong>Toegang tot Health Connect</strong> onder <strong>Wat versturen</strong> op het tabblad Gezondheid. Health Connect vraagt om leestoegang per datatype en om <strong>lezen op de achtergrond</strong>. Geplande syncs hebben die tweede nodig. Een type met een slotje onder <strong>Wat versturen</strong> heeft nog geen toestemming: zet het uit en weer aan om het opnieuw te vragen.</li>
+  <li><strong>Oudere geschiedenis vraagt nog een toestemming.</strong> Health Connect laat een app alleen data lezen van hooguit 30 dagen voordat hij voor het eerst toegang kreeg. Voor meer vraagt de pagina van de backfill, waarmee de app je oude data alsnog verstuurt, om toegang tot de geschiedenis.</li>
+</ol>
+
+<h2>Nu synchroniseren zegt "Geen nieuwe data"</h2>
+
+<p>Elke sync stuurt alleen wat nieuw is sinds de vorige, en de allereerste sync leest de laatste 7 dagen. <strong>Voorbeeld van payload</strong> onder <strong>Wat versturen</strong> op het tabblad Gezondheid toont wat de volgende sync zou versturen. Draai voor oudere data een backfill. Kijk ook of het horloge met de telefoon heeft gesynchroniseerd: Garmin Connect schrijft naar Health Connect nadat het horloge heeft gesynchroniseerd, en Samsung Health zodra het horloge verbinding maakt of wanneer je Samsung Health opent.</p>
+
+<p>Waarden van de nacht, zoals HRV, ademhalingsfrequentie en slaap, komen vaak pas uren nadat je wakker bent geworden binnen. Horloge-apps schrijven de nacht pas naar Health Connect als ze 's ochtends synchroniseren. De app stuurt die mee met de eerste sync daarna. Er gaat niets verloren.</p>
+
+<h2>Geen sensoren in Home Assistant</h2>
+
+<ul>
+  <li><strong>Met de integratie:</strong> Instellingen &gt; Apparaten &amp; diensten &gt; Life Dashboard, en dan het apparaat van de telefoon. Een sensor verschijnt zodra de telefoon dat type heeft verstuurd. De entiteits-ID's beginnen met de naam van de telefoon, zoals <code>sensor.owens_pixel_steps_today</code>. De schermtijdsensoren per app worden uitgeschakeld aangemaakt: toon de uitgeschakelde entiteiten op het apparaat en schakel de apps in die je wilt.</li>
+  <li><strong>De geschiedenis</strong> staat niet in de sensoren maar in de langetermijnstatistieken. Voeg een kaart <strong>Statistics graph</strong> toe en kies de statistieken van de telefoon uit de lijst.</li>
+  <li><strong>Met MQTT:</strong> Instellingen &gt; Apparaten &amp; diensten &gt; MQTT, apparaat <strong>Life Dashboard Companion</strong>.</li>
+  <li><strong>Helemaal niets:</strong> kijk op het tabblad <strong>Logs</strong>. Een mislukte aflevering betekent dat de telefoon Home Assistant niet kon bereiken. Zie het volgende deel.</li>
+</ul>
+
+<h2>De telefoon kan Home Assistant niet bereiken</h2>
+
+<p>De telefoon stuurt naar het adres in de koppelcode, dus dat adres moet vanaf de telefoon werken.</p>
+
+<ul>
+  <li><strong><code>homeassistant.local</code> werkt vaak niet op Android,</strong> dat namen op <code>.local</code> niet betrouwbaar opzoekt. Gebruik in plaats daarvan het IP-adres van Home Assistant, zoals <code>http://192.168.1.10:8123</code>. Het staat onder Instellingen &gt; Systeem &gt; Netwerk.</li>
+  <li><strong>Een adres in je thuisnetwerk</strong> werkt alleen op je wifi thuis. Onderweg mislukken de syncs, de telefoon bewaart de data, en de eerste sync als je weer thuis bent verstuurt alles. Een melding over mislukte syncs terwijl je weg bent is dit.</li>
+  <li><strong>Een publiek adres,</strong> zoals een URL van Home Assistant Cloud of je eigen <code>https://</code>-domein, werkt overal.</li>
+  <li><strong>"Plain HTTP is blocked":</strong> het adres begint met <code>http://</code>. Zet <strong>Onversleutelde HTTP-webhooks toestaan</strong> aan onder <strong>Meer</strong> &gt; <strong>Geavanceerd</strong> voor een server op je eigen netwerk of VPN. De data gaat dan onversleuteld over dat netwerk.</li>
+  <li><strong>Een certificaatfout bij <code>https://</code>:</strong> je server gebruikt een certificaat van je eigen CA, of een zelfondertekend certificaat. Vertrouw onder <strong>Meer &gt; Geavanceerd &gt; Servercertificaten</strong> (app 1.27.0 en nieuwer) voor die host de CA-certificaten die op de telefoon zijn geïnstalleerd, of lees het certificaat van de server uit, controleer de vingerafdruk en vertrouw precies dat ene. Er is geen optie die certificaatfouten negeert.</li>
+</ul>
+
+<p>Wil je het adres later wijzigen, open dan <strong>Reconfigure</strong> van de integratie in Home Assistant, pas het daar aan en scan de nieuwe code.</p>
+
+<h2>Koppelen lukt niet</h2>
+
+<ul>
+  <li><strong>Scannen opent een webpagina in plaats van de app.</strong> Android controleert de koppellink bij het installeren tegen de handtekening van de app. Op de pagina staat een knop <strong>Open in the app</strong> die altijd werkt, en scannen vanuit de app zelf, met <strong>Koppelcode scannen</strong>, hangt nooit van die controle af.</li>
+  <li><strong>"Deze code komt van een nieuwere versie".</strong> De integratie is nieuwer dan de app. Werk de app bij en scan opnieuw.</li>
+  <li><strong>Koppelen lukt, maar er komt niets aan.</strong> Het adres in de code is vanaf de telefoon niet bereikbaar: zie het deel hierboven.</li>
+</ul>
+
+<h2>Getallen die niet lijken te kloppen</h2>
+
+<ul>
+  <li><strong>Stappen dubbel geteld?</strong> Niet in Home Assistant. Als Samsung Health en Garmin allebei een wandeling wegschrijven, bewaart Health Connect beide kopieën, maar het berekent ook een dagtotaal dat de overlap één keer telt, en de integratie gebruikt dat totaal. Laat <strong>Dagtotalen in payload</strong> aanstaan onder <strong>Meer</strong> &gt; <strong>Geavanceerd</strong>. <a href="../health-connect-steps-home-assistant/">Health Connect-stappen die niet lijken te kloppen</a> loopt de andere oorzaken langs.</li>
+  <li><strong>Schermtijd wijkt af van Digitaal welzijn.</strong> De dag van de app begint standaard om 04:00, apps die je een minuut of korter hebt gebruikt blijven buiten beschouwing, en alleen tijd op het scherm telt.</li>
+  <li><strong>Er ontbreekt een veld,</strong> zoals een voedingsstof. De app stuurt elk veld dat Health Connect heeft, maar alleen als de app die het record schreef het heeft ingevuld.</li>
+</ul>
+
+<h2>Op een iPhone</h2>
+
+<ul>
+  <li><strong>Een vergrendelde iPhone kan Apple Health niet lezen.</strong> iOS houdt gezondheidsdata versleuteld zolang de telefoon vergrendeld is, dus een sync op dat moment leest niets. De volgende sync met een ontgrendelde telefoon haalt het in.</li>
+  <li><strong>Er ontbreekt een type.</strong> Kijk of het aanstaat onder <strong>Wat versturen</strong>. Als iOS nog niet naar een type heeft gevraagd, staat daar op de rij <strong>Toegang tot Apple Gezondheid</strong> de knop <strong>Toestaan</strong>. iOS vertelt een app nooit of je lezen hebt toegestaan, dus een type dat je hebt geweigerd stuurt gewoon niets. Wijzig dat in de app Gezondheid onder je profiel, <strong>Apps</strong>, <strong>Life Dashboard</strong>.</li>
+  <li><strong>Er komt niets aan op je server.</strong> Tik op de bestemming op het tabblad <strong>Gezondheid</strong> en dan op <strong>Test versturen</strong>. Het tabblad <strong>Logs</strong> toont de fout die de server of iOS gaf. Sta voor een server thuis <strong>Lokaal netwerk</strong> toe voor Life Dashboard onder Instellingen &gt; Privacy en beveiliging.</li>
+  <li><strong>Syncs komen laat.</strong> iOS bepaalt wanneer een app op de achtergrond draait. Ververs op achtergrond moet aanstaan voor de app, en de Energiebesparingsmodus zet het uit. Het tabblad <strong>Gezondheid</strong> meldt het wanneer een van de twee syncs tegenhoudt. Wil je een exact tijdstip, dan legt <strong>Een exacte tijd nodig?</strong> onder <strong>Wanneer versturen</strong> de automatisering in Opdrachten uit.</li>
+  <li><strong>Er staan payloads te wachten.</strong> Het tabblad <strong>Gezondheid</strong> toont hoeveel er in de wachtrij staan, en <strong>Nu opnieuw proberen</strong> verstuurt ze meteen.</li>
+  <li><strong>"Geen data om te synchroniseren".</strong> Elke sync stuurt alleen wat nieuw is sinds de vorige. <strong>Voorbeeld van payload</strong> onder <strong>Wat versturen</strong> toont de laatste 7 dagen als payload. Tik daar voor oudere data op <strong>Geschiedenis versturen</strong>.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Trekt de app de batterij leeg?</summary>
+    <p>Nauwelijks. Tussen de syncs doet hij niets: er draait geen service en er blijft geen verbinding open. Elke sync is een korte taak die Android volgens jouw schema start, standaard één keer per uur. Een backfill gebruikt meer zolang hij loopt.</p>
+  </details>
+  <details>
+    <summary>Gaat er data verloren als een sync mislukt?</summary>
+    <p>Zelden. Een payload die niet is afgeleverd blijft op de telefoon en gaat mee met de volgende sync die je server bereikt, de oudste eerst. Het tabblad <strong>Logs</strong> toont elke poging. In twee gevallen gaat er data verloren. De telefoon bewaart tot 700 payloads, ongeveer een week aan syncs om de 15 minuten. Daarboven verdwijnt de oudste, met een rij in <strong>Logs</strong> en een melding. En een payload die je server weigert met 400, 413 of 422 wordt een week lang bij elke sync opnieuw aangeboden en daarna weggegooid, met een rij in <strong>Logs</strong>. Zolang je server helemaal niet bereikbaar is, wordt er niets weggegooid vanwege zijn leeftijd.</p>
+  </details>
+  <details>
+    <summary>Waar stel ik mijn vraag als deze pagina niet helpt?</summary>
+    <p>In <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a> op GitHub, of open een issue met de rij uit het tabblad <strong>Logs</strong>. De volledige lijst met oplossingen staat in de <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/usage.md#troubleshooting">installatiegids</a>.</p>
+  </details>
+</section>

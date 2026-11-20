@@ -1,0 +1,140 @@
+<!--
+title: Health Connect koppelen met één QR-code | Life Dashboard
+description: Maak een QR-code die Life Dashboard Companion aan je eigen dienst koppelt: de koppellink, een generator in Python en Node.js en de ondertekende testping.
+primary query: health connect qr-code koppelen
+secondary queries: health connect webhook meerdere gebruikers, gezondheidsdata webhook onboarding, apple health webhook qr-code, app koppelen met server qr-code, health connect api, apple health api, hmac geheim qr-code
+updated: 2026-11-05
+published: 2026-11-20
+-->
+
+<h1>Hoe laat ik mijn gebruikers hun gezondheidsdata koppelen met één QR-code?</h1>
+
+<p>Laat elke gebruiker een QR-code zien met daarin je webhook-adres en een geheim voor die gebruiker. Ze scannen hem met Life Dashboard Companion, tikken op <strong>Koppelen</strong>, en vanaf dan post hun telefoon Health Connect-data, of Apple Health-data vanaf een iPhone, als ondertekende JSON naar je dienst. Niemand typt een URL of kopieert een geheim, en je weet dat het gelukt is omdat de app meteen een ondertekende testping stuurt. De Life Dashboard-integratie voor Home Assistant werkt precies zo, en het formaat is open, dus elke dienst kan hetzelfde doen.</p>
+
+<!-- IMG: how pairing works (p-pairing-flow.png) -->
+
+<h2>Wat een code kan</h2>
+
+<ul>
+  <li><strong>Eén adres en het geheim ervan invullen.</strong> In de onderdelen die je toestaat: Gezondheid, Schermtijd of allebei. De gebruiker kan op de koppelpagina nog een onderdeel uitzetten.</li>
+  <li><strong>Nooit datatypes of een schema kiezen.</strong> Welke data wordt verstuurd, en hoe vaak, blijft de keuze van de gebruiker op de telefoon. Een code kan niet ongemerkt iemands hartslag ergens heen laten sturen.</li>
+  <li><strong>Nooit aan andere ontvangers komen.</strong> Elk ander adres houdt zijn eigen geheim en headers, en een adres dat door koppelen is toegevoegd begint zonder eigen headers.</li>
+  <li><strong>Niets bewaren vóór Koppelen.</strong> De koppelpagina toont je naam en de host waar de data naartoe gaat, afgeleid uit het adres zelf.</li>
+</ul>
+
+<h2>De link</h2>
+
+<p>Een code is een https-link met alles achter de <code>#</code>:</p>
+
+<pre><code>https://owen282000.github.io/life-dashboard-companion-app/pair#v=1&amp;url=&lt;address&gt;&amp;secret=&lt;secret&gt;&amp;name=&lt;name&gt;</code></pre>
+
+<table>
+  <thead><tr><th>Veld</th><th>Waarde</th></tr></thead>
+  <tbody>
+    <tr><td><code>v</code></td><td><code>1</code>, de versie van het formaat. Verplicht.</td></tr>
+    <tr><td><code>url</code></td><td>Je webhook-adres, hooguit 2048 tekens, geen spaties, geen komma. Verplicht.</td></tr>
+    <tr><td><code>secret</code></td><td>Het HMAC-ondertekeningsgeheim voor deze gebruiker, hooguit 512 tekens, geen spaties. Verplicht.</td></tr>
+    <tr><td><code>name</code></td><td>Hoe de koppelpagina je dienst noemt, hooguit 64 tekens. Optioneel.</td></tr>
+    <tr><td><code>sources</code></td><td><code>health_connect</code>, <code>screen_time</code> of allebei, gescheiden door een komma. Laat het weg om beide te accepteren.</td></tr>
+  </tbody>
+</table>
+
+<p>Codeer elke waarde volledig met procentcodering, een spatie als <code>%20</code>. <code>quote(value, safe="")</code> in Python en <code>encodeURIComponent</code> in JavaScript doen dat; formuliercodering, die een spatie als <code>+</code> schrijft, doet dat niet. Het geheim staat met opzet in het fragment: een browser stuurt het deel na de <code>#</code> nooit naar een server. Scant iemand de code zonder dat de app is geïnstalleerd, dan laadt de landingspagina wel, maar blijft het geheim op de telefoon.</p>
+
+<h2>Een code maken in Python</h2>
+
+<pre><code>import secrets
+from urllib.parse import quote, urlencode
+
+import segno
+
+PAIR_PAGE = "https://owen282000.github.io/life-dashboard-companion-app/pair"
+
+
+def pairing_link(webhook_url, secret, name=None, sources=None):
+    fields = {"v": "1", "url": webhook_url, "secret": secret}
+    if name:
+        fields["name"] = name
+    if sources:
+        fields["sources"] = ",".join(sources)
+    return PAIR_PAGE + "#" + urlencode(fields, quote_via=quote, safe="")
+
+
+secret = secrets.token_urlsafe(32)  # store this with the user
+link = pairing_link("https://health.example.com/webhook/u/42", secret, name="Example Health")
+segno.make(link, error="m").save("pairing.svg", scale=6, border=4)</code></pre>
+
+<h2>Een code maken in Node.js</h2>
+
+<pre><code>import crypto from "node:crypto";
+import QRCode from "qrcode";
+
+const PAIR_PAGE = "https://owen282000.github.io/life-dashboard-companion-app/pair";
+
+function pairingLink(webhookUrl, secret, { name, sources } = {}) {
+  const fields = [["v", "1"], ["url", webhookUrl], ["secret", secret]];
+  if (name) fields.push(["name", name]);
+  if (sources) fields.push(["sources", sources.join(",")]);
+  return PAIR_PAGE + "#" + fields.map(([k, v]) =&gt; `${k}=${encodeURIComponent(v)}`).join("&amp;");
+}
+
+const secret = crypto.randomBytes(32).toString("base64url"); // store this with the user
+const link = pairingLink("https://health.example.com/webhook/u/42", secret, { name: "Example Health" });
+const dataUrl = await QRCode.toDataURL(link, { errorCorrectionLevel: "M", margin: 4 });</code></pre>
+
+<p>Beide geven precies de bekende, kloppende testvector die de tests van de app zelf controleren en die in de <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/pairing.md#known-good-test-vector">koppelreferentie</a> staat. Gebruik hem als unittest voor je generator.</p>
+
+<h2>Wat de gebruiker ziet</h2>
+
+<p>Ze scannen je code in de app, onder <strong>Koppelcode scannen</strong>, of met de camera van de telefoon, die op Android de app direct opent. Een pagina zegt "Example Health wil je gegevens ontvangen op health.example.com", met een schakelaar per onderdeel en de andere adressen die hun eigen geheim houden. Er wordt niets bewaard totdat ze op <strong>Koppelen</strong> tikken.</p>
+
+<h2>De testping na Koppelen</h2>
+
+<p>Direct na <strong>Koppelen</strong> post de app één testping naar je adres, ondertekend met het geheim uit de code:</p>
+
+<pre><code>POST /webhook/u/42
+Content-Type: application/json; charset=utf-8
+X-Signature: sha256=&lt;hex of HMAC-SHA256(secret, raw body)&gt;
+
+{
+  "test": true,
+  "message": "Test ping from Life Dashboard Companion",
+  "timestamp": "2026-10-04T12:00:00Z",
+  "app_version": "1.29.0",
+  "source": "health_connect"
+}</code></pre>
+
+<p>Controleer de handtekening over de ruwe body voordat je die parset en antwoord met een willekeurige <code>2xx</code>. De gebruiker ziet dan "Verbonden." op de pagina na Koppelen, of tijdens het instellen van de app een korte melding met "testping afgeleverd". Antwoord met <code>401</code> op een foute handtekening, net als bij elk verzoek daarna. Een ping bevat geen data: het is dus een goed moment om de gebruiker als verbonden te markeren, niet iets om op te slaan. Elke sync daarna gebruikt hetzelfde geheim en dezelfde payload, beschreven in de <a href="../health-connect-webhook/">webhookgids</a>.</p>
+
+<h2>iPhone</h2>
+
+<p>Life Dashboard Companion voor iPhone leest dezelfde codes. De app stuurt alleen Apple Health, dus een code moet <code>health_connect</code> accepteren of <code>sources</code> weglaten. Onversleuteld <code>http://</code> werkt daar alleen naar een adres in je thuisnetwerk, dus gebruik https. De camera van de iPhone opent eerst de landingspagina, die de code met de knop <strong>Open in the app</strong> aan de app doorgeeft.</p>
+
+<h2>Houd het veilig</h2>
+
+<ul>
+  <li><strong>Eén geheim per gebruiker</strong>, uit een cryptografische randomgenerator, minstens 32 bytes.</li>
+  <li><strong>Toon de code alleen aan die gebruiker</strong>, nadat die is ingelogd. Iedereen die hem ziet, kan namens die gebruiker data ondertekenen.</li>
+  <li><strong>Log de link nooit.</strong> Het geheim staat erin.</li>
+  <li><strong>Laat gebruikers hun geheim vervangen.</strong> Een nieuw geheim betekent een nieuwe code; die scannen vervangt het oude geheim op de telefoon.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Hebben mijn gebruikers een account bij Life Dashboard nodig?</summary>
+    <p>Nee. Er is geen server en geen account van Life Dashboard. De telefoon post rechtstreeks naar het adres in je code.</p>
+  </details>
+  <details>
+    <summary>Kan een code bepalen welke gezondheidsdata mijn dienst krijgt?</summary>
+    <p>Nee. Een code vult alleen het adres en het geheim in. De gebruiker kiest de datatypes en het schema op de telefoon, en zo blijft de toestemming bij de gebruiker.</p>
+  </details>
+  <details>
+    <summary>Kan ik de payload in mijn eigen formaat krijgen?</summary>
+    <p>Nee. Elke ontvanger krijgt dezelfde ondertekende JSON, beschreven door een JSON Schema, en je dienst zet die om naar zijn eigen model. Dankzij één gedocumenteerd formaat werkt elke ontvanger zonder plug-in.</p>
+  </details>
+  <details>
+    <summary>Wat als de gebruiker scant zonder dat de app is geïnstalleerd?</summary>
+    <p>De link opent een pagina die zegt waar je de app haalt, voor Android of iPhone. Het geheim in de link bereikt de server van die pagina nooit.</p>
+  </details>
+</section>

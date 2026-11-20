@@ -1,0 +1,320 @@
+<!--
+title: Health Connect-datatypes, app voor app | Life Dashboard
+description: Alle 34 Health Connect-datatypes die Life Dashboard verstuurt, met payload-sleutels en eenheden, en welke Samsung Health, Garmin, Google Health en Oura schrijven.
+primary query: health connect datatypes
+secondary queries: health connect data types, health connect welke gegevens, samsung health health connect synchroniseren, garmin health connect wat synchroniseert, samsung health connect hrv, fitbit health connect gegevens, oura health connect, withings health connect, gadgetbridge health connect, health connect hrv, health connect api
+updated: 2026-11-20
+published: 2026-11-20
+-->
+
+<h1>Welke Health Connect-datatypes kan ik krijgen, en welke apps schrijven ze?</h1>
+
+<p>Life Dashboard Companion, een open-source Android-app, leest 34 Health Connect-datatypes en verstuurt elk type onder een eigen sleutel als JSON, van stappen, slaapfasen en hartslag tot bloeddruk, voeding en cyclusregistratie. Wat er echt binnenkomt, hangt af van wat de app van je horloge naar Health Connect schrijft: Samsung Health schrijft geen hartslagvariabiliteit en geen hartslag in rust, en Garmin Connect schrijft die twee niet en ook geen zuurstofsaturatie.</p>
+
+<p>De iPhone-app verstuurt 29 van de 34 sleutels uit zijn 28 Apple Health-types (actieve energie vult beide caloriesleutels), in hetzelfde formaat en dezelfde eenheden. Schermtijd is geen Health Connect-type, maar de Android-app verstuurt het ook, als een eigen payload. De tabellen hieronder geven de stand van oktober 2026, op basis van de eigen lijst van elke app van wat hij naar Health Connect schrijft.</p>
+
+<h2>Alle 34 types in één oogopslag</h2>
+
+<p>Elk type heeft een eigen sleutel in de payload, en de eenheid ligt vast, welke eenheid de bron-app ook gebruikte. Een type over een periode heeft <code>start_time</code> en <code>end_time</code>, een type op een moment heeft <code>time</code>, en elke meting heeft een <code>uuid</code> en als <code>source</code> de app die de meting schreef.</p>
+
+<table>
+  <thead>
+    <tr><th>Type</th><th>Payload-sleutel</th><th>Eenheid</th><th>Android</th><th>iPhone</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><a href="#steps">Stappen</a></td><td><code>steps</code></td><td>stappen</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#distance">Afstand</a></td><td><code>distance</code></td><td>m</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#speed">Snelheid</a></td><td><code>speed</code></td><td>m/s</td><td>Ja</td><td>Nee</td></tr>
+    <tr><td><a href="#active_calories">Actieve calorieën</a></td><td><code>active_calories</code></td><td>kcal</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#total_calories">Totale calorieën</a></td><td><code>total_calories</code></td><td>kcal</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#exercise">Work-outs</a></td><td><code>exercise</code></td><td>s</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#weight">Gewicht</a></td><td><code>weight</code></td><td>kg</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#height">Lengte</a></td><td><code>height</code></td><td>m</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#body_temperature">Lichaamstemperatuur</a></td><td><code>body_temperature</code></td><td>&deg;C</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#body_fat">Lichaamsvet</a></td><td><code>body_fat</code></td><td>%</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#lean_body_mass">Vetvrije massa</a></td><td><code>lean_body_mass</code></td><td>kg</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#bone_mass">Botmassa</a></td><td><code>bone_mass</code></td><td>kg</td><td>Ja</td><td>Nee</td></tr>
+    <tr><td><a href="#body_water_mass">Lichaamswater</a></td><td><code>body_water_mass</code></td><td>kg</td><td>Ja</td><td>Nee</td></tr>
+    <tr><td><a href="#heart_rate">Hartslag</a></td><td><code>heart_rate</code></td><td>bpm</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#resting_heart_rate">Hartslag in rust</a></td><td><code>resting_heart_rate</code></td><td>bpm</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#heart_rate_variability">Hartslagvariabiliteit (HRV)</a></td><td><code>heart_rate_variability</code></td><td>ms</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#blood_pressure">Bloeddruk</a></td><td><code>blood_pressure</code></td><td>mmHg</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#blood_glucose">Bloedglucose</a></td><td><code>blood_glucose</code></td><td>mmol/L</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#oxygen_saturation">Zuurstofsaturatie (SpO2)</a></td><td><code>oxygen_saturation</code></td><td>%</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#respiratory_rate">Ademfrequentie</a></td><td><code>respiratory_rate</code></td><td>ademhalingen/min</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#sleep">Slaap</a></td><td><code>sleep</code></td><td>s</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#mindfulness">Mindfulness</a></td><td><code>mindfulness</code></td><td>s</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#hydration">Vochtinname</a></td><td><code>hydration</code></td><td>L</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#nutrition">Voeding</a></td><td><code>nutrition</code></td><td>kcal, g, mg, mcg</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#menstruation_period">Menstruatieperiode</a></td><td><code>menstruation_period</code></td><td>geen</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#menstruation_flow">Menstruatiebloeding</a></td><td><code>menstruation_flow</code></td><td>geen</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#intermenstrual_bleeding">Tussentijds bloedverlies</a></td><td><code>intermenstrual_bleeding</code></td><td>geen</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#ovulation_test">Ovulatietest</a></td><td><code>ovulation_test</code></td><td>geen</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#cervical_mucus">Cervixslijm</a></td><td><code>cervical_mucus</code></td><td>geen</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#sexual_activity">Seksuele activiteit</a></td><td><code>sexual_activity</code></td><td>geen</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#basal_body_temperature">Basale lichaamstemperatuur</a></td><td><code>basal_body_temperature</code></td><td>&deg;C</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#basal_metabolic_rate">Ruststofwisseling</a></td><td><code>basal_metabolic_rate</code></td><td>kcal/dag</td><td>Ja</td><td>Nee</td></tr>
+    <tr><td><a href="#vo2_max">VO2max</a></td><td><code>vo2_max</code></td><td>mL/kg/min</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#skin_temperature">Huidtemperatuur</a></td><td><code>skin_temperature</code></td><td>&deg;C</td><td>Ja</td><td>Nee</td></tr>
+  </tbody>
+</table>
+
+<h2>Welke apps welk type schrijven</h2>
+
+<p>Stand van oktober 2026. <strong>Ja</strong> betekent dat het type in de eigen lijst van die app staat van wat hij naar Health Connect schrijft, en <strong>Nee</strong> dat het er niet in staat. <strong>Uit work-outs</strong> betekent dat de app het alleen schrijft bij de work-outs die hij registreert. Withings publiceert geen lijst, dus in die kolom staat het Withings-apparaat dat het type meet, of <strong>Onbekend</strong>. Kijk op je telefoon onder Health Connect &gt; App-rechten &gt; Withings.</p>
+
+<table>
+  <thead>
+    <tr><th>Type</th><th>Samsung Health</th><th>Garmin Connect</th><th>Google Health</th><th>Oura</th><th>Withings</th><th>Gadgetbridge</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><a href="#steps">Stappen</a></td><td>Ja</td><td>Ja</td><td>Ja</td><td>Ja</td><td>Horloge</td><td>Ja</td></tr>
+    <tr><td><a href="#distance">Afstand</a></td><td>Uit work-outs</td><td>Ja</td><td>Ja</td><td>Ja</td><td>Horloge</td><td>Ja</td></tr>
+    <tr><td><a href="#speed">Snelheid</a></td><td>Ja</td><td>Ja</td><td>Ja</td><td>Nee</td><td>Onbekend</td><td>Ja</td></tr>
+    <tr><td><a href="#active_calories">Actieve calorieën</a></td><td>Nee</td><td>Ja</td><td>Nee</td><td>Ja</td><td>Onbekend</td><td>Uit work-outs</td></tr>
+    <tr><td><a href="#total_calories">Totale calorieën</a></td><td>Uit work-outs</td><td>Ja</td><td>Ja</td><td>Nee</td><td>Onbekend</td><td>Uit work-outs</td></tr>
+    <tr><td><a href="#exercise">Work-outs</a></td><td>Ja</td><td>Ja</td><td>Ja</td><td>Ja</td><td>Onbekend</td><td>Ja</td></tr>
+    <tr><td><a href="#weight">Gewicht</a></td><td>Ja</td><td>Ja</td><td>Ja</td><td>Ja</td><td>Weegschaal</td><td>Ja</td></tr>
+    <tr><td><a href="#height">Lengte</a></td><td>Ja</td><td>Nee</td><td>Nee</td><td>Ja</td><td>Onbekend</td><td>Nee</td></tr>
+    <tr><td><a href="#body_temperature">Lichaamstemperatuur</a></td><td>Nee</td><td>Nee</td><td>Ja</td><td>Nee</td><td>Thermometer</td><td>Ja</td></tr>
+    <tr><td><a href="#body_fat">Lichaamsvet</a></td><td>Ja</td><td>Ja</td><td>Ja</td><td>Nee</td><td>Weegschaal</td><td>Nee</td></tr>
+    <tr><td><a href="#lean_body_mass">Vetvrije massa</a></td><td>Nee</td><td>Nee</td><td>Nee</td><td>Nee</td><td>Weegschaal</td><td>Nee</td></tr>
+    <tr><td><a href="#bone_mass">Botmassa</a></td><td>Nee</td><td>Nee</td><td>Nee</td><td>Nee</td><td>Weegschaal</td><td>Nee</td></tr>
+    <tr><td><a href="#body_water_mass">Lichaamswater</a></td><td>Nee</td><td>Nee</td><td>Nee</td><td>Nee</td><td>Weegschaal</td><td>Nee</td></tr>
+    <tr><td><a href="#heart_rate">Hartslag</a></td><td>Ja</td><td>Ja</td><td>Ja</td><td>Ja</td><td>Horloge, bloeddrukmeter</td><td>Ja</td></tr>
+    <tr><td><a href="#resting_heart_rate">Hartslag in rust</a></td><td>Nee</td><td>Nee</td><td>Ja</td><td>Nee</td><td>Onbekend</td><td>Ja</td></tr>
+    <tr><td><a href="#heart_rate_variability">Hartslagvariabiliteit (HRV)</a></td><td>Nee</td><td>Nee</td><td>Ja</td><td>Ja</td><td>Onbekend</td><td>Ja</td></tr>
+    <tr><td><a href="#blood_pressure">Bloeddruk</a></td><td>Ja</td><td>Nee</td><td>Nee</td><td>Nee</td><td>Bloeddrukmeter</td><td>Ja</td></tr>
+    <tr><td><a href="#blood_glucose">Bloedglucose</a></td><td>Ja</td><td>Nee</td><td>Ja</td><td>Nee</td><td>Onbekend</td><td>Ja</td></tr>
+    <tr><td><a href="#oxygen_saturation">Zuurstofsaturatie (SpO2)</a></td><td>Ja</td><td>Nee</td><td>Nee*</td><td>Nee</td><td>Horloge</td><td>Ja</td></tr>
+    <tr><td><a href="#respiratory_rate">Ademfrequentie</a></td><td>Nee</td><td>Nee</td><td>Ja</td><td>Nee</td><td>Onbekend</td><td>Ja</td></tr>
+    <tr><td><a href="#sleep">Slaap</a></td><td>Ja</td><td>Ja</td><td>Ja</td><td>Ja</td><td>Horloge</td><td>Ja</td></tr>
+    <tr><td><a href="#mindfulness">Mindfulness</a></td><td>Nee</td><td>Nee</td><td>Nee</td><td>Nee</td><td>Onbekend</td><td>Nee</td></tr>
+    <tr><td><a href="#hydration">Vochtinname</a></td><td>Nee</td><td>Nee</td><td>Ja</td><td>Nee</td><td>Onbekend</td><td>Nee</td></tr>
+    <tr><td><a href="#nutrition">Voeding</a></td><td>Ja</td><td>Nee</td><td>Ja</td><td>Nee</td><td>Onbekend</td><td>Nee</td></tr>
+    <tr><td><a href="#menstruation_period">Menstruatieperiode</a></td><td>Nee</td><td>Nee</td><td>Ja</td><td>Nee</td><td>Onbekend</td><td>Nee</td></tr>
+    <tr><td><a href="#menstruation_flow">Menstruatiebloeding</a></td><td>Nee</td><td>Nee</td><td>Ja</td><td>Nee</td><td>Onbekend</td><td>Nee</td></tr>
+    <tr><td><a href="#intermenstrual_bleeding">Tussentijds bloedverlies</a></td><td>Nee</td><td>Nee</td><td>Ja</td><td>Nee</td><td>Onbekend</td><td>Nee</td></tr>
+    <tr><td><a href="#ovulation_test">Ovulatietest</a></td><td>Nee</td><td>Nee</td><td>Nee</td><td>Nee</td><td>Onbekend</td><td>Nee</td></tr>
+    <tr><td><a href="#cervical_mucus">Cervixslijm</a></td><td>Nee</td><td>Nee</td><td>Nee</td><td>Nee</td><td>Onbekend</td><td>Nee</td></tr>
+    <tr><td><a href="#sexual_activity">Seksuele activiteit</a></td><td>Nee</td><td>Nee</td><td>Nee</td><td>Nee</td><td>Onbekend</td><td>Nee</td></tr>
+    <tr><td><a href="#basal_body_temperature">Basale lichaamstemperatuur</a></td><td>Nee</td><td>Nee</td><td>Nee</td><td>Nee</td><td>Onbekend</td><td>Nee</td></tr>
+    <tr><td><a href="#basal_metabolic_rate">Ruststofwisseling</a></td><td>Ja</td><td>Nee</td><td>Nee</td><td>Nee</td><td>Onbekend</td><td>Nee</td></tr>
+    <tr><td><a href="#vo2_max">VO2max</a></td><td>Uit work-outs</td><td>Nee</td><td>Ja</td><td>Nee</td><td>Onbekend</td><td>Ja</td></tr>
+    <tr><td><a href="#skin_temperature">Huidtemperatuur</a></td><td>Nee</td><td>Nee</td><td>Ja</td><td>Nee</td><td>Onbekend</td><td>Ja</td></tr>
+  </tbody>
+</table>
+
+<p>* Staat niet in de lijst van Google, maar de nachtelijke SpO2 van Fitbit is in september 2026 via Health Connect binnengekomen, zoals <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/DATA_SOURCES.md#fitbit-comfitbitfitbitmobile">DATA_SOURCES.md</a> vastlegt.</p>
+
+<p>Elke app kan met een update veranderen wat hij deelt, dus kijk op je eigen telefoon onder Health Connect &gt; App-rechten &gt; de app. Types die geen van deze zes apps in zijn lijst heeft, zoals ovulatietests of mindfulness-sessies, komen van andere apps: cyclustrackers, voedingsdagboeken of meditatie-apps die naar Health Connect schrijven.</p>
+
+<p>Coros schrijft ook naar Health Connect, met één addertje dat in oktober 2026 is gezien: de totale calorieën bevatten alleen de actieve energie, waardoor het dagtotaal een paar honderd kcal te laag uitkomt. Op de <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/brands/coros.md">Coros-pagina</a> staat een Home Assistant-template dat het rustdeel erbij optelt.</p>
+
+<h2>Wat elke app voor zichzelf houdt</h2>
+
+<ul>
+  <li><strong>Samsung Health</strong> deelt geen hartslagvariabiliteit, hartslag in rust, huidtemperatuur, ademfrequentie, cyclusregistratie, stress, ecg of Energy Score. Afstand, totale calorieën en VO2max komen alleen uit work-outs, en actieve calorieën staan niet in de lijst. Zie <a href="../samsung-health-export/">Samsung Health naar je eigen server</a>.</li>
+  <li><strong>Garmin Connect</strong> houdt Body Battery, stress, HRV-status, trainingsbelasting, Pulse Ox, ademhaling en hartslag in rust voor zichzelf. De sync met Health Connect vraagt om Garmin Connect 5.14.1 of nieuwer op Android 14 of nieuwer. Zie <a href="../garmin-home-assistant/">Garmin in Home Assistant</a>.</li>
+  <li><strong>Google Health</strong>, de app voor Fitbit en Pixel Watch, heeft zuurstofsaturatie en actieve calorieën niet in zijn lijst. Zie <a href="../fitbit-home-assistant/">Fitbit en Pixel Watch in Home Assistant</a>.</li>
+  <li><strong>Oura</strong> houdt zijn scores voor Readiness, Sleep en Activity, zuurstofsaturatie, temperatuur, hartslag in rust en ademfrequentie voor zichzelf. Zie de <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/brands/oura.md">Oura-gids</a>.</li>
+  <li><strong>Withings</strong> houdt scores en analyses voor zichzelf, zoals de Sleep score, Vascular Age, Nerve Health Score en ecg-opnamen. Zie de <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/brands/withings.md">Withings-gids</a>.</li>
+  <li><strong>Gadgetbridge</strong> schrijft wat jouw horlogemodel registreert en Gadgetbridge daarvoor ondersteunt. Stress en scores die het horloge berekent, blijven in Gadgetbridge. Zie de <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/brands/gadgetbridge.md">Gadgetbridge-gids</a>.</li>
+</ul>
+
+<p>Health Connect heeft geen type voor stress, Body Battery, trainingsbelasting, ecg, Energy Score of de scores van welke fabrikant dan ook, dus geen enkele app kan die erdoorheen doorgeven.</p>
+
+<h2>Activiteit</h2>
+
+<h3 id="steps">Stappen</h3>
+<p>Sleutel <code>steps</code>: <code>count</code>, een geheel getal, over een periode. Android en iPhone.</p>
+<p>Geschreven door Samsung Health, Garmin Connect, Google Health, Oura en Gadgetbridge. Horloges van Withings meten het, maar Withings publiceert geen lijst van wat het schrijft.</p>
+
+<h3 id="distance">Afstand</h3>
+<p>Sleutel <code>distance</code>: <code>meters</code>, over een periode. Android en iPhone.</p>
+<p>Geschreven door Garmin Connect, Google Health, Oura en Gadgetbridge, en door Samsung Health alleen uit work-outs. Horloges van Withings meten het, maar Withings publiceert geen lijst van wat het schrijft.</p>
+
+<h3 id="speed">Snelheid</h3>
+<p>Sleutel <code>speed</code>: <code>meters_per_second</code>, een getal, één object per meting. Alleen Android. De <code>uuid</code> van elke meting is het ID van het record plus <code>#</code> en de tijd in epoch-milliseconden.</p>
+<p>Geschreven door Samsung Health, Garmin Connect, Google Health en Gadgetbridge. Withings publiceert geen lijst van wat het schrijft.</p>
+
+<h3 id="active_calories">Actieve calorieën</h3>
+<p>Sleutel <code>active_calories</code>: <code>calories</code> in kcal, over een periode. Android en iPhone.</p>
+<p>Geschreven door Garmin Connect en Oura, en door Gadgetbridge alleen uit work-outs. Staat niet in de lijsten van Samsung Health en Google Health.</p>
+
+<h3 id="total_calories">Totale calorieën</h3>
+<p>Sleutel <code>total_calories</code>: <code>calories</code> in kcal, over een periode. Android en iPhone. Op een iPhone is dit rustenergie plus actieve energie, omdat Apple Health geen type voor totale energie heeft.</p>
+<p>Geschreven door Garmin Connect en Google Health, en door Samsung Health en Gadgetbridge alleen uit work-outs. Staat niet in de lijst van Oura.</p>
+
+<h3 id="exercise">Work-outs</h3>
+<p>Sleutel <code>exercise</code>: <code>type</code> en <code>duration_seconds</code>, over een periode. Android en iPhone. Android stuurt het nummer van het work-outtype van Health Connect als string, zoals <code>"56"</code> voor hardlopen. Een iPhone stuurt een naam, zoals <code>"running"</code>.</p>
+<p>Geschreven door Samsung Health, Garmin Connect, Google Health, Oura en Gadgetbridge.</p>
+
+<h2>Lichaam</h2>
+
+<h3 id="weight">Gewicht</h3>
+<p>Sleutel <code>weight</code>: <code>kilograms</code>, op een moment. Android en iPhone.</p>
+<p>Geschreven door Samsung Health, Garmin Connect, Google Health, Oura en Gadgetbridge. Weegschalen van Withings meten het, maar Withings publiceert geen lijst van wat het schrijft.</p>
+
+<h3 id="height">Lengte</h3>
+<p>Sleutel <code>height</code>: <code>meters</code>, op een moment. Android en iPhone.</p>
+<p>Geschreven door Samsung Health en Oura. Staat niet in de lijsten van Garmin Connect, Google Health en Gadgetbridge.</p>
+
+<h3 id="body_temperature">Lichaamstemperatuur</h3>
+<p>Sleutel <code>body_temperature</code>: <code>celsius</code>, op een moment. Android en iPhone.</p>
+<p>Geschreven door Google Health en Gadgetbridge. Staat niet in de lijsten van Samsung Health, Garmin Connect en Oura. De thermometer van Withings meet het, maar Withings publiceert geen lijst van wat het schrijft.</p>
+
+<h3 id="body_fat">Lichaamsvet</h3>
+<p>Sleutel <code>body_fat</code>: <code>percentage</code>, 0 tot 100, op een moment. Android en iPhone.</p>
+<p>Geschreven door Samsung Health, Garmin Connect en Google Health. Staat niet in de lijsten van Oura en Gadgetbridge. Weegschalen van Withings meten het, maar Withings publiceert geen lijst van wat het schrijft.</p>
+
+<h3 id="lean_body_mass">Vetvrije massa</h3>
+<p>Sleutel <code>lean_body_mass</code>: <code>kilograms</code>, op een moment. Android en iPhone.</p>
+<p>Geen van de zes apps op deze pagina heeft het in zijn lijst. Weegschalen van Withings meten het, maar Withings publiceert geen lijst van wat het schrijft.</p>
+
+<h3 id="bone_mass">Botmassa</h3>
+<p>Sleutel <code>bone_mass</code>: <code>kilograms</code>, op een moment. Alleen Android. Apple Health heeft geen type voor botmassa.</p>
+<p>Geen van de zes apps op deze pagina heeft het in zijn lijst. Weegschalen van Withings meten het, maar Withings publiceert geen lijst van wat het schrijft.</p>
+
+<h3 id="body_water_mass">Lichaamswater</h3>
+<p>Sleutel <code>body_water_mass</code>: <code>kilograms</code>, op een moment. Alleen Android. Apple Health heeft geen type voor lichaamswater.</p>
+<p>Geen van de zes apps op deze pagina heeft het in zijn lijst. Weegschalen van Withings meten het, maar Withings publiceert geen lijst van wat het schrijft.</p>
+
+<h2>Hart en ademhaling</h2>
+
+<h3 id="heart_rate">Hartslag</h3>
+<p>Sleutel <code>heart_rate</code>: <code>bpm</code>, een geheel getal, één object per meting. Android en iPhone. Vanaf Android is de <code>uuid</code> van elke meting het ID van het record plus <code>#</code> en de tijd in epoch-milliseconden.</p>
+<p>Geschreven door Samsung Health, Garmin Connect, Google Health, Oura en Gadgetbridge. Horloges en bloeddrukmeters van Withings meten het, maar Withings publiceert geen lijst van wat het schrijft.</p>
+
+<h3 id="resting_heart_rate">Hartslag in rust</h3>
+<p>Sleutel <code>resting_heart_rate</code>: <code>bpm</code>, een geheel getal, op een moment. Android en iPhone.</p>
+<p>Geschreven door Google Health en Gadgetbridge. Staat niet in de lijsten van Samsung Health, Garmin Connect en Oura.</p>
+
+<h3 id="heart_rate_variability">Hartslagvariabiliteit (HRV)</h3>
+<p>Sleutel <code>heart_rate_variability</code>: <code>heart_rate_variability_millis</code>, op een moment. Android en iPhone. Android stuurt RMSSD, de maat die Health Connect opslaat. Een iPhone stuurt SDNN, de maat die Apple Health opslaat. Het is niet hetzelfde getal.</p>
+<p>Geschreven door Google Health, Oura en Gadgetbridge. Staat niet in de lijsten van Samsung Health en Garmin Connect.</p>
+
+<h3 id="blood_pressure">Bloeddruk</h3>
+<p>Sleutel <code>blood_pressure</code>: <code>systolic</code> en <code>diastolic</code>, op een moment. Android en iPhone.</p>
+<p>Geschreven door Samsung Health en Gadgetbridge. Staat niet in de lijsten van Garmin Connect, Google Health en Oura. Bloeddrukmeters van Withings meten het, maar Withings publiceert geen lijst van wat het schrijft.</p>
+
+<h3 id="blood_glucose">Bloedglucose</h3>
+<p>Sleutel <code>blood_glucose</code>: <code>mmol_per_liter</code>, op een moment. Android en iPhone.</p>
+<p>Geschreven door Samsung Health, Google Health en Gadgetbridge. Staat niet in de lijsten van Garmin Connect en Oura.</p>
+
+<h3 id="oxygen_saturation">Zuurstofsaturatie (SpO2)</h3>
+<p>Sleutel <code>oxygen_saturation</code>: <code>percentage</code>, 0 tot 100, op een moment. Android en iPhone.</p>
+<p>Geschreven door Samsung Health en Gadgetbridge. Staat niet in de lijsten van Garmin Connect en Oura. De nachtelijke SpO2 van Fitbit is in september 2026 via Health Connect binnengekomen, al staat die niet in de lijst van Google. Horloges van Withings meten het, maar Withings publiceert geen lijst van wat het schrijft.</p>
+
+<h3 id="respiratory_rate">Ademfrequentie</h3>
+<p>Sleutel <code>respiratory_rate</code>: <code>rate</code> in ademhalingen per minuut, op een moment. Android en iPhone.</p>
+<p>Geschreven door Google Health en Gadgetbridge. Staat niet in de lijsten van Samsung Health, Garmin Connect en Oura.</p>
+
+<h2>Slaap en mindfulness</h2>
+
+<h3 id="sleep">Slaap</h3>
+<p>Sleutel <code>sleep</code>: <code>session_end_time</code>, <code>duration_seconds</code> en <code>stages</code>, elke fase met <code>stage</code>, <code>start_time</code>, <code>end_time</code> en <code>duration_seconds</code>. Android en iPhone. De fasewaarden van Android zijn <code>unknown</code>, <code>awake</code>, <code>sleeping</code>, <code>out_of_bed</code>, <code>light</code>, <code>deep</code>, <code>rem</code> en <code>awake_in_bed</code>. Een iPhone stuurt ook <code>in_bed</code>, en nooit <code>out_of_bed</code> of <code>awake_in_bed</code>.</p>
+<p>Geschreven door Samsung Health, Garmin Connect, Google Health, Oura en Gadgetbridge. Horloges van Withings meten het, maar Withings publiceert geen lijst van wat het schrijft.</p>
+
+<h3 id="mindfulness">Mindfulness</h3>
+<p>Sleutel <code>mindfulness</code>: <code>duration_seconds</code> en een optionele <code>title</code>, over een periode. Android en iPhone. Een iPhone stuurt geen <code>title</code>.</p>
+<p>Geen van de zes apps op deze pagina heeft het in zijn lijst.</p>
+
+<h2>Eten en drinken</h2>
+
+<h3 id="hydration">Vochtinname</h3>
+<p>Sleutel <code>hydration</code>: <code>liters</code>, over een periode. Android en iPhone.</p>
+<p>Geschreven door Google Health. Staat niet in de lijsten van Samsung Health, Garmin Connect, Oura en Gadgetbridge.</p>
+
+<h3 id="nutrition">Voeding</h3>
+<p>Sleutel <code>nutrition</code>: <code>calories</code> in kcal, <code>protein_grams</code>, <code>carbs_grams</code>, <code>fat_grams</code>, <code>name</code>, <code>meal_type</code> en 38 velden voor voedingsstoffen, allemaal optioneel, over een periode. Android en iPhone. Elke sleutel van een voedingsstof eindigt op zijn eenheid, zoals <code>sodium_mg</code>. Een iPhone stuurt 34 van de 38 voedingsstoffen en geen <code>meal_type</code>.</p>
+<p>Geschreven door Samsung Health en Google Health. Staat niet in de lijsten van Garmin Connect, Oura en Gadgetbridge.</p>
+
+<h2>Cyclusregistratie</h2>
+
+<h3 id="menstruation_period">Menstruatieperiode</h3>
+<p>Sleutel <code>menstruation_period</code>: alleen <code>start_time</code> en <code>end_time</code>. Android en iPhone. Een iPhone leidt periodes af uit opeenvolgende dagen met bloedverlies, omdat Apple Health geen record voor een periode heeft.</p>
+<p>Geschreven door Google Health. Staat niet in de lijsten van Samsung Health, Garmin Connect, Oura en Gadgetbridge.</p>
+
+<h3 id="menstruation_flow">Menstruatiebloeding</h3>
+<p>Sleutel <code>menstruation_flow</code>: <code>flow</code>: <code>light</code>, <code>medium</code>, <code>heavy</code> of <code>unknown</code>, op een moment. Android en iPhone.</p>
+<p>Geschreven door Google Health. Staat niet in de lijsten van Samsung Health, Garmin Connect, Oura en Gadgetbridge.</p>
+
+<h3 id="intermenstrual_bleeding">Tussentijds bloedverlies</h3>
+<p>Sleutel <code>intermenstrual_bleeding</code>: alleen <code>time</code>. Android en iPhone.</p>
+<p>Geschreven door Google Health. Staat niet in de lijsten van Samsung Health, Garmin Connect, Oura en Gadgetbridge.</p>
+
+<h3 id="ovulation_test">Ovulatietest</h3>
+<p>Sleutel <code>ovulation_test</code>: <code>result</code>: <code>positive</code>, <code>high</code>, <code>negative</code>, <code>inconclusive</code> of <code>unknown</code>, op een moment. Android en iPhone.</p>
+<p>Geen van de zes apps op deze pagina heeft het in zijn lijst.</p>
+
+<h3 id="cervical_mucus">Cervixslijm</h3>
+<p>Sleutel <code>cervical_mucus</code>: <code>appearance</code> en <code>sensation</code>, op een moment. Android en iPhone. Een iPhone stuurt <code>sensation</code> altijd als <code>unknown</code>.</p>
+<p>Geen van de zes apps op deze pagina heeft het in zijn lijst.</p>
+
+<h3 id="sexual_activity">Seksuele activiteit</h3>
+<p>Sleutel <code>sexual_activity</code>: <code>protection_used</code>: <code>protected</code>, <code>unprotected</code> of <code>unknown</code>, op een moment. Android en iPhone.</p>
+<p>Geen van de zes apps op deze pagina heeft het in zijn lijst.</p>
+
+<h3 id="basal_body_temperature">Basale lichaamstemperatuur</h3>
+<p>Sleutel <code>basal_body_temperature</code>: <code>celsius</code>, op een moment. Android en iPhone.</p>
+<p>Geen van de zes apps op deze pagina heeft het in zijn lijst.</p>
+
+<h2>Stofwisseling en conditie</h2>
+
+<h3 id="basal_metabolic_rate">Ruststofwisseling</h3>
+<p>Sleutel <code>basal_metabolic_rate</code>: <code>kilocalories_per_day</code>, op een moment. Alleen Android. Apple Health slaat rustenergie juist per periode op, en een iPhone stuurt die als onderdeel van <code>total_calories</code>.</p>
+<p>Geschreven door Samsung Health. Staat niet in de lijsten van Garmin Connect, Google Health, Oura en Gadgetbridge.</p>
+
+<h3 id="vo2_max">VO2max</h3>
+<p>Sleutel <code>vo2_max</code>: <code>vo2_ml_per_min_per_kg</code>, op een moment. Android en iPhone.</p>
+<p>Geschreven door Google Health en Gadgetbridge, en door Samsung Health alleen uit work-outs. Staat niet in de lijsten van Garmin Connect en Oura.</p>
+
+<h3 id="skin_temperature">Huidtemperatuur</h3>
+<p>Sleutel <code>skin_temperature</code>: <code>delta_celsius</code>, de afwijking van een basislijn, en een optionele <code>baseline_celsius</code>, één object per meting. Alleen Android. Apple Health slaat een absolute polstemperatuur op, geen afwijking van een basislijn, dus een iPhone stuurt deze sleutel niet.</p>
+<p>Geschreven door Google Health en Gadgetbridge. Staat niet in de lijsten van Samsung Health, Garmin Connect en Oura.</p>
+
+
+<h2>Dagtotalen</h2>
+
+<p>Naast de metingen bevat elke payload met metingen ook <code>daily_totals</code>, tenzij je ze uitzet: per lokale dag <code>steps</code>, <code>distance_meters</code>, <code>active_calories</code> en <code>total_calories</code> (kcal), voor vandaag en de twee dagen ervoor. Ze komen uit de eigen optelling van Health Connect, die een stuk activiteit één keer telt, ook als de telefoon en het horloge het allebei hebben geregistreerd. Daardoor komen ze overeen met de Health Connect-app. De iPhone-app berekent ze op dezelfde manier uit Apple Health en stuurt <code>total_calories</code> alleen op dagen met rustenergie.</p>
+
+<h2>Schermtijd wordt ook verstuurd</h2>
+
+<p>Schermtijd is geen Health Connect-type. De Android-app leest het uit de gebruiksstatistieken van Android en verstuurt het als aparte payload met <code>"source": "screen_time"</code>: per dag een <code>date</code>, <code>total_screen_time_minutes</code> en <code>apps</code>, elke app met <code>package</code>, <code>name</code>, <code>minutes</code> en <code>last_used</code>. Elke sync verstuurt de laatste 7 dagen opnieuw. Het werkt op Android 8.0 of nieuwer, zonder Health Connect. De iPhone-app verstuurt geen schermtijd. Zie <a href="../screen-time-home-assistant/">schermtijd in Home Assistant</a>.</p>
+
+<h2>Wat de app niet verstuurt</h2>
+
+<p>Health Connect heeft meer recordtypes dan deze 34. De app leest geen beklommen verdiepingen, vermogen, hoogtemeters, cadans of work-outroutes, ook niet als Samsung Health, Garmin Connect, Google Health of Gadgetbridge ze schrijft.</p>
+
+<h2>Kiezen welke types de deur uit gaan</h2>
+
+<ul>
+  <li>Zet types aan en uit onder <strong>Wat versturen</strong> op het tabblad <strong>Gezondheid</strong>, en geef voor elk type toestemming in Health Connect. De voorinstelling <strong>De basis</strong> in de installatiewizard zet alleen stappen, slaap, hartslag, hartslag in rust, afstand, calorieën en gewicht aan.</li>
+  <li>Onder <strong>Wat versturen</strong> &gt; <strong>Dataresolutie</strong> kun je hartslag, hartslagvariabiliteit, zuurstofsaturatie, ademfrequentie en huidtemperatuur laten versturen als gemiddelden per 1, 5 of 15 minuten of per uur, en stappen, afstand en calorieën als sommen. Elke meting is de standaard.</li>
+  <li><strong>Voorbeeld van payload</strong> onder <strong>Wat versturen</strong> op het tabblad <strong>Gezondheid</strong> laat zien wat de volgende sync zou versturen. <a href="../health-connect-webhook/">Health Connect naar een webhook</a> behandelt het ontvangen ervan, en <a href="../health-connect-n8n/">Health Connect naar n8n</a> een complete n8n-workflow.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Synchroniseert Samsung Health HRV naar Health Connect?</summary>
+    <p>Nee. In oktober 2026 staat hartslagvariabiliteit niet in de lijst van Samsung van wat Samsung Health met Health Connect synchroniseert, net als hartslag in rust, huidtemperatuur en ademfrequentie. Google Health, Oura en Gadgetbridge schrijven HRV wel.</p>
+  </details>
+  <details>
+    <summary>Wat synchroniseert Garmin Connect naar Health Connect?</summary>
+    <p>Stappen, afstand, actieve en totale calorieën, activiteiten als work-outs, slaap met fasen, hartslag, gewicht en lichaamsvet. HRV, hartslag in rust, Pulse Ox, ademhaling, Body Battery, stress en trainingsbelasting blijven bij Garmin.</p>
+  </details>
+  <details>
+    <summary>Verstuurt de iPhone-app dezelfde types?</summary>
+    <p>Hij verstuurt 29 van de 34 sleutels uit Apple Health, in hetzelfde formaat en dezelfde eenheden. Hij verstuurt geen <code>speed</code>, <code>bone_mass</code>, <code>body_water_mass</code>, <code>skin_temperature</code> of <code>basal_metabolic_rate</code>, en zijn hartslagvariabiliteit is SDNN waar Android RMSSD stuurt.</p>
+  </details>
+  <details>
+    <summary>Kan ik deze types als CSV-bestand krijgen?</summary>
+    <p>Ja. Op Android deel je met <strong>Meer</strong> &gt; <strong>Data exporteren</strong> op het tabblad <strong>Gezondheid</strong> wat de volgende sync zou versturen als CSV of JSON. Naar een webhook, MQTT of Home Assistant versturen de apps JSON, en je ontvanger slaat dat op in elk formaat dat hij wil.</p>
+  </details>
+  <details>
+    <summary>Kan de app ook data naar Health Connect schrijven?</summary>
+    <p>De Android-app kan gewicht, lengte, lichaamsvet, vetvrije massa, botmassa, lichaamswater en bloeddruk vanuit Home Assistant naar Health Connect schrijven, met de Life Dashboard-integratie 0.7.0 of nieuwer. Zie <a href="../smart-scale-to-samsung-health/">slimme weegschaal naar Samsung Health</a>. De iPhone-app schrijft niet naar Apple Health.</p>
+  </details>
+</section>
