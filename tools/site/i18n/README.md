@@ -102,7 +102,7 @@ Leave untouched:
 - **Code.** Everything inside `<pre><code>` and `<code>`, JSON keys and values, entity ids such
   as `sensor.pixel_8_steps_today`, URLs, header names, file names, commands. Comments inside
   code stay English too: the check compares code blocks byte for byte.
-- **Tokens and placeholders.** `{{status:android}}`, `{{status:ios}}`, `{{play_url}}` in pages,
+- **Tokens and placeholders.** `{{status:android}}`, `{{status:ios}}`, `{{play_url}}`, `{{app_store_url}}` in pages,
   and `{date}`, `{n}`, `{name}`, `{pitch}`, `{discussions}`, `{android}`, `{ios}` in
   `strings.json`. Keep them, move them where your grammar needs them.
 - **Entities.** `&nbsp;`, `&gt;`, `&amp;`. Write F-Droid with a plain hyphen everywhere: the
