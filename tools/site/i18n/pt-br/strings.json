@@ -20,7 +20,7 @@
       "faq": "Perguntas",
       "home": "Página inicial do Life Dashboard",
       "main": "Principal",
-      "install": "Opções de instalação",
+      "install": "Instalar",
       "language": "Idioma"
     },
     "strip": {
@@ -35,8 +35,8 @@
       "own_server_line": "MQTT ou JSON"
     },
     "hero": {
-      "android": "{pitch} Ou de graça, o mesmo app com a mesma chave de assinatura: <a href=\"/life-dashboard/android/#get\">o APK no GitHub, o Obtainium ou o F&#8209;Droid</a>.",
-      "ios": "Na App Store, €&nbsp;6,99 uma única vez. Ou <a href=\"/life-dashboard/ios/#building\">compile com o Xcode</a> em um Mac com assinatura do Apple Developer Program."
+      "android": "{pitch} Ou de graça, o mesmo app com a mesma chave de assinatura: <a href=\"/life-dashboard/android/#get\">o APK no GitHub, o Obtainium ou o F-Droid</a>.",
+      "ios": "{pitch} Ou <a href=\"/life-dashboard/ios/#building\">compile com o Xcode</a> em um Mac com assinatura do Apple Developer Program."
     },
     "get": {
       "title": "Escolha seu celular, depois escolha para onde os dados vão",
@@ -115,7 +115,7 @@
     "footer": {
       "about": "O Life Dashboard é um projeto de código aberto de <a href=\"https://github.com/owen282000\">Owen Vogelaar</a>, em quatro partes: os apps Life Dashboard Companion para Android e iPhone, uma integração para o Home Assistant e uma stack do Grafana. Não tem relação com outros apps ou modelos chamados Life Dashboard. Dúvidas vão para as <a href=\"{discussions}\">Discussions</a>.",
       "no_tracking": "Este site não grava cookies, não usa analytics e não carrega nada de terceiros. <a href=\"/privacy/\">Privacidade do site</a>.",
-      "imprint": "Owen Vogelaar, sob o nome comercial oVog Enterprise · KvK 81085583 · <a href=\"mailto:owen282000@hotmail.com\">owen282000@hotmail.com</a>",
+      "imprint": "Owen Vogelaar, sob o nome comercial oVog Enterprise · Câmara de Comércio holandesa (KvK) 81085583 · <a href=\"mailto:owen282000@hotmail.com\">owen282000@hotmail.com</a>",
       "products": "Produtos",
       "guides": "Guias",
       "docs_title": "Documentação e código",
@@ -132,7 +132,7 @@
         "repos": "Todos os repositórios"
       },
       "trademarks": "Home Assistant é uma marca da Open Home Foundation. Health Connect, Google Play, Google Health, Fitbit e Pixel Watch são marcas da Google LLC. Apple, Apple Health, Apple Watch, iPhone, Xcode e TestFlight são marcas da Apple Inc. App Store é uma marca de serviço da Apple Inc. Grafana é uma marca da Grafana Labs. Samsung Health, Garmin Connect, Oura e Withings pertencem a seus respectivos donos. O Life Dashboard é um projeto independente, sem vínculo com nenhuma dessas empresas e sem o endosso delas. As capturas de tela mostram dados fictícios.",
-      "credits": "Selos: Google Play e App Store como publicados pelo Google e pela Apple; \"Get it on F&#8209;Droid\" do <a href=\"https://gitlab.com/fdroid/artwork\">projeto F&#8209;Droid</a> e \"Get it on GitHub\" de <a href=\"https://github.com/Kunzisoft/Github-badge\">Kunzisoft</a>, ambos sob <a href=\"https://creativecommons.org/licenses/by-sa/3.0/\">CC BY-SA 3.0</a>; Obtainium do <a href=\"https://github.com/ImranR98/Obtainium\">projeto Obtainium</a>; os selos do HACS, do Artifact Hub e do Docker Compose foram desenhados para este site em Roboto (SIL OFL), em torno dos ícones do <a href=\"https://github.com/hacs/integration\">projeto HACS</a> (MIT) e do <a href=\"https://github.com/artifacthub/hub\">projeto Artifact Hub</a> (Apache 2.0) e do logotipo do Docker, tirado do kit de mídia dele; o selo do AlternativeTo é o selo compacto deles sobre um painel preto. GitHub é uma marca da GitHub, Inc. Docker, Docker Compose e o logotipo do Docker são marcas da Docker, Inc. Helm é uma marca da The Linux Foundation."
+      "credits": "Selos: Google Play e App Store como publicados pelo Google e pela Apple; \"Get it on F-Droid\" do <a href=\"https://gitlab.com/fdroid/artwork\">projeto F-Droid</a> e \"Get it on GitHub\" de <a href=\"https://github.com/Kunzisoft/Github-badge\">Kunzisoft</a>, ambos sob <a href=\"https://creativecommons.org/licenses/by-sa/3.0/\">CC BY-SA 3.0</a>; Obtainium do <a href=\"https://github.com/ImranR98/Obtainium\">projeto Obtainium</a>; os selos do HACS, do Artifact Hub e do Docker Compose foram desenhados para este site em Roboto (SIL OFL), em torno dos ícones do <a href=\"https://github.com/hacs/integration\">projeto HACS</a> (MIT) e do <a href=\"https://github.com/artifacthub/hub\">projeto Artifact Hub</a> (Apache 2.0) e do logotipo do Docker, tirado do kit de mídia dele; o selo do AlternativeTo é o selo compacto deles sobre um painel preto. GitHub é uma marca da GitHub, Inc. Docker, Docker Compose e o logotipo do Docker são marcas da Docker, Inc. Helm é uma marca da The Linux Foundation."
     }
   },
   "parts": {
@@ -149,7 +149,7 @@
         "play": {
           "name": "Google Play",
           "pitch": "€&nbsp;4,99 uma única vez no Google Play: o jeito fácil, com atualizações automáticas, e ainda apoia o desenvolvimento.",
-          "note": "€&nbsp;4,99 uma única vez (US$&nbsp;4,99), sem assinatura. O jeito fácil: o Google Play instala e mantém o app atualizado, e a compra apoia o desenvolvimento.",
+          "note": "€&nbsp;4,99 uma única vez (US$&nbsp;4,99), sem assinatura. O jeito fácil: o Google Play instala e mantém o app atualizado, e a compra apoia o desenvolvimento. Na loja, o app aparece como Health Data for Home Assistant.",
           "soon_text": "Google Play: em breve, como versão paga do mesmo app"
         },
         "apk": {
@@ -179,6 +179,7 @@
       "get": {
         "appstore": {
           "name": "App Store",
+          "pitch": "€&nbsp;6,99 uma única vez na App Store, sem assinatura.",
           "note": "€&nbsp;6,99 uma única vez (US$&nbsp;5,99), sem assinatura. Não precisa de Mac, e o app se atualiza como qualquer outro."
         },
         "xcode": {

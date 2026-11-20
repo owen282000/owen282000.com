@@ -34,8 +34,8 @@ Every page gets a canonical to itself, hreflang links to each language it exists
 included) and x-default to English, <html lang>, Open Graph and Twitter tags in its language,
 and a language menu that leads to the same page in the other languages. Nothing redirects on
 the browser's language. check() refuses hreflang that is not mutual, a translated page that
-links to an English page although the translation exists, a fragment that leads nowhere and a
-title or description used twice; for a language marked "complete" (or named with --strict)
+links to an English page although the translation exists, a fragment that leads nowhere, a
+title or description used twice and a heading or title that ends with a full stop; for a language marked "complete" (or named with --strict)
 also a missing page, a missing string, and a translation whose code, screenshots or tables
 differ from the English page.
 
@@ -559,7 +559,13 @@ def localize(doc, pid, lang):
         v = version(u.path)
         query = f"?v={v}" if v else ("?" + html.escape(u.query) if u.query else "")
         return f'{attr}="{u.path}{query}{frag}"'
-    return re.sub(r'\b(href|src|srcset)="([^"]*)"', fix, doc)
+    doc = re.sub(r'\b(href|src|srcset)="([^"]*)"', fix, doc)
+    # F-Droid is written plainly in every source. In the text of a page its hyphen must not
+    # break at the end of a line; in the <head>, in attributes and in code it stays as typed.
+    cut = doc.find("</head>") + 1
+    return doc[:cut] + re.sub(r">[^<]*F-Droid[^<]*<", lambda m: m.group(0).replace("F-Droid", "F&#8209;Droid"),
+                              re.sub(r"(<(pre|code)\b.*?</\2>)", lambda m: m.group(0).replace("F-Droid", "F\0Droid"), doc[cut:], flags=re.S)
+                              ).replace("F\0Droid", "F-Droid")
 
 
 BUILT = {}   # (page id, language) -> the file written
@@ -639,7 +645,7 @@ def badge(item, prefix=""):
     img = f'<img class="badge-img" src="{prefix}img/badges/{f}" alt="{alt}" width="{w}" height="{h}" loading="lazy">'
     if item["status"] == "live":
         return f'<a class="badge-link" href="{BADGE_HREF.get(item["id"]) or href_of(item, prefix)}">{img}</a>'
-    detail = f' <span>{soon.replace("F-Droid", "F&#8209;Droid")}</span>' if soon else ""
+    detail = f' <span>{soon}</span>' if soon else ""
     return f'<span class="badge-soon">{img}<small><b>{t("coming_soon")}</b>{detail}</small></span>'
 
 
@@ -702,7 +708,7 @@ def alt_links(items, prefix="", sep=" · "):
         if it["status"] == "live":
             out.append(f'<a class="nowrap" href="{href_of(it, prefix)}">{it["name"]}</a>')
         else:
-            out.append(f'<span class="soon-tag">{(it.get("soon_text") or t("coming_named", name=it["name"])).replace("F-Droid", "F&#8209;Droid")}</span>')
+            out.append(f'<span class="soon-tag">{it.get("soon_text") or t("coming_named", name=it["name"])}</span>')
     return sep.join(out)
 
 
@@ -720,6 +726,9 @@ def get_card_compact(slug, prefix):
     if free_follows(slug, lead):
         top = (f'<div class="badges">{badge(lead, prefix)}</div>\n        <p class="get-alt">{lead["pitch"]} {p["free_line"]}</p>'
                f'\n        {badge_row(rest, prefix)}')
+    elif lead.get("pitch"):
+        # The App Store: its price under the badge, as under the Play badge.
+        top += f'\n        <p class="get-alt">{lead["pitch"]}</p>'
     return f"""<article class="get-card compact" id="get-{slug}">
         <header><span class="part-ico">{svg(p["glyph"])}</span><div><h3><a href="{prefix}{slug}/">{p["full"]}</a></h3><p>{p["req_short"]}</p></div></header>
         {top}{alt}
@@ -781,7 +790,7 @@ def android_paths(prefix):
 
 def ios_paths(prefix):
     """The iPhone line in the hero: the App Store, and building it yourself."""
-    return t("hero.ios")
+    return t("hero.ios", pitch=store_of("ios")["pitch"])
 
 
 def hero_stores(prefix):
@@ -819,8 +828,11 @@ def lang_menu(pid):
     items = "".join(
         f'<li><a href="=/{path_of(pid, c)}" lang="{LANGS[c]["hreflang"]}" hreflang="{LANGS[c]["hreflang"]}"'
         f'{" aria-current=\"true\"" if c == L else ""}>{LANGS[c]["name"]}</a></li>' for c in langs)
-    return (f'<details class="lang-menu"><summary aria-label="{t("nav.language")}: {LANGS[L]["name"]}">{GLOBE}'
-            f'<span>{LANGS[L]["hreflang"].split("-")[0].upper()}</span></summary><ul>{items}</ul></details>')
+    # The button shows two letters. Its name comes from its own text, the full words hidden
+    # before the letters, so the name always holds what is on the screen.
+    short = LANGS[L]["hreflang"].split("-")[0].upper()
+    return (f'<details class="lang-menu"><summary>{GLOBE}<span class="sr-only">{t("nav.language")}: {LANGS[L]["name"]}</span>'
+            f'<span>{short}</span></summary><ul>{items}</ul></details>')
 
 
 def lang_row(pid):
@@ -1121,6 +1133,9 @@ def enhance(body, ids=None):
         tb = re.sub(r"<th></th>", f'<th scope="col">{t("feature")}</th>', tb)
         tb = re.sub(r"<thead>(.*?)</thead>", lambda x: "<thead>" + x.group(1).replace("<th>", '<th scope="col">') + "</thead>", tb, flags=re.S)
         tb = re.sub(r"(<tbody>.*?</tbody>)", lambda x: re.sub(r"<tr>\s*<td>(.*?)</td>", r'<tr><th scope="row">\1</th>', x.group(1), flags=re.S), tb, flags=re.S)
+        # A cell that holds a link and nothing else gets a finger-sized link on a phone
+        # (td.only-link in site.css); a link inside a sentence stays part of the sentence.
+        tb = re.sub(r"<td>(\s*<a\b[^>]*>[^<]*</a>\s*)</td>", r'<td class="only-link">\1</td>', tb)
         return f'<div class="table-wrap" tabindex="0" role="region" aria-label="{html.escape(label)}">{tb}</div>'
     body = re.sub(r"<table>.*?</table>", table, body, flags=re.S)
 
@@ -1157,7 +1172,7 @@ def store_block(app):
         alt = (f'<p class="aside-alt">{lead["pitch"]}</p>\n        '
                f'<p class="aside-alt">{PARTS[app]["free_line"]} {alt_links(rest, LD)}</p>')
     elif lead.get("pitch"):
-        alt = f'<p class="aside-alt">{lead["pitch"]}</p>'
+        alt = f'<p class="aside-alt">{lead["pitch"]}</p>\n        {alt}'
     return f'<div class="panel-store">{lead_button(lead, LD)}\n        {alt}</div>'
 
 
@@ -1456,6 +1471,9 @@ def build_product(slug):
     faq_title = t("product.faq_" + slug)
     plain = [it for it in rest if not has_badge(it)]
     hero_alt = f'<p class="fineprint">{alt_links(plain, prefix)}</p>' if plain else ""
+    if lead.get("pitch") and not free_follows(slug, lead):
+        # The App Store: its price under the badge, then the other route.
+        hero_alt = f'<p class="fineprint">{lead["pitch"]}</p>\n      {hero_alt}'
     # A badge-led part (HACS, Docker Compose) shows its badges in one row; the apps keep their
     # plain primary button with the store badges under it.
     hero_top = (badge_row([lead] + rest, prefix) if lead.get("kind") == "store" and has_badge(lead) else
@@ -1928,6 +1946,11 @@ def check(strict=()):
             seen[val] = name
         if lang != "en" and (len(html.unescape(title)) > 65 or len(html.unescape(desc)) > 165):
             notes.append(f"{name}: title {len(html.unescape(title))}, description {len(html.unescape(desc))} characters (aim for 60 and 160)")
+        # a heading or title never ends with a full stop, in any language
+        for tag, inner in [("title", title)] + re.findall(r"<(h[1-6])\b[^>]*>(.*?)</\1>", doc, re.S):
+            words = strip_tags(inner)
+            if words.endswith((".", "。")) and not words.endswith("..."):
+                problems.append(f"{name}: the <{tag}> '{words}' ends with a full stop")
         # links in the page itself (not the <head>, not the JSON-LD)
         body = doc[doc.index("</head>"):]
         ids = set(re.findall(r'\bid="([^"]+)"', body))

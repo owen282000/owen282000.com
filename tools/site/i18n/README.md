@@ -65,6 +65,7 @@ The check fails on:
 - a translation whose code blocks, screenshots, tables, ids or links to pages of this site
   differ from the English file (for a product: images, code, the number of bullets, FAQ ids)
 - an em dash or en dash anywhere, a leftover `{{...}}` token
+- a heading (`<h1>` to `<h6>`) or a title that ends with a full stop, in any language
 
 It also notes titles over 65 and descriptions over 165 characters.
 
@@ -101,8 +102,9 @@ Leave untouched:
 - **Tokens and placeholders.** `{{status:android}}`, `{{status:ios}}`, `{{play_url}}` in pages,
   and `{date}`, `{n}`, `{name}`, `{pitch}`, `{discussions}`, `{android}`, `{ios}` in
   `strings.json`. Keep them, move them where your grammar needs them.
-- **Entities.** `&nbsp;`, `&#8209;` (the hyphen in F&#8209;Droid that must not break), `&gt;`,
-  `&amp;`.
+- **Entities.** `&nbsp;`, `&gt;`, `&amp;`. Write F-Droid with a plain hyphen everywhere: the
+  build keeps it from breaking at the end of a line in the text of a page and leaves it plain
+  in titles, descriptions, alt texts and structured data.
 - **Names.** Life Dashboard, Life Dashboard Companion, Home Assistant, Health Connect, Apple
   Health, Apple Watch, Samsung Health, Galaxy Watch, Google Health, Fitbit, Pixel Watch, Garmin
   Connect, Oura, Withings, Grafana, Postgres, MQTT, HACS, Marketplace, Obtainium, F-Droid,
@@ -112,10 +114,24 @@ Leave untouched:
   sensor, dashboard, API, JSON, HMAC.
 - **Prices and versions.** €4.99 and €6.99 once (US$4.99, US$5.99), version numbers, counts
   (34 types, 28 types, 36 sensors), dates of facts. Write the price the way your language does
-  (`4,99&nbsp;€` in German, `€ 4,99` in Dutch, `R$` never: the store sets local prices, so keep
-  the euro and dollar figures).
-- **`updated:`** in a header: copy the English date. Add `published: 2026-11-20` (the day the
-  translation appears) to every guide.
+  (`4,99&nbsp;€` in German, `€&nbsp;4,99` in Dutch, `R$` never: the store sets local prices, so
+  keep the euro and dollar figures). One form per language, with `&nbsp;` between the figure
+  and the currency in the text of a page; in a `title:`, a `description:` and the fields of a
+  product file that are not HTML (title, description, h1, lead, highlights, FAQ questions) an
+  entity would be shown as typed, so use a plain space or the character itself there.
+- **The price sentences.** Where a guide says where to get an app, use `{{status:android}}` or
+  `{{status:ios}}` instead of writing the price out, so it changes in one place. The price
+  under a store badge is `parts.<app>.get.<store>.pitch` in `strings.json`; don't repeat it in
+  `ui.guide.aside_*`, `ui.hero.*` or `parts.<app>.req_short`.
+- **The Google Play listing's name.** On Google Play the Android app is listed as "Health Data
+  for Home Assistant". Say so where a page sends the reader there to install: the install step
+  of the Samsung, Fitbit, Garmin and Health Connect guides, the Play question on the Android
+  page and the note under the Play badge (`parts.android.get.play.note`). Nowhere else. The
+  App Store name stays as it is.
+- **`published:`** in a guide's header: copy the English guide's date. A translation is the
+  same content, so it was first published when the English guide was. Every English guide has
+  a `published:` line; a new one gets the day it first appears.
+- **`updated:`** in a header: the day your file last changed. Never earlier than `published:`.
 - **JSON keys and structure** in `products/*.json` and `strings.json`: translate values only.
   In a product file, leave `hero_image`, `image`, `image2`, `code`, `id`, `open`, `guides`,
   `updated` and every `href` alone. In `strings.json`, a guide's `buttons` is a list of
@@ -153,13 +169,14 @@ when your language wants it, keep the meaning and every fact.
 | Dutch | je, jij | "je" throughout, no "u". Compound words written as one. Keep English tech words Dutch readers use (sync, dashboard, backfill, webhook). |
 | German | du | As in the two existing German guides, which set the style. Compounds with a product name take hyphens (Home-Assistant-Integration, Health-Connect-Daten). Typographic quotes „ “. |
 | French | vous | Space before `:` `;` `?` `!` as a non-breaking space (`&nbsp;`), guillemets « » with `&nbsp;` inside. "Application", not "appli". |
-| Spanish | tú | Neutral international Spanish that reads well in Spain and Latin America. Opening `¿` and `¡`. |
+| Spanish | tú | Neutral international Spanish that reads well in Spain and Latin America, in the words the app itself uses: agregar (not añadir), configuración (not ajustes), equipo (not ordenador), teléfono, archivo, toca. A label on a screen stays exactly as that screen shows it, also when it differs (`Ajustes`, `Añadir integración` in Home Assistant). Opening `¿` and `¡`. |
 | Portuguese (Brazil) | você | Brazilian spelling and vocabulary (celular, aplicativo, tela, baixar). |
 
 Rules that hold in every language, because the site's build enforces them or Owen asks for them:
 
 - Never an em dash or en dash. Use a comma, a colon, or two sentences.
-- A heading or title never ends with a full stop.
+- A heading or title never ends with a full stop, also when its last word is an abbreviation
+  (`VO2 máx`, not `VO2 máx.`). The check refuses it.
 - No AI-sounding filler ("in today's world", "seamlessly", "unlock").
 - "Open source", "no account", "no cloud", "pay once, no subscription" are the claims that
   matter. Translate them the way people in your language actually say them.
@@ -175,8 +192,14 @@ clicks.
   "Gesundheitsdaten", "Daten exportieren", "Bildschirmzeit", "Schlafphasen". Check with a
   search engine's suggestions in your language and country before you choose.
 - Put the main query at the start of the title, in the words people type. Keep
-  `| Life Dashboard` at the end where the English title has it. Aim for 60 characters or
-  fewer; the description 150 to 160, a full sentence that says what the reader gets.
+  `| Life Dashboard` at the end where the English title has it, unless that takes the title
+  past about 62 characters: then the query stays and the name goes. The description is 150 to
+  160 characters, a full sentence that says what the reader gets.
+- What the suggestions showed in November 2026, in German, French, Spanish and Portuguese
+  alike: people type the product names in English and add "integration" ("samsung health home
+  assistant integration", "health connect home assistant integration"). Words of their own
+  language appear around a product alone ("health connect daten exportieren", "home assistant
+  gesundheitsdaten"), hardly ever between a product and Home Assistant.
 - The header lines `primary query:` and `secondary queries:` are notes for the next writer:
   replace them with the queries you chose for your language.
 - The `<h1>` is the question a person would ask, in your language. The first paragraph answers

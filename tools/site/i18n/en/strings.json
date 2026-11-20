@@ -35,8 +35,8 @@
       "own_server_line": "MQTT or JSON"
     },
     "hero": {
-      "android": "{pitch} Or free, the same app with the same signing key: <a href=\"/life-dashboard/android/#get\">the APK on GitHub, Obtainium or F&#8209;Droid</a>.",
-      "ios": "On the App Store, €6.99 once. Or <a href=\"/life-dashboard/ios/#building\">build it with Xcode</a> on a Mac with an Apple Developer Program membership."
+      "android": "{pitch} Or free, the same app with the same signing key: <a href=\"/life-dashboard/android/#get\">the APK on GitHub, Obtainium or F-Droid</a>.",
+      "ios": "{pitch} Or <a href=\"/life-dashboard/ios/#building\">build it with Xcode</a> on a Mac with an Apple Developer Program membership."
     },
     "get": {
       "title": "Pick your phone, then pick where the data goes",
@@ -115,7 +115,7 @@
     "footer": {
       "about": "Life Dashboard is an open-source project by <a href=\"https://github.com/owen282000\">Owen Vogelaar</a>, in four parts: the Life Dashboard Companion apps for Android and iPhone, a Home Assistant integration and a Grafana stack. It isn't related to other apps or templates called Life Dashboard. Questions go to <a href=\"{discussions}\">Discussions</a>.",
       "no_tracking": "This site sets no cookies, runs no analytics and loads nothing from anyone else. <a href=\"/privacy/\">Site privacy</a>.",
-      "imprint": "Owen Vogelaar, trading as oVog Enterprise · KvK 81085583 · <a href=\"mailto:owen282000@hotmail.com\">owen282000@hotmail.com</a>",
+      "imprint": "Owen Vogelaar, trading as oVog Enterprise · Dutch Chamber of Commerce (KvK) 81085583 · <a href=\"mailto:owen282000@hotmail.com\">owen282000@hotmail.com</a>",
       "products": "Products",
       "guides": "Guides",
       "docs_title": "Docs and source",
@@ -132,7 +132,7 @@
         "repos": "All repositories"
       },
       "trademarks": "Home Assistant is a trademark of the Open Home Foundation. Health Connect, Google Play, Google Health, Fitbit and Pixel Watch are trademarks of Google LLC. Apple, Apple Health, Apple Watch, iPhone, Xcode and TestFlight are trademarks of Apple Inc. App Store is a service mark of Apple Inc. Grafana is a trademark of Grafana Labs. Samsung Health, Garmin Connect, Oura and Withings belong to their owners. Life Dashboard is an independent project and is not affiliated with or endorsed by any of them. Screenshots show made-up data.",
-      "credits": "Badges: Google Play and App Store as published by Google and Apple; \"Get it on F&#8209;Droid\" by the <a href=\"https://gitlab.com/fdroid/artwork\">F&#8209;Droid project</a> and \"Get it on GitHub\" by <a href=\"https://github.com/Kunzisoft/Github-badge\">Kunzisoft</a>, both <a href=\"https://creativecommons.org/licenses/by-sa/3.0/\">CC BY-SA 3.0</a>; Obtainium from the <a href=\"https://github.com/ImranR98/Obtainium\">Obtainium project</a>; the HACS, Artifact Hub and Docker Compose badges are drawn for this site in Roboto (SIL OFL), around the icons of the <a href=\"https://github.com/hacs/integration\">HACS project</a> (MIT) and the <a href=\"https://github.com/artifacthub/hub\">Artifact Hub project</a> (Apache 2.0) and Docker's logo from its media kit; the AlternativeTo badge is their compact badge on a black panel. GitHub is a trademark of GitHub, Inc. Docker, Docker Compose and the Docker logo are trademarks of Docker, Inc. Helm is a trademark of The Linux Foundation."
+      "credits": "Badges: Google Play and App Store as published by Google and Apple; \"Get it on F-Droid\" by the <a href=\"https://gitlab.com/fdroid/artwork\">F-Droid project</a> and \"Get it on GitHub\" by <a href=\"https://github.com/Kunzisoft/Github-badge\">Kunzisoft</a>, both <a href=\"https://creativecommons.org/licenses/by-sa/3.0/\">CC BY-SA 3.0</a>; Obtainium from the <a href=\"https://github.com/ImranR98/Obtainium\">Obtainium project</a>; the HACS, Artifact Hub and Docker Compose badges are drawn for this site in Roboto (SIL OFL), around the icons of the <a href=\"https://github.com/hacs/integration\">HACS project</a> (MIT) and the <a href=\"https://github.com/artifacthub/hub\">Artifact Hub project</a> (Apache 2.0) and Docker's logo from its media kit; the AlternativeTo badge is their compact badge on a black panel. GitHub is a trademark of GitHub, Inc. Docker, Docker Compose and the Docker logo are trademarks of Docker, Inc. Helm is a trademark of The Linux Foundation."
     }
   },
   "parts": {
@@ -149,7 +149,7 @@
         "play": {
           "name": "Google Play",
           "pitch": "€4.99 once on Google Play: the easy way, with automatic updates, and it supports development.",
-          "note": "€4.99 once (US$4.99), no subscription. The easy way: Google Play installs it and keeps it up to date, and buying it supports development.",
+          "note": "€4.99 once (US$4.99), no subscription. The easy way: Google Play installs it and keeps it up to date, and buying it supports development. It's listed there as Health Data for Home Assistant.",
           "soon_text": "Google Play: coming, as a paid listing of the same app"
         },
         "apk": {
@@ -179,6 +179,7 @@
       "get": {
         "appstore": {
           "name": "App Store",
+          "pitch": "€6.99 once on the App Store, no subscription.",
           "note": "€6.99 once (US$5.99), no subscription. No Mac needed, and it updates like any other app."
         },
         "xcode": {

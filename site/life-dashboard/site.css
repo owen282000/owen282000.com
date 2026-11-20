@@ -933,7 +933,7 @@ table.compare { border: 0; margin: 0; border-radius: 0; }
   .get-card header h3 a { display: inline-flex; align-items: center; min-height: 44px; }
   .page-list { gap: 0; }
   .page-list a { display: inline-flex; align-items: center; min-height: 44px; }
-  .prose tbody th a, .prose td > a:only-child { display: inline-flex; align-items: center; min-height: 44px; }
+  .prose tbody th a, .prose td.only-link > a { display: inline-flex; align-items: center; min-height: 44px; }
 }
 .faq details p { overflow-wrap: break-word; }
 .footer .credits { margin-top: 12px; padding-top: 0; border-top: 0; }
@@ -1040,4 +1040,9 @@ table.compare { border: 0; margin: 0; border-radius: 0; }
   .nav .btn-sm { padding: 10px 13px; }
   .lang-menu summary { padding: 0 11px; }
   .lang-menu summary svg { display: none; }
+  /* On a phone the list hangs from the bar's right edge, not from the button: a long install
+     label pushes the button left, and a list under it would run off the screen. */
+  .nav .wrap { position: relative; }
+  .lang-menu { position: static; }
+  .lang-menu ul { right: 16px; top: 62px; }
 }

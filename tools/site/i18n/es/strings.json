@@ -20,7 +20,7 @@
       "faq": "Preguntas",
       "home": "Inicio de Life Dashboard",
       "main": "Principal",
-      "install": "Opciones de instalación",
+      "install": "Instalar",
       "language": "Idioma"
     },
     "strip": {
@@ -35,8 +35,8 @@
       "own_server_line": "MQTT o JSON"
     },
     "hero": {
-      "android": "{pitch} O gratis, la misma app con la misma clave de firma: <a href=\"/life-dashboard/android/#get\">el APK en GitHub, Obtainium o F&#8209;Droid</a>.",
-      "ios": "En App Store, 6,99&nbsp;€, pago único. O <a href=\"/life-dashboard/ios/#building\">compílala con Xcode</a> en un Mac con una suscripción al Apple Developer Program."
+      "android": "{pitch} O gratis, la misma app con la misma clave de firma: <a href=\"/life-dashboard/android/#get\">el APK en GitHub, Obtainium o F-Droid</a>.",
+      "ios": "{pitch} O <a href=\"/life-dashboard/ios/#building\">compílala con Xcode</a> en un Mac con una suscripción al Apple Developer Program."
     },
     "get": {
       "title": "Elige tu teléfono y después adónde van los datos",
@@ -115,7 +115,7 @@
     "footer": {
       "about": "Life Dashboard es un proyecto de código abierto de <a href=\"https://github.com/owen282000\">Owen Vogelaar</a>, en cuatro partes: las apps Life Dashboard Companion para Android y iPhone, una integración para Home Assistant y un stack de Grafana. No tiene relación con otras apps o plantillas llamadas Life Dashboard. Las preguntas van a <a href=\"{discussions}\">Discussions</a>.",
       "no_tracking": "Este sitio no instala cookies, no usa analíticas y no carga nada de terceros. <a href=\"/privacy/\">Privacidad del sitio</a>.",
-      "imprint": "Owen Vogelaar, que opera como oVog Enterprise · KvK 81085583 · <a href=\"mailto:owen282000@hotmail.com\">owen282000@hotmail.com</a>",
+      "imprint": "Owen Vogelaar, que opera como oVog Enterprise · Cámara de Comercio de los Países Bajos (KvK) 81085583 · <a href=\"mailto:owen282000@hotmail.com\">owen282000@hotmail.com</a>",
       "products": "Productos",
       "guides": "Guías",
       "docs_title": "Documentación y código",
@@ -132,7 +132,7 @@
         "repos": "Todos los repositorios"
       },
       "trademarks": "Home Assistant es una marca comercial de la Open Home Foundation. Health Connect, Google Play, Google Health, Fitbit y Pixel Watch son marcas comerciales de Google LLC. Apple, Apple Health, Apple Watch, iPhone, Xcode y TestFlight son marcas comerciales de Apple Inc. App Store es una marca de servicio de Apple Inc. Grafana es una marca comercial de Grafana Labs. Samsung Health, Garmin Connect, Oura y Withings pertenecen a sus propietarios. Life Dashboard es un proyecto independiente y no está afiliado a ninguno de ellos ni cuenta con su respaldo. Las capturas de pantalla muestran datos inventados.",
-      "credits": "Insignias: Google Play y App Store tal como las publican Google y Apple; \"Get it on F&#8209;Droid\" del <a href=\"https://gitlab.com/fdroid/artwork\">proyecto F&#8209;Droid</a> y \"Get it on GitHub\" de <a href=\"https://github.com/Kunzisoft/Github-badge\">Kunzisoft</a>, ambas con licencia <a href=\"https://creativecommons.org/licenses/by-sa/3.0/\">CC BY-SA 3.0</a>; Obtainium del <a href=\"https://github.com/ImranR98/Obtainium\">proyecto Obtainium</a>; las insignias de HACS, Artifact Hub y Docker Compose están dibujadas para este sitio en Roboto (SIL OFL), alrededor de los iconos del <a href=\"https://github.com/hacs/integration\">proyecto HACS</a> (MIT) y del <a href=\"https://github.com/artifacthub/hub\">proyecto Artifact Hub</a> (Apache 2.0) y del logotipo de Docker de su kit de prensa; la insignia de AlternativeTo es su insignia compacta sobre un panel negro. GitHub es una marca comercial de GitHub, Inc. Docker, Docker Compose y el logotipo de Docker son marcas comerciales de Docker, Inc. Helm es una marca comercial de The Linux Foundation."
+      "credits": "Insignias: Google Play y App Store tal como las publican Google y Apple; \"Get it on F-Droid\" del <a href=\"https://gitlab.com/fdroid/artwork\">proyecto F-Droid</a> y \"Get it on GitHub\" de <a href=\"https://github.com/Kunzisoft/Github-badge\">Kunzisoft</a>, ambas con licencia <a href=\"https://creativecommons.org/licenses/by-sa/3.0/\">CC BY-SA 3.0</a>; Obtainium del <a href=\"https://github.com/ImranR98/Obtainium\">proyecto Obtainium</a>; las insignias de HACS, Artifact Hub y Docker Compose están dibujadas para este sitio en Roboto (SIL OFL), alrededor de los iconos del <a href=\"https://github.com/hacs/integration\">proyecto HACS</a> (MIT) y del <a href=\"https://github.com/artifacthub/hub\">proyecto Artifact Hub</a> (Apache 2.0) y del logotipo de Docker de su kit de prensa; la insignia de AlternativeTo es su insignia compacta sobre un panel negro. GitHub es una marca comercial de GitHub, Inc. Docker, Docker Compose y el logotipo de Docker son marcas comerciales de Docker, Inc. Helm es una marca comercial de The Linux Foundation."
     }
   },
   "parts": {
@@ -179,6 +179,7 @@
       "get": {
         "appstore": {
           "name": "App Store",
+          "pitch": "6,99&nbsp;€, pago único, en App Store, sin suscripción.",
           "note": "6,99&nbsp;€ (5,99&nbsp;USD), pago único, sin suscripción. No hace falta un Mac, y se actualiza como cualquier otra app."
         },
         "xcode": {
@@ -205,7 +206,7 @@
         },
         "ha-setup": {
           "name": "Pasos de configuración",
-          "note": "Añade la integración, comprueba la dirección que debe usar el teléfono y escanea el código QR."
+          "note": "Agrega la integración, comprueba la dirección que debe usar el teléfono y escanea el código QR."
         },
         "ha-source": {
           "name": "Código en GitHub",
@@ -239,7 +240,7 @@
     }
   },
   "status": {
-    "android": "Está en Google Play, con el nombre Health Data for Home Assistant, por 4,99&nbsp;€ (4,99&nbsp;USD), pago único, sin suscripción: la forma más cómoda, con actualizaciones automáticas, y al comprarla apoyas el desarrollo. Las vías gratuitas instalan la misma app con la misma clave de firma: el APK firmado de GitHub, Obtainium, que mantiene ese APK actualizado, y F-Droid, que la compila a partir del código fuente.",
+    "android": "Está en Google Play por 4,99&nbsp;€ (4,99&nbsp;USD), pago único, sin suscripción: la forma más cómoda, con actualizaciones automáticas, y al comprarla apoyas el desarrollo. Las vías gratuitas instalan la misma app con la misma clave de firma: el APK firmado de GitHub, Obtainium, que mantiene ese APK actualizado, y F-Droid, que la compila a partir del código fuente.",
     "ios": "Está en App Store por 6,99&nbsp;€ (5,99&nbsp;USD), pago único, sin suscripción. Compilarla a partir del código fuente con Xcode no cuesta nada más si ya tienes una suscripción al Apple Developer Program."
   },
   "badges": {
@@ -297,8 +298,8 @@
     },
     "companion-app-health-connect": {
       "name": "La app Companion y Health Connect",
-      "desc": "Cuándo bastan sus 36 sensores, y qué añaden el historial, el backfill y los 34 tipos.",
-      "next": "Conserva la app Companion. Añade la integración desde el Marketplace o HACS y la app en tu teléfono, vincula con un código QR y lanza un backfill.",
+      "desc": "Cuándo bastan sus 36 sensores, y qué agregan el historial, el backfill y los 34 tipos.",
+      "next": "Conserva la app Companion. Agrega la integración desde el Marketplace o HACS y la app en tu teléfono, vincula con un código QR y lanza un backfill.",
       "buttons": [
         "Abrir en el Marketplace",
         "Consigue la app para Android"
@@ -451,7 +452,7 @@
     "apple-watch-home-assistant": {
       "name": "Apple Watch en Home Assistant",
       "desc": "Frecuencia cardíaca, HRV, fases del sueño, entrenamientos y VO2 máx. del reloj, a través de Apple Health.",
-      "next": "Tu reloj ya escribe en Apple Health. Añade la integración desde el Marketplace o HACS y la app en tu iPhone, y vincula con un código QR.",
+      "next": "Tu reloj ya escribe en Apple Health. Agrega la integración desde el Marketplace o HACS y la app en tu iPhone, y vincula con un código QR.",
       "buttons": [
         "Abrir en el Marketplace",
         "Consigue la app para iPhone"
@@ -460,7 +461,7 @@
     "apple-health-webhook": {
       "name": "Apple Health a un webhook",
       "desc": "JSON firmado desde Apple Health, de forma automática: el payload, los reintentos, los borrados y Atajos.",
-      "next": "Instala la app, añade tu URL y toca <strong>Ping de prueba</strong>. La página del payload de iOS enumera todo lo que envía un iPhone.",
+      "next": "Instala la app, agrega tu URL y toca <strong>Ping de prueba</strong>. La página del payload de iOS enumera todo lo que envía un iPhone.",
       "buttons": [
         "Consigue la app para iPhone",
         "Referencia del payload de iOS"
@@ -500,7 +501,7 @@
     "ios-health": "La pestaña Salud de la app para iPhone, con una fila por destino y las cifras de hoy",
     "ios-schedule": "Cuándo enviar en la app para iPhone, a horas fijas con horas de silencio",
     "ios-logs": "La pestaña Logs de la app para iPhone, con una fila por entrega",
-    "ios-mqtt": "Los ajustes del broker MQTT en la app para iPhone",
+    "ios-mqtt": "La configuración del broker MQTT en la app para iPhone",
     "ios-webhook": "Un destino de webhook en la app para iPhone, con su secreto de firma y sus encabezados personalizados",
     "p-pairing-flow": "Tu servicio muestra un código QR, el teléfono lo abre en la página de vinculación y, después de Vincular, tu servicio recibe un ping de prueba firmado",
     "S1-sleep-card": "La Life Dashboard Sleep Card en un tema oscuro con datos de ejemplo: 5h 14m dormido, lun 9 nov, de 23:21 a 05:05, cuatro carriles para despierto, REM, ligero y profundo con las fases como bloques a lo largo de un eje de horas, y la duración y el porcentaje de cada fase",

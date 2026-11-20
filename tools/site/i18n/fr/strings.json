@@ -5,7 +5,7 @@
     "faq": "Questions fréquentes",
     "feature": "Fonctionnalité",
     "table": "Tableau",
-    "code": "Code : {name}",
+    "code": "Code : {name}",
     "code_example": "exemple",
     "full_size": "taille réelle",
     "coming_soon": "Bientôt disponible.",
@@ -20,7 +20,7 @@
       "faq": "FAQ",
       "home": "Accueil de Life Dashboard",
       "main": "Navigation principale",
-      "install": "Options d’installation",
+      "install": "Installer",
       "language": "Langue"
     },
     "strip": {
@@ -35,8 +35,8 @@
       "own_server_line": "MQTT ou JSON"
     },
     "hero": {
-      "android": "{pitch} Ou gratuitement, la même application avec la même clé de signature : <a href=\"/life-dashboard/android/#get\">l’APK sur GitHub, Obtainium ou F&#8209;Droid</a>.",
-      "ios": "Sur l’App Store, 6,99 € en achat unique. Ou <a href=\"/life-dashboard/ios/#building\">compilez-la avec Xcode</a> sur un Mac, avec une adhésion à l’Apple Developer Program."
+      "android": "{pitch} Ou gratuitement, la même application avec la même clé de signature : <a href=\"/life-dashboard/android/#get\">l’APK sur GitHub, Obtainium ou F-Droid</a>.",
+      "ios": "{pitch} Ou <a href=\"/life-dashboard/ios/#building\">compilez-la avec Xcode</a> sur un Mac, avec une adhésion à l’Apple Developer Program."
     },
     "get": {
       "title": "Choisissez votre téléphone, puis la destination des données",
@@ -115,7 +115,7 @@
     "footer": {
       "about": "Life Dashboard est un projet open source d’<a href=\"https://github.com/owen282000\">Owen Vogelaar</a>, en quatre éléments : les applications Life Dashboard Companion pour Android et iPhone, une intégration Home Assistant et une stack Grafana. Il n’a aucun lien avec d’autres applications ou modèles appelés Life Dashboard. Pour vos questions, rendez-vous dans <a href=\"{discussions}\">Discussions</a>.",
       "no_tracking": "Ce site ne dépose aucun cookie, n’utilise aucun outil de mesure d’audience et ne charge rien depuis un tiers. <a href=\"/privacy/\">Confidentialité du site</a>.",
-      "imprint": "Owen Vogelaar, exerçant sous le nom oVog Enterprise · KvK 81085583 · <a href=\"mailto:owen282000@hotmail.com\">owen282000@hotmail.com</a>",
+      "imprint": "Owen Vogelaar, exerçant sous le nom oVog Enterprise · Chambre de commerce néerlandaise (KvK) 81085583 · <a href=\"mailto:owen282000@hotmail.com\">owen282000@hotmail.com</a>",
       "products": "Produits",
       "guides": "Guides",
       "docs_title": "Documentation et code source",
@@ -132,7 +132,7 @@
         "repos": "Tous les dépôts"
       },
       "trademarks": "Home Assistant est une marque de l’Open Home Foundation. Health Connect, Google Play, Google Health, Fitbit et Pixel Watch sont des marques de Google LLC. Apple, Apple Health, Apple Watch, iPhone, Xcode et TestFlight sont des marques d’Apple Inc. App Store est une marque de service d’Apple Inc. Grafana est une marque de Grafana Labs. Samsung Health, Garmin Connect, Oura et Withings appartiennent à leurs propriétaires respectifs. Life Dashboard est un projet indépendant, sans lien avec ces sociétés et sans leur caution. Les captures d’écran montrent des données fictives.",
-      "credits": "Badges : Google Play et App Store tels que publiés par Google et Apple ; « Get it on F&#8209;Droid » par le <a href=\"https://gitlab.com/fdroid/artwork\">projet F&#8209;Droid</a> et « Get it on GitHub » par <a href=\"https://github.com/Kunzisoft/Github-badge\">Kunzisoft</a>, tous deux sous <a href=\"https://creativecommons.org/licenses/by-sa/3.0/\">CC BY-SA 3.0</a> ; Obtainium par le <a href=\"https://github.com/ImranR98/Obtainium\">projet Obtainium</a> ; les badges HACS, Artifact Hub et Docker Compose sont dessinés pour ce site en Roboto (SIL OFL), autour des icônes du <a href=\"https://github.com/hacs/integration\">projet HACS</a> (MIT) et du <a href=\"https://github.com/artifacthub/hub\">projet Artifact Hub</a> (Apache 2.0) et du logo de Docker issu de son kit média ; le badge AlternativeTo est leur badge compact sur fond noir. GitHub est une marque de GitHub, Inc. Docker, Docker Compose et le logo Docker sont des marques de Docker, Inc. Helm est une marque de The Linux Foundation."
+      "credits": "Badges : Google Play et App Store tels que publiés par Google et Apple ; « Get it on F-Droid » par le <a href=\"https://gitlab.com/fdroid/artwork\">projet F-Droid</a> et « Get it on GitHub » par <a href=\"https://github.com/Kunzisoft/Github-badge\">Kunzisoft</a>, tous deux sous <a href=\"https://creativecommons.org/licenses/by-sa/3.0/\">CC BY-SA 3.0</a> ; Obtainium par le <a href=\"https://github.com/ImranR98/Obtainium\">projet Obtainium</a> ; les badges HACS, Artifact Hub et Docker Compose sont dessinés pour ce site en Roboto (SIL OFL), autour des icônes du <a href=\"https://github.com/hacs/integration\">projet HACS</a> (MIT) et du <a href=\"https://github.com/artifacthub/hub\">projet Artifact Hub</a> (Apache 2.0) et du logo de Docker issu de son kit média ; le badge AlternativeTo est leur badge compact sur fond noir. GitHub est une marque de GitHub, Inc. Docker, Docker Compose et le logo Docker sont des marques de Docker, Inc. Helm est une marque de The Linux Foundation."
     }
   },
   "parts": {
@@ -149,7 +149,7 @@
         "play": {
           "name": "Google Play",
           "pitch": "4,99 € en achat unique sur Google Play : la voie simple, avec les mises à jour automatiques, et votre achat soutient le développement.",
-          "note": "4,99 € en achat unique (4,99 $US), sans abonnement. La voie simple : Google Play l’installe et la tient à jour, et votre achat soutient le développement.",
+          "note": "4,99 € en achat unique (4,99 $US), sans abonnement. La voie simple : Google Play l’installe et la tient à jour, et votre achat soutient le développement. Sur Google Play, l’application s’appelle Health Data for Home Assistant.",
           "soon_text": "Google Play : bientôt, la même application en version payante"
         },
         "apk": {
@@ -179,6 +179,7 @@
       "get": {
         "appstore": {
           "name": "App Store",
+          "pitch": "6,99 € en achat unique sur l’App Store, sans abonnement.",
           "note": "6,99 € en achat unique (5,99 $US), sans abonnement. Pas besoin de Mac, et elle se met à jour comme n’importe quelle application."
         },
         "xcode": {
@@ -424,7 +425,7 @@
     "troubleshooting": {
       "name": "Dépannage : synchronisations, capteurs et association",
       "desc": "Synchronisations qui s’arrêtent en arrière-plan, autorisations Santé Connect, capteurs manquants et association, pas à pas.",
-      "next": "Toujours bloqué ? Posez votre question dans Discussions en joignant la ligne de l’onglet <strong>Journaux</strong> ; le guide d’installation contient la liste complète des problèmes connus.",
+      "next": "Toujours bloqué ? Posez votre question dans Discussions en joignant la ligne de l’onglet <strong>Journaux</strong> ; le guide d’installation contient la liste complète des problèmes connus.",
       "buttons": [
         "Poser une question dans Discussions",
         "Liste complète de dépannage"
