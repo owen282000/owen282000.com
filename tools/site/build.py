@@ -19,12 +19,14 @@ Where the words live: tools/site/i18n/<lang>/ (i18n/README.md is the brief for t
   shows an "image", or a "code" window ({"title", "code"}) instead.
 - pages/landing.html, hub.html, privacy.html, ios-privacy.html: the pages written by hand, as
   the inside of <main>. Between the landing page's <!-- BUILD:name --> markers the script fills
-  in the shared parts; its FAQPage JSON-LD comes from the questions on the page.
+  in the shared parts (the store badges, the hero picture, the install section, the guide list,
+  the numbers); its FAQPage JSON-LD comes from the questions on the page.
 English (i18n/en/) is the source and keeps its addresses: /, /privacy/, /life-dashboard/...
 A translation is served under its folder: /de/life-dashboard/android/. This file holds the
 structure only (which pages exist, their links, images and structured data), no prose.
 
-What it writes: site/index.html, site/privacy/, site/life-dashboard/ (the landing page, the
+What it writes: site/index.html, site/privacy/, site/legal/ (trademark notices, badge credits and
+the imprint, from strings.json), site/life-dashboard/ (the landing page, the
 products, the guides, the guide index at guides/, ios/privacy/), the same under site/<lang>/
 for every page a language has, site/404.html, llms.txt (in site/ and site/life-dashboard/, from
 llms.txt.in) and site/sitemap.xml with every page's hreflang alternates. site/life-dashboard/
@@ -439,14 +441,17 @@ SOURCE_CODE = {"@type": "SoftwareSourceCode", "codeRepository": REPO, "programmi
 # local slug (`slug:` in its header). A page exists in a language once its source file does:
 # i18n/<lang>/guides/<id>.html, products/<id>.json or pages/<id>.html. The guide index is made
 # from strings.json alone, so it exists once its title (ui.index.title) is translated.
-PAGES = {"hub": "", "privacy": "privacy/", "landing": "life-dashboard/", "guides": "life-dashboard/guides/",
+PAGES = {"hub": "", "privacy": "privacy/", "legal": "legal/", "landing": "life-dashboard/", "guides": "life-dashboard/guides/",
          **{s: f"life-dashboard/{s}/" for s in ORDER}, **{g: f"life-dashboard/{g}/" for g in GUIDE_IDS},
          "ios-privacy": "life-dashboard/ios/privacy/"}
 EN_PATH_TO_ID = {"/" + p: pid for pid, p in PAGES.items()}
 HAND_PAGES = {"hub": "hub", "privacy": "privacy", "landing": "landing", "ios-privacy": "ios-privacy"}
+# Pages without a source file of their own, made from strings.json alone: each exists in a
+# language once its title is translated.
+STRING_PAGES = {"guides": "ui.index.title", "legal": "ui.legal.title"}
 # The Play campaign source of each page (P1-36): the English names stay as they were, a
 # translation adds its language (site-de-guide-<id>).
-PLACES = {"landing": "landing", "guides": "guides", "hub": "hub", "privacy": "privacy", "ios-privacy": "ios-privacy",
+PLACES = {"landing": "landing", "guides": "guides", "hub": "hub", "privacy": "privacy", "legal": "legal", "ios-privacy": "ios-privacy",
           **{s: s for s in ORDER}, **{g: f"guide-{g}" for g in GUIDE_IDS}}
 
 
@@ -465,8 +470,8 @@ def exists(pid, lang):
         return True
     if lang not in STRINGS:
         return False
-    if pid == "guides":
-        return bool(lookup(STRINGS[lang], "ui.index.title"))
+    if pid in STRING_PAGES:
+        return bool(lookup(STRINGS[lang], STRING_PAGES[pid]))
     return source(pid, lang).exists()
 
 
@@ -793,41 +798,76 @@ def ios_paths(prefix):
     return t("hero.ios", pitch=store_of("ios")["pitch"])
 
 
-def hero_stores(prefix):
+def hero_stores(prefix, paths=True):
     """Landing hero and final call to action: live stores lead with their official badges.
     While a store is pending, a working "Install today" button leads, a demo needs no phone and
-    the stores still to come show their badges in a "Coming soon" frame. One line per phone says
-    how to get it: the store first, then the free way."""
+    the stores still to come show their badges in a "Coming soon" frame. In the hero, one line
+    per phone says how to get it: the store first, then the free way. The closing call to action
+    (paths=False) shows the badges alone: the install section above it has said the rest."""
     stores = {s: store_of(s) for s in ("android", "ios")}
     live = [s for s in ("ios", "android") if stores[s]["status"] == "live"]  # Apple: App Store badge first
     btns = [store_button(stores[s], "", prefix) for s in live]
     if len(live) < 2:
-        btns.insert(0, f'<a class="btn btn-primary btn-store" href="{prefix}#get">{t("nav.install")}</a>')
+        btns.insert(0, f'<a class="btn btn-primary" href="{prefix}#get">{t("nav.install")}</a>')
     out = '<div class="cta-row stores">\n        ' + "\n        ".join(btns) + "\n      </div>"
     pending = badge_row([stores[s] for s in ("ios", "android") if s not in live], prefix)
     if pending:
         out += "\n      " + pending
-    # One line per phone on how to get it, also once both stores are live: the paid store first,
-    # then the free way.
-    out += ('\n      <ul class="install-paths">'
-            f'<li>{svg(PARTS["android"]["glyph"])}<span><b>Android</b> {android_paths(prefix)}</span></li>'
-            f'<li>{svg(PARTS["ios"]["glyph"])}<span><b>iPhone</b> {ios_paths(prefix)}</span></li>'
-            '</ul>')
+    if paths:
+        out += ('\n      <ul class="install-paths">'
+                f'<li>{svg(PARTS["android"]["glyph"])}<span><b>Android</b> {android_paths(prefix)}</span></li>'
+                f'<li>{svg(PARTS["ios"]["glyph"])}<span><b>iPhone</b> {ios_paths(prefix)}</span></li>'
+                '</ul>')
     return out
 
 
+def hero_visual(prefix):
+    """The landing hero's picture: the phone, the heartbeat line, and where the data lands. One
+    destination, Home Assistant, drawn large enough to read; the others are named in the text.
+    On a phone the desktop dashboard would be too small, so the same dashboard shows as Home
+    Assistant draws it on a phone. Nothing overlaps at any width."""
+    _, pw, ph, palt = IMAGES["A1-health"]
+    _, ww, wh, walt = IMAGES["H6-health"]
+    _, nw, nh, _ = IMAGES["H9-health-phone"]
+    return f"""<div class="hero-visual">
+      <figure class="hv-phone">
+        <div class="phone"><img src="{prefix}img/A1-health.webp" alt="{t("hero.phone_alt")}" width="{pw}" height="{ph}" fetchpriority="high"></div>
+        <figcaption><b>Life Dashboard Companion</b> <span>{t("strip.phone")}</span></figcaption>
+      </figure>
+      <svg class="hv-beat" viewBox="0 0 200 60" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path class="beat-path" pathLength="100" d="M2 30 H62 L74 8 L90 52 L101 22 L109 30 H158"/>
+          <circle class="beat-dot" cx="158" cy="30" r="5"/>
+          <path class="arc a1" d="M172 20 A15 15 0 0 1 172 40"/>
+          <path class="arc a2" d="M184 12 A27 27 0 0 1 184 48"/>
+        </g>
+      </svg>
+      <figure class="hv-dest">
+        <div class="hv-screen"><picture><source media="(max-width: 919px)" srcset="{prefix}img/H9-health-phone.webp" width="{nw}" height="{nh}"><img src="{prefix}img/H6-health.webp" alt="{walt}" width="{ww}" height="{wh}" fetchpriority="high"></picture></div>
+        <figcaption><b>Home Assistant</b> <span>{t("strip.server")}</span></figcaption>
+      </figure>
+    </div>"""
+
+
 GLOBE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><ellipse cx="12" cy="12" rx="4" ry="9"/></svg>'
+MENU = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path class="m1" d="M4 7h16"/><path class="m2" d="M4 12h16"/><path class="m3" d="M4 17h16"/></svg>'
+
+
+def lang_links(pid):
+    """The same page in every language it exists in, as links. Empty while it has no translation."""
+    langs = [c for c in LANGS if exists(pid, c)]
+    if len(langs) < 2:
+        return []
+    return [f'<a href="=/{path_of(pid, c)}" lang="{LANGS[c]["hreflang"]}" hreflang="{LANGS[c]["hreflang"]}"'
+            f'{" aria-current=\"true\"" if c == L else ""}>{LANGS[c]["name"]}</a>' for c in langs]
 
 
 def lang_menu(pid):
-    """The language menu in the header: the same page in every language it exists in. A
-    <details>, so it opens without a script. Empty while the page has no translation."""
-    langs = [c for c in LANGS if exists(pid, c)]
-    if len(langs) < 2:
+    """The language menu in the header. A <details>, so it opens without a script."""
+    links = lang_links(pid)
+    if not links:
         return ""
-    items = "".join(
-        f'<li><a href="=/{path_of(pid, c)}" lang="{LANGS[c]["hreflang"]}" hreflang="{LANGS[c]["hreflang"]}"'
-        f'{" aria-current=\"true\"" if c == L else ""}>{LANGS[c]["name"]}</a></li>' for c in langs)
+    items = "".join(f"<li>{a}</li>" for a in links)
     # The button shows two letters. Its name comes from its own text, the full words hidden
     # before the letters, so the name always holds what is on the screen.
     short = LANGS[L]["hreflang"].split("-")[0].upper()
@@ -837,120 +877,126 @@ def lang_menu(pid):
 
 def lang_row(pid):
     """The same links once more in the footer, as plain text links."""
-    langs = [c for c in LANGS if exists(pid, c)]
-    if len(langs) < 2:
+    links = lang_links(pid)
+    if not links:
         return ""
-    items = " ".join(
-        f'<a href="=/{path_of(pid, c)}" lang="{LANGS[c]["hreflang"]}" hreflang="{LANGS[c]["hreflang"]}"'
-        f'{" aria-current=\"true\"" if c == L else ""}>{LANGS[c]["name"]}</a>' for c in langs)
-    return f'<p class="lang-row"><span>{t("nav.language")}:</span> {items}</p>'
+    return f'<p class="lang-row">{GLOBE}<span class="sr-only">{t("nav.language")}:</span> {" ".join(links)}</p>'
 
 
 def nav(prefix, active=None, pid=None):
-    """pid: the page being written, for the language menu."""
+    """The bar of every Life Dashboard page: the four parts and the guides, the language, GitHub
+    and the install button. Below 1040px the links fold into a menu (a <details>, so it opens
+    without a script) that also holds the languages and GitHub; the install button stays in
+    the bar. pid: the page being written, for the language menu."""
     def a(href, label, key):
         cur = ' aria-current="page"' if key == active else ""
         return f'<a href="{href}"{cur}>{label}</a>'
     on_product = active in PARTS
     repo = {"ios": REPO_IOS, "home-assistant": REPO_HA, "grafana": REPO_STACK}.get(active, REPO)
-    links = "\n      ".join([
+    links = [
         a(f"{prefix}android/", "Android", "android"),
         a(f"{prefix}ios/", "iPhone", "ios"),
         a(f"{prefix}home-assistant/", PARTS["home-assistant"]["nav"], "home-assistant"),
         a(f"{prefix}grafana/", "Grafana", "grafana"),
         a(f"{prefix}guides/", t("nav.guides"), "guides"),
-        a("#faq" if on_product or active == "landing" else f"{prefix}#faq", t("nav.faq"), "faq"),
-    ])
+    ]
     install = "#get" if on_product or active == "landing" else f"{prefix}#get"
-    return f"""<header class="nav">
+    langs = lang_links(pid) if pid else []
+    panel_langs = (f'\n          <p class="nav-panel-langs">{GLOBE}<span class="sr-only">{t("nav.language")}:</span> {" ".join(langs)}</p>'
+                   if langs else "")
+    return f"""<header class="nav has-menu">
   <div class="wrap">
     <a class="brand" href="{prefix}" aria-label="{t("nav.home")}">
-      <img class="mark" src="{prefix}img/icon-96.webp" alt="" width="34" height="34">
-      Life Dashboard
+      <img class="mark" src="{prefix}img/icon-96.webp" alt="" width="32" height="32">
+      <span>Life Dashboard</span>
     </a>
     <nav class="nav-links" aria-label="{t("nav.main")}">
-      {links}
+      {"\n      ".join(links)}
     </nav>
-    <div class="nav-cta">
+    <div class="nav-tools">
       {lang_menu(pid) if pid else ""}
-      <a class="btn btn-ghost btn-sm nav-gh" href="{repo}">
-        {GH}
-        GitHub
-      </a>
+      <a class="nav-icon" href="{repo}" aria-label="GitHub">{GH}</a>
       <a class="btn btn-primary btn-sm" href="{install}">{t("nav.install")}</a>
+      <details class="nav-menu">
+        <summary aria-label="{t("nav.menu")}">{MENU}</summary>
+        <div class="nav-panel">
+          <ul>
+            {"\n            ".join(f"<li>{x}</li>" for x in links)}
+            <li><a href="{repo}">{GH} GitHub</a></li>
+          </ul>{panel_langs}
+        </div>
+      </details>
     </div>
   </div>
 </header>"""
 
 
-def parts_strip(prefix):
-    """Under the landing hero: the two apps, then the places the data can go."""
-    def cell(href, glyph, name, line):
-        return (f'<a href="{href}"><span class="part-ico">{svg(glyph)}</span>'
-                f'<span><b>{name}</b><small>{line}</small></span></a>')
-    phones = "".join(cell(f"{prefix}{s}/", PARTS[s]["glyph"], PARTS[s]["name"], t(f"strip.{s}")) for s in ("android", "ios"))
-    webhook_glyph = '<path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/>'
-    dests = (cell(f"{prefix}home-assistant/", PARTS["home-assistant"]["glyph"], "Home Assistant", t("strip.home_assistant"))
-             + cell(f"{prefix}grafana/", PARTS["grafana"]["glyph"], PARTS["grafana"]["name"], t("strip.grafana"))
-             + cell(f"{prefix}#own-server", webhook_glyph, t("strip.own_server"), t("strip.own_server_line")))
-    return f"""<nav class="parts-strip" aria-label="{t("strip.label")}"><div class="wrap">
-    <div class="ps-group"><span class="ps-label">{t("strip.phone")}</span><div class="ps-cells two">{phones}</div></div>
-    <div class="ps-group"><span class="ps-label">{t("strip.server")}</span><div class="ps-cells three">{dests}</div></div>
-  </div></nav>"""
+# The guides the footer names; the guide index holds all of them.
+FOOTER_GUIDES = ["health-connect-home-assistant", "apple-health-home-assistant", "samsung-health-home-assistant",
+                 "fitbit-home-assistant", "health-connect-webhook"]
 
 
 def footer(prefix, pid=None):
+    """Three short columns, then one small line each for the legal links, the language and the
+    imprint. Every guide is one click away through the index; the trademark notices and badge
+    credits have a page of their own (/legal/)."""
     prods = "\n          ".join(f'<li><a href="{prefix}{s}/">{PARTS[s]["name"]}</a></li>' for s in ORDER)
-    guides = "\n          ".join(f'<li><a href="{prefix}{g[0]}/">{g[1]}</a></li>' for g in GUIDES)
+    guides = "\n          ".join(f'<li><a href="{prefix}{g}/">{GUIDE_NAMES[g]}</a></li>' for g in FOOTER_GUIDES)
     docs = [(f"{REPO}/blob/main/docs/usage.md", "android_setup"), (f"{REPO_IOS}/blob/main/docs/usage.md", "ios_setup"),
-            (f"{REPO_HA}/blob/main/docs/entities.md", "entities"), (f"{REPO}/blob/main/docs/webhook.md", "payload"),
-            (f"{REPO}/blob/main/docs/brands/README.md", "brands"), (f"{prefix}feedback/", "feedback"),
-            (f"{REPO}/blob/main/PRIVACY.md", "privacy_android"), (f"{prefix}ios/privacy/", "privacy_ios"),
+            (f"{REPO}/blob/main/docs/webhook.md", "payload"), (f"{prefix}feedback/", "feedback"),
             (f"{REPO}/blob/main/AI_POLICY.md", "ai_policy"),
             ("https://github.com/owen282000?tab=repositories&amp;q=life-dashboard", "repos")]
     doc_items = "\n          ".join(f'<li><a href="{h}">{t("footer.docs." + k)}</a></li>' for h, k in docs)
+    legal = [(f"{REPO}/blob/main/PRIVACY.md", t("footer.docs.privacy_android")), (f"{prefix}ios/privacy/", t("footer.docs.privacy_ios")),
+             ("/legal/", t("footer.legal"))]
+    legal_items = "".join(f'<li><a href="{h}">{n}</a></li>' for h, n in legal)
     return f"""<footer class="footer">
   <div class="wrap">
-    <div class="cols">
-      <div class="about">
-        <a class="brand" href="{prefix}"><img class="mark" src="{prefix}img/icon-96.webp" alt="" width="34" height="34"> Life Dashboard</a>
+    <div class="foot-top">
+      <div class="foot-about">
+        <a class="brand" href="{prefix}"><img class="mark" src="{prefix}img/icon-96.webp" alt="" width="32" height="32" loading="lazy"> <span>Life Dashboard</span></a>
         <p>{t("footer.about", discussions=f"{REPO}/discussions")}</p>
-        <p>{t("footer.no_tracking")}</p>
-        <p class="imprint">{t("footer.imprint")}</p>
-        {lang_row(pid) if pid else ""}
       </div>
-      <div>
+      <div class="foot-col">
         <h2 class="foot-h">{t("footer.products")}</h2>
         <ul>
           {prods}
         </ul>
       </div>
-      <div>
-        <h2 class="foot-h"><a href="{prefix}guides/">{t("footer.guides")}</a></h2>
+      <div class="foot-col">
+        <h2 class="foot-h">{t("footer.guides")}</h2>
         <ul>
           {guides}
+          <li><a class="foot-all" href="{prefix}guides/">{t("footer.all_guides", n=len(GUIDES))}</a></li>
         </ul>
       </div>
-      <div>
+      <div class="foot-col">
         <h2 class="foot-h">{t("footer.docs_title")}</h2>
         <ul>
           {doc_items}
         </ul>
       </div>
     </div>
-    <p class="legal">{t("footer.trademarks")}</p>
-    <p class="legal credits">{t("footer.credits")}</p>
+    <div class="foot-bottom">
+      <ul class="foot-legal">{legal_items}</ul>
+      {lang_row(pid) if pid else ""}
+      <p class="foot-note">{t("footer.imprint")}</p>
+      <p class="foot-note">{t("footer.no_tracking")}</p>
+    </div>
   </div>
 </footer>"""
 
 
 def small_footer(pid):
-    """The footer of the developer page and the site's privacy notice."""
-    return f"""<footer class="footer">
+    """The footer of the developer page, the site's privacy notice and the legal page."""
+    return f"""<footer class="footer small">
   <div class="wrap">
-    <p class="legal">{t("hub.footer")} {t("footer.no_tracking")}</p>
-    <p class="legal">{t("footer.imprint")}</p>
-    {lang_row(pid)}
+    <div class="foot-bottom">
+      <ul class="foot-legal"><li><a href="/legal/">{t("footer.legal")}</a></li></ul>
+      {lang_row(pid)}
+      <p class="foot-note">{t("footer.imprint")}</p>
+      <p class="foot-note">{t("hub.footer")} {t("footer.no_tracking")}</p>
+    </div>
   </div>
 </footer>"""
 
@@ -958,10 +1004,10 @@ def small_footer(pid):
 def small_nav(pid):
     return f"""<header class="nav">
   <div class="wrap">
-    <a class="brand" href="/"><img class="mark" src="/img/ov-68.png" alt="" width="34" height="34"> Owen Vogelaar</a>
-    <div class="nav-cta">
+    <a class="brand" href="/"><img class="mark" src="/img/ov-68.png" alt="" width="32" height="32"> <span>Owen Vogelaar</span></a>
+    <div class="nav-tools">
       {lang_menu(pid)}
-      <a class="btn btn-ghost btn-sm" href="https://github.com/owen282000">{GH} GitHub</a>
+      <a class="nav-icon" href="https://github.com/owen282000" aria-label="GitHub">{GH}</a>
     </div>
   </div>
 </header>"""
@@ -1033,10 +1079,10 @@ def image(name, prefix, cls="", eager=False):
         img = (f'<picture><source media="(max-width: 520px)" srcset="{prefix}img/{ph}.webp" width="{pw}" height="{phh}">{img}</picture>')
     if kind == "phone":
         cls = f"{cls} cut".strip() if name in CUT else cls
-        return f'<div class="phone {cls}" style="aspect-ratio: {w} / {h}">{img}</div>'
+        return f'<div class="{f"phone {cls}".strip()}">{img}</div>'
     if kind == "card":
-        return f'<figure class="qr-card {cls}">{img}</figure>'
-    return (f'<div class="wide-shot {cls}">'
+        return f'<figure class="{f"qr-card {cls}".strip()}">{img}</figure>'
+    return (f'<div class="{f"wide-shot {cls}".strip()}">'
             f'<a class="shot-link" href="{prefix}img/{name}.webp" aria-label="{alt}, {t("full_size")}">{img}</a></div>')
 
 
@@ -1183,9 +1229,9 @@ def related_guides(pid):
     return f"""<section class="section tight related band" aria-labelledby="related">
   <div class="wrap">
     <div class="section-head split"><h2 id="related">{t("guide.related")}</h2><a class="link-arrow" href="{LD}guides/">{t("guide.all")}</a></div>
-    <div class="family three">
+    <ul class="guide-list three">
       {cards}
-    </div>
+    </ul>
   </div>
 </section>"""
 
@@ -1254,7 +1300,6 @@ def build_guide(pid):
 
 <main id="main" class="guide">
   <header class="guide-head">
-    <div class="grid-bg"></div>
     <div class="wrap">
       <nav class="crumbs" aria-label="{t("breadcrumb")}"><a href="{LD}">Life Dashboard</a><span aria-hidden="true">/</span><a href="{LD}guides/">{t("nav.guides")}</a><span aria-hidden="true">/</span><span aria-current="page">{crumb}</span></nav>
       <h1>{h1_html}</h1>
@@ -1262,7 +1307,7 @@ def build_guide(pid):
 {intro}
       </div>
       <p class="guide-meta"><span>{t("guide.byline")}</span> <span><time datetime="{updated}">{t("guide.updated", date=date_text(updated))}</time></span> <span>{t("guide.read_time", n=minutes)}</span></p>
-      <p class="guide-cta"><a class="btn btn-primary btn-store" href="{first[1]}">{first[2]}</a></p>
+      <p class="guide-cta"><a class="btn btn-primary" href="{first[1]}">{first[2]}</a></p>
     </div>
   </header>
   <div class="wrap guide-grid">
@@ -1289,8 +1334,8 @@ def guide_card(g, prefix, compact=False):
     slug, name, tag, desc = next(x for x in GUIDES if x[0] == g)
     if compact:
         return f'<li><a class="guide-link" href="{prefix}{slug}/">{name}</a></li>'
-    return (f'<a class="part" href="{prefix}{slug}/"><h3>{name}</h3>'
-            f'<p>{desc}</p><span class="go">{t("read_guide")}</span></a>')
+    # A row, not a card: the name is the link, the line under it says what the guide covers.
+    return f'<li><a href="{prefix}{slug}/"><b>{name}</b><span>{desc}</span></a></li>'
 
 
 def guide_groups(prefix):
@@ -1317,9 +1362,9 @@ def build_index():
         cards = "\n        ".join(guide_card(g, LD) for g in slugs)
         groups.append(f"""<section class="index-group" aria-labelledby="g-{key}">
       <h2 id="g-{key}">{name}</h2>
-      <div class="family three">
+      <ul class="guide-list">
         {cards}
-      </div>
+      </ul>
     </section>""")
     url = url_of(pid)
     graph = [{"@type": "CollectionPage", "@id": url, "url": url, "name": title, "description": desc,
@@ -1332,7 +1377,6 @@ def build_index():
 
 <main id="main" class="guide">
   <header class="guide-head index-head">
-    <div class="grid-bg"></div>
     <div class="wrap">
       <nav class="crumbs" aria-label="{t("breadcrumb")}"><a href="{LD}">Life Dashboard</a><span aria-hidden="true">/</span><span aria-current="page">{t("nav.guides")}</span></nav>
       <h1>{t("index.h1")}</h1>
@@ -1370,9 +1414,8 @@ def build_product(slug):
                   + '\n        <ul class="hl-list">' + "".join(
                       f'<li><h3>{html.escape(h["title"])}</h3><p>{html.escape(h["text"])}</p></li>' for h in hl[1:]) + '</ul>')
     rows = []
-    # Rhythm: the zigzag breaks at least once per page. A wide screenshot gets a full-width row
-    # under its text; a page without one stacks its second section the same way.
-    any_wide = any(IMAGES[s["image"]][0] == "wide" for s in d["sections"] if s.get("image"))
+    # Rhythm: text and picture alternate sides. A wide screenshot (a dashboard) gets a full-width
+    # row under its text, so it is large enough to read; a phone is never stretched over one.
     for i, s in enumerate(d["sections"]):
         bullets = "\n          ".join(
             f'<li>{b["main"]}' + (f' <span>{b["sub"]}</span>' if b.get("sub") else "") + "</li>" for b in s["bullets"])
@@ -1385,11 +1428,11 @@ def build_product(slug):
                      f'<pre tabindex="0" role="region" aria-label="{title}"><code>{html.escape(s["code"]["code"])}</code></pre></div></div>')
         else:
             kind = IMAGES[s["image"]][0]
-            stack = kind == "wide" or (not any_wide and i == 1)
-            stage = "purple-glow" if s["image"] in PURPLE else "green-glow"
+            stack = kind == "wide"
             tone = " purple" if s["image"] in PURPLE else ""
-            media = (f'<div class="show-media{" is-wide" if kind == "wide" else ""}{" has-card" if kind == "card" else ""}"><div class="stage {stage}"></div>'
-                     + (f'{image(s["image"], prefix, "p1")}{image(s["image2"], prefix, "p2")}' if s.get("image2") else image(s["image"], prefix, "solo"))
+            shape = " is-wide" if kind == "wide" else " has-card" if kind == "card" else " two" if s.get("image2") else ""
+            media = (f'<div class="show-media stage{tone}{shape}">'
+                     + (f'{image(s["image"], prefix)}{image(s["image2"], prefix)}' if s.get("image2") else image(s["image"], prefix))
                      + (f'<p class="shot-note">{CAPTIONS[s["image"]]}</p>' if s["image"] in CAPTIONS else "")
                      + '</div>')
         link = f'<a class="link-arrow" href="{s["link"]["href"]}">{html.escape(s["link"]["text"])}</a>' if s.get("link") else ""
@@ -1460,11 +1503,11 @@ def build_product(slug):
              {k: v for k, v in PROJECT.items() if k != "hasPart"}]
     PAGE_DATES[(slug, L)] = d.get("updated", UPDATED)
     guides_section = f"""<section class="section tight band">
-  <div class="wrap">
+  <div class="wrap split">
     <div class="section-head"><h2>{t("product.guides")}</h2></div>
-    <div class="family{" three" if len(gl) in (3, 6) else ""}">
+    <ul class="guide-list two">
       {guides}
-    </div>
+    </ul>
   </div>
 </section>
 """ if len(gl) > 1 else ""
@@ -1487,9 +1530,8 @@ def build_product(slug):
 <main id="main">
 
 <section class="hero product-hero">
-  <div class="grid-bg"></div>
   <div class="wrap">
-    <div>
+    <div class="hero-copy">
       <nav class="crumbs" aria-label="{t("breadcrumb")}"><a href="{LD}">Life Dashboard</a><span aria-hidden="true">/</span><span aria-current="page">{d["nav_name"]}</span></nav>
       <h1>{html.escape(d["h1"])}</h1>
       <p class="lead">{html.escape(d["lead"])}</p>
@@ -1497,8 +1539,8 @@ def build_product(slug):
       {hero_alt}
       {repo_stats(slug)}
     </div>
-    <div class="product-visual{" is-wide" if hero_kind == "wide" else ""}">
-      {image(d["hero_image"], prefix, "hero-shot", eager=True)}
+    <div class="product-visual stage{" is-wide" if hero_kind == "wide" else ""}">
+      {image(d["hero_image"], prefix, eager=True)}
     </div>
   </div>
 </section>
@@ -1537,14 +1579,16 @@ def build_product(slug):
 </section>
 
 <section class="section tight" id="faq">
-  <div class="wrap">
+  <div class="wrap split">
     <div class="section-head">
       <h2>{faq_title}</h2>
     </div>
-    <div class="faq">
+    <div>
+      <div class="faq">
       {faq}
+      </div>
+      {single_guide}
     </div>
-    {single_guide}
   </div>
 </section>
 
@@ -1621,11 +1665,11 @@ def proof_section():
         facts = [(STATS["stars"], t("proof.stars")), (STATS["contributors"], t("proof.contributors")),
                  (STATS["repos"]["android"]["releases"], S("proof.facts.releases")), facts[2]]
     note = f'\n    <p class="stats-note">{t("proof.live")}</p>' if STATS else ""
-    facts = "".join(f"<li><b>{n}</b> {text}</li>" for n, text in facts)
+    facts = "".join(f"<li><b>{n}</b> <span>{text}</span></li>" for n, text in facts)
     cards = "\n      ".join(
-        f'<a class="part proj" href="{u}"><span class="tag">{t("proof.built_on")}</span><h3>{n}</h3><p>{S("proof.projects." + n)}</p><span class="go">{t("stats.on_github")}</span></a>'
+        f'<a class="part proj" href="{u}"><h3>{n}</h3><p>{S("proof.projects." + n)}</p><span class="go">{t("stats.on_github")}</span></a>'
         for n, u in PROOF_PROJECTS)
-    cards += (f'\n      <a class="part proj-cta" href="{REPO}/discussions"><span class="tag">{t("proof.yours_tag")}</span><h3>{t("proof.yours_title")}</h3>'
+    cards += (f'\n      <a class="part proj-cta" href="{REPO}/discussions"><h3>{t("proof.yours_title")}</h3>'
               f'<p>{t("proof.yours_text")}</p><span class="go">{t("proof.yours_go")}</span></a>')
     return f"""<div class="section-head">
       <h2>{t("proof.title")}</h2>
@@ -1647,8 +1691,9 @@ def build_landing():
     PAGE_DATES[(pid, L)] = opt_meta(raw, "updated") or UPDATED
     src = fill(src, "proof", proof_section())
     src = fill(src, "guides", guide_groups(LD))
-    src = fill(src, "parts", parts_strip(LD))
     src = fill(src, "hero-stores", hero_stores(LD))
+    src = fill(src, "hero-visual", hero_visual(LD))
+    src = fill(src, "final-stores", hero_stores(LD, paths=False))
     src = fill(src, "get", get_section(LD))
     if "<!-- BUILD:faq-get -->" in src:
         src = fill(src, "faq-get", f"<p>{t('landing.faq_get', android=STATUS_TEXT['android'], ios=STATUS_TEXT['ios'])}</p>")
@@ -1719,6 +1764,38 @@ def build_privacy():
     return "privacy"
 
 
+def build_legal():
+    """/legal/: the trademark notices, the badge credits and the imprint, which used to fill the
+    footer of every page. Made from strings.json alone, like the guide index."""
+    pid = "legal"
+    updated = "2026-11-20"
+    PAGE_DATES[(pid, L)] = updated
+    url = url_of(pid)
+    title, desc = t("legal.title"), t("legal.description")
+    graph = [{"@type": "WebPage", "@id": url, "url": url, "name": title, "inLanguage": LANGS[L]["hreflang"],
+              "dateModified": updated, "isPartOf": {"@id": f"{DOMAIN}#website"}, "publisher": {"@id": f"{DOMAIN}#org"}}, ORG]
+    main = f"""{small_nav(pid)}
+
+<main id="main" class="wrap plain-page">
+  <article class="prose">
+    <h1>{t("legal.h1")}</h1>
+    <p>{t("legal.intro")}</p>
+    <h2 id="trademarks">{t("legal.trademarks_h")}</h2>
+    <p>{t("footer.trademarks")}</p>
+    <h2 id="credits">{t("legal.credits_h")}</h2>
+    <p>{t("footer.credits")}</p>
+    <h2 id="imprint">{t("legal.imprint_h")}</h2>
+    <p>{t("footer.imprint")}</p>
+    <p class="byline"><time datetime="{updated}">{t("last_updated", date=date_text(updated))}</time></p>
+  </article>
+</main>
+
+{small_footer(pid)}"""
+    head_html = head(pid, title, desc, "website", None, ld_json(graph), owner=True)
+    emit(pid, L, page(head_html, main, "Trademark notices, badge credits and the imprint of owen282000.com."))
+    return "legal"
+
+
 IOS_PRIVACY_STYLE = """<style>
   :root { --bg: #F6F8F7; --card: #FFFFFF; --text: #14181C; --muted: #4B5860; --link: #166534; --line: #DDE3E0; }
   @media (prefers-color-scheme: dark) {
@@ -1781,10 +1858,14 @@ def build_ios_privacy():
 def build_404():
     """Served for any missing path (deploy/Caddyfile). English only."""
     raw = (I18N / "en" / "pages" / "not-found.html").read_text()
-    pages = [(LD, "Life Dashboard")] + [(f"{LD}{s}/", PARTS[s]["name"]) for s in ORDER] + [(f"{LD}guides/", t("index.h1"))] \
-        + [(f"{LD}{g[0]}/", g[1]) for g in GUIDES] + [("/", "Owen Vogelaar, the developer page"), ("/privacy/", "Privacy")]
-    items = "\n".join(f'      <li><a href="{u}">{html.escape(n)}</a></li>' for u, n in pages)
-    body = fill(body_of(raw), "pages", f'<ul class="ticks page-list">\n{items}\n    </ul>')
+    groups = [("Life Dashboard", [(LD, "Life Dashboard")] + [(f"{LD}{s}/", PARTS[s]["name"]) for s in ORDER]),
+              (t("index.h1"), [(f"{LD}guides/", t("footer.all_guides", n=len(GUIDES)))] + [(f"{LD}{g[0]}/", g[1]) for g in GUIDES]),
+              ("Owen Vogelaar", [("/", "The developer page"), ("/privacy/", "Privacy"), ("/legal/", t("footer.legal"))])]
+    cols = "\n".join(
+        f'      <div class="page-group"><h2>{html.escape(name)}</h2>\n      <ul class="page-list">\n'
+        + "\n".join(f'        <li><a href="{u}">{html.escape(n)}</a></li>' for u, n in pages) + "\n      </ul></div>"
+        for name, pages in groups)
+    body = fill(body_of(raw), "pages", f'<div class="page-groups">\n{cols}\n    </div>')
     doc = f"""<!DOCTYPE html>
 <!-- Served for any missing path on owen282000.com (see deploy/Caddyfile). Generated by tools/site/build.py. -->
 <html lang="en">
@@ -1799,16 +1880,13 @@ def build_404():
 </head>
 <body>
 <a class="skip" href="#main">{t("skip")}</a>
-<header class="nav">
-  <div class="wrap">
-    <a class="brand" href="{LD}"><img class="mark" src="{LD}img/icon-96.webp" alt="" width="34" height="34"> Life Dashboard</a>
-  </div>
-</header>
+{nav(LD)}
 {body.strip()}
+{footer(LD)}
 </body>
 </html>
 """
-    (SITE / "404.html").write_text(localize(doc, "hub", "en"))
+    (SITE / "404.html").write_text(localize(placed(doc, "site-404"), "hub", "en"))
 
 
 FEEDBACK_BOARD = "https://lifedashboard.userjot.com/"
@@ -1844,7 +1922,7 @@ def build_llms():
 def build_sitemap():
     """Every page in every language, each with its lastmod and the same xhtml:link alternates as
     its <head>. <lastmod> follows <loc> directly: indexnow.py reads the pair."""
-    order = ["hub", "privacy", "landing"] + ORDER + ["guides"] + GUIDE_IDS + ["ios-privacy"]
+    order = ["hub", "privacy", "legal", "landing"] + ORDER + ["guides"] + GUIDE_IDS + ["ios-privacy"]
     rows = []
     for lang in LANGS:
         for pid in order:
@@ -1981,7 +2059,7 @@ def check(strict=()):
         todo = [pid for pid in PAGES if not exists(pid, lang)]
         own = []
         for pid in PAGES:
-            if not exists(pid, lang) or pid == "guides":
+            if not exists(pid, lang) or pid in STRING_PAGES:
                 continue
             src = source(pid, lang).read_text()
             en = source(pid, "en").read_text()
@@ -1992,7 +2070,7 @@ def check(strict=()):
                 own.append(f"{lang}:{pid}: the title or description is still the English one")
         missing = sorted(MISSING[lang]) if lang in STRINGS else ["strings.json"]
         if lang in strict:
-            problems += [f"{lang}: the page {pid} is not translated ({source(pid, lang).relative_to(ROOT) if source(pid, lang) else 'ui.index in strings.json'})" for pid in todo]
+            problems += [f"{lang}: the page {pid} is not translated ({source(pid, lang).relative_to(ROOT) if source(pid, lang) else STRING_PAGES[pid] + ' in strings.json'})" for pid in todo]
             problems += [f"{lang}: strings.json lacks {k}" for k in missing]
             problems += own
         else:
@@ -2016,7 +2094,8 @@ def build_language(lang):
             out.append(build_guide(g))
     if exists("guides", lang):
         out.append(build_index())
-    for pid, fn in (("landing", build_landing), ("hub", build_hub), ("privacy", build_privacy), ("ios-privacy", build_ios_privacy)):
+    for pid, fn in (("landing", build_landing), ("hub", build_hub), ("privacy", build_privacy), ("legal", build_legal),
+                    ("ios-privacy", build_ios_privacy)):
         if exists(pid, lang):
             out.append(fn())
     return out

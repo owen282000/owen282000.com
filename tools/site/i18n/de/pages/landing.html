@@ -14,64 +14,26 @@ Links are written as on the English page, relative to /life-dashboard/: build.py
 the page in this language.
 -->
 
-<!-- Hero -->
-<section class="hero">
-  <div class="grid-bg"></div>
+<!-- Hero: the headline and what it is, the stores beside it, then the picture (build.py draws it:
+     the phone, the heartbeat line and Home Assistant), then the six claims as a ruled list. -->
+<section class="hero landing-hero">
   <div class="wrap">
-    <div>
-      <h1>Health Connect und Apple Health <span class="accent">in Home Assistant oder auf deinem eigenen&nbsp;Server</span></h1>
-      <svg class="hero-beat" viewBox="0 0 560 90" aria-hidden="true">
-        <defs><filter id="hb" x="-10%" y="-60%" width="120%" height="220%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-        <g stroke="#30B77E" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" filter="url(#hb)">
-          <path class="beat-path" d="M4 45 H210 L232 12 L258 80 L276 30 L290 45 H420"/>
-          <circle cx="420" cy="45" r="7" fill="#30B77E" stroke="none"/>
-          <path class="arc a1" d="M446 30 A22 22 0 0 1 446 60" opacity=".85"/>
-          <path class="arc a2" d="M466 18 A40 40 0 0 1 466 72" opacity=".5"/>
-        </g>
-      </svg>
-      <p class="lead">Life Dashboard Companion sendet, was deine Uhr, dein Ring oder deine Waage aufzeichnet, an deinen eigenen Server: Home Assistant, den Grafana-Stack, MQTT oder deinen eigenen Webhook. Alle Quell-Apps auf einmal, ohne Konto und ohne Google-Konto dazwischen.</p>
-      <ul class="ticks hero-claims">
-        <li>Jede Marke über das Telefon, Android und iPhone in einer Integration</li>
-        <li>Dein ganzer Verlauf in Home Assistant, auch nach einem Telefonwechsel</li>
-        <li>Tagessummen, die stimmen: Ein Spaziergang mit Telefon und Uhr zählt einmal</li>
-        <li>Änderungen und Löschungen werden mitgesendet, nicht nur neue Datensätze</li>
-        <li>Bildschirmzeit pro App neben deinen Gesundheitsdaten, auf Android</li>
-        <li>Open Source (MIT), derselbe Signaturschlüssel auf GitHub, bei F-Droid und Google Play</li>
-      </ul>
-      <div class="hero-stores">
+    <h1>Health Connect und Apple Health <span class="accent">in Home Assistant oder auf deinem eigenen&nbsp;Server</span></h1>
+    <p class="lead">Life Dashboard Companion sendet, was deine Uhr, dein Ring oder deine Waage aufzeichnet, an deinen eigenen Server: Home Assistant, den Grafana-Stack, MQTT oder deinen eigenen Webhook. Alle Quell-Apps auf einmal, ohne Konto und ohne Google-Konto dazwischen.</p>
+    <div class="hero-stores">
 <!-- BUILD:hero-stores --><!-- /BUILD:hero-stores -->
-      </div>
     </div>
-
-    <div class="hero-visual dest">
-      <svg class="dest-lines" viewBox="0 0 560 600" preserveAspectRatio="none" aria-hidden="true">
-        <defs><linearGradient id="dl" x1="0" x2="1"><stop offset="0" stop-color="#30B77E" stop-opacity=".15"/><stop offset="1" stop-color="#30B77E" stop-opacity=".85"/></linearGradient></defs>
-        <path d="M222 300 C 255 300, 250 110, 288 110" />
-        <path d="M222 300 C 255 300, 250 330, 288 330" />
-        <path d="M222 300 C 255 300, 250 505, 288 505" />
-      </svg>
-      <div class="phone src" style="aspect-ratio: 720 / 1476"><img src="img/A1-health.webp" alt="Der Tab „Gesundheit“ der Android-App mit einer Zeile pro Ziel und den Werten von heute" width="720" height="1476" fetchpriority="high"></div>
-      <figure class="dcard d-ha">
-        <figcaption><span class="dk">Home Assistant</span></figcaption>
-        <img src="img/H9-health-phone.webp" alt="Das Beispiel-Dashboard Health in Home Assistant mit Demodaten: Schritte, Distanz, Kalorien, Trainings und Herzfrequenz" width="720" height="1559">
-      </figure>
-      <figure class="dcard d-gr">
-        <figcaption><span class="dk">Grafana-Stack</span></figcaption>
-        <img src="img/g-overview.webp" alt="Das Übersichts-Dashboard des Grafana-Stacks mit Demodaten" width="1400" height="728">
-      </figure>
-      <figure class="dcard d-js">
-        <figcaption><span class="dk">Dein eigener Server</span></figcaption>
-<pre aria-label="Ein Beispiel für das JSON, das die App sendet"><code>{ <span class="k">"source"</span>: <span class="s">"health_connect"</span>,
-  <span class="k">"steps"</span>: [{
-    <span class="k">"count"</span>: <span class="n">412</span>,
-    <span class="k">"source"</span>: <span class="s">"com.ouraring.oura"</span>
-  }] }</code></pre>
-      </figure>
-    </div>
+<!-- BUILD:hero-visual --><!-- /BUILD:hero-visual -->
+    <ul class="hero-claims">
+      <li>Jede Marke über das Telefon, Android und iPhone in einer Integration</li>
+      <li>Dein ganzer Verlauf in Home Assistant, auch nach einem Telefonwechsel</li>
+      <li>Tagessummen, die stimmen: Ein Spaziergang mit Telefon und Uhr zählt einmal</li>
+      <li>Änderungen und Löschungen werden mitgesendet, nicht nur neue Datensätze</li>
+      <li>Bildschirmzeit pro App neben deinen Gesundheitsdaten, auf Android</li>
+      <li>Open Source (MIT), derselbe Signaturschlüssel auf GitHub, bei F-Droid und Google Play</li>
+    </ul>
   </div>
 </section>
-
-<!-- BUILD:parts --><!-- /BUILD:parts -->
 
 <!-- How it works -->
 <section class="section" id="how-it-works">
@@ -129,9 +91,7 @@ the page in this language.
 <section class="section band" id="home-assistant">
   <div class="wrap">
     <div class="show">
-      <div class="show-media">
-        <div class="stage green-glow"></div>
-        <div class="phone p2"><img src="img/H9-health-phone.webp" alt="Das Beispiel-Dashboard Health in Home Assistant auf einem Telefon, mit Demodaten: heutige Werte und das letzte Training" width="720" height="1559" loading="lazy"></div>
+      <div class="show-media stage has-card">
         <figure class="qr-card">
           <img src="img/H2-qr.webp" alt="Die Life-Dashboard-Integration in Home Assistant mit dem QR-Code zum Koppeln" width="800" height="668" loading="lazy">
           <figcaption>Home Assistant zeigt den Code, die App scannt ihn.</figcaption>
@@ -203,9 +163,8 @@ the page in this language.
           <a class="link-arrow" href="grafana/">Mehr zum Grafana-Stack</a>
         </div>
       </div>
-      <div class="show-media is-wide full">
-        <div class="stage green-glow"></div>
-        <div class="wide-shot solo"><a class="shot-link" href="img/g-overview.webp" aria-label="Das Übersichts-Dashboard des Grafana-Stacks mit Demodaten, in voller Größe"><img src="img/g-overview.webp" alt="Das Übersichts-Dashboard des Grafana-Stacks mit Demodaten" width="1400" height="728" loading="lazy"></a></div>
+      <div class="show-media stage is-wide">
+        <div class="wide-shot"><a class="shot-link" href="img/g-overview.webp" aria-label="Das Übersichts-Dashboard des Grafana-Stacks mit Demodaten, in voller Größe"><img src="img/g-overview.webp" alt="Das Übersichts-Dashboard des Grafana-Stacks mit Demodaten" width="1400" height="728" loading="lazy"></a></div>
       </div>
     </div>
   </div>
@@ -215,10 +174,9 @@ the page in this language.
 <section class="section" id="apps">
   <div class="wrap">
     <div class="show flip">
-      <div class="show-media">
-        <div class="stage green-glow"></div>
-        <div class="phone p1"><img src="img/A1-health.webp" alt="Der Tab „Gesundheit“ der Android-App" width="720" height="1476" loading="lazy"></div>
-        <div class="phone p2"><img src="img/ios-health.webp" alt="Der Tab „Gesundheit“ der iPhone-App" width="720" height="1464" loading="lazy"></div>
+      <div class="show-media stage two">
+        <div class="phone"><img src="img/A1-health.webp" alt="Der Tab „Gesundheit“ der Android-App" width="720" height="1476" loading="lazy"></div>
+        <div class="phone"><img src="img/ios-health.webp" alt="Der Tab „Gesundheit“ der iPhone-App" width="720" height="1464" loading="lazy"></div>
       </div>
       <div>
           <h2>Ein Payload, von Android und iPhone</h2>
@@ -254,8 +212,7 @@ the page in this language.
 
 <!-- Privacy -->
 <section class="section privacy" id="privacy">
-  <div class="grid-bg"></div>
-  <div class="wrap">
+  <div class="wrap split">
     <h2>Deine Daten gehen nur an die Adressen, die du einträgst</h2>
     <div class="trust">
       <div class="card"><h3>Kein Konto</h3><p>Keine Anmeldung, nirgends.</p></div>
@@ -286,7 +243,7 @@ the page in this language.
 
 <!-- FAQ -->
 <section class="section tight band" id="faq">
-  <div class="wrap">
+  <div class="wrap split">
     <div class="section-head">
       <h2>Häufige Fragen</h2>
     </div>
@@ -344,7 +301,7 @@ the page in this language.
     </svg>
     <h2>Deine Gesundheitsdaten, dein Server</h2>
     <div class="final-stores">
-<!-- BUILD:hero-stores --><!-- /BUILD:hero-stores -->
+<!-- BUILD:final-stores --><!-- /BUILD:final-stores -->
     </div>
     <p class="fineprint">Quellcode, Issues und <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a> auf <a href="https://github.com/owen282000/life-dashboard-companion-app">GitHub</a>. Neue Versionen im <a href="https://github.com/owen282000/life-dashboard-companion-app/releases.atom">Release-Feed</a>.</p>
   </div>
