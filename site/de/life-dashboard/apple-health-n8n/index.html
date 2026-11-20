@@ -21,7 +21,7 @@
 <meta name="theme-color" content="#101418" media="(prefers-color-scheme: dark)">
 <link rel="icon" type="image/png" sizes="32x32" href="/life-dashboard/img/icon-32.png?v=355467f5">
 <link rel="apple-touch-icon" href="/life-dashboard/img/icon-180.png?v=e1842852">
-<link rel="stylesheet" href="/life-dashboard/site.css?v=d92ee376">
+<link rel="stylesheet" href="/life-dashboard/site.css?v=77b363dd">
 <meta property="og:type" content="article">
 <meta property="og:locale" content="de_DE">
 <meta property="og:locale:alternate" content="en_US">
@@ -199,11 +199,11 @@
 <body>
 <a class="skip" href="#main">Zum Inhalt springen</a>
 
-<header class="nav">
+<header class="nav has-menu">
   <div class="wrap">
     <a class="brand" href="/de/life-dashboard/" aria-label="Life Dashboard Startseite">
-      <img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="34" height="34">
-      Life Dashboard
+      <img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="32" height="32">
+      <span>Life Dashboard</span>
     </a>
     <nav class="nav-links" aria-label="Hauptnavigation">
       <a href="/de/life-dashboard/android/">Android</a>
@@ -211,22 +211,31 @@
       <a href="/de/life-dashboard/home-assistant/">Home Assistant</a>
       <a href="/de/life-dashboard/grafana/">Grafana</a>
       <a href="/de/life-dashboard/guides/" aria-current="page">Anleitungen</a>
-      <a href="/de/life-dashboard/#faq">FAQ</a>
     </nav>
-    <div class="nav-cta">
+    <div class="nav-tools">
       <details class="lang-menu"><summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><ellipse cx="12" cy="12" rx="4" ry="9"/></svg><span class="sr-only">Sprache: Deutsch</span><span>DE</span></summary><ul><li><a href="/life-dashboard/apple-health-n8n/" lang="en" hreflang="en">English</a></li><li><a href="/nl/life-dashboard/apple-health-n8n/" lang="nl" hreflang="nl">Nederlands</a></li><li><a href="/de/life-dashboard/apple-health-n8n/" lang="de" hreflang="de" aria-current="true">Deutsch</a></li><li><a href="/fr/life-dashboard/apple-health-n8n/" lang="fr" hreflang="fr">Français</a></li><li><a href="/es/life-dashboard/apple-health-n8n/" lang="es" hreflang="es">Español</a></li><li><a href="/pt-br/life-dashboard/apple-health-n8n/" lang="pt-BR" hreflang="pt-BR">Português (Brasil)</a></li></ul></details>
-      <a class="btn btn-ghost btn-sm nav-gh" href="https://github.com/owen282000/life-dashboard-companion-app">
-        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-        GitHub
-      </a>
+      <a class="nav-icon" href="https://github.com/owen282000/life-dashboard-companion-app" aria-label="GitHub"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
       <a class="btn btn-primary btn-sm" href="/de/life-dashboard/#get">Installieren</a>
+      <details class="nav-menu">
+        <summary aria-label="Menü"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path class="m1" d="M4 7h16"/><path class="m2" d="M4 12h16"/><path class="m3" d="M4 17h16"/></svg></summary>
+        <div class="nav-panel">
+          <ul>
+            <li><a href="/de/life-dashboard/android/">Android</a></li>
+            <li><a href="/de/life-dashboard/ios/">iPhone</a></li>
+            <li><a href="/de/life-dashboard/home-assistant/">Home Assistant</a></li>
+            <li><a href="/de/life-dashboard/grafana/">Grafana</a></li>
+            <li><a href="/de/life-dashboard/guides/" aria-current="page">Anleitungen</a></li>
+            <li><a href="https://github.com/owen282000/life-dashboard-companion-app"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> GitHub</a></li>
+          </ul>
+          <p class="nav-panel-langs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><ellipse cx="12" cy="12" rx="4" ry="9"/></svg><span class="sr-only">Sprache:</span> <a href="/life-dashboard/apple-health-n8n/" lang="en" hreflang="en">English</a> <a href="/nl/life-dashboard/apple-health-n8n/" lang="nl" hreflang="nl">Nederlands</a> <a href="/de/life-dashboard/apple-health-n8n/" lang="de" hreflang="de" aria-current="true">Deutsch</a> <a href="/fr/life-dashboard/apple-health-n8n/" lang="fr" hreflang="fr">Français</a> <a href="/es/life-dashboard/apple-health-n8n/" lang="es" hreflang="es">Español</a> <a href="/pt-br/life-dashboard/apple-health-n8n/" lang="pt-BR" hreflang="pt-BR">Português (Brasil)</a></p>
+        </div>
+      </details>
     </div>
   </div>
 </header>
 
 <main id="main" class="guide">
   <header class="guide-head">
-    <div class="grid-bg"></div>
     <div class="wrap">
       <nav class="crumbs" aria-label="Brotkrumen-Navigation"><a href="/de/life-dashboard/">Life Dashboard</a><span aria-hidden="true">/</span><a href="/de/life-dashboard/guides/">Anleitungen</a><span aria-hidden="true">/</span><span aria-current="page">Apple Health mit n8n</span></nav>
       <h1>Wie bekomme ich Apple-Health-Daten in n8n?</h1>
@@ -238,7 +247,7 @@
 <p class="flow-line"><span>iPhone oder Apple Watch</span><span>Apple Health</span><span>Life Dashboard Companion</span><span>n8n</span></p>
       </div>
       <p class="guide-meta"><span>Von <a href="/de/">Owen Vogelaar</a>, der Life Dashboard entwickelt</span> <span><time datetime="2026-11-20">Aktualisiert am 20. November 2026</time></span> <span>11 Min. Lesezeit</span></p>
-      <p class="guide-cta"><a class="btn btn-primary btn-store" href="/de/life-dashboard/ios/#get">iPhone-App holen</a></p>
+      <p class="guide-cta"><a class="btn btn-primary" href="/de/life-dashboard/ios/#get">iPhone-App holen</a></p>
     </div>
   </header>
   <div class="wrap guide-grid">
@@ -292,7 +301,7 @@
 
 <p>Tippe in der App auf dem Tab <strong>Gesundheit</strong> auf <strong>Ziel hinzufügen</strong>, trag die Production-URL ein und tippe auf <strong>Webhook hinzufügen</strong>. Auf dem Blatt, das sich öffnet, tippst du unter <strong>HMAC-Signaturgeheimnis</strong> auf <strong>Erzeugen</strong>, für den nächsten Schritt auf <strong>Geheimnis kopieren</strong> und dann auf <strong>Sichern</strong>.</p>
 
-<figure class="shot"><a class="shot-link" href="/life-dashboard/img/ios-webhook.webp?v=1375e530" aria-label="Ein Webhook-Ziel in der iPhone-App mit seinem Signaturgeheimnis und eigenen Headern, in voller Größe"><div class="phone " style="aspect-ratio: 720 / 1464"><img src="/life-dashboard/img/ios-webhook.webp?v=1375e530" alt="Ein Webhook-Ziel in der iPhone-App mit seinem Signaturgeheimnis und eigenen Headern" width="720" height="1464" loading="lazy"></div></a></figure>
+<figure class="shot"><a class="shot-link" href="/life-dashboard/img/ios-webhook.webp?v=1375e530" aria-label="Ein Webhook-Ziel in der iPhone-App mit seinem Signaturgeheimnis und eigenen Headern, in voller Größe"><div class="phone"><img src="/life-dashboard/img/ios-webhook.webp?v=1375e530" alt="Ein Webhook-Ziel in der iPhone-App mit seinem Signaturgeheimnis und eigenen Headern" width="720" height="1464" loading="lazy"></div></a></figure>
 
 <h2 id="check-the-signature-in-a-code-node">Die Signatur in einem Code-Node prüfen</h2>
 
@@ -497,26 +506,23 @@ return (p?.daily_totals ?? []).map(d =&gt; ({ json: d }));</code></pre>
   <section class="section tight related band" aria-labelledby="related">
   <div class="wrap">
     <div class="section-head split"><h2 id="related">Verwandte Anleitungen</h2><a class="link-arrow" href="/de/life-dashboard/guides/">Alle Anleitungen</a></div>
-    <div class="family three">
-      <a class="part" href="/de/life-dashboard/apple-health-home-assistant/"><h3>Apple Health in Home Assistant</h3><p>Daten von Apple Watch und iPhone als Sensoren, mit deinem ganzen Verlauf per Backfill.</p><span class="go">Zur Anleitung</span></a>
-      <a class="part" href="/de/life-dashboard/apple-health-home-assistant-apps/"><h3>Apple Health in Home Assistant: vier Apps im Vergleich</h3><p>Die Companion-App, HealthSync, Health Assistant Link und Life Dashboard nebeneinander: Preis, Verlauf und was ankommt.</p><span class="go">Zur Anleitung</span></a>
-      <a class="part" href="/de/life-dashboard/apple-watch-home-assistant/"><h3>Apple Watch in Home Assistant</h3><p>Herzfrequenz, HRV, Schlafphasen, Trainings und VO2max von der Uhr, über Apple Health.</p><span class="go">Zur Anleitung</span></a>
-    </div>
+    <ul class="guide-list three">
+      <li><a href="/de/life-dashboard/apple-health-home-assistant/"><b>Apple Health in Home Assistant</b><span>Daten von Apple Watch und iPhone als Sensoren, mit deinem ganzen Verlauf per Backfill.</span></a></li>
+      <li><a href="/de/life-dashboard/apple-health-home-assistant-apps/"><b>Apple Health in Home Assistant: vier Apps im Vergleich</b><span>Die Companion-App, HealthSync, Health Assistant Link und Life Dashboard nebeneinander: Preis, Verlauf und was ankommt.</span></a></li>
+      <li><a href="/de/life-dashboard/apple-watch-home-assistant/"><b>Apple Watch in Home Assistant</b><span>Herzfrequenz, HRV, Schlafphasen, Trainings und VO2max von der Uhr, über Apple Health.</span></a></li>
+    </ul>
   </div>
 </section>
 </main>
 
 <footer class="footer">
   <div class="wrap">
-    <div class="cols">
-      <div class="about">
-        <a class="brand" href="/de/life-dashboard/"><img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="34" height="34"> Life Dashboard</a>
+    <div class="foot-top">
+      <div class="foot-about">
+        <a class="brand" href="/de/life-dashboard/"><img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="32" height="32" loading="lazy"> <span>Life Dashboard</span></a>
         <p>Life Dashboard ist ein Open-Source-Projekt von <a href="https://github.com/owen282000">Owen Vogelaar</a> und besteht aus vier Teilen: den Apps Life Dashboard Companion für Android und iPhone, einer Home-Assistant-Integration und einem Grafana-Stack. Mit anderen Apps oder Vorlagen namens Life Dashboard hat es nichts zu tun. Fragen kannst du in den <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a> stellen.</p>
-        <p>Diese Website setzt keine Cookies, nutzt keine Analyse-Tools und lädt nichts von Dritten. <a href="/de/privacy/">Datenschutz dieser Website</a>.</p>
-        <p class="imprint">Owen Vogelaar, handelnd unter dem Namen oVog Enterprise · Handelsregister der Niederlande (KvK) 81085583 · <a href="mailto:owen282000@hotmail.com">owen282000@hotmail.com</a></p>
-        <p class="lang-row"><span>Sprache:</span> <a href="/life-dashboard/apple-health-n8n/" lang="en" hreflang="en">English</a> <a href="/nl/life-dashboard/apple-health-n8n/" lang="nl" hreflang="nl">Nederlands</a> <a href="/de/life-dashboard/apple-health-n8n/" lang="de" hreflang="de" aria-current="true">Deutsch</a> <a href="/fr/life-dashboard/apple-health-n8n/" lang="fr" hreflang="fr">Français</a> <a href="/es/life-dashboard/apple-health-n8n/" lang="es" hreflang="es">Español</a> <a href="/pt-br/life-dashboard/apple-health-n8n/" lang="pt-BR" hreflang="pt-BR">Português (Brasil)</a></p>
       </div>
-      <div>
+      <div class="foot-col">
         <h2 class="foot-h">Produkte</h2>
         <ul>
           <li><a href="/de/life-dashboard/android/">Android-App</a></li>
@@ -525,52 +531,35 @@ return (p?.daily_totals ?? []).map(d =&gt; ({ json: d }));</code></pre>
           <li><a href="/de/life-dashboard/grafana/">Grafana-Stack</a></li>
         </ul>
       </div>
-      <div>
-        <h2 class="foot-h"><a href="/de/life-dashboard/guides/">Anleitungen</a></h2>
+      <div class="foot-col">
+        <h2 class="foot-h">Anleitungen</h2>
         <ul>
           <li><a href="/de/life-dashboard/home-assistant-gesundheitsdaten/">Gesundheitsdaten in Home Assistant</a></li>
-          <li><a href="/de/life-dashboard/samsung-health-home-assistant/">Samsung Health und Galaxy Watch in Home Assistant</a></li>
-          <li><a href="/de/life-dashboard/companion-app-health-connect/">Die Companion-App und Health Connect</a></li>
-          <li><a href="/de/life-dashboard/health-connect-daten-exportieren/">Health-Connect-Daten exportieren</a></li>
-          <li><a href="/de/life-dashboard/bildschirmzeit-home-assistant/">Bildschirmzeit in Home Assistant</a></li>
-          <li><a href="/de/life-dashboard/schlafphasen-home-assistant/">Schlafphasen in Home Assistant</a></li>
-          <li><a href="/de/life-dashboard/smarte-waage-samsung-health/">Smarte Waage mit Samsung Health verbinden</a></li>
-          <li><a href="/de/life-dashboard/health-connect-n8n/">Health Connect mit n8n</a></li>
-          <li><a href="/de/life-dashboard/health-connect-datentypen/">Health-Connect-Datentypen, App für App</a></li>
-          <li><a href="/de/life-dashboard/health-data-api/">Eine Web-API für Health Connect oder Apple Health</a></li>
-          <li><a href="/de/life-dashboard/samsung-health-daten-exportieren/">Samsung-Health-Daten auf den eigenen Server exportieren</a></li>
-          <li><a href="/de/life-dashboard/fitbit-home-assistant/">Fitbit und Pixel Watch in Home Assistant</a></li>
-          <li><a href="/de/life-dashboard/garmin-home-assistant/">Garmin in Home Assistant</a></li>
-          <li><a href="/de/life-dashboard/gesundheitsdaten-ki-mcp/">Health Connect und Apple Health über MCP</a></li>
-          <li><a href="/de/life-dashboard/health-data-qr-pairing/">Nutzer mit einem QR-Code verbinden</a></li>
-          <li><a href="/de/life-dashboard/health-connect-schritte-home-assistant/">Health-Connect-Schritte, die in Home Assistant falsch aussehen</a></li>
-          <li><a href="/de/life-dashboard/fehlerbehebung/">Fehlerbehebung: Synchronisierung, Sensoren und Kopplung</a></li>
           <li><a href="/de/life-dashboard/apple-health-home-assistant/">Apple Health in Home Assistant</a></li>
-          <li><a href="/de/life-dashboard/apple-health-home-assistant-apps/">Apple Health in Home Assistant: vier Apps im Vergleich</a></li>
-          <li><a href="/de/life-dashboard/apple-watch-home-assistant/">Apple Watch in Home Assistant</a></li>
-          <li><a href="/de/life-dashboard/apple-health-webhook/">Apple-Health-Daten per Webhook exportieren</a></li>
-          <li><a href="/de/life-dashboard/apple-health-n8n/">Apple Health mit n8n</a></li>
-          <li><a href="/de/life-dashboard/apple-health-datentypen/">Apple-Health-Datentypen, App für App</a></li>
+          <li><a href="/de/life-dashboard/samsung-health-home-assistant/">Samsung Health und Galaxy Watch in Home Assistant</a></li>
+          <li><a href="/de/life-dashboard/fitbit-home-assistant/">Fitbit und Pixel Watch in Home Assistant</a></li>
+          <li><a href="/de/life-dashboard/health-connect-daten-exportieren/">Health-Connect-Daten exportieren</a></li>
+          <li><a class="foot-all" href="/de/life-dashboard/guides/">Alle 23 Anleitungen</a></li>
         </ul>
       </div>
-      <div>
+      <div class="foot-col">
         <h2 class="foot-h">Doku und Quellcode</h2>
         <ul>
           <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/usage.md">Einrichtungsanleitung für Android</a></li>
           <li><a href="https://github.com/owen282000/life-dashboard-companion-app-ios/blob/main/docs/usage.md">Einrichtungsanleitung für das iPhone</a></li>
-          <li><a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md">Integration: Sensoren und Statistiken</a></li>
           <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md">Payload-Referenz</a></li>
-          <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/brands/README.md">Anleitungen nach Hersteller</a></li>
           <li><a href="/life-dashboard/feedback/">Feedback-Board</a></li>
-          <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/PRIVACY.md">Datenschutzerklärung für Android</a></li>
-          <li><a href="/de/life-dashboard/ios/privacy/">Datenschutzerklärung für das iPhone</a></li>
           <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/AI_POLICY.md">KI-Richtlinie</a></li>
           <li><a href="https://github.com/owen282000?tab=repositories&amp;q=life-dashboard">Alle Repositorys</a></li>
         </ul>
       </div>
     </div>
-    <p class="legal">Home Assistant ist eine Marke der Open Home Foundation. Health Connect, Google Play, Google Health, Fitbit und Pixel Watch sind Marken von Google LLC. Apple, Apple Health, Apple Watch, iPhone, Xcode und TestFlight sind Marken von Apple Inc. App Store ist eine Dienstleistungsmarke von Apple Inc. Grafana ist eine Marke von Grafana Labs. Samsung Health, Garmin Connect, Oura und Withings gehören ihren jeweiligen Inhabern. Life Dashboard ist ein unabhängiges Projekt und steht mit keinem dieser Unternehmen in Verbindung und wird von keinem unterstützt. Die Screenshots zeigen erfundene Daten.</p>
-    <p class="legal credits">Badges: Google Play und App Store, wie von Google und Apple veröffentlicht; „Get it on F&#8209;Droid“ vom <a href="https://gitlab.com/fdroid/artwork">F&#8209;Droid-Projekt</a> und „Get it on GitHub“ von <a href="https://github.com/Kunzisoft/Github-badge">Kunzisoft</a>, beide <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>; Obtainium vom <a href="https://github.com/ImranR98/Obtainium">Obtainium-Projekt</a>; die Badges für HACS, Artifact Hub und Docker Compose sind für diese Website in Roboto (SIL OFL) gezeichnet, um die Icons des <a href="https://github.com/hacs/integration">HACS-Projekts</a> (MIT) und des <a href="https://github.com/artifacthub/hub">Artifact-Hub-Projekts</a> (Apache 2.0) sowie das Docker-Logo aus dessen Media Kit; das AlternativeTo-Badge ist deren kompaktes Badge auf schwarzem Grund. GitHub ist eine Marke von GitHub, Inc. Docker, Docker Compose und das Docker-Logo sind Marken von Docker, Inc. Helm ist eine Marke der Linux Foundation.</p>
+    <div class="foot-bottom">
+      <ul class="foot-legal"><li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/PRIVACY.md">Datenschutzerklärung für Android</a></li><li><a href="/de/life-dashboard/ios/privacy/">Datenschutzerklärung für das iPhone</a></li><li><a href="/de/legal/">Marken und Nachweise</a></li></ul>
+      <p class="lang-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><ellipse cx="12" cy="12" rx="4" ry="9"/></svg><span class="sr-only">Sprache:</span> <a href="/life-dashboard/apple-health-n8n/" lang="en" hreflang="en">English</a> <a href="/nl/life-dashboard/apple-health-n8n/" lang="nl" hreflang="nl">Nederlands</a> <a href="/de/life-dashboard/apple-health-n8n/" lang="de" hreflang="de" aria-current="true">Deutsch</a> <a href="/fr/life-dashboard/apple-health-n8n/" lang="fr" hreflang="fr">Français</a> <a href="/es/life-dashboard/apple-health-n8n/" lang="es" hreflang="es">Español</a> <a href="/pt-br/life-dashboard/apple-health-n8n/" lang="pt-BR" hreflang="pt-BR">Português (Brasil)</a></p>
+      <p class="foot-note">Owen Vogelaar, handelnd unter dem Namen oVog Enterprise · Handelsregister der Niederlande (KvK) 81085583 · <a href="mailto:owen282000@hotmail.com">owen282000@hotmail.com</a></p>
+      <p class="foot-note">Diese Website setzt keine Cookies, nutzt keine Analyse-Tools und lädt nichts von Dritten. <a href="/de/privacy/">Datenschutz dieser Website</a>.</p>
+    </div>
   </div>
 </footer>
 </body>

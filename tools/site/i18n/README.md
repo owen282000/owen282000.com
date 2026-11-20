@@ -34,8 +34,10 @@ tools/site/i18n/<lang>/
   guides/<id>.html     23 guides, the same file names as in en/guides/
 ```
 
-That is 32 pages: 4 in `pages/`, 4 products, 23 guides and the guide index
-(`/life-dashboard/guides/`), which has no file of its own and is made from `strings.json`.
+That is 33 pages: 4 in `pages/`, 4 products, 23 guides, and two that have no file of their own
+and are made from `strings.json`: the guide index (`/life-dashboard/guides/`, `ui.index`) and
+the trademarks and credits page (`/legal/`, `ui.legal` with `ui.footer.trademarks`,
+`ui.footer.credits` and `ui.footer.imprint`).
 `lang.json` already exists for every language (folder, hreflang, month names, date pattern);
 change it only to set `complete`.
 

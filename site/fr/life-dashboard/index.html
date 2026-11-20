@@ -21,7 +21,7 @@
 <meta name="theme-color" content="#101418" media="(prefers-color-scheme: dark)">
 <link rel="icon" type="image/png" sizes="32x32" href="/life-dashboard/img/icon-32.png?v=355467f5">
 <link rel="apple-touch-icon" href="/life-dashboard/img/icon-180.png?v=e1842852">
-<link rel="stylesheet" href="/life-dashboard/site.css?v=d92ee376">
+<link rel="stylesheet" href="/life-dashboard/site.css?v=77b363dd">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:locale:alternate" content="en_US">
@@ -421,11 +421,11 @@
 <body>
 <a class="skip" href="#main">Aller au contenu</a>
 
-<header class="nav">
+<header class="nav has-menu">
   <div class="wrap">
     <a class="brand" href="/fr/life-dashboard/" aria-label="Accueil de Life Dashboard">
-      <img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="34" height="34">
-      Life Dashboard
+      <img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="32" height="32">
+      <span>Life Dashboard</span>
     </a>
     <nav class="nav-links" aria-label="Navigation principale">
       <a href="/fr/life-dashboard/android/">Android</a>
@@ -433,45 +433,37 @@
       <a href="/fr/life-dashboard/home-assistant/">Home Assistant</a>
       <a href="/fr/life-dashboard/grafana/">Grafana</a>
       <a href="/fr/life-dashboard/guides/">Guides</a>
-      <a href="#faq">FAQ</a>
     </nav>
-    <div class="nav-cta">
+    <div class="nav-tools">
       <details class="lang-menu"><summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><ellipse cx="12" cy="12" rx="4" ry="9"/></svg><span class="sr-only">Langue: Français</span><span>FR</span></summary><ul><li><a href="/life-dashboard/" lang="en" hreflang="en">English</a></li><li><a href="/nl/life-dashboard/" lang="nl" hreflang="nl">Nederlands</a></li><li><a href="/de/life-dashboard/" lang="de" hreflang="de">Deutsch</a></li><li><a href="/fr/life-dashboard/" lang="fr" hreflang="fr" aria-current="true">Français</a></li><li><a href="/es/life-dashboard/" lang="es" hreflang="es">Español</a></li><li><a href="/pt-br/life-dashboard/" lang="pt-BR" hreflang="pt-BR">Português (Brasil)</a></li></ul></details>
-      <a class="btn btn-ghost btn-sm nav-gh" href="https://github.com/owen282000/life-dashboard-companion-app">
-        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-        GitHub
-      </a>
+      <a class="nav-icon" href="https://github.com/owen282000/life-dashboard-companion-app" aria-label="GitHub"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
       <a class="btn btn-primary btn-sm" href="#get">Installer</a>
+      <details class="nav-menu">
+        <summary aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path class="m1" d="M4 7h16"/><path class="m2" d="M4 12h16"/><path class="m3" d="M4 17h16"/></svg></summary>
+        <div class="nav-panel">
+          <ul>
+            <li><a href="/fr/life-dashboard/android/">Android</a></li>
+            <li><a href="/fr/life-dashboard/ios/">iPhone</a></li>
+            <li><a href="/fr/life-dashboard/home-assistant/">Home Assistant</a></li>
+            <li><a href="/fr/life-dashboard/grafana/">Grafana</a></li>
+            <li><a href="/fr/life-dashboard/guides/">Guides</a></li>
+            <li><a href="https://github.com/owen282000/life-dashboard-companion-app"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> GitHub</a></li>
+          </ul>
+          <p class="nav-panel-langs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><ellipse cx="12" cy="12" rx="4" ry="9"/></svg><span class="sr-only">Langue:</span> <a href="/life-dashboard/" lang="en" hreflang="en">English</a> <a href="/nl/life-dashboard/" lang="nl" hreflang="nl">Nederlands</a> <a href="/de/life-dashboard/" lang="de" hreflang="de">Deutsch</a> <a href="/fr/life-dashboard/" lang="fr" hreflang="fr" aria-current="true">Français</a> <a href="/es/life-dashboard/" lang="es" hreflang="es">Español</a> <a href="/pt-br/life-dashboard/" lang="pt-BR" hreflang="pt-BR">Português (Brasil)</a></p>
+        </div>
+      </details>
     </div>
   </div>
 </header>
 
 <main id="main">
-<!-- Hero -->
-<section class="hero">
-  <div class="grid-bg"></div>
+<!-- Hero: the headline and what it is, the stores beside it, then the picture (build.py draws it:
+     the phone, the heartbeat line and Home Assistant), then the six claims as a ruled list. -->
+<section class="hero landing-hero">
   <div class="wrap">
-    <div>
-      <h1>Health Connect et Apple Health <span class="accent">dans Home Assistant ou sur votre propre&nbsp;serveur</span></h1>
-      <svg class="hero-beat" viewBox="0 0 560 90" aria-hidden="true">
-        <defs><filter id="hb" x="-10%" y="-60%" width="120%" height="220%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-        <g stroke="#30B77E" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" filter="url(#hb)">
-          <path class="beat-path" d="M4 45 H210 L232 12 L258 80 L276 30 L290 45 H420"/>
-          <circle cx="420" cy="45" r="7" fill="#30B77E" stroke="none"/>
-          <path class="arc a1" d="M446 30 A22 22 0 0 1 446 60" opacity=".85"/>
-          <path class="arc a2" d="M466 18 A40 40 0 0 1 466 72" opacity=".5"/>
-        </g>
-      </svg>
-      <p class="lead">Life Dashboard Companion envoie ce qu’enregistrent votre montre, votre bague ou votre balance vers un serveur qui vous appartient&nbsp;: Home Assistant, la stack Grafana, MQTT ou votre propre webhook. Toutes les applications sources à la fois, sans compte à créer et sans compte Google intermédiaire. Sur Android, Health Connect s’appelle Santé Connect&nbsp;; sur iPhone, Apple Health est l’app Santé.</p>
-      <ul class="ticks hero-claims">
-        <li>Toutes les marques via le téléphone, Android et iPhone dans une seule intégration</li>
-        <li>Tout votre historique dans Home Assistant, conservé quand vous changez de téléphone</li>
-        <li>Des totaux quotidiens justes&nbsp;: une marche comptée par le téléphone et la montre ne compte qu’une fois</li>
-        <li>Les modifications et les suppressions sont envoyées aussi, pas seulement les nouveaux enregistrements</li>
-        <li>Le temps d’écran par application à côté de vos données de santé, sur Android</li>
-        <li>Open source (MIT), la même clé de signature sur GitHub, F&#8209;Droid et Google Play</li>
-      </ul>
-      <div class="hero-stores">
+    <h1>Health Connect et Apple Health <span class="accent">dans Home Assistant ou sur votre propre&nbsp;serveur</span></h1>
+    <p class="lead">Life Dashboard Companion envoie ce qu’enregistrent votre montre, votre bague ou votre balance vers un serveur qui vous appartient&nbsp;: Home Assistant, la stack Grafana, MQTT ou votre propre webhook. Toutes les applications sources à la fois, sans compte à créer et sans compte Google intermédiaire. Sur Android, Health Connect s’appelle Santé Connect&nbsp;; sur iPhone, Apple Health est l’app Santé.</p>
+    <div class="hero-stores">
 <!-- BUILD:hero-stores -->
 <div class="cta-row stores">
         <a class="badge-link" href="https://apps.apple.com/app/life-dashboard-companion/id6824075761"><img class="badge-img" src="/life-dashboard/img/badges/app-store.svg?v=a26fc5b3" alt="Télécharger dans l’App Store" width="120" height="40" loading="lazy"></a>
@@ -479,43 +471,37 @@
       </div>
       <ul class="install-paths"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg><span><b>Android</b> 4,99 € en achat unique sur Google Play : la voie simple, avec les mises à jour automatiques, et votre achat soutient le développement. Ou gratuitement, la même application avec la même clé de signature : <a href="/fr/life-dashboard/android/#get">l’APK sur GitHub, Obtainium ou F&#8209;Droid</a>.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg><span><b>iPhone</b> 6,99 € en achat unique sur l’App Store, sans abonnement. Ou <a href="/fr/life-dashboard/ios/#building">compilez-la avec Xcode</a> sur un Mac, avec une adhésion à l’Apple Developer Program.</span></li></ul>
 <!-- /BUILD:hero-stores -->
-      </div>
     </div>
-
-    <div class="hero-visual dest">
-      <svg class="dest-lines" viewBox="0 0 560 600" preserveAspectRatio="none" aria-hidden="true">
-        <defs><linearGradient id="dl" x1="0" x2="1"><stop offset="0" stop-color="#30B77E" stop-opacity=".15"/><stop offset="1" stop-color="#30B77E" stop-opacity=".85"/></linearGradient></defs>
-        <path d="M222 300 C 255 300, 250 110, 288 110" />
-        <path d="M222 300 C 255 300, 250 330, 288 330" />
-        <path d="M222 300 C 255 300, 250 505, 288 505" />
+<!-- BUILD:hero-visual -->
+<div class="hero-visual">
+      <figure class="hv-phone">
+        <div class="phone"><img src="/life-dashboard/img/A1-health.webp?v=48b0e4d1" alt="L’onglet Santé de l’application Android, avec une ligne par destination et les chiffres du jour" width="720" height="1600" fetchpriority="high"></div>
+        <figcaption><b>Life Dashboard Companion</b> <span>Sur votre téléphone</span></figcaption>
+      </figure>
+      <svg class="hv-beat" viewBox="0 0 200 60" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path class="beat-path" pathLength="100" d="M2 30 H62 L74 8 L90 52 L101 22 L109 30 H158"/>
+          <circle class="beat-dot" cx="158" cy="30" r="5"/>
+          <path class="arc a1" d="M172 20 A15 15 0 0 1 172 40"/>
+          <path class="arc a2" d="M184 12 A27 27 0 0 1 184 48"/>
+        </g>
       </svg>
-      <div class="phone src" style="aspect-ratio: 720 / 1476"><img src="/life-dashboard/img/A1-health.webp?v=48b0e4d1" alt="L’onglet Santé de l’application Android, avec une ligne par destination et les chiffres du jour" width="720" height="1476" fetchpriority="high"></div>
-      <figure class="dcard d-ha">
-        <figcaption><span class="dk">Home Assistant</span></figcaption>
-        <img src="/life-dashboard/img/H9-health-phone.webp?v=43ebb81f" alt="Le tableau de bord Santé d’exemple dans Home Assistant avec des données de démonstration&nbsp;: pas, distance, calories, entraînements et fréquence cardiaque" width="720" height="1559">
-      </figure>
-      <figure class="dcard d-gr">
-        <figcaption><span class="dk">Stack Grafana</span></figcaption>
-        <img src="/life-dashboard/img/g-overview.webp?v=95cd992a" alt="Le tableau de bord de vue d’ensemble de la stack Grafana avec des données de démonstration" width="1400" height="728">
-      </figure>
-      <figure class="dcard d-js">
-        <figcaption><span class="dk">Votre propre serveur</span></figcaption>
-<pre aria-label="Un exemple du JSON que l’application envoie"><code>{ <span class="k">"source"</span>: <span class="s">"health_connect"</span>,
-  <span class="k">"steps"</span>: [{
-    <span class="k">"count"</span>: <span class="n">412</span>,
-    <span class="k">"source"</span>: <span class="s">"com.ouraring.oura"</span>
-  }] }</code></pre>
+      <figure class="hv-dest">
+        <div class="hv-screen"><picture><source media="(max-width: 919px)" srcset="/life-dashboard/img/H9-health-phone.webp?v=43ebb81f" width="720" height="1559"><img src="/life-dashboard/img/H6-health.webp?v=f5682347" alt="Le tableau de bord Santé d’exemple dans Home Assistant avec des données de démonstration : les tuiles du jour, le dernier entraînement, la récupération avec la variabilité de la fréquence cardiaque comparée à sa valeur de référence, et le sommeil de la nuit dernière" width="1400" height="807" fetchpriority="high"></picture></div>
+        <figcaption><b>Home Assistant</b> <span>Sur votre serveur</span></figcaption>
       </figure>
     </div>
+<!-- /BUILD:hero-visual -->
+    <ul class="hero-claims">
+      <li>Toutes les marques via le téléphone, Android et iPhone dans une seule intégration</li>
+      <li>Tout votre historique dans Home Assistant, conservé quand vous changez de téléphone</li>
+      <li>Des totaux quotidiens justes&nbsp;: une marche comptée par le téléphone et la montre ne compte qu’une fois</li>
+      <li>Les modifications et les suppressions sont envoyées aussi, pas seulement les nouveaux enregistrements</li>
+      <li>Le temps d’écran par application à côté de vos données de santé, sur Android</li>
+      <li>Open source (MIT), la même clé de signature sur GitHub, F&#8209;Droid et Google Play</li>
+    </ul>
   </div>
 </section>
-
-<!-- BUILD:parts -->
-<nav class="parts-strip" aria-label="Les applications et la destination des données"><div class="wrap">
-    <div class="ps-group"><span class="ps-label">Sur votre téléphone</span><div class="ps-cells two"><a href="/fr/life-dashboard/android/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span><span><b>Application Android</b><small>Santé Connect, temps d’écran</small></span></a><a href="/fr/life-dashboard/ios/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg></span><span><b>Application iPhone</b><small>Apple Santé</small></span></a></div></div>
-    <div class="ps-group"><span class="ps-label">Sur votre serveur</span><div class="ps-cells three"><a href="/fr/life-dashboard/home-assistant/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 11 12 3.5l8.5 7.5"/><path d="M5.5 9.5V20h13V9.5"/><circle cx="12" cy="13.5" r="2"/><path d="M12 15.5V20"/></svg></span><span><b>Home Assistant</b><small>Capteurs et historique</small></span></a><a href="/fr/life-dashboard/grafana/"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M6.5 16v-4"/><path d="M11 16V7"/><path d="M15.5 16v-6"/><path d="M20 16V4"/></svg></span><span><b>Stack Grafana</b><small>Tableaux de bord, API et MCP</small></span></a><a href="/fr/life-dashboard/#own-server"><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg></span><span><b>Votre propre serveur</b><small>MQTT ou JSON</small></span></a></div></div>
-  </div></nav>
-<!-- /BUILD:parts -->
 
 <!-- How it works -->
 <section class="section" id="how-it-works">
@@ -573,9 +559,7 @@
 <section class="section band" id="home-assistant">
   <div class="wrap">
     <div class="show">
-      <div class="show-media">
-        <div class="stage green-glow"></div>
-        <div class="phone p2"><img src="/life-dashboard/img/H9-health-phone.webp?v=43ebb81f" alt="Le tableau de bord Santé d’exemple dans Home Assistant sur un téléphone, avec des données de démonstration&nbsp;: les tuiles du jour et le dernier entraînement" width="720" height="1559" loading="lazy"></div>
+      <div class="show-media stage has-card">
         <figure class="qr-card">
           <img src="/life-dashboard/img/H2-qr.webp?v=abb2ed19" alt="L’intégration Life Dashboard dans Home Assistant, qui affiche un QR code d’association" width="800" height="668" loading="lazy">
           <figcaption>Home Assistant affiche le code, l’application le scanne.</figcaption>
@@ -647,9 +631,8 @@
           <a class="link-arrow" href="/fr/life-dashboard/grafana/">En savoir plus sur la stack Grafana</a>
         </div>
       </div>
-      <div class="show-media is-wide full">
-        <div class="stage green-glow"></div>
-        <div class="wide-shot solo"><a class="shot-link" href="/life-dashboard/img/g-overview.webp?v=95cd992a" aria-label="Le tableau de bord de vue d’ensemble de la stack Grafana avec des données de démonstration, taille réelle"><img src="/life-dashboard/img/g-overview.webp?v=95cd992a" alt="Le tableau de bord de vue d’ensemble de la stack Grafana avec des données de démonstration" width="1400" height="728" loading="lazy"></a></div>
+      <div class="show-media stage is-wide">
+        <div class="wide-shot"><a class="shot-link" href="/life-dashboard/img/g-overview.webp?v=95cd992a" aria-label="Le tableau de bord de vue d’ensemble de la stack Grafana avec des données de démonstration, taille réelle"><img src="/life-dashboard/img/g-overview.webp?v=95cd992a" alt="Le tableau de bord de vue d’ensemble de la stack Grafana avec des données de démonstration" width="1400" height="728" loading="lazy"></a></div>
       </div>
     </div>
   </div>
@@ -659,10 +642,9 @@
 <section class="section" id="apps">
   <div class="wrap">
     <div class="show flip">
-      <div class="show-media">
-        <div class="stage green-glow"></div>
-        <div class="phone p1"><img src="/life-dashboard/img/A1-health.webp?v=48b0e4d1" alt="L’onglet Santé de l’application Android" width="720" height="1476" loading="lazy"></div>
-        <div class="phone p2"><img src="/life-dashboard/img/ios-health.webp?v=ba2e044b" alt="L’onglet Santé de l’application iPhone" width="720" height="1464" loading="lazy"></div>
+      <div class="show-media stage two">
+        <div class="phone"><img src="/life-dashboard/img/A1-health.webp?v=48b0e4d1" alt="L’onglet Santé de l’application Android" width="720" height="1476" loading="lazy"></div>
+        <div class="phone"><img src="/life-dashboard/img/ios-health.webp?v=ba2e044b" alt="L’onglet Santé de l’application iPhone" width="720" height="1464" loading="lazy"></div>
       </div>
       <div>
           <h2>Un seul payload, depuis Android et iPhone</h2>
@@ -683,13 +665,13 @@
 <div class="section-head">
       <h2>D’autres projets open source s’appuient dessus</h2>
     </div>
-    <ul class="proof-facts"><li><b>142</b> étoiles sur GitHub pour les quatre dépôts</li><li><b>6</b> contributeurs</li><li><b>54</b> versions Android depuis février 2026</li><li><b>4</b> éléments, tous sous licence MIT</li></ul>
+    <ul class="proof-facts"><li><b>142</b> <span>étoiles sur GitHub pour les quatre dépôts</span></li><li><b>6</b> <span>contributeurs</span></li><li><b>54</b> <span>versions Android depuis février 2026</span></li><li><b>4</b> <span>éléments, tous sous licence MIT</span></li></ul>
     <p class="stats-note">En direct de GitHub, mis à jour toutes les heures.</p>
     <div class="family">
-      <a class="part proj" href="https://github.com/health-assistant-io/health-assistant"><span class="tag">Construit dessus</span><h3>Health Assistant</h3><p>Un dossier de santé auto-hébergé. Son intégration webhook comprend un analyseur pour le payload de Life Dashboard et qualifie l’application de « Highly Recommended for Android Users ».</p><span class="go">Sur GitHub</span></a>
-      <a class="part proj" href="https://github.com/nikira-studio/healthquery"><span class="tag">Construit dessus</span><h3>HealthQuery</h3><p>Un tableau de bord de santé personnel dans SQLite, avec des rapports et un serveur MCP. Ses données viennent de Life Dashboard Companion.</p><span class="go">Sur GitHub</span></a>
-      <a class="part proj" href="https://github.com/x-senpai-x/fitbridge"><span class="tag">Construit dessus</span><h3>fitbridge</h3><p>Santé Connect pour ChatGPT et Claude, auto-hébergé sur Cloudflare Workers. L’application s’y associe par QR code et lui envoie des mises à jour signées.</p><span class="go">Sur GitHub</span></a>
-      <a class="part proj-cta" href="https://github.com/owen282000/life-dashboard-companion-app/discussions"><span class="tag">Votre projet</span><h3>Vous avez construit quelque chose sur le payload ?</h3><p>Dites-le-moi dans Discussions, et il pourra rejoindre cette liste.</p><span class="go">Ouvrir Discussions</span></a>
+      <a class="part proj" href="https://github.com/health-assistant-io/health-assistant"><h3>Health Assistant</h3><p>Un dossier de santé auto-hébergé. Son intégration webhook comprend un analyseur pour le payload de Life Dashboard et qualifie l’application de « Highly Recommended for Android Users ».</p><span class="go">Sur GitHub</span></a>
+      <a class="part proj" href="https://github.com/nikira-studio/healthquery"><h3>HealthQuery</h3><p>Un tableau de bord de santé personnel dans SQLite, avec des rapports et un serveur MCP. Ses données viennent de Life Dashboard Companion.</p><span class="go">Sur GitHub</span></a>
+      <a class="part proj" href="https://github.com/x-senpai-x/fitbridge"><h3>fitbridge</h3><p>Santé Connect pour ChatGPT et Claude, auto-hébergé sur Cloudflare Workers. L’application s’y associe par QR code et lui envoie des mises à jour signées.</p><span class="go">Sur GitHub</span></a>
+      <a class="part proj-cta" href="https://github.com/owen282000/life-dashboard-companion-app/discussions"><h3>Vous avez construit quelque chose sur le payload ?</h3><p>Dites-le-moi dans Discussions, et il pourra rejoindre cette liste.</p><span class="go">Ouvrir Discussions</span></a>
     </div>
 <!-- /BUILD:proof -->
   </div>
@@ -710,8 +692,7 @@
 
 <!-- Privacy -->
 <section class="section privacy" id="privacy">
-  <div class="grid-bg"></div>
-  <div class="wrap">
+  <div class="wrap split">
     <h2>Vos données ne vont qu’aux adresses que vous saisissez</h2>
     <div class="trust">
       <div class="card"><h3>Sans compte</h3><p>Aucune inscription.</p></div>
@@ -784,7 +765,7 @@
 
 <!-- FAQ -->
 <section class="section tight band" id="faq">
-  <div class="wrap">
+  <div class="wrap split">
     <div class="section-head">
       <h2>Questions fréquentes</h2>
     </div>
@@ -842,13 +823,12 @@
     </svg>
     <h2>Vos données de santé, votre serveur</h2>
     <div class="final-stores">
-<!-- BUILD:hero-stores -->
+<!-- BUILD:final-stores -->
 <div class="cta-row stores">
         <a class="badge-link" href="https://apps.apple.com/app/life-dashboard-companion/id6824075761"><img class="badge-img" src="/life-dashboard/img/badges/app-store.svg?v=a26fc5b3" alt="Télécharger dans l’App Store" width="120" height="40" loading="lazy"></a>
         <a class="badge-link" href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-fr-landing%26utm_medium%3Dwebsite"><img class="badge-img" src="/life-dashboard/img/badges/google-play.png?v=a13294f3" alt="Disponible sur Google Play" width="564" height="168" loading="lazy"></a>
       </div>
-      <ul class="install-paths"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg><span><b>Android</b> 4,99 € en achat unique sur Google Play : la voie simple, avec les mises à jour automatiques, et votre achat soutient le développement. Ou gratuitement, la même application avec la même clé de signature : <a href="/fr/life-dashboard/android/#get">l’APK sur GitHub, Obtainium ou F&#8209;Droid</a>.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg><span><b>iPhone</b> 6,99 € en achat unique sur l’App Store, sans abonnement. Ou <a href="/fr/life-dashboard/ios/#building">compilez-la avec Xcode</a> sur un Mac, avec une adhésion à l’Apple Developer Program.</span></li></ul>
-<!-- /BUILD:hero-stores -->
+<!-- /BUILD:final-stores -->
     </div>
     <p class="fineprint">Code source, tickets et <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">discussions</a> sur <a href="https://github.com/owen282000/life-dashboard-companion-app">GitHub</a>. Les nouvelles versions sont dans le <a href="https://github.com/owen282000/life-dashboard-companion-app/releases.atom">flux des versions</a>.</p>
   </div>
@@ -857,15 +837,12 @@
 
 <footer class="footer">
   <div class="wrap">
-    <div class="cols">
-      <div class="about">
-        <a class="brand" href="/fr/life-dashboard/"><img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="34" height="34"> Life Dashboard</a>
+    <div class="foot-top">
+      <div class="foot-about">
+        <a class="brand" href="/fr/life-dashboard/"><img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="32" height="32" loading="lazy"> <span>Life Dashboard</span></a>
         <p>Life Dashboard est un projet open source d’<a href="https://github.com/owen282000">Owen Vogelaar</a>, en quatre éléments : les applications Life Dashboard Companion pour Android et iPhone, une intégration Home Assistant et une stack Grafana. Il n’a aucun lien avec d’autres applications ou modèles appelés Life Dashboard. Pour vos questions, rendez-vous dans <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
-        <p>Ce site ne dépose aucun cookie, n’utilise aucun outil de mesure d’audience et ne charge rien depuis un tiers. <a href="/fr/privacy/">Confidentialité du site</a>.</p>
-        <p class="imprint">Owen Vogelaar, exerçant sous le nom oVog Enterprise · Chambre de commerce néerlandaise (KvK) 81085583 · <a href="mailto:owen282000@hotmail.com">owen282000@hotmail.com</a></p>
-        <p class="lang-row"><span>Langue:</span> <a href="/life-dashboard/" lang="en" hreflang="en">English</a> <a href="/nl/life-dashboard/" lang="nl" hreflang="nl">Nederlands</a> <a href="/de/life-dashboard/" lang="de" hreflang="de">Deutsch</a> <a href="/fr/life-dashboard/" lang="fr" hreflang="fr" aria-current="true">Français</a> <a href="/es/life-dashboard/" lang="es" hreflang="es">Español</a> <a href="/pt-br/life-dashboard/" lang="pt-BR" hreflang="pt-BR">Português (Brasil)</a></p>
       </div>
-      <div>
+      <div class="foot-col">
         <h2 class="foot-h">Produits</h2>
         <ul>
           <li><a href="/fr/life-dashboard/android/">Application Android</a></li>
@@ -874,52 +851,35 @@
           <li><a href="/fr/life-dashboard/grafana/">Stack Grafana</a></li>
         </ul>
       </div>
-      <div>
-        <h2 class="foot-h"><a href="/fr/life-dashboard/guides/">Guides</a></h2>
+      <div class="foot-col">
+        <h2 class="foot-h">Guides</h2>
         <ul>
           <li><a href="/fr/life-dashboard/health-connect-home-assistant/">Santé Connect dans Home Assistant</a></li>
-          <li><a href="/fr/life-dashboard/samsung-health-home-assistant/">Samsung Health et Galaxy Watch dans Home Assistant</a></li>
-          <li><a href="/fr/life-dashboard/companion-app-health-connect/">L’application Companion et Santé Connect</a></li>
-          <li><a href="/fr/life-dashboard/health-connect-webhook/">Santé Connect vers un webhook</a></li>
-          <li><a href="/fr/life-dashboard/temps-ecran-home-assistant/">Le temps d’écran dans Home Assistant</a></li>
-          <li><a href="/fr/life-dashboard/phases-sommeil-home-assistant/">Les phases de sommeil dans Home Assistant</a></li>
-          <li><a href="/fr/life-dashboard/balance-connectee-samsung-health/">Une balance connectée vers Samsung Health</a></li>
-          <li><a href="/fr/life-dashboard/health-connect-n8n/">Santé Connect vers n8n</a></li>
-          <li><a href="/fr/life-dashboard/health-connect-data-types/">Les types de données de Santé Connect, application par application</a></li>
-          <li><a href="/fr/life-dashboard/health-data-api/">Une API web pour Santé Connect ou Apple Santé</a></li>
-          <li><a href="/fr/life-dashboard/samsung-health-export/">Samsung Health vers votre propre serveur</a></li>
-          <li><a href="/fr/life-dashboard/fitbit-home-assistant/">Fitbit et Pixel Watch dans Home Assistant</a></li>
-          <li><a href="/fr/life-dashboard/garmin-home-assistant/">Garmin dans Home Assistant</a></li>
-          <li><a href="/fr/life-dashboard/health-data-own-ai/">Santé Connect et Apple Santé via MCP</a></li>
-          <li><a href="/fr/life-dashboard/health-data-qr-pairing/">Laissez vos utilisateurs se connecter avec un seul QR code</a></li>
-          <li><a href="/fr/life-dashboard/health-connect-steps-home-assistant/">Des pas Santé Connect qui semblent faux dans Home Assistant</a></li>
-          <li><a href="/fr/life-dashboard/depannage/">Dépannage : synchronisations, capteurs et association</a></li>
           <li><a href="/fr/life-dashboard/apple-health-home-assistant/">Apple Santé dans Home Assistant</a></li>
-          <li><a href="/fr/life-dashboard/apple-health-home-assistant-apps/">Apple Santé dans Home Assistant : quatre applications comparées</a></li>
-          <li><a href="/fr/life-dashboard/apple-watch-home-assistant/">L’Apple Watch dans Home Assistant</a></li>
-          <li><a href="/fr/life-dashboard/apple-health-webhook/">Apple Santé vers un webhook</a></li>
-          <li><a href="/fr/life-dashboard/apple-health-n8n/">Apple Santé vers n8n</a></li>
-          <li><a href="/fr/life-dashboard/apple-health-data-types/">Les types de données d’Apple Santé, application par application</a></li>
+          <li><a href="/fr/life-dashboard/samsung-health-home-assistant/">Samsung Health et Galaxy Watch dans Home Assistant</a></li>
+          <li><a href="/fr/life-dashboard/fitbit-home-assistant/">Fitbit et Pixel Watch dans Home Assistant</a></li>
+          <li><a href="/fr/life-dashboard/health-connect-webhook/">Santé Connect vers un webhook</a></li>
+          <li><a class="foot-all" href="/fr/life-dashboard/guides/">Les 23 guides</a></li>
         </ul>
       </div>
-      <div>
+      <div class="foot-col">
         <h2 class="foot-h">Documentation et code source</h2>
         <ul>
           <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/usage.md">Guide d’installation Android</a></li>
           <li><a href="https://github.com/owen282000/life-dashboard-companion-app-ios/blob/main/docs/usage.md">Guide d’installation iPhone</a></li>
-          <li><a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md">Intégration : capteurs et statistiques</a></li>
           <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md">Référence du payload</a></li>
-          <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/brands/README.md">Guides par marque</a></li>
           <li><a href="/life-dashboard/feedback/">Tableau des suggestions</a></li>
-          <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/PRIVACY.md">Politique de confidentialité pour Android</a></li>
-          <li><a href="/fr/life-dashboard/ios/privacy/">Politique de confidentialité pour iPhone</a></li>
           <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/AI_POLICY.md">Politique sur l’IA</a></li>
           <li><a href="https://github.com/owen282000?tab=repositories&amp;q=life-dashboard">Tous les dépôts</a></li>
         </ul>
       </div>
     </div>
-    <p class="legal">Home Assistant est une marque de l’Open Home Foundation. Health Connect, Google Play, Google Health, Fitbit et Pixel Watch sont des marques de Google LLC. Apple, Apple Health, Apple Watch, iPhone, Xcode et TestFlight sont des marques d’Apple Inc. App Store est une marque de service d’Apple Inc. Grafana est une marque de Grafana Labs. Samsung Health, Garmin Connect, Oura et Withings appartiennent à leurs propriétaires respectifs. Life Dashboard est un projet indépendant, sans lien avec ces sociétés et sans leur caution. Les captures d’écran montrent des données fictives.</p>
-    <p class="legal credits">Badges : Google Play et App Store tels que publiés par Google et Apple ; « Get it on F&#8209;Droid » par le <a href="https://gitlab.com/fdroid/artwork">projet F&#8209;Droid</a> et « Get it on GitHub » par <a href="https://github.com/Kunzisoft/Github-badge">Kunzisoft</a>, tous deux sous <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a> ; Obtainium par le <a href="https://github.com/ImranR98/Obtainium">projet Obtainium</a> ; les badges HACS, Artifact Hub et Docker Compose sont dessinés pour ce site en Roboto (SIL OFL), autour des icônes du <a href="https://github.com/hacs/integration">projet HACS</a> (MIT) et du <a href="https://github.com/artifacthub/hub">projet Artifact Hub</a> (Apache 2.0) et du logo de Docker issu de son kit média ; le badge AlternativeTo est leur badge compact sur fond noir. GitHub est une marque de GitHub, Inc. Docker, Docker Compose et le logo Docker sont des marques de Docker, Inc. Helm est une marque de The Linux Foundation.</p>
+    <div class="foot-bottom">
+      <ul class="foot-legal"><li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/PRIVACY.md">Politique de confidentialité pour Android</a></li><li><a href="/fr/life-dashboard/ios/privacy/">Politique de confidentialité pour iPhone</a></li><li><a href="/fr/legal/">Marques et crédits</a></li></ul>
+      <p class="lang-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><ellipse cx="12" cy="12" rx="4" ry="9"/></svg><span class="sr-only">Langue:</span> <a href="/life-dashboard/" lang="en" hreflang="en">English</a> <a href="/nl/life-dashboard/" lang="nl" hreflang="nl">Nederlands</a> <a href="/de/life-dashboard/" lang="de" hreflang="de">Deutsch</a> <a href="/fr/life-dashboard/" lang="fr" hreflang="fr" aria-current="true">Français</a> <a href="/es/life-dashboard/" lang="es" hreflang="es">Español</a> <a href="/pt-br/life-dashboard/" lang="pt-BR" hreflang="pt-BR">Português (Brasil)</a></p>
+      <p class="foot-note">Owen Vogelaar, exerçant sous le nom oVog Enterprise · Chambre de commerce néerlandaise (KvK) 81085583 · <a href="mailto:owen282000@hotmail.com">owen282000@hotmail.com</a></p>
+      <p class="foot-note">Ce site ne dépose aucun cookie, n’utilise aucun outil de mesure d’audience et ne charge rien depuis un tiers. <a href="/fr/privacy/">Confidentialité du site</a>.</p>
+    </div>
   </div>
 </footer>
 </body>

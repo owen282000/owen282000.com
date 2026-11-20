@@ -21,7 +21,7 @@
 <meta name="theme-color" content="#101418" media="(prefers-color-scheme: dark)">
 <link rel="icon" type="image/png" sizes="32x32" href="/life-dashboard/img/icon-32.png?v=355467f5">
 <link rel="apple-touch-icon" href="/life-dashboard/img/icon-180.png?v=e1842852">
-<link rel="stylesheet" href="/life-dashboard/site.css?v=d92ee376">
+<link rel="stylesheet" href="/life-dashboard/site.css?v=77b363dd">
 <meta property="og:type" content="article">
 <meta property="og:locale" content="es_ES">
 <meta property="og:locale:alternate" content="en_US">
@@ -204,11 +204,11 @@
 <body>
 <a class="skip" href="#main">Saltar al contenido</a>
 
-<header class="nav">
+<header class="nav has-menu">
   <div class="wrap">
     <a class="brand" href="/es/life-dashboard/" aria-label="Inicio de Life Dashboard">
-      <img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="34" height="34">
-      Life Dashboard
+      <img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="32" height="32">
+      <span>Life Dashboard</span>
     </a>
     <nav class="nav-links" aria-label="Principal">
       <a href="/es/life-dashboard/android/">Android</a>
@@ -216,22 +216,31 @@
       <a href="/es/life-dashboard/home-assistant/">Home Assistant</a>
       <a href="/es/life-dashboard/grafana/">Grafana</a>
       <a href="/es/life-dashboard/guides/" aria-current="page">Guías</a>
-      <a href="/es/life-dashboard/#faq">Preguntas</a>
     </nav>
-    <div class="nav-cta">
+    <div class="nav-tools">
       <details class="lang-menu"><summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><ellipse cx="12" cy="12" rx="4" ry="9"/></svg><span class="sr-only">Idioma: Español</span><span>ES</span></summary><ul><li><a href="/life-dashboard/health-connect-steps-home-assistant/" lang="en" hreflang="en">English</a></li><li><a href="/nl/life-dashboard/health-connect-stappen-home-assistant/" lang="nl" hreflang="nl">Nederlands</a></li><li><a href="/de/life-dashboard/health-connect-schritte-home-assistant/" lang="de" hreflang="de">Deutsch</a></li><li><a href="/fr/life-dashboard/health-connect-steps-home-assistant/" lang="fr" hreflang="fr">Français</a></li><li><a href="/es/life-dashboard/health-connect-pasos-home-assistant/" lang="es" hreflang="es" aria-current="true">Español</a></li><li><a href="/pt-br/life-dashboard/health-connect-passos-home-assistant/" lang="pt-BR" hreflang="pt-BR">Português (Brasil)</a></li></ul></details>
-      <a class="btn btn-ghost btn-sm nav-gh" href="https://github.com/owen282000/life-dashboard-companion-app">
-        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-        GitHub
-      </a>
+      <a class="nav-icon" href="https://github.com/owen282000/life-dashboard-companion-app" aria-label="GitHub"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
       <a class="btn btn-primary btn-sm" href="/es/life-dashboard/#get">Instalar</a>
+      <details class="nav-menu">
+        <summary aria-label="Menú"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path class="m1" d="M4 7h16"/><path class="m2" d="M4 12h16"/><path class="m3" d="M4 17h16"/></svg></summary>
+        <div class="nav-panel">
+          <ul>
+            <li><a href="/es/life-dashboard/android/">Android</a></li>
+            <li><a href="/es/life-dashboard/ios/">iPhone</a></li>
+            <li><a href="/es/life-dashboard/home-assistant/">Home Assistant</a></li>
+            <li><a href="/es/life-dashboard/grafana/">Grafana</a></li>
+            <li><a href="/es/life-dashboard/guides/" aria-current="page">Guías</a></li>
+            <li><a href="https://github.com/owen282000/life-dashboard-companion-app"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> GitHub</a></li>
+          </ul>
+          <p class="nav-panel-langs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><ellipse cx="12" cy="12" rx="4" ry="9"/></svg><span class="sr-only">Idioma:</span> <a href="/life-dashboard/health-connect-steps-home-assistant/" lang="en" hreflang="en">English</a> <a href="/nl/life-dashboard/health-connect-stappen-home-assistant/" lang="nl" hreflang="nl">Nederlands</a> <a href="/de/life-dashboard/health-connect-schritte-home-assistant/" lang="de" hreflang="de">Deutsch</a> <a href="/fr/life-dashboard/health-connect-steps-home-assistant/" lang="fr" hreflang="fr">Français</a> <a href="/es/life-dashboard/health-connect-pasos-home-assistant/" lang="es" hreflang="es" aria-current="true">Español</a> <a href="/pt-br/life-dashboard/health-connect-passos-home-assistant/" lang="pt-BR" hreflang="pt-BR">Português (Brasil)</a></p>
+        </div>
+      </details>
     </div>
   </div>
 </header>
 
 <main id="main" class="guide">
   <header class="guide-head">
-    <div class="grid-bg"></div>
     <div class="wrap">
       <nav class="crumbs" aria-label="Ruta de navegación"><a href="/es/life-dashboard/">Life Dashboard</a><span aria-hidden="true">/</span><a href="/es/life-dashboard/guides/">Guías</a><span aria-hidden="true">/</span><span aria-current="page">Pasos de Health Connect que no cuadran en Home Assistant</span></nav>
       <h1>¿Por qué mis pasos de Health Connect salen mal en Home Assistant?</h1>
@@ -239,7 +248,7 @@
 <p>Casi siempre por una de estas cuatro razones: el sensor todavía no se ha puesto al día, llegaron pasos tarde para un día que ya había terminado, una cifra se corrigió a la baja, o el sensor muestra un registro y no el día. Ninguna significa que tu reloj se equivoque. Esta página repasa cada una, para los sensores de Health Connect de la app Companion de Home Assistant y para Life Dashboard, y muestra cómo comprobar cuál es tu caso.</p>
       </div>
       <p class="guide-meta"><span>Por <a href="/es/">Owen Vogelaar</a>, que mantiene Life Dashboard</span> <span><time datetime="2026-11-20">Actualizado el 20 de noviembre de 2026</time></span> <span>6 min de lectura</span></p>
-      <p class="guide-cta"><a class="btn btn-primary btn-store" href="/es/life-dashboard/android/#get">Consigue la app para Android</a></p>
+      <p class="guide-cta"><a class="btn btn-primary" href="/es/life-dashboard/android/#get">Consigue la app para Android</a></p>
     </div>
   </header>
   <div class="wrap guide-grid">
@@ -356,25 +365,22 @@
   <section class="section tight related band" aria-labelledby="related">
   <div class="wrap">
     <div class="section-head split"><h2 id="related">Guías relacionadas</h2><a class="link-arrow" href="/es/life-dashboard/guides/">Todas las guías</a></div>
-    <div class="family three">
-      <a class="part" href="/es/life-dashboard/health-connect-tipos-de-datos/"><h3>Tipos de datos de Health Connect, app por app</h3><p>Los 34 tipos con sus claves y unidades, y lo que escriben Samsung, Garmin, Fitbit y Oura.</p><span class="go">Leer la guía</span></a>
-      <a class="part" href="/es/life-dashboard/solucion-de-problemas/"><h3>Solución de problemas: sincronización, sensores y vinculación</h3><p>Sincronizaciones que se detienen en segundo plano, permisos de Health Connect, sensores que faltan y vinculación, paso a paso.</p><span class="go">Leer la guía</span></a>
-    </div>
+    <ul class="guide-list three">
+      <li><a href="/es/life-dashboard/health-connect-tipos-de-datos/"><b>Tipos de datos de Health Connect, app por app</b><span>Los 34 tipos con sus claves y unidades, y lo que escriben Samsung, Garmin, Fitbit y Oura.</span></a></li>
+      <li><a href="/es/life-dashboard/solucion-de-problemas/"><b>Solución de problemas: sincronización, sensores y vinculación</b><span>Sincronizaciones que se detienen en segundo plano, permisos de Health Connect, sensores que faltan y vinculación, paso a paso.</span></a></li>
+    </ul>
   </div>
 </section>
 </main>
 
 <footer class="footer">
   <div class="wrap">
-    <div class="cols">
-      <div class="about">
-        <a class="brand" href="/es/life-dashboard/"><img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="34" height="34"> Life Dashboard</a>
+    <div class="foot-top">
+      <div class="foot-about">
+        <a class="brand" href="/es/life-dashboard/"><img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="32" height="32" loading="lazy"> <span>Life Dashboard</span></a>
         <p>Life Dashboard es un proyecto de código abierto de <a href="https://github.com/owen282000">Owen Vogelaar</a>, en cuatro partes: las apps Life Dashboard Companion para Android y iPhone, una integración para Home Assistant y un stack de Grafana. No tiene relación con otras apps o plantillas llamadas Life Dashboard. Las preguntas van a <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
-        <p>Este sitio no instala cookies, no usa analíticas y no carga nada de terceros. <a href="/es/privacy/">Privacidad del sitio</a>.</p>
-        <p class="imprint">Owen Vogelaar, que opera como oVog Enterprise · Cámara de Comercio de los Países Bajos (KvK) 81085583 · <a href="mailto:owen282000@hotmail.com">owen282000@hotmail.com</a></p>
-        <p class="lang-row"><span>Idioma:</span> <a href="/life-dashboard/health-connect-steps-home-assistant/" lang="en" hreflang="en">English</a> <a href="/nl/life-dashboard/health-connect-stappen-home-assistant/" lang="nl" hreflang="nl">Nederlands</a> <a href="/de/life-dashboard/health-connect-schritte-home-assistant/" lang="de" hreflang="de">Deutsch</a> <a href="/fr/life-dashboard/health-connect-steps-home-assistant/" lang="fr" hreflang="fr">Français</a> <a href="/es/life-dashboard/health-connect-pasos-home-assistant/" lang="es" hreflang="es" aria-current="true">Español</a> <a href="/pt-br/life-dashboard/health-connect-passos-home-assistant/" lang="pt-BR" hreflang="pt-BR">Português (Brasil)</a></p>
       </div>
-      <div>
+      <div class="foot-col">
         <h2 class="foot-h">Productos</h2>
         <ul>
           <li><a href="/es/life-dashboard/android/">App para Android</a></li>
@@ -383,52 +389,35 @@
           <li><a href="/es/life-dashboard/grafana/">Stack de Grafana</a></li>
         </ul>
       </div>
-      <div>
-        <h2 class="foot-h"><a href="/es/life-dashboard/guides/">Guías</a></h2>
+      <div class="foot-col">
+        <h2 class="foot-h">Guías</h2>
         <ul>
           <li><a href="/es/life-dashboard/health-connect-home-assistant/">Health Connect en Home Assistant</a></li>
-          <li><a href="/es/life-dashboard/samsung-health-home-assistant/">Samsung Health y Galaxy Watch en Home Assistant</a></li>
-          <li><a href="/es/life-dashboard/companion-app-health-connect/">La app Companion y Health Connect</a></li>
-          <li><a href="/es/life-dashboard/health-connect-webhook/">Health Connect a un webhook</a></li>
-          <li><a href="/es/life-dashboard/tiempo-de-pantalla-home-assistant/">Tiempo de pantalla en Home Assistant</a></li>
-          <li><a href="/es/life-dashboard/fases-del-sueno-home-assistant/">Fases del sueño en Home Assistant</a></li>
-          <li><a href="/es/life-dashboard/bascula-inteligente-samsung-health/">De una báscula inteligente a Samsung Health</a></li>
-          <li><a href="/es/life-dashboard/health-connect-n8n/">Health Connect a n8n</a></li>
-          <li><a href="/es/life-dashboard/health-connect-tipos-de-datos/">Tipos de datos de Health Connect, app por app</a></li>
-          <li><a href="/es/life-dashboard/api-health-connect-apple-health/">Una API web para Health Connect o Apple Health</a></li>
-          <li><a href="/es/life-dashboard/exportar-datos-samsung-health/">Samsung Health a tu propio servidor</a></li>
-          <li><a href="/es/life-dashboard/fitbit-home-assistant/">Fitbit y Pixel Watch en Home Assistant</a></li>
-          <li><a href="/es/life-dashboard/garmin-home-assistant/">Garmin en Home Assistant</a></li>
-          <li><a href="/es/life-dashboard/datos-de-salud-mcp/">Health Connect y Apple Health por MCP</a></li>
-          <li><a href="/es/life-dashboard/datos-de-salud-codigo-qr/">Deja que tus usuarios se conecten con un código QR</a></li>
-          <li><a href="/es/life-dashboard/health-connect-pasos-home-assistant/">Pasos de Health Connect que no cuadran en Home Assistant</a></li>
-          <li><a href="/es/life-dashboard/solucion-de-problemas/">Solución de problemas: sincronización, sensores y vinculación</a></li>
           <li><a href="/es/life-dashboard/apple-health-home-assistant/">Apple Health en Home Assistant</a></li>
-          <li><a href="/es/life-dashboard/apple-health-home-assistant-apps/">Apple Health en Home Assistant: cuatro apps comparadas</a></li>
-          <li><a href="/es/life-dashboard/apple-watch-home-assistant/">Apple Watch en Home Assistant</a></li>
-          <li><a href="/es/life-dashboard/apple-health-webhook/">Apple Health a un webhook</a></li>
-          <li><a href="/es/life-dashboard/apple-health-n8n/">Apple Health a n8n</a></li>
-          <li><a href="/es/life-dashboard/apple-health-tipos-de-datos/">Tipos de datos de Apple Health, app por app</a></li>
+          <li><a href="/es/life-dashboard/samsung-health-home-assistant/">Samsung Health y Galaxy Watch en Home Assistant</a></li>
+          <li><a href="/es/life-dashboard/fitbit-home-assistant/">Fitbit y Pixel Watch en Home Assistant</a></li>
+          <li><a href="/es/life-dashboard/health-connect-webhook/">Health Connect a un webhook</a></li>
+          <li><a class="foot-all" href="/es/life-dashboard/guides/">Las 23 guías</a></li>
         </ul>
       </div>
-      <div>
+      <div class="foot-col">
         <h2 class="foot-h">Documentación y código</h2>
         <ul>
           <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/usage.md">Guía de configuración para Android</a></li>
           <li><a href="https://github.com/owen282000/life-dashboard-companion-app-ios/blob/main/docs/usage.md">Guía de configuración para iPhone</a></li>
-          <li><a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md">Integración: sensores y estadísticas</a></li>
           <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md">Referencia del payload</a></li>
-          <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/brands/README.md">Guías por marca</a></li>
           <li><a href="/life-dashboard/feedback/">Tablón de sugerencias</a></li>
-          <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/PRIVACY.md">Política de privacidad para Android</a></li>
-          <li><a href="/es/life-dashboard/ios/privacy/">Política de privacidad para iPhone</a></li>
           <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/AI_POLICY.md">Política de IA</a></li>
           <li><a href="https://github.com/owen282000?tab=repositories&amp;q=life-dashboard">Todos los repositorios</a></li>
         </ul>
       </div>
     </div>
-    <p class="legal">Home Assistant es una marca comercial de la Open Home Foundation. Health Connect, Google Play, Google Health, Fitbit y Pixel Watch son marcas comerciales de Google LLC. Apple, Apple Health, Apple Watch, iPhone, Xcode y TestFlight son marcas comerciales de Apple Inc. App Store es una marca de servicio de Apple Inc. Grafana es una marca comercial de Grafana Labs. Samsung Health, Garmin Connect, Oura y Withings pertenecen a sus propietarios. Life Dashboard es un proyecto independiente y no está afiliado a ninguno de ellos ni cuenta con su respaldo. Las capturas de pantalla muestran datos inventados.</p>
-    <p class="legal credits">Insignias: Google Play y App Store tal como las publican Google y Apple; "Get it on F&#8209;Droid" del <a href="https://gitlab.com/fdroid/artwork">proyecto F&#8209;Droid</a> y "Get it on GitHub" de <a href="https://github.com/Kunzisoft/Github-badge">Kunzisoft</a>, ambas con licencia <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>; Obtainium del <a href="https://github.com/ImranR98/Obtainium">proyecto Obtainium</a>; las insignias de HACS, Artifact Hub y Docker Compose están dibujadas para este sitio en Roboto (SIL OFL), alrededor de los iconos del <a href="https://github.com/hacs/integration">proyecto HACS</a> (MIT) y del <a href="https://github.com/artifacthub/hub">proyecto Artifact Hub</a> (Apache 2.0) y del logotipo de Docker de su kit de prensa; la insignia de AlternativeTo es su insignia compacta sobre un panel negro. GitHub es una marca comercial de GitHub, Inc. Docker, Docker Compose y el logotipo de Docker son marcas comerciales de Docker, Inc. Helm es una marca comercial de The Linux Foundation.</p>
+    <div class="foot-bottom">
+      <ul class="foot-legal"><li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/PRIVACY.md">Política de privacidad para Android</a></li><li><a href="/es/life-dashboard/ios/privacy/">Política de privacidad para iPhone</a></li><li><a href="/es/legal/">Marcas y créditos</a></li></ul>
+      <p class="lang-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><ellipse cx="12" cy="12" rx="4" ry="9"/></svg><span class="sr-only">Idioma:</span> <a href="/life-dashboard/health-connect-steps-home-assistant/" lang="en" hreflang="en">English</a> <a href="/nl/life-dashboard/health-connect-stappen-home-assistant/" lang="nl" hreflang="nl">Nederlands</a> <a href="/de/life-dashboard/health-connect-schritte-home-assistant/" lang="de" hreflang="de">Deutsch</a> <a href="/fr/life-dashboard/health-connect-steps-home-assistant/" lang="fr" hreflang="fr">Français</a> <a href="/es/life-dashboard/health-connect-pasos-home-assistant/" lang="es" hreflang="es" aria-current="true">Español</a> <a href="/pt-br/life-dashboard/health-connect-passos-home-assistant/" lang="pt-BR" hreflang="pt-BR">Português (Brasil)</a></p>
+      <p class="foot-note">Owen Vogelaar, que opera como oVog Enterprise · Cámara de Comercio de los Países Bajos (KvK) 81085583 · <a href="mailto:owen282000@hotmail.com">owen282000@hotmail.com</a></p>
+      <p class="foot-note">Este sitio no instala cookies, no usa analíticas y no carga nada de terceros. <a href="/es/privacy/">Privacidad del sitio</a>.</p>
+    </div>
   </div>
 </footer>
 </body>

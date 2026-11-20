@@ -49,16 +49,18 @@ fallbacks and loads no web fonts (it makes no third-party requests, like the app
 
 ## Grid
 
-The faint green grid of the store art and the banner (`rgba(48,183,126,0.05)` to `0.06` lines, 46 to
-60 px cells, faded out with a mask). On the site it sits behind the heroes and the screenshot
-stages, never as a page-wide pattern.
+The faint green grid of the store art and the banner (`rgba(48,183,126,0.06)` lines, 48 px cells,
+faded out with a mask). On the site it appears in one place only: on the stages, the dark
+store-art panels that hold a screenshot. It is not behind headlines, page headers or whole
+sections (the November 2026 redesign removed it there: a grid behind text read as decoration).
 
 ## Identity motif: the heartbeat line
 
 From icon.html: "Heartbeat broadcast: pulse, endpoint dot, and two arcs radiating the signal",
-chosen because "the pulse is measured AND published, which is exactly what the app does". The site draws it
-once under the landing H1 (the one glow on that screen), again, still, above the closing
-headline, and it is the app icon wherever the icon appears.
+chosen because "the pulse is measured AND published, which is exactly what the app does". On the
+landing page the line does that job literally: it runs from the phone to the Home Assistant
+dashboard in the hero picture, drawn once on load (the one glow on the site). It appears again,
+still, above the closing headline, and it is the app icon wherever the icon appears.
 
 ## Imagery
 
@@ -73,45 +75,56 @@ badge: their logo mark and lettering unchanged, the panel black like the others.
 shows at the same visible height, 44px: the files are cropped to the edge of the badge, so one
 CSS height fits all. Live badges sit in one row, the coming ones in a row of their own below.
 
-## Shape and depth (decided in this pass)
+## Shape and depth (November 2026 redesign)
 
-- Radius scale, by role: 10 px small parts, 16 px cards, boxes, code and tables, 24 px large
-  stages, pill for buttons and chips. Phone frames keep a device's corner.
-- One glow per screen: the heartbeat line in the hero, the app node in the flow diagram.
-  Phones and screenshots get a neutral drop shadow.
+- Radius by role: 10 px for controls and small parts (buttons, icon tiles, tags), 16 px for
+  cards, tables and code, 24 px for the stages. No pills: a button has the corner and the 44 px
+  height of the store badges it sits next to, so a row of both lines up. Phone frames keep a
+  device's corner.
+- Boxes are for things you can act on or install: install cards, links to the other parts, the
+  closing panel of a guide. Facts, guides, claims and questions are ruled lists, not cards.
+- One glow: the heartbeat line in the landing hero. Phones and screenshots get a neutral drop
+  shadow; cards and buttons get none and do not lift on hover (the border answers instead).
 - Labels in sentence case. No uppercase kickers over headings.
 - Icons are drawn by hand on a 24 grid with a 2 px round stroke, the line of the heartbeat mark.
-- Light and dark, from one set of tokens (November 2026; before that the site was dark only).
-  The page follows the reader's system setting, without a switch, because the site runs no
-  script. Light is a cool off-white `#F7F9F8` with white surfaces and a deep green-black ink
-  `#0E1A16`; dark is the brand background as before. The brand green `#30B77E` fills buttons
-  in both; as text it is `#0B6B45` on light and `#6FD7A6` on dark, so links keep 4.5:1.
-- Screenshots and code stay dark in both themes. Every capture (the app, Home Assistant,
-  Grafana) is dark, so it sits on the dark store-art stage either way, like a device on a
-  desk, instead of a light frame around a dark slab. Departure to confirm: the app ships a
-  light theme, so light screenshots for the light page are possible later.
+- Two themes from one set of tokens, light and dark, following the reader's system setting.
+  Screenshots, device frames and code stay dark in both ("dark islands"), since every capture
+  is dark.
 
-## Guides (decided in the November 2026 refactor)
+## Type
 
-One template for every guide, in every language (`build_guide` in `tools/site/build.py`):
+One family (see Typeface), one scale: 13, 14, 15 and 17 px for text (17 is the body), 18 and 24
+for small headings, and fluid sizes for H2 (28 to 40 px) and H1 (34 to 56 px). Headings are bold
+with tight tracking; body copy stays under 70 characters a line. Secondary text is the muted
+ink, never a smaller size alone.
 
-- A header band, the only place on a guide with the grid: breadcrumb, the question as H1, the
-  answer as introduction, one line with the author, the date and the reading time, one button.
-- The article at a reading width (720 px, under 80 characters a line) with "On this page"
-  beside it, sticky on a desktop and a box above the text on a phone.
-- Components, each with one look: numbered steps joined by a line (an ordered list is a
-  sequence), callouts (`note` neutral, `tip` green, `warn` amber; the edge says which),
-  tables that scroll sideways with the first column in view, dark code blocks, the FAQ as
-  `<details>`, a closing panel with the store's own badge and price, three related guides.
-- No copy button on code: the site runs no script, and its Content-Security-Policy says so.
-- `/life-dashboard/guides/` lists every guide under the same five headings as the landing page.
+## Layout
+
+- Content width 1200 px with a 32 px gutter (16 px on a phone). Sections are 72 to 120 px apart,
+  tight ones 56 to 88 px. A section sits on the page or on a band (one shade off, hairline
+  above and below).
+- Three compositions, so sections differ: rows (words beside a picture, alternating sides), a
+  split (heading left, a ruled list right: questions, guides, privacy facts, highlights) and a
+  full-width stage under its words for a dashboard that must be readable.
+- A stage shows its screenshot whole, at its own ratio, with room around it. Nothing is cropped
+  by a stage, rotated, or laid over something else.
+- The landing hero: the headline over the full width, the introduction and the store badges
+  side by side under it, then one picture: the phone, the heartbeat line, the Home Assistant
+  dashboard. One destination, large enough to read; the others are named in the text. Below
+  920 px the dashboard is shown as Home Assistant draws it on a phone, so the pair stays side by
+  side down to 320 px.
+- Navigation: the brand, the four parts and the guides, then the language, GitHub (an icon) and
+  the install button. Below 1040 px the links fold into a menu that also holds the languages; the
+  install button stays in the bar.
+- Footer: three short columns (the parts, five guides and a link to all of them, docs and
+  source), then one small block: the app privacy policies and /legal/, the languages, the
+  imprint. Trademark notices and badge credits live on /legal/, not in the footer.
 
 ## Dials
 
 ENERGY 2 / RHYTHM 2 / MOTION 1
 
 - ENERGY 2: confident headlines and real screenshots on tinted stages, but one accent.
-- RHYTHM 2: zigzag rows with at least one full-width break per page (the Grafana screenshot on
-  the landing page, a stacked row on every product page).
-- MOTION 1: the heartbeat draws once, the flow diagram's dots travel twice, then nothing moves.
-  Reduced motion turns both off.
+- RHYTHM 2: rows, splits and at least one full-width stage per page that has a dashboard to show.
+- MOTION 1: the heartbeat line draws once, the flow diagram's dots travel twice, then nothing
+  moves. Reduced motion turns both off.

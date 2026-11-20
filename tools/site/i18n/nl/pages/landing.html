@@ -14,64 +14,26 @@ Links are written as on the English page, relative to /life-dashboard/: build.py
 the page in this language.
 -->
 
-<!-- Hero -->
-<section class="hero">
-  <div class="grid-bg"></div>
+<!-- Hero: the headline and what it is, the stores beside it, then the picture (build.py draws it:
+     the phone, the heartbeat line and Home Assistant), then the six claims as a ruled list. -->
+<section class="hero landing-hero">
   <div class="wrap">
-    <div>
-      <h1>Health Connect en Apple Health <span class="accent">in Home Assistant of op je eigen&nbsp;server</span></h1>
-      <svg class="hero-beat" viewBox="0 0 560 90" aria-hidden="true">
-        <defs><filter id="hb" x="-10%" y="-60%" width="120%" height="220%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-        <g stroke="#30B77E" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" filter="url(#hb)">
-          <path class="beat-path" d="M4 45 H210 L232 12 L258 80 L276 30 L290 45 H420"/>
-          <circle cx="420" cy="45" r="7" fill="#30B77E" stroke="none"/>
-          <path class="arc a1" d="M446 30 A22 22 0 0 1 446 60" opacity=".85"/>
-          <path class="arc a2" d="M466 18 A40 40 0 0 1 466 72" opacity=".5"/>
-        </g>
-      </svg>
-      <p class="lead">Life Dashboard Companion stuurt wat je horloge, ring of weegschaal meet naar je eigen server: Home Assistant, de Grafana-stack, MQTT of je eigen webhook. Alle bron-apps tegelijk, zonder account en zonder Google-account ertussen.</p>
-      <ul class="ticks hero-claims">
-        <li>Elk merk via je telefoon, Android en iPhone in één integratie</li>
-        <li>Je hele geschiedenis in Home Assistant, ook na een nieuwe telefoon</li>
-        <li>Dagtotalen die kloppen: een wandeling op telefoon en horloge telt één keer</li>
-        <li>Ook wijzigingen en verwijderingen worden verstuurd, niet alleen nieuwe metingen</li>
-        <li>Schermtijd per app naast je gezondheidsdata, op Android</li>
-        <li>Open source (MIT), dezelfde ondertekeningssleutel op GitHub, F-Droid en Google Play</li>
-      </ul>
-      <div class="hero-stores">
+    <h1>Health Connect en Apple Health <span class="accent">in Home Assistant of op je eigen&nbsp;server</span></h1>
+    <p class="lead">Life Dashboard Companion stuurt wat je horloge, ring of weegschaal meet naar je eigen server: Home Assistant, de Grafana-stack, MQTT of je eigen webhook. Alle bron-apps tegelijk, zonder account en zonder Google-account ertussen.</p>
+    <div class="hero-stores">
 <!-- BUILD:hero-stores --><!-- /BUILD:hero-stores -->
-      </div>
     </div>
-
-    <div class="hero-visual dest">
-      <svg class="dest-lines" viewBox="0 0 560 600" preserveAspectRatio="none" aria-hidden="true">
-        <defs><linearGradient id="dl" x1="0" x2="1"><stop offset="0" stop-color="#30B77E" stop-opacity=".15"/><stop offset="1" stop-color="#30B77E" stop-opacity=".85"/></linearGradient></defs>
-        <path d="M222 300 C 255 300, 250 110, 288 110" />
-        <path d="M222 300 C 255 300, 250 330, 288 330" />
-        <path d="M222 300 C 255 300, 250 505, 288 505" />
-      </svg>
-      <div class="phone src" style="aspect-ratio: 720 / 1476"><img src="img/A1-health.webp" alt="Het tabblad Gezondheid van de Android-app, met een regel per bestemming en de cijfers van vandaag" width="720" height="1476" fetchpriority="high"></div>
-      <figure class="dcard d-ha">
-        <figcaption><span class="dk">Home Assistant</span></figcaption>
-        <img src="img/H9-health-phone.webp" alt="Het voorbeelddashboard Health in Home Assistant met demodata: stappen, afstand, calorieën, work-outs en hartslag" width="720" height="1559">
-      </figure>
-      <figure class="dcard d-gr">
-        <figcaption><span class="dk">Grafana-stack</span></figcaption>
-        <img src="img/g-overview.webp" alt="Het overzichtsdashboard van de Grafana-stack met demodata" width="1400" height="728">
-      </figure>
-      <figure class="dcard d-js">
-        <figcaption><span class="dk">Je eigen server</span></figcaption>
-<pre aria-label="Een voorbeeld van de JSON die de app verstuurt"><code>{ <span class="k">"source"</span>: <span class="s">"health_connect"</span>,
-  <span class="k">"steps"</span>: [{
-    <span class="k">"count"</span>: <span class="n">412</span>,
-    <span class="k">"source"</span>: <span class="s">"com.ouraring.oura"</span>
-  }] }</code></pre>
-      </figure>
-    </div>
+<!-- BUILD:hero-visual --><!-- /BUILD:hero-visual -->
+    <ul class="hero-claims">
+      <li>Elk merk via je telefoon, Android en iPhone in één integratie</li>
+      <li>Je hele geschiedenis in Home Assistant, ook na een nieuwe telefoon</li>
+      <li>Dagtotalen die kloppen: een wandeling op telefoon en horloge telt één keer</li>
+      <li>Ook wijzigingen en verwijderingen worden verstuurd, niet alleen nieuwe metingen</li>
+      <li>Schermtijd per app naast je gezondheidsdata, op Android</li>
+      <li>Open source (MIT), dezelfde ondertekeningssleutel op GitHub, F-Droid en Google Play</li>
+    </ul>
   </div>
 </section>
-
-<!-- BUILD:parts --><!-- /BUILD:parts -->
 
 <!-- How it works -->
 <section class="section" id="how-it-works">
@@ -129,9 +91,7 @@ the page in this language.
 <section class="section band" id="home-assistant">
   <div class="wrap">
     <div class="show">
-      <div class="show-media">
-        <div class="stage green-glow"></div>
-        <div class="phone p2"><img src="img/H9-health-phone.webp" alt="Het voorbeelddashboard Health in Home Assistant op een telefoon, met demodata: de tegels van vandaag en de laatste work-out" width="720" height="1559" loading="lazy"></div>
+      <div class="show-media stage has-card">
         <figure class="qr-card">
           <img src="img/H2-qr.webp" alt="De Life Dashboard-integratie in Home Assistant met een QR-code om te koppelen" width="800" height="668" loading="lazy">
           <figcaption>Home Assistant toont de code, de app scant hem.</figcaption>
@@ -203,9 +163,8 @@ the page in this language.
           <a class="link-arrow" href="grafana/">Meer over de Grafana-stack</a>
         </div>
       </div>
-      <div class="show-media is-wide full">
-        <div class="stage green-glow"></div>
-        <div class="wide-shot solo"><a class="shot-link" href="img/g-overview.webp" aria-label="Het overzichtsdashboard van de Grafana-stack met demodata, op volledige grootte"><img src="img/g-overview.webp" alt="Het overzichtsdashboard van de Grafana-stack met demodata" width="1400" height="728" loading="lazy"></a></div>
+      <div class="show-media stage is-wide">
+        <div class="wide-shot"><a class="shot-link" href="img/g-overview.webp" aria-label="Het overzichtsdashboard van de Grafana-stack met demodata, op volledige grootte"><img src="img/g-overview.webp" alt="Het overzichtsdashboard van de Grafana-stack met demodata" width="1400" height="728" loading="lazy"></a></div>
       </div>
     </div>
   </div>
@@ -215,10 +174,9 @@ the page in this language.
 <section class="section" id="apps">
   <div class="wrap">
     <div class="show flip">
-      <div class="show-media">
-        <div class="stage green-glow"></div>
-        <div class="phone p1"><img src="img/A1-health.webp" alt="Het tabblad Gezondheid van de Android-app" width="720" height="1476" loading="lazy"></div>
-        <div class="phone p2"><img src="img/ios-health.webp" alt="Het tabblad Gezondheid van de iPhone-app" width="720" height="1464" loading="lazy"></div>
+      <div class="show-media stage two">
+        <div class="phone"><img src="img/A1-health.webp" alt="Het tabblad Gezondheid van de Android-app" width="720" height="1476" loading="lazy"></div>
+        <div class="phone"><img src="img/ios-health.webp" alt="Het tabblad Gezondheid van de iPhone-app" width="720" height="1464" loading="lazy"></div>
       </div>
       <div>
           <h2>Eén payload, van Android en iPhone</h2>
@@ -254,8 +212,7 @@ the page in this language.
 
 <!-- Privacy -->
 <section class="section privacy" id="privacy">
-  <div class="grid-bg"></div>
-  <div class="wrap">
+  <div class="wrap split">
     <h2>Je data gaat alleen naar de adressen die je zelf invoert</h2>
     <div class="trust">
       <div class="card"><h3>Geen account</h3><p>Je hoeft je nergens aan te melden.</p></div>
@@ -286,7 +243,7 @@ the page in this language.
 
 <!-- FAQ -->
 <section class="section tight band" id="faq">
-  <div class="wrap">
+  <div class="wrap split">
     <div class="section-head">
       <h2>Veelgestelde vragen</h2>
     </div>
@@ -344,7 +301,7 @@ the page in this language.
     </svg>
     <h2>Jouw gezondheidsdata, jouw server</h2>
     <div class="final-stores">
-<!-- BUILD:hero-stores --><!-- /BUILD:hero-stores -->
+<!-- BUILD:final-stores --><!-- /BUILD:final-stores -->
     </div>
     <p class="fineprint">Broncode, issues en <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">discussies</a> op <a href="https://github.com/owen282000/life-dashboard-companion-app">GitHub</a>. Nieuwe versies in de <a href="https://github.com/owen282000/life-dashboard-companion-app/releases.atom">releasefeed</a>.</p>
   </div>
