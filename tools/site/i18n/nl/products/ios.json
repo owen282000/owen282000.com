@@ -1,0 +1,178 @@
+{
+  "slug": "ios",
+  "nav_name": "iPhone-app",
+  "title": "Apple Health exporteren vanaf je iPhone | Life Dashboard",
+  "description": "Life Dashboard Companion voor iPhone stuurt je Apple Health-gegevens als ondertekende JSON naar Home Assistant, MQTT of je eigen webhook. Open source, geen cloud.",
+  "kicker": "iPhone-app",
+  "h1": "Apple Health, van je iPhone naar je eigen server",
+  "lead": "Life Dashboard Companion voor iPhone is een open-source app die 28 Apple Health-types leest en naar Home Assistant, een MQTT-broker of je eigen webhook stuurt. De payload is dezelfde als die van de Android-app, dus beide telefoons kunnen dezelfde server delen.",
+  "hero_image": "ios-health",
+  "highlights": [
+    {
+      "title": "28 Apple Health-types",
+      "text": "Stappen, slaapfasen, hartslag, HRV, gewicht, bloeddruk, glucose, VO2 max, work-outs, voeding en cyclus. Elk type staat eerst uit."
+    },
+    {
+      "title": "Elke meting, plus dagtotalen",
+      "text": "Bij elke meting staat de app of het apparaat dat hem schreef. Dagtotalen tellen een wandeling die iPhone en Watch allebei hebben gemeten één keer."
+    },
+    {
+      "title": "Je hele geschiedenis",
+      "text": "Een backfill van 30 dagen tot 5 jaar, of alles wat Apple Health heeft. Een meting die je in Apple Health verwijdert, wordt bij de volgende sync aan je server gemeld."
+    },
+    {
+      "title": "Dezelfde payload als Android",
+      "text": "De sleutels, eenheden en ondertekening van de Android-app, zodat één Home Assistant of één ontvanger beide telefoons aankan."
+    },
+    {
+      "title": "Synchroniseert op de achtergrond",
+      "text": "Een interval of vaste tijden, met stille uren. iOS kiest het moment; met een automatisering in Opdrachten krijg je een exact tijdstip."
+    },
+    {
+      "title": "Widget, bedieningspaneel, Siri",
+      "text": "Zie de laatste sync op je beginscherm en synchroniseer vanaf daar, vanuit het bedieningspaneel op iOS 18, of met Siri."
+    }
+  ],
+  "sections": [
+    {
+      "kicker": "Home Assistant en MQTT",
+      "h2": "Apple Health in Home Assistant, met een QR-code of via MQTT",
+      "text": "De Life Dashboard-integratie koppel je met één QR-code, en ze bewaart elke dag in de langetermijnstatistieken. Via MQTT maakt Home Assistant Discovery de sensoren aan zonder YAML, vanaf de eerste sync.",
+      "bullets": [
+        {
+          "main": "20 van de 28 types als sensor",
+          "sub": "De stappen, afstand en calorieën van vandaag, en de laatste hartslag, HRV, slaap, gewicht, bloeddruk, glucose en VO2 max. De integratie voegt de laatste work-out, slaapfasen en wat je vandaag hebt gegeten toe."
+        },
+        {
+          "main": "Je hele geschiedenis",
+          "sub": "Met de integratie komen de dagen uit een backfill op hun eigen datum terecht, zo ver terug als Apple Health data heeft. Work-outs en mindfulness tellen als uren per dag."
+        },
+        {
+          "main": "Een eigen MQTT-apparaat en basistopic",
+          "sub": "lifedashboard-ios, zodat een iPhone nooit botst met een Android-telefoon op dezelfde broker."
+        }
+      ],
+      "image": "ios-mqtt",
+      "link": {
+        "href": "https://github.com/owen282000/life-dashboard-companion-app-ios/blob/main/docs/usage.md#phone-to-home-assistant",
+        "text": "De integratie en MQTT instellen"
+      }
+    },
+    {
+      "kicker": "Webhooks",
+      "h2": "Een Apple Health-webhook met ondertekende JSON",
+      "text": "Elke server die een JSON-POST accepteert kan de data ontvangen: <a href=\"../apple-health-n8n/\">n8n</a>, Node-RED, de Grafana-stack of een script. Elke meting heeft een <code>uuid</code> om op te ontdubbelen en een <code>source</code> met de app of het apparaat dat hem schreef.",
+      "bullets": [
+        {
+          "main": "Ondertekening met HMAC-SHA256",
+          "sub": "Een optionele X-Signature-header, hetzelfde schema als bij de Android-app."
+        },
+        {
+          "main": "Clientcertificaten (mTLS)",
+          "sub": "Importeer een .p12-bestand in de sleutelhanger van deze iPhone, voor een server achter een reverse proxy die er een vereist."
+        },
+        {
+          "main": "Een wachtrij voor nieuwe pogingen op de telefoon",
+          "sub": "Elke payload gaat eerst de wachtrij in en wordt dan pas verstuurd. Een sync die iOS afbreekt verliest dus niets. Er passen er tot 700 in."
+        },
+        {
+          "main": "Elke verzending op het tabblad Logs",
+          "sub": "Eén regel per verzending met status, bestemming en tijdstip, een filter op mislukte verzendingen, en de payload één tik verder. Syncgeschiedenis klapt uit met verzendingen, metingen en de laatste fouten."
+        }
+      ],
+      "image": "ios-logs",
+      "link": {
+        "href": "../apple-health-webhook/",
+        "text": "De payload die een iPhone verstuurt"
+      }
+    },
+    {
+      "kicker": "Synchroniseren op de achtergrond",
+      "h2": "Draait op de achtergrond, binnen wat iOS toelaat",
+      "text": "HealthKit maakt de app wakker als een ingeschakeld type nieuwe data heeft, en iOS voert achtergrondtaken uit wanneer het dat zelf goed vindt. Een vaste tijd betekent “niet eerder dan”. Wil je het op de minuut, laat dan een automatisering in Opdrachten <strong>Gezondheidsdata synchroniseren</strong> uitvoeren.",
+      "bullets": [
+        {
+          "main": "Een interval of vaste tijden",
+          "sub": "Minimaal 15 minuten, standaard 60, op de weekdagen die je kiest."
+        },
+        {
+          "main": "Stille uren",
+          "sub": "Geen sync tussen twee tijdstippen. Payloads in de wachtrij wachten ook."
+        },
+        {
+          "main": "Een vergrendelde iPhone is niet uit te lezen",
+          "sub": "iOS versleutelt Apple Health zolang de iPhone vergrendeld is. Een sync wacht dus tot de iPhone ontgrendeld is."
+        },
+        {
+          "main": "Opdrachten, widget en bedieningspaneel",
+          "sub": "Alle drie voeren Gezondheidsdata synchroniseren uit, samen hooguit één keer per minuut."
+        }
+      ],
+      "image": "ios-schedule",
+      "link": {
+        "href": "https://github.com/owen282000/life-dashboard-companion-app-ios/blob/main/docs/features.md#what-ios-does-differently",
+        "text": "Wat iOS anders doet"
+      }
+    }
+  ],
+  "requirements": "Een iPhone met iOS 17 of nieuwer. Uit de App Store is dat alles: €&nbsp;6,99 eenmalig, geen abonnement. Zelf bouwen vraagt een Mac met Xcode 26 (macOS 26.2 voor de nieuwste Xcode, of Xcode 26.3 op macOS 15.6) en een lidmaatschap van het Apple Developer Program, omdat een gratis Apple Account geen app kan ondertekenen die Apple Health leest. Reken de eerste keer op ongeveer een uur; de ondertekening is een jaar geldig. De Life Dashboard-integratie vraagt Home Assistant 2026.3 of nieuwer, plus HACS op versies vóór 2026.11.",
+  "faq": [
+    {
+      "q": "Wat komt er bij zelf bouwen kijken?",
+      "id": "building",
+      "open": true,
+      "a": "De eerste keer ongeveer een uur, als je Xcode nog nooit hebt gebruikt. Je hebt een Mac met Xcode 26 nodig (de nieuwste Xcode vraagt macOS 26.2; op macOS 15.6 werkt Xcode 26.3) en een lidmaatschap van het Apple Developer Program: Apple Health vereist de HealthKit-capability, en die kan een gratis Apple Account niet ondertekenen. Daarna: <strong>1.</strong> Kloon de repository en open het project in Xcode. <strong>2.</strong> Kies je eigen team voor de app en de widget. <strong>3.</strong> Geef beide je eigen bundle identifier. <strong>4.</strong> Vervang de app group op drie plekken (de capabilities van de twee targets en één regel in <code>SharedSyncStatus.swift</code>). <strong>5.</strong> Start de app op je iPhone en sta de ontwikkelaarsmodus één keer toe. De <a href=\"https://github.com/owen282000/life-dashboard-companion-app-ios/blob/main/docs/usage.md#build-and-install\">installatiegids</a> laat elk scherm zien. De ondertekening is een jaar geldig; start de app opnieuw vanuit Xcode om haar te vernieuwen."
+    },
+    {
+      "q": "Werkt het met een Apple Watch?",
+      "a": "Ja. De app leest wat de Watch naar Apple Health schrijft. Totale calorieën komen alleen aan op dagen met rustenergie, en daarvoor heb je meestal een Watch nodig. HRV is SDNN, de maat die Apple Health bewaart, en dus niet hetzelfde getal als de RMSSD van een Android-horloge."
+    },
+    {
+      "q": "In welke talen is de app er?",
+      "a": "Elf: Engels, Nederlands, Duits, Frans, Spaans, Italiaans, Portugees (Brazilië), Japans, Arabisch, Hindi en vereenvoudigd Chinees. De app volgt de taal van de iPhone, of de taal die je in Instellingen voor de app kiest."
+    },
+    {
+      "q": "Verstuurt de app Schermtijd?",
+      "a": "Nee. De Screen Time-API van Apple laat het gebruik alleen zien binnen een rapportextensie die in een sandbox zonder netwerktoegang draait. Geen enkele iOS-app kan het dus ergens naartoe sturen. Schermtijd per app zit in de <a href=\"../android/\">Android-app</a>."
+    },
+    {
+      "q": "Kan de app een meting van mijn weegschaal naar Apple Health schrijven?",
+      "a": "Nee. De app vraagt Apple Health alleen om leestoegang. Metingen van weegschaal en bloeddrukmeter vanuit Home Assistant naar Health Connect schrijven is een functie van de Android-app."
+    },
+    {
+      "q": "Wat is het verschil met de Apple Health-sensoren van de Companion-app van Home Assistant?",
+      "a": "Houd de Companion-app voor aanwezigheid en meldingen. De Apple Health-sensoren daarvan tonen het totaal van vandaag of de nieuwste meting, en hun geschiedenis begint op de dag dat je ze aanzet. Deze app verstuurt elke meting van 28 types, zet met een backfill je hele geschiedenis in Home Assistant, en stuurt ook naar MQTT of een webhook."
+    },
+    {
+      "q": "Kunnen een iPhone en een Android-telefoon dezelfde Home Assistant delen?",
+      "a": "Ja. Elke telefoon krijgt een eigen apparaat in de integratie, en op MQTT gebruikt de iPhone een eigen basistopic. Ook een back-up van je instellingen kun je tussen de twee apps overzetten."
+    },
+    {
+      "q": "Kan de app tegelijk naar Home Assistant en een webhook sturen?",
+      "a": "Ja. Elk adres heeft een eigen ondertekeningsgeheim en eigen headers, en koppelen met Home Assistant stelt die alleen in voor het adres dat erbij komt. Een tweede ontvanger houdt dus zijn eigen instellingen. Eén ding om nu te weten: een payload geldt als afgeleverd zodra één bestemming hem aanneemt, dus een bestemming die op dat moment niet bereikbaar is, mist hem. De app kan naar meerdere webhooks en tegelijk naar MQTT sturen."
+    },
+    {
+      "q": "Staat de app in de App Store?",
+      "a": "Ja: <a href=\"https://apps.apple.com/app/life-dashboard-companion/id6824075761\">Life Dashboard Companion in de App Store</a>, €&nbsp;6,99 eenmalig (US$&nbsp;5,99), zonder abonnement. Het is dezelfde app, gebouwd uit dezelfde broncode, voor wie hem liever niet zelf bouwt en het project op die manier wil steunen. Zelf bouwen kost niets extra als je al lid bent van het Apple Developer Program: haal de repository opnieuw binnen en start de app opnieuw om bij te werken; je instellingen blijven staan. Bij de <a href=\"https://github.com/owen282000/life-dashboard-companion-app-ios/releases\">releases op GitHub</a> staat wat er is veranderd."
+    },
+    {
+      "q": "Ik heb geen Mac. Kan ik de app toch gebruiken?",
+      "a": "Ja: installeer hem uit de <a href=\"https://apps.apple.com/app/life-dashboard-companion/id6824075761\">App Store</a>, daar heb je geen Mac voor nodig. Alleen zelf bouwen vraagt Xcode, en dat draait alleen op een Mac."
+    },
+    {
+      "q": "Kan ik de app bouwen met een gratis Apple Account?",
+      "a": "Nee. Een app die Apple Health leest heeft de HealthKit-capability nodig, en die kun je alleen ondertekenen met een lidmaatschap van het Apple Developer Program, niet met een gratis Apple Account. Met een lidmaatschap kost zelf bouwen niets extra en is de ondertekening een jaar geldig. Zonder is de versie uit de App Store de weg."
+    }
+  ],
+  "updated": "2026-11-06",
+  "guides": [
+    "apple-health-home-assistant",
+    "apple-watch-home-assistant",
+    "apple-health-webhook",
+    "apple-health-n8n",
+    "apple-health-data-types",
+    "health-connect-webhook",
+    "health-data-api",
+    "health-data-own-ai"
+  ]
+}

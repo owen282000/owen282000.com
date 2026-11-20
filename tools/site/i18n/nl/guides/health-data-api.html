@@ -1,0 +1,93 @@
+<!--
+title: Health Connect en Apple Health: geen web-API | Life Dashboard
+description: Health Connect en Apple Health hebben geen web-API. Life Dashboard Companion leest ze op je telefoon en stuurt ondertekende JSON naar je server of Home Assistant.
+primary query: health connect api
+secondary queries: apple health api, health connect web api, apple health rest api, health connect data op server, health connect rest api, healthkit web api, google health api, fitbit web api gestopt, samsung health api, apple gezondheid api
+updated: 2026-11-05
+published: 2026-11-20
+-->
+
+<h1>Is er een web-API voor Health Connect of Apple Health?</h1>
+
+<p>Nee. Health Connect en Apple Health zijn opslagplekken op de telefoon die apps via Android of iOS uitlezen, en geen van beide heeft een endpoint dat je server kan aanroepen. Om de data op een server te krijgen moet een app op de telefoon ze lezen en doorsturen, en dat is wat Life Dashboard Companion doet, op Android en op de iPhone.</p>
+
+<p class="flow-line"><span>Horloge, ring of weegschaal</span><span>De app ervan</span><span>Health Connect of Apple Health</span><span>Life Dashboard Companion</span><span>Je server</span></p>
+
+<h2>Health Connect is een Android-API op de telefoon</h2>
+
+<p>Health Connect is de gedeelde opslag van Android voor gezondheidsdata. Samsung Health, Garmin Connect, Google Health, Oura en Withings schrijven ernaar, en andere apps lezen eruit met de Android-API van Health Connect, met één toestemming per datatype.</p>
+
+<p>Er is geen serverkant. De records staan op de telefoon, en alleen code die op die telefoon draait kan ze lezen. Health Connect beperkt ook hoe ver een app terug kan lezen: voor alles van meer dan 30 dagen voordat je hem voor het eerst toegang gaf is een aparte geschiedenistoestemming nodig.</p>
+
+<h2>Apple Health is HealthKit op de iPhone</h2>
+
+<p>Apple Health (de app Gezondheid op je iPhone) werkt op dezelfde manier. De data staat op de iPhone, apps lezen ze via HealthKit nadat je elk type hebt toegestaan, en Apple biedt geen web-API voor je gezondheidsdata. iOS versleutelt Apple Health bovendien zolang de iPhone vergrendeld is, dus zelfs een app op de telefoon moet wachten tot je hem ontgrendelt.</p>
+
+<h2>De cloudroutes die wel bestaan</h2>
+
+<p>Voor data in een Google-account, bijvoorbeeld van een Fitbit of een Pixel Watch, biedt Google in zijn cloud de Google Health API. Daarvoor heb je een Google Cloud-project en een OAuth-client nodig, en hij ziet alleen wat in je Google-account terechtkomt. De oudere Fitbit Web API werd vanaf 30 september 2026 niet meer ondersteund en is op 2 november 2026 uitgezet. Tools die erop gebouwd waren, zoals de Fitbit-integratie van Home Assistant, stopten toen met synchroniseren. <a href="../fitbit-home-assistant/">Fitbit en Pixel Watch in Home Assistant</a> beschrijft de route via de telefoon.</p>
+
+<p>Samsung Health heeft geen cloud-API waar je op kunt aansluiten, en de eigen data-SDK van Samsung staat alleen open voor geregistreerde partners. Ook daar is Health Connect de open route. Zie <a href="../samsung-health-export/">Samsung Health naar je eigen server</a>.</p>
+
+<h2>Wat je nodig hebt</h2>
+
+<ul>
+  <li>Een Android-telefoon met Android 9 of nieuwer en Health Connect, of een iPhone met iOS 17 of nieuwer.</li>
+  <li><a href="../android/">Life Dashboard Companion voor Android</a>. {{status:android}}</li>
+  <li>Of <a href="../ios/">Life Dashboard Companion voor iPhone</a>. {{status:ios}}</li>
+  <li>Een plek om de data naartoe te sturen: een server die een JSON-POST over HTTPS accepteert, <a href="../home-assistant/">Home Assistant</a>, een MQTT-broker of <a href="../grafana/">de Life Dashboard-stack</a>.</li>
+</ul>
+
+<h2>Zo stel je het in</h2>
+
+<p>Voor je eigen server, op Android:</p>
+
+<ol>
+  <li>Open de app. Vul bij <strong>Waar moet je data naartoe?</strong> je URL in onder <strong>Webhook-URL</strong> en tik op <strong>Toevoegen</strong>.</li>
+  <li>Tik op het tabblad <strong>Gezondheid</strong> op de rij van het adres. Tik onder <strong>HMAC-ondertekeningssleutel (optioneel)</strong> op <strong>Genereren</strong> en zet dezelfde waarde op je server.</li>
+  <li>Tik bovenaan op <strong>Bewaren</strong>, open de rij opnieuw en tik op <strong>Test versturen</strong>.</li>
+  <li>Tik op <strong>Toestaan</strong>, geef toestemming voor je datatypes en voor lezen op de achtergrond, en tik dan op <strong>Nu synchroniseren</strong>.</li>
+  <li>Tik voor oudere data op <strong>Geschiedenis versturen</strong> onder <strong>Wat versturen</strong> en kies hoe ver terug, van <strong>30 dagen</strong> tot <strong>Alles</strong>.</li>
+</ol>
+
+<p>Op een iPhone voeg je de URL toe met <strong>Bestemming toevoegen</strong> op het tabblad <strong>Gezondheid</strong>. Tik op de bestemming voor het <strong>HMAC-ondertekeningsgeheim</strong> en <strong>Test versturen</strong>. Datatypes en <strong>Geschiedenis versturen</strong> staan onder <strong>Wat versturen</strong>. <a href="../health-connect-webhook/">Health Connect naar een webhook</a> is de volledige gids voor de ontvanger.</p>
+
+<!-- IMG: Webhook settings with HMAC (A6-webhook.png) -->
+
+<h2>Wat je krijgt</h2>
+
+<ul>
+  <li><strong>Elk record als JSON.</strong> Tot 34 types uit Health Connect, of 28 uit Apple Health, elk met een vaste <code>uuid</code> en de app die het schreef.</li>
+  <li><strong>Dagtotalen die een wandeling één keer tellen.</strong> Stappen, afstand en calorieën komen uit de ontdubbelde cijfers van de opslag zelf, zodat telefoon en horloge samen niet op het dubbele uitkomen.</li>
+  <li><strong>Eén formaat voor beide telefoons.</strong> De iPhone-app stuurt dezelfde sleutels met <code>"source": "healthkit_ios"</code>, dus één ontvanger kan beide aan.</li>
+  <li><strong>Een handtekening.</strong> Als je een geheim hebt ingesteld, heeft elk verzoek <code>X-Signature: sha256=&lt;hex&gt;</code>, een HMAC-SHA256 van de body.</li>
+  <li><strong>Een eigen API, als je die wilt.</strong> <a href="../grafana/">De Life Dashboard-stack</a> slaat de data op in Postgres en geeft die terug als alleen-lezen JSON onder <code>/api/</code>, per dag, nacht, work-out of meetwaarde, achter een token. De MCP-server ervan geeft hetzelfde aan <a href="../health-data-own-ai/">een model dat je zelf kiest</a>.</li>
+</ul>
+
+<h2>Beperkingen</h2>
+
+<ul>
+  <li>Je server kan de telefoon niet om een datumbereik vragen. Hij ontvangt wat de telefoon stuurt, en een backfill, waarmee de app je oude data alsnog verstuurt, start je op de telefoon.</li>
+  <li>Data verlaat de telefoon wanneer de app synchroniseert: op Android standaard elke 60 minuten, op zijn kortst elke 15. Op de iPhone bepaalt iOS het precieze moment.</li>
+  <li>Je krijgt alleen wat de app van de fabrikant naar de opslag schrijft.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Kan mijn server data ophalen uit Health Connect?</summary>
+    <p>Nee. Health Connect heeft geen netwerkinterface. Een app op de telefoon moet de data lezen en naar buiten sturen, zoals Life Dashboard Companion doet.</p>
+  </details>
+  <details>
+    <summary>Is er een REST-API voor Apple Health?</summary>
+    <p>Nee. Apps lezen Apple Health via HealthKit op de iPhone. <a href="../ios/">Life Dashboard Companion voor iPhone</a> leest het daar uit en stuurt dezelfde JSON als de Android-app.</p>
+  </details>
+  <details>
+    <summary>Moet ik dan de Google Health API gebruiken?</summary>
+    <p>Die past als al je data in een Google-account staat, van een Fitbit of een Pixel Watch, en je een Google Cloud-project en een OAuth-client geen probleem vindt. In Health Connect op de telefoon staat ook wat Samsung Health, Garmin Connect, Oura en Withings schrijven, en Life Dashboard Companion stuurt dat allemaal in één payload.</p>
+  </details>
+  <details>
+    <summary>Gaat mijn data onderweg via een cloud?</summary>
+    <p>Nee. Er is geen server van Life Dashboard, en de app stuurt alleen naar de bestemmingen die je invult. Als je Home Assistant Cloud gebruikt om buitenshuis te synchroniseren, is dat een route die je zelf hebt gekozen.</p>
+  </details>
+</section>

@@ -1,0 +1,152 @@
+<!--
+title: Health Connect webhook naar je eigen server | Life Dashboard
+description: Life Dashboard Companion, een open-source Android-app, stuurt Health Connect-data als ondertekende JSON naar je eigen webhook, uit Samsung Health, Garmin en meer.
+primary query: health connect webhook
+secondary queries: health connect api, health connect gegevens exporteren, health connect json, health connect node-red, health connect grafana, health connect influxdb, gezondheidsdata zelf hosten, health connect eigen server
+updated: 2026-11-20
+published: 2026-11-20
+-->
+
+<h1>Hoe stuur ik Health Connect-data als JSON naar mijn eigen webhook?</h1>
+
+<p>Life Dashboard Companion, een open-source Android-app, leest Health Connect volgens een schema uit en stuurt elke nieuwe meting naar de URL's die je invult, als HTTPS-POST met een JSON-body. Elke payload bevat de metingen van de types die je hebt aangezet (34 in totaal, van stappen en slaapfasen tot hartslag, gewicht en bloeddruk), elk met een stabiele <code>uuid</code> en de app die de meting schreef, plus dagtotalen die een wandeling één keer tellen.</p>
+
+<p>Stel je een geheim in, dan wordt elk verzoek ondertekend met HMAC-SHA256 in een <code>X-Signature</code>-header. Payloads die niet afgeleverd kunnen worden, wachten in een wachtrij op de telefoon op de volgende sync. Elke ontvanger die JSON accepteert werkt, ook n8n, Node-RED, een klein script of de Life Dashboard-stack met Postgres en Grafana.</p>
+
+<h2>Waarom er een app op de telefoon voor nodig is</h2>
+
+<p>Health Connect heeft geen web-API. Het is een opslag op de telefoon die apps via Android uitlezen, dus iets op de telefoon moet de data lezen en doorsturen. Life Dashboard Companion doet dat en post rechtstreeks naar je URL, zonder cloudservice of Google-account ertussen. Eén payload bevat elke bron: wat Samsung Health, Google Health (Fitbit en Pixel Watch), Garmin Connect, Oura en Withings naar Health Connect schrijven, waarbij bij elke meting staat welke app die schreef. De cloudroute van Google, de Google Health API, vraagt om een Google Cloud-project en een OAuth-client, en ziet alleen wat in je Google-account terechtkomt.</p>
+
+<h2>Wat je nodig hebt</h2>
+
+<ul>
+  <li>Android 9 of nieuwer met Health Connect, en een app die ernaar schrijft, zoals Samsung Health, Garmin Connect of Google Health.</li>
+  <li><a href="../android/">Life Dashboard Companion voor Android</a>, uit <a href="{{play_url}}">Google Play</a> voor €&nbsp;4,99 eenmalig, of gratis via GitHub Releases, Obtainium of F-Droid. Bij de <a href="../android/#get">installatieopties</a> staat elke route.</li>
+  <li>Een server die een JSON-POST via HTTPS accepteert, met een limiet voor de body van minstens 10 MB. Voor onversleutelde HTTP in je eigen netwerk zet je <strong>Onversleutelde HTTP-webhooks toestaan</strong> aan onder <strong>Meer</strong> &gt; <strong>Geavanceerd</strong>.</li>
+</ul>
+
+<h2>Health Connect naar je eigen server sturen</h2>
+
+<ol>
+  <li>Tik op het tabblad <strong>Gezondheid</strong> op <strong>Bestemming toevoegen</strong> (is er nog niets ingesteld: <strong>Je eigen server gebruiken</strong>), plak je URL onder <strong>Webhook-URL</strong> en tik op <strong>Webhook toevoegen</strong>. Het tabblad <strong>Schermtijd</strong> heeft een eigen lijst.</li>
+  <li>Het adres opent op een eigen pagina. Optioneel: voeg een <code>Authorization</code>-header of API-sleutel toe onder <strong>Headers</strong>.</li>
+  <li>Tik onder <strong>HMAC-ondertekeningssleutel (optioneel)</strong> op <strong>Genereren</strong> en zet dezelfde waarde op je server. Elk adres heeft een eigen geheim, dus een tweede server krijgt zijn eigen geheim.</li>
+  <li>Tik bovenaan op <strong>Bewaren</strong>, open de rij van het adres op het tabblad opnieuw en tik op <strong>Test versturen</strong> om te controleren of je server het verzoek accepteert.</li>
+  <li>Geef de Health Connect-rechten en tik op <strong>Nu synchroniseren</strong>. Met <strong>Geschiedenis versturen</strong> onder <strong>Wat versturen</strong> stuur je 30 dagen tot 5 jaar, of <strong>Alles</strong>.</li>
+</ol>
+
+<!-- IMG: Webhook settings with HMAC (A6-webhook.png) -->
+
+<h2>Hoe de POST eruitziet</h2>
+
+<p>Elk verzoek is een <code>POST</code> met <code>Content-Type: application/json; charset=utf-8</code>. Een sync-payload met stappen en hartslag, ingekort:</p>
+
+<pre><code>{
+  "timestamp": "2026-10-04T07:15:02.481Z",
+  "app_version": "1.23.0",
+  "source": "health_connect",
+  "sequence": 1842,
+  "daily_totals": [
+    {
+      "date": "2026-10-04",
+      "steps": 1204,
+      "distance_meters": 911.6,
+      "active_calories": 58.2,
+      "total_calories": 702.9
+    }
+  ],
+  "steps": [
+    {
+      "uuid": "eb52b2c4-e3f7-49f3-8f92-34ca86640305",
+      "source": "com.fitbit.FitbitMobile",
+      "count": 412,
+      "start_time": "2026-10-04T06:00:00Z",
+      "end_time": "2026-10-04T07:00:00Z"
+    }
+  ],
+  "heart_rate": [
+    {
+      "uuid": "708a76cb-45d3-45ea-9f8b-26d6d55d2692#1791097080000",
+      "source": "com.fitbit.FitbitMobile",
+      "bpm": 61,
+      "time": "2026-10-04T06:58:00Z"
+    }
+  ]
+}</code></pre>
+
+<p>De <code>source</code> van een meting is de pakketnaam van de app die de meting schreef. De <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md">payload-referentie</a> beschrijft elk type, en met een <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook-schema.json">JSON Schema</a> valideer je wat er binnenkomt.</p>
+
+<h2>De handtekening controleren</h2>
+
+<p>Met een geheim ingesteld draagt elk verzoek <code>X-Signature: sha256=&lt;hex&gt;</code>, de HMAC-SHA256 van de ruwe body. Gebruik het geheim als UTF-8-tekst, zonder het te decoderen, en bereken de HMAC over de bytes zoals ze binnenkwamen, voordat je ze parset. Vergelijk in constante tijd en antwoord met 401 als de handtekening niet klopt:</p>
+
+<pre><code>expected = "sha256=" + hmac.new(SECRET, body, hashlib.sha256).hexdigest()
+valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
+
+<p>Vraagt je reverse proxy om een clientcertificaat, installeer dat dan in de instellingen van Android en kies het onder <strong>Meer</strong> &gt; <strong>Geavanceerd</strong> &gt; <strong>Clientcertificaat (mTLS)</strong>.</p>
+
+<h2>Nieuwe pogingen, wachtrij en verwijderingen</h2>
+
+<ul>
+  <li><strong>Nieuwe pogingen.</strong> Elke 2xx telt als afgeleverd. Bij een time-out, netwerkfout, 408, 429 of 5xx doet de app 3 pogingen. Een 400, 413 of 422 wordt niet opnieuw geprobeerd: de app biedt die payload een week lang bij elke sync opnieuw aan en laat hem daarna vallen, terwijl latere payloads gewoon de deur uit gaan. De app wacht hooguit 10 seconden, dus antwoord eerst en sla daarna op.</li>
+  <li><strong>Wachtrij.</strong> Een mislukte payload blijft op de telefoon en gaat bij de volgende sync als eerste weg. De wachtrij bevat maximaal 700 Health Connect-payloads, een week aan syncs om de 15 minuten. Na een 401 of 404 wachten latere payloads tot je de instellingen hebt hersteld en komen ze daarna op volgorde binnen.</li>
+  <li><strong>Dubbele en late payloads.</strong> Een meting kan opnieuw binnenkomen na een nieuwe poging of in een backfill, waarmee de app je oude data alsnog verstuurt. Sla metingen dus op met <code>uuid</code> als sleutel. Een payload die in de wachtrij stond, of een die je ontvanger weigerde en later opnieuw krijgt, kan na een nieuwere binnenkomen en bevat toch metingen die geen latere payload herhaalt: verwerk ook die metingen. Gebruik <code>sequence</code>, dat alleen oploopt, uitsluitend om conflicten te beslechten: een meting die in <code>deleted_records</code> stond van een payload met een hoger nummer blijft verwijderd, en de <code>daily_totals</code> voor een datum komen uit de payload met het hoogste nummer waarin die datum zat.</li>
+  <li><strong>Verwijderingen.</strong> Een meting die in Health Connect is verwijderd, staat in <code>deleted_records</code> van de volgende payload, met <code>type</code> en <code>uuid</code>. Het bijhouden begint zodra de app een type voor het eerst synchroniseert, en een type waarvoor de telefoon bij een sync niet kan instaan staat in <code>deletions_unavailable</code>. Trek die recht met een backfill.</li>
+</ul>
+
+<h2>Ontvangers die werken</h2>
+
+<ul>
+  <li><strong>De Life Dashboard-stack.</strong> Gepubliceerde images voor een ontvanger die <code>X-Signature</code> controleert, Postgres en Grafana met zes dashboards, te installeren vanuit één compose-bestand of met een Helm-chart. Scan de QR-code met de koppelcode in de app, of laat de app wijzen naar <code>http://&lt;host&gt;:8080/webhook/&lt;label&gt;</code>. Zie <a href="../grafana/">de Life Dashboard-stack</a>.</li>
+  <li><strong>n8n.</strong> Een Webhook-node met <strong>Raw Body</strong> aan, een controle van de handtekening en een <strong>Respond to Webhook</strong>-node die 204 of 401 antwoordt. In <a href="../health-connect-n8n/">Health Connect naar n8n</a> staat de hele workflow, en in de payload-referentie de <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md#n8n-and-node-red">stappen met een Crypto-node</a>.</li>
+  <li><strong>Node-RED.</strong> Een <strong>http in</strong>-node met <strong>Do not parse request body</strong> aan (Node-RED 4.1 of nieuwer) geeft de ruwe bytes voor de HMAC.</li>
+  <li><strong>Home Assistant.</strong> De <a href="../health-connect-home-assistant/">Life Dashboard-integratie</a> maakt van de payload sensoren en langetermijnstatistieken.</li>
+  <li><strong>InfluxDB of iets anders.</strong> Er is geen kant-en-klare ontvanger voor InfluxDB, dus schrijf een klein script. De payload-referentie heeft een ontvanger in <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md#receiver-in-python-flask">Python</a> en een in <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md#receiver-in-nodejs-express">Node.js</a> om mee te beginnen.</li>
+</ul>
+
+<h2>Opslaan in Postgres</h2>
+
+<p>Wat de POST ook ontvangt, n8n of een script, het opslagpatroon is hetzelfde:</p>
+
+<ul>
+  <li>Upsert elke meting op zijn payload-sleutel en <code>uuid</code>, in een <code>text</code>-kolom. Metingen van hartslag en huidtemperatuur hebben een <code>#</code> en een tijd achter het ID van het record, dus het is geen Postgres-<code>uuid</code>.</li>
+  <li>Bewaar <code>daily_totals</code> als één rij per datum, die alleen wordt vervangen door een payload met een hogere <code>sequence</code>: het totaal van vandaag loopt nog op.</li>
+  <li>Verwijder wat <code>deleted_records</code> noemt, op <code>type</code> en <code>uuid</code>. Verwijder voor een hartslag- of huidtemperatuurrecord elke meting waarvan de <code>uuid</code> begint met die <code>uuid</code> en een <code>#</code>.</li>
+</ul>
+
+<p>De ontvanger van <a href="../grafana/">de Life Dashboard-stack</a> doet alle drie, als je het liever niet zelf bouwt, en geeft het resultaat terug via een alleen-lezen API. Staat de data eenmaal in Postgres, dan kan een model dat jij kiest die lezen via een alleen-lezen MCP-server: <a href="../health-data-own-ai/">Health Connect-data via MCP</a> behandelt de eigen server van de stack en een server voor je eigen Postgres.</p>
+
+<h2>De iPhone-app stuurt dezelfde payload</h2>
+
+<p><a href="../ios/">Life Dashboard Companion voor iPhone</a> post Apple Health-data met dezelfde sleutels, eenheden en handtekening, en met <code>"source": "healthkit_ios"</code>, zodat één ontvanger beide telefoons aankan. De app stuurt dezelfde <code>sequence</code>-teller, en zijn HRV is SDNN waar Android RMSSD stuurt, dus houd die twee uit elkaar. {{status:ios}} Zie <a href="../ios/#get">hoe je hem krijgt</a>.</p>
+
+<h2>Beperkingen</h2>
+
+<ul>
+  <li>Bij meerdere URL's telt een payload als afgeleverd zodra één ervan hem accepteert, en de andere krijgen hem niet opnieuw. Het tabblad <strong>Logs</strong> toont elk resultaat.</li>
+  <li>Voor data van meer dan 30 dagen voordat je de app voor het eerst toegang gaf, is de geschiedenistoestemming van Health Connect nodig. De backfill-pagina vraagt daarom.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Kan ik in plaats daarvan de Google Health API gebruiken?</summary>
+    <p>Voor data in je Google-account, zoals die van Fitbit en Pixel Watch, biedt Google in zijn cloud de Google Health API aan, waarvoor je een Google Cloud-project en een OAuth-client nodig hebt. Health Connect zelf heeft geen web-API. Life Dashboard Companion leest het uit op de telefoon, dus data van Samsung Health, Garmin Connect, Oura en Withings komt in dezelfde payload binnen, en onderweg gaat er niets via een Google-account.</p>
+  </details>
+  <details>
+    <summary>Kan ik een echte payload zien voordat ik een ontvanger schrijf?</summary>
+    <p>Ja. <strong>Voorbeeld van payload</strong> onder <strong>Wat versturen</strong> op het tabblad <strong>Gezondheid</strong> laat zien wat de volgende sync zou versturen, en met <strong>Meer</strong> &gt; <strong>Data exporteren</strong> deel je dat als CSV of JSON.</p>
+  </details>
+  <details>
+    <summary>Stuurt de app ook schermtijd?</summary>
+    <p>Ja, als aparte payload met <code>"source": "screen_time"</code>: minuten per app per dag over de laatste 7 dagen. Zie <a href="../screen-time-home-assistant/">schermtijd per app</a>.</p>
+  </details>
+  <details>
+    <summary>Hoe voorkom ik dat stappen dubbel worden geteld?</summary>
+    <p>Gebruik <code>daily_totals</code> voor stappen, afstand en calorieën. Als je losse metingen optelt, telt een wandeling één keer mee per apparaat dat die wandeling heeft geregistreerd.</p>
+  </details>
+  <details>
+    <summary>Is er een CSV-export?</summary>
+    <p>Ja. Met <strong>Meer</strong> &gt; <strong>Data exporteren</strong> op het tabblad <strong>Gezondheid</strong> deel je wat de volgende sync zou versturen als CSV of JSON. Naar je server verlaat gezondheidsdata de app als JSON, en je ontvanger slaat die op in elk formaat dat hij wil.</p>
+  </details>
+</section>

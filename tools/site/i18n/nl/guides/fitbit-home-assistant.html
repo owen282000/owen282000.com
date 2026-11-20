@@ -1,0 +1,154 @@
+<!--
+title: Fitbit in Home Assistant nu de API is gestopt | Life Dashboard
+description: Google heeft de Fitbit Web API op 2 november 2026 uitgezet. Life Dashboard Companion haalt Fitbit- en Pixel Watch-gegevens via Health Connect naar Home Assistant.
+primary query: fitbit home assistant
+secondary queries: fitbit 410 gone home assistant, error fetching fitbit data 410, fitbit api gestopt home assistant, fitbit integratie werkt niet meer home assistant, fitbit home assistant werkt niet, pixel watch home assistant, fitbit web api stopt, google health home assistant, google health home assistant integratie, fitbit health connect, fitbit integratie niet beschikbaar, pixel watch health connect, fitbit slaap home assistant
+updated: 2026-11-09
+published: 2026-11-20
+-->
+
+<h1>Hoe krijg ik data van Fitbit en Pixel Watch in Home Assistant nu de Fitbit Web API is gestopt?</h1>
+
+<p>Google heeft de Fitbit Web API op 2 november 2026 uitgezet. Sindsdien krijgt de Fitbit-integratie van Home Assistant geen nieuwe data meer: de sensoren werken niet meer bij en staan op niet beschikbaar, en in het log staat een fout 410 Gone. Je horloge en de Google Health-app blijven werken, en de app blijft je data naar Health Connect op je Android-telefoon schrijven. Life Dashboard Companion, een open-source Android-app, leest ze daar en stuurt ze naar de Life Dashboard-integratie in Home Assistant. Die route gebruikt de Fitbit Web API niet, en je hebt er geen Google Cloud-project of OAuth-client voor nodig.</p>
+
+<p class="flow-line"><span>Fitbit of Pixel Watch</span><span>Google Health-app</span><span>Health Connect</span><span>Life Dashboard Companion</span><span>Home Assistant</span></p>
+
+<h2>Wat er op 2 november 2026 is gestopt</h2>
+
+<p>De Fitbit-integratie van Home Assistant gebruikt de oude Fitbit Web API. Google heeft de ondersteuning voor die API op 30 september 2026 beëindigd en haar op 2 november 2026 uitgezet. Verzoeken aan de oude Fitbit Web API en aan de OAuth-endpoints van Fitbit mislukken nu met HTTP 410 Gone (<a href="https://status.healthapp.google.com/">de statuspagina van Google</a>). In het log van Home Assistant ziet dat er zo uit:</p>
+
+<pre><code>Error fetching Fitbit data: Server error response: 410, message='Gone', url='https://api.fitbit.com/oauth2/token'</code></pre>
+
+<table>
+  <thead>
+    <tr><th>Wat</th><th>Sinds 2 november 2026</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>De Fitbit-integratie van Home Assistant</td><td>Gestopt. Geen nieuwe data, sensoren niet beschikbaar</td></tr>
+    <tr><td>Je Fitbit of Pixel Watch en de Google Health-app</td><td>Blijven werken</td></tr>
+    <tr><td>De sync van de Google Health-app naar Health Connect</td><td>Blijft werken; die gebruikt de Fitbit Web API niet</td></tr>
+    <tr><td>De Google Health-integratie van Home Assistant</td><td>Blijft werken; die gebruikt de nieuwe Google Health API</td></tr>
+    <tr><td>Fitbit-statistieken die al in Home Assistant staan</td><td>Blijven staan, tot je ze verwijdert</td></tr>
+  </tbody>
+</table>
+
+<p>De Google Health-app heette tot mei 2026 de Fitbit-app.</p>
+
+<p>Dashboards en exporttools die Fitbit-data voor andere mensen uitlezen stappen ook over op de Google Health API, en dat kost meer tijd dan een aanpassing in de code. Bijna alle scopes ervan zijn beperkt: totdat Google een app heeft geverifieerd mag die maximaal 100 gebruikers hebben, en een app die de data van je telefoon afhaalt heeft daarnaast elk jaar een beveiligingsbeoordeling door een extern bureau nodig (<a href="https://developers.google.com/health/app-verification">app-verificatie van Google</a>). Sommige van deze diensten pauzeren of sluiten hun aanmeldingen terwijl ze daar doorheen gaan. De Google Health-integratie van Home Assistant draait op je eigen Google Cloud-project, met jou als enige gebruiker, en de Health Connect-route hieronder gebruikt helemaal geen Google-API, dus geen van beide hoeft te wachten.</p>
+
+<h2>Als je de Fitbit-integratie nu gebruikt</h2>
+
+<ol>
+  <li><strong>De sensoren stoppen definitief.</strong> Ze worden niet beschikbaar en blijven dat. Opnieuw inloggen of de integratie opnieuw installeren brengt ze niet terug, want de API erachter bestaat niet meer.</li>
+  <li><strong>Bewaar je geschiedenis.</strong> Fitbit-sensoren zoals stappen, calorieën, afstand, gewicht en hartslag in rust houden hun langetermijnstatistieken in Home Assistant. Verwijder je de integratie, dan kan <strong>Ontwikkelhulpmiddelen</strong> &gt; <strong>Statistieken</strong> die statistieken als probleem tonen en aanbieden ze te verwijderen. Laat ze staan als je de oude lijnen in je grafieken wilt houden.</li>
+  <li><strong>Stel de Health Connect-route in</strong> met de stappen hieronder.</li>
+  <li><strong>Vul het verleden aan.</strong> Tik op <strong>Geschiedenis versturen</strong> onder <strong>Wat versturen</strong> en kies <strong>1 jaar</strong> of langer. Elke dag van het afgelopen jaar komt op zijn eigen datum in de langetermijnstatistieken, zodat de kaart <strong>Statistics graph</strong> het afgelopen jaar toont. Health Connect bevat alleen wat de Google Health-app erin heeft geschreven, dus als je die sync pas kort geleden hebt aangezet, zijn oudere dagen er misschien niet om te versturen.</li>
+  <li><strong>Zet je dashboards en automatiseringen over.</strong> De nieuwe sensoren horen bij een apparaat dat naar je telefoon is genoemd, zoals <code>sensor.owen_s_pixel_steps_today</code>, dus vervang de oude entiteit-ID's van Fitbit. De oude en de nieuwe statistieken blijven gescheiden, en een kaart <strong>Statistics graph</strong> kan beide tonen.</li>
+</ol>
+
+<h2>Wat je nodig hebt</h2>
+
+<ul>
+  <li>Een Android-telefoon met Android 9 of nieuwer. Voor de Health Connect-sync van Google heb je ook een Google-account van een volwassene nodig.</li>
+  <li>De Google Health-app, gekoppeld met je Fitbit of Pixel Watch.</li>
+  <li>Home Assistant 2026.3 of nieuwer, voor de <a href="../home-assistant/">Life Dashboard-integratie</a>. Vanaf 2026.11 hoef je verder niets te installeren; oudere versies hebben <a href="https://hacs.xyz">HACS</a> nodig.</li>
+  <li><a href="../android/">Life Dashboard Companion voor Android</a>. {{status:android}}</li>
+</ul>
+
+<h2>Zo stel je het in</h2>
+
+<ol>
+  <li>Tik in de Google Health-app linksboven op <strong>Connections</strong> en daarna op <strong>Partner apps</strong>. Tik onder <strong>Add connections</strong> op <strong>Sync your favorite health apps</strong> &gt; <strong>Set up</strong>, ga akkoord, kies de datatypes en tik op <strong>Toestaan</strong>. Op de <a href="https://support.google.com/googlehealth/answer/14506680">hulppagina</a> van Google staan dezelfde stappen.</li>
+  <li>Zoek onder <strong>Instellingen</strong> &gt; <strong>Marketplace</strong> (HACS vóór Home Assistant 2026.11) naar <strong>Life Dashboard</strong> en installeer de integratie. Met HACS download je de integratie en herstart je Home Assistant.</li>
+  <li>Ging de installatie niet vanzelf open, ga dan naar <strong>Instellingen</strong> &gt; <strong>Apparaten &amp; diensten</strong> &gt; <strong>Integratie toevoegen</strong> en zoek naar <strong>Life Dashboard</strong>. Geef de telefoon een naam. Vul in het veld <strong>Home Assistant address</strong> het IP-adres van Home Assistant in, zoals <code>http://192.168.1.20:8123</code>; Home Assistant toont het onder <strong>Instellingen</strong> &gt; <strong>Systeem</strong> &gt; <strong>Netwerk</strong>, in het gedeelte <strong>Network adapter</strong>. Daarna toont het venster een QR-code.</li>
+  <!-- IMG: the QR code in Home Assistant (H2-qr.png) -->
+  <li>Installeer <a href="{{play_url}}">Life Dashboard Companion uit Google Play</a> (daar heet de app Health Data for Home Assistant), €&nbsp;4,99 eenmalig, dan blijft de app vanzelf bijgewerkt. Of installeer de app gratis, dezelfde app met dezelfde ondertekeningssleutel: open de APK van GitHub op de telefoon en sta installeren vanuit je browser één keer toe, of voeg de app toe in Obtainium of F-Droid (<a href="../android/#get">installatieopties</a>). Android kan je waarschuwen voordat het een APK van buiten de Play Store installeert; dat doet het bij elke app uit een andere bron. Open de app, tik bij <strong>Waar moet je data naartoe?</strong> op <strong>Koppelcode scannen</strong>, scan de code en tik op <strong>Koppelen</strong>.</li>
+  <li>Tik op het tabblad <strong>Gezondheid</strong> op <strong>Toestaan</strong> en geef toegang tot je datatypes en tot lezen op de achtergrond. De voorinstelling <strong>De basis</strong> bevat stappen, slaap, hartslag, hartslag in rust, afstand, calorieën en gewicht; HRV, ademfrequentie, huidtemperatuur en de rest zet je aan onder <strong>Wat versturen</strong>.</li>
+  <li>Tik op <strong>Nu synchroniseren</strong>. Tik voor oudere data op <strong>Geschiedenis versturen</strong> onder <strong>Wat versturen</strong> en kies hoe ver terug, van <strong>30 dagen</strong> tot <strong>Alles</strong>, na <strong>Toegang tot geschiedenis geven</strong> als de pagina dat toont.</li>
+</ol>
+
+<!-- IMG: Health tab (A1-health.png) -->
+
+<h2>Wat je krijgt</h2>
+
+<p>Uit de lijst van Google met wat Google Health naar Health Connect schrijft, geeft de app door:</p>
+
+<table>
+  <thead>
+    <tr><th>Gebied</th><th>Types</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Activiteit</td><td>Stappen, afstand, totale calorieën, work-outs, VO2max</td></tr>
+    <tr><td>Slaap</td><td>Slaapsessies met fasen</td></tr>
+    <tr><td>Hart en ademhaling</td><td>Hartslag, hartslag in rust, hartslagvariabiliteit, ademfrequentie</td></tr>
+    <tr><td>Lichaam</td><td>Gewicht, lichaamsvet, lichaamstemperatuur, huidtemperatuur, bloedglucose</td></tr>
+    <tr><td>Eten en drinken</td><td>Vochtinname, voeding</td></tr>
+    <tr><td>Cyclusregistratie</td><td>Menstruatieperiode, menstruatiehevigheid, tussentijds bloedverlies</td></tr>
+  </tbody>
+</table>
+
+<p>Dagtotalen en de laatste metingen worden sensoren, en elke dag wordt op zijn eigen datum opgeslagen in de langetermijnstatistieken. Een backfill, waarmee de app je oude data alsnog verstuurt, stuurt alle geschiedenis die Google Health naar Health Connect heeft geschreven, zonder iets over te slaan. Sinds versie 0.10.0 van de integratie worden je work-outs ook work-outsensoren: de laatste work-out met soort en duur, en je work-outminuten van vandaag en gisteren.</p>
+
+<p>Met integratie 1.1.0 of nieuwer worden je nachten ook sensoren en statistieken per fase, en de <a href="../sleep-stages-home-assistant/">Life Dashboard Sleep Card</a> tekent de nacht als hypnogram.</p>
+
+<p>Niet in de lijst van Google, stand oktober 2026: SpO2 en actieve calorieën. Eén gebruiker zag de nachtelijke SpO2 van Fitbit wel binnenkomen, dus kijk op je eigen telefoon bij de app-rechten van Health Connect. Google Health schrijft ook verdiepingen, snelheid en routes van work-outs, die de app niet verstuurt.</p>
+
+<!-- IMG: the example Health dashboard on a phone (H9-health-phone.png) -->
+
+<h2>De Google Health-integratie in Home Assistant, vergeleken</h2>
+
+<p>Home Assistant 2026.8 kreeg een <a href="https://www.home-assistant.io/integrations/google_health/">Google Health-integratie</a>. Die leest de cloud van Google uit met de nieuwe Google Health API, de opvolger van de Fitbit Web API. Beide kunnen naast elkaar draaien.</p>
+
+<table>
+  <thead>
+    <tr><th></th><th>Google Health-integratie</th><th>Life Dashboard</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Installatie</td><td>Google Cloud-project, de Google Health API, een gepubliceerde OAuth-client, account koppelen</td><td>Installeren, een QR-code scannen</td></tr>
+    <tr><td>Waar de data vandaan komt</td><td>De cloud van Google, elke 15 minuten of elk uur opgevraagd</td><td>Je telefoon, verstuurd door de app</td></tr>
+    <tr><td>Geschiedenis</td><td>Actuele waarden, geen backfill</td><td>Elke dag in de langetermijnstatistieken, backfill van je hele geschiedenis</td></tr>
+    <tr><td>HRV, ademfrequentie, huidtemperatuur</td><td>Geen sensor</td><td>Ja</td></tr>
+    <tr><td>Andere apps en apparaten</td><td>Wat in je Google Health-account terechtkomt</td><td>Elke app die naar Health Connect schrijft</td></tr>
+  </tbody>
+</table>
+
+<h2>Beperkingen</h2>
+
+<ul>
+  <li>Nachtelijke waarden zoals slaap, HRV en ademfrequentie komen in Health Connect als de Google Health-app synchroniseert nadat je wakker bent geworden, vaak een uur of langer daarna. De volgende sync pakt ze op.</li>
+  <li>Health Connect is onderdeel van Android, dus voor deze route heb je een Android-telefoon nodig.</li>
+  <li>Een backfill kan alleen versturen wat in Health Connect staat. Dagen die de Google Health-app daar nooit heeft geschreven kunnen niet worden aangevuld.</li>
+  <li>Een adres in je thuisnetwerk synchroniseert alleen thuis. Een openbaar HTTPS-adres of Home Assistant Cloud werkt overal.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Is er een Google Health-integratie voor Home Assistant?</summary>
+    <p>Ja, sinds 2026.8 in Home Assistant zelf. Je hebt er een eigen Google Cloud-project voor nodig waarin de Google Health API aanstaat, en een OAuth-client die je publiceert, anders verlopen de inloggegevens elke 7 dagen. Daarna leest ze de cloud van Google elke 15 minuten of elk uur uit. Dat past bij actuele dagwaarden. Wil je HRV, je hele geschiedenis of geen Google Cloud-project, gebruik dan de route op deze pagina; de twee kunnen naast elkaar draaien. Verwar haar niet met de Google Health-app, de vroegere Fitbit-app, die je data naar Health Connect op de telefoon schrijft.</p>
+  </details>
+  <details>
+    <summary>Werkt de Fitbit-integratie van Home Assistant nog?</summary>
+    <p>Nee. Ze gebruikt de oude Fitbit Web API, die Google op 2 november 2026 heeft uitgezet, dus ze krijgt geen nieuwe data meer.</p>
+  </details>
+  <details>
+    <summary>Mijn Fitbit-integratie werkt niet meer in Home Assistant. Kan ik dat oplossen?</summary>
+    <p>Niet als ze op of na 2 november 2026 is gestopt, of als het log 410 Gone toont voor <code>api.fitbit.com/oauth2/token</code>. Dat is het einde van de Fitbit Web API, geen fout in jouw installatie, dus opnieuw inloggen of opnieuw installeren helpt niet. In het volledige antwoord staat dat de API op 30 oktober buiten gebruik is gesteld, de datum die Google eerst noemde; de statuspagina van Google geeft 2 november als de dag waarop het verkeer stopte. Stap over op Health Connect met de stappen hierboven, of op de Google Health-integratie van Home Assistant.</p>
+  </details>
+  <details>
+    <summary>Raak ik mijn Fitbit-geschiedenis in Home Assistant kwijt?</summary>
+    <p>Nee. Langetermijnstatistieken die de Fitbit-sensoren al hebben geschreven blijven staan tot je ze verwijdert. Nieuwe data komt binnen onder nieuwe entiteiten, en een backfill vult die aan zo ver terug als Health Connect je data heeft.</p>
+  </details>
+  <details>
+    <summary>Heb ik een Google Cloud-project of een Fitbit-ontwikkelaarsaccount nodig?</summary>
+    <p>Nee. Life Dashboard Companion leest Health Connect op de telefoon en stuurt rechtstreeks naar Home Assistant. De enige instelling bij Google is de Health Connect-sync in de Google Health-app.</p>
+  </details>
+  <details>
+    <summary>Kan ik het ook ergens anders naartoe sturen dan Home Assistant?</summary>
+    <p>Ja. Dezelfde data kan naar een MQTT-broker of naar elke URL die een JSON-POST accepteert. Zie <a href="../health-connect-webhook/">Health Connect naar een webhook</a>.</p>
+  </details>
+  <details>
+    <summary>Kan een weegschaal in Home Assistant bij Google Health uitkomen?</summary>
+    <p>Ja, voor gewicht en lichaamsvet. De app schrijft die metingen naar Health Connect, en Google Health leest ze daar uit. Bloeddruk leest Google Health niet uit Health Connect. Zie <a href="../smart-scale-to-samsung-health/">metingen van een slimme weegschaal naar Samsung Health</a>.</p>
+  </details>
+</section>

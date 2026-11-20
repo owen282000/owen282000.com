@@ -1,0 +1,148 @@
+<!--
+title: Apple Health in Home Assistant, met geschiedenis | Life Dashboard
+description: Apple Health-data (Apple Gezondheid) van je iPhone en Apple Watch als sensoren in Home Assistant, met je hele geschiedenis: één integratie en één QR-code.
+primary query: apple health home assistant
+secondary queries: apple health home assistant integratie, apple gezondheid home assistant, iphone gezondheidsgegevens home assistant, home assistant healthkit, apple health sensoren home assistant, apple health langetermijnstatistieken, home assistant stappen iphone, home assistant slaap iphone
+updated: 2026-11-20
+published: 2026-11-20
+-->
+
+<h1>Hoe krijg ik Apple Health-data in Home Assistant?</h1>
+
+<p>Installeer de Life Dashboard-integratie in Home Assistant vanuit de Marketplace (HACS vóór 2026.11) en Life Dashboard Companion op je iPhone, en koppel de twee met de QR-code die de integratie toont. Tik op <strong>Nu synchroniseren</strong> en je stappen, hartslag, slaap, gewicht en work-outs komen binnen als sensoren. Een backfill, waarmee de app je oude data alsnog verstuurt, vult de langetermijnstatistieken met je hele geschiedenis, elke dag op zijn eigen datum.</p>
+
+<p>Het werkt met alles wat naar Apple Health (de app Gezondheid op je iPhone) schrijft: de iPhone zelf, een Apple Watch, en de apps van andere horloges, ringen en weegschalen die hun data daar bewaren. Beide onderdelen hebben een MIT-licentie. Er is geen account en geen server van Life Dashboard: de iPhone stuurt rechtstreeks naar jouw Home Assistant, en de app leest Apple Health alleen, hij schrijft er nooit naar.</p>
+
+<p class="flow-line"><span>iPhone of Apple Watch</span><span>Apple Health</span><span>Life Dashboard Companion</span><span>Home Assistant</span></p>
+
+<h2>Wat je nodig hebt</h2>
+
+<ul>
+  <li>Een iPhone met iOS 17 of nieuwer.</li>
+  <li>Home Assistant 2026.3 of nieuwer, voor de <a href="../home-assistant/">Life Dashboard-integratie</a>. Vanaf 2026.11 hoef je verder niets te installeren; oudere versies hebben <a href="https://hacs.xyz">HACS</a> nodig. De iPhone-app heeft versie 0.7.1 of nieuwer van de integratie nodig; beide routes installeren de nieuwste.</li>
+  <li><a href="../ios/">Life Dashboard Companion voor iPhone</a>. {{status:ios}}</li>
+</ul>
+
+<p>Stel eerst Home Assistant in: bij het instellen van de app scan je de QR-code die de integratie toont.</p>
+
+<h2>Zo stel je het in</h2>
+
+<ol>
+  <li>Zoek onder <strong>Instellingen</strong> &gt; <strong>Marketplace</strong> (HACS vóór Home Assistant 2026.11) naar <strong>Life Dashboard</strong>, of gebruik <a href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open in de Marketplace</a>, en installeer de integratie. Met HACS download je de integratie en herstart je Home Assistant.</li>
+  <li>Is het instellen niet vanzelf geopend, ga dan naar <strong>Instellingen</strong> &gt; <strong>Apparaten &amp; diensten</strong> &gt; <strong>Integratie toevoegen</strong> en zoek naar <strong>Life Dashboard</strong>. Geef de iPhone een naam. Controleer het veld <strong>Home Assistant address</strong>: dat is het adres waar de iPhone naartoe stuurt. iOS staat onversleuteld <code>http://</code> alleen toe naar een IP-adres, een <code>.local</code>-naam zoals <code>homeassistant.local</code> of een naam zonder punt. <code>http://192.168.1.20:8123</code> werkt dus en <code>http://ha.lan:8123</code> niet. Gebruik voor al het andere <code>https://</code> of Home Assistant Cloud. Daarna toont het venster een QR-code.</li>
+  <!-- IMG: the QR code in Home Assistant (H2-qr.png) -->
+  <li>Installeer en open <a href="../ios/#get">Life Dashboard Companion</a>. Tik bij <strong>Waar moet je data naartoe?</strong> op <strong>Koppelcode scannen</strong>, scan de code en tik op <strong>Koppelen</strong>. De app stuurt één testping, zodat de iPhone meteen in Home Assistant verschijnt. Met de camera van de iPhone kan het ook: die opent de koppelpagina in Safari, en een knop daar geeft de code door aan de app.</li>
+  <li>Vraagt iOS om toegang tot het lokale netwerk, sta die dan toe. Zonder die toegang komt er niets aan bij een Home Assistant bij je thuis.</li>
+  <li>Kies je datatypes: <strong>De basis</strong>, <strong>Alle types</strong> of <strong>Later kiezen</strong>. Geef daarna toegang tot Apple Health. Staat er een type aan waar iOS nog niet naar heeft gevraagd, dan toont de rij <strong>Toegang tot Apple Gezondheid</strong> onder <strong>Wat versturen</strong> de knop <strong>Toestaan</strong>. iOS vertelt een app nooit of je lezen hebt toegestaan, dus een type dat je hebt geweigerd stuurt gewoon niets; je past dat aan in de app Gezondheid onder je profiel, <strong>Apps</strong>, <strong>Life Dashboard</strong>.</li>
+  <li>Er volgt meteen een eerste sync, die laat zien wat er is aangekomen. Daarna verstuurt <strong>Nu synchroniseren</strong> op het tabblad <strong>Gezondheid</strong> direct wat er nieuw is. De iPhone verschijnt onder <strong>Instellingen</strong> &gt; <strong>Apparaten &amp; diensten</strong> &gt; <strong>Life Dashboard</strong>, met een sensor voor elk type dat hij heeft verstuurd. De eerste sync van een type verstuurt de laatste 7 dagen.</li>
+  <li>Wil je oudere data, tik dan onder <strong>Wat versturen</strong> op <strong>Geschiedenis versturen</strong> en kies hoe ver terug, van 30 dagen tot <strong>Alles</strong>. Elke dag komt in Home Assistant op zijn eigen datum terecht. De backfill loopt terwijl de app open is en de iPhone ontgrendeld, en houdt zolang het scherm aan. Op iOS 26 gaat hij door als je van app wisselt en toont hij de voortgang in de systeeminterface.</li>
+</ol>
+
+<!-- IMG: Health tab (ios-health.png) -->
+
+<h2>Wat je krijgt</h2>
+
+<ul>
+  <li><strong>Sensoren voor 20 van de 28 types</strong>, met bloeddruk als twee: de stappen, afstand, actieve calorieën en totale calorieën van vandaag (zoals <code>sensor.alex_s_iphone_steps_today</code>), en de laatste hartslag, hartslag in rust, HRV, laatste slaap, gewicht, lengte, bloeddruk, bloedglucose, zuurstofsaturatie, ademfrequentie, lichaamstemperatuur, basale lichaamstemperatuur, lichaamsvet, vetvrije massa, VO2 max en het laatste drankje. Elke laatste waarde draagt het tijdstip waar ze over gaat en de app of het apparaat dat haar heeft geschreven.</li>
+  <li><strong>Slaapfasen.</strong> Met versie 1.1.0 of nieuwer van de integratie worden diep, licht, REM, wakker en de slaaptijd per nacht sensoren en statistieken, en de <a href="../sleep-stages-home-assistant/">Life Dashboard Sleep Card</a> tekent de nacht als hypnogram.</li>
+  <li><strong>Work-outs</strong>: de laatste work-out, en de minuten van vandaag en gisteren, met van elke sessie het soort, het begin en het einde.</li>
+  <li><strong>Wat je eet.</strong> Met versie 1.2.0 of nieuwer van de integratie: de calorieën, eiwitten, koolhydraten en vetten van de maaltijden van vandaag, uit de app waarin je je eten bijhoudt, met elke dag als statistiek.</li>
+  <li><strong>Geschiedenis in langetermijnstatistieken</strong>: één waarde per dag voor stappen, afstand in km, calorieën, slaap, beweging en mindfulness in uren, en water, en per uur een gemiddelde, minimum en maximum voor hartslag, gewicht en de andere metingen. Een backfill zet elke dag op zijn eigen datum.</li>
+  <li><strong>Geen dubbeltellingen.</strong> Stappen, afstand en calorieën komen uit de eigen statistieken van Apple Health, zoals de app Gezondheid ze telt. Een wandeling die zowel de iPhone als de Watch heeft vastgelegd, telt dus één keer.</li>
+</ul>
+
+<p>Maaltijden, cyclusgegevens en details van work-outs zijn gebeurtenissen en geen waarden, dus ze krijgen geen sensor. Een <a href="../apple-health-webhook/">eigen webhook</a> krijgt ze volledig.</p>
+
+<h2>Grafieken en een dashboard</h2>
+
+<p>De eigen geschiedenis van een sensor laat zien wanneer elke waarde binnenkwam, dus na een backfill staat daar alles op vandaag. Zet in plaats daarvan de statistiek in een grafiek, met de kaart <strong>Statistics graph</strong>. De statistieken staan in de entiteitenkiezer van die kaart onder de naam van de iPhone:</p>
+
+<pre><code>type: statistics-graph
+title: Steps per week
+chart_type: bar
+period: week
+days_to_show: 90
+stat_types:
+  - change
+entities:
+  - life_dashboard:&lt;entry&gt;_steps   # pick "Alex's iPhone steps" from the picker</code></pre>
+
+<p>Bij de integratie zit een voorbeeld van een <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/dashboard.md">Health-dashboard</a> en een thema om over te nemen, opgebouwd uit de eigen kaarten van Home Assistant. Je plakt het in de ruwe configuratie-editor van een nieuw dashboard. Vervang <code>your_phone</code> in de entiteit-ID's door de naam van je iPhone en <code>&lt;entry&gt;</code> in de statistiek-ID's door wat de kiezer toont, en verwijder dan de kaarten voor types die je niet synchroniseert. Een iPhone stuurt geen huidtemperatuur, en zijn hartslagvariabiliteit is SDNN. Vergelijk die dus met zijn eigen basislijn en niet met die van een Android-telefoon. Schermtijd heeft een eigen weergave, die je voor een iPhone niet nodig hebt. <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md">Sensors and statistics</a> somt elke entiteit op.</p>
+
+<!-- IMG: the example Health dashboard (H6-health.png) -->
+
+<h2>Wanneer er wordt gesynchroniseerd</h2>
+
+<p>Onder <strong>Wanneer versturen</strong> stel je een interval van 15 minuten of meer in (standaard 60) of vaste tijden op de dag, met weekdagen en stille uren. iOS bepaalt wanneer een app op de achtergrond draait, dus een vaste tijd betekent "niet eerder dan": de sync draait bij de eerste kans die iOS daarna geeft. Ververs op achtergrond moet voor de app aanstaan, en de Energiebesparingsmodus zet dat uit.</p>
+
+<p>Wil je een sync op een exacte minuut, maak dan in Opdrachten een automatisering op dat tijdstip die <strong>Gezondheidsdata synchroniseren</strong> uitvoert. Dezelfde actie zit achter de widget op het beginscherm, een regelaar in het bedieningspaneel op iOS 18 en nieuwer, en Siri.</p>
+
+<!-- IMG: Sync schedule (ios-schedule.png) -->
+
+<h2>De Health-sensoren van de Companion-app van Home Assistant</h2>
+
+<p>De Companion-app van Home Assistant voor iOS leest Apple Health ook. Zijn Apple Health-sensoren (<a href="https://github.com/home-assistant/iOS/pull/5272">#5272</a>, <a href="https://github.com/home-assistant/iOS/pull/5638">#5638</a>) dekken stappen, hartslag, gewicht, bloeddruk, slaapfasen en meer, elk als één sensor met het totaal van vandaag of de nieuwste meting. Hun geschiedenis in Home Assistant begint op de dag dat je ze aanzet, en details van work-outs, maaltijden en cyclusgegevens zitten er niet bij.</p>
+
+<p>Ze zijn genoeg als je de stappen van vandaag of het laatste gewicht in een automatisering of op een tegel wilt, en een grafiek vanaf de dag dat je ze aanzette je volstaat. Life Dashboard voegt daar de 28 types aan toe met elke meting en de app of het apparaat dat haar schreef, een backfill van je hele geschiedenis met elke dag op zijn eigen datum, en MQTT of een webhook naast Home Assistant. Houd de Companion-app hoe dan ook: die regelt aanwezigheid, meldingen en apparaatsensoren, en de twee draaien naast elkaar.</p>
+
+<p>Er zijn meer iPhone-apps die Apple Health naar Home Assistant sturen. <a href="../apple-health-home-assistant-apps/">Vier apps vergeleken</a> zet de Companion-app, HealthSync for Home Assistant, Health Assistant Link en Life Dashboard naast elkaar.</p>
+
+<h2>Een Android-telefoon in hetzelfde huis</h2>
+
+<p>Een iPhone en een Android-telefoon sturen dezelfde payload, dus één integratie neemt ze allebei aan. Voeg de integratie één keer per telefoon toe en koppel elke telefoon met zijn eigen QR-code; elke telefoon wordt een eigen apparaat. De Android-telefoon gebruikt <a href="../android/">Life Dashboard Companion voor Android</a>, dat Health Connect leest en ook schermtijd per app verstuurt; de stappen daarvoor staan in de <a href="../health-connect-home-assistant/">Health Connect-gids</a>. Het voorbeelddashboard heeft een weergave die twee telefoons naast elkaar zet.</p>
+
+<!-- IMG: two phones on one dashboard (H8-two-phones.png) -->
+
+<h2>MQTT als alternatief</h2>
+
+<p>Draait er al een MQTT-broker, tik dan in plaats daarvan op het tabblad <strong>Gezondheid</strong> op <strong>Bestemming toevoegen</strong> en daarna op <strong>MQTT-broker</strong>. Zet <strong>MQTT-publicatie inschakelen</strong> aan, vul je broker in en tik op <strong>Bewaren</strong>. Er verschijnt een apparaat met de naam <strong>Life Dashboard Companion (iOS)</strong> met 21 sensoren voor dezelfde 20 types, via MQTT Discovery en zonder YAML. Kies één route: met beide krijg je twee apparaten met dezelfde getallen.</p>
+
+<table>
+  <thead>
+    <tr><th></th><th>Life Dashboard-integratie</th><th>MQTT</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Instellen</td><td>Marketplace (HACS vóór 2026.11), daarna een QR-code</td><td>Je broker invullen</td></tr>
+    <tr><td>Geschiedenis</td><td>Elke dag, zo ver terug als Apple Health data heeft, via een backfill</td><td>Vanaf de eerste sync</td></tr>
+    <tr><td>Work-outs en mindfulness</td><td>Uren per dag</td><td>Nee</td></tr>
+    <tr><td>Work-outsensoren</td><td>Ja</td><td>Nee</td></tr>
+    <tr><td>Ook een Android-telefoon</td><td>Een eigen apparaat ernaast</td><td>Een eigen apparaat en basistopic</td></tr>
+  </tbody>
+</table>
+
+<h2>Beperkingen</h2>
+
+<ul>
+  <li>iOS versleutelt Apple Health zolang de iPhone vergrendeld is. Een sync die iOS op dat moment start, wacht dus op het ontgrendelen, en een backfill pauzeert.</li>
+  <li>Een adres in je thuisnetwerk synchroniseert alleen thuis. Wat niet kan worden afgeleverd, wacht in een wachtrij op de iPhone tot de volgende sync. Een openbaar HTTPS-adres of Home Assistant Cloud werkt ook buitenshuis; met Home Assistant Cloud gaan de payloads onderweg via de servers daarvan.</li>
+  <li>Er is geen schermtijd op een iPhone: iOS toont de gegevens van Schermtijd alleen binnen een sandbox die niets naar buiten kan sturen.</li>
+  <li>Data van een Apple Watch komt binnen zodra het horloge met de iPhone heeft gesynchroniseerd.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Werkt het als de iPhone vergrendeld is?</summary>
+    <p>Niet zolang hij vergrendeld is. iOS versleutelt Apple Health dan, zodat geen enkele app het kan lezen. Een sync die begint terwijl de iPhone vergrendeld is, wacht tot je hem ontgrendelt en verstuurt dan alles wat er intussen is bijgekomen.</p>
+  </details>
+  <details>
+    <summary>Waarom draait een sync niet precies op de tijd die ik heb ingesteld?</summary>
+    <p>Geen enkele iOS-app kan op de achtergrond op een gekozen minuut draaien. iOS bepaalt wanneer, dus een vaste tijd betekent "niet eerder dan". Voor een exacte tijd voert een automatisering in Opdrachten op dat tijdstip <strong>Gezondheidsdata synchroniseren</strong> uit. Controleer ook of Ververs op achtergrond aanstaat en de Energiebesparingsmodus uit.</p>
+  </details>
+  <details>
+    <summary>Kan Home Assistant terugschrijven naar Apple Health?</summary>
+    <p>Nee. De iPhone-app vraagt alleen leestoegang en schrijft nooit naar Apple Health. Metingen van een weegschaal of bloeddrukmeter vanuit Home Assistant wegschrijven is een functie van Android, naar Health Connect.</p>
+  </details>
+  <details>
+    <summary>Heb ik iCloud of een Apple Developer-account nodig?</summary>
+    <p>Voor de versie uit de App Store heb je geen Apple Developer-account nodig: je koopt hem één keer, zoals elke andere app. De app leest Apple Health op de iPhone en stuurt rechtstreeks naar jouw Home Assistant. Zelf bouwen vraagt een Mac met Xcode en een lidmaatschap van het Apple Developer Program, omdat je met een gratis Apple Account geen app kunt ondertekenen die Apple Health leest.</p>
+  </details>
+  <details>
+    <summary>Krijg ik meteen mijn hele geschiedenis?</summary>
+    <p>Ja, zo ver terug als Apple Health die bewaart. Tik onder <strong>Wat versturen</strong> op <strong>Geschiedenis versturen</strong> en kies <strong>Alles</strong>, en elke dag komt op zijn eigen datum in de langetermijnstatistieken. De sensoren zelf tonen alleen de nieuwste waarde.</p>
+  </details>
+  <details>
+    <summary>Ik heb een meting in Apple Health verwijderd. Bewaart Home Assistant die?</summary>
+    <p>De volgende sync meldt de verwijderde meting. Een verwijderde work-out verdwijnt uit de work-outsensoren, en stappen, afstand en calorieën volgen de eigen dagtotalen van Apple Health, die elke sync verstuurt voor vandaag en de twee dagen ervoor. Een <a href="../apple-health-webhook/#deleted-records">eigen webhook</a> krijgt elke verwijdering, zodat je de meting uit je eigen opslag kunt halen.</p>
+  </details>
+</section>
