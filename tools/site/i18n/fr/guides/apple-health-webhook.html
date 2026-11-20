@@ -1,0 +1,191 @@
+<!--
+title: Apple Health vers un webhook, automatiquement | Life Dashboard
+description: Exportez Apple Health (Santé) automatiquement : Life Dashboard Companion envoie les données de votre iPhone vers votre webhook en JSON signé, en arrière-plan.
+primary query: apple health webhook
+secondary queries: exporter apple santé automatiquement, apple health json, exporter apple santé vers un serveur, api apple health auto-hébergée, webhook healthkit, apple health node-red, apple health postgres, envoyer données apple santé vers un serveur
+updated: 2026-11-04
+published: 2026-11-20
+-->
+
+<h1>Comment envoyer automatiquement les données d’Apple Health vers un webhook&nbsp;?</h1>
+
+<p>Installez Life Dashboard Companion sur votre iPhone, ajoutez votre URL avec <strong>Ajouter une destination</strong> dans l’onglet <strong>Santé</strong>, et choisissez sous <strong>Données à envoyer</strong> les types d’Apple Health (l’app Santé de l’iPhone) à envoyer. Dès lors, l’application lit Apple Santé en arrière-plan selon la planification que vous réglez et envoie chaque nouvel enregistrement à votre URL en JSON&nbsp;: pas, sommeil avec ses phases, fréquence cardiaque, variabilité de la fréquence cardiaque, poids, tension artérielle, entraînements et d’autres encore, 28 types au total, chaque enregistrement avec un <code>uuid</code> stable et l’application ou l’appareil qui l’a écrit.</p>
+
+<p>Avec un secret défini, chaque requête est signée en HMAC-SHA256 dans un en-tête <code>X-Signature</code>. Un payload qui ne peut pas être livré attend dans une file sur l’iPhone, et un enregistrement que vous supprimez dans Apple Santé est nommé dans le payload suivant. Le payload est celui de l’application Android&nbsp;: un seul récepteur accepte donc aussi bien un iPhone qu’un téléphone Android.</p>
+
+<p class="flow-line"><span>iPhone ou Apple Watch</span><span>Apple Santé</span><span>Life Dashboard Companion</span><span>Votre URL</span></p>
+
+<h2>Pourquoi il faut une application sur l’iPhone</h2>
+
+<p>Apple Santé n’a pas d’API web. Les données vivent sur l’iPhone, et les applications les lisent par HealthKit d’Apple&nbsp;: quelque chose sur l’iPhone doit donc les lire et les transmettre. Life Dashboard Companion s’en charge et envoie directement aux URL que vous saisissez. Il n’y a ni compte ni serveur Life Dashboard sur le trajet, et l’application n’a ni mesure d’audience, ni rapport de plantage, ni publicité. Le guide <a href="../health-data-api/">Une API web pour Santé Connect ou Apple Santé</a> en dit plus.</p>
+
+<h2>Ce qu’il vous faut</h2>
+
+<ul>
+  <li>Un iPhone sous iOS 17 ou plus récent, et <a href="../ios/">Life Dashboard Companion pour iPhone</a>. {{status:ios}}</li>
+  <li>Un serveur qui accepte un POST JSON. Utilisez <code>https://</code>. iOS n’autorise le simple <code>http://</code> que vers une adresse IP, un nom en <code>.local</code> ou un nom sans point, ce qui est prévu pour votre propre réseau.</li>
+</ul>
+
+<h2>La mise en place</h2>
+
+<ol>
+  <li>Pendant la configuration de l’application, saisissez votre URL dans <strong>URL de webhook</strong>. Plus tard, touchez <strong>Ajouter une destination</strong> dans l’onglet <strong>Santé</strong>, saisissez-la et touchez <strong>Ajouter un webhook</strong>. Vous pouvez en ajouter plusieurs&nbsp;; une synchronisation compte comme livrée dès que l’une d’elles l’accepte.</li>
+  <li>Facultatif&nbsp;: touchez la destination dans l’onglet <strong>Santé</strong>. Sous <strong>En-têtes personnalisés</strong>, touchez <strong>Ajouter un en-tête</strong> pour un en-tête <code>Authorization</code> ou une clé d’API. Saisissez un <strong>Secret de signature HMAC</strong> que votre serveur connaît aussi, ou touchez <strong>Générer</strong> puis <strong>Copier le secret</strong>. Touchez ensuite <strong>Enregistrer</strong>. Chaque adresse a son propre secret et ses propres en-têtes.</li>
+  <li>Touchez <strong>Ping de test</strong> pendant la configuration, ou <strong>Envoyer un test</strong> sur la fiche de la destination. Cela envoie un petit payload avec <code>"test": true</code> et sans enregistrements, avec ce qui est enregistré. Si votre serveur est chez vous, autorisez <strong>Réseau local</strong> quand iOS le demande.</li>
+  <li>Sous <strong>Données à envoyer</strong>, activez vos types et autorisez l’accès à Santé. <strong>Aperçu du payload</strong>, au même endroit, montre les 7 derniers jours tels que le payload se présenterait, et <strong>Synchroniser maintenant</strong>, dans l’onglet <strong>Santé</strong>, envoie les nouveautés. La première synchronisation d’un type envoie ses 7 derniers jours.</li>
+  <li>Pour les données plus anciennes, touchez <strong>Envoyer l’historique</strong> sous <strong>Données à envoyer</strong> et choisissez jusqu’où remonter, de 30 jours à <strong>Tout l’historique</strong>.</li>
+</ol>
+
+<!-- IMG: A webhook destination (ios-webhook.png) -->
+
+<h2>À quoi ressemble le POST</h2>
+
+<p>Chaque requête est un POST JSON. Un payload abrégé, tiré de la <a href="https://github.com/owen282000/life-dashboard-companion-app-ios/blob/main/docs/webhook.md">page du payload iOS</a> :</p>
+
+<pre><code>{
+  "timestamp": "2026-02-05T12:00:00Z",
+  "timezone": "Europe/Amsterdam",
+  "app_version": "1.9.0",
+  "source": "healthkit_ios",
+  "sequence": 42,
+  "steps": [
+    {
+      "count": 1234,
+      "start_time": "2026-02-05T08:00:00Z",
+      "end_time": "2026-02-05T09:00:00Z",
+      "uuid": "5B7A0C2E-8F3D-4B1A-9C6E-2D4F8A1B3C5D",
+      "source": "Alex's iPhone"
+    }
+  ],
+  "daily_totals": [
+    { "date": "2026-02-05", "steps": 8421, "distance_meters": 6210.4 }
+  ]
+}</code></pre>
+
+<ul>
+  <li><code>source</code>, au premier niveau, vaut <code>healthkit_ios</code>, là où l’application Android indique <code>health_connect</code>.</li>
+  <li><code>timezone</code> est le fuseau horaire de l’iPhone au moment où le payload a été construit. Toutes les heures du payload sont en UTC, et c’est dans ce fuseau que <code>daily_totals</code> découpe ses jours&nbsp;: un récepteur connaît ainsi le jour local après un changement d’heure ou un voyage. Tous les payloads le contiennent depuis la version 1.9.0.</li>
+  <li><code>sequence</code> augmente de un à chaque payload que l’iPhone construit, et une nouvelle tentative garde le numéro d’origine.</li>
+  <li>Chaque enregistrement a un <code>uuid</code>, celui de l’échantillon dans Apple Santé, qui reste le même pendant toute la vie de l’enregistrement, et un champ <code>source</code> : le nom qu’Apple Santé donne à l’application ou à l’appareil qui l’a écrit. Pour les données que l’iPhone ou la montre enregistrent eux-mêmes, c’est le nom de l’appareil, qui contient souvent le nom de son propriétaire.</li>
+  <li><code>daily_totals</code> contient les pas, la distance et les calories par jour local, pour aujourd’hui et les deux jours précédents, calculés avec les statistiques d’Apple Santé. Une marche enregistrée à la fois par l’iPhone et par la montre n’y compte qu’une fois&nbsp;; additionner les enregistrements bruts la compte deux fois.</li>
+</ul>
+
+<p>Les clés, les champs et les unités sont ceux de l’application Android. La <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md">référence du payload</a> de l’application Android documente chaque type, et son <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook-schema.json">schéma JSON</a> couvre les deux applications. Le guide <a href="../apple-health-data-types/">Les types de données d’Apple Santé</a> énumère ce qu’un iPhone envoie, clé par clé.</p>
+
+<h2>Vérifier la signature</h2>
+
+<p>Avec un secret défini, chaque POST porte <code>X-Signature: sha256=&lt;hex&gt;</code>, le HMAC-SHA256 du corps brut de la requête avec votre secret comme clé. C’est le schéma de l’application Android&nbsp;: une seule vérification couvre donc les deux téléphones. Calculez-le sur les octets tels qu’ils sont arrivés, avant de les analyser, comparez en temps constant et répondez 401 en cas de différence. En Node.js&nbsp;:</p>
+
+<pre><code>const crypto = require('crypto');
+
+function verifySignature(req, secret) {
+  const expected = 'sha256=' + crypto
+    .createHmac('sha256', secret)
+    .update(req.rawBody) // the exact raw request body bytes
+    .digest('hex');
+  const actual = req.get('X-Signature') || '';
+  return actual.length === expected.length &amp;&amp;
+    crypto.timingSafeEqual(Buffer.from(actual), Buffer.from(expected));
+}</code></pre>
+
+<p>En Python&nbsp;:</p>
+
+<pre><code>expected = "sha256=" + hmac.new(SECRET, body, hashlib.sha256).hexdigest()
+valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
+
+<p>Pour un serveur placé derrière un reverse proxy qui exige un certificat client, importez-le sous forme de fichier <code>.p12</code> sous <strong>Plus</strong> &gt; <strong>Avancé</strong>. Il reste dans le trousseau de l’iPhone, et chaque webhook dont le serveur demande un certificat le reçoit, y compris en arrière-plan.</p>
+
+<h2>Les nouvelles tentatives et la file</h2>
+
+<ul>
+  <li><strong>Nouvelles tentatives.</strong> Toute réponse 2xx compte comme une livraison. Une erreur réseau, un délai dépassé, un 408, un 429 ou un 5xx sont tentés jusqu’à 3 fois en tout, à 1 puis 2 secondes d’écart. Les autres erreurs, comme un 401 ou un 404, échouent tout de suite. Une tentative abandonne dès que la connexion reste immobile 10 secondes&nbsp;: répondez donc d’abord et stockez ensuite.</li>
+  <li><strong>La file.</strong> Chaque payload est mis en file sur l’iPhone avant d’être envoyé&nbsp;: une synchronisation qu’iOS interrompt à mi-chemin ne perd donc rien. Un payload non livré repart au retour du réseau, à la synchronisation suivante ou avec <strong>Réessayer maintenant</strong>, le plus ancien en premier, vers les URL et avec les en-têtes configurés à ce moment-là. La file s’arrête au premier payload qui échoue&nbsp;: les autres gardent ainsi leur ordre.</li>
+  <li><strong>Payloads refusés.</strong> Un payload que votre serveur refuse avec un 400, un 413 ou un 422 ne bloque pas les suivants. Il reste en file et est proposé de nouveau une fois par jour. Les payloads mis en file après lui peuvent alors arriver avant&nbsp;: utilisez <code>sequence</code> pour rétablir l’ordre.</li>
+  <li><strong>Payloads anciens et abandonnés.</strong> Un payload de plus de 7 jours est abandonné quand votre serveur répond par une erreur à sa livraison suivante, jamais pendant que l’iPhone est hors ligne. La file contient jusqu’à 700 payloads&nbsp;; au-delà, le plus ancien disparaît. Chaque payload abandonné donne une ligne dans l’onglet <strong>Journaux</strong> et une notification.</li>
+  <li><strong>Les redirections</strong> ne sont suivies que sur le même hôte. Une redirection vers un autre hôte, comme une page de connexion placée devant votre serveur, compte comme un envoi en échec, et le journal nomme l’hôte vers lequel elle pointait.</li>
+</ul>
+
+<!-- IMG: Sync history (ios-logs.png) -->
+
+<h2>Les enregistrements supprimés</h2>
+
+<p>Un enregistrement supprimé dans Apple Santé ne laisse rien à lire pour une synchronisation&nbsp;: l’application suit donc le registre des suppressions d’Apple Santé et nomme ce qui a disparu dans le payload suivant, avec la clé sous laquelle l’enregistrement était arrivé et l’<code>uuid</code> avec lequel il avait été livré&nbsp;:</p>
+
+<pre><code>"deleted_records": [
+  { "type": "nutrition", "uuid": "84E37E8A-1C2D-4E5F-8A9B-0C1D2E3F4A5B" }
+]</code></pre>
+
+<ul>
+  <li>Quand une suppression est le seul changement, la synchronisation envoie un payload avec <code>deleted_records</code> et sans enregistrements.</li>
+  <li>Apple Santé ne modifie jamais un enregistrement sur place. Une application qui en modifie un le supprime et en enregistre un nouveau sous un nouvel <code>uuid</code> : une modification arrive donc sous la forme d’une suppression et d’un nouvel enregistrement.</li>
+  <li>La suppression d’un sommeil nomme une phase, pas la nuit. Retirez cette phase, ou remplacez les nuits que couvre un payload plus récent.</li>
+  <li><code>deletions_unavailable</code> énumère les clés qu’un payload ne peut pas garantir, par exemple quand Apple Santé n’a pas répondu à temps ou qu’un type n’a pas été lu depuis plus de 7 jours. Réconciliez-les avec un backfill, le rattrapage de l’historique.</li>
+</ul>
+
+<h2>Quand l’application envoie</h2>
+
+<p>Sous <strong>Quand envoyer</strong>, réglez un intervalle de 15 minutes ou plus, 60 par défaut, ou des heures fixes dans la journée, les jours de votre choix, avec des heures de silence. iOS décide du moment où une application s’exécute en arrière-plan&nbsp;: une heure fixe signifie donc «&nbsp;pas avant&nbsp;». Apple Santé réveille aussi l’application quand un type activé a de nouvelles données, au plus aussi souvent qu’Apple le permet pour ce type. L’actualisation en arrière-plan doit être activée pour l’application&nbsp;; le mode Économie d’énergie la désactive.</p>
+
+<p>Pour une synchronisation à une minute précise, créez dans Raccourcis une automatisation qui lance <strong>Synchroniser les données de santé</strong> à cette heure. La même action fonctionne à l’arrivée à la maison, à la voix avec Siri, depuis le widget de l’écran d’accueil et depuis une commande du Centre de contrôle sur iOS 18 et plus récent. Elle envoie ce qui est en file et ce qui est nouveau.</p>
+
+<p>iOS chiffre Apple Santé tant que l’iPhone est verrouillé&nbsp;: une synchronisation qui démarre à ce moment-là attend donc le déverrouillage.</p>
+
+<!-- IMG: Sync schedule (ios-schedule.png) -->
+
+<h2>Le backfill</h2>
+
+<p><strong>Envoyer l’historique</strong>, sous <strong>Données à envoyer</strong>, envoie la durée que vous choisissez, de 30 jours à tout l’historique, par fenêtres de 3 jours, les plus anciennes en premier, avec les champs <code>backfill</code>, <code>window_start</code>, <code>window_end</code> et <code>window_complete</code>. Les enregistrements sont ceux qu’envoie une synchronisation, <code>uuid</code> compris&nbsp;: le chevauchement se dédoublonne donc. <code>window_complete</code> vaut toujours <code>false</code> depuis un iPhone, car Apple Santé n’indique pas à une application quels types elle n’a pas le droit de lire. Les payloads de backfill ne vont que vers les webhooks, jamais vers MQTT ni dans la file.</p>
+
+<h2>Des récepteurs qui fonctionnent</h2>
+
+<ul>
+  <li><strong>La stack Life Dashboard.</strong> Un récepteur qui vérifie <code>X-Signature</code>, Postgres et des tableaux de bord Grafana, à partir d’un seul fichier compose. Scannez son QR code d’association dans l’application. Voir <a href="../grafana/">la stack Life Dashboard</a>.</li>
+  <li><strong>n8n.</strong> Un nœud Webhook avec <strong>Raw Body</strong> activé, une vérification de la signature dans un nœud Code, et un 204. Le guide <a href="../apple-health-n8n/">Apple Santé vers n8n</a> présente le workflow.</li>
+  <li><strong>Node-RED.</strong> Un nœud <strong>http in</strong> avec <strong>Do not parse request body</strong> activé (Node-RED 4.1 ou plus récent) fournit les octets bruts pour le HMAC.</li>
+  <li><strong>Home Assistant.</strong> L’<a href="../apple-health-home-assistant/">intégration Life Dashboard</a> transforme le payload en capteurs et en statistiques à long terme.</li>
+  <li><strong>Un script à vous.</strong> La référence du payload Android propose des <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md#example-backend-integrations">exemples de récepteurs</a> en Python et en Node.js.</li>
+</ul>
+
+<h2>Stocker les données</h2>
+
+<ul>
+  <li>Faites un upsert de chaque enregistrement sur sa clé de payload et son <code>uuid</code>. Un enregistrement peut arriver deux fois&nbsp;: un backfill renvoie sa période, et un envoi interrompu par iOS repart de la file. Un même échantillon d’énergie active compte à la fois dans <code>active_calories</code> et dans <code>total_calories</code> : utilisez donc les deux comme clé.</li>
+  <li>Gardez <code>daily_totals</code> à raison d’une ligne par date, issue du payload dont la <code>sequence</code> est la plus élevée parmi ceux qui contenaient cette date.</li>
+  <li>L’<code>uuid</code> d’une nuit de sommeil vient de sa première phase&nbsp;: il reste donc le même pendant que la nuit s’allonge. Remplacez la nuit quand elle revient plus longue.</li>
+  <li>Supprimez ce que <code>deleted_records</code> nomme, par <code>type</code> et <code>uuid</code>, et ignorez un <code>uuid</code> que vous n’avez pas.</li>
+</ul>
+
+<h2>En quoi un payload d’iPhone diffère de celui d’Android</h2>
+
+<ul>
+  <li>La variabilité de la fréquence cardiaque est le SDNN, la mesure qu’Apple Santé enregistre. Android envoie le RMSSD sous la même clé&nbsp;; ce n’est pas le même chiffre.</li>
+  <li>Le <code>type</code> d’un entraînement est un nom comme <code>running</code> ou <code>hiit</code> ; Android envoie un numéro sous forme de chaîne.</li>
+  <li>Les phases de sommeil comprennent <code>in_bed</code>, le temps passé au lit autour des phases, que seul un iPhone envoie.</li>
+  <li>Il n’y a ni payload de temps d’écran ni bloc <code>_diagnostics</code>.</li>
+</ul>
+
+<p>Un récepteur écrit pour Android fonctionne sans modification, à condition de traiter ces éléments comme facultatifs. La <a href="https://github.com/owen282000/life-dashboard-companion-app-ios/blob/main/docs/webhook.md">page du payload iOS</a> énumère chaque différence.</p>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Puis-je exporter Apple Santé automatiquement, sans ouvrir l’application&nbsp;?</summary>
+    <p>Oui. Une fois configurée, l’application synchronise en arrière-plan selon votre planification, et Apple Santé la réveille quand il y a de nouvelles données. L’iPhone doit être déverrouillé pour qu’une synchronisation puisse lire Apple Santé, et iOS choisit le moment exact. Pour une minute fixe, utilisez une automatisation Raccourcis avec <strong>Synchroniser les données de santé</strong>.</p>
+  </details>
+  <details>
+    <summary>Puis-je voir le JSON avant d’écrire un récepteur&nbsp;?</summary>
+    <p>Oui. <strong>Aperçu du payload</strong>, sous <strong>Données à envoyer</strong>, montre les 7 derniers jours sous forme de payload, <strong>Copier le JSON</strong> le place dans le presse-papiers, et <strong>Partager</strong> le transmet sous forme de fichier .json. <strong>Exporter les données</strong>, sous <strong>Plus</strong>, enregistre la même chose avec <strong>Exporter en JSON</strong>, ou avec <strong>Exporter en CSV</strong> à raison d’une ligne par enregistrement.</p>
+  </details>
+  <details>
+    <summary>Comment éviter de compter les pas deux fois&nbsp;?</summary>
+    <p>Utilisez <code>daily_totals</code> pour les pas, la distance et les calories. Ils sont comptés comme l’app Santé les compte&nbsp;: un iPhone et une montre qui ont tous deux enregistré une marche ne la comptent qu’une fois.</p>
+  </details>
+  <details>
+    <summary>Le même récepteur fonctionne-t-il pour un téléphone Android&nbsp;?</summary>
+    <p>Oui. Les deux applications envoient les mêmes clés, les mêmes unités et la même signature. Distinguez-les par le champ <code>source</code> de premier niveau&nbsp;: <code>healthkit_ios</code> ou <code>health_connect</code>. Le guide <a href="../health-connect-webhook/">Santé Connect vers un webhook</a> traite du côté Android.</p>
+  </details>
+  <details>
+    <summary>L’application envoie-t-elle quoi que ce soit au développeur&nbsp;?</summary>
+    <p>Non. L’application n’a ni mesure d’audience, ni rapport de plantage, ni publicité, et il n’y a aucun serveur Life Dashboard. Les données ne vont qu’aux URL, au broker ou au Home Assistant que vous configurez.</p>
+  </details>
+</section>

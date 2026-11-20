@@ -1,0 +1,574 @@
+{
+  "ui": {
+    "skip": "Aller au contenu",
+    "breadcrumb": "Fil d’Ariane",
+    "faq": "Questions fréquentes",
+    "feature": "Fonctionnalité",
+    "table": "Tableau",
+    "code": "Code : {name}",
+    "code_example": "exemple",
+    "full_size": "taille réelle",
+    "coming_soon": "Bientôt disponible.",
+    "coming_named": "{name} : bientôt",
+    "available": "Disponible",
+    "coming": "Bientôt",
+    "read_guide": "Lire le guide",
+    "last_updated": "Dernière mise à jour le {date}.",
+    "og_image_alt": "Life Dashboard Companion : vos données de santé, votre serveur. Sans cloud.",
+    "nav": {
+      "guides": "Guides",
+      "faq": "FAQ",
+      "home": "Accueil de Life Dashboard",
+      "main": "Navigation principale",
+      "install": "Options d’installation",
+      "language": "Langue"
+    },
+    "strip": {
+      "label": "Les applications et la destination des données",
+      "phone": "Sur votre téléphone",
+      "server": "Sur votre serveur",
+      "android": "Santé Connect, temps d’écran",
+      "ios": "Apple Santé",
+      "home_assistant": "Capteurs et historique",
+      "grafana": "Tableaux de bord, API et MCP",
+      "own_server": "Votre propre serveur",
+      "own_server_line": "MQTT ou JSON"
+    },
+    "hero": {
+      "android": "{pitch} Ou gratuitement, la même application avec la même clé de signature : <a href=\"/life-dashboard/android/#get\">l’APK sur GitHub, Obtainium ou F&#8209;Droid</a>.",
+      "ios": "Sur l’App Store, 6,99 € en achat unique. Ou <a href=\"/life-dashboard/ios/#building\">compilez-la avec Xcode</a> sur un Mac, avec une adhésion à l’Apple Developer Program."
+    },
+    "get": {
+      "title": "Choisissez votre téléphone, puis la destination des données",
+      "intro": "Vous utilisez Home Assistant ou la stack ? Installez-les d’abord : l’application scanne leur QR code.",
+      "step1": "<b>Choisissez la destination</b> Home Assistant, la stack Grafana, ou votre propre broker ou URL.",
+      "step2": "<b>Installez l’application</b> Scannez le QR code de Home Assistant ou de la stack, ou saisissez une adresse.",
+      "step3": "<b>Synchronisez</b> Choisissez vos données, touchez <strong>Synchroniser maintenant</strong>, et la planification s’occupe du reste."
+    },
+    "guide": {
+      "byline": "Par <a href=\"/\">Owen Vogelaar</a>, qui développe Life Dashboard",
+      "updated": "Mis à jour le {date}",
+      "read_time": "{n} min de lecture",
+      "toc": "Sur cette page",
+      "related": "Guides associés",
+      "all": "Tous les guides",
+      "aside_both": "Les applications open source utilisées dans ce guide, pour Android et iPhone. Sans compte, sans cloud. En savoir plus sur <a href=\"/life-dashboard/android/\">Android</a> et <a href=\"/life-dashboard/ios/\">iPhone</a>.",
+      "aside_ios": "L’application iPhone open source utilisée dans ce guide. Sans compte, et les données ne vont que là où vous les envoyez. <a href=\"/life-dashboard/ios/\">En savoir plus sur l’application</a>.",
+      "aside_android": "L’application Android open source utilisée dans ce guide. Sans compte, sans cloud. <a href=\"/life-dashboard/android/\">En savoir plus sur l’application</a>."
+    },
+    "index": {
+      "title": "Guides Health Connect et Apple Health | Life Dashboard",
+      "description": "Tous les guides Life Dashboard : Health Connect et Apple Health dans Home Assistant, montres connectées, webhooks, n8n, types de données et dépannage.",
+      "h1": "Guides",
+      "lead": "Des guides pas à pas pour envoyer les données de Santé Connect et d’Apple Santé vers Home Assistant ou votre propre serveur, classés selon votre point de départ."
+    },
+    "product": {
+      "single": "Pas à pas",
+      "single_ios": "Le payload, pas à pas (l’application iPhone envoie le même JSON)",
+      "single_grafana": "Ce que la stack reçoit, pas à pas",
+      "works_with_app": "Envoie vers <a href=\"/life-dashboard/home-assistant/\">l’intégration Home Assistant</a>, <a href=\"/life-dashboard/grafana/\">la stack Grafana</a>, un broker MQTT ou n’importe quel webhook.",
+      "works_with_home-assistant": "Fonctionne avec <a href=\"/life-dashboard/android/\">Life Dashboard Companion pour Android</a> et <a href=\"/life-dashboard/ios/\">pour iPhone</a>.",
+      "works_with_grafana": "Reçoit les données de <a href=\"/life-dashboard/android/\">Life Dashboard Companion pour Android</a> et <a href=\"/life-dashboard/ios/\">pour iPhone</a>.",
+      "alternativeto": "Life Dashboard Companion sur AlternativeTo",
+      "guides": "Guides d’installation",
+      "what": "Ce qu’elle fait",
+      "need": "Ce qu’il vous faut",
+      "faq_android": "Questions sur l’application Android",
+      "faq_ios": "Questions sur l’application iPhone",
+      "faq_home-assistant": "Questions sur l’intégration",
+      "faq_grafana": "Questions sur la stack",
+      "others": "Les autres éléments",
+      "others_text": "Les deux applications envoient le même payload : un téléphone Android et un iPhone peuvent donc partager un même Home Assistant ou une même stack."
+    },
+    "stats": {
+      "stars": "étoiles",
+      "stars_one": "étoile",
+      "forks": "forks",
+      "forks_one": "fork",
+      "contributors": "contributeurs",
+      "contributors_one": "contributeur",
+      "active": "<b>{n}</b> installations actives selon les statistiques facultatives de Home Assistant.",
+      "downloads_ha": "<b>{n}</b> téléchargements via le Marketplace et HACS.",
+      "downloads_stack": "<b>{n}</b> téléchargements de l’image de la base de données.",
+      "on_github": "Sur GitHub",
+      "hourly": "Mis à jour toutes les heures."
+    },
+    "proof": {
+      "title": "D’autres projets open source s’appuient dessus",
+      "stars": "étoiles sur GitHub pour les quatre dépôts",
+      "contributors": "contributeurs",
+      "live": "En direct de GitHub, mis à jour toutes les heures.",
+      "built_on": "Construit dessus",
+      "yours_tag": "Votre projet",
+      "yours_title": "Vous avez construit quelque chose sur le payload ?",
+      "yours_text": "Dites-le-moi dans Discussions, et il pourra rejoindre cette liste.",
+      "yours_go": "Ouvrir Discussions"
+    },
+    "landing": {
+      "faq_get": "L’application Android : {android} L’application iPhone : {ios} La <a href=\"#get\">section d’installation</a> présente toutes les options."
+    },
+    "hub": {
+      "footer": "Les projets d’<a href=\"https://github.com/owen282000\">Owen Vogelaar</a> sur GitHub.",
+      "list": "Les applications d’Owen Vogelaar",
+      "og_image_alt": "Owen Vogelaar : vos données, sur votre propre matériel. Open source, auto-hébergé, sans cloud."
+    },
+    "footer": {
+      "about": "Life Dashboard est un projet open source d’<a href=\"https://github.com/owen282000\">Owen Vogelaar</a>, en quatre éléments : les applications Life Dashboard Companion pour Android et iPhone, une intégration Home Assistant et une stack Grafana. Il n’a aucun lien avec d’autres applications ou modèles appelés Life Dashboard. Pour vos questions, rendez-vous dans <a href=\"{discussions}\">Discussions</a>.",
+      "no_tracking": "Ce site ne dépose aucun cookie, n’utilise aucun outil de mesure d’audience et ne charge rien depuis un tiers. <a href=\"/privacy/\">Confidentialité du site</a>.",
+      "imprint": "Owen Vogelaar, exerçant sous le nom oVog Enterprise · KvK 81085583 · <a href=\"mailto:owen282000@hotmail.com\">owen282000@hotmail.com</a>",
+      "products": "Produits",
+      "guides": "Guides",
+      "docs_title": "Documentation et code source",
+      "docs": {
+        "android_setup": "Guide d’installation Android",
+        "ios_setup": "Guide d’installation iPhone",
+        "entities": "Intégration : capteurs et statistiques",
+        "payload": "Référence du payload",
+        "brands": "Guides par marque",
+        "feedback": "Tableau des suggestions",
+        "privacy_android": "Politique de confidentialité pour Android",
+        "privacy_ios": "Politique de confidentialité pour iPhone",
+        "ai_policy": "Politique sur l’IA",
+        "repos": "Tous les dépôts"
+      },
+      "trademarks": "Home Assistant est une marque de l’Open Home Foundation. Health Connect, Google Play, Google Health, Fitbit et Pixel Watch sont des marques de Google LLC. Apple, Apple Health, Apple Watch, iPhone, Xcode et TestFlight sont des marques d’Apple Inc. App Store est une marque de service d’Apple Inc. Grafana est une marque de Grafana Labs. Samsung Health, Garmin Connect, Oura et Withings appartiennent à leurs propriétaires respectifs. Life Dashboard est un projet indépendant, sans lien avec ces sociétés et sans leur caution. Les captures d’écran montrent des données fictives.",
+      "credits": "Badges : Google Play et App Store tels que publiés par Google et Apple ; « Get it on F&#8209;Droid » par le <a href=\"https://gitlab.com/fdroid/artwork\">projet F&#8209;Droid</a> et « Get it on GitHub » par <a href=\"https://github.com/Kunzisoft/Github-badge\">Kunzisoft</a>, tous deux sous <a href=\"https://creativecommons.org/licenses/by-sa/3.0/\">CC BY-SA 3.0</a> ; Obtainium par le <a href=\"https://github.com/ImranR98/Obtainium\">projet Obtainium</a> ; les badges HACS, Artifact Hub et Docker Compose sont dessinés pour ce site en Roboto (SIL OFL), autour des icônes du <a href=\"https://github.com/hacs/integration\">projet HACS</a> (MIT) et du <a href=\"https://github.com/artifacthub/hub\">projet Artifact Hub</a> (Apache 2.0) et du logo de Docker issu de son kit média ; le badge AlternativeTo est leur badge compact sur fond noir. GitHub est une marque de GitHub, Inc. Docker, Docker Compose et le logo Docker sont des marques de Docker, Inc. Helm est une marque de The Linux Foundation."
+    }
+  },
+  "parts": {
+    "android": {
+      "name": "Application Android",
+      "full": "Life Dashboard Companion pour Android",
+      "line": "Santé Connect et temps d’écran par application",
+      "more": "Voir l’application Android",
+      "get_title": "Obtenir l’application Android",
+      "req_short": "Android 8.0 ou plus récent ; données de santé à partir d’Android 9.",
+      "requires": "Android 9 ou plus récent avec Santé Connect pour les données de santé ; Android 8.0 ou plus récent pour le temps d’écran.",
+      "free_line": "Ou gratuitement, la même application avec la même clé de signature :",
+      "get": {
+        "play": {
+          "name": "Google Play",
+          "pitch": "4,99 € en achat unique sur Google Play : la voie simple, avec les mises à jour automatiques, et votre achat soutient le développement.",
+          "note": "4,99 € en achat unique (4,99 $US), sans abonnement. La voie simple : Google Play l’installe et la tient à jour, et votre achat soutient le développement.",
+          "soon_text": "Google Play : bientôt, la même application en version payante"
+        },
+        "apk": {
+          "name": "APK sur GitHub",
+          "cta": "Télécharger l’APK gratuit",
+          "note": "Ouvrez-le sur votre téléphone et autorisez une fois l’installation depuis votre navigateur. Chaque nouvelle version est sur GitHub, ou Obtainium la met à jour pour vous."
+        },
+        "obtainium": {
+          "name": "Obtainium",
+          "note": "Un outil de mise à jour pour les applications publiées sur GitHub : il installe le même APK et le tient à jour. Ouvrez ce lien sur votre téléphone."
+        },
+        "fdroid": {
+          "name": "F-Droid",
+          "note": "Compilée par F-Droid à partir du code source et identique à l’APK signé ; l’application F-Droid la tient à jour.",
+          "soon_text": "F-Droid : acceptée, la fiche sera en ligne à sa prochaine compilation"
+        }
+      }
+    },
+    "ios": {
+      "name": "Application iPhone",
+      "full": "Life Dashboard Companion pour iPhone",
+      "line": "Apple Santé, avec le même payload",
+      "more": "Voir l’application iPhone",
+      "get_title": "Obtenir l’application iPhone",
+      "req_short": "iOS 17 ou plus récent. Sur l’App Store, ou compilez-la vous-même sur un Mac.",
+      "requires": "iOS 17 ou plus récent. Pour la compiler vous-même, il faut un Mac avec Xcode et une adhésion à l’Apple Developer Program, car un compte Apple gratuit ne peut pas signer une application qui lit Apple Santé.",
+      "get": {
+        "appstore": {
+          "name": "App Store",
+          "note": "6,99 € en achat unique (5,99 $US), sans abonnement. Pas besoin de Mac, et elle se met à jour comme n’importe quelle application."
+        },
+        "xcode": {
+          "name": "Compiler avec Xcode",
+          "cta": "Compiler avec Xcode",
+          "note": "À partir du code source, sur un Mac avec Xcode et une adhésion à l’Apple Developer Program : environ une heure la première fois. Vos réglages sont conservés quand vous lancez une version plus récente."
+        }
+      }
+    },
+    "home-assistant": {
+      "name": "Intégration Home Assistant",
+      "nav": "Home Assistant",
+      "full": "Intégration Life Dashboard pour Home Assistant",
+      "line": "Capteurs, statistiques et tout votre historique",
+      "more": "Voir l’intégration",
+      "get_title": "Installer l’intégration",
+      "req_short": "Home Assistant 2026.3 ou plus récent.",
+      "requires": "Home Assistant 2026.3 ou plus récent. HACS uniquement pour les versions antérieures à 2026.11.",
+      "get": {
+        "hacs": {
+          "name": "HACS",
+          "cta": "Ouvrir dans le Marketplace",
+          "note": "Dans Paramètres &gt; Marketplace (HACS avant Home Assistant 2026.11), cherchez Life Dashboard. Avec HACS, redémarrez Home Assistant après le téléchargement."
+        },
+        "ha-setup": {
+          "name": "Étapes d’installation",
+          "note": "Ajoutez l’intégration, vérifiez l’adresse que le téléphone doit utiliser, scannez le QR code."
+        },
+        "ha-source": {
+          "name": "Code source sur GitHub",
+          "note": "Notes de version et installation manuelle."
+        }
+      }
+    },
+    "grafana": {
+      "name": "Stack Grafana",
+      "full": "Stack Life Dashboard",
+      "line": "Postgres, Grafana, une API et MCP, auto-hébergés",
+      "more": "Voir la stack",
+      "get_title": "Lancer la stack",
+      "req_short": "Docker avec Compose, ou Kubernetes.",
+      "requires": "Docker avec Compose sur une machine que votre téléphone peut joindre, ou un cluster Kubernetes avec Helm.",
+      "get": {
+        "compose": {
+          "name": "Docker Compose",
+          "cta": "Lancer avec Docker Compose",
+          "note": "Téléchargez docker-compose.yml et l’exemple de .env de la dernière version, renseignez le secret, votre fuseau horaire, l’adresse et les mots de passe, puis lancez docker compose up -d. Rien à cloner ni à compiler."
+        },
+        "demo": {
+          "name": "Données de démonstration",
+          "note": "60 jours de données fictives pour deux téléphones, avec le même fichier compose, avant même d’y connecter l’un des vôtres."
+        },
+        "helm": {
+          "name": "Chart Helm pour Kubernetes",
+          "note": "Les mêmes images sur votre propre cluster, avec Postgres fourni par CloudNativePG, un StatefulSet inclus ou une base de données que vous exploitez déjà."
+        }
+      }
+    }
+  },
+  "status": {
+    "android": "Elle est sur Google Play pour 4,99 € en achat unique (4,99 $US), sans abonnement : la voie simple, avec les mises à jour automatiques, et votre achat soutient le développement. Les voies gratuites installent la même application avec la même clé de signature : l’APK signé sur GitHub, Obtainium, qui tient cet APK à jour, et F-Droid, qui la compile à partir du code source.",
+    "ios": "Elle est sur l’App Store pour 6,99 € en achat unique (5,99 $US), sans abonnement. La compiler à partir du code source avec Xcode ne coûte rien de plus si vous avez déjà une adhésion à l’Apple Developer Program."
+  },
+  "badges": {
+    "play": {
+      "alt": "Disponible sur Google Play"
+    },
+    "appstore": {
+      "alt": "Télécharger dans l’App Store"
+    },
+    "fdroid": {
+      "alt": "Disponible sur F-Droid",
+      "soon": "Acceptée, en ligne à la prochaine compilation de F-Droid"
+    },
+    "obtainium": {
+      "alt": "Disponible sur Obtainium"
+    },
+    "hacs": {
+      "alt": "Disponible sur HACS"
+    },
+    "compose": {
+      "alt": "Lancer avec Docker Compose"
+    },
+    "helm": {
+      "alt": "Chart Helm sur Artifact Hub"
+    },
+    "apk": {
+      "alt": "Disponible sur GitHub"
+    }
+  },
+  "guide_groups": {
+    "home-assistant": "Home Assistant",
+    "watch-brands": "Marques de montres",
+    "your-own-server": "Votre propre serveur",
+    "iphone": "iPhone",
+    "reference": "Référence"
+  },
+  "guides": {
+    "health-connect-home-assistant": {
+      "name": "Santé Connect dans Home Assistant",
+      "desc": "Les données de Samsung Health, Garmin, Fitbit, Oura et Withings sous forme de capteurs, avec tout votre historique.",
+      "next": "Deux installations : l’intégration depuis le Marketplace ou HACS et l’application sur votre téléphone. Ensuite, l’association prend une minute.",
+      "buttons": [
+        "Ouvrir dans le Marketplace",
+        "Obtenir l’application Android"
+      ]
+    },
+    "samsung-health-home-assistant": {
+      "name": "Samsung Health et Galaxy Watch dans Home Assistant",
+      "desc": "Pas, sommeil, fréquence cardiaque et entraînements via Santé Connect, sans compte Samsung à connecter.",
+      "next": "Deux installations : l’intégration depuis le Marketplace ou HACS et l’application sur votre téléphone. Ensuite, activez Santé Connect dans Samsung Health et associez le tout avec un seul QR code.",
+      "buttons": [
+        "Ouvrir dans le Marketplace",
+        "Obtenir l’application Android"
+      ]
+    },
+    "companion-app-health-connect": {
+      "name": "L’application Companion et Santé Connect",
+      "desc": "Quand ses 36 capteurs suffisent, et ce qu’apportent l’historique, le backfill et 34 types.",
+      "next": "Gardez l’application Companion. Ajoutez l’intégration depuis le Marketplace ou HACS et l’application sur votre téléphone, associez-les avec un seul QR code, puis lancez un backfill.",
+      "buttons": [
+        "Ouvrir dans le Marketplace",
+        "Obtenir l’application Android"
+      ]
+    },
+    "health-connect-webhook": {
+      "name": "Santé Connect vers un webhook",
+      "desc": "Le payload JSON, les signatures, les nouvelles tentatives et des récepteurs pour n8n et Node-RED.",
+      "next": "Installez l’application, indiquez-lui votre URL et touchez <strong>Envoyer un test</strong>. La référence du payload décrit chaque champ et propose un récepteur en Python et en Node.js.",
+      "buttons": [
+        "Obtenir l’application Android",
+        "Référence du payload"
+      ]
+    },
+    "screen-time-home-assistant": {
+      "name": "Le temps d’écran dans Home Assistant",
+      "desc": "Les minutes par application sous forme de capteurs, des limites que vous fixez vous-même, et plusieurs téléphones.",
+      "next": "Le temps d’écran n’a pas besoin de Santé Connect. N’importe quel téléphone ou tablette sous Android 8.0 ou plus récent convient.",
+      "buttons": [
+        "Obtenir l’application Android",
+        "Ouvrir l’intégration dans le Marketplace"
+      ]
+    },
+    "sleep-stages-home-assistant": {
+      "name": "Les phases de sommeil dans Home Assistant",
+      "desc": "Sommeil profond, léger, paradoxal et éveils de chaque nuit en capteurs et statistiques, et une carte qui dessine la nuit.",
+      "next": "La carte s’installe en une fois depuis le Marketplace. La nuit qu’elle dessine vient de l’intégration et de l’application sur votre téléphone ou, sur Android, du capteur <strong>Sleep duration</strong> de l’application Companion.",
+      "buttons": [
+        "Ouvrir la carte dans le Marketplace",
+        "La carte sur GitHub"
+      ]
+    },
+    "smart-scale-to-samsung-health": {
+      "name": "Une balance connectée vers Samsung Health",
+      "desc": "Poids, masse grasse et tension artérielle de Home Assistant vers Santé Connect.",
+      "next": "Il vous faut l’intégration Life Dashboard 0.7.0 ou plus récente et l’application sur votre téléphone, associées comme dans le <a href=\"../health-connect-home-assistant/\">guide Santé Connect</a>.",
+      "buttons": [
+        "Ouvrir dans le Marketplace",
+        "Obtenir l’application Android"
+      ]
+    },
+    "health-connect-n8n": {
+      "name": "Santé Connect vers n8n",
+      "desc": "Un nœud Webhook, une vérification HMAC dans un nœud Code, puis Postgres, Sheets ou Telegram.",
+      "next": "Installez l’application, saisissez-y l’URL de production de votre workflow publié et touchez <strong>Envoyer un test</strong>. La référence du payload propose la même vérification avec un nœud Crypto.",
+      "buttons": [
+        "Obtenir l’application Android",
+        "n8n dans la référence du payload"
+      ]
+    },
+    "health-connect-data-types": {
+      "name": "Les types de données de Santé Connect, application par application",
+      "desc": "Les 34 types avec leurs clés et leurs unités, et ce qu’écrivent Samsung, Garmin, Fitbit et Oura.",
+      "next": "Choisissez vos types sous <strong>Données à envoyer</strong> dans l’onglet <strong>Santé</strong> et touchez <strong>Aperçu du payload</strong> pour voir ce que la prochaine synchronisation enverrait.",
+      "buttons": [
+        "Obtenir l’application Android",
+        "Référence du payload"
+      ]
+    },
+    "health-data-api": {
+      "name": "Une API web pour Santé Connect ou Apple Santé",
+      "desc": "Pourquoi aucun des deux n’en a, et comment amener quand même les données sur votre serveur.",
+      "next": "Installez l’application sur le téléphone et indiquez-lui votre URL. La référence du payload décrit chaque champ et propose un récepteur en Python et en Node.js.",
+      "buttons": [
+        "Obtenir l’application Android",
+        "Obtenir l’application iPhone"
+      ]
+    },
+    "samsung-health-export": {
+      "name": "Samsung Health vers votre propre serveur",
+      "desc": "Les données de la Galaxy Watch en JSON dans votre base de données, votre workflow n8n ou votre script.",
+      "next": "Activez Santé Connect dans Samsung Health, installez l’application et touchez <strong>Envoyer un test</strong> vers votre URL.",
+      "buttons": [
+        "Obtenir l’application Android",
+        "Référence du payload"
+      ]
+    },
+    "fitbit-home-assistant": {
+      "name": "Fitbit et Pixel Watch dans Home Assistant",
+      "desc": "Via Santé Connect, sans l’API Web de Fitbit et sans projet Google Cloud.",
+      "next": "Deux installations : l’intégration depuis le Marketplace ou HACS et l’application sur votre téléphone. Une minute suffit ensuite pour les associer.",
+      "buttons": [
+        "Ouvrir dans le Marketplace",
+        "Obtenir l’application Android"
+      ]
+    },
+    "garmin-home-assistant": {
+      "name": "Garmin dans Home Assistant",
+      "desc": "Pas, sommeil et fréquence cardiaque de Garmin Connect, sans identifiants Garmin dans Home Assistant.",
+      "next": "Deux installations : l’intégration depuis le Marketplace ou HACS et l’application sur votre téléphone. Ensuite, activez Santé Connect dans Garmin Connect et associez le tout avec un seul QR code.",
+      "buttons": [
+        "Ouvrir dans le Marketplace",
+        "Obtenir l’application Android"
+      ]
+    },
+    "health-data-own-ai": {
+      "name": "Santé Connect et Apple Santé via MCP",
+      "desc": "Le serveur MCP en lecture seule de la stack laisse un modèle local ou Claude lire votre historique. Fonctionne aussi en Europe.",
+      "next": "Commencez par les données : la stack ou l’intégration, puis un backfill de tout votre historique depuis l’application.",
+      "buttons": [
+        "Le serveur MCP de la stack",
+        "La voie Home Assistant"
+      ]
+    },
+    "health-data-qr-pairing": {
+      "name": "Laissez vos utilisateurs se connecter avec un seul QR code",
+      "desc": "Pour votre propre service : le lien d’association, un générateur en Python et en Node.js, et le ping de test signé.",
+      "next": "Générez un code pour un utilisateur de test et scannez-le avec l’application. La référence de l’association contient toutes les règles, le vecteur de test et les différences sur iPhone.",
+      "buttons": [
+        "Référence de l’association",
+        "Référence du payload"
+      ]
+    },
+    "health-connect-steps-home-assistant": {
+      "name": "Des pas Santé Connect qui semblent faux dans Home Assistant",
+      "desc": "Des capteurs en retard, des pas après minuit, des totaux qui baissent, et des totaux quotidiens remplacés jour par jour.",
+      "next": "Comparez d’abord le total de Santé Connect avec celui de Home Assistant. Pour des totaux quotidiens remplacés jour par jour, installez l’intégration et associez l’application avec son QR code.",
+      "buttons": [
+        "Obtenir l’application Android",
+        "Santé Connect dans Home Assistant"
+      ]
+    },
+    "troubleshooting": {
+      "name": "Dépannage : synchronisations, capteurs et association",
+      "desc": "Synchronisations qui s’arrêtent en arrière-plan, autorisations Santé Connect, capteurs manquants et association, pas à pas.",
+      "next": "Toujours bloqué ? Posez votre question dans Discussions en joignant la ligne de l’onglet <strong>Journaux</strong> ; le guide d’installation contient la liste complète des problèmes connus.",
+      "buttons": [
+        "Poser une question dans Discussions",
+        "Liste complète de dépannage"
+      ]
+    },
+    "apple-health-home-assistant": {
+      "name": "Apple Santé dans Home Assistant",
+      "desc": "Les données de l’Apple Watch et de l’iPhone sous forme de capteurs, avec tout votre historique grâce à un backfill.",
+      "next": "Deux installations : l’intégration depuis le Marketplace ou HACS et l’application sur votre iPhone. Ensuite, associez-les avec un seul QR code et lancez un backfill.",
+      "buttons": [
+        "Ouvrir dans le Marketplace",
+        "Obtenir l’application iPhone"
+      ]
+    },
+    "apple-health-home-assistant-apps": {
+      "name": "Apple Santé dans Home Assistant : quatre applications comparées",
+      "desc": "L’application Companion, HealthSync, Health Assistant Link et Life Dashboard côte à côte : prix, historique et données reçues.",
+      "next": "Pour Life Dashboard : l’intégration depuis le Marketplace ou HACS et l’application sur votre iPhone, associées avec un seul QR code. Le guide d’installation détaille chaque étape.",
+      "buttons": [
+        "Obtenir l’application iPhone",
+        "Apple Santé dans Home Assistant"
+      ]
+    },
+    "apple-watch-home-assistant": {
+      "name": "L’Apple Watch dans Home Assistant",
+      "desc": "Fréquence cardiaque, VFC, phases de sommeil, entraînements et VO2 max de la montre, via Apple Santé.",
+      "next": "Votre montre écrit déjà dans Apple Santé. Ajoutez l’intégration depuis le Marketplace ou HACS et l’application sur votre iPhone, puis associez-les avec un seul QR code.",
+      "buttons": [
+        "Ouvrir dans le Marketplace",
+        "Obtenir l’application iPhone"
+      ]
+    },
+    "apple-health-webhook": {
+      "name": "Apple Santé vers un webhook",
+      "desc": "Du JSON signé depuis Apple Santé, automatiquement : le payload, les nouvelles tentatives, les suppressions et Raccourcis.",
+      "next": "Installez l’application, ajoutez votre URL et touchez <strong>Ping de test</strong>. La page du payload iOS liste tout ce qu’un iPhone envoie.",
+      "buttons": [
+        "Obtenir l’application iPhone",
+        "Référence du payload iOS"
+      ]
+    },
+    "apple-health-n8n": {
+      "name": "Apple Santé vers n8n",
+      "desc": "Le même nœud Webhook et la même vérification HMAC que pour Android, et ce qui change dans un payload d’iPhone.",
+      "next": "Installez l’application, saisissez-y l’URL de production de votre workflow publié et touchez <strong>Ping de test</strong>. La référence du payload propose la même vérification avec un nœud Crypto.",
+      "buttons": [
+        "Obtenir l’application iPhone",
+        "n8n dans la référence du payload"
+      ]
+    },
+    "apple-health-data-types": {
+      "name": "Les types de données d’Apple Santé, application par application",
+      "desc": "Les 28 types que lit l’application iPhone, avec les clés du payload, les unités et ce qui les écrit.",
+      "next": "Activez vos types sous <strong>Données à envoyer</strong> et touchez <strong>Aperçu du payload</strong> pour voir ce que la prochaine synchronisation enverrait.",
+      "buttons": [
+        "Obtenir l’application iPhone",
+        "Référence du payload iOS"
+      ]
+    }
+  },
+  "images": {
+    "A1-health": "L’onglet Santé de l’application Android, avec une ligne par destination et les chiffres du jour",
+    "A2-pair": "La page d’association de l’application Android, qui demande s’il faut associer ce récepteur",
+    "A4-screen-time": "L’onglet Temps d’écran de l’application Android",
+    "A5-receive": "La page Recevoir de l’application Android",
+    "A6-webhook": "Une destination webhook dans l’application Android, avec son secret de signature HMAC et ses en-têtes",
+    "A7-logs": "L’onglet Journaux de l’application Android, avec une ligne par envoi",
+    "H2-qr": "L’intégration Life Dashboard dans Home Assistant, qui affiche un QR code d’association",
+    "H6-health": "Le tableau de bord Santé d’exemple dans Home Assistant avec des données de démonstration : les tuiles du jour, le dernier entraînement, la récupération avec la variabilité de la fréquence cardiaque comparée à sa valeur de référence, et le sommeil de la nuit dernière",
+    "H7-screen-time": "La vue temps d’écran du tableau de bord d’exemple avec des données de démonstration : aujourd’hui et hier, l’application la plus utilisée, six applications en barres, et le temps d’écran et les applications par jour",
+    "H8-two-phones": "La vue pour deux téléphones dans Home Assistant avec des données de démonstration : un téléphone Android et un iPhone côte à côte, et les deux dans les mêmes graphiques",
+    "H9-health-phone": "Le tableau de bord Santé d’exemple dans Home Assistant sur un téléphone, avec des données de démonstration : les tuiles du jour et le dernier entraînement",
+    "ios-health": "L’onglet Santé de l’application iPhone, avec une ligne par destination et les chiffres du jour",
+    "ios-schedule": "Quand envoyer dans l’application iPhone, à heures fixes avec des heures de silence",
+    "ios-logs": "L’onglet Journaux de l’application iPhone, avec une ligne par envoi",
+    "ios-mqtt": "Les réglages du broker MQTT dans l’application iPhone",
+    "ios-webhook": "Une destination webhook dans l’application iPhone, avec son secret de signature et ses en-têtes personnalisés",
+    "p-pairing-flow": "Votre service affiche un QR code, le téléphone l’ouvre sur la page d’association et, après Associer, votre service reçoit un ping de test signé",
+    "S1-sleep-card": "La Life Dashboard Sleep Card sur un thème sombre avec des données d’exemple : 5 h 14 min de sommeil, lundi 9 novembre, de 23:21 à 05:05, quatre lignes pour éveillé, paradoxal, léger et profond avec les phases en blocs le long d’un axe horaire, et la durée et la part de chaque phase",
+    "S2-sleep-card-phone": "La Life Dashboard Sleep Card en largeur de téléphone avec des données d’exemple : 5 h 14 min de sommeil, les quatre lignes le long des heures, et en dessous la durée et la part de chaque phase",
+    "g-overview": "Le tableau de bord de vue d’ensemble de la stack Grafana avec des données de démonstration",
+    "g-activity": "Le tableau de bord d’activité de la stack Grafana",
+    "g-sleep": "Le tableau de bord du sommeil de la stack Grafana",
+    "g-heart-body": "Le tableau de bord cœur et corps de la stack Grafana",
+    "g-screen-time": "Le tableau de bord du temps d’écran de la stack Grafana",
+    "g-data": "Le tableau de bord données et synchronisation de la stack Grafana"
+  },
+  "captions": {
+    "S1-sleep-card": "Données d’exemple",
+    "S2-sleep-card-phone": "Données d’exemple"
+  },
+  "entities": {
+    "android": {
+      "description": "Life Dashboard Companion est une application Android open source qui envoie les données de Santé Connect (Health Connect) et le temps d’écran par application vers Home Assistant, MQTT ou votre propre webhook, sans cloud et sans compte.",
+      "operatingSystem": "Android 8.0 ou plus récent (données de santé : Android 9 ou plus récent avec Santé Connect)",
+      "applicationSubCategory": "Domotique",
+      "featureList": [
+        "Lit 34 types de données de Santé Connect",
+        "Temps d’écran par application",
+        "Intégration Home Assistant avec association par QR code et tout votre historique",
+        "MQTT Discovery pour Home Assistant",
+        "Webhooks avec JSON, signatures HMAC-SHA256 et certificats client",
+        "Écrit dans Santé Connect les mesures de balance et de tension venues de Home Assistant"
+      ]
+    },
+    "ios": {
+      "description": "Life Dashboard Companion pour iPhone est une application iPhone open source qui envoie les données d’Apple Santé (Apple Health) vers Home Assistant, MQTT ou votre propre webhook, sans cloud et sans compte.",
+      "operatingSystem": "iOS 17 ou plus récent"
+    },
+    "home-assistant": {
+      "description": "L’intégration Life Dashboard est une intégration personnalisée open source pour Home Assistant, installée depuis le Marketplace ou HACS, qui transforme les données des applications Life Dashboard Companion en capteurs et en statistiques à long terme, avec une association par QR code.",
+      "operatingSystem": "Home Assistant 2026.3 ou plus récent",
+      "applicationSubCategory": "Intégration Home Assistant"
+    },
+    "grafana": {
+      "description": "La stack Life Dashboard est un backend open source et auto-hébergé pour les applications Life Dashboard Companion : un récepteur, Postgres et six tableaux de bord Grafana, avec une API en lecture seule et un serveur MCP facultatif, installés avec Docker Compose ou un chart Helm.",
+      "operatingSystem": "Linux, macOS ou Windows avec Docker, ou Kubernetes",
+      "applicationSubCategory": "Backend auto-hébergé",
+      "featureList": [
+        "Images publiées pour amd64 et arm64, installées avec un seul docker-compose.yml",
+        "Association par QR code",
+        "Six tableaux de bord Grafana",
+        "Une API JSON en lecture seule",
+        "Un serveur MCP avec huit outils en lecture seule",
+        "Un chart Helm pour Kubernetes avec CloudNativePG"
+      ]
+    },
+    "sleep-card": {
+      "description": "La Life Dashboard Sleep Card est une carte de tableau de bord open source pour Home Assistant qui dessine une nuit de sommeil sous forme d’hypnogramme, à partir de l’intégration Life Dashboard 1.1.0 ou plus récente ou, sur Android, de l’application Companion officielle de Home Assistant 2026.11.1 ou plus récente.",
+      "operatingSystem": "Home Assistant 2026.3 ou plus récent",
+      "applicationSubCategory": "Carte de tableau de bord Home Assistant"
+    }
+  },
+  "project_description": "Projet open source d’Owen Vogelaar : des applications pour Android et iPhone qui envoient les données de santé vers Home Assistant, MQTT ou un webhook, une intégration Home Assistant et une stack Grafana auto-hébergée.",
+  "proof": {
+    "facts": {
+      "releases": "versions Android depuis février 2026",
+      "outside": "contributeurs externes",
+      "parts": "éléments, tous sous licence MIT"
+    },
+    "projects": {
+      "Health Assistant": "Un dossier de santé auto-hébergé. Son intégration webhook comprend un analyseur pour le payload de Life Dashboard et qualifie l’application de « Highly Recommended for Android Users ».",
+      "HealthQuery": "Un tableau de bord de santé personnel dans SQLite, avec des rapports et un serveur MCP. Ses données viennent de Life Dashboard Companion.",
+      "fitbridge": "Santé Connect pour ChatGPT et Claude, auto-hébergé sur Cloudflare Workers. L’application s’y associe par QR code et lui envoie des mises à jour signées."
+    }
+  }
+}
