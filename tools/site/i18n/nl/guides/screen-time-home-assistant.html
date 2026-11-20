@@ -1,0 +1,127 @@
+<!--
+slug: schermtijd-home-assistant
+title: Schermtijd Android in Home Assistant | Life Dashboard
+description: Life Dashboard Companion stuurt de schermtijd van Android per app naar Home Assistant: minuten per dag, je topapps en een sensor per app voor automatiseringen.
+primary query: schermtijd android home assistant
+secondary queries: schermtijd android, schermtijd per app home assistant, digitaal welzijn exporteren, digitaal welzijn home assistant, app-gebruik android home assistant, schermtijd limiet home assistant
+updated: 2026-11-20
+published: 2026-10-06
+-->
+
+<h1>Hoe krijg ik de schermtijd van Android per app in Home Assistant?</h1>
+
+<p>Life Dashboard Companion, een open-source app voor Android, leest de gebruiksstatistieken van Android, dezelfde cijfers die Digitaal welzijn toont, en stuurt de minuten per app volgens een schema naar Home Assistant. Met de Life Dashboard-integratie krijg je de schermtijd van vandaag en gisteren, de meest gebruikte app, de vijf meest gebruikte apps, een sensor per app als je dat wilt, en elke dag in de langetermijnstatistieken. Via MQTT krijg je dezelfde totalen, zonder de sensoren per app. Automatiseringen kunnen je daarna waarschuwen als je over een limiet gaat die je zelf hebt ingesteld.</p>
+
+<h2>Wat je nodig hebt</h2>
+
+<ul>
+  <li>Een Android-telefoon of -tablet met Android 8.0 of nieuwer. Health Connect is niet nodig.</li>
+  <li><a href="../android/">Life Dashboard Companion voor Android</a>, uit <a href="{{play_url}}">Google Play</a> voor €&nbsp;4,99 eenmalig, of gratis via GitHub Releases, Obtainium of F-Droid. Bij de <a href="../android/#get">installatiemogelijkheden</a> staat elke route.</li>
+  <li>Home Assistant met de <a href="../home-assistant/">Life Dashboard-integratie</a>, gekoppeld zoals in de <a href="../health-connect-home-assistant/">Health Connect-gids</a>, of een MQTT-broker die Home Assistant gebruikt. Voor de sensoren per app heb je integratie 0.9.0 of nieuwer nodig.</li>
+</ul>
+
+<h2>Zo stel je het in</h2>
+
+<ol>
+  <li>Neem bij het koppelen met de QR-code <strong>Schermtijd</strong> mee onder <strong>Versturen vanaf</strong>.</li>
+  <li>Open het tabblad <strong>Schermtijd</strong>. Daar staat <strong>Sta gebruikstoegang toe.</strong> Tik op <strong>Android-instellingen openen</strong>, zoek <strong>Life Dashboard</strong> in de lijst van Android, zet de toegang aan en ga terug. Het tabblad toont nu je schermtijd, en onder <strong>Meer</strong> op dat tabblad staat <strong>Gebruikstoegang verleend</strong>.</li>
+  <li>Open <strong>Dag begint om</strong>. Standaard is dat 04:00, zodat telefoongebruik na middernacht bij de dag ervoor telt. Kies je een ander uur, tik dan op <strong>Bewaren</strong> bovenaan die pagina. Zet <strong>Daggrens inschakelen</strong> uit voor middernacht tot middernacht.</li>
+  <li>Kies onder <strong>Welke apps</strong> voor <strong>Alle</strong>, <strong>Alle behalve</strong> of <strong>Alleen</strong>. De lijst toont de apps die je in de laatste 30 dagen hebt gebruikt.</li>
+  <li>Tik op <strong>Nu synchroniseren</strong>.</li>
+</ol>
+
+<!-- IMG: Screen Time tab (A4-screen-time.png) -->
+
+<p>Schermtijd heeft een eigen <strong>Wanneer versturen</strong>, los van gezondheidsdata. Home Assistant ziet pas na een sync een nieuw getal. Kies voor limieten dus <strong>Elke X minuten</strong> met 15, het kortste dat Android toestaat, en tik op <strong>Bewaren</strong>.</p>
+
+<h2>Wat je krijgt</h2>
+
+<table>
+  <thead>
+    <tr><th>Sensor van de integratie</th><th>Via MQTT</th><th>Wat erin staat</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>sensor.&lt;phone&gt;_screen_time_today</code></td><td>Screen Time Today</td><td>De tijd van vandaag, met de vijf meest gebruikte apps en hun minuten in <code>top_apps</code>, en vanaf integratie 1.2.0 elke app van de dag in <code>apps</code></td></tr>
+    <tr><td><code>sensor.&lt;phone&gt;_screen_time_yesterday</code></td><td>Screen Time Yesterday</td><td>Het definitieve totaal van gisteren</td></tr>
+    <tr><td><code>sensor.&lt;phone&gt;_most_used_app_today</code></td><td>Screen Time Top App Today</td><td>De app met de meeste minuten vandaag</td></tr>
+    <tr><td><code>sensor.&lt;phone&gt;_&lt;app&gt;_screen_time</code></td><td>Niet beschikbaar</td><td>De tijd van één app vandaag, met de minuten over de week in <code>week_minutes</code></td></tr>
+  </tbody>
+</table>
+
+<p>De integratie geeft de tijd sinds versie 1.0.0 in uren: 2 uur en 51 minuten is dus <code>2.85</code>, en een tegel toont 2h 51m. Via MQTT, en in de integratie vóór 1.0.0, is het in minuten: <code>171</code>. De attributen zijn op beide routes in minuten.</p>
+
+<p>Regels voor de sensoren per app:</p>
+
+<ul>
+  <li>Ze worden uitgeschakeld aangemaakt. Open het apparaat van de telefoon, toon de uitgeschakelde entiteiten en schakel de apps in die je wilt volgen.</li>
+  <li>Een app krijgt een sensor zodra hij 5 minuten heeft over de dagen die de laatste sync meestuurde. Een telefoon krijgt hooguit 50 app-sensoren, uitgeschakelde meegeteld, met de meest gebruikte apps eerst.</li>
+  <li>Een sensor hoort bij het pakket van de app en overleeft dus een naamswijziging. Een sensor die je verwijdert, blijft weg.</li>
+  <li>Een app die je vandaag niet hebt geopend staat op 0, zodat een dagelijkse trigger de volgende dag weer klaarstaat.</li>
+</ul>
+
+<p>De totale schermtijd per dag gaat ook naar de langetermijnstatistieken, in uren, net als de tijd per dag van elke app waarvan je de sensor hebt ingeschakeld. <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md#screen-time">Schermtijd in detail</a> beschrijft alle attributen.</p>
+
+<h2>Kaarten voor je dashboard</h2>
+
+<p><a href="https://github.com/owen282000/life-dashboard-screen-time-card">Life Dashboard Screen Time</a> installeer je apart vanuit de Marketplace (HACS vóór Home Assistant 2026.11). Het zijn drie kaarten, elk tegen een daglimiet die je zelf instelt:</p>
+
+<ul>
+  <li><strong>Vandaag op één telefoon</strong>: een ring tegen de limiet, het verschil met gisteren en met de laatste zeven dagen, en de apps met hun eigen icoon en minuten.</li>
+  <li><strong>De week</strong>: een balk per dag met de limiet als lijn. Tik op een dag om de apps van die dag te zien.</li>
+  <li><strong>Het gezin</strong>: iedereen in één kaart, elk tegen een eigen limiet, met de drie grootste apps.</li>
+</ul>
+
+<p>Met integratie 1.2.0 of nieuwer tonen de kaarten elke app van de dag. Daarvoor zijn het de vijf meest gebruikte apps en de app-sensoren die je hebt ingeschakeld. Ze lezen ook de schermtijd van een kind uit Google Family Link of Microsoft Family Safety, via de community-integraties HAFamilyLink en HAFamilySafety.</p>
+
+<h2>Limieten en meldingen</h2>
+
+<p>Een melding zodra vandaag over de drie uur gaat, met de notify-actie van de Companion-app van Home Assistant:</p>
+
+<pre><code>triggers:
+  - trigger: numeric_state
+    entity_id: sensor.&lt;phone&gt;_screen_time_today
+    value_template: "{{ state.state | float(0) * (60 if state.attributes.unit_of_measurement == 'h' else 1) }}"
+    above: 180
+actions:
+  - action: notify.mobile_app_&lt;phone&gt;
+    data:
+      message: Three hours on the phone today.</code></pre>
+
+<p>De regel met <code>value_template</code> rekent uren om naar minuten en laat minuten zoals ze zijn. Daardoor betekent <code>above: 180</code> drie uur, met de integratie en via MQTT. Vul <code>sensor.&lt;phone&gt;_youtube_screen_time</code> en <code>above: 60</code> in voor een limiet op één app, met dezelfde <code>value_template</code>-regel. Het <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/recipes/screen-time-limits.md">recept voor schermtijdlimieten</a> heeft ook een versie voor MQTT en een controle op telefoongebruik laat op de avond.</p>
+
+<h2>Meerdere telefoons in één Home Assistant</h2>
+
+<p>Voeg de integratie per telefoon één keer toe en geef elke telefoon een duidelijke naam. De entiteits-ID's volgen de naam: een tablet met de naam “Living room tablet” geeft <code>sensor.living_room_tablet_youtube_screen_time</code>, naast de sensoren van je telefoon. Elke telefoon heeft een eigen apparaat, een eigen geheim en eigen statistieken.</p>
+
+<p>Geef via MQTT elke telefoon een naam onder <strong>Meer</strong> &gt; <strong>Geavanceerd</strong> &gt; <strong>Telefoonnaam</strong>. Een telefoon met een naam wordt een eigen apparaat, zoals Life Dashboard Companion (Pixel 8). Twee telefoons zonder naam publiceren naar dezelfde sensoren.</p>
+
+<p>Iedereen met toegang tot Home Assistant en de back-ups ervan kan zien welke apps wanneer zijn gebruikt. Op elke telefoon bepaalt <strong>Welke apps</strong> wat de telefoon verlaat: een app die je eruit filtert wordt nergens bij naam genoemd in wat er wordt verstuurd, maar zijn tijd telt nog wel mee in het dagtotaal.</p>
+
+<h2>Wat er wordt gemeten</h2>
+
+<ul>
+  <li>De tijd op de voorgrond per app, in hele minuten. Muziek die op de achtergrond speelt telt niet mee.</li>
+  <li>De systeeminterface en de launcher blijven buiten beschouwing, net als apps die je die dag een minuut of korter hebt gebruikt.</li>
+  <li>Elke sync stuurt de laatste 7 dagen opnieuw, zodat een dag die bij de ene sync nog liep door de volgende wordt bijgewerkt.</li>
+  <li>De app rapporteert minuten. Hij blokkeert geen apps en stelt geen limieten in op de telefoon zelf.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Waarom komt het totaal niet precies overeen met Digitaal welzijn?</summary>
+    <p>Digitaal welzijn telt vanaf middernacht, terwijl de dag van de app standaard om 04:00 begint. Apps die je een minuut of korter hebt gebruikt blijven ook buiten beschouwing.</p>
+  </details>
+  <details>
+    <summary>Werkt dit op een iPhone?</summary>
+    <p>Nee. iOS houdt de data van Schermtijd in een sandbox die niets naar buiten kan sturen. De iPhone-app heeft dus geen schermtijd.</p>
+  </details>
+  <details>
+    <summary>Kan ik sommige apps privé houden?</summary>
+    <p>Ja. Kies ze onder <strong>Alle behalve</strong> in <strong>Welke apps</strong>. Hun namen worden niet verstuurd. Hun tijd zit nog wel in het dagtotaal, dus als je één app weglaat, zijn de minuten daarvan uit het totaal af te leiden. De sensoren tonen dan de minuten van de apps die je verstuurt, en in <code>all_apps_minutes</code> staat het totaal van alle apps.</p>
+  </details>
+  <details>
+    <summary>Kan ik schermtijd ook naar mijn eigen server sturen?</summary>
+    <p>Ja. Het tabblad <strong>Schermtijd</strong> heeft een eigen lijst met webhooks, en de payload is JSON met minuten per app per dag. Zie de <a href="../health-connect-webhook/">webhookgids</a>.</p>
+  </details>
+</section>

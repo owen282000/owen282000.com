@@ -1,0 +1,234 @@
+<!--
+title: Apple Health (Santé) vers n8n : le workflow | Life Dashboard
+description: Les données Apple Health de votre iPhone dans un workflow n8n : nœud Webhook, vérification HMAC dans un nœud Code, puis Postgres, Google Sheets ou Telegram.
+primary query: apple health n8n
+secondary queries: apple santé n8n, webhook apple health n8n, données santé iphone n8n, healthkit n8n, apple watch n8n, workflow n8n apple health, apple health vers postgres n8n, apple health google sheets
+updated: 2026-11-20
+published: 2026-10-21
+-->
+
+<h1>Comment envoyer les données d’Apple Health vers n8n&nbsp;?</h1>
+
+<p>Installez Life Dashboard Companion sur votre iPhone et saisissez-y comme webhook l’URL de production d’un nœud Webhook n8n. Dans n8n, activez l’option <strong>Raw Body</strong> du nœud Webhook, vérifiez le HMAC de l’en-tête <code>X-Signature</code> dans un nœud Code, répondez 204 avec un nœud <strong>Respond to Webhook</strong>, puis stockez chaque enregistrement avec son <code>type</code> et son <code>uuid</code> comme clé. Tout ce que contient Apple Health (l’app Santé de l’iPhone) arrive ainsi dans n8n, que cela vienne de l’iPhone, d’une Apple Watch ou d’une autre application qui y écrit.</p>
+
+<p>L’application iPhone envoie le payload de l’application Android&nbsp;: le workflow est donc celui de <a href="../health-connect-n8n/">Santé Connect vers n8n</a>, et un seul workflow accepte les deux téléphones. Cette page reprend le workflow complet, avec les endroits où un payload d’iPhone diffère. Le payload lui-même, les nouvelles tentatives et la file sont décrits dans <a href="../apple-health-webhook/">Apple Santé vers un webhook</a>.</p>
+
+<p class="flow-line"><span>iPhone ou Apple Watch</span><span>Apple Santé</span><span>Life Dashboard Companion</span><span>n8n</span></p>
+
+<h2>Ce qu’il vous faut</h2>
+
+<ul>
+  <li><a href="../ios/">Life Dashboard Companion pour iPhone</a> sur iOS 17 ou plus récent. {{status:ios}}</li>
+  <li>n8n, sur n8n Cloud ou auto-hébergé, joignable depuis l’iPhone. Utilisez HTTPS. iOS n’autorise le simple <code>http://</code> que vers une adresse IP, un nom en <code>.local</code> ou un nom sans point, et demande une fois l’accès au réseau local&nbsp;: autorisez-le pour un n8n installé chez vous.</li>
+  <li>De la place pour les grosses requêtes. n8n accepte jusqu’à 16 Mo par défaut, mais un reverse proxy placé devant doit l’autoriser aussi&nbsp;: nginx autorise 1 Mo par défaut.</li>
+  <li>Le module <code>crypto</code> dans le nœud Code. n8n Cloud le fournit. Sur un n8n auto-hébergé, définissez <code>NODE_FUNCTION_ALLOW_BUILTIN=crypto</code>, sur le task runner si vous en utilisez un.</li>
+</ul>
+
+<h2>Le workflow en un coup d’œil</h2>
+
+<pre><code>Webhook (POST, Raw Body)
+  -> Code: check signature
+  -> If: valid is true
+       true  -> Respond to Webhook (204)
+                  -> Code: records    -> Postgres: upsert
+                  -> Code: deletions  -> Postgres: delete
+       false -> Respond to Webhook (401)</code></pre>
+
+<p>La réponse part avant le travail en base de données&nbsp;: l’application abandonne une tentative dès que la connexion reste immobile 10 secondes.</p>
+
+<h2>Configurer le nœud Webhook</h2>
+
+<ol>
+  <li>Ajoutez un nœud <strong>Webhook</strong>. Réglez <strong>HTTP Method</strong> sur <code>POST</code> et choisissez un <strong>Path</strong>, par exemple <code>life-dashboard</code>.</li>
+  <li>Réglez <strong>Respond</strong> sur <strong>Using 'Respond to Webhook' Node</strong>. Avec <strong>Immediately</strong>, n8n répond 200 avant que la vérification de la signature ne s’exécute&nbsp;: un payload dont la signature est mauvaise compte alors quand même comme livré.</li>
+  <li>Sous <strong>Options</strong>, ajoutez <strong>Raw Body</strong> et activez-le. Le nœud fournit alors les octets tels qu’ils sont arrivés dans la propriété binaire <code>data</code>, à côté du JSON analysé dans <code>body</code> et des en-têtes dans <code>headers</code>.</li>
+  <li>Publiez le workflow et copiez l’URL de production. L’URL de test n’écoute que pendant que l’éditeur attend un événement de test. Une synchronisation envoyée alors que rien n’écoute reçoit un 404, et l’iPhone garde ce payload et les suivants dans sa file jusqu’à ce que l’URL réponde de nouveau.</li>
+</ol>
+
+<p>Dans l’application, touchez <strong>Ajouter une destination</strong> dans l’onglet <strong>Santé</strong>, saisissez l’URL de production et touchez <strong>Ajouter un webhook</strong>. Sur la fiche qui s’ouvre, touchez <strong>Générer</strong> sous <strong>Secret de signature HMAC</strong>, touchez <strong>Copier le secret</strong> pour l’étape suivante, puis <strong>Enregistrer</strong>.</p>
+
+<!-- IMG: A webhook destination (ios-webhook.png) -->
+
+<h2>Vérifier la signature dans un nœud Code</h2>
+
+<p>L’iPhone signe exactement comme l’application Android&nbsp;: <code>X-Signature: sha256=&lt;hex&gt;</code>, le HMAC-SHA256 du corps brut avec votre secret comme clé. Ajoutez un nœud <strong>Code</strong> en JavaScript, en mode <strong>Run Once for All Items</strong> :</p>
+
+<pre><code>const crypto = require('crypto');
+
+// The secret as the app shows it. Use it as text: don't hex-decode it.
+const SECRET = 'paste-the-secret-from-the-app';
+
+const item = $input.first();
+const raw = await this.helpers.getBinaryDataBuffer(0, 'data');
+const expected = Buffer.from(
+  'sha256=' + crypto.createHmac('sha256', SECRET).update(raw).digest('hex')
+);
+const presented = Buffer.from(item.json.headers['x-signature'] || '');
+const valid = presented.length === expected.length &amp;&amp;
+  crypto.timingSafeEqual(presented, expected);
+
+return [{ json: { valid, payload: valid ? JSON.parse(raw.toString('utf8')) : null } }];</code></pre>
+
+<ul>
+  <li>Le HMAC est calculé sur <code>raw</code>, les octets que l’application a signés. Le calculer sur <code>body</code> sérialisé de nouveau donne une chaîne différente, et la vérification échoue.</li>
+  <li>n8n fournit les noms d’en-têtes en minuscules&nbsp;: l’en-tête est donc <code>x-signature</code>.</li>
+  <li>Quiconque peut ouvrir le workflow peut lire le secret dans le code. La <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md#n8n-and-node-red">référence du payload</a> montre la même vérification avec un nœud <strong>Crypto</strong>, qui garde le secret dans un identifiant n8n.</li>
+</ul>
+
+<p>Ajoutez ensuite un nœud <strong>If</strong> avec une seule condition&nbsp;: le booléen <code>{{ $json.valid }}</code> est vrai.</p>
+
+<h2>Répondre avant la partie lente</h2>
+
+<p>Terminez chaque branche du nœud If par son propre nœud <strong>Respond to Webhook</strong>, avec <strong>Respond With</strong> réglé sur <strong>No Data</strong>. Sous <strong>Options</strong>, réglez <strong>Response Code</strong> sur 204 pour la branche vraie et sur 401 pour la branche fausse. Voici ce que l’iPhone fait de chaque réponse&nbsp;:</p>
+
+<ul>
+  <li><strong>204.</strong> Toute réponse 2xx compte comme une livraison. Les nœuds placés après le nœud Respond to Webhook s’exécutent quand même, avec le même élément.</li>
+  <li><strong>401.</strong> Pas de nouvelle tentative pendant la synchronisation. Le payload reste dans la file de l’iPhone, les suivants attendent derrière lui, et ils partent une fois que les secrets concordent&nbsp;: à la synchronisation suivante, ou avec <strong>Réessayer maintenant</strong>.</li>
+  <li><strong>500.</strong> Si le workflow échoue avant qu’un nœud Respond to Webhook ne s’exécute, n8n répond 500. L’iPhone essaie 3 fois en tout, à 1 puis 2 secondes d’écart, puis garde le payload pour la synchronisation suivante.</li>
+</ul>
+
+<p>Deux points diffèrent d’Android&nbsp;: un payload que votre workflow refuse avec un 400, un 413 ou un 422 est proposé de nouveau une fois par jour plutôt qu’à chaque synchronisation, et un payload de plus de 7 jours est abandonné à la livraison suivante à laquelle n8n répond par une erreur.</p>
+
+<h2>Transformer le payload en lignes</h2>
+
+<p>Après le 204, un deuxième nœud Code transforme le payload en un élément par enregistrement. C’est le même code que pour Android&nbsp;:</p>
+
+<pre><code>const p = $input.first().json.payload;
+if (!p || p.test) return [];
+
+const rows = [];
+for (const [type, value] of Object.entries(p)) {
+  if (type === 'deleted_records' || !Array.isArray(value)) continue;
+  for (const r of value) {
+    if (!r || !r.uuid) continue; // daily totals and buckets carry no uuid
+    rows.push({ json: {
+      type,
+      uuid: r.uuid,
+      source: r.source ?? null,
+      time: r.time ?? r.start_time ?? r.session_end_time ?? null,
+      data: r,
+    } });
+  }
+}
+return rows;</code></pre>
+
+<ul>
+  <li><strong>Envoyer un test</strong> et le <strong>Ping de test</strong> de la configuration portent <code>"test": true</code> et aucun enregistrement&nbsp;: rien ne s’exécute donc après ce nœud.</li>
+  <li>Sur un iPhone, le champ <code>source</code> d’un enregistrement est le nom qu’Apple Santé donne à l’application ou à l’appareil qui l’a écrit, par exemple <code>Alex's Apple Watch</code>, pas un nom de paquet. Il contient souvent le nom du propriétaire.</li>
+  <li>L’<code>uuid</code> d’une nuit de sommeil vient de sa première phase&nbsp;: il reste donc le même pendant que la nuit s’allonge, et l’upsert ci-dessous remplace la nuit quand elle revient plus longue. Les phases d’une nuit portent leur propre <code>uuid</code> et leur propre <code>source</code> dans <code>data</code>.</li>
+  <li>Un aliment forme un seul enregistrement <code>nutrition</code> avec tous ses nutriments, et son <code>name</code> quand l’application en a donné un.</li>
+  <li>Les séries que vous réglez sur 1, 5 ou 15 minutes ou sur une heure sous <strong>Résolution des données</strong> arrivent sous forme de fenêtres agrégées sans <code>uuid</code> et sont ignorées ici. Laissez chaque type sur chaque enregistrement pour ce workflow&nbsp;: c’est le réglage par défaut.</li>
+</ul>
+
+<h2>Stocker dans Postgres, en dédoublonnant sur uuid</h2>
+
+<p>Le même enregistrement peut arriver plusieurs fois&nbsp;: à chaque backfill (le rattrapage de l’historique), et de nouveau depuis la file après un envoi interrompu par iOS. Donnez à la table la clé <code>type</code> et <code>uuid</code>, tous deux en <code>text</code> :</p>
+
+<pre><code>CREATE TABLE health_records (
+  type   text NOT NULL,
+  uuid   text NOT NULL,
+  source text,
+  time   timestamptz,
+  data   jsonb NOT NULL,
+  PRIMARY KEY (type, uuid)
+);</code></pre>
+
+<p>Ajoutez un nœud <strong>Postgres</strong> avec l’opération <strong>Execute Query</strong> :</p>
+
+<pre><code>INSERT INTO health_records (type, uuid, source, time, data)
+VALUES ($1, $2, $3, $4::timestamptz, $5::jsonb)
+ON CONFLICT (type, uuid) DO UPDATE
+SET source = EXCLUDED.source, time = EXCLUDED.time, data = EXCLUDED.data;</code></pre>
+
+<p>Sous <strong>Options</strong>, ajoutez <strong>Query Parameters</strong> avec cette expression&nbsp;:</p>
+
+<pre><code>{{ [ $json.type, $json.uuid, $json.source, $json.time, JSON.stringify($json.data) ] }}</code></pre>
+
+<ul>
+  <li>Passez les valeurs en Query Parameters, jamais sous forme de <code>{{ }}</code> dans le SQL. n8n colle une expression dans le SQL comme du texte brut&nbsp;: une apostrophe dans une valeur, comme celle de <code>Alex's Apple Watch</code>, casse donc la requête.</li>
+  <li>La clé est <code>type</code> plus <code>uuid</code>, pas <code>uuid</code> seul&nbsp;: un iPhone envoie un même échantillon d’énergie active sous <code>active_calories</code> et sous <code>total_calories</code>.</li>
+  <li>Apple Santé ne modifie pas un enregistrement sur place. Une modification arrive sous la forme d’une suppression de l’ancien <code>uuid</code> et d’un nouvel enregistrement, ce que traite l’étape suivante.</li>
+</ul>
+
+<h2>Appliquer deleted_records</h2>
+
+<p>Un enregistrement supprimé dans Apple Santé est nommé dans le champ <code>deleted_records</code> d’un payload ultérieur, avec son <code>type</code> et son <code>uuid</code>. Un troisième nœud Code, lui aussi après le 204&nbsp;:</p>
+
+<pre><code>const p = $input.first().json.payload;
+return (p?.deleted_records ?? []).map(d =&gt; ({ json: { type: d.type, uuid: d.uuid } }));</code></pre>
+
+<p>Puis un nœud Postgres avec <strong>Execute Query</strong> et les Query Parameters <code>{{ [ $json.type, $json.uuid ] }}</code> :</p>
+
+<pre><code>DELETE FROM health_records
+WHERE type = $1 AND (uuid = $2 OR starts_with(uuid, $2 || '#'));</code></pre>
+
+<p>Les <code>uuid</code> d’un iPhone ne contiennent jamais de <code>#</code> : pour un iPhone, seule la première moitié compte donc&nbsp;; la seconde sert aux échantillons de fréquence cardiaque et de température cutanée d’Android, et permet à un même workflow de servir les deux. Un <code>uuid</code> supprimé que vous n’avez pas ne supprime rien, ce que demande justement la page du payload iOS.</p>
+
+<p>Un cas propre à l’iPhone que la requête ci-dessus ne couvre pas&nbsp;: la suppression d’un sommeil nomme une phase de la nuit, par son <code>uuid</code> dans <code>stages</code>, pas la nuit. Pour retirer cette phase de la nuit stockée, ajoutez un second nœud Postgres avec les mêmes Query Parameters&nbsp;:</p>
+
+<pre><code>UPDATE health_records
+SET data = jsonb_set(data, '{stages}', (
+  SELECT coalesce(jsonb_agg(s), '[]'::jsonb)
+  FROM jsonb_array_elements(data-&gt;'stages') AS s
+  WHERE s-&gt;&gt;'uuid' IS DISTINCT FROM $2))
+WHERE type = 'sleep' AND $1 = 'sleep'
+  AND data-&gt;'stages' @&gt; jsonb_build_array(jsonb_build_object('uuid', $2::text));</code></pre>
+
+<p>Le champ <code>duration_seconds</code> de la nuit reste tel qu’il a été envoyé. Un type listé dans <code>deletions_unavailable</code> ne peut pas être garanti pour cette synchronisation&nbsp;: lancez un backfill depuis l’application pour le réconcilier.</p>
+
+<p>Si vous préférez ne pas construire le stockage vous-même, le récepteur de <a href="../grafana/">la stack Life Dashboard</a> dédoublonne et supprime de la même façon, avec en plus des tableaux de bord, une API en lecture seule et un serveur MCP.</p>
+
+<h2>Google Sheets ou Telegram à la place</h2>
+
+<p><strong>Une ligne par jour dans Google Sheets.</strong> Un nœud Code placé après le 204 prend les totaux quotidiens, qu’Apple Santé compte comme le fait l’app Santé&nbsp;: une marche enregistrée par l’iPhone et la montre n’est donc comptée qu’une fois&nbsp;:</p>
+
+<pre><code>const p = $input.first().json.payload;
+return (p?.daily_totals ?? []).map(d =&gt; ({ json: d }));</code></pre>
+
+<p>Puis un nœud <strong>Google Sheets</strong> avec <strong>Append or Update Row</strong>, une feuille avec les colonnes <code>date</code>, <code>steps</code>, <code>distance_meters</code>, <code>active_calories</code> et <code>total_calories</code>, et <code>date</code> comme colonne de correspondance. Chaque payload contient aujourd’hui et les deux jours précédents&nbsp;: la ligne du jour se met donc à jour à chaque synchronisation. Sur un iPhone, <code>total_calories</code> ne vient que les jours où il y a de l’énergie au repos, ce qu’un iPhone sans Apple Watch n’enregistre généralement pas.</p>
+
+<p><strong>Un message Telegram à chaque nouveau poids.</strong> Après le nœud des enregistrements, un nœud <strong>Filter</strong> garde les éléments dont <code>{{ $json.type }}</code> vaut <code>weight</code>. Un nœud <strong>Remove Duplicates</strong> avec <strong>Remove Items Processed in Previous Executions</strong>, <strong>Keep Items Where</strong> réglé sur <strong>Value Is New</strong> et <code>{{ $json.uuid }}</code> comme valeur de dédoublonnage empêche un second message quand la même pesée revient dans un backfill. Puis un nœud <strong>Telegram</strong> avec <strong>Send Message</strong> et le texte <code>Weight: {{ $json.data.kilograms }} kg</code>.</p>
+
+<h2>Un iPhone et un téléphone Android dans un seul workflow</h2>
+
+<ul>
+  <li>Le champ <code>source</code> de premier niveau vaut <code>healthkit_ios</code> depuis un iPhone et <code>health_connect</code> depuis Android.</li>
+  <li>La variabilité de la fréquence cardiaque est le SDNN depuis un iPhone et le RMSSD depuis Android, sous la même clé. Stockez le champ <code>source</code> de premier niveau avec chaque enregistrement pour que les deux restent séparés.</li>
+  <li>Le <code>type</code> d’un entraînement est un nom comme <code>running</code> depuis un iPhone, et le numéro de Santé Connect sous forme de chaîne, comme <code>"56"</code>, depuis Android.</li>
+  <li>Les phases de sommeil d’un iPhone comprennent <code>in_bed</code>, le temps passé au lit autour des phases.</li>
+  <li>Le temps d’écran ne vient que d’Android, dans son propre payload.</li>
+</ul>
+
+<p>Les étapes des enregistrements, de l’upsert et de la suppression de cette page viennent du workflow de <a href="../health-connect-n8n/">Santé Connect vers n8n</a>. Les nœuds Code et le SQL ont été vérifiés ici avec un payload d’iPhone dans Node.js et Postgres, pas dans un n8n en fonctionnement recevant les envois d’un iPhone&nbsp;: essayez donc avec <strong>Envoyer un test</strong> et <strong>Synchroniser maintenant</strong> avant de vous y fier.</p>
+
+<h2>Les limites</h2>
+
+<ul>
+  <li>n8n ne peut pas demander une plage de dates à l’iPhone. Lancez un backfill sur l’iPhone, de 30 jours à <strong>Tout l’historique</strong>, avec <strong>Envoyer l’historique</strong> sous <strong>Données à envoyer</strong>.</li>
+  <li>iOS décide du moment où l’application s’exécute en arrière-plan&nbsp;: les synchronisations peuvent donc arriver plus tard que prévu. Pour une heure précise, une automatisation Raccourcis lance <strong>Synchroniser les données de santé</strong>.</li>
+  <li>Comme le 204 part en premier, deux payloads peuvent être stockés en même temps. Les payloads portent une <code>sequence</code> qui ne fait qu’augmenter&nbsp;; utilisez-la quand l’ordre compte, par exemple pour <code>daily_totals</code>.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Le workflow est-il différent de celui d’Android&nbsp;?</summary>
+    <p>Seulement dans les détails décrits sur cette page. Le nœud Webhook, la vérification de la signature, les réponses et l’upsert sont les mêmes&nbsp;: un seul workflow peut donc accepter les deux téléphones. L’étape supplémentaire est la suppression d’une phase de sommeil, que seul un iPhone envoie.</p>
+  </details>
+  <details>
+    <summary>Est-ce que cela fonctionne sur n8n Cloud&nbsp;?</summary>
+    <p>Oui. L’URL de production d’un workflow publié est en HTTPS public, et n8n Cloud fournit le module <code>crypto</code> au nœud Code. Un n8n auto-hébergé a besoin de <code>NODE_FUNCTION_ALLOW_BUILTIN=crypto</code> pour le même code.</p>
+  </details>
+  <details>
+    <summary>Pourquoi la vérification de la signature échoue-t-elle à chaque requête&nbsp;?</summary>
+    <p>En général pour l’une de ces trois raisons&nbsp;: <strong>Raw Body</strong> est désactivé, et il n’y a donc pas de <code>data</code> binaire à hacher&nbsp;; le HMAC est calculé sur le <code>body</code> analysé au lieu des octets bruts&nbsp;; ou le secret dans n8n diffère de celui de l’application. Copiez de nouveau le secret et utilisez-le comme du texte brut.</p>
+  </details>
+  <details>
+    <summary>Les données de l’Apple Watch arrivent-elles dans n8n&nbsp;?</summary>
+    <p>Oui. La montre écrit dans Apple Santé sur l’iPhone, et l’application les transmet une fois que la montre s’est synchronisée avec l’iPhone. Le guide <a href="../apple-watch-home-assistant/">L’Apple Watch dans Home Assistant</a> énumère ce qu’une montre enregistre habituellement.</p>
+  </details>
+  <details>
+    <summary>Puis-je voir un payload avant de construire le workflow&nbsp;?</summary>
+    <p>Oui. <strong>Aperçu du payload</strong>, sous <strong>Données à envoyer</strong> dans l’application, montre les 7 derniers jours sous forme de payload. Dans n8n, l’URL de test avec <strong>Listen for Test Event</strong> affiche une vraie requête dans l’éditeur.</p>
+  </details>
+</section>

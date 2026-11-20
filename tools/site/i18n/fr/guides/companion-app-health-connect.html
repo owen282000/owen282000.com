@@ -1,0 +1,144 @@
+<!--
+title: Home Assistant Companion et Health Connect | Life Dashboard
+description: Les 36 capteurs Health Connect de l’application Companion affichent la dernière valeur. Life Dashboard ajoute l’historique aux bonnes dates et 34 types.
+primary query: application companion home assistant health connect
+secondary queries: capteurs santé connect home assistant historique, application companion health connect dernière valeur seulement, companion health connect statistiques à long terme, backfill health connect home assistant, companion health connect phases de sommeil, companion health connect exercice
+updated: 2026-11-20
+published: 2026-10-14
+-->
+
+<h1>L’application Companion de Home Assistant suffit-elle pour les données de Health Connect&nbsp;?</h1>
+
+<p>Pour la dernière valeur, oui. L’application Companion pour Android a 36 capteurs Health Connect (Santé Connect en français), chacun avec la mesure la plus récente ou le total du jour. Elle n’a aucun moyen de charger des données plus anciennes, elle enregistre une valeur au moment où le capteur se met à jour plutôt qu’au jour auquel elle appartient, et elle n’écrit pas dans Santé Connect. Life Dashboard lit 34 types et ajoute un backfill (le rattrapage de l’historique) de tout votre passé aux bonnes dates, l’écriture des mesures de balance et de tension, et le temps d’écran par application. Les deux fonctionnent côte à côte.</p>
+
+<p class="flow-line"><span>Santé Connect</span><span>Life Dashboard Companion</span><span>Intégration Life Dashboard</span><span>Chaque jour à sa propre date</span></p>
+
+<h2>Ce que lit l’application Companion</h2>
+
+<p>En novembre 2026, la dernière version de l’application Companion pour Android, la 2026.11.1, a 36 capteurs Santé Connect. Ils couvrent 25 types&nbsp;: la tension artérielle est répartie entre un capteur systolique et un capteur diastolique, et le sommeil entre onze capteurs. Jusqu’à la version 2026.10.1, il y en avait 26, dont un seul pour le sommeil.</p>
+
+<table>
+  <thead>
+    <tr><th>Type de capteur</th><th>Capteurs</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Total depuis minuit (6)</td><td>Pas, distance, calories totales, hydratation, étages montés, dénivelé positif</td></tr>
+    <tr><td>Mesure la plus récente (20)</td><td>Fréquence cardiaque, fréquence cardiaque au repos, variabilité de la fréquence cardiaque, poids, taille, masse grasse, masse maigre, masse osseuse, masse hydrique, tension artérielle systolique et diastolique, glycémie, saturation en oxygène, fréquence respiratoire, température corporelle, température basale, métabolisme de base, VO2 max, calories actives, durée du sommeil</td></tr>
+    <tr><td>Sommeil de la nuit dernière, depuis la 2026.11.1 (10)</td><td>Le début et la fin de la nuit, et les minutes de sommeil léger, profond et paradoxal, d’éveil, d’éveil au lit, hors du lit, non précisé et inconnu</td></tr>
+  </tbody>
+</table>
+
+<ul>
+  <li><strong>Version d’Android.</strong> Sur Android 9 à 13, les capteurs se trouvent dans la version Google Play, avec l’application Santé Connect installée. Sur Android 14 et plus récent, toutes les versions les ont.</li>
+  <li><strong>Mises à jour.</strong> Comme tous les capteurs de l’application, ils se mettent à jour toutes les 15 minutes. <strong>Sensor Update Frequency</strong> (la fréquence de mise à jour des capteurs) permet de passer à une minute, en permanence ou pendant la charge.</li>
+  <li><strong>Activation.</strong> Les capteurs sont désactivés par défaut. Vous les activez un par un sous <strong>Manage Sensors</strong> (la gestion des capteurs), qui demande aussi l’autorisation Santé Connect correspondante.</li>
+</ul>
+
+<p>Depuis la version 2026.11.1, le capteur <strong>Sleep duration</strong> de l’application Android porte aussi les phases de la nuit en attributs, et la <a href="../sleep-stages-home-assistant/">Life Dashboard Sleep Card</a> peut dessiner une nuit à partir d’eux. Non couverts en novembre 2026&nbsp;: les séances d’exercice, la nutrition, le suivi du cycle, la pleine conscience et la température cutanée. La demande correspondante est le <a href="https://github.com/home-assistant/android/issues/4804">ticket #4804</a>, toujours ouvert.</p>
+
+<h2>Quand l’application Companion suffit</h2>
+
+<ul>
+  <li>Vous voulez le dernier poids, la dernière fréquence cardiaque ou le sommeil de la nuit dernière dans une automatisation ou sur une tuile.</li>
+  <li>Vous voulez les pas du jour, et un graphique des jours écoulés depuis l’activation du capteur vous convient.</li>
+  <li>Vous utilisez déjà l’application Companion pour la présence, les notifications et les capteurs de l’appareil, et vous ne voulez pas d’une autre application.</li>
+  <li>Vous voulez les étages montés ou le dénivelé positif. Life Dashboard ne lit pas ces deux types.</li>
+</ul>
+
+<p>Si c’est tout ce dont vous avez besoin, restez sur l’application Companion. Rien de ce qui suit ne lui est nécessaire.</p>
+
+<h2>Là où elle s’arrête&nbsp;: l’historique</h2>
+
+<p>Home Assistant enregistre la valeur d’un capteur au moment où elle change. Cela convient à une lampe ou à une porte, mais les données de santé arrivent souvent dans Santé Connect des heures après les faits&nbsp;: l’heure dans Home Assistant est donc celle de la mise à jour, pas celle de la mesure.</p>
+
+<ul>
+  <li><strong>Les valeurs arrivent à l’heure de la mise à jour.</strong> Une nuit de sommeil que votre montre transmet à 09:00 apparaît dans l’historique à 09:00. L’heure qu’elle décrit ne figure que dans un attribut, que les graphiques et les statistiques n’utilisent pas.</li>
+  <li><strong>Les totaux couvrent la journée en cours.</strong> Les six capteurs quotidiens comptent à partir de minuit. Les pas qu’une montre transmet après minuit pour la veille n’atteignent jamais le chiffre d’hier.</li>
+  <li><strong>Des statistiques à long terme pour six capteurs.</strong> Seuls les six totaux ont une classe d’état&nbsp;: eux seuls obtiennent donc des statistiques à long terme. La fréquence cardiaque, le poids, le sommeil et les autres capteurs de dernière mesure restent dans l’historique du recorder, que Home Assistant conserve 10 jours sauf réglage contraire.</li>
+  <li><strong>Pas de données plus anciennes.</strong> L’historique commence le jour où vous activez un capteur. À la version 2026.11.1, l’application n’a aucun moyen d’importer ce que Santé Connect contient déjà.</li>
+</ul>
+
+<h2>Ce que Life Dashboard ajoute</h2>
+
+<p>Life Dashboard, c’est une application Android open source, Life Dashboard Companion, plus l’<a href="../home-assistant/">intégration Life Dashboard</a> du Marketplace (HACS avant Home Assistant 2026.11). L’application lit Santé Connect et envoie chaque enregistrement avec sa propre heure, et l’intégration l’enregistre à cette date.</p>
+
+<ul>
+  <li><strong>34 types, dont 27 en capteurs.</strong> Cela comprend trois capteurs pour les entraînements, le dernier et les minutes d’aujourd’hui et d’hier, et depuis l’intégration 1.2.0 les calories, les protéines, les glucides et les lipides consommés aujourd’hui. Avec MQTT, il y en a 25, sans les entraînements ni l’alimentation. Les repas pris un par un, la pleine conscience, l’activité sexuelle et le suivi du cycle n’ont pas de valeur unique à afficher&nbsp;; un webhook à vous les reçoit sous forme d’enregistrements.</li>
+  <li><strong>Les phases de sommeil de chaque nuit.</strong> Les heures de sommeil profond, léger, paradoxal et d’éveil de chaque nuit dans les statistiques à long terme, aussi loin que remonte votre historique, là où l’application Companion ne garde que la dernière nuit.</li>
+  <li><strong>L’historique au bon jour.</strong> Les totaux quotidiens arrivent à leur propre date, et les mesures comme la fréquence cardiaque et le poids obtiennent une moyenne, un minimum et un maximum par heure. Les données qui arrivent en retard sont rangées à leur place&nbsp;: chaque synchronisation remonte d’une semaine pour rattraper les enregistrements qu’une source écrit tardivement.</li>
+  <li><strong>Un backfill de votre historique.</strong> <strong>Envoyer l’historique</strong>, sous <strong>Données à envoyer</strong> dans l’onglet <strong>Santé</strong>, envoie de 30 jours à 5 ans, ou <strong>Tout l’historique</strong>, pour chaque type activé&nbsp;: vos graphiques sont donc remplis dès le départ. Home Assistant enregistre chacun de ces jours à sa propre date.</li>
+  <li><strong>Des mesures écrites en retour.</strong> Le poids, la taille, la masse grasse, la masse maigre, la masse osseuse, la masse hydrique et la tension artérielle d’une balance ou d’un tensiomètre relié à Home Assistant entrent dans Santé Connect. Samsung Health et Google Health y récupèrent le poids et la masse grasse. Voir <a href="../smart-scale-to-samsung-health/">les mesures d’une balance connectée vers Samsung Health</a>.</li>
+  <li><strong>Le temps d’écran par application.</strong> Le temps par application, les mêmes chiffres que Bien-être numérique, avec un changement de jour que vous choisissez, par exemple 04:00. Une application dont vous activez le capteur obtient aussi son historique par jour. Voir <a href="../screen-time-home-assistant/">le temps d’écran dans Home Assistant</a>.</li>
+  <li><strong>D’autres destinations.</strong> Les mêmes données peuvent aussi aller vers un broker MQTT ou vers n’importe quelle URL qui accepte un POST JSON.</li>
+</ul>
+
+<p>Les capteurs de Life Dashboard ne contiennent eux aussi que la valeur la plus récente. La différence tient à ce qu’il y a derrière&nbsp;: des statistiques à long terme, avec chaque jour à sa propre date.</p>
+
+<!-- IMG: the example Health dashboard (H6-health.png) -->
+
+<h2>Côte à côte</h2>
+
+<table>
+  <thead>
+    <tr><th></th><th>Application Companion de Home Assistant</th><th>Life Dashboard</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Santé Connect</td><td>36 capteurs pour 25 types</td><td>34 types&nbsp;; 27 deviennent des capteurs, et un webhook reçoit chaque enregistrement</td></tr>
+    <tr><td>Phases de sommeil</td><td>La dernière nuit, en minutes par phase</td><td>Chaque nuit, dans les statistiques à long terme, et la dernière nuit avec sa chronologie</td></tr>
+    <tr><td>Types que l’autre n’a pas</td><td>Étages montés, dénivelé positif</td><td>Séances d’exercice, nutrition, suivi du cycle, pleine conscience, température cutanée</td></tr>
+    <tr><td>Où une valeur est enregistrée</td><td>Au moment où le capteur se met à jour</td><td>À la date et à l’heure auxquelles elle appartient</td></tr>
+    <tr><td>Statistiques à long terme</td><td>Les six totaux quotidiens</td><td>Chaque type doté d’un capteur, plus le temps de pleine conscience</td></tr>
+    <tr><td>Données plus anciennes</td><td>Aucune&nbsp;; l’historique commence quand vous activez un capteur</td><td>Backfill de tout votre historique</td></tr>
+    <tr><td>Vers Santé Connect</td><td>Non</td><td>Les mesures de balance et de tension venues de Home Assistant</td></tr>
+    <tr><td>Temps d’écran</td><td>Dernière application utilisée&nbsp;; écran allumé ou éteint</td><td>Le temps par application avec son historique, et un changement de jour que vous choisissez</td></tr>
+    <tr><td>Destinations</td><td>Home Assistant</td><td>Home Assistant, MQTT, n’importe quel webhook</td></tr>
+    <tr><td>Fréquence</td><td>Toutes les 15 minutes, ou toutes les minutes</td><td>Toutes les 60 minutes par défaut, 15 au plus court, ou à heures fixes</td></tr>
+    <tr><td>Android</td><td>9 ou plus récent avec la version Play, 14 ou plus récent avec n’importe quelle version</td><td>9 ou plus récent pour les données de santé, 8.0 ou plus récent pour le temps d’écran</td></tr>
+    <tr><td>Présence, notifications, capteurs de l’appareil</td><td>Oui</td><td>Non</td></tr>
+    <tr><td>Ce que vous installez</td><td>Rien de plus</td><td>Une seconde application sur le téléphone et une intégration depuis le Marketplace ou HACS</td></tr>
+  </tbody>
+</table>
+
+<p>La colonne de l’application Companion s’appuie sur sa <a href="https://companion.home-assistant.io/docs/core/sensors#health-connect-sensors">documentation des capteurs</a> et sur son code, à la version 2026.11.1.</p>
+
+<h2>Utiliser les deux</h2>
+
+<p>Les deux ne se gênent pas. Chacune lit Santé Connect avec sa propre autorisation, et Home Assistant les affiche comme des appareils distincts. Gardez l’application Companion pour la présence, les notifications et les capteurs de l’appareil. Si vous ajoutez Life Dashboard pour les données de santé, vous pouvez désactiver les capteurs Santé Connect de l’application Companion sous <strong>Manage Sensors</strong> pour ne pas voir chaque valeur en double.</p>
+
+<p>Pour ajouter Life Dashboard, il vous faut Home Assistant 2026.3 ou plus récent, ainsi que <a href="https://hacs.xyz">HACS</a> sur les versions antérieures à 2026.11, et <a href="../android/">Life Dashboard Companion pour Android</a>. {{status:android}} Le <a href="../health-connect-home-assistant/">guide Santé Connect pour Home Assistant</a> détaille chaque étape, du QR code à la tuile sur votre tableau de bord.</p>
+
+<!-- IMG: the QR code in Home Assistant (H2-qr.png) -->
+
+<h2>Les limites</h2>
+
+<ul>
+  <li>Life Dashboard est une seconde application sur le téléphone, à côté de l’application Companion.</li>
+  <li>Elle ne lit ni les étages montés ni le dénivelé positif.</li>
+  <li>Les repas pris un par un, les séances de pleine conscience et le suivi du cycle n’ont pas de capteur. Ils vont vers un webhook sous forme d’enregistrements&nbsp;; ce que vous avez mangé aujourd’hui s’additionne dans quatre capteurs, et la pleine conscience compte dans les statistiques quotidiennes.</li>
+  <li>MQTT ne transporte que la valeur la plus récente et n’a pas de capteurs d’entraînement. Le backfill et les statistiques demandent l’intégration.</li>
+  <li>Une adresse du réseau domestique ne synchronise qu’à la maison. Une adresse HTTPS publique ou Home Assistant Cloud fonctionne partout.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Pourquoi l’application Companion n’affiche-t-elle que la dernière valeur de Santé Connect&nbsp;?</summary>
+    <p>Chacun de ses capteurs Santé Connect lit l’enregistrement le plus récent, ou le total du jour, à chaque mise à jour des capteurs. Home Assistant enregistre ensuite cette valeur à l’heure de la mise à jour. Aucune étape n’envoie les enregistrements plus anciens.</p>
+  </details>
+  <details>
+    <summary>L’application Companion peut-elle importer mon historique Santé Connect&nbsp;?</summary>
+    <p>Non, à la version 2026.11.1. Son historique commence le jour où vous activez un capteur. Life Dashboard peut rattraper tout votre historique dans les statistiques à long terme, chaque jour à sa propre date.</p>
+  </details>
+  <details>
+    <summary>Pourquoi n’y a-t-il pas de fréquence cardiaque dans mes statistiques à long terme&nbsp;?</summary>
+    <p>Dans l’application Companion, seuls les six totaux quotidiens ont une classe d’état. La fréquence cardiaque, le poids, le sommeil et les autres mesures restent dans l’historique du recorder, que Home Assistant conserve 10 jours sauf réglage contraire.</p>
+  </details>
+  <details>
+    <summary>Life Dashboard remplace-t-il l’application Companion&nbsp;?</summary>
+    <p>Non. Il s’occupe des données de santé et du temps d’écran, et laisse la présence, les notifications et les capteurs de l’appareil à l’application Companion. Les deux fonctionnent côte à côte.</p>
+  </details>
+  <details>
+    <summary>L’application Companion peut-elle écrire une mesure de balance dans Santé Connect&nbsp;?</summary>
+    <p>Non. En novembre 2026, l’écriture est une demande de fonctionnalité, le <a href="https://github.com/home-assistant/android/issues/5650">ticket #5650</a>, toujours ouvert. Life Dashboard écrit dans Santé Connect le poids, la composition corporelle et la tension artérielle venus de Home Assistant.</p>
+  </details>
+</section>

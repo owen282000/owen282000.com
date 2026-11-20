@@ -1,0 +1,113 @@
+<!--
+title: Apple Watch en Home Assistant | Life Dashboard
+description: Frecuencia cardíaca, HRV, sueño y entrenamientos del Apple Watch en Home Assistant, mediante Apple Health en tu iPhone, con historial y sin app en el reloj.
+primary query: apple watch home assistant
+secondary queries: integrar apple watch en home assistant, frecuencia cardíaca apple watch home assistant, sueño apple watch home assistant, hrv apple watch home assistant, entrenamientos apple watch home assistant, datos del apple watch en home assistant
+updated: 2026-11-20
+published: 2026-10-21
+-->
+
+<h1>¿Cómo llevo los datos del Apple Watch a Home Assistant?</h1>
+
+<p>Tu Apple Watch ya escribe lo que mide en Apple Health (la app Salud del iPhone), en el iPhone con el que está enlazado. Instala Life Dashboard Companion en ese iPhone y la integración Life Dashboard en Home Assistant, vincula los dos con un código QR, y la frecuencia cardíaca, la HRV, el sueño, los entrenamientos y el VO2 máx. del reloj llegan como sensores, con todo tu historial en las estadísticas a largo plazo.</p>
+
+<p>No hay nada que instalar en el reloj, y Home Assistant no necesita tu cuenta de Apple en ningún momento. La app para iPhone lee Apple Health y envía directamente a tu Home Assistant; no hay ningún servidor de Life Dashboard de por medio.</p>
+
+<p class="flow-line"><span>Apple Watch</span><span>Apple Health en el iPhone</span><span>Life Dashboard Companion</span><span>Home Assistant</span></p>
+
+<h2>Qué necesitas</h2>
+
+<ul>
+  <li>Un Apple Watch enlazado con un iPhone con iOS 17 o posterior.</li>
+  <li>Home Assistant 2026.3 o posterior, y la <a href="../home-assistant/">integración Life Dashboard</a> 0.7.1 o posterior. Desde la versión 2026.11 no hay que instalar nada más; las versiones anteriores necesitan <a href="https://hacs.xyz">HACS</a>.</li>
+  <li><a href="../ios/">Life Dashboard Companion para iPhone</a>. {{status:ios}}</li>
+</ul>
+
+<h2>Configuración paso a paso</h2>
+
+<ol>
+  <li>En <strong>Ajustes</strong> &gt; <strong>Marketplace</strong> (HACS antes de Home Assistant 2026.11), busca <strong>Life Dashboard</strong> e instálala. En HACS, descárgala y reinicia Home Assistant. Si la configuración no se abrió sola, agrega la integración en <strong>Ajustes</strong> &gt; <strong>Dispositivos y servicios</strong>. Ponle un nombre para el iPhone, y muestra un código QR.</li>
+  <!-- IMG: the QR code in Home Assistant (H2-qr.png) -->
+  <li>Instala Life Dashboard Companion en el iPhone, toca <strong>Escanear un código de vinculación</strong> en su configuración inicial, escanea el código y toca <strong>Vincular</strong>.</li>
+  <li>En <strong>Qué enviar</strong>, activa los tipos que registra el reloj, enumerados más abajo, y permite el acceso a Apple Health.</li>
+  <li>Toca <strong>Sincronizar ahora</strong> y después <strong>Enviar historial</strong> en <strong>Qué enviar</strong>, y elige hasta dónde retroceder, desde 30 días hasta <strong>Todo el historial</strong>. Home Assistant guarda cada día en su propia fecha.</li>
+</ol>
+
+<p><a href="../apple-health-home-assistant/">Apple Health en Home Assistant</a> explica cada paso con detalle, con la dirección que hay que usar y el horario de sincronización.</p>
+
+<h2>Qué registra un Apple Watch y dónde acaba</h2>
+
+<p>Cuáles de los 28 tipos de la app se llenan depende del modelo de tu reloj, de su configuración y de para qué lo llevas puesto. Esta tabla enumera lo que la propia documentación de Apple dice que registra un reloj, la clave del payload con la que la app lo envía y lo que Home Assistant hace con ello.</p>
+
+<table>
+  <thead>
+    <tr><th>Qué registra el reloj</th><th>Clave del payload</th><th>En Home Assistant</th><th>Documentación de Apple</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Pasos y distancia</td><td><code>steps</code>, <code>distance</code></td><td>Total de hoy, y un valor por día en las estadísticas</td><td><a href="https://www.apple.com/health/pdf/Heart_Rate_Calorimetry_Activity_on_Apple_Watch_November_2024.pdf">Frecuencia cardíaca, calorimetría y actividad</a></td></tr>
+    <tr><td>Energía activa y en reposo</td><td><code>active_calories</code>, <code>total_calories</code></td><td>Total de hoy, y un valor por día en las estadísticas</td><td><a href="https://www.apple.com/health/pdf/Heart_Rate_Calorimetry_Activity_on_Apple_Watch_November_2024.pdf">Frecuencia cardíaca, calorimetría y actividad</a></td></tr>
+    <tr><td>Frecuencia cardíaca</td><td><code>heart_rate</code></td><td>Último valor, y la media, el mínimo y el máximo por hora</td><td><a href="https://support.apple.com/guide/watch/heart-rate-apda88aefe4c/watchos">Consultar tu frecuencia cardíaca en el Apple Watch</a></td></tr>
+    <tr><td>Frecuencia cardíaca en reposo</td><td><code>resting_heart_rate</code></td><td>Último valor, y por hora</td><td><a href="https://support.apple.com/guide/watch/heart-rate-apda88aefe4c/watchos">Consultar tu frecuencia cardíaca en el Apple Watch</a></td></tr>
+    <tr><td>Variabilidad de la frecuencia cardíaca (SDNN)</td><td><code>heart_rate_variability</code></td><td>Último valor, y por hora</td><td><a href="https://www.apple.com/health/pdf/Heart_Rate_Calorimetry_Activity_on_Apple_Watch_November_2024.pdf">Frecuencia cardíaca, calorimetría y actividad</a></td></tr>
+    <tr><td>Sueño, con las fases REM, Core y Deep y el tiempo despierto</td><td><code>sleep</code></td><td>Duración de la última noche, tiempo dormido y horas por fase, y por noche en las estadísticas</td><td><a href="https://support.apple.com/guide/watch/track-your-sleep-crpxel1lvun9/watchos">Registrar tu sueño con el Apple Watch</a></td></tr>
+    <tr><td>Frecuencia respiratoria mientras duermes</td><td><code>respiratory_rate</code></td><td>Último valor, y por hora</td><td><a href="https://support.apple.com/en-us/120142">Registrar tus constantes vitales con el Apple Watch</a></td></tr>
+    <tr><td>Oxígeno en sangre, en los modelos y las regiones que lo tienen</td><td><code>oxygen_saturation</code></td><td>Último valor, y por hora</td><td><a href="https://support.apple.com/en-us/120358">Cómo usar la app Oxígeno en Sangre</a></td></tr>
+    <tr><td>Entrenamientos de la app Entreno</td><td><code>exercise</code></td><td>Último entrenamiento, y minutos de hoy y de ayer</td><td><a href="https://support.apple.com/en-us/101171">Iniciar un entrenamiento en el Apple Watch</a></td></tr>
+    <tr><td>Capacidad aeróbica (VO2 máx.)</td><td><code>vo2_max</code></td><td>Último valor, y por hora</td><td><a href="https://support.apple.com/en-us/108790">Seguir tus niveles de capacidad aeróbica</a></td></tr>
+  </tbody>
+</table>
+
+<ul>
+  <li><strong>Los pasos, la distancia y las calorías</strong> vienen de los totales diarios propios de Apple Health, tal como los cuenta la app Salud, así que un paseo que registraron tanto el iPhone como el reloj se cuenta una sola vez. Un iPhone sin reloj no suele registrar energía en reposo, así que las calorías totales llegan sobre todo con un reloj.</li>
+  <li><strong>La variabilidad de la frecuencia cardíaca</strong> es SDNN, la medida que guarda Apple Health. Un teléfono Android envía RMSSD con la misma clave; no son el mismo número, así que no compares las dos.</li>
+  <li><strong>El sueño</strong> necesita el registro del sueño activado en el reloj y el reloj en tu muñeca por la noche. La app envía la fase Core de Apple como <code>light</code>, y las fases Deep, REM y despierto con sus propios nombres, además del tiempo <code>in_bed</code> del iPhone alrededor de ellas. Con la integración 1.1.0 o posterior, Home Assistant convierte las fases en sensores y estadísticas, y la <a href="../sleep-stages-home-assistant/">Life Dashboard Sleep Card</a> dibuja la noche como un hipnograma. El tiempo en la cama del iPhone no cuenta como fase. Un <a href="../apple-health-webhook/">webhook</a> o <a href="../grafana/">el stack</a> también reciben las fases.</li>
+  <li><strong>El oxígeno en sangre</strong> está en el Apple Watch Series 6 y posteriores y en todos los Ultra, pero no en todos los países o regiones, y la página de Apple describe cómo funciona en algunos modelos vendidos en Estados Unidos.</li>
+  <li><strong>El VO2 máx.</strong> se estima en el Apple Watch Series 3 y posteriores durante un entrenamiento de caminata al aire libre, carrera al aire libre o senderismo en la app Entreno, según la página de Apple.</li>
+  <li><strong>Los entrenamientos</strong> llegan con su tipo como nombre, como <code>running</code> o <code>hiit</code>, y Home Assistant muestra el último con su inicio, su fin y sus minutos.</li>
+</ul>
+
+<!-- IMG: the example Health dashboard on a phone (H9-health-phone.png) -->
+
+<h2>Qué no llega</h2>
+
+<ul>
+  <li>La temperatura de la muñeca. Apple Health guarda la temperatura absoluta por la noche, no la variación respecto a un valor de referencia que lleva el payload compartido, así que la app la deja fuera.</li>
+  <li>Todo lo que queda fuera de los 28 tipos de la app se queda en Apple Health.</li>
+  <li>El tiempo de pantalla: iOS no deja que una app lo envíe a ningún sitio.</li>
+</ul>
+
+<h2>Otros relojes y anillos en un iPhone</h2>
+
+<p>Garmin Connect, Oura, Withings y otras apps también pueden escribir en Apple Health en el iPhone. Lo que escriben ahí llega de la misma manera, cada registro con el nombre de la app que lo escribió, y los pasos, la distancia y las calorías se siguen contando una sola vez entre todas ellas, en el orden de las fuentes de datos que estableces en la app Salud.</p>
+
+<h2>Limitaciones</h2>
+
+<ul>
+  <li>Los datos llegan al iPhone cuando el reloj se sincroniza con él, lo que puede ser horas después. La app los envía en la siguiente sincronización, en su propia fecha.</li>
+  <li>iOS cifra Apple Health mientras el iPhone está bloqueado, así que una sincronización espera al desbloqueo. iOS también decide cuándo se ejecuta la app en segundo plano; para una hora exacta, una automatización de Atajos ejecuta <strong>Sincronizar datos de salud</strong>.</li>
+  <li>Los detalles de los entrenamientos y cada una de las lecturas de frecuencia cardíaca van completos a un webhook o al stack. Home Assistant conserva el último valor, las estadísticas y las fases de la noche más reciente.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>¿Necesito una app en el Apple Watch?</summary>
+    <p>No. El reloj escribe por sí solo en Apple Health en el iPhone, y Life Dashboard Companion lo lee ahí, en el iPhone.</p>
+  </details>
+  <details>
+    <summary>¿Por qué los datos de mi reloj llegan tarde a Home Assistant?</summary>
+    <p>Hay dos pasos que pueden esperar: el reloj se sincroniza con el iPhone, e iOS decide cuándo se ejecuta la app en segundo plano. Abre la app y toca <strong>Sincronizar ahora</strong> para enviar lo que hay en ese momento. Aun así, cada valor queda en la hora a la que corresponde.</p>
+  </details>
+  <details>
+    <summary>¿Puedo ver las fases del sueño en Home Assistant?</summary>
+    <p>Sí, con la integración 1.1.0 o posterior. El sueño profundo, ligero y REM, el tiempo despierto y el tiempo dormido se convierten en sensores y estadísticas, una noche principal por fecha de despertar, y la <a href="../sleep-stages-home-assistant/">Life Dashboard Sleep Card</a> dibuja la noche. Un webhook propio o el stack de Life Dashboard también las tienen por noche.</p>
+  </details>
+  <details>
+    <summary>¿Por qué no hay sensor de oxígeno en sangre?</summary>
+    <p>El oxígeno en sangre no está en todos los modelos ni en todas las regiones, como explica la página de Apple. Cuando el reloj no registra ninguno, Apple Health no tiene nada que enviar. Comprueba también que <strong>Oxígeno en sangre</strong> esté activado en <strong>Qué enviar</strong>, dentro de <strong>Corazón y signos vitales</strong>, y permitido en Apple Health.</p>
+  </details>
+  <details>
+    <summary>¿Funciona también un Garmin o un Oura con un iPhone?</summary>
+    <p>Sí, para lo que su app escribe en Apple Health. Cada registro lleva el nombre de la app que lo escribió.</p>
+  </details>
+</section>

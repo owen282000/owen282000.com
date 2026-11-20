@@ -1,0 +1,134 @@
+<!--
+title: Health Connect no Home Assistant: integração | Life Dashboard
+description: Passos, sono, frequência cardíaca e peso do Samsung Health, Garmin, Fitbit ou Oura como sensores no Home Assistant, cada dia na data certa, pareado por QR code.
+primary query: health connect home assistant
+secondary queries: conexão saúde home assistant, integrar health connect home assistant, dados de saúde home assistant, garmin home assistant health connect, oura home assistant, withings home assistant, sensor de passos home assistant, sensor de sono home assistant, frequência cardíaca home assistant, integração health connect home assistant, health connect home assistant integration
+updated: 2026-11-20
+published: 2026-10-06
+-->
+
+<h1>Como levar os dados do Conexão Saúde (Health Connect) para o Home Assistant?</h1>
+
+<p>Instale a integração Life Dashboard no Home Assistant e o Life Dashboard Companion, um app de código aberto para Android, no seu celular. Depois pareie os dois com um QR code. Os dados do seu relógio passam a chegar como sensores, e cada dia fica guardado nas estatísticas de longo prazo.</p>
+
+<p>Funciona com tudo o que grava no Conexão Saúde: Samsung Health, Garmin Connect, Google Health (Fitbit e Pixel Watch), Oura, Withings e outros. Um backfill (o envio de todo o histórico de uma vez) traz o seu histórico, até onde o celular tiver dados. As duas partes têm licença MIT, nada roda em um servidor do Life Dashboard, e o Home Assistant nunca precisa do seu login da Samsung, da Garmin ou do Google.</p>
+
+<p class="flow-line"><span>Relógio</span><span>O app dele, como o Samsung Health</span><span>Conexão Saúde</span><span>Life Dashboard Companion</span><span>Home Assistant</span></p>
+
+<h2>O que você precisa</h2>
+
+<ul>
+  <li>Android 9 ou mais recente. O Conexão Saúde faz parte do Android 14 e posteriores; do Android 9 ao 13, ele vem do Google Play.</li>
+  <li>Um app que grave no Conexão Saúde, como o Samsung Health, o Garmin Connect ou o Google Health. O Garmin Connect só faz isso no Android 14 ou mais recente.</li>
+  <li>Home Assistant 2026.3 ou mais recente, para a <a href="../home-assistant/">integração Life Dashboard</a>. A partir da 2026.11 não é preciso instalar mais nada; versões anteriores precisam do <a href="https://hacs.xyz">HACS</a>.</li>
+  <li><a href="../android/">Life Dashboard Companion para Android</a>. {{status:android}}</li>
+</ul>
+
+<p>Reserve de 15 a 30 minutos na primeira vez, a maior parte no Home Assistant. Configure o Home Assistant primeiro: a configuração do app escaneia o QR code que a integração mostra.</p>
+
+<h2>Como configurar</h2>
+
+<ol>
+  <li>Em <strong>Configurações</strong> &gt; <strong>Marketplace</strong> (HACS antes do Home Assistant 2026.11), procure por <strong>Life Dashboard</strong>, ou use <a href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Abrir no Marketplace</a>, e instale. No HACS, baixe a integração e reinicie o Home Assistant.</li>
+  <li>Se a configuração não abrir sozinha, vá em <strong>Configurações</strong> &gt; <strong>Dispositivos e serviços</strong> &gt; <strong>Adicionar integração</strong> e procure por <strong>Life Dashboard</strong>. Dê um nome ao celular. Confira o campo <strong>Home Assistant address</strong>: ele traz o endereço para onde o celular envia. Use o endereço IP do Home Assistant, como <code>http://192.168.1.20:8123</code>, e não <code>homeassistant.local</code>, que o Android muitas vezes não consegue resolver. O Home Assistant mostra o endereço IP dele em <strong>Configurações</strong> &gt; <strong>Sistema</strong> &gt; <strong>Rede</strong>, na seção <strong>Adaptador de rede</strong>. O <code>http://</code> simples não é criptografado. No Wi-Fi da sua casa, tudo bem; em qualquer rede em que você não confie totalmente, use HTTPS ou o Home Assistant Cloud. Em seguida, a janela mostra um QR code.</li>
+  <!-- IMG: the QR code in Home Assistant (H2-qr.png) -->
+  <li>Deixe o app do seu relógio gravar no Conexão Saúde. No Samsung Health, isso fica em <strong>Configurações</strong> &gt; <strong>Conexão Saúde</strong>: toque em <strong>Começar</strong>, escolha os dados e toque em <strong>Permitir</strong>. A tabela abaixo traz o caminho para outros apps.</li>
+  <li>Instale e abra o <a href="{{play_url}}">Life Dashboard Companion pelo Google Play</a> no celular; na loja, ele aparece como Health Data for Home Assistant. Se você instalar o APK gratuito, o Android pode mostrar um aviso antes de instalar um APK de fora da Play Store: ele faz isso com qualquer app de outra origem, e toda versão é assinada com a mesma chave e traz um atestado de build (<a href="../android/#get">opções de instalação</a>). Em <strong>Para onde seus dados devem ir?</strong>, toque em <strong>Escanear um código de pareamento</strong>, escaneie o código e toque em <strong>Parear</strong>. Um ping de teste confirma a conexão.</li>
+  <!-- IMG: pairing page (A2-pair.png) -->
+  <li>Na aba <strong>Saúde</strong>, toque em <strong>Permitir</strong>, libere os seus tipos de dados e permita a leitura em segundo plano para as sincronizações agendadas. A predefinição <strong>O essencial</strong> da configuração ativa passos, sono, frequência cardíaca, frequência cardíaca em repouso, distância, calorias e peso; ative qualquer outro tipo em <strong>O que enviar</strong>. O Samsung Health e o Garmin Connect não compartilham a frequência cardíaca em repouso nem a VFC com o Conexão Saúde, então com esses relógios esses sensores nunca aparecem; a <a href="#your-watch-s-app-and-health-connect">tabela abaixo</a> mostra o que cada app guarda para si.</li>
+  <li>Em celulares Samsung, Xiaomi e parecidos, impeça o Android de interromper as sincronizações: <strong>Configurações</strong> &gt; <strong>Apps</strong> &gt; <strong>Life Dashboard</strong> &gt; <strong>Bateria</strong>, em <strong>Sem restrições</strong>. Na Samsung, adicione também o <strong>Life Dashboard</strong> a <strong>Apps nunca em suspensão</strong>, em <strong>Configurações</strong> &gt; <strong>Bateria</strong> &gt; <strong>Limites de uso em segundo plano</strong>. As outras marcas estão no <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/usage.md#let-the-app-run-in-the-background">guia de configuração</a>.</li>
+  <li>Toque em <strong>Sincronizar agora</strong>. O celular aparece em <strong>Configurações</strong> &gt; <strong>Dispositivos e serviços</strong> &gt; <strong>Life Dashboard</strong>.</li>
+  <li>Para dados mais antigos, toque em <strong>Enviar histórico</strong>, em <strong>O que enviar</strong>, e escolha o período, de <strong>30 dias</strong> até <strong>Todo o histórico</strong>. Para ir além dos 30 dias anteriores à sua primeira permissão, toque antes em <strong>Permitir acesso ao histórico</strong>.</li>
+</ol>
+
+<!-- IMG: Health tab (A1-health.png) -->
+
+<h2>O app do seu relógio e o Conexão Saúde</h2>
+
+<p>O que chega depende do que cada app compartilha com o Conexão Saúde. Nenhum deles exige conta de desenvolvedor, token de API ou login em nuvem.</p>
+
+<table>
+  <thead>
+    <tr><th>App</th><th>Onde ativar</th><th>O que fica com o fabricante</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Samsung Health (Galaxy Watch) (<a href="../samsung-health-home-assistant/">guia da Samsung</a>)</td><td><strong>Configurações</strong> &gt; <strong>Conexão Saúde</strong></td><td>VFC, frequência cardíaca em repouso, estresse, temperatura da pele, frequência respiratória, ciclo menstrual</td></tr>
+    <tr><td>Garmin Connect 5.14.1 ou posterior, no Android 14 ou posterior (<a href="../garmin-home-assistant/">guia da Garmin</a>)</td><td><strong>Configurações</strong> &gt; <strong>Connected Apps</strong> &gt; <strong>Conexão Saúde</strong></td><td>Body Battery, estresse, VFC, frequência cardíaca em repouso, Pulse Ox</td></tr>
+    <tr><td>Google Health (Fitbit, Pixel Watch) (<a href="../fitbit-home-assistant/">guia do Fitbit</a>)</td><td><strong>Connections</strong> &gt; <strong>Partner apps</strong> &gt; <strong>Sync your favorite health apps</strong></td><td>SpO2 e calorias ativas, em outubro de 2026</td></tr>
+    <tr><td>Oura (Gen2, ou Gen3 e posteriores com assinatura)</td><td><strong>Settings</strong> &gt; <strong>Data Sharing</strong> &gt; <strong>Health Connect</strong></td><td>Pontuações Readiness, Sleep e Activity, oxigênio no sangue, temperatura, frequência cardíaca em repouso</td></tr>
+    <tr><td>Withings</td><td><strong>Export health data to Health Connect</strong></td><td>Pontuações e gravações de ECG</td></tr>
+  </tbody>
+</table>
+
+<p><a href="../health-connect-data-types/#which-apps-write-which-type">Tipos de dados do Conexão Saúde, app por app</a> mostra todos os tipos que cada app grava.</p>
+
+<h2>O que você recebe</h2>
+
+<ul>
+  <li><strong>Sensores</strong> para 27 dos 34 tipos: os passos, a distância e as calorias de hoje (como <code>sensor.pixel_8_steps_today</code>), e os valores mais recentes de frequência cardíaca, frequência cardíaca em repouso, VFC, último sono, peso, pressão arterial, glicose, o último treino, o que você comeu hoje e mais. Os valores mais recentes informam o app que os gravou. Quais você recebe depende do app do seu relógio; veja a tabela acima.</li>
+  <li><strong>Histórico</strong> nas estatísticas de longo prazo: um valor por dia para passos, distância em km, calorias, tempo de sono, de exercício e de mindfulness em horas, hidratação e tempo de tela em horas, e uma média, um mínimo e um máximo por hora para frequência cardíaca, peso e outras medições. Use o cartão <strong>Gráfico de estatísticas</strong>; <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md">Sensores e estatísticas</a> traz todas as entidades.</li>
+  <li><strong>Fases do sono.</strong> Com a integração 1.1.0 ou mais recente, sono profundo, leve, REM, tempo acordado e tempo dormido por noite viram sensores e estatísticas, e o <a href="../sleep-stages-home-assistant/">Life Dashboard Sleep Card</a> desenha a noite como um hipnograma.</li>
+  <li><strong>Sem contagem em dobro.</strong> Passos, distância e calorias usam os totais diários do Conexão Saúde, então uma caminhada registrada pelo celular e pelo relógio conta uma vez só.</li>
+  <li><strong>Um dashboard Health de exemplo</strong> e um tema para copiar, feitos com os cartões do próprio Home Assistant: hoje, recuperação, sono, treino, coração, atividade e corpo, mais uma visão de tempo de tela e uma visão para dois celulares. <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/dashboard.md">O dashboard Health</a> mostra como configurar. A configuração em si não precisa de YAML; o dashboard é um arquivo YAML opcional que você cola no editor de configuração bruta de um dashboard novo.</li>
+</ul>
+
+<!-- IMG: the example Health dashboard (H6-health.png) -->
+
+<p>As sincronizações rodam a cada 60 minutos por padrão, a cada 15 minutos no mínimo, ou em horários fixos do dia.</p>
+
+<h2>Coloque um bloco no seu dashboard</h2>
+
+<p>Para mostrar um valor no dashboard que você já tem, abra o dashboard, escolha <strong>Editar painel</strong>, depois <strong>Adicionar cartão</strong> &gt; <strong>Tile</strong>, e selecione o sensor. Com um celular chamado Pixel 8, os passos de hoje são <code>sensor.pixel_8_steps_today</code> e o sono da última noite é <code>sensor.pixel_8_last_sleep_duration</code>, em horas desde a integração 1.0.0.</p>
+
+<h2>Limites</h2>
+
+<ul>
+  <li>Refeições, mindfulness e ciclo menstrual são eventos e não ganham sensor, embora a integração some o tempo de mindfulness por dia. Os treinos ganham um sensor de último treino e os minutos de hoje e de ontem. Os registros completos vão só para um <a href="../health-connect-webhook/">webhook seu</a>.</li>
+  <li>Os dados chegam depois que o app do fabricante os grava no Conexão Saúde, em geral quando o relógio sincroniza com o celular.</li>
+  <li>Um endereço da rede de casa só sincroniza em casa; os dados de fora esperam no celular. Um endereço HTTPS público ou o Home Assistant Cloud funciona em qualquer lugar. Com o Home Assistant Cloud, seus payloads passam pelos servidores dele no caminho.</li>
+</ul>
+
+<h2>MQTT como alternativa</h2>
+
+<p>Se você já tem um broker MQTT rodando, toque em <strong>Adicionar destino</strong> (sem nada configurado ainda, <strong>Usar seu próprio servidor</strong>) na aba <strong>Saúde</strong>, depois em <strong>Broker MQTT</strong>, ative <strong>Ativar publicação MQTT</strong>, preencha os dados do broker e toque em <strong>Salvar</strong>. Sensores para 25 tipos e para o tempo de tela aparecem em um dispositivo chamado Life Dashboard Companion, sem YAML. Escolha um caminho só; com os dois, você fica com dois dispositivos com os mesmos números.</p>
+
+<table>
+  <thead>
+    <tr><th></th><th>Integração Life Dashboard</th><th>MQTT</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Configuração</td><td>Marketplace (HACS antes da 2026.11), depois um QR code</td><td>Informe o seu broker</td></tr>
+    <tr><td>Histórico</td><td>Todos os dias, até onde o celular tiver dados</td><td>A partir da primeira sincronização</td></tr>
+    <tr><td>Sensores de treino</td><td>Sim</td><td>Não</td></tr>
+    <tr><td>Sensor de tempo de tela por app</td><td>Sim</td><td>Não</td></tr>
+    <tr><td>Medições da balança para o Conexão Saúde</td><td>Sim</td><td>Não</td></tr>
+  </tbody>
+</table>
+
+<h2>Ao lado do app Companion do Home Assistant</h2>
+
+<p>Fique com o app Companion para presença, notificações e sensores do aparelho. Os 36 sensores do Conexão Saúde que ele tem mostram o valor mais recente ou o total de hoje, sem backfill, e cada valor é registrado quando o sensor atualiza, não na data em que aconteceu. Os dois rodam lado a lado; <a href="../companion-app-health-connect/">o app Companion e o Conexão Saúde</a> compara os dois.</p>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Preciso de uma conta em nuvem?</summary>
+    <p>Não. O celular envia direto para o seu Home Assistant, e não existe servidor do Life Dashboard. O Home Assistant Cloud é opcional, para sincronizar fora de casa; nesse caso, o relay dele transporta os payloads.</p>
+  </details>
+  <details>
+    <summary>Pareei, mas os dados do relógio não chegam. O que há de errado?</summary>
+    <p>Quase sempre o app do relógio ainda não está gravando no Conexão Saúde: ative como na tabela acima e depois abra o app do relógio para ele sincronizar. Confira também se o tipo está ativado em <strong>O que enviar</strong>, na aba <strong>Saúde</strong>, e se a permissão dele foi concedida.</p>
+  </details>
+  <details>
+    <summary>A integração Fitbit do Home Assistant ainda funciona?</summary>
+    <p>Não. Ela usa a antiga Fitbit Web API, que o Google desligou em 2 de novembro de 2026. Os dados do Fitbit e do Pixel Watch chegam ao Conexão Saúde pelo app Google Health, então este caminho não depende dessa API. O <a href="../fitbit-home-assistant/">guia do Fitbit</a> explica a mudança.</p>
+  </details>
+  <details>
+    <summary>Funciona no iPhone?</summary>
+    <p>Sim, com o <a href="../ios/">Life Dashboard Companion para iPhone</a>, que lê o Apple Health e envia para a mesma integração. Ele está na App Store por €&nbsp;6,99 uma única vez, ou você compila com o Xcode se tiver uma assinatura do Apple Developer Program.</p>
+  </details>
+  <details>
+    <summary>O Home Assistant consegue enviar dados para o celular?</summary>
+    <p>Sim, de balanças e medidores de pressão arterial. Veja <a href="../smart-scale-to-samsung-health/">medições da balança inteligente no Samsung Health</a>.</p>
+  </details>
+</section>

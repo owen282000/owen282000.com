@@ -1,0 +1,118 @@
+<!--
+title: Exporter Samsung Health vers votre serveur | Life Dashboard
+description: Life Dashboard Companion exporte les données Samsung Health et Galaxy Watch de Santé Connect vers votre serveur ou n8n, en JSON signé à chaque synchronisation.
+primary query: exporter samsung health
+secondary queries: exporter données samsung health, api samsung health, exporter données galaxy watch, samsung health vers une base de données, samsung health json, samsung health postgres, samsung health webhook, api galaxy watch
+updated: 2026-11-20
+published: 2026-10-06
+-->
+
+<h1>Comment exporter les données de Samsung Health vers mon propre serveur&nbsp;?</h1>
+
+<p>Activez la synchronisation de Samsung Health avec Health Connect (Santé Connect en français), puis laissez Life Dashboard Companion, une application Android open source, envoyer les données en JSON à l’URL de votre choix. Chaque synchronisation envoie les nouveaux enregistrements de Samsung Health et de la Galaxy Watch vers votre base de données, votre workflow n8n ou votre script, et un backfill (le rattrapage de l’historique) envoie tout ce que contient Santé Connect.</p>
+
+<p class="flow-line"><span>Galaxy Watch</span><span>Samsung Health</span><span>Santé Connect</span><span>Life Dashboard Companion</span><span>Votre serveur</span></p>
+
+<h2>Pourquoi cela passe par Santé Connect</h2>
+
+<p>Samsung Health n’a aucune API cloud à laquelle vous connecter, et le SDK de données de Samsung n’est ouvert qu’aux <a href="https://developer.samsung.com/health/data/guide/app-verification.html">partenaires enregistrés</a>. Samsung Health se synchronise en revanche avec Santé Connect sur le téléphone, dans les deux sens. Santé Connect n’a pas non plus d’API web&nbsp;: une application sur le téléphone le lit donc et transmet les données. Pour en savoir plus, voir <a href="../health-data-api/">Une API web pour Santé Connect ou Apple Santé</a>.</p>
+
+<h2>Ce qu’il vous faut</h2>
+
+<ul>
+  <li>Un téléphone Android avec Android 9 ou plus récent, Santé Connect et Samsung Health. Associez votre Galaxy Watch à Samsung Health pour obtenir ses données.</li>
+  <li><a href="../android/">Life Dashboard Companion pour Android</a>. {{status:android}}</li>
+  <li>Un serveur qui accepte un POST JSON en HTTPS, avec une limite de corps d’au moins 10 Mo. Le HTTP non chiffré sur votre propre réseau demande d’activer <strong>Autoriser les webhooks en HTTP non chiffré</strong> sous <strong>Plus</strong> &gt; <strong>Avancé</strong>.</li>
+</ul>
+
+<h2>Envoyer Samsung Health vers un webhook</h2>
+
+<ol>
+  <li>Dans Samsung Health, allez dans <strong>Paramètres</strong> &gt; <strong>Santé Connect</strong>, touchez <strong>Démarrer</strong>, choisissez les données et touchez <strong>Autoriser</strong>. La lecture et l’écriture s’accordent séparément.</li>
+  <li>Dans Life Dashboard Companion, dans l’onglet <strong>Santé</strong>, touchez <strong>Ajouter une destination</strong> (ou <strong>Utiliser votre propre serveur</strong> si rien n’est encore configuré), saisissez votre URL sous <strong>URL de webhook</strong> et touchez <strong>Ajouter un webhook</strong>.</li>
+  <li>Sous <strong>Secret de signature HMAC (facultatif)</strong>, touchez <strong>Générer</strong> et reportez la même valeur sur votre serveur.</li>
+  <li>Touchez <strong>Enregistrer</strong> en haut, rouvrez la ligne de l’adresse dans l’onglet et touchez <strong>Envoyer un test</strong>.</li>
+  <li>Touchez <strong>Autoriser</strong> et accordez l’accès à vos types de données ainsi que la lecture en arrière-plan. Activez les types que vous voulez sous <strong>Données à envoyer</strong>.</li>
+  <li>Empêchez Android d’arrêter les synchronisations&nbsp;: <strong>Paramètres</strong> &gt; <strong>Applications</strong> &gt; <strong>Life Dashboard</strong> &gt; <strong>Batterie</strong>, à régler sur <strong>Non restreinte</strong>, puis ajoutez <strong>Life Dashboard</strong> à la liste <strong>Never sleeping apps</strong> (les applications jamais mises en veille) dans <strong>Paramètres</strong> &gt; <strong>Batterie</strong> &gt; <strong>Background usage limits</strong> (les limites d’utilisation en arrière-plan).</li>
+  <li>Touchez <strong>Synchroniser maintenant</strong>. Pour les données plus anciennes, touchez <strong>Envoyer l’historique</strong> sous <strong>Données à envoyer</strong> et choisissez jusqu’où remonter, de <strong>30 jours</strong> à <strong>Tout l’historique</strong>.</li>
+</ol>
+
+<!-- IMG: Webhook settings with HMAC (A6-webhook.png) -->
+
+<h2>Ce que vous obtenez</h2>
+
+<p>Parmi ce que Samsung synchronise avec Santé Connect d’après sa liste, voici les types que l’application transmet&nbsp;:</p>
+
+<table>
+  <thead>
+    <tr><th>Domaine</th><th>Types</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Activité</td><td>Pas, séances d’exercice, calories totales et distance issues des entraînements, VO2 max issu des entraînements</td></tr>
+    <tr><td>Sommeil</td><td>Séances de sommeil avec leurs phases</td></tr>
+    <tr><td>Cœur et sang</td><td>Fréquence cardiaque, tension artérielle, glycémie, saturation en oxygène</td></tr>
+    <tr><td>Corps</td><td>Poids, masse grasse, taille, métabolisme de base</td></tr>
+    <tr><td>Alimentation</td><td>Nutrition</td></tr>
+  </tbody>
+</table>
+
+<p>Chaque requête est un <code>POST</code> avec un seul objet JSON. Abrégé, et sans le <code>uuid</code> ni le champ <code>source</code> que porte chaque enregistrement&nbsp;:</p>
+
+<pre><code>{
+  "timestamp": "2026-10-04T07:15:02.481Z",
+  "app_version": "1.23.0",
+  "source": "health_connect",
+  "sequence": 1842,
+  "daily_totals": [
+    { "date": "2026-10-04", "steps": 1204, "distance_meters": 911.6 }
+  ],
+  "sleep": [
+    {
+      "session_end_time": "2026-10-04T06:30:00Z",
+      "duration_seconds": 28800,
+      "stages": [
+        { "stage": "deep", "start_time": "2026-10-03T23:00:00Z",
+          "end_time": "2026-10-04T01:00:00Z", "duration_seconds": 7200 }
+      ]
+    }
+  ]
+}</code></pre>
+
+<p>Stockez les enregistrements avec <code>uuid</code> comme clé, car il reste le même quand un enregistrement est renvoyé, et utilisez <code>daily_totals</code> pour les pas, la distance et les calories&nbsp;: une marche comptée par le téléphone et la montre n’est ainsi comptée qu’une fois. La <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md">référence du payload</a> documente chaque champ.</p>
+
+<h2>Ce que Samsung garde pour lui</h2>
+
+<p>Absents de la liste de Samsung en octobre 2026&nbsp;: le stress, l’ECG, l’Energy Score, la variabilité de la fréquence cardiaque, la température cutanée, la fréquence respiratoire, la fréquence cardiaque au repos et le suivi du cycle. Ce que Samsung Health partage peut changer à chaque version&nbsp;: vérifiez donc sur votre propre téléphone, dans les autorisations des applications de Santé Connect, à la ligne Samsung Health.</p>
+
+<h2>Une synchronisation continue, pas un fichier ponctuel</h2>
+
+<p>Il ne s’agit pas d’un CSV de tout ce que Samsung Health a enregistré depuis toujours. La première synchronisation envoie les 7 derniers jours, et chaque synchronisation suivante envoie ce qui est nouveau ou modifié, toutes les 60 minutes par défaut ou à heures fixes. Un backfill remonte aussi loin que Santé Connect conserve des données. Votre récepteur décide du format&nbsp;: des lignes dans Postgres, un fichier CSV ou autre chose.</p>
+
+<p>La présence de votre ancien historique Samsung Health dans Santé Connect dépend de Samsung Health, et Samsung ne le précise pas. Son <a href="https://developer.samsung.com/health/blog/en/accessing-samsung-health-data-through-health-connect">guide</a> indique seulement qu’une fois les deux connectés, les données nouvelles ou modifiées sont partagées. Pour voir ce que Santé Connect contient, lancez un backfill <strong>Tout l’historique</strong> après <strong>Autoriser l’accès à l’historique</strong> : il envoie tout ce que Santé Connect contient pour les types que vous avez activés, et le jour le plus ancien qui arrive chez votre récepteur indique donc jusqu’où remontent vos données.</p>
+
+<p>Des récepteurs qui fonctionnent&nbsp;: <a href="../grafana/">la stack Life Dashboard</a> avec Postgres et Grafana, un nœud Webhook n8n, Node-RED, ou un court script. La <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md#receiver-in-python-flask">référence du payload</a> propose un récepteur en Python et un autre en Node.js comme point de départ.</p>
+
+<!-- IMG: Logs tab (A7-logs.png) -->
+
+<h2>Les limites</h2>
+
+<ul>
+  <li>Les données de la montre arrivent dans Santé Connect après être arrivées sur le téléphone&nbsp;: quand la montre se reconnecte, ou quand vous ouvrez l’écran d’accueil de Samsung Health ou le tirez vers le bas. Samsung retient un moment la fréquence cardiaque continue pour économiser la batterie.</li>
+  <li>Les données antérieures de plus de 30 jours à votre première autorisation demandent l’autorisation d’historique de Santé Connect, que la page du backfill vous propose avec <strong>Autoriser l’accès à l’historique</strong>.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Existe-t-il une API Samsung Health que je peux appeler depuis mon serveur&nbsp;?</summary>
+    <p>Pas pour vos propres données. Samsung n’a aucune API cloud à laquelle vous connecter, et son SDK de données est réservé aux partenaires enregistrés. Santé Connect, sur le téléphone, est la voie ouverte.</p>
+  </details>
+  <details>
+    <summary>Puis-je obtenir un fichier CSV&nbsp;?</summary>
+    <p>Oui. <strong>Plus</strong> &gt; <strong>Exporter les données</strong>, dans l’onglet <strong>Santé</strong>, partage en CSV ou en JSON ce que la prochaine synchronisation enverrait. Vers votre serveur, les données de santé quittent l’application en JSON, et votre récepteur peut aussi écrire du CSV si vous le souhaitez.</p>
+  </details>
+  <details>
+    <summary>Puis-je les envoyer aussi vers Home Assistant&nbsp;?</summary>
+    <p>Oui. Associez l’intégration Life Dashboard, comme dans <a href="../samsung-health-home-assistant/">Samsung Health dans Home Assistant</a>, et chaque payload part vers les deux. Il compte comme livré dès que l’un des deux l’accepte&nbsp;: une destination indisponible à ce moment-là le manque donc.</p>
+  </details>
+</section>

@@ -1,0 +1,140 @@
+<!--
+title: Un QR code pour connecter vos utilisateurs | Life Dashboard
+description: Créez un QR code qui connecte Life Dashboard Companion à votre propre service : le lien d’association, un générateur en Python et Node.js, le ping de test signé.
+primary query: health connect association par qr code
+secondary queries: webhook health connect plusieurs utilisateurs, onboarding webhook données de santé, apple health webhook qr code, associer une application à un serveur par qr code, service de collecte de données santé connect, secret hmac qr code
+updated: 2026-11-20
+published: 2026-10-29
+-->
+
+<h1>Comment laisser mes utilisateurs connecter leurs données de santé avec un seul QR code&nbsp;?</h1>
+
+<p>Affichez à chaque utilisateur un QR code qui contient l’adresse de votre webhook et un secret propre à cet utilisateur. Il le scanne avec Life Dashboard Companion, touche <strong>Associer</strong>, et son téléphone envoie dès lors à votre service, en JSON signé, les données de Health Connect (Santé Connect en français) ou, depuis un iPhone, celles d’Apple Health (l’app Santé). Personne ne saisit d’URL ni ne copie de secret, et vous savez que cela a fonctionné parce que l’application envoie aussitôt un ping de test signé. L’intégration Life Dashboard pour Home Assistant fonctionne exactement ainsi, et le format est ouvert&nbsp;: n’importe quel service peut donc faire de même.</p>
+
+<!-- IMG: how pairing works (p-pairing-flow.png) -->
+
+<h2>Ce qu’un code peut faire</h2>
+
+<ul>
+  <li><strong>Renseigner une adresse et son secret.</strong> Dans les sections que vous autorisez&nbsp;: Santé, Temps d’écran, ou les deux. L’utilisateur peut encore désactiver une section sur la page d’association.</li>
+  <li><strong>Ne jamais choisir les types de données ni la planification.</strong> Les données envoyées et leur fréquence restent le choix de l’utilisateur, sur le téléphone. Un code ne peut pas commencer discrètement à envoyer la fréquence cardiaque de quelqu’un où que ce soit.</li>
+  <li><strong>Ne jamais toucher aux autres récepteurs.</strong> Chaque autre adresse garde son propre secret et ses propres en-têtes, et une adresse ajoutée par association démarre sans en-têtes personnalisés.</li>
+  <li><strong>Ne rien enregistrer avant Associer.</strong> La page d’association affiche votre nom et l’hôte vers lequel vont les données, tiré de l’adresse elle-même.</li>
+</ul>
+
+<h2>Le lien</h2>
+
+<p>Un code est un lien https dont tout le contenu se trouve après le <code>#</code> :</p>
+
+<pre><code>https://owen282000.github.io/life-dashboard-companion-app/pair#v=1&amp;url=&lt;address&gt;&amp;secret=&lt;secret&gt;&amp;name=&lt;name&gt;</code></pre>
+
+<table>
+  <thead><tr><th>Champ</th><th>Valeur</th></tr></thead>
+  <tbody>
+    <tr><td><code>v</code></td><td><code>1</code>, la version du format. Obligatoire.</td></tr>
+    <tr><td><code>url</code></td><td>L’adresse de votre webhook, 2048 caractères au plus, sans espace ni virgule. Obligatoire.</td></tr>
+    <tr><td><code>secret</code></td><td>Le secret de signature HMAC de cet utilisateur, 512 caractères au plus, sans espace. Obligatoire.</td></tr>
+    <tr><td><code>name</code></td><td>Le nom que la page d’association donne à votre service, jusqu’à 64 caractères. Facultatif.</td></tr>
+    <tr><td><code>sources</code></td><td><code>health_connect</code>, <code>screen_time</code> ou les deux, séparés par une virgule. Omettez-le pour accepter les deux.</td></tr>
+  </tbody>
+</table>
+
+<p>Encodez entièrement chaque valeur en pourcent-encodage, une espace devenant <code>%20</code>. Le <code>quote(value, safe="")</code> de Python et le <code>encodeURIComponent</code> de JavaScript le font&nbsp;; l’encodage de formulaire, qui écrit une espace sous la forme <code>+</code>, ne le fait pas. Le secret se trouve volontairement dans le fragment&nbsp;: un navigateur n’envoie jamais à un serveur la partie située après le <code>#</code>. Quand quelqu’un scanne le code sans avoir installé l’application, la page d’accueil se charge donc, mais le secret reste sur son téléphone.</p>
+
+<h2>Créer un code en Python</h2>
+
+<pre><code>import secrets
+from urllib.parse import quote, urlencode
+
+import segno
+
+PAIR_PAGE = "https://owen282000.github.io/life-dashboard-companion-app/pair"
+
+
+def pairing_link(webhook_url, secret, name=None, sources=None):
+    fields = {"v": "1", "url": webhook_url, "secret": secret}
+    if name:
+        fields["name"] = name
+    if sources:
+        fields["sources"] = ",".join(sources)
+    return PAIR_PAGE + "#" + urlencode(fields, quote_via=quote, safe="")
+
+
+secret = secrets.token_urlsafe(32)  # store this with the user
+link = pairing_link("https://health.example.com/webhook/u/42", secret, name="Example Health")
+segno.make(link, error="m").save("pairing.svg", scale=6, border=4)</code></pre>
+
+<h2>Créer un code en Node.js</h2>
+
+<pre><code>import crypto from "node:crypto";
+import QRCode from "qrcode";
+
+const PAIR_PAGE = "https://owen282000.github.io/life-dashboard-companion-app/pair";
+
+function pairingLink(webhookUrl, secret, { name, sources } = {}) {
+  const fields = [["v", "1"], ["url", webhookUrl], ["secret", secret]];
+  if (name) fields.push(["name", name]);
+  if (sources) fields.push(["sources", sources.join(",")]);
+  return PAIR_PAGE + "#" + fields.map(([k, v]) =&gt; `${k}=${encodeURIComponent(v)}`).join("&amp;");
+}
+
+const secret = crypto.randomBytes(32).toString("base64url"); // store this with the user
+const link = pairingLink("https://health.example.com/webhook/u/42", secret, { name: "Example Health" });
+const dataUrl = await QRCode.toDataURL(link, { errorCorrectionLevel: "M", margin: 4 });</code></pre>
+
+<p>Les deux donnent exactement le vecteur de test de référence que vérifient les tests de l’application, et qui figure dans la <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/pairing.md#known-good-test-vector">référence de l’association</a>. Utilisez-le comme test unitaire de votre générateur.</p>
+
+<h2>Ce que voit l’utilisateur</h2>
+
+<p>Il scanne votre code dans l’application, avec <strong>Scanner un code d’association</strong>, ou avec l’appareil photo du téléphone, qui ouvre directement l’application sur Android. Une page indique «&nbsp;Example Health souhaite recevoir vos données à l’adresse&nbsp;: health.example.com&nbsp;», avec un interrupteur pour chaque section et les autres adresses, qui gardent leur propre secret. Rien n’est enregistré tant qu’il n’a pas touché <strong>Associer</strong>.</p>
+
+<h2>Le ping de test après Associer</h2>
+
+<p>Juste après <strong>Associer</strong>, l’application envoie un ping de test à votre adresse, signé avec le secret du code&nbsp;:</p>
+
+<pre><code>POST /webhook/u/42
+Content-Type: application/json; charset=utf-8
+X-Signature: sha256=&lt;hex of HMAC-SHA256(secret, raw body)&gt;
+
+{
+  "test": true,
+  "message": "Test ping from Life Dashboard Companion",
+  "timestamp": "2026-10-04T12:00:00Z",
+  "app_version": "1.29.0",
+  "source": "health_connect"
+}</code></pre>
+
+<p>Vérifiez la signature sur le corps brut avant de l’analyser, répondez par n’importe quel <code>2xx</code>, et l’utilisateur voit «&nbsp;Connecté.&nbsp;» sur la page qui suit Associer, ou un court message indiquant «&nbsp;ping de test livré&nbsp;» pendant la configuration de l’application. Répondez <code>401</code> à une mauvaise signature, comme pour toutes les requêtes suivantes. Un ping ne transporte aucune donnée&nbsp;: c’est donc le bon moment pour marquer l’utilisateur comme connecté, pas quelque chose à stocker. Chaque synchronisation suivante utilise le même secret et le même payload, décrit dans le <a href="../health-connect-webhook/">guide du webhook</a>.</p>
+
+<h2>iPhone</h2>
+
+<p>Life Dashboard Companion pour iPhone lit les mêmes codes. Elle n’envoie qu’Apple Santé&nbsp;: un code doit donc accepter <code>health_connect</code> ou omettre <code>sources</code>. Le simple <code>http://</code> n’y fonctionne que vers une adresse du réseau domestique&nbsp;: utilisez donc https. L’appareil photo de l’iPhone ouvre d’abord la page d’accueil, qui transmet le code à l’application par un bouton <strong>Open in the app</strong>.</p>
+
+<h2>La sécurité</h2>
+
+<ul>
+  <li><strong>Un secret par utilisateur</strong>, issu d’un générateur aléatoire cryptographique, d’au moins 32 octets.</li>
+  <li><strong>N’affichez le code qu’à cet utilisateur</strong>, une fois qu’il s’est connecté. Quiconque le voit peut signer des données en son nom.</li>
+  <li><strong>Ne journalisez jamais le lien.</strong> Il contient le secret.</li>
+  <li><strong>Laissez les utilisateurs renouveler leur secret.</strong> Un nouveau secret signifie un nouveau code&nbsp;; le scanner remplace l’ancien secret sur le téléphone.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Mes utilisateurs ont-ils besoin d’un compte Life Dashboard&nbsp;?</summary>
+    <p>Non. Il n’y a ni serveur ni compte Life Dashboard. Le téléphone envoie directement à l’adresse contenue dans votre code.</p>
+  </details>
+  <details>
+    <summary>Un code peut-il choisir les données de santé que reçoit mon service&nbsp;?</summary>
+    <p>Non. Un code ne renseigne que l’adresse et le secret. L’utilisateur choisit les types de données et la planification sur le téléphone&nbsp;: le consentement reste ainsi entre ses mains.</p>
+  </details>
+  <details>
+    <summary>Puis-je recevoir le payload dans mon propre format&nbsp;?</summary>
+    <p>Non. Chaque récepteur reçoit le même JSON signé, décrit par un schéma JSON, et votre service le convertit vers son propre modèle. C’est ce format unique et documenté qui permet à n’importe quel récepteur de fonctionner sans plugin.</p>
+  </details>
+  <details>
+    <summary>Que se passe-t-il si l’utilisateur scanne sans avoir installé l’application&nbsp;?</summary>
+    <p>Le lien ouvre une page qui indique où obtenir l’application, pour Android ou iPhone. Le secret contenu dans le lien n’atteint jamais le serveur de cette page.</p>
+  </details>
+</section>

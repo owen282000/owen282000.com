@@ -1,0 +1,93 @@
+<!--
+title: Garmin in Home Assistant über Health Connect | Life Dashboard
+description: Life Dashboard Companion sendet Daten aus Garmin Connect über Health Connect an Home Assistant: Schritte, Schlafphasen und Herzfrequenz, ohne Garmin-Login.
+primary query: garmin home assistant
+secondary queries: garmin connect home assistant, garmin health connect, garmin uhr home assistant, garmin schlaf home assistant, garmin schritte home assistant, garmin home assistant ohne login, garmin connect integration login fehler, forerunner home assistant, garmin herzfrequenz home assistant
+updated: 2026-11-20
+published: 2026-10-06
+-->
+
+<h1>Wie bekomme ich Garmin-Daten in Home Assistant?</h1>
+
+<p>Lass Garmin Connect auf deinem Android-Telefon in Health Connect schreiben und lass dann Life Dashboard Companion, eine Open-Source-App für Android, die Daten an die Life-Dashboard-Integration in Home Assistant senden. Home Assistant braucht nie deinen Garmin-Benutzernamen, dein Passwort oder deinen MFA-Code. Eine Änderung an Garmins Login kann diesen Weg also nicht kaputt machen.</p>
+
+<p class="flow-line"><span>Garmin-Uhr</span><span>Garmin Connect</span><span>Health Connect</span><span>Life Dashboard Companion</span><span>Home Assistant</span></p>
+
+<h2>Was ankommt und was bei Garmin bleibt</h2>
+
+<p>Garmin Connect teilt einen Teil deiner Daten mit Health Connect, und nur dieser Teil kann Home Assistant erreichen. Dafür braucht es Garmin Connect 5.14.1 oder neuer auf Android 14 oder neuer.</p>
+
+<table>
+  <thead>
+    <tr><th>Daten</th><th>Typen</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Kommt an</td><td>Schritte, Distanz, aktive Kalorien und Gesamtkalorien, Aktivitäten als Trainings, Schlaf mit Phasen, Herzfrequenz, Gewicht, Körperfett</td></tr>
+    <tr><td>Bleibt bei Garmin</td><td>Ruheherzfrequenz, HRV (Garmin schreibt gar keine), Body Battery, Stress, Pulse Ox, Atmung, Trainingsbelastung (<a href="../health-connect-data-types/#what-each-app-keeps-to-itself">alle Apps im Vergleich</a>)</td></tr>
+  </tbody>
+</table>
+
+<p>Das ist Garmins eigene Liste, Stand Oktober 2026, und Garmin kann sie mit jedem Update von Garmin Connect ändern. Für Body Battery, Stress und Trainingsbelastung hat Health Connect gar keinen Typ.</p>
+
+<h2>Was du brauchst</h2>
+
+<ul>
+  <li>Ein Android-Telefon mit Android 14 oder neuer und Garmin Connect 5.14.1 oder neuer, gekoppelt mit deiner Uhr.</li>
+  <li>Home Assistant 2026.3 oder neuer, für die <a href="../home-assistant/">Life-Dashboard-Integration</a>. Ab 2026.11 musst du nichts weiter installieren; ältere Versionen brauchen <a href="https://hacs.xyz">HACS</a>.</li>
+  <li><a href="../android/">Life Dashboard Companion für Android</a>. {{status:android}}</li>
+</ul>
+
+<h2>So richtest du es ein</h2>
+
+<ol>
+  <li>Geh in Garmin Connect zu <strong>Einstellungen</strong> &gt; <strong>Connected Apps</strong> &gt; <strong>Health Connect</strong> und erlaube die Datentypen.</li>
+  <li>Suche unter <strong>Einstellungen</strong> &gt; <strong>Marketplace</strong> (vor Home Assistant 2026.11: HACS) nach <strong>Life Dashboard</strong> und installiere die Integration. Mit HACS lädst du sie herunter und startest Home Assistant neu.</li>
+  <li>Wenn sich die Einrichtung nicht von selbst öffnet, geh zu <strong>Einstellungen</strong> &gt; <strong>Geräte &amp; Dienste</strong> &gt; <strong>Integration hinzufügen</strong> und suche nach <strong>Life Dashboard</strong>. Gib dem Telefon einen Namen. Trag im Feld <strong>Home-Assistant-Adresse</strong> die IP-Adresse von Home Assistant ein, etwa <code>http://192.168.1.20:8123</code>; Home Assistant zeigt sie unter <strong>Einstellungen</strong> &gt; <strong>System</strong> &gt; <strong>Netzwerk</strong>, im Abschnitt <strong>Netzwerkadapter</strong>. Danach zeigt der Dialog einen QR-Code.</li>
+  <!-- IMG: the QR code in Home Assistant (H2-qr.png) -->
+  <li>Installiere <a href="{{play_url}}">Life Dashboard Companion von Google Play</a>, dort unter dem Namen „Health Data for Home Assistant“, für 4,99&nbsp;€ einmalig. Dann bleibt die App von selbst aktuell. Oder installiere sie kostenlos, dieselbe App mit demselben Signaturschlüssel: Öffne die APK von GitHub auf dem Telefon und erlaube deinem Browser einmalig die Installation, oder füge sie in Obtainium oder F-Droid hinzu (<a href="../android/#get">alle Wege zur App</a>). Android warnt vielleicht, bevor es eine APK von außerhalb des Play Store installiert; das tut es bei jeder App aus einer anderen Quelle. Öffne die App, tippe bei <strong>Wohin sollen deine Daten?</strong> auf <strong>Kopplungscode scannen</strong>, scanne den Code und tippe auf <strong>Koppeln</strong>.</li>
+  <li>Tippe auf dem Tab <strong>Gesundheit</strong> auf <strong>Erteilen</strong> und erlaube deine Datentypen und das Lesen im Hintergrund. Die Auswahl <strong>Das Wesentliche</strong> schaltet auch die Ruheherzfrequenz ein, die Garmin nicht teilt; sie bekommt also keinen Sensor. Körperfett und Trainings schaltest du bei Bedarf unter <strong>Was senden</strong> ein.</li>
+  <li>Tippe auf <strong>Jetzt synchronisieren</strong>. Für ältere Daten tippst du unter <strong>Was senden</strong> auf <strong>Verlauf senden</strong> und wählst, wie weit zurück, von <strong>30 Tage</strong> bis <strong>Alles</strong>. Zeigt die Seite <strong>Verlaufszugriff erteilen</strong>, tippst du vorher darauf.</li>
+</ol>
+
+<p>Die <a href="../health-connect-home-assistant/">Anleitung Gesundheitsdaten in Home Assistant</a> beschreibt jeden Schritt ausführlicher: wo du die IP-Adresse von Home Assistant findest, die Akku-Einstellungen und eine Kachel auf deinem Dashboard.</p>
+
+<!-- IMG: Health tab (A1-health.png) -->
+
+<h2>Was du bekommst</h2>
+
+<ul>
+  <li><strong>Sensoren</strong> für Schritte, Distanz und Kalorien von heute sowie für die letzte Herzfrequenz, den letzten Schlaf, Gewicht und Körperfett. Sensoren erscheinen, sobald Daten ankommen. Ein Typ, den Garmin nicht teilt, taucht also nie als leerer Sensor auf.</li>
+  <li><strong>Schlafphasen.</strong> Mit der Integration 1.1.0 oder neuer werden tief, leicht, REM, wach und Schlafzeit pro Nacht zu Sensoren und Statistiken, und die <a href="../sleep-stages-home-assistant/">Life Dashboard Sleep Card</a> zeichnet die Nacht als Hypnogramm.</li>
+  <li><strong>Verlauf</strong> in den Langzeitstatistiken: ein Wert pro Tag für Schritte, Distanz in km, Kalorien sowie Schlaf- und Trainingszeit in Stunden, und Mittelwert, Minimum und Maximum pro Stunde für Herzfrequenz, Gewicht und Körperfett. Statt eines Ruhewerts kannst du das stündliche Minimum der Herzfrequenz als Diagramm zeigen, aber es ist nicht die Ruheherzfrequenz, die Garmin anzeigt.</li>
+  <li><strong>Nichts doppelt gezählt.</strong> Schritte, Distanz und Kalorien nutzen die Tagessummen von Health Connect. Zählen Telefon und Garmin denselben Spaziergang, zählt er einmal.</li>
+</ul>
+
+<!-- IMG: the example Health dashboard on a phone (H9-health-phone.png) -->
+
+<h2>Grenzen</h2>
+
+<ul>
+  <li>Garmin Connect schreibt nach jeder Synchronisierung mit der Uhr in Health Connect. Daten können also Stunden nach der Aufzeichnung ankommen, mit ihrer ursprünglichen Zeit. Die nächste Synchronisierung der App holt sie ab.</li>
+  <li>Garmin liest nichts aus Health Connect. Messwerte einer Waage in Home Assistant erreichen über die App Samsung Health oder Google Health, aber nicht Garmin Connect.</li>
+  <li>Eine Adresse im Heimnetz synchronisiert nur zu Hause. Eine öffentliche HTTPS-Adresse oder Home Assistant Cloud funktioniert überall.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Braucht Home Assistant meinen Garmin-Login?</summary>
+    <p>Nein. Die Daten kommen aus Health Connect auf deinem Telefon, und die App sendet sie direkt an Home Assistant. Nichts meldet sich bei Garmins Cloud an.</p>
+  </details>
+  <details>
+    <summary>Warum gibt es keine Ruheherzfrequenz und keine Body Battery?</summary>
+    <p>Garmin Connect teilt sie nicht mit Health Connect, und für Body Battery, Stress und Trainingsbelastung hat Health Connect keinen Typ. Die <a href="https://github.com/cyberjunky/home-assistant-garmin_connect">Garmin-Connect-Integration</a> aus der Community liest sie mit deinem Garmin-Konto aus Garmins Cloud, und sie kann neben dieser App laufen.</p>
+  </details>
+  <details>
+    <summary>Auf meinem Telefon läuft Android 13. Kann ich es trotzdem nutzen?</summary>
+    <p>Nicht mit Garmin. Garmin Connect schreibt erst ab Android 14 in Health Connect. Die App selbst läuft ab Android 9, für Uhren, deren App auch unter älterem Android in Health Connect schreibt.</p>
+  </details>
+  <details>
+    <summary>Kann ich Garmin-Daten auch woandershin senden als an Home Assistant?</summary>
+    <p>Ja. Dieselben Daten können an einen MQTT-Broker gehen oder an jede URL, die einen JSON-POST annimmt. Siehe <a href="../health-connect-webhook/">Health-Connect-Daten exportieren</a>.</p>
+  </details>
+</section>

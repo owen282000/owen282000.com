@@ -1,0 +1,148 @@
+<!--
+title: Apple Health (Santé) dans Home Assistant | Life Dashboard
+description: Les données Apple Health de votre iPhone et de votre Apple Watch en capteurs Home Assistant, avec tout votre historique : une intégration et un QR code.
+primary query: apple health home assistant
+secondary queries: apple santé home assistant, intégration apple health home assistant, données santé iphone home assistant, home assistant healthkit, capteurs apple santé home assistant, apple health statistiques à long terme, home assistant pas iphone, home assistant sommeil iphone
+updated: 2026-11-20
+published: 2026-10-21
+-->
+
+<h1>Comment envoyer les données d’Apple Health vers Home Assistant&nbsp;?</h1>
+
+<p>Installez l’intégration Life Dashboard dans Home Assistant depuis le Marketplace (HACS avant la version 2026.11) et Life Dashboard Companion sur votre iPhone, puis associez les deux avec le QR code qu’affiche l’intégration. Touchez <strong>Synchroniser maintenant</strong>, et vos pas, votre fréquence cardiaque, votre sommeil, votre poids et vos entraînements arrivent sous forme de capteurs. Un backfill (le rattrapage de l’historique) remplit les statistiques à long terme avec tout votre passé, chaque jour à sa propre date.</p>
+
+<p>Cela fonctionne avec tout ce qui écrit dans Apple Health (l’app Santé de l’iPhone, souvent appelée Apple Santé)&nbsp;: l’iPhone lui-même, une Apple Watch, et les applications d’autres montres, bagues et balances qui y enregistrent leurs données. Les deux éléments sont sous licence MIT. Il n’y a ni compte ni serveur Life Dashboard&nbsp;: l’iPhone envoie directement à votre Home Assistant, et l’application ne fait que lire Apple Santé, elle n’y écrit jamais.</p>
+
+<p class="flow-line"><span>iPhone ou Apple Watch</span><span>Apple Santé</span><span>Life Dashboard Companion</span><span>Home Assistant</span></p>
+
+<h2>Ce qu’il vous faut</h2>
+
+<ul>
+  <li>Un iPhone sous iOS 17 ou plus récent.</li>
+  <li>Home Assistant 2026.3 ou plus récent, pour l’<a href="../home-assistant/">intégration Life Dashboard</a>. À partir de la version 2026.11, il n’y a rien d’autre à installer&nbsp;; les versions plus anciennes ont besoin de <a href="https://hacs.xyz">HACS</a>. L’application iPhone demande l’intégration 0.7.1 ou plus récente&nbsp;; les deux voies installent la dernière version.</li>
+  <li><a href="../ios/">Life Dashboard Companion pour iPhone</a>. {{status:ios}}</li>
+</ul>
+
+<p>Commencez par Home Assistant&nbsp;: la configuration de l’application scanne le QR code qu’affiche l’intégration.</p>
+
+<h2>La mise en place</h2>
+
+<ol>
+  <li>Dans <strong>Paramètres</strong> &gt; <strong>Marketplace</strong> (HACS avant Home Assistant 2026.11), cherchez <strong>Life Dashboard</strong>, ou utilisez <a href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Ouvrir dans le Marketplace</a>, et installez-le. Avec HACS, téléchargez-le puis redémarrez Home Assistant.</li>
+  <li>Si la configuration ne s’est pas ouverte d’elle-même, allez dans <strong>Paramètres</strong> &gt; <strong>Appareils et services</strong> &gt; <strong>Ajouter une intégration</strong> et cherchez <strong>Life Dashboard</strong>. Donnez un nom à l’iPhone. Vérifiez le champ <strong>Home Assistant address</strong> : c’est l’adresse vers laquelle l’iPhone envoie. iOS n’autorise le simple <code>http://</code> que vers une adresse IP, un nom en <code>.local</code> comme <code>homeassistant.local</code>, ou un nom sans point&nbsp;: <code>http://192.168.1.20:8123</code> fonctionne donc, et <code>http://ha.lan:8123</code> non. Pour tout le reste, utilisez <code>https://</code> ou Home Assistant Cloud. La fenêtre affiche ensuite un QR code.</li>
+  <!-- IMG: the QR code in Home Assistant (H2-qr.png) -->
+  <li>Installez et ouvrez <a href="../ios/#get">Life Dashboard Companion</a>. À l’écran <strong>Où envoyer vos données&nbsp;?</strong>, touchez <strong>Scanner un code d’association</strong>, scannez le code puis touchez <strong>Associer</strong>. L’application envoie un ping de test&nbsp;: l’iPhone apparaît donc tout de suite dans Home Assistant. L’appareil photo de l’iPhone fonctionne aussi&nbsp;: il ouvre la page d’association dans Safari, et un bouton y transmet le code à l’application.</li>
+  <li>Quand iOS demande l’accès au réseau local, autorisez-le. Sans lui, rien n’atteint un Home Assistant installé chez vous.</li>
+  <li>Choisissez vos types de données&nbsp;: <strong>L’essentiel</strong>, <strong>Tous les types</strong> ou <strong>Choisir plus tard</strong>. Autorisez ensuite l’accès à Santé. Quand un type est activé alors qu’iOS n’a pas encore posé la question, la ligne <strong>Accès à Santé</strong>, sous <strong>Données à envoyer</strong>, affiche <strong>Autoriser</strong>. iOS n’indique jamais à une application si vous avez autorisé la lecture&nbsp;: un type que vous avez refusé n’envoie donc simplement rien&nbsp;; modifiez-le dans l’app Santé, sous votre profil, <strong>Apps</strong>, <strong>Life Dashboard</strong>.</li>
+  <li>Une première synchronisation suit aussitôt et montre ce qui est arrivé. Ensuite, <strong>Synchroniser maintenant</strong>, dans l’onglet <strong>Santé</strong>, envoie tout de suite les nouveautés. L’iPhone apparaît dans <strong>Paramètres</strong> &gt; <strong>Appareils et services</strong> &gt; <strong>Life Dashboard</strong>, avec un capteur pour chaque type qu’il a envoyé. La première synchronisation d’un type envoie ses 7 derniers jours.</li>
+  <li>Pour les données plus anciennes, touchez <strong>Envoyer l’historique</strong> sous <strong>Données à envoyer</strong> et choisissez jusqu’où remonter, de 30 jours à <strong>Tout l’historique</strong> : chaque jour arrive dans Home Assistant à sa propre date. L’envoi se poursuit tant que l’application est ouverte et l’iPhone déverrouillé, et garde l’écran allumé pendant ce temps. Sur iOS 26, il continue quand vous changez d’application et affiche sa progression dans l’interface du système.</li>
+</ol>
+
+<!-- IMG: Health tab (ios-health.png) -->
+
+<h2>Ce que vous obtenez</h2>
+
+<ul>
+  <li><strong>Des capteurs pour 20 des 28 types</strong>, la tension artérielle en comptant deux&nbsp;: les pas, la distance, les calories actives et les calories totales du jour (par exemple <code>sensor.alex_s_iphone_steps_today</code>), et les dernières valeurs de fréquence cardiaque, de fréquence cardiaque au repos, de variabilité de la fréquence cardiaque, le dernier sommeil, le poids, la taille, la tension artérielle, la glycémie, la saturation en oxygène, la fréquence respiratoire, la température corporelle, la température basale, la masse grasse, la masse maigre, le VO2 max et la dernière boisson. Chaque dernière valeur porte l’heure qu’elle décrit et l’application ou l’appareil qui l’a écrite.</li>
+  <li><strong>Les phases de sommeil.</strong> Avec l’intégration 1.1.0 ou plus récente, le sommeil profond, léger et paradoxal, les éveils et le temps de sommeil de chaque nuit deviennent des capteurs et des statistiques, et la <a href="../sleep-stages-home-assistant/">Life Dashboard Sleep Card</a> dessine la nuit sous forme d’hypnogramme.</li>
+  <li><strong>Les entraînements</strong> : le dernier entraînement, et les minutes d’aujourd’hui et d’hier, avec le type, le début et la fin de chaque séance.</li>
+  <li><strong>Ce que vous mangez.</strong> Avec l’intégration 1.2.0 ou plus récente, les calories, les protéines, les glucides et les lipides des repas du jour, d’après l’application où vous notez votre alimentation, chaque jour étant aussi une statistique.</li>
+  <li><strong>L’historique dans les statistiques à long terme</strong> : une valeur par jour pour les pas, la distance en km, les calories, le temps de sommeil, d’exercice et de pleine conscience en heures, et l’hydratation, ainsi qu’une moyenne, un minimum et un maximum par heure pour la fréquence cardiaque, le poids et les autres mesures. Un backfill range chaque jour à sa propre date.</li>
+  <li><strong>Pas de double comptage.</strong> Les pas, la distance et les calories viennent des statistiques d’Apple Santé, telles que l’app Santé les compte&nbsp;: une marche enregistrée à la fois par l’iPhone et par la montre n’est comptée qu’une fois.</li>
+</ul>
+
+<p>Les repas, les entrées du suivi du cycle et le détail des entraînements sont des événements plutôt que des valeurs&nbsp;: ils n’ont donc pas de capteur. Un <a href="../apple-health-webhook/">webhook à vous</a> les reçoit en entier.</p>
+
+<h2>Des graphiques et un tableau de bord</h2>
+
+<p>L’historique propre à un capteur montre quand chaque valeur est arrivée&nbsp;: après un backfill, il place donc tout à la date du jour. Tracez plutôt la statistique, avec la carte <strong>Graphique de statistiques</strong>. Les statistiques apparaissent dans son sélecteur d’entités sous le nom de l’iPhone&nbsp;:</p>
+
+<pre><code>type: statistics-graph
+title: Steps per week
+chart_type: bar
+period: week
+days_to_show: 90
+stat_types:
+  - change
+entities:
+  - life_dashboard:&lt;entry&gt;_steps   # pick "Alex's iPhone steps" from the picker</code></pre>
+
+<p>L’intégration est livrée avec un <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/dashboard.md">tableau de bord Santé</a> d’exemple et un thème à copier, construits avec les cartes de Home Assistant, à coller dans l’éditeur de configuration brute d’un nouveau tableau de bord. Remplacez <code>your_phone</code> dans les identifiants d’entité par le nom de votre iPhone et <code>&lt;entry&gt;</code> dans les identifiants de statistique par celui qu’affiche le sélecteur, puis retirez les cartes des types que vous ne synchronisez pas. Un iPhone n’envoie pas de température cutanée, et sa variabilité de la fréquence cardiaque est le SDNN&nbsp;: comparez-la donc à sa propre valeur de référence plutôt qu’à celle d’un téléphone Android. Le temps d’écran a sa propre vue, dont un iPhone n’a pas besoin. La page <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md">Capteurs et statistiques</a> énumère chaque entité.</p>
+
+<!-- IMG: the example Health dashboard (H6-health.png) -->
+
+<h2>Quand les synchronisations ont lieu</h2>
+
+<p>Sous <strong>Quand envoyer</strong>, réglez un intervalle de 15 minutes ou plus (60 par défaut) ou des heures fixes dans la journée, avec les jours de la semaine et des heures de silence. iOS décide du moment où une application s’exécute en arrière-plan&nbsp;: une heure fixe signifie donc «&nbsp;pas avant&nbsp;», et la synchronisation a lieu à la première occasion qu’iOS donne ensuite. L’actualisation en arrière-plan doit être activée pour l’application, et le mode Économie d’énergie la désactive.</p>
+
+<p>Pour une synchronisation à une minute précise, créez dans Raccourcis une automatisation à cette heure qui lance <strong>Synchroniser les données de santé</strong>. La même action se trouve derrière le widget de l’écran d’accueil, une commande du Centre de contrôle sur iOS 18 et plus récent, et Siri.</p>
+
+<!-- IMG: Sync schedule (ios-schedule.png) -->
+
+<h2>Les capteurs Santé de l’application Companion de Home Assistant</h2>
+
+<p>L’application Companion de Home Assistant pour iOS lit aussi Apple Santé. Ses capteurs Apple Santé (<a href="https://github.com/home-assistant/iOS/pull/5272">#5272</a>, <a href="https://github.com/home-assistant/iOS/pull/5638">#5638</a>) couvrent les pas, la fréquence cardiaque, le poids, la tension artérielle, les phases de sommeil et d’autres encore, chacun sous la forme d’un capteur avec le total du jour ou la mesure la plus récente. Leur historique dans Home Assistant commence le jour où vous les activez, et le détail des entraînements, les repas et le suivi du cycle n’en font pas partie.</p>
+
+<p>Ils suffisent quand vous voulez les pas du jour ou le dernier poids dans une automatisation ou sur une tuile, et qu’un graphique qui commence le jour de leur activation vous convient. Life Dashboard ajoute les 28 types avec chaque enregistrement et l’application ou l’appareil qui l’a écrit, un backfill de tout votre historique avec chaque jour à sa propre date, et MQTT ou un webhook à côté de Home Assistant. Gardez l’application Companion dans tous les cas&nbsp;: elle gère la présence, les notifications et les capteurs de l’appareil, et les deux fonctionnent côte à côte.</p>
+
+<p>D’autres applications iPhone envoient aussi Apple Santé vers Home Assistant. Le guide <a href="../apple-health-home-assistant-apps/">Quatre applications comparées</a> met côte à côte l’application Companion, HealthSync for Home Assistant, Health Assistant Link et Life Dashboard.</p>
+
+<h2>Un téléphone Android dans le même foyer</h2>
+
+<p>Un iPhone et un téléphone Android envoient le même payload&nbsp;: une seule intégration accepte donc les deux. Ajoutez l’intégration une fois par téléphone et associez chacun avec son propre QR code&nbsp;; chacun devient un appareil à part. Le téléphone Android utilise <a href="../android/">Life Dashboard Companion pour Android</a>, qui lit Santé Connect (Health Connect) et envoie aussi le temps d’écran par application&nbsp;; le <a href="../health-connect-home-assistant/">guide Santé Connect</a> en décrit les étapes. Le tableau de bord d’exemple a une vue qui place deux téléphones côte à côte.</p>
+
+<!-- IMG: two phones on one dashboard (H8-two-phones.png) -->
+
+<h2>MQTT comme alternative</h2>
+
+<p>Si vous avez déjà un broker MQTT, touchez plutôt <strong>Ajouter une destination</strong> dans l’onglet <strong>Santé</strong>, puis <strong>Broker MQTT</strong>. Activez <strong>Activer la publication MQTT</strong>, renseignez votre broker et touchez <strong>Enregistrer</strong>. Un appareil nommé <strong>Life Dashboard Companion (iOS)</strong> apparaît avec 21 capteurs pour les mêmes 20 types, grâce à MQTT Discovery et sans YAML. Choisissez une seule voie&nbsp;: avec les deux, vous obtenez deux appareils avec les mêmes chiffres.</p>
+
+<table>
+  <thead>
+    <tr><th></th><th>Intégration Life Dashboard</th><th>MQTT</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Installation</td><td>Marketplace (HACS avant 2026.11), puis un QR code</td><td>Saisissez votre broker</td></tr>
+    <tr><td>Historique</td><td>Chaque jour, aussi loin que remontent les données d’Apple Santé, grâce au backfill</td><td>À partir de la première synchronisation</td></tr>
+    <tr><td>Entraînements et pleine conscience</td><td>Heures par jour</td><td>Non</td></tr>
+    <tr><td>Capteurs d’entraînement</td><td>Oui</td><td>Non</td></tr>
+    <tr><td>Un téléphone Android aussi</td><td>Son propre appareil, à côté</td><td>Son propre appareil et son propre topic de base</td></tr>
+  </tbody>
+</table>
+
+<h2>Les limites</h2>
+
+<ul>
+  <li>iOS chiffre Apple Santé tant que l’iPhone est verrouillé&nbsp;: une synchronisation qu’iOS lance à ce moment-là attend donc le déverrouillage, et un backfill se met en pause.</li>
+  <li>Une adresse du réseau domestique ne synchronise qu’à la maison. Ce qui ne peut pas être livré attend la synchronisation suivante dans une file sur l’iPhone. Une adresse HTTPS publique ou Home Assistant Cloud fonctionne hors de chez vous&nbsp;; avec Home Assistant Cloud, les payloads transitent par ses serveurs.</li>
+  <li>Il n’y a pas de temps d’écran sur un iPhone&nbsp;: iOS ne montre les données de Temps d’écran qu’à l’intérieur d’un bac à sable qui ne peut rien envoyer vers l’extérieur.</li>
+  <li>Les données d’une Apple Watch arrivent une fois que la montre s’est synchronisée avec l’iPhone.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Est-ce que cela fonctionne quand l’iPhone est verrouillé&nbsp;?</summary>
+    <p>Pas tant qu’il est verrouillé. iOS chiffre alors Apple Santé, et aucune application ne peut le lire. Une synchronisation qui démarre pendant que l’iPhone est verrouillé attend que vous le déverrouilliez, puis envoie tout ce qui est arrivé entre-temps.</p>
+  </details>
+  <details>
+    <summary>Pourquoi une synchronisation n’a-t-elle pas lieu à l’heure exacte que j’ai réglée&nbsp;?</summary>
+    <p>Aucune application iOS ne peut s’exécuter en arrière-plan à une minute choisie. C’est iOS qui décide du moment&nbsp;: une heure fixe signifie donc «&nbsp;pas avant&nbsp;». Pour une heure précise, une automatisation Raccourcis à cette heure lance <strong>Synchroniser les données de santé</strong>. Vérifiez aussi que l’actualisation en arrière-plan est activée et que le mode Économie d’énergie est désactivé.</p>
+  </details>
+  <details>
+    <summary>Home Assistant peut-il écrire en retour dans Apple Santé&nbsp;?</summary>
+    <p>Non. L’application iPhone ne demande qu’un accès en lecture et n’écrit jamais dans Apple Santé. L’écriture des mesures de balance et de tension venues de Home Assistant est une fonctionnalité d’Android, vers Santé Connect.</p>
+  </details>
+  <details>
+    <summary>Ai-je besoin d’iCloud ou d’un compte développeur Apple&nbsp;?</summary>
+    <p>Pas de compte développeur Apple pour la version de l’App Store&nbsp;: vous l’achetez une fois, comme n’importe quelle application. L’application lit Apple Santé sur l’iPhone et envoie directement à votre Home Assistant. La compiler vous-même demande un Mac avec Xcode et une adhésion à l’Apple Developer Program, car un compte Apple gratuit ne peut pas signer une application qui lit Apple Santé.</p>
+  </details>
+  <details>
+    <summary>Est-ce que j’obtiens tout mon historique tout de suite&nbsp;?</summary>
+    <p>Oui, aussi loin qu’Apple Santé le conserve. Touchez <strong>Envoyer l’historique</strong> sous <strong>Données à envoyer</strong> et choisissez <strong>Tout l’historique</strong> : chaque jour arrive à sa propre date dans les statistiques à long terme. Les capteurs eux-mêmes n’affichent que la valeur la plus récente.</p>
+  </details>
+  <details>
+    <summary>J’ai supprimé un enregistrement dans Apple Santé. Home Assistant le garde-t-il&nbsp;?</summary>
+    <p>La synchronisation suivante nomme l’enregistrement supprimé. Un entraînement supprimé disparaît des capteurs d’entraînement, et les pas, la distance et les calories suivent les totaux quotidiens d’Apple Santé, que chaque synchronisation envoie pour aujourd’hui et les deux jours précédents. Un <a href="../apple-health-webhook/#deleted-records">webhook à vous</a> reçoit chaque suppression, pour retirer l’enregistrement de votre propre stockage.</p>
+  </details>
+</section>

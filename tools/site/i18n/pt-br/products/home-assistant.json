@@ -1,0 +1,267 @@
+{
+  "slug": "home-assistant",
+  "nav_name": "Home Assistant",
+  "title": "Dados de saúde no Home Assistant: integração | Life Dashboard",
+  "description": "A integração Life Dashboard leva os dados de saúde do Health Connect ou do Apple Health ao Home Assistant: sensores, estatísticas e todo o seu histórico.",
+  "kicker": "Integração para o Home Assistant",
+  "h1": "Uma integração do Home Assistant para os dados de saúde do seu celular",
+  "lead": "A integração Life Dashboard é uma integração de código aberto para o Home Assistant, instalada pelo Marketplace (HACS antes do Home Assistant 2026.11), para os apps Life Dashboard Companion no Android e no iPhone. Um único QR code faz o pareamento de um celular, e cada dia cai nas estatísticas de longo prazo, até onde o celular tiver dados. Sem broker e sem YAML.",
+  "hero_image": "H6-health",
+  "highlights": [
+    {
+      "title": "Sensores para o dia de hoje",
+      "text": "Totais diários de passos, distância e calorias, e a última leitura de frequência cardíaca, sono, peso e pressão arterial, cada um com o app de origem."
+    },
+    {
+      "title": "Todo o seu histórico",
+      "text": "Cada dia cai na sua própria data, então um backfill (o envio de todo o histórico de uma vez) a partir do celular preenche o cartão Gráfico de estatísticas até onde o celular tiver dados."
+    },
+    {
+      "title": "Pareamento por QR code",
+      "text": "Um código por celular traz uma URL de webhook e um segredo de assinatura. O celular nunca recebe um login nem um token do Home Assistant."
+    },
+    {
+      "title": "Assinado, sempre",
+      "text": "HMAC-SHA256 em cada payload, conferido em tempo constante antes da leitura do conteúdo. Não existe opção para desativar a assinatura."
+    },
+    {
+      "title": "Nada contado duas vezes",
+      "text": "Os apps reenviam de propósito. Uma repetição deixa sensores, totais diários e sessões como estavam; uma correção substitui o número antigo."
+    },
+    {
+      "title": "De volta para o Conexão Saúde",
+      "text": "Associe uma entidade de balança ou de pressão arterial, e o app para Android grava cada nova leitura no Conexão Saúde (Health Connect). O Samsung Health e o Google Health pegam o peso e a gordura corporal de lá."
+    },
+    {
+      "title": "Estável desde a 1.0.0",
+      "text": "Dentro da 1.x, uma atualização mantém as suas entidades, estatísticas, automações e o pareamento funcionando. Uma mudança em qualquer um desses pontos espera pela 2.0.0."
+    }
+  ],
+  "sections": [
+    {
+      "kicker": "Sensores e estatísticas",
+      "h2": "Sensores de sono, passos e frequência cardíaca, com o histórico por trás",
+      "text": "Os sensores aparecem na primeira vez que o tipo deles chega, então você só recebe o que sincroniza. Um sensor guarda o valor mais recente; as estatísticas de longo prazo guardam o passado, cada valor na data em que aconteceu, até onde o celular tiver dados.",
+      "bullets": [
+        {
+          "main": "Totais diários",
+          "sub": "Passos, distância, calorias ativas e totais, a partir dos números sem duplicados do Conexão Saúde ou do HealthKit."
+        },
+        {
+          "main": "Últimas leituras",
+          "sub": "Frequência cardíaca, frequência cardíaca em repouso, VFC, último sono, peso, pressão arterial, glicose, SpO2, VO2 máx, o último treino e outros, com measured_at e source."
+        },
+        {
+          "main": "O que você comeu hoje",
+          "sub": "Calorias, proteínas, carboidratos e gorduras das refeições de hoje, vindos do app em que você registra a alimentação, a partir da versão 1.2.0. Cada dia também é uma estatística."
+        },
+        {
+          "main": "Um valor por dia",
+          "sub": "Passos, distância em km, calorias, sono, tempo de exercício e de mindfulness em horas, hidratação e tempo de tela."
+        },
+        {
+          "main": "Média, mínimo e máximo por hora",
+          "sub": "Frequência cardíaca, peso, pressão arterial e as outras medições."
+        },
+        {
+          "main": "Um celular novo continua de onde o outro parou",
+          "sub": "Ao adicionar um celular, a integração oferece assumir as estatísticas de um que você removeu, então os gráficos e os totais acumulados continuam em vez de recomeçar."
+        }
+      ],
+      "image": "H9-health-phone",
+      "link": {
+        "href": "https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md",
+        "text": "Todos os sensores, estatísticas e atributos"
+      }
+    },
+    {
+      "kicker": "Fases do sono",
+      "h2": "Fases do sono por noite, e um card que desenha a noite",
+      "text": "A partir da versão 1.1.0, cada noite vira sensores e estatísticas de sono profundo, leve, REM, acordado e tempo dormindo, com uma noite principal por data de despertar. O <a href=\"https://github.com/owen282000/life-dashboard-sleep-card\">Life Dashboard Sleep Card</a>, uma instalação separada pelo Marketplace, desenha a noite mais recente no seu dashboard como um hipnograma. No Android ele também funciona com o app Companion oficial, sem o Life Dashboard.",
+      "bullets": [
+        {
+          "main": "A noite como sensor",
+          "sub": "<code>last_sleep_asleep</code> guarda as horas dormidas da noite principal mais recente, com todas as fases no atributo <code>stages</code>."
+        },
+        {
+          "main": "Cada fase como estatística",
+          "sub": "Horas de sono profundo, leve, REM, acordado e dormindo por noite, para um gráfico por dia, semana ou mês. O Enviar histórico do app preenche as noites mais antigas."
+        },
+        {
+          "main": "Uma noite principal por data",
+          "sub": "A sessão com mais tempo dormindo. Cochilos e um segundo app que gravou a mesma noite não se somam a ela."
+        }
+      ],
+      "image": "S1-sleep-card",
+      "link": {
+        "href": "../sleep-stages-home-assistant/",
+        "text": "Fases do sono no Home Assistant"
+      }
+    },
+    {
+      "kicker": "Pareamento e segurança",
+      "h2": "Um QR code por celular, e uma assinatura em cada payload",
+      "text": "Adicione a integração uma vez por celular, e ela mostra um QR code com uma URL de webhook e um segredo que ela mesma gerou: 64 caracteres hexadecimais. Um payload sem uma assinatura HMAC-SHA256 válida recebe um 401 e é registrado no log sem o conteúdo. <a href=\"../health-connect-home-assistant/\">Como adicionar o Conexão Saúde ao Home Assistant</a> mostra o pareamento passo a passo.",
+      "bullets": [
+        {
+          "main": "Endereço de casa, endereço público ou Home Assistant Cloud",
+          "sub": "Um endereço de casa mantém os dados na sua rede, por HTTP sem criptografia a menos que você adicione TLS. Um cloudhook sincroniza de qualquer lugar sem redirecionamento de portas, passando pelos servidores do Home Assistant Cloud."
+        },
+        {
+          "main": "Respostas assinadas",
+          "sub": "As leituras enviadas de volta ao celular são assinadas e vinculadas à requisição, então ninguém na rede consegue enfiar uma no meio."
+        },
+        {
+          "main": "Diagnósticos sem dados de saúde",
+          "sub": "O download de diagnósticos oculta o segredo e o ID do webhook, e não contém nenhum dado de saúde."
+        }
+      ],
+      "image": "H2-qr",
+      "link": {
+        "href": "https://github.com/owen282000/life-dashboard-ha/blob/main/docs/how-it-works.md#security",
+        "text": "O projeto de segurança"
+      }
+    },
+    {
+      "kicker": "Dashboard de exemplo",
+      "h2": "Um dashboard de saúde e um tema para copiar",
+      "text": "Um dashboard de exemplo feito só com os cartões do próprio Home Assistant, com um tema nas cores dos apps, então não há cartões personalizados para instalar. Cole em um dashboard novo, coloque o nome e o ID do seu celular e remova o que o seu celular não envia. As capturas de tela mostram dados de demonstração de dois celulares fictícios.",
+      "bullets": [
+        {
+          "main": "Hoje",
+          "sub": "Passos, distância, calorias, tempo de treino e frequência cardíaca em blocos, e o último treino com o ritmo, a frequência cardíaca e as voltas."
+        },
+        {
+          "main": "Recuperação",
+          "sub": "Variabilidade da frequência cardíaca em 7 dias contra a sua linha de base de 60 dias, frequência cardíaca em repouso em 7 dias contra os 7 anteriores, e VO2 máx."
+        },
+        {
+          "main": "Sono",
+          "sub": "A última noite em um medidor, com a respiração, o oxigênio e a temperatura da pele da noite, o sono por noite e as fases do sono por noite."
+        },
+        {
+          "main": "Treino, coração, atividade e corpo",
+          "sub": "Tempo de treino por semana e por mês, frequência cardíaca em repouso, passos e distância, e peso e gordura corporal ao longo de um ano."
+        },
+        {
+          "main": "Dois celulares",
+          "sub": "Uma visão com dois celulares lado a lado, seja um celular Android ou um iPhone, e os dois nos mesmos gráficos."
+        }
+      ],
+      "image": "H8-two-phones",
+      "link": {
+        "href": "https://github.com/owen282000/life-dashboard-ha/blob/main/docs/dashboard.md",
+        "text": "Configure o dashboard de saúde"
+      }
+    },
+    {
+      "kicker": "Tempo de tela",
+      "h2": "Tempo de tela por app, com o histórico",
+      "text": "No Android, o app envia o tempo de tela a partir das mesmas estatísticas de uso que o Bem-estar digital lê. O dashboard de exemplo tem uma visão só para isso, e os <a href=\"https://github.com/owen282000/life-dashboard-screen-time-card\">cards Life Dashboard Screen Time</a>, uma instalação separada pelo Marketplace, mostram o dia de hoje, a semana e a família inteira, cada um contra um limite diário que você define.",
+      "bullets": [
+        {
+          "main": "Hoje e ontem",
+          "sub": "Tempo de tela em horas, o app mais usado e, a partir da versão 1.2.0, todos os apps do dia com os minutos de cada um."
+        },
+        {
+          "main": "Um sensor por app",
+          "sub": "Criado desativado, até 50 por celular, para automações como um limite de tempo em um jogo."
+        },
+        {
+          "main": "Histórico por app",
+          "sub": "Todo app cujo sensor você ativa ganha uma estatística com o tempo por dia, então um gráfico mostra o uso ao longo de semanas ou de um ano."
+        }
+      ],
+      "image": "H7-screen-time",
+      "link": {
+        "href": "../screen-time-home-assistant/",
+        "text": "Tempo de tela no Home Assistant"
+      }
+    }
+  ],
+  "requirements": "Home Assistant 2026.3 ou mais recente. A partir da 2026.11 não é preciso instalar mais nada: a integração está no Marketplace. Versões mais antigas precisam do HACS, onde ela está na lista padrão. Em cada celular, o Life Dashboard Companion para Android ou para iPhone. O tempo de tela, os sensores por app e o Receber precisam do app para Android.",
+  "faq": [
+    {
+      "q": "Devo usar o MQTT ou esta integração?",
+      "a": "Escolha um; rodar os dois resulta em dois dispositivos com os mesmos números. O MQTT Discovery cria os mesmos sensores e serve para quem já tem um broker e só quer os valores atuais. Só a integração tem o histórico por backfill, um sensor de tempo de tela por app e as leituras de volta para o celular."
+    },
+    {
+      "q": "Uma atualização vai quebrar as minhas automações?",
+      "a": "Não dentro da 1.x. A versão 1.0.0 vem com uma promessa por escrito: uma atualização mantém as suas entidades, estatísticas, automações e o pareamento funcionando, e uma mudança em qualquer um desses pontos espera pela 2.0.0. <a href=\"https://github.com/owen282000/life-dashboard-ha/blob/main/docs/compatibility.md\">O que a 1.x mantém estável</a> lista o que isso cobre. Está vindo da 0.x? Leia antes <a href=\"https://github.com/owen282000/life-dashboard-ha/blob/main/CHANGELOG.md\">o changelog</a>: a 1.0.0 passa o último sono e o tempo de tela para horas e a distância de hoje para km, então uma automação que lê minutos ou metros precisa ser atualizada."
+    },
+    {
+      "q": "Vários celulares podem dividir o mesmo Home Assistant?",
+      "a": "Sim. Adicione a integração uma vez por celular, seja Android ou iPhone. Cada um ganha o seu próprio ID de webhook, segredo, dispositivo e estatísticas, e os IDs das entidades seguem o nome que você dá a ele, como <code>sensor.owen_s_pixel_steps_today</code>."
+    },
+    {
+      "q": "Quais dados não ganham sensor?",
+      "a": "Sete dos 34 tipos do Conexão Saúde: sessões de mindfulness, atividade sexual e os cinco tipos de ciclo menstrual. São eventos, e um único valor não consegue representá-los. Refeições individuais também não ganham sensor, mas a partir da versão 1.2.0 as calorias, proteínas, carboidratos e gorduras que você comeu hoje ganham. Os treinos ganham um sensor de último treino e os minutos de hoje e de ontem, e o mindfulness conta como tempo por dia, em horas, nas estatísticas. Para os registros brutos, adicione no app um segundo webhook que aponte para <a href=\"../health-connect-webhook/\">o seu próprio backend</a>."
+    },
+    {
+      "q": "O Home Assistant consegue enviar uma leitura de balança para o celular?",
+      "a": "Sim, no Android. <strong>Configurar</strong> associa uma entidade por tipo: peso, gordura corporal, massa magra, massa óssea, massa de água corporal, altura e pressão arterial. O app grava cada novo valor no Conexão Saúde, e o Samsung Health e o Google Health pegam o peso e a gordura corporal de lá. A pressão arterial também chega ao Conexão Saúde, mas o Google Health não a lê e o Samsung Health só a mostra em algumas versões. <a href=\"../smart-scale-to-samsung-health/\">Balança inteligente para o Samsung Health</a> traz a configuração."
+    },
+    {
+      "q": "Dá para ver as fases do sono no Home Assistant?",
+      "a": "Sim, a partir da integração 1.1.0: sono profundo, leve, REM, acordado e tempo dormindo por noite, como sensores e estatísticas. O <a href=\"../sleep-stages-home-assistant/\">guia das fases do sono</a> traz os detalhes e o Sleep Card, que desenha a noite como um hipnograma."
+    },
+    {
+      "q": "O Home Assistant consulta o celular ou uma nuvem?",
+      "a": "Não. O celular envia um payload assinado na sua própria agenda, e nada no Home Assistant fica consultando. Um payload que falha enquanto o Home Assistant reinicia espera na fila de saída do app e sai com a próxima sincronização."
+    },
+    {
+      "q": "Uma IA consegue ler o histórico?",
+      "a": "Sim, um modelo que você escolhe, pelo ha-mcp, um servidor MCP da comunidade para o Home Assistant com uma ferramenta de histórico que lê as estatísticas de longo prazo. O servidor MCP que já vem no Home Assistant só oferece os estados atuais. Com um modelo local nada sai da sua rede; com um modelo na nuvem, as suas perguntas e os resultados vão para o provedor dele. <a href=\"../health-data-own-ai/\">Conexão Saúde e Apple Health via MCP</a> traz a configuração, e também o servidor MCP da própria stack, se você preferir manter os dados no Postgres."
+    },
+    {
+      "q": "O que acontece quando eu removo um celular?",
+      "a": "Excluir a entrada remove o dispositivo e os sensores dele, apaga o cloudhook, se houver um, e apaga os arquivos do celular em <code>.storage</code>. As estatísticas de longo prazo dele continuam no recorder, como acontece com qualquer integração que você remove. Adicione um celular mais tarde, e a integração oferece assumi-las, então os gráficos e os totais acumulados continuam de onde pararam."
+    }
+  ],
+  "updated": "2026-11-20",
+  "guides": [
+    "health-connect-home-assistant",
+    "apple-health-home-assistant",
+    "sleep-stages-home-assistant",
+    "fitbit-home-assistant",
+    "garmin-home-assistant",
+    "screen-time-home-assistant"
+  ],
+  "compare": {
+    "title": "Ao lado do app Companion do Home Assistant",
+    "intro": "Mantenha o app Companion para presença, notificações e sensores do dispositivo. Os dois rodam lado a lado; isto é o que a integração acrescenta para os dados de saúde.",
+    "head": [
+      "",
+      "App Companion do Home Assistant",
+      "Life Dashboard"
+    ],
+    "rows": [
+      [
+        "Conexão Saúde",
+        "36 sensores",
+        "34 tipos; 27 viram sensores, e um webhook recebe todos os registros"
+      ],
+      [
+        "Histórico",
+        "A partir do dia em que você ativa um sensor, com o valor de hoje gravado na hora da sincronização",
+        "Um backfill de todo o seu histórico, cada valor gravado na data em que aconteceu"
+      ],
+      [
+        "Tempo de tela",
+        "Último app usado",
+        "Tempo por app com o histórico, e uma virada do dia que você escolhe"
+      ],
+      [
+        "Para dentro do Conexão Saúde",
+        "Não",
+        "Leituras de balança e de pressão arterial do Home Assistant"
+      ],
+      [
+        "Outros destinos",
+        "Home Assistant",
+        "Também o MQTT, qualquer webhook e <a href=\"../grafana/\">a stack do Grafana</a>"
+      ]
+    ],
+    "source": "Com base na <a href=\"https://companion.home-assistant.io/docs/core/sensors\">documentação dos sensores</a> do app Companion e no código dele, na versão 2026.11.1. <a href=\"../companion-app-health-connect/\">O app Companion e o Conexão Saúde</a> compara linha por linha."
+  }
+}

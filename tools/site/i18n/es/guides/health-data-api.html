@@ -1,0 +1,94 @@
+<!--
+slug: api-health-connect-apple-health
+title: Health Connect y Apple Health no tienen API | Life Dashboard
+description: Health Connect y Apple Health no tienen API web. Life Dashboard Companion los lee en el teléfono y envía JSON firmado a tu servidor o a Home Assistant.
+primary query: api health connect
+secondary queries: api apple health, health connect api web, apple health api rest, datos de health connect en un servidor, health connect api rest, healthkit api web, api google health, cierre de la fitbit web api, api samsung health
+updated: 2026-11-20
+published: 2026-10-06
+-->
+
+<h1>¿Existe una API web para Health Connect o Apple Health?</h1>
+
+<p>No. Health Connect y Apple Health son almacenes en el teléfono que las apps leen a través de Android o iOS, y ninguno ofrece un endpoint al que tu servidor pueda llamar. Para llevar los datos a un servidor, una app en el teléfono tiene que leerlos y reenviarlos, que es lo que hace Life Dashboard Companion en Android y en el iPhone.</p>
+
+<p class="flow-line"><span>Reloj, anillo o báscula</span><span>Su app</span><span>Health Connect o Apple Health</span><span>Life Dashboard Companion</span><span>Tu servidor</span></p>
+
+<h2>Health Connect es una API de Android en el teléfono</h2>
+
+<p>Health Connect es el almacén compartido de Android para los datos de salud. Samsung Health, Garmin Connect, Google Health, Oura y Withings escriben en él, y otras apps leen de él con la API de Android de Health Connect, con un permiso por tipo de datos.</p>
+
+<p>No hay parte de servidor. Los registros viven en el teléfono, y solo el código que se ejecuta en ese teléfono puede leerlos. Health Connect también limita hasta dónde puede leer una app hacia atrás: todo lo que tenga más de 30 días antes de que le dieras acceso por primera vez necesita un permiso de historial aparte.</p>
+
+<h2>Apple Health es HealthKit en el iPhone</h2>
+
+<p>Apple Health (la app Salud del iPhone) funciona igual. Los datos están en el iPhone, las apps los leen a través de HealthKit después de que permites cada tipo, y Apple no ofrece ninguna API web para tus datos de Salud. Además, iOS cifra Apple Health mientras el iPhone está bloqueado, así que incluso una app en el teléfono tiene que esperar a que lo desbloquees.</p>
+
+<h2>Las vías en la nube que sí existen</h2>
+
+<p>Para los datos de una cuenta de Google, como los de un Fitbit o un Pixel Watch, Google ofrece la Google Health API en su nube. Necesita un proyecto de Google Cloud y un cliente OAuth, y solo ve lo que llega a tu cuenta de Google. La antigua Fitbit Web API dejó de tener soporte el 30 de septiembre de 2026 y se apagó el 2 de noviembre de 2026; las herramientas basadas en ella, como la integración Fitbit de Home Assistant, dejaron de sincronizar entonces. <a href="../fitbit-home-assistant/">Fitbit y Pixel Watch en Home Assistant</a> explica la vía a través del teléfono.</p>
+
+<p>Samsung Health no tiene una API en la nube a la que puedas conectarte, y el SDK de datos de Samsung solo está abierto a socios registrados. Health Connect es la vía abierta también ahí; consulta <a href="../samsung-health-export/">Samsung Health a tu propio servidor</a>.</p>
+
+<h2>Qué necesitas</h2>
+
+<ul>
+  <li>Un teléfono Android con Android 9 o posterior y Health Connect, o un iPhone con iOS 17 o posterior.</li>
+  <li><a href="../android/">Life Dashboard Companion para Android</a>. {{status:android}}</li>
+  <li>O <a href="../ios/">Life Dashboard Companion para iPhone</a>. {{status:ios}}</li>
+  <li>Un sitio al que enviar los datos: un servidor que acepte un POST con JSON por HTTPS, <a href="../home-assistant/">Home Assistant</a>, un broker MQTT o <a href="../grafana/">el stack de Life Dashboard</a>.</li>
+</ul>
+
+<h2>Configuración paso a paso</h2>
+
+<p>Para tu propio servidor, en Android:</p>
+
+<ol>
+  <li>Abre la app. En <strong>¿Adónde deben ir tus datos?</strong>, escribe tu URL en <strong>URL del webhook</strong> y toca <strong>Agregar</strong>.</li>
+  <li>En la pestaña <strong>Salud</strong>, toca la fila de la dirección. En <strong>Secreto de firma HMAC (opcional)</strong>, toca <strong>Generar</strong> y pon el mismo valor en tu servidor.</li>
+  <li>Toca <strong>Guardar</strong> en la parte superior, abre otra vez la fila y toca <strong>Enviar prueba</strong>.</li>
+  <li>Toca <strong>Conceder</strong>, permite tus tipos de datos y la lectura en segundo plano, y después toca <strong>Sincronizar ahora</strong>.</li>
+  <li>Para los datos más antiguos, toca <strong>Enviar historial</strong> en <strong>Qué enviar</strong> y elige hasta dónde retroceder, desde <strong>30 días</strong> hasta <strong>Todo el historial</strong>.</li>
+</ol>
+
+<p>En un iPhone, <strong>Agregar destino</strong> en la pestaña <strong>Salud</strong> agrega la URL. Toca el destino para ver su <strong>Secreto de firma HMAC</strong> y <strong>Enviar prueba</strong>. Los tipos de datos y <strong>Enviar historial</strong> están en <strong>Qué enviar</strong>. <a href="../health-connect-webhook/">Health Connect a un webhook</a> tiene la guía completa del receptor.</p>
+
+<!-- IMG: Webhook settings with HMAC (A6-webhook.png) -->
+
+<h2>Qué obtienes</h2>
+
+<ul>
+  <li><strong>Cada registro como JSON.</strong> Hasta 34 tipos de Health Connect, o 28 de Apple Health, cada uno con un <code>uuid</code> estable y la app que lo escribió.</li>
+  <li><strong>Totales diarios que cuentan un paseo una sola vez.</strong> Los pasos, la distancia y las calorías vienen de las cifras ya deduplicadas del propio almacén, así que el teléfono y el reloj no suman el doble.</li>
+  <li><strong>Un formato para los dos teléfonos.</strong> La app para iPhone envía las mismas claves con <code>"source": "healthkit_ios"</code>, así que un solo receptor sirve para los dos.</li>
+  <li><strong>Una firma.</strong> Con un secreto definido, cada petición lleva <code>X-Signature: sha256=&lt;hex&gt;</code>, un HMAC-SHA256 del cuerpo.</li>
+  <li><strong>Una API propia, si la quieres.</strong> <a href="../grafana/">El stack de Life Dashboard</a> guarda los datos en Postgres y los sirve de vuelta como JSON de solo lectura en <code>/api/</code>, por día, noche, entrenamiento o métrica, detrás de un token. Su servidor MCP da lo mismo a <a href="../health-data-own-ai/">un modelo que elijas</a>.</li>
+</ul>
+
+<h2>Limitaciones</h2>
+
+<ul>
+  <li>Tu servidor no puede pedirle al teléfono un intervalo de fechas. Recibe lo que el teléfono envía, y un backfill, el envío de todo tu historial anterior, lo inicias tú en el teléfono.</li>
+  <li>Los datos salen del teléfono cuando la app sincroniza: cada 60 minutos de forma predeterminada en Android, cada 15 como mínimo. En el iPhone, iOS decide el momento exacto.</li>
+  <li>Solo recibes lo que la app del fabricante escribe en el almacén.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>¿Puede mi servidor pedir datos a Health Connect?</summary>
+    <p>No. Health Connect no tiene interfaz de red. Una app en el teléfono tiene que leerlo y enviar los datos hacia fuera, como hace Life Dashboard Companion.</p>
+  </details>
+  <details>
+    <summary>¿Existe una API REST de Apple Health?</summary>
+    <p>No. Las apps leen Apple Health a través de HealthKit en el iPhone. <a href="../ios/">Life Dashboard Companion para iPhone</a> lo lee ahí y envía el mismo JSON que la app para Android.</p>
+  </details>
+  <details>
+    <summary>¿Debería usar la Google Health API en su lugar?</summary>
+    <p>Encaja si todos tus datos están en una cuenta de Google, de un Fitbit o un Pixel Watch, y no te importa tener un proyecto de Google Cloud y un cliente OAuth. Health Connect en el teléfono también contiene lo que escriben Samsung Health, Garmin Connect, Oura y Withings, y Life Dashboard Companion lo envía todo en un solo payload.</p>
+  </details>
+  <details>
+    <summary>¿Pasan mis datos por alguna nube en el camino?</summary>
+    <p>No. No hay ningún servidor de Life Dashboard, y la app envía solo a los destinos que introduces. Si usas Home Assistant Cloud para sincronizar fuera de casa, ese es un camino que elegiste tú.</p>
+  </details>
+</section>

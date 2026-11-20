@@ -1,0 +1,267 @@
+{
+  "slug": "home-assistant",
+  "nav_name": "Home Assistant",
+  "title": "Gezondheidsdata in Home Assistant: integratie | Life Dashboard",
+  "description": "De Life Dashboard-integratie zet je Health Connect- of Apple Health-data als sensoren en statistieken in Home Assistant, met je hele geschiedenis en één QR-code.",
+  "kicker": "Home Assistant-integratie",
+  "h1": "Een Home Assistant-integratie voor de gezondheidsdata van je telefoon",
+  "lead": "De Life Dashboard-integratie is een open-source integratie voor Home Assistant, die je installeert via de Marketplace (HACS vóór Home Assistant 2026.11), voor de Life Dashboard Companion-apps op Android en iPhone. Met één QR-code koppel je een telefoon, en elke dag komt in de langetermijnstatistieken, zo ver terug als de telefoon data heeft. Geen broker en geen YAML.",
+  "hero_image": "H6-health",
+  "highlights": [
+    {
+      "title": "Sensoren voor vandaag",
+      "text": "Dagtotalen voor stappen, afstand en calorieën, en de laatste hartslag, slaap, gewicht en bloeddruk, elk met de app waar de waarde vandaan komt."
+    },
+    {
+      "title": "Je hele geschiedenis",
+      "text": "Elke dag komt op zijn eigen datum terecht. Een backfill vanaf de telefoon vult de kaart Statistics graph dus zo ver terug als de telefoon data heeft."
+    },
+    {
+      "title": "Gekoppeld met een QR-code",
+      "text": "In één code per telefoon zitten een webhook-URL en een ondertekeningsgeheim. De telefoon krijgt nooit een login of token voor Home Assistant."
+    },
+    {
+      "title": "Altijd ondertekend",
+      "text": "HMAC-SHA256 op elke payload, in constante tijd gecontroleerd voordat hij wordt geparsed. Er is geen schakelaar om het ondertekenen uit te zetten."
+    },
+    {
+      "title": "Niets telt dubbel",
+      "text": "De apps sturen met opzet opnieuw. Een herhaling laat sensoren, dagtotalen en sessies zoals ze waren; een correctie vervangt het oude cijfer."
+    },
+    {
+      "title": "Terug naar Health Connect",
+      "text": "Wijs een entiteit van je weegschaal of bloeddrukmeter aan, en de Android-app schrijft elke nieuwe meting naar Health Connect. Samsung Health en Google Health halen gewicht en lichaamsvet daar op."
+    },
+    {
+      "title": "Stabiel vanaf 1.0.0",
+      "text": "Binnen 1.x blijven je entiteiten, statistieken, automatiseringen en koppeling na een update werken. Een wijziging daaraan wacht tot 2.0.0."
+    }
+  ],
+  "sections": [
+    {
+      "kicker": "Sensoren en statistieken",
+      "h2": "Sensoren voor slaap, stappen en hartslag, met geschiedenis erachter",
+      "text": "Een sensor verschijnt zodra zijn type voor het eerst binnenkomt, dus je krijgt alleen wat je synchroniseert. Een sensor bevat de laatste waarde; de langetermijnstatistieken bevatten het verleden, elke waarde op de datum waarop hij is gemeten, zo ver terug als de telefoon data heeft.",
+      "bullets": [
+        {
+          "main": "Dagtotalen",
+          "sub": "Stappen, afstand, actieve en totale calorieën, uit de ontdubbelde cijfers van Health Connect of HealthKit."
+        },
+        {
+          "main": "Laatste metingen",
+          "sub": "Hartslag, hartslag in rust, HRV, laatste slaap, gewicht, bloeddruk, glucose, SpO2, VO2 max, de laatste work-out en meer, met measured_at en source."
+        },
+        {
+          "main": "Wat je vandaag hebt gegeten",
+          "sub": "Calorieën, eiwitten, koolhydraten en vetten van de maaltijden van vandaag, uit de app waarin je je eten bijhoudt, vanaf versie 1.2.0. Elke dag is ook een statistiek."
+        },
+        {
+          "main": "Eén waarde per dag",
+          "sub": "Stappen, afstand in km, calorieën, slaap-, work-out- en mindfulnesstijd in uren, vochtinname en schermtijd."
+        },
+        {
+          "main": "Gemiddelde, minimum en maximum per uur",
+          "sub": "Hartslag, gewicht, bloeddruk en de andere metingen."
+        },
+        {
+          "main": "Een nieuwe telefoon gaat gewoon verder",
+          "sub": "Voeg je een telefoon toe, dan kun je de statistieken overnemen van een telefoon die je hebt verwijderd. De grafieken en lopende totalen gaan dan door in plaats van opnieuw te beginnen."
+        }
+      ],
+      "image": "H9-health-phone",
+      "link": {
+        "href": "https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md",
+        "text": "Elke sensor, statistiek en elk attribuut"
+      }
+    },
+    {
+      "kicker": "Slaapfasen",
+      "h2": "Slaapfasen per nacht, en een kaart die de nacht tekent",
+      "text": "Vanaf versie 1.1.0 wordt elke nacht omgezet in sensoren en statistieken voor diep, licht, REM, wakker en de tijd dat je sliep, met één hoofdnacht per datum waarop je wakker werd. De <a href=\"https://github.com/owen282000/life-dashboard-sleep-card\">Life Dashboard Sleep Card</a>, die je apart installeert uit de Marketplace, tekent de nieuwste nacht als hypnogram op je dashboard. Op Android werkt de kaart ook met de officiële Companion-app, zonder Life Dashboard.",
+      "bullets": [
+        {
+          "main": "De nacht als sensor",
+          "sub": "<code>last_sleep_asleep</code> bevat de uren slaap van de nieuwste hoofdnacht, met elke fase in het attribuut <code>stages</code>."
+        },
+        {
+          "main": "Elke fase als statistiek",
+          "sub": "De uren diep, licht, REM, wakker en slaap per nacht, voor een grafiek per dag, week of maand. Met Geschiedenis versturen in de app vul je oudere nachten aan."
+        },
+        {
+          "main": "Eén hoofdnacht per datum",
+          "sub": "De sessie met de meeste slaaptijd. Dutjes en een tweede app die dezelfde nacht heeft geschreven tellen er niet bij op."
+        }
+      ],
+      "image": "S1-sleep-card",
+      "link": {
+        "href": "../sleep-stages-home-assistant/",
+        "text": "Slaapfasen in Home Assistant"
+      }
+    },
+    {
+      "kicker": "Koppelen en beveiliging",
+      "h2": "Eén QR-code per telefoon, en een handtekening op elke payload",
+      "text": "Voeg de integratie één keer per telefoon toe, en ze toont een QR-code met een webhook-URL en een geheim dat ze zelf heeft gegenereerd: 64 hexadecimale tekens. Een payload zonder geldige HMAC-SHA256-handtekening krijgt een 401 en wordt zonder inhoud gelogd. In <a href=\"../health-connect-home-assistant/\">Zo zet je Health Connect in Home Assistant</a> staat het koppelen stap voor stap.",
+      "bullets": [
+        {
+          "main": "Thuisadres, openbaar adres of Home Assistant Cloud",
+          "sub": "Met een adres in je thuisnetwerk blijft de data op je netwerk, via onversleutelde HTTP tenzij je TLS toevoegt. Een cloudhook synchroniseert overal vandaan zonder port forwarding, via de servers van Home Assistant Cloud."
+        },
+        {
+          "main": "Ondertekende antwoorden",
+          "sub": "Metingen die terug naar de telefoon gaan zijn ondertekend en aan het verzoek gebonden. Niemand op het netwerk kan er dus een tussen schuiven."
+        },
+        {
+          "main": "Diagnostiek zonder gezondheidsdata",
+          "sub": "Diagnostiek downloaden maakt het geheim en het webhook-ID onleesbaar en bevat geen gezondheidsdata."
+        }
+      ],
+      "image": "H2-qr",
+      "link": {
+        "href": "https://github.com/owen282000/life-dashboard-ha/blob/main/docs/how-it-works.md#security",
+        "text": "Hoe de beveiliging is opgezet"
+      }
+    },
+    {
+      "kicker": "Voorbeelddashboard",
+      "h2": "Een gezondheidsdashboard en thema om over te nemen",
+      "text": "Een voorbeelddashboard dat alleen uit de eigen kaarten van Home Assistant bestaat, met een thema in de kleuren van de apps. Je hoeft dus geen extra kaarten te installeren. Plak het in een nieuw dashboard, vul de naam en het ID van je telefoon in en haal weg wat je telefoon niet verstuurt. De schermafbeeldingen tonen demodata van twee verzonnen telefoons.",
+      "bullets": [
+        {
+          "main": "Vandaag",
+          "sub": "Stappen, afstand, calorieën, work-outtijd en hartslag als tegels, en de laatste work-out met tempo, hartslag en rondes."
+        },
+        {
+          "main": "Herstel",
+          "sub": "Hartslagvariabiliteit over 7 dagen tegen je basislijn van 60 dagen, hartslag in rust over 7 dagen tegen de 7 dagen ervoor, en VO2 max."
+        },
+        {
+          "main": "Slaap",
+          "sub": "Afgelopen nacht op een meter, met de ademhaling, zuurstof en huidtemperatuur van die nacht, slaap per nacht en de slaapfasen per nacht."
+        },
+        {
+          "main": "Training, hart, activiteit en lichaam",
+          "sub": "Work-outtijd per week en maand, hartslag in rust, stappen en afstand, en gewicht en lichaamsvet over een jaar."
+        },
+        {
+          "main": "Twee telefoons",
+          "sub": "Een weergave met twee telefoons naast elkaar, of het nu een Android-telefoon of een iPhone is, en allebei in dezelfde grafieken."
+        }
+      ],
+      "image": "H8-two-phones",
+      "link": {
+        "href": "https://github.com/owen282000/life-dashboard-ha/blob/main/docs/dashboard.md",
+        "text": "Het gezondheidsdashboard instellen"
+      }
+    },
+    {
+      "kicker": "Schermtijd",
+      "h2": "Schermtijd per app, met geschiedenis",
+      "text": "Op Android verstuurt de app de schermtijd uit dezelfde gebruiksstatistieken die Digitaal welzijn leest. Het voorbeelddashboard heeft er een eigen weergave voor, en de <a href=\"https://github.com/owen282000/life-dashboard-screen-time-card\">Life Dashboard Screen Time-kaarten</a>, die je apart installeert uit de Marketplace, tonen vandaag, de week en het hele gezin, elk afgezet tegen een daglimiet die je zelf instelt.",
+      "bullets": [
+        {
+          "main": "Vandaag en gisteren",
+          "sub": "Schermtijd in uren, de meest gebruikte app, en vanaf versie 1.2.0 elke app van de dag met zijn minuten."
+        },
+        {
+          "main": "Een sensor per app",
+          "sub": "Wordt uitgeschakeld aangemaakt, hooguit 50 per telefoon, voor automatiseringen zoals een tijdslimiet op één spel."
+        },
+        {
+          "main": "Geschiedenis per app",
+          "sub": "Elke app waarvan je de sensor aanzet krijgt een statistiek met de tijd per dag, zodat een grafiek hem over weken of een jaar laat zien."
+        }
+      ],
+      "image": "H7-screen-time",
+      "link": {
+        "href": "../screen-time-home-assistant/",
+        "text": "Schermtijd in Home Assistant"
+      }
+    }
+  ],
+  "requirements": "Home Assistant 2026.3 of nieuwer. Vanaf 2026.11 hoef je verder niets te installeren: de integratie staat in de Marketplace. Oudere versies hebben HACS nodig, waar ze in de standaardlijst staat. Op elke telefoon Life Dashboard Companion voor Android of voor iPhone. Voor schermtijd, de sensoren per app en Ontvangen heb je de Android-app nodig.",
+  "faq": [
+    {
+      "q": "Moet ik MQTT gebruiken of deze integratie?",
+      "a": "Kies er één; met allebei krijg je twee apparaten met dezelfde cijfers. MQTT Discovery maakt dezelfde sensoren aan en past bij wie al een broker heeft en alleen de actuele waarden wil. Alleen de integratie heeft geschiedenis uit een backfill, een schermtijdsensor per app en metingen terug naar de telefoon."
+    },
+    {
+      "q": "Maakt een update mijn automatiseringen kapot?",
+      "a": "Niet binnen 1.x. Versie 1.0.0 komt met een belofte op papier: na een update blijven je entiteiten, statistieken, automatiseringen en koppeling werken, en een wijziging daaraan wacht tot 2.0.0. In <a href=\"https://github.com/owen282000/life-dashboard-ha/blob/main/docs/compatibility.md\">What 1.x keeps stable</a> staat wat eronder valt. Kom je van 0.x? Lees dan eerst <a href=\"https://github.com/owen282000/life-dashboard-ha/blob/main/CHANGELOG.md\">de changelog</a>: 1.0.0 zet de laatste slaap en schermtijd in uren en de afstand van vandaag in km. Een automatisering die minuten of meters leest moet je dus aanpassen."
+    },
+    {
+      "q": "Kunnen meerdere telefoons dezelfde Home Assistant delen?",
+      "a": "Ja. Voeg de integratie één keer per telefoon toe, voor Android en iPhone op dezelfde manier. Elke telefoon krijgt een eigen webhook-ID, geheim, apparaat en statistieken, en de entiteits-ID's volgen de naam die je hem geeft, zoals <code>sensor.owen_s_pixel_steps_today</code>."
+    },
+    {
+      "q": "Welke data krijgt geen sensor?",
+      "a": "Zeven van de 34 Health Connect-types: mindfulnesssessies, seksuele activiteit en de vijf cyclustypes. Het zijn gebeurtenissen, en die laat één enkele waarde niet zien. Losse maaltijden krijgen ook geen sensor, maar vanaf versie 1.2.0 wel de calorieën, eiwitten, koolhydraten en vetten die je vandaag hebt gegeten. Work-outs krijgen een sensor voor de laatste work-out en de minuten van vandaag en gisteren, en mindfulness telt in de statistieken als tijd per dag, in uren. Wil je de ruwe metingen, voeg dan in de app een tweede webhook toe die naar <a href=\"../health-connect-webhook/\">je eigen backend</a> wijst."
+    },
+    {
+      "q": "Kan Home Assistant een meting van mijn weegschaal naar de telefoon sturen?",
+      "a": "Ja, op Android. Met <strong>Configureren</strong> wijs je per type één entiteit aan: gewicht, lichaamsvet, vetvrije massa, botmassa, lichaamswater, lengte en bloeddruk. De app schrijft elke nieuwe waarde naar Health Connect, en Samsung Health en Google Health halen gewicht en lichaamsvet daar op. Bloeddruk komt ook in Health Connect, maar Google Health leest hem niet en Samsung Health toont hem alleen in sommige versies. In <a href=\"../smart-scale-to-samsung-health/\">Slimme weegschaal naar Samsung Health</a> staat hoe je het instelt."
+    },
+    {
+      "q": "Kan ik slaapfasen zien in Home Assistant?",
+      "a": "Ja, vanaf versie 1.1.0 van de integratie: diep, licht, REM, wakker en slaaptijd per nacht, als sensoren en statistieken. In de <a href=\"../sleep-stages-home-assistant/\">gids over slaapfasen</a> staan de details en de Sleep Card, die de nacht als hypnogram tekent."
+    },
+    {
+      "q": "Vraagt Home Assistant de telefoon of een cloud steeds om data?",
+      "a": "Nee. De telefoon stuurt zelf een ondertekende payload, op zijn eigen schema, en niets in Home Assistant pollt. Een payload die mislukt terwijl Home Assistant herstart, wacht in de wachtrij van de app en gaat mee met de volgende sync."
+    },
+    {
+      "q": "Kan een AI de geschiedenis lezen?",
+      "a": "Ja, een model dat je zelf kiest, via ha-mcp, een MCP-server uit de community voor Home Assistant met een geschiedenistool die de langetermijnstatistieken leest. De ingebouwde MCP-server van Home Assistant biedt alleen de actuele statussen. Met een lokaal model verlaat niets je netwerk; met een cloudmodel gaan je vragen en de resultaten naar de aanbieder ervan. In <a href=\"../health-data-own-ai/\">Health Connect en Apple Health via MCP</a> staat hoe je het instelt, en ook de eigen MCP-server van de stack, voor als je de data liever in Postgres houdt."
+    },
+    {
+      "q": "Wat gebeurt er als ik een telefoon verwijder?",
+      "a": "Als je de vermelding verwijdert, verdwijnen het apparaat en de sensoren, de cloudhook als die er was, en de bestanden van de telefoon in <code>.storage</code>. De langetermijnstatistieken blijven in de recorder staan, zoals bij elke integratie die je verwijdert. Voeg je later een telefoon toe, dan kun je ze overnemen, en gaan de grafieken en lopende totalen verder waar ze waren gebleven."
+    }
+  ],
+  "updated": "2026-11-20",
+  "guides": [
+    "health-connect-home-assistant",
+    "apple-health-home-assistant",
+    "sleep-stages-home-assistant",
+    "fitbit-home-assistant",
+    "garmin-home-assistant",
+    "screen-time-home-assistant"
+  ],
+  "compare": {
+    "title": "Naast de Companion-app van Home Assistant",
+    "intro": "Houd de Companion-app voor aanwezigheid, meldingen en apparaatsensoren. De twee draaien naast elkaar; dit is wat de integratie toevoegt voor gezondheidsdata.",
+    "head": [
+      "",
+      "Companion-app van Home Assistant",
+      "Life Dashboard"
+    ],
+    "rows": [
+      [
+        "Health Connect",
+        "36 sensoren",
+        "34 types; 27 worden een sensor, en een webhook krijgt elke meting"
+      ],
+      [
+        "Geschiedenis",
+        "Vanaf de dag dat je een sensor aanzet, met de waarde van vandaag opgeslagen op het tijdstip van de sync",
+        "Een backfill van je hele geschiedenis, elke waarde opgeslagen op de datum waarop hij is gemeten"
+      ],
+      [
+        "Schermtijd",
+        "Laatst gebruikte app",
+        "Tijd per app met geschiedenis, en een daggrens die je zelf kiest"
+      ],
+      [
+        "Naar Health Connect",
+        "Nee",
+        "Metingen van weegschaal en bloeddrukmeter uit Home Assistant"
+      ],
+      [
+        "Andere bestemmingen",
+        "Home Assistant",
+        "Ook MQTT, elke webhook en <a href=\"../grafana/\">de Grafana-stack</a>"
+      ]
+    ],
+    "source": "Uit de <a href=\"https://companion.home-assistant.io/docs/core/sensors\">sensordocumentatie</a> van de Companion-app en de code ervan, stand van release 2026.11.1. <a href=\"../companion-app-health-connect/\">De Companion-app en Health Connect</a> loopt het rij voor rij langs."
+  }
+}

@@ -1,0 +1,107 @@
+<!--
+slug: balanca-inteligente-samsung-health
+title: Balança inteligente no Samsung Health via Home Assistant
+description: Xiaomi, Renpho, Eufy ou Withings: se o Home Assistant lê a sua balança, peso e gordura corporal chegam ao Samsung Health e ao Google Health pelo Health Connect.
+primary query: balança inteligente samsung health
+secondary queries: balança inteligente home assistant, home assistant peso health connect, home assistant balança samsung health, home assistant pressão arterial health connect, balança xiaomi samsung health, renpho home assistant health connect, home assistant peso google health
+updated: 2026-11-20
+published: 2026-10-06
+-->
+
+<h1>Como levar as medições de uma balança inteligente do Home Assistant para o Samsung Health?</h1>
+
+<p class="signpost">Quer o contrário, os dados do Samsung Health do seu relógio no Home Assistant? Veja <a href="../samsung-health-home-assistant/">Samsung Health e Galaxy Watch no Home Assistant</a>.</p>
+
+<p>Mapeie as entidades da balança na integração Life Dashboard e ative <strong>Receber</strong> no Life Dashboard Companion, o app Android de código aberto que pareia com ela. Na sincronização seguinte, a integração entrega cada medição nova ao app, e o app a grava no Conexão Saúde (Health Connect) com o horário em que ela foi feita. O Samsung Health e o Google Health leem peso e gordura corporal do Conexão Saúde, então o peso e a gordura corporal de uma balança que só conversa com o Home Assistant vão parar nesses apps. O mesmo vale para um medidor de pressão arterial, mas se um app mostra essa medição depende do app.</p>
+
+<h2>O que você precisa</h2>
+
+<ul>
+  <li>Um celular Android com o Conexão Saúde e o Life Dashboard Companion, pareado com a <a href="../home-assistant/">integração Life Dashboard</a> 0.7.0 ou mais recente. O <a href="../health-connect-home-assistant/">guia do Conexão Saúde</a> explica o pareamento. O app para iPhone não recebe medições, e o MQTT não consegue transportá-las.</li>
+  <li>As medições da balança como sensores no Home Assistant. Uma balança Bluetooth precisa de Bluetooth a poucos metros: um adaptador na máquina do Home Assistant, ou um proxy Bluetooth do ESPHome perto do banheiro.</li>
+</ul>
+
+<p>Os caminhos mais comuns até o Home Assistant são o Xiaomi BLE com o bodymiscale para as balanças Xiaomi, o ble-scale-sync para Renpho, Eufy, Yunmai e outras, e a integração Withings. A <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/recipes/scale-to-health-connect.md">receita da balança</a> diz qual entidade mapear em cada caso e traz os templates que alguns caminhos exigem.</p>
+
+<p>Uma balança que só sincroniza com a nuvem do fabricante, como a Xiaomi S400 EU no Xiaomi Home, ou uma balança no Zepp Life, Mi Fitness, My TANITA ou Picooc, consegue chegar ao Home Assistant pelo <a href="https://github.com/AlexxIT/SmartScaleConnect">SmartScaleConnect</a>. Ele entra nessa nuvem com a sua conta e envia cada pesagem nova para um webhook do Home Assistant, onde uma automação a transforma nos sensores que você mapeia abaixo.</p>
+
+<h2>Configure</h2>
+
+<ol>
+  <li>No Home Assistant, abra Configurações &gt; Dispositivos e serviços &gt; Life Dashboard e escolha <strong>Configurar</strong> para o celular. Escolha uma entidade por tipo. Cada tipo tem um campo opcional <strong>Measured at</strong> para um sensor de data e hora que guarda quando a pesagem aconteceu.</li>
+  <li>No app, na aba <strong>Saúde</strong>, abra <strong>Receber</strong> e ative <strong>Receber medições</strong>.</li>
+  <li>Ative cada tipo que você mapeou. Cada um pede ao Conexão Saúde a permissão para gravar aquele tipo. Se você recusar, a chave continua desativada.</li>
+  <li>Suba na balança e depois toque em <strong>Sincronizar agora</strong> ou espere a próxima sincronização. A aba <strong>Logs</strong> mostra uma linha do Home Assistant; toque nela para ver cada medição e se ela foi gravada.</li>
+</ol>
+
+<!-- IMG: Receive settings (A5-receive.png) -->
+
+<h2>O que ele grava</h2>
+
+<table>
+  <thead>
+    <tr><th>Tipo</th><th>Faixa aceita</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Peso</td><td>1 a 500 kg</td></tr>
+    <tr><td>Gordura corporal</td><td>1 a 80 %</td></tr>
+    <tr><td>Massa corporal magra</td><td>1 a 300 kg</td></tr>
+    <tr><td>Massa óssea</td><td>0,1 a 30 kg</td></tr>
+    <tr><td>Massa de água corporal</td><td>1 a 300 kg</td></tr>
+    <tr><td>Altura</td><td>0,3 a 2,8 m</td></tr>
+    <tr><td>Pressão arterial</td><td>Sistólica de 30 a 300, diastólica de 10 a 250 mmHg</td></tr>
+  </tbody>
+</table>
+
+<p>As unidades são convertidas, então libras e stones funcionam. IMC, massa muscular, gordura visceral e idade metabólica não têm registro no Conexão Saúde, então ficam no Home Assistant. A maioria das balanças informa a água corporal como porcentagem; a receita tem um template que a converte em quilogramas.</p>
+
+<h2>Como as medições são tratadas</h2>
+
+<ul>
+  <li><strong>O horário é o da pesagem.</strong> Uma pesagem às 07:00 que sincroniza às 09:00 aparece como 07:00 no Conexão Saúde.</li>
+  <li><strong>Uma pesagem é uma medição.</strong> O mesmo valor dentro de dez minutos conta como a mesma medição, e um valor diferente para o mesmo momento substitui o registro anterior.</li>
+  <li><strong>Assinado nos dois sentidos.</strong> As medições voltam na resposta assinada da integração à requisição que o app já faz. Não existe um segundo canal nem um segundo segredo.</li>
+  <li><strong>Nada volta em eco.</strong> O que o app grava fica de fora do que ele envia, então o seu peso não volta ao Home Assistant como um segundo sensor.</li>
+  <li><strong>Um aviso sobre duplicatas.</strong> Se o app da própria balança já grava o mesmo tipo no Conexão Saúde, o app avisa quando você o ativa. Fique com uma fonte só, senão cada pesagem entra duas vezes.</li>
+</ul>
+
+<h2>O que o Samsung Health e o Google Health mostram</h2>
+
+<p>O app só pode garantir que uma medição chega ao Conexão Saúde. O resto depende de cada app.</p>
+
+<table>
+  <thead>
+    <tr><th>App</th><th>O que ele pega do Conexão Saúde</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Samsung Health</td><td>Peso e gordura corporal. Massa corporal magra, massa óssea e água corporal normalmente não aparecem, e a pressão arterial vinda de outros apps não foi verificada.</td></tr>
+    <tr><td>Google Health</td><td>Peso e gordura corporal. Ele não lê pressão arterial.</td></tr>
+    <tr><td>Garmin Connect</td><td>Nenhum peso do Conexão Saúde.</td></tr>
+  </tbody>
+</table>
+
+<p>Uma medição com <strong>Gravado</strong> na aba <strong>Logs</strong> está no Conexão Saúde, listada no tipo dela com o Life Dashboard como fonte.</p>
+
+<h2>Medições mais antigas</h2>
+
+<p>Medições com mais de 30 dias são recusadas, a não ser que <strong>Aceitar medições antigas</strong> esteja ativado no app. O botão <strong>Send history to phone</strong> da integração coloca na fila até 30 dias, até onde o recorder do Home Assistant guarda os estados (10 dias por padrão). A ação <code>life_dashboard.queue_history</code> volta até 90 dias. Uma medição que o celular recusou não é oferecida de novo, então ative <strong>Aceitar medições antigas</strong> antes de enviar o histórico.</p>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Por que o meu peso aparece duas vezes no Samsung Health?</summary>
+    <p>O app da própria balança, como o Zepp, o Mi Fitness ou o Withings, também grava no Conexão Saúde. Desative o tipo em <strong>Receber</strong>, ou impeça o outro app de gravar o peso nas configurações dele.</p>
+  </details>
+  <details>
+    <summary>Isso funciona com um iPhone e o Apple Health?</summary>
+    <p>Não. O app para iPhone só lê o Apple Health e não grava medições de volta.</p>
+  </details>
+  <details>
+    <summary>Quanto tempo leva para uma pesagem aparecer?</summary>
+    <p>Até a próxima sincronização do celular, a cada 60 minutos por padrão e a cada 15 no mínimo. <strong>Sincronizar agora</strong> busca a medição na hora.</p>
+  </details>
+  <details>
+    <summary>As medições passam por um serviço de nuvem?</summary>
+    <p>Não do lado do Life Dashboard: elas vão do Home Assistant para o celular na resposta à requisição que o próprio celular faz. Uma integração de balança por nuvem no Home Assistant continua buscando os dados na nuvem do fabricante e, sem um sensor de data e hora, as medições dela ficam com o horário em que o Home Assistant as buscou.</p>
+  </details>
+</section>

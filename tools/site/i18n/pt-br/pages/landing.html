@@ -1,0 +1,351 @@
+<!--
+title: Life Dashboard: Health Connect e Apple Health no Home Assistant
+description: Apps de código aberto para Android e iPhone que enviam dados de saúde do Health Connect e Apple Health ao Home Assistant, Grafana, MQTT ou webhook. Sem nuvem.
+og_title: Life Dashboard: os dados de saúde do seu celular, no seu próprio servidor
+og_description: Apps de código aberto para Android e iPhone que enviam os dados do Health Connect e do Apple Health para o Home Assistant, o Grafana, MQTT ou um webhook. Sem nuvem, sem conta.
+og_image_alt: Life Dashboard Companion: seus dados de saúde, seu servidor. Sem nuvem.
+updated: 2026-11-20
+
+The landing page of Life Dashboard, served at /life-dashboard/ (and /<language>/life-dashboard/).
+Only the inside of <main>: build.py adds the head, the navigation and the footer, and fills in
+everything between a BUILD:name marker and its closing marker (the store buttons, the
+install section, the guide list, the numbers). The FAQPage JSON-LD comes from the questions here.
+Links are written as on the English page, relative to /life-dashboard/: build.py points them at
+the page in this language.
+-->
+
+<!-- Hero -->
+<section class="hero">
+  <div class="grid-bg"></div>
+  <div class="wrap">
+    <div>
+      <h1>Health Connect e Apple Health <span class="accent">no Home Assistant ou no seu próprio&nbsp;servidor</span></h1>
+      <svg class="hero-beat" viewBox="0 0 560 90" aria-hidden="true">
+        <defs><filter id="hb" x="-10%" y="-60%" width="120%" height="220%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <g stroke="#30B77E" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" filter="url(#hb)">
+          <path class="beat-path" d="M4 45 H210 L232 12 L258 80 L276 30 L290 45 H420"/>
+          <circle cx="420" cy="45" r="7" fill="#30B77E" stroke="none"/>
+          <path class="arc a1" d="M446 30 A22 22 0 0 1 446 60" opacity=".85"/>
+          <path class="arc a2" d="M466 18 A40 40 0 0 1 466 72" opacity=".5"/>
+        </g>
+      </svg>
+      <p class="lead">O Life Dashboard Companion envia o que o seu relógio, anel ou balança registra para um servidor que é seu: o Home Assistant, a stack do Grafana, MQTT ou o seu próprio webhook. Todos os apps de origem de uma vez, sem conta e sem conta do Google no meio do caminho.</p>
+      <ul class="ticks hero-claims">
+        <li>Qualquer marca, pelo celular, com Android e iPhone em uma só integração</li>
+        <li>Todo o seu histórico no Home Assistant, mantido quando você troca de celular</li>
+        <li>Totais diários que fecham: uma caminhada registrada no celular e no relógio conta uma vez só</li>
+        <li>Edições e exclusões também são enviadas, não só os registros novos</li>
+        <li>Tempo de tela por app ao lado dos seus dados de saúde, no Android</li>
+        <li>Código aberto (MIT), com a mesma chave de assinatura no GitHub, no F-Droid e no Google Play</li>
+      </ul>
+      <div class="hero-stores">
+<!-- BUILD:hero-stores --><!-- /BUILD:hero-stores -->
+      </div>
+    </div>
+
+    <div class="hero-visual dest">
+      <svg class="dest-lines" viewBox="0 0 560 600" preserveAspectRatio="none" aria-hidden="true">
+        <defs><linearGradient id="dl" x1="0" x2="1"><stop offset="0" stop-color="#30B77E" stop-opacity=".15"/><stop offset="1" stop-color="#30B77E" stop-opacity=".85"/></linearGradient></defs>
+        <path d="M222 300 C 255 300, 250 110, 288 110" />
+        <path d="M222 300 C 255 300, 250 330, 288 330" />
+        <path d="M222 300 C 255 300, 250 505, 288 505" />
+      </svg>
+      <div class="phone src" style="aspect-ratio: 720 / 1476"><img src="img/A1-health.webp" alt="A aba Saúde do app para Android, com uma linha por destino e os números de hoje" width="720" height="1476" fetchpriority="high"></div>
+      <figure class="dcard d-ha">
+        <figcaption><span class="dk">Home Assistant</span></figcaption>
+        <img src="img/H9-health-phone.webp" alt="O dashboard Health de exemplo no Home Assistant com dados de demonstração: passos, distância, calorias, treinos e frequência cardíaca" width="720" height="1559">
+      </figure>
+      <figure class="dcard d-gr">
+        <figcaption><span class="dk">Stack do Grafana</span></figcaption>
+        <img src="img/g-overview.webp" alt="O dashboard de visão geral da stack do Grafana com dados de demonstração" width="1400" height="728">
+      </figure>
+      <figure class="dcard d-js">
+        <figcaption><span class="dk">Seu próprio servidor</span></figcaption>
+<pre aria-label="Um exemplo do JSON que o app envia"><code>{ <span class="k">"source"</span>: <span class="s">"health_connect"</span>,
+  <span class="k">"steps"</span>: [{
+    <span class="k">"count"</span>: <span class="n">412</span>,
+    <span class="k">"source"</span>: <span class="s">"com.ouraring.oura"</span>
+  }] }</code></pre>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- BUILD:parts --><!-- /BUILD:parts -->
+
+<!-- How it works -->
+<section class="section" id="how-it-works">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Do seu relógio ao seu servidor</h2>
+      <p>O Conexão Saúde (Health Connect) e o Apple Health (o app Saúde do iPhone) guardam os dados no celular, sem API web. O Life Dashboard Companion lê esses dados ali mesmo, na agenda que você define, e envia só o que é novo.</p>
+    </div>
+    <div class="chips how-chips" aria-label="Apps que gravam no Conexão Saúde ou no Apple Health">
+      <span class="chip">Samsung Health</span>
+      <span class="chip">Apple Watch</span>
+      <span class="chip">Google Health</span>
+      <span class="chip">Fitbit</span>
+      <span class="chip">Pixel Watch</span>
+      <span class="chip">Garmin Connect</span>
+      <span class="chip">Oura</span>
+      <span class="chip">Withings</span>
+      <span class="chip">Gadgetbridge</span>
+      <span class="chip">Zepp</span>
+      <span class="chip more">e outros</span>
+    </div>
+    <p class="brand-note"><strong>Nem toda marca compartilha tudo.</strong> A Samsung e a Garmin guardam para si a variabilidade da frequência cardíaca (VFC) e a frequência cardíaca em repouso, e o Garmin Connect exige o Android 14. Veja o que chega no caso da <a href="garmin-home-assistant/">Garmin</a>, da <a href="samsung-health-export/">Samsung</a>, da <a href="fitbit-home-assistant/">Fitbit</a> e das <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/brands/README.md">outras marcas</a>.</p>
+    <div class="flow">
+      <div class="node">
+        <h3>Seus apps e dispositivos</h3>
+        <ul><li>Apps de relógio e de anel</li><li>Balanças inteligentes</li><li>Apps de sono e de treino</li></ul>
+      </div>
+      <div class="wire" aria-hidden="true"></div>
+      <div class="node hc">
+        <div class="hc-badge" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#41BDF5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg></div>
+        <div>
+          <h3>Conexão Saúde ou Apple Health</h3>
+          <p>No celular, onde os dados já estão</p>
+        </div>
+      </div>
+      <div class="wire w2" aria-hidden="true"></div>
+      <div class="node app">
+        <img src="img/icon-180.png" alt="" width="64" height="64">
+        <div>
+          <h3>Life Dashboard Companion</h3>
+          <p><a href="android/">Android</a> e <a href="ios/">iPhone</a>, na sua agenda</p>
+          <span class="plus">+ tempo de tela no Android</span>
+        </div>
+      </div>
+      <div class="wire w3" aria-hidden="true"></div>
+      <div class="node dest">
+        <h3>Seu servidor</h3>
+        <ul><li><a href="home-assistant/">Home Assistant</a></li><li><a href="grafana/">A stack do Grafana</a></li><li><a href="#own-server">MQTT ou qualquer webhook</a></li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Home Assistant -->
+<section class="section band" id="home-assistant">
+  <div class="wrap">
+    <div class="show">
+      <div class="show-media">
+        <div class="stage green-glow"></div>
+        <div class="phone p2"><img src="img/H9-health-phone.webp" alt="O dashboard Health de exemplo no Home Assistant em um celular, com dados de demonstração: os blocos de hoje e o último treino" width="720" height="1559" loading="lazy"></div>
+        <figure class="qr-card">
+          <img src="img/H2-qr.webp" alt="A integração Life Dashboard no Home Assistant mostrando um QR code de pareamento" width="800" height="668" loading="lazy">
+          <figcaption>O Home Assistant mostra o código; o app o escaneia.</figcaption>
+        </figure>
+      </div>
+      <div>
+          <h2>Uma integração para o Home Assistant, pareada com um QR&nbsp;code</h2>
+        <p>A instalação é pelo Marketplace (HACS antes do Home Assistant 2026.11). Sem YAML, sem broker, e o celular nunca recebe um login do Home Assistant.</p>
+        <ul class="ticks">
+          <li>Sensores de passos, sono, frequência cardíaca, peso e outros</li>
+          <li>Todo o seu histórico nas estatísticas de longo prazo</li>
+          <li>Fases do sono por noite, e <a href="sleep-stages-home-assistant/">um card que desenha a noite</a></li>
+          <li>Tempo de tela no total e por app</li>
+          <li>Um dashboard Health de exemplo para copiar</li>
+        </ul>
+        <a class="link-arrow" href="home-assistant/">Mais sobre a integração</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Own server -->
+<section class="section" id="own-server">
+  <div class="wrap">
+    <div class="show flip">
+      <div class="code-col">
+        <div class="code-window" role="figure" aria-label="Um exemplo de requisição que o app envia para um webhook">
+          <div class="code-bar"><span>POST https://n8n.example.com/webhook/life-dashboard</span></div>
+<pre tabindex="0" role="region" aria-label="Exemplo de requisição"><code><span class="h">X-Signature: sha256=9f2c4e…</span>
+
+{
+  <span class="k">"source"</span>: <span class="s">"health_connect"</span>,
+  <span class="k">"daily_totals"</span>: [{ <span class="k">"date"</span>: <span class="s">"2026-10-04"</span>, <span class="k">"steps"</span>: <span class="n">1204</span> }],
+  <span class="k">"heart_rate"</span>: [{
+    <span class="k">"bpm"</span>: <span class="n">61</span>, <span class="k">"time"</span>: <span class="s">"2026-10-04T06:58:00Z"</span>,
+    <span class="k">"uuid"</span>: <span class="s">"708a76cb-45d3-…"</span>,
+    <span class="k">"source"</span>: <span class="s">"com.fitbit.FitbitMobile"</span> }]
+}</code></pre>
+        </div>
+      </div>
+      <div>
+          <h2>Seu próprio servidor, banco de dados ou ferramenta</h2>
+        <p>Qualquer URL que aceite JSON: o n8n, o Node-RED ou um script seu. Ou um broker MQTT que você já roda. Com os dados no seu próprio banco de dados, <a href="health-data-own-ai/">um modelo na sua própria rede também consegue lê-los</a>.</p>
+        <ul class="ticks">
+          <li>Cada registro por inteiro, assinado com HMAC-SHA256 se você definir um segredo</li>
+          <li>Cabeçalhos personalizados e certificados de cliente</li>
+          <li>Uma caixa de saída que espera pelo seu servidor</li>
+        </ul>
+        <a class="link-arrow" href="health-connect-webhook/">Enviar os dados do Conexão Saúde para o seu próprio webhook</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Grafana: the one full-width row, so the dashboard is readable -->
+<section class="section band" id="grafana">
+  <div class="wrap">
+    <div class="show stack">
+      <div class="stack-text">
+        <div><h2>Postgres e Grafana na sua própria máquina</h2></div>
+        <div>
+          <p>Um receptor, o Postgres e seis dashboards do Grafana para os dois apps, em um servidor doméstico, um Raspberry Pi ou no Kubernetes. A demonstração mostra 60 dias de dados fictícios antes de você instalar qualquer coisa em um celular.</p>
+          <ul class="ticks">
+            <li>Um único comando de instalação, imagens publicadas, nada para compilar</li>
+            <li>Cada celular é pareado por QR code, como no Home Assistant</li>
+            <li>Uma API somente leitura e um servidor MCP para <a href="health-data-own-ai/">a sua própria IA</a></li>
+            <li>Um Helm chart, com Postgres do CloudNativePG</li>
+          </ul>
+          <a class="link-arrow" href="grafana/">Mais sobre a stack do Grafana</a>
+        </div>
+      </div>
+      <div class="show-media is-wide full">
+        <div class="stage green-glow"></div>
+        <div class="wide-shot solo"><a class="shot-link" href="img/g-overview.webp" aria-label="O dashboard de visão geral da stack do Grafana com dados de demonstração, em tamanho real"><img src="img/g-overview.webp" alt="O dashboard de visão geral da stack do Grafana com dados de demonstração" width="1400" height="728" loading="lazy"></a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Apps -->
+<section class="section" id="apps">
+  <div class="wrap">
+    <div class="show flip">
+      <div class="show-media">
+        <div class="stage green-glow"></div>
+        <div class="phone p1"><img src="img/A1-health.webp" alt="A aba Saúde do app para Android" width="720" height="1476" loading="lazy"></div>
+        <div class="phone p2"><img src="img/ios-health.webp" alt="A aba Saúde do app para iPhone" width="720" height="1464" loading="lazy"></div>
+      </div>
+      <div>
+          <h2>Um só payload, do Android e do iPhone</h2>
+        <p>Os dois apps enviam o mesmo JSON, então um celular Android e um iPhone podem dividir o mesmo Home Assistant ou a mesma stack.</p>
+        <div class="apps-duo">
+          <a href="android/"><b>Android</b><span>34 tipos do Conexão Saúde, tempo de tela por app e as medições da balança de volta no Samsung Health.</span></a>
+          <a href="ios/"><b>iPhone</b><span>28 tipos do Apple Health, com um widget e Atalhos. Na App Store por €&nbsp;6,99 uma única vez, sem assinatura. Compilar você mesmo com o Xcode continua gratuito.</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- In use -->
+<section class="section tight band" id="in-use">
+  <div class="wrap">
+<!-- BUILD:proof --><!-- /BUILD:proof -->
+  </div>
+</section>
+
+<!-- Who builds this -->
+<section class="section tight" id="who">
+  <div class="wrap who">
+    <img class="who-mark" src="img/icon-180.png" alt="" width="72" height="72">
+    <div>
+      <h2>Feito primeiro para o meu próprio dashboard</h2>
+      <p>Sou Owen Vogelaar. Comecei este app para alimentar um dashboard pessoal, um projeto particular que reúne meus dados de saúde e do celular em um só lugar. Tirar esses dados do celular acabou sendo a parte difícil, então o app virou um projeto próprio.</p>
+      <p>A maioria das pessoas que quer isso já roda o Home Assistant, então criei a integração; para quem prefere Postgres e Grafana puros, a stack. O app roda no meu próprio celular todos os dias.</p>
+      <p>Boa parte do código é escrita com ajuda de IA; a <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/AI_POLICY.md">política de IA</a> explica como as mudanças são revisadas e testadas. Dúvidas e ideias vão para as <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Privacy -->
+<section class="section privacy" id="privacy">
+  <div class="grid-bg"></div>
+  <div class="wrap">
+    <h2>Seus dados vão só para os endereços que você informa</h2>
+    <div class="trust">
+      <div class="card"><h3>Sem conta</h3><p>Nenhum cadastro a fazer.</p></div>
+      <div class="card"><h3>Sem rastreamento</h3><p>Sem analytics, anúncios ou SDKs de rastreamento.</p></div>
+      <div class="card"><h3>Código aberto</h3><p>Licença MIT, nas quatro partes.</p></div>
+      <div class="card"><h3>Builds verificáveis</h3><p><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/SECURITY.md#verifying-a-release">Confira um APK</a> com o código-fonte dele.</p></div>
+    </div>
+    <p class="fineprint">Políticas de privacidade: <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/PRIVACY.md">Android</a> e <a href="ios/privacy/">iPhone</a>.</p>
+  </div>
+</section>
+
+<!-- Get it -->
+<section class="section band" id="get">
+  <div class="wrap">
+<!-- BUILD:get --><!-- /BUILD:get -->
+  </div>
+</section>
+
+<!-- Guides -->
+<section class="section tight" id="guides">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Passo a passo</h2>
+    </div>
+<!-- BUILD:guides --><!-- /BUILD:guides -->
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section tight band" id="faq">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Perguntas frequentes</h2>
+    </div>
+    <div class="faq">
+      <details>
+        <summary>Eu preciso do Home Assistant?</summary>
+        <p>Não. O Home Assistant é onde ele rende mais, com os sensores e o histórico da integração, mas os dois apps também enviam para a <a href="grafana/">stack do Grafana</a>, para qualquer broker MQTT e para qualquer URL que aceite um POST com JSON, como o n8n, o Node-RED ou um script seu. O <a href="health-connect-webhook/">guia do webhook</a> mostra o payload.</p>
+      </details>
+      <details>
+        <summary>Posso perguntar a uma IA sobre os meus dados?</summary>
+        <p>Sim, com um modelo que você escolhe, depois que os dados estiverem no seu servidor. Os apps não contêm IA e nunca falam com um modelo. A <a href="grafana/">stack do Grafana</a> tem um servidor MCP somente leitura, e no Home Assistant um servidor da comunidade, o ha-mcp, lê o histórico. Com um modelo local, nada sai da sua rede; com um modelo na nuvem, como o Claude, suas perguntas e os resultados vão para o provedor dele. O guia <a href="health-data-own-ai/">Conexão Saúde e Apple Health via MCP</a> traz os passos.</p>
+      </details>
+      <details>
+        <summary>Por que um app separado em vez do app Companion do Home Assistant?</summary>
+        <p>Mantenha o app Companion para presença, notificações e sensores do aparelho; os dois rodam lado a lado. Os 36 sensores do Conexão Saúde que ele tem mostram o valor mais recente ou um total diário, com histórico a partir do dia em que você os ativa. O Life Dashboard Companion lê 34 tipos, guarda cada dia nas estatísticas de longo prazo, acrescenta o tempo de tela por app e também envia para MQTT e webhooks. A <a href="home-assistant/#compare">comparação</a> lista as diferenças.</p>
+      </details>
+      <details>
+        <summary>Quais relógios, anéis e balanças funcionam?</summary>
+        <p>Tudo o que grava no Conexão Saúde ou no Apple Health: Samsung Health, Apple Watch, Google Health (Fitbit e Pixel Watch), Garmin Connect, Oura, Withings, Gadgetbridge e muitos outros. O que chega depende do que cada fabricante compartilha: a Garmin e a Samsung, por exemplo, não compartilham a VFC nem a frequência cardíaca em repouso com o Conexão Saúde, e o Garmin Connect exige o Android 14. Os <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/brands/README.md">guias por marca</a> mostram o que cada uma grava e o que guarda para si.</p>
+      </details>
+      <details>
+        <summary>Quanto custa?</summary>
+        <p>O código das quatro partes tem licença MIT e é gratuito. No Android, o <a href="#get-android">Google Play</a> é o jeito fácil: €&nbsp;4,99 uma única vez (US$&nbsp;4,99), sem assinatura, com atualizações automáticas, e a compra apoia o desenvolvimento. Os caminhos gratuitos continuam gratuitos: o APK assinado no GitHub, o Obtainium, que instala esse mesmo APK, e o F-Droid. Todos são o mesmo app, compilado a partir do mesmo código-fonte e assinado com a mesma chave. O app para iPhone funciona do mesmo jeito: compilar você mesmo com o Xcode é gratuito, e a versão da App Store é a comodidade paga, €&nbsp;6,99 uma única vez (US$&nbsp;5,99), sem assinatura.</p>
+      </details>
+      <details>
+        <summary>O que significam estas palavras?</summary>
+        <p>O <strong>Conexão Saúde</strong> (Health Connect) é o lugar no Android onde o Samsung Health, o Garmin Connect e outros apps guardam seus dados de saúde; o <strong>Apple Health</strong> é o equivalente no iPhone. O <strong>Home Assistant</strong> é um software de código aberto que controla uma casa inteligente a partir de um computador na sua casa. <strong>O Marketplace</strong> (HACS antes do Home Assistant 2026.11) é a loja de integrações extras do Home Assistant. Um <strong>APK</strong> é um arquivo de app Android que você mesmo instala, fora da Play Store. Um <strong>webhook</strong> é um endereço web no seu próprio servidor que recebe dados. O <strong>MQTT</strong> é um sistema de mensagens que muitas casas inteligentes usam. Um <strong>backfill</strong> envia os dados mais antigos, até onde o seu celular os tiver.</p>
+      </details>
+      <details>
+        <summary>É um dispositivo médico?</summary>
+        <p>Não. O Life Dashboard Companion leva os dados que o seu relógio, anel ou balança já registrou para um servidor que você roda. Ele não mede, não diagnostica e não trata nada, e não dá orientação de saúde. Converse com um médico sobre o que os números significam para você.</p>
+      </details>
+      <details>
+        <summary>Como ele é feito, e onde entra a IA?</summary>
+        <p>Eu o desenvolvo com muita ajuda do Claude Code, que escreveu a primeira versão de grande parte do código. Eu decido o que é feito e leio cada mudança antes de ela entrar. A CI roda testes unitários, lint e uma suíte instrumentada em um emulador Android, e as mudanças na sincronização são testadas à mão em um celular de verdade, com o Home Assistant, antes de um lançamento. Os apps não contêm IA e não chamam nenhum serviço de IA. A <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/AI_POLICY.md">política de IA</a> traz os detalhes.</p>
+      </details>
+      <details>
+        <summary>É o projeto de uma pessoa só. E se ele parar?</summary>
+        <p>A sua instalação não depende dessa pessoa. Não existe servidor do Life Dashboard para desligar, o seu histórico fica no seu próprio Home Assistant ou banco de dados, e a licença MIT permite que qualquer pessoa leve o código adiante. A primeira versão saiu em fevereiro de 2026, e o <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/CHANGELOG.md">changelog</a> registra cada mudança desde então.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- Final CTA -->
+<section class="final">
+  <div class="wrap">
+    <svg class="beat" viewBox="0 0 560 90" aria-hidden="true">
+      <g stroke="#30B77E" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 45 H210 L232 12 L258 80 L276 30 L290 45 H420"/>
+        <circle cx="420" cy="45" r="7" fill="#30B77E" stroke="none"/>
+        <path d="M446 30 A22 22 0 0 1 446 60" opacity=".85"/>
+        <path d="M466 18 A40 40 0 0 1 466 72" opacity=".5"/>
+      </g>
+    </svg>
+    <h2>Seus dados de saúde, seu servidor</h2>
+    <div class="final-stores">
+<!-- BUILD:hero-stores --><!-- /BUILD:hero-stores -->
+    </div>
+    <p class="fineprint">Código-fonte, issues e <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">discussões</a> no <a href="https://github.com/owen282000/life-dashboard-companion-app">GitHub</a>. Novas versões no <a href="https://github.com/owen282000/life-dashboard-companion-app/releases.atom">feed de lançamentos</a>.</p>
+  </div>
+</section>

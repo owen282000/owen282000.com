@@ -1,0 +1,180 @@
+{
+  "slug": "android",
+  "nav_name": "Application Android",
+  "title": "Life Dashboard Companion : application Health Connect Android",
+  "description": "Envoyez les données Health Connect et le temps d’écran vers Home Assistant, MQTT ou un webhook. 4,99 € sur Google Play, gratuit sur GitHub et F-Droid. Sans cloud.",
+  "kicker": "Application Android",
+  "h1": "Santé Connect et le temps d’écran, envoyés vers votre propre serveur",
+  "lead": "Life Dashboard Companion est une application Android open source qui envoie les données de Health Connect (Santé Connect en français) et le temps d’écran par application vers Home Assistant, MQTT ou votre propre webhook, sans cloud et sans compte. Elle lit ce que Samsung Health, Google Health, Garmin Connect, Oura, Withings et d’autres écrivent dans Santé Connect.",
+  "hero_image": "A1-health",
+  "highlights": [
+    {
+      "title": "34 types de Santé Connect",
+      "text": "Pas, phases de sommeil, fréquence cardiaque, variabilité de la fréquence cardiaque, poids, tension artérielle, glycémie, entraînements, nutrition et suivi du cycle, chacun avec son propre interrupteur."
+    },
+    {
+      "title": "Chaque enregistrement, avec sa source",
+      "text": "Chaque enregistrement part avec un identifiant stable et le nom de l’application qui l’a écrit. Les totaux quotidiens ne comptent une marche qu’une fois."
+    },
+    {
+      "title": "Tout votre historique",
+      "text": "Un backfill, le rattrapage de l’historique, de 30 jours à 5 ans, ou de tout ce que Santé Connect contient. Dans Home Assistant, chaque jour arrive à sa propre date dans les statistiques à long terme."
+    },
+    {
+      "title": "Le temps d’écran par application",
+      "text": "Les minutes au premier plan de chaque application, avec un changement de jour que vous choisissez et un filtre qui exclut de l’envoi les applications de votre choix."
+    },
+    {
+      "title": "Trois sorties",
+      "text": "L’intégration Life Dashboard, MQTT avec Home Assistant Discovery, ou n’importe quel webhook qui accepte un POST JSON. Plusieurs à la fois, c’est possible aussi, et les onglets Santé et Temps d’écran s’ouvrent sur l’état de vos envois vers chacune, avec les chiffres du jour en dessous."
+    },
+    {
+      "title": "Recevoir dans Santé Connect",
+      "text": "Les mesures de balance et de tension venues de Home Assistant entrent dans Santé Connect, où Samsung Health et Google Health lisent le poids."
+    }
+  ],
+  "sections": [
+    {
+      "kicker": "Home Assistant et MQTT",
+      "h2": "Vers Home Assistant, avec ou sans broker",
+      "text": "L’intégration Life Dashboard s’associe avec un seul QR code et conserve chaque jour dans les statistiques à long terme. MQTT avec Home Assistant Discovery convient à une installation qui a déjà un broker et n’a besoin que des valeurs actuelles.",
+      "bullets": [
+        {
+          "main": "Des capteurs pour 27 des 34 types",
+          "sub": "Les pas, la distance et les calories du jour, la dernière fréquence cardiaque, le sommeil, le poids, la tension artérielle, la glycémie et d’autres encore, le dernier entraînement et ce que vous avez mangé aujourd’hui. MQTT en reçoit 25, sans l’entraînement ni l’alimentation."
+        },
+        {
+          "main": "Le temps d’écran au total et par application",
+          "sub": "Les deux voies reçoivent les totaux. Le capteur par application vient avec l’intégration."
+        },
+        {
+          "main": "Deux téléphones sur un même broker",
+          "sub": "Donnez à chacun un Nom du téléphone sous Plus > Avancé, et chacun obtient son propre appareil et ses propres topics."
+        }
+      ],
+      "image": "A2-pair",
+      "link": {
+        "href": "../health-connect-home-assistant/",
+        "text": "Comment ajouter Santé Connect à Home Assistant"
+      }
+    },
+    {
+      "kicker": "Webhooks",
+      "h2": "Chaque enregistrement en JSON, vers un serveur que vous gérez",
+      "text": "Dirigez l’application vers <a href=\"../health-connect-n8n/\">n8n</a>, Node-RED, la stack Grafana ou un court script. Un webhook reçoit aussi ce qu’aucun capteur ne contient : chaque repas, les entrées du suivi du cycle et le détail des entraînements.",
+      "bullets": [
+        {
+          "main": "Signatures HMAC-SHA256",
+          "sub": "Un en-tête X-Signature que votre serveur peut vérifier. Générer crée un secret de 32 octets aléatoires."
+        },
+        {
+          "main": "Certificats client (mTLS)",
+          "sub": "Choisis dans le magasin d’identifiants d’Android, pour un serveur placé derrière un reverse proxy qui en exige un."
+        },
+        {
+          "main": "Une file d’attente sur le téléphone",
+          "sub": "Jusqu’à 700 payloads patientent pendant que votre serveur est indisponible, et la synchronisation suivante les envoie en premier."
+        },
+        {
+          "main": "Les suppressions signalées",
+          "sub": "Un enregistrement supprimé dans Santé Connect est nommé dans le payload suivant, pour que votre récepteur puisse le retirer aussi."
+        }
+      ],
+      "image": "A6-webhook",
+      "link": {
+        "href": "../health-connect-webhook/",
+        "text": "Envoyer les données de Santé Connect vers votre propre webhook"
+      }
+    },
+    {
+      "kicker": "Temps d’écran",
+      "h2": "Le temps d’écran Android par application, à côté de vos données de santé",
+      "text": "L’application lit le temps passé au premier plan par application dans les statistiques d’utilisation d’Android, les mêmes chiffres que ceux de Bien-être numérique. Le temps d’écran a sa propre planification et ses propres webhooks, et fonctionne sans Santé Connect sur Android 8.0 ou plus récent.",
+      "bullets": [
+        {
+          "main": "Votre propre changement de jour",
+          "sub": "Activé par défaut à 04:00 : l’utilisation du téléphone après minuit compte pour la veille."
+        },
+        {
+          "main": "Toutes, Toutes sauf ou Uniquement",
+          "sub": "Une application que vous filtrez n’est pas nommée dans ce qui est envoyé ; le total du jour compte toujours son temps."
+        },
+        {
+          "main": "Les 7 derniers jours à chaque synchronisation",
+          "sub": "Un jour encore en cours lors d’une synchronisation est corrigé par la suivante."
+        },
+        {
+          "main": "Un capteur par application dans Home Assistant",
+          "sub": "Créé désactivé : vous n’activez que les applications sur lesquelles vous voulez bâtir des automatisations."
+        }
+      ],
+      "image": "A4-screen-time",
+      "link": {
+        "href": "../screen-time-home-assistant/",
+        "text": "Le temps d’écran Android dans Home Assistant"
+      }
+    }
+  ],
+  "requirements": "Les données de santé demandent Android 9 ou plus récent avec Santé Connect, intégré à Android 14 et aux versions suivantes et disponible sur Google Play pour Android 9 à 13. Le temps d’écran fonctionne sur Android 8.0 et plus récent. L’intégration Life Dashboard demande Home Assistant 2026.3 ou plus récent, ainsi que HACS sur les versions antérieures à 2026.11. MQTT demande un broker, et un webhook un serveur qui accepte un POST JSON.",
+  "faq": [
+    {
+      "q": "Quels types de Santé Connect deviennent des capteurs dans Home Assistant ?",
+      "a": "27 des 34 avec l’intégration, 25 avec MQTT. La pleine conscience, l’activité sexuelle et les cinq types du suivi du cycle sont des événements plutôt que des valeurs : ils n’ont donc pas de capteur ; l’intégration compte le temps de pleine conscience par jour. Dans l’intégration, les entraînements donnent un capteur du dernier entraînement et les minutes d’aujourd’hui et d’hier, et à partir de la version 1.2.0 vos repas s’additionnent pour donner les calories, les protéines, les glucides et les lipides consommés aujourd’hui. Un <a href=\"../health-connect-webhook/\">webhook à vous</a> reçoit ces enregistrements en entier."
+    },
+    {
+      "q": "Peut-elle envoyer vers Home Assistant et un webhook en même temps ?",
+      "a": "Oui. Chaque adresse a son propre secret de signature et ses propres en-têtes, et l’association avec Home Assistant ne les définit que pour l’adresse qu’elle ajoute : un second récepteur garde donc les siens. Une chose à savoir aujourd’hui : un payload compte comme livré dès qu’une destination l’accepte, si bien qu’une destination indisponible à ce moment-là le manque. Santé Connect et Temps d’écran peuvent chacun envoyer vers plusieurs webhooks et vers MQTT à la fois. Une livraison distincte pour chaque destination est prévue."
+    },
+    {
+      "q": "Que se passe-t-il quand mon serveur est indisponible ?",
+      "a": "Chaque synchronisation écrit d’abord son payload sur le téléphone et ne le supprime qu’une fois qu’un webhook l’a accepté. La file d’attente contient jusqu’à 700 payloads Santé Connect, soit environ une semaine de synchronisations à l’intervalle de 15 minutes, et la prochaine synchronisation qui aboutit les livre en premier."
+    },
+    {
+      "q": "Peut-elle synchroniser à heures fixes plutôt qu’à intervalle régulier ?",
+      "a": "Oui. Chaque onglet a son propre <strong>Quand envoyer</strong> : toutes les 15 minutes ou plus, ou une liste d’heures, les jours de votre choix, avec des heures de silence. Une tuile des Réglages rapides, Tasker et MacroDroid peuvent aussi lancer une synchronisation."
+    },
+    {
+      "q": "Recevoir fonctionne-t-il avec MQTT ?",
+      "a": "Non. Les mesures reviennent dans la réponse signée de l’intégration à l’appel webhook que l’application fait déjà : Recevoir a donc besoin de l’intégration Life Dashboard. Le guide <a href=\"../smart-scale-to-samsung-health/\">Une balance connectée vers Samsung Health</a> détaille la mise en place."
+    },
+    {
+      "q": "Comment l’application stocke-t-elle mes secrets ?",
+      "a": "Les en-têtes d’authentification, les secrets de signature et les mots de passe MQTT sont chiffrés en AES-256-GCM, avec une clé détenue par l’Android Keystore. La sauvegarde d’Android les exclut, tout comme les journaux des webhooks."
+    },
+    {
+      "q": "Quelle est sa consommation de batterie ?",
+      "a": "Entre deux synchronisations, l’application ne fait rien : aucun service ne tourne en continu et aucune connexion ne reste ouverte. Chaque synchronisation est une tâche courte qu’Android lance selon votre planification. Sur les téléphones Samsung, Xiaomi et similaires, réglez l’utilisation de la batterie de l’application sur <strong>Sans restriction</strong>, sinon Android arrête les synchronisations planifiées ; le <a href=\"https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/usage.md#let-the-app-run-in-the-background\">guide d’installation</a> donne le chemin pour chaque marque."
+    },
+    {
+      "q": "Que demande l’application, et qu’est-ce qui quitte le téléphone ?",
+      "a": "Les autorisations de lecture de Santé Connect pour les types que vous activez, les autorisations d’écriture uniquement pour les types de Recevoir que vous activez, l’accès aux données d’utilisation pour le temps d’écran, l’appareil photo seulement pendant que vous scannez un code d’association, l’accès à Internet, et les notifications pour les synchronisations en échec et la progression du backfill. Les données ne vont qu’aux adresses que vous saisissez. La <a href=\"https://github.com/owen282000/life-dashboard-companion-app/blob/main/PRIVACY.md#permissions\">politique de confidentialité</a> énumère chaque autorisation et chaque champ."
+    },
+    {
+      "q": "Dans quelles langues l’application existe-t-elle ?",
+      "a": "Onze : anglais, néerlandais, allemand, français, espagnol, italien, portugais (Brésil), japonais, arabe, hindi et chinois simplifié. Chacune reprend les termes que Santé Connect et Android emploient dans cette langue."
+    },
+    {
+      "q": "Puis-je récupérer mes données sous forme de fichier ?",
+      "a": "Oui. <strong>Plus &gt; Exporter les données</strong> les enregistre en JSON, ou en CSV avec une ligne par enregistrement : pas besoin de serveur pour cela."
+    },
+    {
+      "q": "Est-elle sur Google Play ?",
+      "a": "Oui : <a href=\"{{play_url}}\">Life Dashboard Companion sur Google Play</a>, où l’application s’appelle Health Data for Home Assistant, 4,99 € en achat unique (4,99 $US), sans abonnement. C’est la voie simple, avec les mises à jour automatiques, et votre achat soutient le développement. L’APK sur GitHub, Obtainium et F-Droid restent gratuits : la même application, compilée à partir du même code source et signée avec la même clé."
+    },
+    {
+      "q": "Puis-je passer plus tard de GitHub à Obtainium, F-Droid ou Google Play ?",
+      "a": "Oui. Google Play, l’APK sur GitHub, Obtainium et F-Droid installent tous la même application, avec le même nom de paquet et la même clé de signature : vous pouvez donc changer sans réinstaller. L’une s’installe par-dessus l’autre et vos réglages sont conservés."
+    }
+  ],
+  "updated": "2026-11-20",
+  "guides": [
+    "health-connect-home-assistant",
+    "health-connect-webhook",
+    "screen-time-home-assistant",
+    "smart-scale-to-samsung-health",
+    "fitbit-home-assistant",
+    "garmin-home-assistant",
+    "samsung-health-export",
+    "health-data-api"
+  ]
+}

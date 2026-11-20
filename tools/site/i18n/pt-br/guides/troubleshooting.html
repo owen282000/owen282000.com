@@ -1,0 +1,107 @@
+<!--
+slug: solucao-de-problemas
+title: Health Connect não sincroniza? O que fazer | Life Dashboard
+description: Sincronização que para em segundo plano, dados que faltam no Health Connect, sem sensores no Home Assistant, erros de pareamento: o que conferir, passo a passo.
+primary query: health connect não sincroniza
+secondary queries: conexão saúde não sincroniza, health connect não funciona, samsung fecha app em segundo plano, sensores de saúde não aparecem no home assistant, permissões do health connect, life dashboard solução de problemas
+updated: 2026-11-20
+published: 2026-10-19
+-->
+
+<h1>Por que meus dados de saúde não estão chegando?</h1>
+
+<p>A maioria dos problemas com o Life Dashboard Companion se resume a quatro coisas: o celular encerra o app em segundo plano, o app do relógio não grava no Conexão Saúde (Health Connect), falta uma permissão, ou o celular não alcança o endereço para onde envia. Esta página passa por elas na ordem em que vale a pena conferir. O primeiro lugar para olhar é sempre a aba <strong>Logs</strong> do app: ela mostra cada sincronização e cada entrega com a resposta do servidor, e um toque em uma linha mostra os detalhes.</p>
+
+<h2>A sincronização para quando o app está fechado</h2>
+
+<p>Se o app só sincroniza quando você o abre, o celular está encerrando as tarefas dele em segundo plano para economizar bateria. Samsung, Xiaomi, OnePlus, Huawei e outras marcas fazem isso, muitas vezes sem avisar. Mude estas configurações uma vez, logo depois de instalar:</p>
+
+<ul>
+  <li><strong>Samsung:</strong> Configurações &gt; Apps &gt; Life Dashboard &gt; Bateria, defina como <strong>Sem restrições</strong>. Depois, Configurações &gt; Bateria (em algumas versões, dentro de Assistência do aparelho) &gt; Limites de uso em segundo plano &gt; <strong>Apps nunca em suspensão</strong>, e adicione o Life Dashboard.</li>
+  <li><strong>Xiaomi, Redmi e POCO:</strong> ative o início automático para o Life Dashboard (nas versões mais novas, <strong>Background autostart</strong> nas permissões do app) e defina a economia de bateria dele como <strong>Sem restrições</strong>. Travar o app na tela de apps recentes, com um toque longo e o cadeado, também evita que ele seja limpo.</li>
+  <li><strong>Pixel e outros celulares próximos do Android puro:</strong> Configurações &gt; Apps &gt; Life Dashboard &gt; Uso da bateria pelo app, defina como <strong>Sem restrições</strong>.</li>
+  <li><strong>OnePlus, Oppo, Huawei e outras marcas:</strong> defina o uso de bateria do app como <strong>Sem restrições</strong> (em algumas marcas a opção aparece como <strong>No restrictions</strong>) em Configurações &gt; Apps &gt; Life Dashboard, e procure um gerenciador separado de início automático ou de inicialização. Os menus mudam de lugar entre as versões; o <a href="https://dontkillmyapp.com">dontkillmyapp.com</a> mantém os passos atuais por marca.</li>
+</ul>
+
+<p>Depois confira se a leitura em segundo plano continua permitida no Conexão Saúde (veja a próxima seção): sem ela, só o <strong>Sincronizar agora</strong> funciona. Mesmo com todas as configurações certas, o Android roda uma tarefa em segundo plano no máximo a cada 15 minutos, e pode esperar mais quando o celular fica parado. A aba <strong>Logs</strong> mostra quando as sincronizações de fato rodaram.</p>
+
+<h2>O Conexão Saúde está vazio ou o app não consegue lê-lo</h2>
+
+<ol>
+  <li><strong>O Conexão Saúde está no celular.</strong> No Android 14 e mais recentes ele faz parte das configurações do sistema; procure por "Conexão Saúde" nas configurações (na Samsung fica em Segurança e privacidade). No Android 9 a 13, a aba <strong>Saúde</strong> do app oferece instalar ou atualizar. O Android 8 não tem suporte a ele; o tempo de tela continua funcionando ali.</li>
+  <li><strong>O app do seu relógio grava nele.</strong> Essa é uma configuração do outro app. No Samsung Health fica em Configurações &gt; Conexão Saúde; no Garmin Connect fica em Settings &gt; Connected Apps &gt; Health Connect, no Android 14 ou mais recente. Os guias da <a href="../samsung-health-home-assistant/">Samsung</a>, da <a href="../garmin-home-assistant/">Garmin</a> e da <a href="../fitbit-home-assistant/">Fitbit</a> trazem os detalhes. <strong>Abrir app</strong>, na linha <strong>Acesso ao Conexão Saúde</strong> em <strong>O que enviar</strong> na aba Saúde, abre o Conexão Saúde, para você ver se os dados estão mesmo lá.</li>
+  <li><strong>O app pode ler os dados.</strong> Toque em <strong>Permitir</strong> na linha <strong>Acesso ao Conexão Saúde</strong> em <strong>O que enviar</strong> na aba Saúde. O Conexão Saúde pede acesso de leitura por tipo de dado e também a <strong>leitura em segundo plano</strong>; as sincronizações agendadas precisam dessa segunda permissão. Um tipo com cadeado em <strong>O que enviar</strong> ainda não tem permissão: desative e ative de novo para o pedido aparecer outra vez.</li>
+  <li><strong>O histórico mais antigo precisa de mais uma permissão.</strong> O Conexão Saúde só deixa um app ler dados de até 30 dias antes do primeiro acesso dele. Para ir além, a página do backfill (o envio de todo o histórico de uma vez) pede o acesso ao histórico.</li>
+</ol>
+
+<h2>Sincronizar agora diz "Nenhum dado novo"</h2>
+
+<p>Cada sincronização envia só o que há de novo desde a anterior, e a primeira de todas lê os últimos 7 dias. <strong>Prévia do payload</strong> em <strong>O que enviar</strong> na aba Saúde mostra o que a próxima sincronização enviaria. Para dados mais antigos, rode um backfill. Confira também se o relógio sincronizou com o celular: o Garmin Connect grava no Conexão Saúde depois que o relógio sincroniza, e o Samsung Health quando o relógio se conecta ou quando você abre o Samsung Health.</p>
+
+<p>Valores noturnos como VFC, frequência respiratória e sono muitas vezes chegam horas depois de você acordar. Os apps de relógio só gravam a noite no Conexão Saúde quando sincronizam de manhã. O app envia esses dados na primeira sincronização depois disso; nada se perde.</p>
+
+<h2>Nenhum sensor no Home Assistant</h2>
+
+<ul>
+  <li><strong>Com a integração:</strong> Configurações &gt; Dispositivos e serviços &gt; Life Dashboard, depois o dispositivo do celular. Um sensor aparece quando o celular já enviou aquele tipo. Os IDs das entidades começam com o nome do celular, como <code>sensor.owens_pixel_steps_today</code>. Os sensores de tempo de tela por app são criados desativados: mostre as entidades desativadas do dispositivo e ative os apps que você quer.</li>
+  <li><strong>O histórico</strong> não fica nos sensores, e sim nas estatísticas de longo prazo. Adicione um cartão <strong>Gráfico de estatísticas</strong> e escolha na lista as estatísticas do celular.</li>
+  <li><strong>Com MQTT:</strong> Configurações &gt; Dispositivos e serviços &gt; MQTT, dispositivo <strong>Life Dashboard Companion</strong>.</li>
+  <li><strong>Nada mesmo:</strong> confira a aba <strong>Logs</strong>. Uma entrega com falha significa que o celular não alcançou o Home Assistant; veja a próxima seção.</li>
+</ul>
+
+<h2>O celular não alcança o Home Assistant</h2>
+
+<p>O celular envia para o endereço que está no código de pareamento, então esse endereço precisa funcionar a partir do celular.</p>
+
+<ul>
+  <li><strong><code>homeassistant.local</code> falha com frequência no Android,</strong> que não resolve nomes <code>.local</code> de forma confiável. Use o endereço IP do Home Assistant no lugar, como <code>http://192.168.1.10:8123</code>; ele está em Configurações &gt; Sistema &gt; Rede.</li>
+  <li><strong>Um endereço da rede de casa</strong> só funciona no Wi-Fi de casa. As sincronizações fora de casa falham, o celular guarda os dados, e a primeira sincronização de volta em casa os envia. Uma notificação sobre sincronizações com falha enquanto você está fora é isso.</li>
+  <li><strong>Um endereço público,</strong> como uma URL do Home Assistant Cloud ou o seu próprio domínio <code>https://</code>, funciona em qualquer lugar.</li>
+  <li><strong>"O HTTP sem criptografia está desativado":</strong> o endereço começa com <code>http://</code>. Ative <strong>Permitir webhooks com HTTP sem criptografia</strong> em <strong>Mais</strong> &gt; <strong>Avançado</strong> para um servidor na sua própria rede ou VPN; os dados então trafegam sem criptografia nessa rede.</li>
+  <li><strong>Um erro de certificado em <code>https://</code>:</strong> o seu servidor usa um certificado da sua própria CA, ou um autoassinado. Em <strong>Mais &gt; Avançado &gt; Certificados do servidor</strong> (app 1.27.0 e mais recentes), confie nos certificados de CA instalados no celular para aquele host, ou leia o certificado do servidor, confira a impressão digital dele e confie exatamente naquele. Não existe opção que ignore erros de certificado.</li>
+</ul>
+
+<p>Para mudar o endereço depois, abra <strong>Reconfigurar</strong> na integração, no Home Assistant, mude o endereço ali e escaneie o novo código.</p>
+
+<h2>O pareamento não funciona</h2>
+
+<ul>
+  <li><strong>Escanear abre uma página da web em vez do app.</strong> O Android confere o link de pareamento com a assinatura do app na hora da instalação. A página tem um botão <strong>Open in the app</strong> que sempre funciona, e escanear de dentro do app, com <strong>Escanear um código de pareamento</strong>, nunca depende dessa conferência.</li>
+  <li><strong>"Este código foi feito por uma versão mais nova".</strong> A integração é mais nova que o app. Atualize o app e escaneie de novo.</li>
+  <li><strong>O pareamento funciona, mas nada chega.</strong> O endereço no código não é alcançável a partir do celular: veja a seção acima.</li>
+</ul>
+
+<h2>Números que parecem errados</h2>
+
+<ul>
+  <li><strong>Passos contados duas vezes?</strong> Não no Home Assistant. Quando o Samsung Health e a Garmin gravam a mesma caminhada, o Conexão Saúde guarda as duas cópias, mas também calcula um total diário que conta a sobreposição uma vez, e a integração usa esse total. Deixe <strong>Totais diários no payload</strong> ativado em <strong>Mais</strong> &gt; <strong>Avançado</strong>. <a href="../health-connect-steps-home-assistant/">Passos do Conexão Saúde que parecem errados</a> passa pelas outras causas.</li>
+  <li><strong>O tempo de tela é diferente do Bem-estar digital.</strong> O dia do app começa às 04:00 por padrão, os apps usados por um minuto ou menos ficam de fora, e só o tempo com o app na tela conta.</li>
+  <li><strong>Falta um campo,</strong> como um nutriente. O app envia todos os campos que o Conexão Saúde tem, mas só quando o app que gravou o registro os preencheu.</li>
+</ul>
+
+<h2>No iPhone</h2>
+
+<ul>
+  <li><strong>Um iPhone bloqueado não consegue ler o Apple Health.</strong> O iOS mantém os dados do app Saúde criptografados enquanto o iPhone está bloqueado, então uma sincronização nesse momento não lê nada; a próxima sincronização com o iPhone desbloqueado recupera o atraso.</li>
+  <li><strong>Falta um tipo.</strong> Confira se ele está ativado em <strong>O que enviar</strong>. Quando o iOS ainda não perguntou sobre um tipo, a linha <strong>Acesso ao app Saúde</strong> ali mostra <strong>Permitir</strong>. O iOS nunca diz a um app se você permitiu a leitura, então um tipo que você recusou simplesmente não envia nada; mude isso no app Saúde, no seu perfil, em <strong>Apps</strong>, <strong>Life Dashboard</strong>.</li>
+  <li><strong>Nada chega ao seu servidor.</strong> Toque no destino na aba <strong>Saúde</strong> e depois em <strong>Enviar teste</strong>. A aba <strong>Logs</strong> mostra o erro que o servidor ou o iOS devolveu. Para um servidor em casa, permita <strong>Rede Local</strong> para o Life Dashboard em Ajustes &gt; Privacidade e Segurança.</li>
+  <li><strong>As sincronizações chegam atrasadas.</strong> O iOS decide quando um app roda em segundo plano. A Atualização em 2º Plano precisa estar ativada para o app, e o Modo de Pouca Energia a desativa; a aba <strong>Saúde</strong> avisa quando um dos dois está segurando as sincronizações. Para um horário exato, <strong>Precisa de um horário exato?</strong> em <strong>Quando enviar</strong> explica a automação do Atalhos.</li>
+  <li><strong>Há payloads esperando.</strong> A aba <strong>Saúde</strong> mostra quantos estão pendentes, e <strong>Tentar agora</strong> os envia na hora.</li>
+  <li><strong>"Nenhum dado para sincronizar".</strong> Cada sincronização envia só o que há de novo desde a anterior. <strong>Prévia do payload</strong> em <strong>O que enviar</strong> mostra os últimos 7 dias como um payload. Para dados mais antigos, toque em <strong>Enviar histórico</strong> ali.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>O app gasta muita bateria?</summary>
+    <p>Muito pouca. Entre as sincronizações ele não faz nada: nenhum serviço roda e nenhuma conexão fica aberta. Cada sincronização é uma tarefa curta que o Android inicia na sua agenda, uma vez por hora por padrão. Um backfill gasta mais enquanto roda.</p>
+  </details>
+  <details>
+    <summary>Os dados se perdem quando uma sincronização falha?</summary>
+    <p>Raramente. Um payload que não foi entregue fica no celular e sai na próxima sincronização que alcançar o seu servidor, do mais antigo para o mais novo. A aba <strong>Logs</strong> mostra cada tentativa. Os dados se perdem em dois casos. O celular guarda até 700 payloads, cerca de uma semana de sincronizações a cada 15 minutos; passando disso, o mais antigo sai, com uma linha em <strong>Logs</strong> e uma notificação. E um payload que o seu servidor recusa com 400, 413 ou 422 é oferecido de novo a cada sincronização durante uma semana e depois descartado, com uma linha em <strong>Logs</strong>. Enquanto o seu servidor estiver totalmente fora de alcance, nada é descartado pela idade.</p>
+  </details>
+  <details>
+    <summary>Onde eu pergunto se esta página não ajudar?</summary>
+    <p>Nas <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a> do GitHub, ou abra uma issue com a linha da aba <strong>Logs</strong>. A lista completa de solução de problemas está no <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/usage.md#troubleshooting">guia de configuração</a>.</p>
+  </details>
+</section>

@@ -1,0 +1,107 @@
+<!--
+title: Health Connect ne synchronise plus ? Dépannage | Life Dashboard
+description: Synchronisations arrêtées en arrière-plan, données Santé Connect manquantes, capteurs absents dans Home Assistant, erreurs d’association : que vérifier, pas à pas.
+primary query: health connect ne synchronise plus
+secondary queries: santé connect synchronisation en arrière-plan arrêtée, samsung batterie ferme application, capteurs santé home assistant absents, autorisations santé connect, dépannage life dashboard
+slug: depannage
+published: 2026-10-19
+updated: 2026-11-20
+-->
+
+<h1>Pourquoi mes données de santé n’arrivent-elles pas&nbsp;?</h1>
+
+<p>La plupart des problèmes avec Life Dashboard Companion tiennent à quatre causes&nbsp;: le téléphone arrête l’application en arrière-plan, l’application de la montre n’écrit pas dans Health Connect (Santé Connect en français), une autorisation manque, ou le téléphone ne peut pas joindre l’adresse vers laquelle il envoie. Cette page les passe en revue dans l’ordre où il vaut la peine de les vérifier. Le premier endroit à regarder est toujours l’onglet <strong>Journaux</strong> de l’application&nbsp;: il affiche chaque synchronisation et chaque envoi avec la réponse du serveur, et un toucher sur une ligne donne les détails.</p>
+
+<h2>Les synchronisations s’arrêtent quand l’application est fermée</h2>
+
+<p>Si l’application ne synchronise que lorsque vous l’ouvrez, c’est que le téléphone arrête ses tâches en arrière-plan pour économiser la batterie. Samsung, Xiaomi, OnePlus, Huawei et d’autres marques le font, souvent sans vous prévenir. Modifiez ces réglages une fois, juste après l’installation&nbsp;:</p>
+
+<ul>
+  <li><strong>Samsung&nbsp;:</strong> Paramètres &gt; Applications &gt; Life Dashboard &gt; Batterie, à régler sur <strong>Non restreinte</strong>. Puis Paramètres &gt; Batterie (sur certaines versions, sous Maintenance de l’appareil) &gt; limites d’utilisation en arrière-plan (Background usage limits) &gt; <strong>Never sleeping apps</strong> (les applications jamais mises en veille), et ajoutez-y Life Dashboard.</li>
+  <li><strong>Xiaomi, Redmi et POCO&nbsp;:</strong> activez le démarrage automatique pour Life Dashboard (sur les versions récentes, <strong>Background autostart</strong> dans les autorisations de l’application), et réglez son économiseur de batterie sur <strong>No restrictions</strong> (aucune restriction). Verrouiller l’application dans l’écran des applications récentes, par un appui long puis le cadenas, évite aussi qu’elle soit fermée.</li>
+  <li><strong>Pixel et autres téléphones proches d’Android d’origine&nbsp;:</strong> Paramètres &gt; Applications &gt; Life Dashboard &gt; Utilisation de la batterie par l’appli, à régler sur <strong>Sans restriction</strong>.</li>
+  <li><strong>OnePlus, Oppo, Huawei et autres marques&nbsp;:</strong> réglez l’utilisation de la batterie de l’application sur <strong>Sans restriction</strong> ou <strong>Aucune restriction</strong> dans Paramètres &gt; Applications &gt; Life Dashboard, et cherchez un gestionnaire de démarrage automatique distinct. Les menus changent d’une version à l’autre&nbsp;; <a href="https://dontkillmyapp.com">dontkillmyapp.com</a> tient à jour les étapes pour chaque marque.</li>
+</ul>
+
+<p>Vérifiez ensuite que la lecture en arrière-plan est toujours autorisée dans Santé Connect (voir la section suivante)&nbsp;: sans elle, seul <strong>Synchroniser maintenant</strong> fonctionne. Même avec tous les réglages corrects, Android exécute une tâche en arrière-plan au plus toutes les 15 minutes, et peut attendre plus longtemps quand le téléphone est inactif. L’onglet <strong>Journaux</strong> montre quand les synchronisations ont réellement eu lieu.</p>
+
+<h2>Santé Connect est vide ou l’application ne peut pas le lire</h2>
+
+<ol>
+  <li><strong>Santé Connect est bien là.</strong> Sur Android 14 et plus récent, il fait partie des paramètres système&nbsp;; cherchez «&nbsp;Santé Connect&nbsp;» dans les paramètres (sur Samsung, il se trouve sous Sécurité et confidentialité). Sur Android 9 à 13, l’onglet <strong>Santé</strong> de l’application propose de l’installer ou de le mettre à jour. Android 8 ne le prend pas en charge&nbsp;; le temps d’écran y fonctionne quand même.</li>
+  <li><strong>L’application de votre montre y écrit.</strong> C’est un réglage de l’autre application. Dans Samsung Health, c’est Paramètres &gt; Santé Connect&nbsp;; dans Garmin Connect, c’est Paramètres &gt; Applications connectées &gt; Santé Connect, sur Android 14 ou plus récent. Les guides <a href="../samsung-health-home-assistant/">Samsung</a>, <a href="../garmin-home-assistant/">Garmin</a> et <a href="../fitbit-home-assistant/">Fitbit</a> donnent les détails. <strong>Ouvrir l’app</strong>, sur la ligne <strong>Accès à Santé Connect</strong> sous <strong>Données à envoyer</strong> dans l’onglet Santé, ouvre Santé Connect&nbsp;: vous pouvez ainsi voir si les données s’y trouvent.</li>
+  <li><strong>L’application a le droit de le lire.</strong> Touchez <strong>Autoriser</strong> sur la ligne <strong>Accès à Santé Connect</strong> sous <strong>Données à envoyer</strong> dans l’onglet Santé. Santé Connect demande l’accès en lecture par type de données ainsi que la <strong>lecture en arrière-plan</strong> ; les synchronisations planifiées ont besoin de la seconde. Un type marqué d’un cadenas sous <strong>Données à envoyer</strong> n’a pas encore d’autorisation&nbsp;: désactivez-le puis réactivez-le pour relancer la demande.</li>
+  <li><strong>L’historique plus ancien demande une autorisation de plus.</strong> Santé Connect ne laisse une application lire que les données des 30 jours qui précèdent son premier accès. Pour remonter plus loin, la page du backfill (le rattrapage de l’historique) demande l’accès à l’historique.</li>
+</ol>
+
+<h2>Synchroniser maintenant indique «&nbsp;Aucune nouvelle donnée&nbsp;»</h2>
+
+<p>Chaque synchronisation n’envoie que ce qui est nouveau depuis la précédente, et la toute première lit les 7 derniers jours. <strong>Aperçu du payload</strong>, sous <strong>Données à envoyer</strong> dans l’onglet Santé, montre ce que la prochaine synchronisation enverrait. Pour les données plus anciennes, lancez un backfill. Vérifiez aussi que la montre s’est synchronisée avec le téléphone&nbsp;: Garmin Connect écrit dans Santé Connect après la synchronisation de la montre, et Samsung Health dès que la montre se connecte ou quand vous ouvrez Samsung Health.</p>
+
+<p>Les valeurs nocturnes comme la variabilité de la fréquence cardiaque, la fréquence respiratoire et le sommeil arrivent souvent des heures après votre réveil. Les applications de montre n’écrivent la nuit dans Santé Connect que lorsqu’elles se synchronisent le matin. L’application l’envoie à la première synchronisation suivante&nbsp;; rien n’est perdu.</p>
+
+<h2>Aucun capteur dans Home Assistant</h2>
+
+<ul>
+  <li><strong>Avec l’intégration&nbsp;:</strong> Paramètres &gt; Appareils et services &gt; Life Dashboard, puis l’appareil du téléphone. Un capteur apparaît dès que le téléphone a envoyé ce type. Les identifiants d’entité commencent par le nom du téléphone, par exemple <code>sensor.owens_pixel_steps_today</code>. Les capteurs de temps d’écran par application sont créés désactivés&nbsp;: affichez les entités désactivées de l’appareil et activez les applications que vous voulez.</li>
+  <li><strong>L’historique</strong> ne se trouve pas dans les capteurs mais dans les statistiques à long terme. Ajoutez une carte <strong>Graphique de statistiques</strong> et choisissez les statistiques du téléphone dans la liste.</li>
+  <li><strong>Avec MQTT&nbsp;:</strong> Paramètres &gt; Appareils et services &gt; MQTT, appareil <strong>Life Dashboard Companion</strong>.</li>
+  <li><strong>Rien du tout&nbsp;:</strong> consultez l’onglet <strong>Journaux</strong>. Un envoi en échec signifie que le téléphone n’a pas pu joindre Home Assistant&nbsp;; voir la section suivante.</li>
+</ul>
+
+<h2>Le téléphone ne peut pas joindre Home Assistant</h2>
+
+<p>Le téléphone envoie vers l’adresse contenue dans le code d’association&nbsp;: cette adresse doit donc fonctionner depuis le téléphone.</p>
+
+<ul>
+  <li><strong><code>homeassistant.local</code> échoue souvent sur Android,</strong> qui ne résout pas de façon fiable les noms en <code>.local</code>. Utilisez plutôt l’adresse IP de Home Assistant, par exemple <code>http://192.168.1.10:8123</code> ; elle se trouve dans Paramètres &gt; Système &gt; Réseau.</li>
+  <li><strong>Une adresse du réseau domestique</strong> ne fonctionne que sur votre Wi-Fi domestique. Les synchronisations hors de chez vous échouent, le téléphone garde les données, et la première synchronisation de retour à la maison les envoie. Une notification de synchronisations en échec pendant que vous êtes sorti, c’est cela.</li>
+  <li><strong>Une adresse publique,</strong> comme une URL Home Assistant Cloud ou votre propre domaine en <code>https://</code>, fonctionne partout.</li>
+  <li><strong>«&nbsp;HTTP non chiffré désactivé&nbsp;»&nbsp;:</strong> l’adresse commence par <code>http://</code>. Activez <strong>Autoriser les webhooks en HTTP non chiffré</strong> sous <strong>Plus</strong> &gt; <strong>Avancé</strong> pour un serveur situé sur votre propre réseau ou votre VPN&nbsp;; les données circulent alors en clair sur ce réseau.</li>
+  <li><strong>Une erreur de certificat en <code>https://</code> :</strong> votre serveur utilise un certificat de votre propre autorité de certification, ou un certificat auto-signé. Sous <strong>Plus &gt; Avancé &gt; Certificats du serveur</strong> (application 1.27.0 et plus récente), faites confiance aux certificats d’autorité installés sur le téléphone pour cet hôte, ou lisez le certificat du serveur, vérifiez son empreinte et faites confiance à celui-là précisément. Aucune option n’ignore les erreurs de certificat.</li>
+</ul>
+
+<p>Pour changer l’adresse plus tard, ouvrez <strong>Reconfigurer</strong> sur l’intégration dans Home Assistant, modifiez-la à cet endroit et scannez le nouveau code.</p>
+
+<h2>L’association ne fonctionne pas</h2>
+
+<ul>
+  <li><strong>Le scan ouvre une page web au lieu de l’application.</strong> Android vérifie le lien d’association par rapport à la signature de l’application au moment de son installation. La page a un bouton <strong>Open in the app</strong> qui fonctionne toujours, et le scan depuis l’application, avec <strong>Scanner un code d’association</strong>, ne dépend jamais de cette vérification.</li>
+  <li><strong>«&nbsp;Ce code a été créé par une version plus récente&nbsp;».</strong> L’intégration est plus récente que l’application. Mettez l’application à jour et scannez de nouveau.</li>
+  <li><strong>L’association réussit mais rien n’arrive.</strong> L’adresse contenue dans le code n’est pas joignable depuis le téléphone&nbsp;: voir la section ci-dessus.</li>
+</ul>
+
+<h2>Des chiffres qui semblent faux</h2>
+
+<ul>
+  <li><strong>Des pas comptés deux fois&nbsp;?</strong> Pas dans Home Assistant. Quand Samsung Health et Garmin écrivent tous deux une marche, Santé Connect garde les deux copies mais calcule aussi un total quotidien qui ne compte le chevauchement qu’une fois, et l’intégration utilise ce total. Laissez <strong>Totaux quotidiens dans le payload</strong> activé sous <strong>Plus</strong> &gt; <strong>Avancé</strong>. Le guide <a href="../health-connect-steps-home-assistant/">Des pas Santé Connect qui semblent faux</a> passe en revue les autres causes.</li>
+  <li><strong>Le temps d’écran diffère de Bien-être numérique.</strong> La journée de l’application commence par défaut à 04:00, les applications utilisées une minute ou moins sont exclues, et seul le temps à l’écran compte.</li>
+  <li><strong>Un champ manque,</strong> par exemple un nutriment. L’application envoie tous les champs de Santé Connect, mais seulement quand l’application qui a écrit l’enregistrement les a remplis.</li>
+</ul>
+
+<h2>Sur un iPhone</h2>
+
+<ul>
+  <li><strong>Un iPhone verrouillé ne peut pas lire Apple Santé.</strong> iOS garde les données de Santé chiffrées tant que le téléphone est verrouillé&nbsp;: une synchronisation à ce moment-là ne lit donc rien&nbsp;; la suivante, téléphone déverrouillé, rattrape le retard.</li>
+  <li><strong>Un type manque.</strong> Vérifiez qu’il est activé sous <strong>Données à envoyer</strong>. Quand iOS n’a pas encore posé la question pour un type, la ligne <strong>Accès à Santé</strong> affiche à cet endroit <strong>Autoriser</strong>. iOS n’indique jamais à une application si vous avez autorisé la lecture&nbsp;: un type que vous avez refusé n’envoie donc simplement rien&nbsp;; modifiez-le dans l’app Santé, sous votre profil, <strong>Apps</strong>, <strong>Life Dashboard</strong>.</li>
+  <li><strong>Rien n’arrive sur votre serveur.</strong> Touchez la destination dans l’onglet <strong>Santé</strong>, puis <strong>Envoyer un test</strong>. L’onglet <strong>Journaux</strong> affiche l’erreur renvoyée par le serveur ou par iOS. Pour un serveur à la maison, autorisez <strong>Réseau local</strong> pour Life Dashboard dans Réglages &gt; Confidentialité et sécurité.</li>
+  <li><strong>Les synchronisations arrivent tard.</strong> iOS décide du moment où une application s’exécute en arrière-plan. L’actualisation en arrière-plan doit être activée pour l’application, et le mode Économie d’énergie la désactive&nbsp;; l’onglet <strong>Santé</strong> le signale quand l’un ou l’autre retarde les synchronisations. Pour une heure précise, <strong>Besoin d’une heure précise&nbsp;?</strong>, sous <strong>Quand envoyer</strong>, explique l’automatisation Raccourcis.</li>
+  <li><strong>Des payloads sont en attente.</strong> L’onglet <strong>Santé</strong> indique combien attendent, et <strong>Réessayer maintenant</strong> les envoie aussitôt.</li>
+  <li><strong>«&nbsp;Aucune donnée à synchroniser&nbsp;».</strong> Chaque synchronisation n’envoie que ce qui est nouveau depuis la précédente. <strong>Aperçu du payload</strong>, sous <strong>Données à envoyer</strong>, montre les 7 derniers jours sous forme de payload. Pour les données plus anciennes, touchez <strong>Envoyer l’historique</strong> au même endroit.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>L’application vide-t-elle la batterie&nbsp;?</summary>
+    <p>Très peu. Entre deux synchronisations, elle ne fait rien&nbsp;: aucun service ne tourne et aucune connexion ne reste ouverte. Chaque synchronisation est une tâche courte qu’Android lance selon votre planification, une fois par heure par défaut. Un backfill consomme davantage pendant qu’il s’exécute.</p>
+  </details>
+  <details>
+    <summary>Des données sont-elles perdues quand une synchronisation échoue&nbsp;?</summary>
+    <p>Rarement. Un payload qui n’a pas été livré reste sur le téléphone et part avec la prochaine synchronisation qui atteint votre serveur, le plus ancien en premier. L’onglet <strong>Journaux</strong> affiche chaque tentative. Des données sont perdues dans deux cas. Le téléphone garde jusqu’à 700 payloads, soit environ une semaine de synchronisations toutes les 15 minutes&nbsp;; au-delà, le plus ancien disparaît, avec une ligne dans <strong>Journaux</strong> et une notification. Et un payload que votre serveur refuse avec un 400, un 413 ou un 422 est proposé de nouveau à chaque synchronisation pendant une semaine, puis abandonné, avec une ligne dans <strong>Journaux</strong>. Tant que votre serveur est totalement injoignable, rien n’est abandonné en raison de son âge.</p>
+  </details>
+  <details>
+    <summary>Où poser ma question si cette page ne m’aide pas&nbsp;?</summary>
+    <p>Dans <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a> sur GitHub, ou ouvrez un ticket avec la ligne de l’onglet <strong>Journaux</strong>. La liste complète de dépannage se trouve dans le <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/usage.md#troubleshooting">guide d’installation</a>.</p>
+  </details>
+</section>

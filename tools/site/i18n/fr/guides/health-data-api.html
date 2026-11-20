@@ -1,0 +1,93 @@
+<!--
+title: Health Connect, Apple Health : pas d’API web | Life Dashboard
+description: Health Connect et Apple Health n’ont pas d’API web. Life Dashboard Companion les lit sur le téléphone et envoie du JSON signé à votre serveur ou à Home Assistant.
+primary query: api health connect
+secondary queries: api apple health, api santé connect, api web health connect, api rest apple santé, récupérer données santé connect sur un serveur, api rest health connect, api web healthkit, api google health, arrêt api web fitbit, api samsung health
+updated: 2026-11-20
+published: 2026-10-06
+-->
+
+<h1>Existe-t-il une API web pour Health Connect ou Apple Health&nbsp;?</h1>
+
+<p>Non. Health Connect (Santé Connect en français) et Apple Health (l’app Santé de l’iPhone) sont des espaces de stockage sur le téléphone que les applications lisent par l’intermédiaire d’Android ou d’iOS, et aucun des deux ne propose de point d’accès que votre serveur pourrait appeler. Pour amener les données sur un serveur, une application sur le téléphone doit les lire et les transmettre&nbsp;: c’est ce que fait Life Dashboard Companion sur Android et sur iPhone.</p>
+
+<p class="flow-line"><span>Montre, bague ou balance</span><span>Son application</span><span>Santé Connect ou Apple Santé</span><span>Life Dashboard Companion</span><span>Votre serveur</span></p>
+
+<h2>Santé Connect est une API Android sur le téléphone</h2>
+
+<p>Santé Connect est l’espace de stockage commun d’Android pour les données de santé. Samsung Health, Garmin Connect, Google Health, Oura et Withings y écrivent, et d’autres applications y lisent avec l’API Android de Santé Connect, à raison d’une autorisation par type de données.</p>
+
+<p>Il n’y a pas de côté serveur. Les enregistrements vivent sur le téléphone, et seul du code qui s’exécute sur ce téléphone peut les lire. Santé Connect limite aussi la profondeur de lecture d’une application&nbsp;: tout ce qui date de plus de 30 jours avant votre première autorisation demande une autorisation d’historique distincte.</p>
+
+<h2>Apple Santé, c’est HealthKit sur l’iPhone</h2>
+
+<p>Apple Santé fonctionne de la même façon. Les données se trouvent sur l’iPhone, les applications les lisent par HealthKit une fois que vous avez autorisé chaque type, et Apple ne propose aucune API web pour vos données de Santé. iOS chiffre en outre Apple Santé tant que l’iPhone est verrouillé&nbsp;: même une application sur le téléphone doit donc attendre que vous le déverrouilliez.</p>
+
+<h2>Les voies cloud qui existent</h2>
+
+<p>Pour les données d’un compte Google, comme celles d’une Fitbit ou d’une Pixel Watch, Google propose l’API Google Health dans son cloud. Elle demande un projet Google Cloud et un client OAuth, et ne voit que ce qui arrive dans votre compte Google. L’ancienne API Web de Fitbit a perdu son support le 30 septembre 2026 et a été coupée le 2 novembre 2026&nbsp;; les outils qui reposaient dessus, comme l’intégration Fitbit de Home Assistant, ont alors cessé de synchroniser. Le guide <a href="../fitbit-home-assistant/">Fitbit et Pixel Watch dans Home Assistant</a> décrit la voie qui passe par le téléphone.</p>
+
+<p>Samsung Health n’a aucune API cloud à laquelle vous connecter, et le SDK de données de Samsung n’est ouvert qu’aux partenaires enregistrés. Là aussi, Santé Connect est la voie ouverte&nbsp;; voir <a href="../samsung-health-export/">Samsung Health vers votre propre serveur</a>.</p>
+
+<h2>Ce qu’il vous faut</h2>
+
+<ul>
+  <li>Un téléphone Android avec Android 9 ou plus récent et Santé Connect, ou un iPhone sous iOS 17 ou plus récent.</li>
+  <li><a href="../android/">Life Dashboard Companion pour Android</a>. {{status:android}}</li>
+  <li>Ou <a href="../ios/">Life Dashboard Companion pour iPhone</a>. {{status:ios}}</li>
+  <li>Un endroit où envoyer les données&nbsp;: un serveur qui accepte un POST JSON en HTTPS, <a href="../home-assistant/">Home Assistant</a>, un broker MQTT, ou <a href="../grafana/">la stack Life Dashboard</a>.</li>
+</ul>
+
+<h2>La mise en place</h2>
+
+<p>Pour votre propre serveur, sur Android&nbsp;:</p>
+
+<ol>
+  <li>Ouvrez l’application. À l’écran <strong>Où envoyer vos données&nbsp;?</strong>, saisissez votre URL sous <strong>URL de webhook</strong> et touchez <strong>Ajouter</strong>.</li>
+  <li>Dans l’onglet <strong>Santé</strong>, touchez la ligne de l’adresse. Sous <strong>Secret de signature HMAC (facultatif)</strong>, touchez <strong>Générer</strong> et reportez la même valeur sur votre serveur.</li>
+  <li>Touchez <strong>Enregistrer</strong> en haut, rouvrez la ligne et touchez <strong>Envoyer un test</strong>.</li>
+  <li>Touchez <strong>Autoriser</strong>, accordez l’accès à vos types de données et la lecture en arrière-plan, puis touchez <strong>Synchroniser maintenant</strong>.</li>
+  <li>Pour les données plus anciennes, touchez <strong>Envoyer l’historique</strong> sous <strong>Données à envoyer</strong> et choisissez jusqu’où remonter, de <strong>30 jours</strong> à <strong>Tout l’historique</strong>. C’est le backfill, le rattrapage de l’historique.</li>
+</ol>
+
+<p>Sur un iPhone, <strong>Ajouter une destination</strong>, dans l’onglet <strong>Santé</strong>, ajoute l’URL. Touchez la destination pour son <strong>Secret de signature HMAC</strong> et pour <strong>Envoyer un test</strong>. Les types de données et <strong>Envoyer l’historique</strong> se trouvent sous <strong>Données à envoyer</strong>. Le guide <a href="../health-connect-webhook/">Santé Connect vers un webhook</a> est le guide complet du récepteur.</p>
+
+<!-- IMG: Webhook settings with HMAC (A6-webhook.png) -->
+
+<h2>Ce que vous obtenez</h2>
+
+<ul>
+  <li><strong>Chaque enregistrement en JSON.</strong> Jusqu’à 34 types depuis Santé Connect, ou 28 depuis Apple Santé, chacun avec un <code>uuid</code> stable et l’application qui l’a écrit.</li>
+  <li><strong>Des totaux quotidiens qui ne comptent une marche qu’une fois.</strong> Les pas, la distance et les calories viennent des chiffres dédoublonnés du système lui-même&nbsp;: le téléphone et la montre ne s’additionnent donc pas pour donner le double.</li>
+  <li><strong>Un seul format pour les deux téléphones.</strong> L’application iPhone envoie les mêmes clés avec <code>"source": "healthkit_ios"</code> : un seul récepteur accepte donc les deux.</li>
+  <li><strong>Une signature.</strong> Avec un secret défini, chaque requête porte <code>X-Signature: sha256=&lt;hex&gt;</code>, un HMAC-SHA256 du corps.</li>
+  <li><strong>Votre propre API, si vous en voulez une.</strong> <a href="../grafana/">La stack Life Dashboard</a> stocke les données dans Postgres et les restitue en JSON en lecture seule sous <code>/api/</code>, par jour, nuit, entraînement ou mesure, derrière un jeton. Son serveur MCP offre la même chose au <a href="../health-data-own-ai/">modèle de votre choix</a>.</li>
+</ul>
+
+<h2>Les limites</h2>
+
+<ul>
+  <li>Votre serveur ne peut pas demander une plage de dates au téléphone. Il reçoit ce que le téléphone envoie, et vous lancez un backfill sur le téléphone.</li>
+  <li>Les données quittent le téléphone quand l’application synchronise&nbsp;: toutes les 60 minutes par défaut sur Android, toutes les 15 au plus court. Sur l’iPhone, iOS décide du moment exact.</li>
+  <li>Vous n’obtenez que ce que l’application du fabricant écrit dans le système.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Mon serveur peut-il aller chercher les données dans Santé Connect&nbsp;?</summary>
+    <p>Non. Santé Connect n’a pas d’interface réseau. Une application sur le téléphone doit le lire et pousser les données, comme le fait Life Dashboard Companion.</p>
+  </details>
+  <details>
+    <summary>Existe-t-il une API REST pour Apple Santé&nbsp;?</summary>
+    <p>Non. Les applications lisent Apple Santé par HealthKit sur l’iPhone. <a href="../ios/">Life Dashboard Companion pour iPhone</a> l’y lit et envoie le même JSON que l’application Android.</p>
+  </details>
+  <details>
+    <summary>Dois-je plutôt utiliser l’API Google Health&nbsp;?</summary>
+    <p>Elle convient si toutes vos données sont dans un compte Google, depuis une Fitbit ou une Pixel Watch, et si un projet Google Cloud et un client OAuth ne vous gênent pas. Santé Connect, sur le téléphone, contient aussi ce qu’écrivent Samsung Health, Garmin Connect, Oura et Withings, et Life Dashboard Companion envoie le tout dans un seul payload.</p>
+  </details>
+  <details>
+    <summary>Mes données passent-elles par un cloud en chemin&nbsp;?</summary>
+    <p>Non. Il n’y a aucun serveur Life Dashboard, et l’application n’envoie qu’aux destinations que vous saisissez. Si vous utilisez Home Assistant Cloud pour synchroniser hors de chez vous, c’est un chemin que vous avez choisi.</p>
+  </details>
+</section>

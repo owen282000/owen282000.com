@@ -1,0 +1,180 @@
+{
+  "slug": "android",
+  "nav_name": "Android-App",
+  "title": "Health Connect App für Android: Life Dashboard Companion",
+  "description": "Sendet Health-Connect-Daten und die Bildschirmzeit pro App an Home Assistant, MQTT oder einen Webhook. 4,99 € einmalig bei Google Play, kostenlos auf GitHub.",
+  "kicker": "Android-App",
+  "h1": "Health Connect und Bildschirmzeit, gesendet an deinen eigenen Server",
+  "lead": "Life Dashboard Companion ist eine Open-Source-App für Android, die Health-Connect-Daten und die Bildschirmzeit pro App an Home Assistant, MQTT oder deinen eigenen Webhook sendet, ohne Cloud und ohne Konto. Sie liest, was Samsung Health, Google Health, Garmin Connect, Oura, Withings und andere in Health Connect schreiben.",
+  "hero_image": "A1-health",
+  "highlights": [
+    {
+      "title": "34 Health-Connect-Typen",
+      "text": "Schritte, Schlafphasen, Herzfrequenz, HRV, Gewicht, Blutdruck, Blutzucker, Trainings, Ernährung und Zyklusprotokoll, jeder Typ mit eigenem Schalter."
+    },
+    {
+      "title": "Jeder Datensatz, mit seiner Quelle",
+      "text": "Jeder Datensatz geht mit einer festen ID und der App raus, die ihn geschrieben hat. Die Tagessummen zählen einen Spaziergang nur einmal."
+    },
+    {
+      "title": "Dein ganzer Verlauf",
+      "text": "Ein Backfill trägt nach, von 30 Tagen bis 5 Jahren oder alles, was Health Connect hat. In Home Assistant landet jeder Tag auf seinem eigenen Datum in den Langzeitstatistiken."
+    },
+    {
+      "title": "Bildschirmzeit pro App",
+      "text": "Minuten im Vordergrund für jede App, mit einer Tagesgrenze, die du festlegst, und einem Filter, der ausgewählte Apps aus dem Gesendeten heraushält."
+    },
+    {
+      "title": "Drei Wege nach draußen",
+      "text": "Die Life-Dashboard-Integration, MQTT mit Home Assistant Discovery oder ein beliebiger Webhook, der einen JSON-POST annimmt. Mehrere zugleich gehen auch. Die Tabs Gesundheit und Bildschirmzeit zeigen als Erstes, ob deine Daten bei jedem Ziel ankommen, darunter stehen die Werte von heute."
+    },
+    {
+      "title": "Empfangen in Health Connect",
+      "text": "Messwerte von Waage und Blutdruckmessgerät aus Home Assistant gehen in Health Connect, wo Samsung Health und Google Health das Gewicht lesen."
+    }
+  ],
+  "sections": [
+    {
+      "kicker": "Home Assistant und MQTT",
+      "h2": "In Home Assistant, mit oder ohne Broker",
+      "text": "Die Life-Dashboard-Integration wird mit einem QR-Code gekoppelt und hält jeden Tag in den Langzeitstatistiken fest. MQTT mit Home Assistant Discovery passt zu einem Setup, in dem schon ein Broker läuft und das nur aktuelle Werte braucht.",
+      "bullets": [
+        {
+          "main": "Sensoren für 27 der 34 Typen",
+          "sub": "Schritte, Distanz und Kalorien von heute, die letzte Herzfrequenz, Schlaf, Gewicht, Blutdruck, Blutzucker und mehr, das letzte Training und was du heute gegessen hast. Über MQTT sind es 25, ohne das Training und das Essen."
+        },
+        {
+          "main": "Bildschirmzeit insgesamt und pro App",
+          "sub": "Beide Wege bekommen die Summen. Den Sensor pro App gibt es mit der Integration."
+        },
+        {
+          "main": "Zwei Telefone an einem Broker",
+          "sub": "Gib jedem unter Mehr > Erweitert einen Telefonnamen, dann bekommt jedes sein eigenes Gerät und eigene Topics."
+        }
+      ],
+      "image": "A2-pair",
+      "link": {
+        "href": "../health-connect-home-assistant/",
+        "text": "So kommt Health Connect in Home Assistant"
+      }
+    },
+    {
+      "kicker": "Webhooks",
+      "h2": "Jeder Datensatz als JSON, an einen Server, den du betreibst",
+      "text": "Richte die App auf <a href=\"../health-connect-n8n/\">n8n</a>, Node-RED, den Grafana-Stack oder ein kurzes Skript. Ein Webhook bekommt auch, was in keinem Sensor steckt: einzelne Mahlzeiten, Einträge aus dem Zyklusprotokoll und Details zu Trainings.",
+      "bullets": [
+        {
+          "main": "HMAC-SHA256-Signaturen",
+          "sub": "Ein Header X-Signature, den dein Server prüfen kann. Erzeugen erstellt einen Schlüssel aus 32 zufälligen Bytes."
+        },
+        {
+          "main": "Client-Zertifikate (mTLS)",
+          "sub": "Ausgewählt aus dem Zertifikatsspeicher von Android, für einen Server hinter einem Reverse Proxy, der eines verlangt."
+        },
+        {
+          "main": "Eine Warteschlange auf dem Telefon",
+          "sub": "Bis zu 700 Payloads warten, solange dein Server nicht erreichbar ist, und die nächste Synchronisierung sendet sie zuerst."
+        },
+        {
+          "main": "Löschungen werden gemeldet",
+          "sub": "Ein Datensatz, der in Health Connect gelöscht wurde, wird im nächsten Payload genannt, damit dein Empfänger ihn ebenfalls entfernen kann."
+        }
+      ],
+      "image": "A6-webhook",
+      "link": {
+        "href": "../health-connect-webhook/",
+        "text": "Health-Connect-Daten an deinen eigenen Webhook senden"
+      }
+    },
+    {
+      "kicker": "Bildschirmzeit",
+      "h2": "Android-Bildschirmzeit pro App, neben deinen Gesundheitsdaten",
+      "text": "Die App liest die Zeit im Vordergrund pro App aus den Nutzungsstatistiken von Android, dieselben Zahlen, die Digital Wellbeing verwendet. Die Bildschirmzeit hat ihren eigenen Zeitplan und eigene Webhooks und funktioniert ohne Health Connect ab Android 8.0.",
+      "bullets": [
+        {
+          "main": "Eine eigene Tagesgrenze",
+          "sub": "Standardmäßig an und auf 04:00 gestellt, damit die Nutzung nach Mitternacht noch zum Vortag zählt."
+        },
+        {
+          "main": "Alle, Alle außer oder Nur",
+          "sub": "Eine App, die du herausfilterst, wird im Gesendeten nicht genannt; in der Tagessumme zählt ihre Zeit trotzdem mit."
+        },
+        {
+          "main": "Die letzten 7 Tage in jeder Synchronisierung",
+          "sub": "Ein Tag, der bei einer Synchronisierung noch lief, wird von der nächsten korrigiert."
+        },
+        {
+          "main": "Ein Sensor pro App in Home Assistant",
+          "sub": "Deaktiviert angelegt, damit du nur die Apps einschaltest, auf die du automatisieren willst."
+        }
+      ],
+      "image": "A4-screen-time",
+      "link": {
+        "href": "../screen-time-home-assistant/",
+        "text": "Android-Bildschirmzeit in Home Assistant"
+      }
+    }
+  ],
+  "requirements": "Gesundheitsdaten brauchen Android 9 oder neuer mit Health Connect. Health Connect ist ab Android 14 eingebaut, unter Android 9 bis 13 kommt es aus Google Play. Die Bildschirmzeit funktioniert ab Android 8.0. Die Life-Dashboard-Integration braucht Home Assistant 2026.3 oder neuer, bei Versionen vor 2026.11 zusätzlich HACS. MQTT braucht einen Broker, und ein Webhook braucht einen Server, der einen JSON-POST annimmt.",
+  "faq": [
+    {
+      "q": "Welche Health-Connect-Typen werden zu Sensoren in Home Assistant?",
+      "a": "27 der 34 über die Integration, 25 über MQTT. Achtsamkeit, sexuelle Aktivität und die fünf Typen des Zyklusprotokolls sind Ereignisse und keine Werte, deshalb bekommen sie keinen Sensor; die Integration zählt die Achtsamkeitszeit pro Tag. In der Integration bekommen Trainings einen Sensor für das letzte Training und die Minuten von heute und gestern, und ab Version 1.2.0 summieren sich deine Mahlzeiten zu den Kalorien, dem Eiweiß, den Kohlenhydraten und dem Fett, die du heute gegessen hast. Ein <a href=\"../health-connect-webhook/\">eigener Webhook</a> bekommt diese Datensätze vollständig."
+    },
+    {
+      "q": "Kann die App gleichzeitig an Home Assistant und einen Webhook senden?",
+      "a": "Ja. Jede Adresse hat ihren eigenen Signaturschlüssel und eigene Header, und die Kopplung mit Home Assistant setzt sie nur für die Adresse, die sie hinzufügt. Ein zweiter Empfänger behält also seine eigenen. Eines solltest du im Moment wissen: Ein Payload gilt als zugestellt, sobald ein Ziel ihn annimmt. Ein Ziel, das in diesem Moment nicht erreichbar ist, bekommt ihn also nicht. Health Connect und Bildschirmzeit können jeweils an mehrere Webhooks und zugleich an MQTT senden. Eine eigene Zustellung für jedes Ziel ist geplant."
+    },
+    {
+      "q": "Was passiert, wenn mein Server nicht erreichbar ist?",
+      "a": "Jede Synchronisierung schreibt ihren Payload zuerst auf das Telefon und löscht ihn erst, wenn ein Webhook ihn angenommen hat. Die Warteschlange fasst bis zu 700 Health-Connect-Payloads, etwa eine Woche Synchronisierungen im 15-Minuten-Takt, und die nächste Synchronisierung, die durchkommt, stellt sie zuerst zu."
+    },
+    {
+      "q": "Kann die App zu festen Zeiten statt in einem Intervall synchronisieren?",
+      "a": "Ja. Jeder Tab hat sein eigenes <strong>Wann senden</strong>: alle 15 Minuten oder seltener, oder eine Liste von Uhrzeiten, an den Tagen, die du wählst, mit Ruhezeiten. Eine Kachel in den Schnelleinstellungen, Tasker und MacroDroid können ebenfalls eine Synchronisierung starten."
+    },
+    {
+      "q": "Funktioniert Empfangen über MQTT?",
+      "a": "Nein. Die Messwerte kommen in der signierten Antwort der Integration auf den Webhook-Aufruf zurück, den die App ohnehin macht. Empfangen braucht also die Life-Dashboard-Integration. <a href=\"../smart-scale-to-samsung-health/\">Smarte Waage mit Samsung Health verbinden</a> führt durch die Einrichtung."
+    },
+    {
+      "q": "Wie speichert die App meine Geheimnisse?",
+      "a": "Auth-Header, Signaturschlüssel und MQTT-Passwörter sind mit AES-256-GCM verschlüsselt, mit einem Schlüssel, den der Android Keystore verwahrt. Das Backup von Android lässt sie aus, ebenso die Webhook-Logs."
+    },
+    {
+      "q": "Wie viel Akku braucht die App?",
+      "a": "Zwischen zwei Synchronisierungen tut die App nichts: Kein Dienst läuft weiter, keine Verbindung bleibt offen. Jede Synchronisierung ist ein kurzer Job, den Android nach deinem Zeitplan startet. Auf Telefonen von Samsung, Xiaomi und ähnlichen Herstellern stellst du die Akkunutzung der App auf <strong>Nicht eingeschränkt</strong>, sonst stoppt Android die geplanten Synchronisierungen; die <a href=\"https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/usage.md#let-the-app-run-in-the-background\">Einrichtungsanleitung</a> nennt die Wege pro Hersteller."
+    },
+    {
+      "q": "Welche Berechtigungen will die App, und was verlässt das Telefon?",
+      "a": "Leseberechtigungen in Health Connect für die Typen, die du einschaltest, Schreibberechtigungen nur für die Empfangen-Typen, die du einschaltest, den Nutzungszugriff für die Bildschirmzeit, die Kamera nur, während du einen Kopplungscode scannst, den Internetzugriff und Benachrichtigungen für fehlgeschlagene Synchronisierungen und den Fortschritt eines Backfills. Daten gehen nur an die Adressen, die du einträgst. Die <a href=\"https://github.com/owen282000/life-dashboard-companion-app/blob/main/PRIVACY.md#permissions\">Datenschutzerklärung</a> listet jede Berechtigung und jedes Feld auf."
+    },
+    {
+      "q": "In welchen Sprachen gibt es die App?",
+      "a": "In elf: Englisch, Niederländisch, Deutsch, Französisch, Spanisch, Italienisch, Portugiesisch (Brasilien), Japanisch, Arabisch, Hindi und vereinfachtes Chinesisch. Jede verwendet die Begriffe, die Health Connect und Android in dieser Sprache benutzen."
+    },
+    {
+      "q": "Kann ich meine Daten als Datei bekommen?",
+      "a": "Ja. <strong>Mehr &gt; Daten exportieren</strong> speichert sie als JSON oder als CSV mit einer Zeile pro Datensatz. Dafür brauchst du also keinen Server."
+    },
+    {
+      "q": "Gibt es die App bei Google Play?",
+      "a": "Ja: <a href=\"{{play_url}}\">Health Data for Home Assistant bei Google Play</a>, so heißt Life Dashboard Companion dort. 4,99&nbsp;€ einmalig (4,99&nbsp;US$), ohne Abo. Das ist der bequeme Weg, mit automatischen Updates, und mit dem Kauf unterstützt du die Entwicklung. Die APK auf GitHub, Obtainium und F-Droid bleiben kostenlos: dieselbe App, aus demselben Quellcode gebaut und mit demselben Schlüssel signiert."
+    },
+    {
+      "q": "Kann ich später zwischen GitHub, Obtainium, F-Droid und Google Play wechseln?",
+      "a": "Ja. Google Play, die APK auf GitHub, Obtainium und F-Droid installieren alle dieselbe App, mit demselben Paketnamen und demselben Signaturschlüssel. Du kannst also wechseln, ohne neu zu installieren: Die eine Version installiert sich über die andere, und deine Einstellungen bleiben."
+    }
+  ],
+  "updated": "2026-11-20",
+  "guides": [
+    "health-connect-home-assistant",
+    "health-connect-webhook",
+    "screen-time-home-assistant",
+    "smart-scale-to-samsung-health",
+    "fitbit-home-assistant",
+    "garmin-home-assistant",
+    "samsung-health-export",
+    "health-data-api"
+  ]
+}

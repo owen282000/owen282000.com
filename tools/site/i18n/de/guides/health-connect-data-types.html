@@ -1,0 +1,321 @@
+<!--
+slug: health-connect-datentypen
+title: Health-Connect-Datentypen, App für App | Life Dashboard
+description: Alle 34 Health-Connect-Datentypen, die Life Dashboard sendet, mit Schlüsseln und Einheiten, und welche Samsung Health, Garmin, Google Health und Oura schreiben.
+primary query: health connect datentypen
+secondary queries: health connect datentypen liste, was synchronisiert samsung health mit health connect, garmin health connect was wird synchronisiert, samsung health connect hrv, fitbit health connect daten, oura health connect, withings health connect, gadgetbridge health connect, health connect hrv, health connect payload schlüssel
+updated: 2026-11-20
+published: 2026-10-14
+-->
+
+<h1>Welche Health-Connect-Datentypen bekomme ich, und welche Apps schreiben sie?</h1>
+
+<p>Life Dashboard Companion, eine Open-Source-App für Android, liest 34 Health-Connect-Datentypen und sendet jeden unter seinem eigenen Schlüssel als JSON, von Schritten, Schlafphasen und Herzfrequenz bis Blutdruck, Ernährung und Zyklusprotokoll. Was tatsächlich ankommt, hängt davon ab, was die App deiner Uhr in Health Connect schreibt: Samsung Health schreibt weder Herzfrequenzvariabilität noch Ruheherzfrequenz, und Garmin Connect schreibt keines von beiden und auch keinen Blutsauerstoff.</p>
+
+<p>Die iPhone-App sendet 29 der 34 Schlüssel aus ihren 28 Apple-Health-Typen (die Aktivitätsenergie füllt beide Kalorienschlüssel), im selben Format und mit denselben Einheiten. Die Bildschirmzeit ist kein Health-Connect-Typ, aber die Android-App sendet sie ebenfalls, als eigenen Payload. Die Tabellen unten haben den Stand Oktober 2026 und stammen aus der eigenen Liste jeder App darüber, was sie in Health Connect schreibt.</p>
+
+<h2>Alle 34 Typen im Überblick</h2>
+
+<p>Jeder Typ hat seinen eigenen Schlüssel im Payload, und seine Einheit ist fest, egal welche Einheit die Quell-App verwendet hat. Ein Typ über einen Zeitraum trägt <code>start_time</code> und <code>end_time</code>, ein Typ zu einem Zeitpunkt trägt <code>time</code>, und jeder Datensatz trägt eine <code>uuid</code> und die App, die ihn geschrieben hat, in <code>source</code>.</p>
+
+<table>
+  <thead>
+    <tr><th>Typ</th><th>Payload-Schlüssel</th><th>Einheit</th><th>Android</th><th>iPhone</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><a href="#steps">Schritte</a></td><td><code>steps</code></td><td>Schritte</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#distance">Distanz</a></td><td><code>distance</code></td><td>m</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#speed">Geschwindigkeit</a></td><td><code>speed</code></td><td>m/s</td><td>Ja</td><td>Nein</td></tr>
+    <tr><td><a href="#active_calories">Aktivitätsenergie (aktive Kalorien)</a></td><td><code>active_calories</code></td><td>kcal</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#total_calories">Gesamtenergie (Gesamtkalorien)</a></td><td><code>total_calories</code></td><td>kcal</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#exercise">Trainings</a></td><td><code>exercise</code></td><td>s</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#weight">Gewicht</a></td><td><code>weight</code></td><td>kg</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#height">Größe</a></td><td><code>height</code></td><td>m</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#body_temperature">Körpertemperatur</a></td><td><code>body_temperature</code></td><td>&deg;C</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#body_fat">Körperfettanteil</a></td><td><code>body_fat</code></td><td>%</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#lean_body_mass">Magere Körpermasse</a></td><td><code>lean_body_mass</code></td><td>kg</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#bone_mass">Knochenmasse</a></td><td><code>bone_mass</code></td><td>kg</td><td>Ja</td><td>Nein</td></tr>
+    <tr><td><a href="#body_water_mass">Körperwasser</a></td><td><code>body_water_mass</code></td><td>kg</td><td>Ja</td><td>Nein</td></tr>
+    <tr><td><a href="#heart_rate">Herzfrequenz</a></td><td><code>heart_rate</code></td><td>bpm</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#resting_heart_rate">Ruheherzfrequenz</a></td><td><code>resting_heart_rate</code></td><td>bpm</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#heart_rate_variability">Herzfrequenzvariabilität (HRV)</a></td><td><code>heart_rate_variability</code></td><td>ms</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#blood_pressure">Blutdruck</a></td><td><code>blood_pressure</code></td><td>mmHg</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#blood_glucose">Blutzucker</a></td><td><code>blood_glucose</code></td><td>mmol/L</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#oxygen_saturation">Blutsauerstoff (SpO2)</a></td><td><code>oxygen_saturation</code></td><td>%</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#respiratory_rate">Atemfrequenz</a></td><td><code>respiratory_rate</code></td><td>Atemzüge/min</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#sleep">Schlaf</a></td><td><code>sleep</code></td><td>s</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#mindfulness">Achtsamkeit</a></td><td><code>mindfulness</code></td><td>s</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#hydration">Wasser</a></td><td><code>hydration</code></td><td>L</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#nutrition">Ernährung</a></td><td><code>nutrition</code></td><td>kcal, g, mg, mcg</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#menstruation_period">Menstruationsperiode</a></td><td><code>menstruation_period</code></td><td>keine</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#menstruation_flow">Menstruationsblutung</a></td><td><code>menstruation_flow</code></td><td>keine</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#intermenstrual_bleeding">Schmierblutung</a></td><td><code>intermenstrual_bleeding</code></td><td>keine</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#ovulation_test">Ovulationstestergebnis</a></td><td><code>ovulation_test</code></td><td>keine</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#cervical_mucus">Zervixschleim</a></td><td><code>cervical_mucus</code></td><td>keine</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#sexual_activity">Sexuelle Aktivität</a></td><td><code>sexual_activity</code></td><td>keine</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#basal_body_temperature">Basaltemperatur</a></td><td><code>basal_body_temperature</code></td><td>&deg;C</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#basal_metabolic_rate">Grundumsatz</a></td><td><code>basal_metabolic_rate</code></td><td>kcal/Tag</td><td>Ja</td><td>Nein</td></tr>
+    <tr><td><a href="#vo2_max">VO2max</a></td><td><code>vo2_max</code></td><td>mL/kg/min</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><a href="#skin_temperature">Hauttemperatur</a></td><td><code>skin_temperature</code></td><td>&deg;C</td><td>Ja</td><td>Nein</td></tr>
+  </tbody>
+</table>
+
+<h2>Welche Apps welchen Typ schreiben</h2>
+
+<p>Stand Oktober 2026. <strong>Ja</strong> heißt, dass der Typ auf der eigenen Liste der App steht, was sie in Health Connect schreibt, und <strong>Nein</strong>, dass er dort nicht steht. <strong>Aus Trainings</strong> heißt, dass die App ihn nur mit den Trainings schreibt, die sie aufzeichnet. Withings veröffentlicht keine Liste. Seine Spalte nennt deshalb das Withings-Gerät, das den Typ misst, oder sagt <strong>Unbekannt</strong>; sieh auf deinem Telefon unter Health Connect &gt; App-Berechtigungen &gt; Withings nach.</p>
+
+<table>
+  <thead>
+    <tr><th>Typ</th><th>Samsung Health</th><th>Garmin Connect</th><th>Google Health</th><th>Oura</th><th>Withings</th><th>Gadgetbridge</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><a href="#steps">Schritte</a></td><td>Ja</td><td>Ja</td><td>Ja</td><td>Ja</td><td>Uhr</td><td>Ja</td></tr>
+    <tr><td><a href="#distance">Distanz</a></td><td>Aus Trainings</td><td>Ja</td><td>Ja</td><td>Ja</td><td>Uhr</td><td>Ja</td></tr>
+    <tr><td><a href="#speed">Geschwindigkeit</a></td><td>Ja</td><td>Ja</td><td>Ja</td><td>Nein</td><td>Unbekannt</td><td>Ja</td></tr>
+    <tr><td><a href="#active_calories">Aktivitätsenergie (aktive Kalorien)</a></td><td>Nein</td><td>Ja</td><td>Nein</td><td>Ja</td><td>Unbekannt</td><td>Aus Trainings</td></tr>
+    <tr><td><a href="#total_calories">Gesamtenergie (Gesamtkalorien)</a></td><td>Aus Trainings</td><td>Ja</td><td>Ja</td><td>Nein</td><td>Unbekannt</td><td>Aus Trainings</td></tr>
+    <tr><td><a href="#exercise">Trainings</a></td><td>Ja</td><td>Ja</td><td>Ja</td><td>Ja</td><td>Unbekannt</td><td>Ja</td></tr>
+    <tr><td><a href="#weight">Gewicht</a></td><td>Ja</td><td>Ja</td><td>Ja</td><td>Ja</td><td>Waage</td><td>Ja</td></tr>
+    <tr><td><a href="#height">Größe</a></td><td>Ja</td><td>Nein</td><td>Nein</td><td>Ja</td><td>Unbekannt</td><td>Nein</td></tr>
+    <tr><td><a href="#body_temperature">Körpertemperatur</a></td><td>Nein</td><td>Nein</td><td>Ja</td><td>Nein</td><td>Thermometer</td><td>Ja</td></tr>
+    <tr><td><a href="#body_fat">Körperfettanteil</a></td><td>Ja</td><td>Ja</td><td>Ja</td><td>Nein</td><td>Waage</td><td>Nein</td></tr>
+    <tr><td><a href="#lean_body_mass">Magere Körpermasse</a></td><td>Nein</td><td>Nein</td><td>Nein</td><td>Nein</td><td>Waage</td><td>Nein</td></tr>
+    <tr><td><a href="#bone_mass">Knochenmasse</a></td><td>Nein</td><td>Nein</td><td>Nein</td><td>Nein</td><td>Waage</td><td>Nein</td></tr>
+    <tr><td><a href="#body_water_mass">Körperwasser</a></td><td>Nein</td><td>Nein</td><td>Nein</td><td>Nein</td><td>Waage</td><td>Nein</td></tr>
+    <tr><td><a href="#heart_rate">Herzfrequenz</a></td><td>Ja</td><td>Ja</td><td>Ja</td><td>Ja</td><td>Uhr, Blutdruckmessgerät</td><td>Ja</td></tr>
+    <tr><td><a href="#resting_heart_rate">Ruheherzfrequenz</a></td><td>Nein</td><td>Nein</td><td>Ja</td><td>Nein</td><td>Unbekannt</td><td>Ja</td></tr>
+    <tr><td><a href="#heart_rate_variability">Herzfrequenzvariabilität (HRV)</a></td><td>Nein</td><td>Nein</td><td>Ja</td><td>Ja</td><td>Unbekannt</td><td>Ja</td></tr>
+    <tr><td><a href="#blood_pressure">Blutdruck</a></td><td>Ja</td><td>Nein</td><td>Nein</td><td>Nein</td><td>Blutdruckmessgerät</td><td>Ja</td></tr>
+    <tr><td><a href="#blood_glucose">Blutzucker</a></td><td>Ja</td><td>Nein</td><td>Ja</td><td>Nein</td><td>Unbekannt</td><td>Ja</td></tr>
+    <tr><td><a href="#oxygen_saturation">Blutsauerstoff (SpO2)</a></td><td>Ja</td><td>Nein</td><td>Nein*</td><td>Nein</td><td>Uhr</td><td>Ja</td></tr>
+    <tr><td><a href="#respiratory_rate">Atemfrequenz</a></td><td>Nein</td><td>Nein</td><td>Ja</td><td>Nein</td><td>Unbekannt</td><td>Ja</td></tr>
+    <tr><td><a href="#sleep">Schlaf</a></td><td>Ja</td><td>Ja</td><td>Ja</td><td>Ja</td><td>Uhr</td><td>Ja</td></tr>
+    <tr><td><a href="#mindfulness">Achtsamkeit</a></td><td>Nein</td><td>Nein</td><td>Nein</td><td>Nein</td><td>Unbekannt</td><td>Nein</td></tr>
+    <tr><td><a href="#hydration">Wasser</a></td><td>Nein</td><td>Nein</td><td>Ja</td><td>Nein</td><td>Unbekannt</td><td>Nein</td></tr>
+    <tr><td><a href="#nutrition">Ernährung</a></td><td>Ja</td><td>Nein</td><td>Ja</td><td>Nein</td><td>Unbekannt</td><td>Nein</td></tr>
+    <tr><td><a href="#menstruation_period">Menstruationsperiode</a></td><td>Nein</td><td>Nein</td><td>Ja</td><td>Nein</td><td>Unbekannt</td><td>Nein</td></tr>
+    <tr><td><a href="#menstruation_flow">Menstruationsblutung</a></td><td>Nein</td><td>Nein</td><td>Ja</td><td>Nein</td><td>Unbekannt</td><td>Nein</td></tr>
+    <tr><td><a href="#intermenstrual_bleeding">Schmierblutung</a></td><td>Nein</td><td>Nein</td><td>Ja</td><td>Nein</td><td>Unbekannt</td><td>Nein</td></tr>
+    <tr><td><a href="#ovulation_test">Ovulationstestergebnis</a></td><td>Nein</td><td>Nein</td><td>Nein</td><td>Nein</td><td>Unbekannt</td><td>Nein</td></tr>
+    <tr><td><a href="#cervical_mucus">Zervixschleim</a></td><td>Nein</td><td>Nein</td><td>Nein</td><td>Nein</td><td>Unbekannt</td><td>Nein</td></tr>
+    <tr><td><a href="#sexual_activity">Sexuelle Aktivität</a></td><td>Nein</td><td>Nein</td><td>Nein</td><td>Nein</td><td>Unbekannt</td><td>Nein</td></tr>
+    <tr><td><a href="#basal_body_temperature">Basaltemperatur</a></td><td>Nein</td><td>Nein</td><td>Nein</td><td>Nein</td><td>Unbekannt</td><td>Nein</td></tr>
+    <tr><td><a href="#basal_metabolic_rate">Grundumsatz</a></td><td>Ja</td><td>Nein</td><td>Nein</td><td>Nein</td><td>Unbekannt</td><td>Nein</td></tr>
+    <tr><td><a href="#vo2_max">VO2max</a></td><td>Aus Trainings</td><td>Nein</td><td>Ja</td><td>Nein</td><td>Unbekannt</td><td>Ja</td></tr>
+    <tr><td><a href="#skin_temperature">Hauttemperatur</a></td><td>Nein</td><td>Nein</td><td>Ja</td><td>Nein</td><td>Unbekannt</td><td>Ja</td></tr>
+  </tbody>
+</table>
+
+<p>* Nicht auf Googles Liste, aber der nächtliche SpO2-Wert von Fitbit wurde im September 2026 über Health Connect ankommend beobachtet, wie <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/DATA_SOURCES.md#fitbit-comfitbitfitbitmobile">DATA_SOURCES.md</a> festhält.</p>
+
+<p>Jede App kann mit jedem Update ändern, was sie teilt. Sieh also auf deinem eigenen Telefon unter Health Connect &gt; App-Berechtigungen &gt; die App nach. Typen, die keine dieser sechs Apps aufführt, etwa Ovulationstests oder Achtsamkeitseinheiten, kommen aus anderen Apps: Zyklus-Trackern, Ernährungstagebüchern oder Meditations-Apps, die in Health Connect schreiben.</p>
+
+<p>Auch Coros schreibt in Health Connect, mit einem Haken, der im Oktober 2026 beobachtet wurde: Seine Gesamtkalorien enthalten nur die Aktivitätsenergie, die Summe des Tages fällt also um mehrere hundert kcal zu niedrig aus. Die <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/brands/coros.md">Seite zu Coros</a> hat ein Template für Home Assistant, das den Ruheanteil addiert.</p>
+
+<h2>Was jede App für sich behält</h2>
+
+<ul>
+  <li><strong>Samsung Health</strong> teilt weder Herzfrequenzvariabilität, Ruheherzfrequenz, Hauttemperatur, Atemfrequenz, Zyklusprotokoll, Stress, EKG noch den Energiewert. Distanz, Gesamtkalorien und VO2max kommen nur aus Trainings, und aktive Kalorien stehen nicht auf seiner Liste. Siehe <a href="../samsung-health-export/">Samsung-Health-Daten auf den eigenen Server exportieren</a>.</li>
+  <li><strong>Garmin Connect</strong> behält Body Battery, Stress, HRV-Status, Trainingsbelastung, Pulse Ox, Atmung und Ruheherzfrequenz. Seine Synchronisierung mit Health Connect braucht Garmin Connect 5.14.1 oder neuer auf Android 14 oder neuer. Siehe <a href="../garmin-home-assistant/">Garmin in Home Assistant</a>.</li>
+  <li><strong>Google Health</strong>, die App für Fitbit und Pixel Watch, führt weder Blutsauerstoff noch aktive Kalorien auf. Siehe <a href="../fitbit-home-assistant/">Fitbit und Pixel Watch in Home Assistant</a>.</li>
+  <li><strong>Oura</strong> behält seine Werte für Tagesform, Schlaf und Aktivität, Blutsauerstoff, Temperatur, Ruheherzfrequenz und Atemfrequenz. Siehe die <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/brands/oura.md">Anleitung zu Oura</a>.</li>
+  <li><strong>Withings</strong> behält Scores und Auswertungen wie den Schlaf-Score, das Gefäßalter, den Nerve Health Score und EKG-Aufzeichnungen. Siehe die <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/brands/withings.md">Anleitung zu Withings</a>.</li>
+  <li><strong>Gadgetbridge</strong> schreibt, was dein Uhrenmodell aufzeichnet und Gadgetbridge dafür unterstützt. Stress und Scores, die die Uhr berechnet, bleiben in Gadgetbridge. Siehe die <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/brands/gadgetbridge.md">Anleitung zu Gadgetbridge</a>.</li>
+</ul>
+
+<p>Für Stress, Body Battery, Trainingsbelastung, EKG, Energiewert und die Scores der Hersteller hat Health Connect keinen Typ. Keine App kann sie also darüber weitergeben.</p>
+
+<h2>Aktivität</h2>
+
+<h3 id="steps">Schritte</h3>
+<p>Schlüssel <code>steps</code>: <code>count</code>, eine ganze Zahl, über einen Zeitraum. Android und iPhone.</p>
+<p>Geschrieben von Samsung Health, Garmin Connect, Google Health, Oura und Gadgetbridge. Uhren von Withings messen diesen Typ, aber Withings veröffentlicht keine Liste dessen, was es schreibt.</p>
+
+<h3 id="distance">Distanz</h3>
+<p>Schlüssel <code>distance</code>: <code>meters</code>, über einen Zeitraum. Android und iPhone.</p>
+<p>Geschrieben von Garmin Connect, Google Health, Oura und Gadgetbridge und, nur aus Trainings, von Samsung Health. Uhren von Withings messen diesen Typ, aber Withings veröffentlicht keine Liste dessen, was es schreibt.</p>
+
+<h3 id="speed">Geschwindigkeit</h3>
+<p>Schlüssel <code>speed</code>: <code>meters_per_second</code>, eine Zahl, ein Objekt pro Messwert. Nur Android. Die <code>uuid</code> jedes Messwerts ist die ID des Datensatzes plus <code>#</code> und die Zeit in Epochen-Millisekunden.</p>
+<p>Geschrieben von Samsung Health, Garmin Connect, Google Health und Gadgetbridge. Withings veröffentlicht keine Liste dessen, was es schreibt.</p>
+
+<h3 id="active_calories">Aktivitätsenergie (aktive Kalorien)</h3>
+<p>Schlüssel <code>active_calories</code>: <code>calories</code> in kcal, über einen Zeitraum. Android und iPhone.</p>
+<p>Geschrieben von Garmin Connect und Oura und, nur aus Trainings, von Gadgetbridge. Nicht auf den Listen von Samsung Health oder Google Health.</p>
+
+<h3 id="total_calories">Gesamtenergie (Gesamtkalorien)</h3>
+<p>Schlüssel <code>total_calories</code>: <code>calories</code> in kcal, über einen Zeitraum. Android und iPhone. Auf einem iPhone ist das Ruheenergie plus Aktivitätsenergie, weil Apple Health keinen Typ für die Gesamtenergie hat.</p>
+<p>Geschrieben von Garmin Connect und Google Health und, nur aus Trainings, von Samsung Health und Gadgetbridge. Nicht auf der Liste von Oura.</p>
+
+<h3 id="exercise">Trainings</h3>
+<p>Schlüssel <code>exercise</code>: <code>type</code> und <code>duration_seconds</code>, über einen Zeitraum. Android und iPhone. Android sendet die Nummer des Trainingstyps von Health Connect als Zeichenkette, etwa <code>"56"</code> für Laufen; ein iPhone sendet einen Namen, etwa <code>"running"</code>.</p>
+<p>Geschrieben von Samsung Health, Garmin Connect, Google Health, Oura und Gadgetbridge.</p>
+
+<h2>Körper</h2>
+
+<h3 id="weight">Gewicht</h3>
+<p>Schlüssel <code>weight</code>: <code>kilograms</code>, zu einem Zeitpunkt. Android und iPhone.</p>
+<p>Geschrieben von Samsung Health, Garmin Connect, Google Health, Oura und Gadgetbridge. Waagen von Withings messen diesen Typ, aber Withings veröffentlicht keine Liste dessen, was es schreibt.</p>
+
+<h3 id="height">Größe</h3>
+<p>Schlüssel <code>height</code>: <code>meters</code>, zu einem Zeitpunkt. Android und iPhone.</p>
+<p>Geschrieben von Samsung Health und Oura. Nicht auf den Listen von Garmin Connect, Google Health oder Gadgetbridge.</p>
+
+<h3 id="body_temperature">Körpertemperatur</h3>
+<p>Schlüssel <code>body_temperature</code>: <code>celsius</code>, zu einem Zeitpunkt. Android und iPhone.</p>
+<p>Geschrieben von Google Health und Gadgetbridge. Nicht auf den Listen von Samsung Health, Garmin Connect oder Oura. Das Thermometer von Withings misst diesen Typ, aber Withings veröffentlicht keine Liste dessen, was es schreibt.</p>
+
+<h3 id="body_fat">Körperfettanteil</h3>
+<p>Schlüssel <code>body_fat</code>: <code>percentage</code>, 0 bis 100, zu einem Zeitpunkt. Android und iPhone.</p>
+<p>Geschrieben von Samsung Health, Garmin Connect und Google Health. Nicht auf den Listen von Oura oder Gadgetbridge. Waagen von Withings messen diesen Typ, aber Withings veröffentlicht keine Liste dessen, was es schreibt.</p>
+
+<h3 id="lean_body_mass">Magere Körpermasse</h3>
+<p>Schlüssel <code>lean_body_mass</code>: <code>kilograms</code>, zu einem Zeitpunkt. Android und iPhone.</p>
+<p>Keine der sechs Apps auf dieser Seite führt diesen Typ auf. Waagen von Withings messen diesen Typ, aber Withings veröffentlicht keine Liste dessen, was es schreibt.</p>
+
+<h3 id="bone_mass">Knochenmasse</h3>
+<p>Schlüssel <code>bone_mass</code>: <code>kilograms</code>, zu einem Zeitpunkt. Nur Android. Apple Health hat keinen Typ für die Knochenmasse.</p>
+<p>Keine der sechs Apps auf dieser Seite führt diesen Typ auf. Waagen von Withings messen diesen Typ, aber Withings veröffentlicht keine Liste dessen, was es schreibt.</p>
+
+<h3 id="body_water_mass">Körperwasser</h3>
+<p>Schlüssel <code>body_water_mass</code>: <code>kilograms</code>, zu einem Zeitpunkt. Nur Android. Apple Health hat keinen Typ für das Körperwasser.</p>
+<p>Keine der sechs Apps auf dieser Seite führt diesen Typ auf. Waagen von Withings messen diesen Typ, aber Withings veröffentlicht keine Liste dessen, was es schreibt.</p>
+
+<h2>Herz und Atmung</h2>
+
+<h3 id="heart_rate">Herzfrequenz</h3>
+<p>Schlüssel <code>heart_rate</code>: <code>bpm</code>, eine ganze Zahl, ein Objekt pro Messwert. Android und iPhone. Von Android ist die <code>uuid</code> jedes Messwerts die ID des Datensatzes plus <code>#</code> und die Zeit in Epochen-Millisekunden.</p>
+<p>Geschrieben von Samsung Health, Garmin Connect, Google Health, Oura und Gadgetbridge. Uhren und Blutdruckmessgeräte von Withings messen diesen Typ, aber Withings veröffentlicht keine Liste dessen, was es schreibt.</p>
+
+<h3 id="resting_heart_rate">Ruheherzfrequenz</h3>
+<p>Schlüssel <code>resting_heart_rate</code>: <code>bpm</code>, eine ganze Zahl, zu einem Zeitpunkt. Android und iPhone.</p>
+<p>Geschrieben von Google Health und Gadgetbridge. Nicht auf den Listen von Samsung Health, Garmin Connect oder Oura.</p>
+
+<h3 id="heart_rate_variability">Herzfrequenzvariabilität (HRV)</h3>
+<p>Schlüssel <code>heart_rate_variability</code>: <code>heart_rate_variability_millis</code>, zu einem Zeitpunkt. Android und iPhone. Android sendet RMSSD, den Wert, den Health Connect speichert. Ein iPhone sendet SDNN, den Wert, den Apple Health speichert. Das ist nicht dieselbe Zahl.</p>
+<p>Geschrieben von Google Health, Oura und Gadgetbridge. Nicht auf den Listen von Samsung Health oder Garmin Connect.</p>
+
+<h3 id="blood_pressure">Blutdruck</h3>
+<p>Schlüssel <code>blood_pressure</code>: <code>systolic</code> und <code>diastolic</code>, zu einem Zeitpunkt. Android und iPhone.</p>
+<p>Geschrieben von Samsung Health und Gadgetbridge. Nicht auf den Listen von Garmin Connect, Google Health oder Oura. Blutdruckmessgeräte von Withings messen diesen Typ, aber Withings veröffentlicht keine Liste dessen, was es schreibt.</p>
+
+<h3 id="blood_glucose">Blutzucker</h3>
+<p>Schlüssel <code>blood_glucose</code>: <code>mmol_per_liter</code>, zu einem Zeitpunkt. Android und iPhone.</p>
+<p>Geschrieben von Samsung Health, Google Health und Gadgetbridge. Nicht auf den Listen von Garmin Connect oder Oura.</p>
+
+<h3 id="oxygen_saturation">Blutsauerstoff (SpO2)</h3>
+<p>Schlüssel <code>oxygen_saturation</code>: <code>percentage</code>, 0 bis 100, zu einem Zeitpunkt. Android und iPhone.</p>
+<p>Geschrieben von Samsung Health und Gadgetbridge. Nicht auf den Listen von Garmin Connect oder Oura. Der nächtliche SpO2-Wert von Fitbit wurde im September 2026 über Health Connect ankommend beobachtet, obwohl er nicht auf Googles Liste steht. Uhren von Withings messen diesen Typ, aber Withings veröffentlicht keine Liste dessen, was es schreibt.</p>
+
+<h3 id="respiratory_rate">Atemfrequenz</h3>
+<p>Schlüssel <code>respiratory_rate</code>: <code>rate</code> in Atemzügen pro Minute, zu einem Zeitpunkt. Android und iPhone.</p>
+<p>Geschrieben von Google Health und Gadgetbridge. Nicht auf den Listen von Samsung Health, Garmin Connect oder Oura.</p>
+
+<h2>Schlaf und Achtsamkeit</h2>
+
+<h3 id="sleep">Schlaf</h3>
+<p>Schlüssel <code>sleep</code>: <code>session_end_time</code>, <code>duration_seconds</code> und <code>stages</code>, jede Phase mit <code>stage</code>, <code>start_time</code>, <code>end_time</code> und <code>duration_seconds</code>. Android und iPhone. Die Phasenwerte von Android sind <code>unknown</code>, <code>awake</code>, <code>sleeping</code>, <code>out_of_bed</code>, <code>light</code>, <code>deep</code>, <code>rem</code> und <code>awake_in_bed</code>. Ein iPhone sendet außerdem <code>in_bed</code> und nie <code>out_of_bed</code> oder <code>awake_in_bed</code>.</p>
+<p>Geschrieben von Samsung Health, Garmin Connect, Google Health, Oura und Gadgetbridge. Uhren von Withings messen diesen Typ, aber Withings veröffentlicht keine Liste dessen, was es schreibt.</p>
+
+<h3 id="mindfulness">Achtsamkeit</h3>
+<p>Schlüssel <code>mindfulness</code>: <code>duration_seconds</code> und ein optionales <code>title</code>, über einen Zeitraum. Android und iPhone. Ein iPhone sendet kein <code>title</code>.</p>
+<p>Keine der sechs Apps auf dieser Seite führt diesen Typ auf.</p>
+
+<h2>Essen und Trinken</h2>
+
+<h3 id="hydration">Wasser</h3>
+<p>Schlüssel <code>hydration</code>: <code>liters</code>, über einen Zeitraum. Android und iPhone.</p>
+<p>Geschrieben von Google Health. Nicht auf den Listen von Samsung Health, Garmin Connect, Oura oder Gadgetbridge.</p>
+
+<h3 id="nutrition">Ernährung</h3>
+<p>Schlüssel <code>nutrition</code>: <code>calories</code> in kcal, <code>protein_grams</code>, <code>carbs_grams</code>, <code>fat_grams</code>, <code>name</code>, <code>meal_type</code> und 38 Nährstofffelder, alle optional, über einen Zeitraum. Android und iPhone. Jeder Nährstoffschlüssel endet auf seine Einheit, etwa <code>sodium_mg</code>. Ein iPhone sendet 34 der 38 Nährstoffe und kein <code>meal_type</code>.</p>
+<p>Geschrieben von Samsung Health und Google Health. Nicht auf den Listen von Garmin Connect, Oura oder Gadgetbridge.</p>
+
+<h2>Zyklusprotokoll</h2>
+
+<h3 id="menstruation_period">Menstruationsperiode</h3>
+<p>Schlüssel <code>menstruation_period</code>: nur <code>start_time</code> und <code>end_time</code>. Android und iPhone. Ein iPhone leitet Perioden aus aufeinanderfolgenden Tagen mit Blutung ab, weil Apple Health keinen Datensatz für die Periode hat.</p>
+<p>Geschrieben von Google Health. Nicht auf den Listen von Samsung Health, Garmin Connect, Oura oder Gadgetbridge.</p>
+
+<h3 id="menstruation_flow">Menstruationsblutung</h3>
+<p>Schlüssel <code>menstruation_flow</code>: <code>flow</code>: <code>light</code>, <code>medium</code>, <code>heavy</code> oder <code>unknown</code>, zu einem Zeitpunkt. Android und iPhone.</p>
+<p>Geschrieben von Google Health. Nicht auf den Listen von Samsung Health, Garmin Connect, Oura oder Gadgetbridge.</p>
+
+<h3 id="intermenstrual_bleeding">Schmierblutung</h3>
+<p>Schlüssel <code>intermenstrual_bleeding</code>: nur <code>time</code>. Android und iPhone.</p>
+<p>Geschrieben von Google Health. Nicht auf den Listen von Samsung Health, Garmin Connect, Oura oder Gadgetbridge.</p>
+
+<h3 id="ovulation_test">Ovulationstestergebnis</h3>
+<p>Schlüssel <code>ovulation_test</code>: <code>result</code>: <code>positive</code>, <code>high</code>, <code>negative</code>, <code>inconclusive</code> oder <code>unknown</code>, zu einem Zeitpunkt. Android und iPhone.</p>
+<p>Keine der sechs Apps auf dieser Seite führt diesen Typ auf.</p>
+
+<h3 id="cervical_mucus">Zervixschleim</h3>
+<p>Schlüssel <code>cervical_mucus</code>: <code>appearance</code> und <code>sensation</code>, zu einem Zeitpunkt. Android und iPhone. Ein iPhone sendet <code>sensation</code> immer als <code>unknown</code>.</p>
+<p>Keine der sechs Apps auf dieser Seite führt diesen Typ auf.</p>
+
+<h3 id="sexual_activity">Sexuelle Aktivität</h3>
+<p>Schlüssel <code>sexual_activity</code>: <code>protection_used</code>: <code>protected</code>, <code>unprotected</code> oder <code>unknown</code>, zu einem Zeitpunkt. Android und iPhone.</p>
+<p>Keine der sechs Apps auf dieser Seite führt diesen Typ auf.</p>
+
+<h3 id="basal_body_temperature">Basaltemperatur</h3>
+<p>Schlüssel <code>basal_body_temperature</code>: <code>celsius</code>, zu einem Zeitpunkt. Android und iPhone.</p>
+<p>Keine der sechs Apps auf dieser Seite führt diesen Typ auf.</p>
+
+<h2>Stoffwechsel und Fitness</h2>
+
+<h3 id="basal_metabolic_rate">Grundumsatz</h3>
+<p>Schlüssel <code>basal_metabolic_rate</code>: <code>kilocalories_per_day</code>, zu einem Zeitpunkt. Nur Android. Apple Health speichert stattdessen die Ruheenergie pro Zeitraum, und ein iPhone sendet sie als Teil von <code>total_calories</code>.</p>
+<p>Geschrieben von Samsung Health. Nicht auf den Listen von Garmin Connect, Google Health, Oura oder Gadgetbridge.</p>
+
+<h3 id="vo2_max">VO2max</h3>
+<p>Schlüssel <code>vo2_max</code>: <code>vo2_ml_per_min_per_kg</code>, zu einem Zeitpunkt. Android und iPhone.</p>
+<p>Geschrieben von Google Health und Gadgetbridge und, nur aus Trainings, von Samsung Health. Nicht auf den Listen von Garmin Connect oder Oura.</p>
+
+<h3 id="skin_temperature">Hauttemperatur</h3>
+<p>Schlüssel <code>skin_temperature</code>: <code>delta_celsius</code>, die Abweichung von einem Basiswert, und ein optionales <code>baseline_celsius</code>, ein Objekt pro Messwert. Nur Android. Apple Health speichert eine absolute Temperatur am Handgelenk, keine Abweichung von einem Basiswert. Ein iPhone sendet diesen Schlüssel deshalb nicht.</p>
+<p>Geschrieben von Google Health und Gadgetbridge. Nicht auf den Listen von Samsung Health, Garmin Connect oder Oura.</p>
+
+
+<h2>Tagessummen</h2>
+
+<p>Neben den Datensätzen trägt jeder Payload mit Datensätzen <code>daily_totals</code>, solange du sie nicht ausschaltest: pro lokalem Tag <code>steps</code>, <code>distance_meters</code>, <code>active_calories</code> und <code>total_calories</code> (kcal), für heute und die zwei Tage davor. Sie kommen aus der eigenen Aggregation von Health Connect, die einen Abschnitt Aktivität einmal zählt, auch wenn Telefon und Uhr ihn beide aufgezeichnet haben. Sie stimmen also mit der App Health Connect überein. Die iPhone-App berechnet sie auf dieselbe Weise aus Apple Health und sendet <code>total_calories</code> nur an Tagen mit Ruheenergie.</p>
+
+<h2>Auch die Bildschirmzeit wird gesendet</h2>
+
+<p>Die Bildschirmzeit ist kein Health-Connect-Typ. Die Android-App liest sie aus den Nutzungsstatistiken von Android und sendet sie als eigenen Payload mit <code>"source": "screen_time"</code>: pro Tag ein <code>date</code>, <code>total_screen_time_minutes</code> und <code>apps</code>, jede App mit <code>package</code>, <code>name</code>, <code>minutes</code> und <code>last_used</code>. Jede Synchronisierung sendet die letzten 7 Tage noch einmal. Das funktioniert ab Android 8.0, ohne Health Connect. Die iPhone-App sendet keine Bildschirmzeit. Siehe <a href="../screen-time-home-assistant/">Bildschirmzeit in Home Assistant</a>.</p>
+
+<h2>Was die App nicht sendet</h2>
+
+<p>Health Connect hat mehr Datensatztypen als diese 34. Gestiegene Stockwerke, Leistung, Höhenmeter, Trittfrequenz und Trainingsrouten liest die App nicht, auch wenn Samsung Health, Garmin Connect, Google Health oder Gadgetbridge sie schreiben.</p>
+
+<h2>Wähle, welche Typen rausgehen</h2>
+
+<ul>
+  <li>Schalte Typen unter <strong>Was senden</strong> auf dem Tab <strong>Gesundheit</strong> ein und aus und erteile jedem die Berechtigung in Health Connect. Die Auswahl <strong>Das Wesentliche</strong> im Einrichtungsassistenten schaltet nur Schritte, Schlaf, Herzfrequenz, Ruheherzfrequenz, Distanz, Kalorien und Gewicht ein.</li>
+  <li>Unter <strong>Was senden</strong> &gt; <strong>Datenauflösung</strong> können Herzfrequenz, Herzfrequenzvariabilität, Blutsauerstoff, Atemfrequenz und Hauttemperatur als Mittelwerte pro 1, 5 oder 15 Minuten oder pro Stunde rausgehen, und Schritte, Distanz und Kalorien als Summen. Standard ist jeder Datensatz.</li>
+  <li><strong>Payload-Vorschau</strong> unter <strong>Was senden</strong> auf dem Tab <strong>Gesundheit</strong> zeigt, was die nächste Synchronisierung senden würde. <a href="../health-connect-webhook/">Health-Connect-Daten exportieren</a> beschreibt den Empfang und <a href="../health-connect-n8n/">Health Connect mit n8n</a> einen vollständigen n8n-Workflow.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Synchronisiert Samsung Health die HRV mit Health Connect?</summary>
+    <p>Nein. Stand Oktober 2026 steht die Herzfrequenzvariabilität nicht auf Samsungs Liste dessen, was Samsung Health mit Health Connect synchronisiert, ebenso wenig Ruheherzfrequenz, Hauttemperatur und Atemfrequenz. Google Health, Oura und Gadgetbridge schreiben die HRV.</p>
+  </details>
+  <details>
+    <summary>Was synchronisiert Garmin Connect mit Health Connect?</summary>
+    <p>Schritte, Distanz, aktive Kalorien und Gesamtkalorien, Aktivitäten als Trainings, Schlaf mit Phasen, Herzfrequenz, Gewicht und Körperfett. HRV, Ruheherzfrequenz, Pulse Ox, Atmung, Body Battery, Stress und Trainingsbelastung bleiben bei Garmin.</p>
+  </details>
+  <details>
+    <summary>Sendet die iPhone-App dieselben Typen?</summary>
+    <p>Sie sendet 29 der 34 Schlüssel aus Apple Health, im selben Format und mit denselben Einheiten. <code>speed</code>, <code>bone_mass</code>, <code>body_water_mass</code>, <code>skin_temperature</code> und <code>basal_metabolic_rate</code> sendet sie nicht, und ihre Herzfrequenzvariabilität ist SDNN, wo Android RMSSD sendet.</p>
+  </details>
+  <details>
+    <summary>Kann ich diese Typen als CSV-Datei bekommen?</summary>
+    <p>Ja. Auf Android teilt <strong>Mehr</strong> &gt; <strong>Daten exportieren</strong> auf dem Tab <strong>Gesundheit</strong> das, was die nächste Synchronisierung senden würde, als CSV oder JSON. An einen Webhook, MQTT oder Home Assistant senden die Apps JSON, und dein Empfänger speichert es in dem Format, das ihm passt.</p>
+  </details>
+  <details>
+    <summary>Kann die App auch Daten in Health Connect schreiben?</summary>
+    <p>Die Android-App kann Gewicht, Größe, Körperfett, magere Körpermasse, Knochenmasse, Körperwasser und Blutdruck aus Home Assistant in Health Connect schreiben, mit der Life-Dashboard-Integration 0.7.0 oder neuer. Siehe <a href="../smart-scale-to-samsung-health/">Smarte Waage mit Samsung Health verbinden</a>. Die iPhone-App schreibt nicht in Apple Health.</p>
+  </details>
+</section>

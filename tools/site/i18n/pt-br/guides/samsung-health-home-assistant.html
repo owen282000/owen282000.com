@@ -1,0 +1,111 @@
+<!--
+title: Samsung Health e Galaxy Watch no Home Assistant | Life Dashboard
+description: Como integrar o Samsung Health e o Galaxy Watch ao Home Assistant pelo Health Connect: passos, sono, frequência cardíaca e treinos como sensores, sem login.
+primary query: samsung health home assistant
+secondary queries: galaxy watch home assistant, integrar samsung health home assistant, integração samsung health home assistant, relógio samsung home assistant, frequência cardíaca galaxy watch home assistant, dados samsung health home assistant
+updated: 2026-11-20
+published: 2026-10-14
+-->
+
+<h1>Como levar os dados do Samsung Health e do Galaxy Watch para o Home Assistant?</h1>
+
+<p>Ative a sincronização do Samsung Health com o Conexão Saúde (Health Connect) no seu celular Android e deixe o Life Dashboard Companion, um app de código aberto para Android, enviar esses dados para a integração Life Dashboard no Home Assistant. Passos, sono, frequência cardíaca, treinos e medidas corporais do seu Galaxy Watch viram sensores, e cada dia fica guardado nas estatísticas de longo prazo. O Home Assistant nunca precisa da sua conta Samsung.</p>
+
+<p class="flow-line"><span>Galaxy Watch</span><span>Samsung Health</span><span>Conexão Saúde</span><span>Life Dashboard Companion</span><span>Home Assistant</span></p>
+
+<h2>Por que não existe uma integração do Samsung Health</h2>
+
+<p>A Samsung não tem uma API em nuvem para os seus próprios dados do Samsung Health, e o SDK de dados dela é aberto só para <a href="https://developer.samsung.com/health/data/guide/app-verification.html">parceiros registrados</a>. Por isso o <a href="https://community.home-assistant.io/t/samsung-health/113838">pedido de recurso do Samsung Health</a> no fórum do Home Assistant, aberto desde abril de 2019, nunca virou integração. A integração SmartThings do Home Assistant cobre dispositivos SmartThings, não o Samsung Health nem o seu relógio. O que o Samsung Health tem é uma sincronização com o Conexão Saúde no celular, nos dois sentidos. Um app no celular lê os dados ali e os envia adiante. Mais em <a href="../health-data-api/">uma API web para o Conexão Saúde ou o Apple Health</a>.</p>
+
+<h2>O que chega e o que fica com a Samsung</h2>
+
+<p>Só o que o Samsung Health grava no Conexão Saúde pode chegar ao Home Assistant. Da <a href="https://developer.samsung.com/health/blog/en/accessing-samsung-health-data-through-health-connect">lista da Samsung</a>, em outubro de 2026:</p>
+
+<table>
+  <thead>
+    <tr><th>Dados</th><th>Tipos</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Chega</td><td>Passos, treinos com suas calorias, distância e VO2 máx., sono com fases, frequência cardíaca, saturação de oxigênio, pressão arterial, glicose no sangue, peso, gordura corporal, altura, taxa metabólica basal, nutrição</td></tr>
+    <tr><td>Fica com a Samsung</td><td>Variabilidade da frequência cardíaca, frequência cardíaca em repouso, estresse, temperatura da pele, frequência respiratória, ciclo menstrual, ECG, Energy Score (<a href="../health-connect-data-types/#what-each-app-keeps-to-itself">todos os apps comparados</a>)</td></tr>
+  </tbody>
+</table>
+
+<p>A distância e as calorias vêm só dos treinos, não do monitoramento de atividade do dia inteiro da Samsung, e não há calorias ativas. O Conexão Saúde não tem nenhum tipo para estresse, ECG ou Energy Score. A Samsung diz que a lista pode mudar de uma versão do Samsung Health para a outra, então confira no seu celular, no Conexão Saúde, em <strong>Permissões do app</strong> &gt; <strong>Samsung Health</strong>.</p>
+
+<h2>O que você precisa</h2>
+
+<ul>
+  <li>Um celular Android com Android 9 ou mais recente e o Samsung Health, com o seu Galaxy Watch pareado. O Conexão Saúde já vem no Android 14 e posteriores; em versões anteriores, o Samsung Health pede para você instalar.</li>
+  <li>Home Assistant 2026.3 ou mais recente, para a <a href="../home-assistant/">integração Life Dashboard</a>. A partir da 2026.11 não é preciso instalar mais nada; versões anteriores precisam do <a href="https://hacs.xyz">HACS</a>. Os sensores de treino precisam da versão 0.10.0 ou mais recente.</li>
+  <li><a href="../android/">Life Dashboard Companion para Android</a>. {{status:android}}</li>
+</ul>
+
+<h2>Como configurar</h2>
+
+<ol>
+  <li>No Samsung Health, abra <strong>Configurações</strong> &gt; <strong>Conexão Saúde</strong>. Toque em <strong>Get started</strong>, escolha os dados e toque em <strong>Permitir</strong>. A Samsung pede gravação e leitura separadamente: a gravação envia os dados dela para o Conexão Saúde, o que este caminho exige, e a leitura permite que ela receba as medições de uma balança, como descrito abaixo.</li>
+  <li>Em <strong>Configurações</strong> &gt; <strong>Marketplace</strong> (HACS antes do Home Assistant 2026.11), procure por <strong>Life Dashboard</strong> e instale. No HACS, baixe a integração e reinicie o Home Assistant.</li>
+  <li>Se a configuração não abrir sozinha, vá em <strong>Configurações</strong> &gt; <strong>Dispositivos e serviços</strong> &gt; <strong>Adicionar integração</strong> e procure por <strong>Life Dashboard</strong>. Dê um nome ao celular. No campo <strong>Home Assistant address</strong>, use o endereço IP do Home Assistant, como <code>http://192.168.1.20:8123</code>. Você o encontra em <strong>Configurações</strong> &gt; <strong>Sistema</strong> &gt; <strong>Rede</strong>, na seção <strong>Adaptador de rede</strong>. Em seguida, a janela mostra um QR code.</li>
+  <!-- IMG: the QR code in Home Assistant (H2-qr.png) -->
+  <li>Instale o <a href="{{play_url}}">Life Dashboard Companion pelo Google Play</a>, onde ele aparece como Health Data for Home Assistant: €&nbsp;4,99 uma única vez, e o Google Play mantém o app atualizado. Ou instale de graça, o mesmo app com a mesma chave de assinatura: abra o APK do GitHub no celular e permita, uma única vez, a instalação a partir do navegador, ou adicione o app no Obtainium ou no F-Droid (<a href="../android/#get">opções de instalação</a>). O Android pode mostrar um aviso antes de instalar um APK de fora da Play Store; ele faz isso com qualquer app de outra origem. Abra o app e, em <strong>Para onde seus dados devem ir?</strong>, toque em <strong>Escanear um código de pareamento</strong>, escaneie o código e toque em <strong>Parear</strong>.</li>
+  <li>Na aba <strong>Saúde</strong>, toque em <strong>Permitir</strong> e libere os seus tipos de dados e a leitura em segundo plano. A predefinição <strong>O essencial</strong> também ativa a frequência cardíaca em repouso e as calorias ativas, que a Samsung não compartilha, então elas não ganham sensor. Em <strong>O que enviar</strong>, ative <strong>Exercícios</strong>, <strong>Saturação de oxigênio</strong>, <strong>Pressão arterial</strong>, <strong>Gordura corporal</strong> e o que mais você quiser da tabela.</li>
+  <li>Os celulares Samsung interrompem tarefas em segundo plano para economizar bateria. Vá em <strong>Configurações</strong> &gt; <strong>Apps</strong> &gt; <strong>Life Dashboard</strong> &gt; <strong>Bateria</strong> e escolha <strong>Sem restrições</strong>. Depois adicione o <strong>Life Dashboard</strong> a <strong>Apps nunca em suspensão</strong>, em <strong>Configurações</strong> &gt; <strong>Bateria</strong> &gt; <strong>Limites de uso em segundo plano</strong>; em algumas versões, isso fica em <strong>Assistência do aparelho</strong>.</li>
+  <li>Toque em <strong>Sincronizar agora</strong>. Para dados mais antigos, toque em <strong>Enviar histórico</strong>, em <strong>O que enviar</strong>, e escolha o período, de <strong>30 dias</strong> até <strong>Todo o histórico</strong>, depois de <strong>Permitir acesso ao histórico</strong>, se a tela mostrar essa opção.</li>
+</ol>
+
+<p>O <a href="../health-connect-home-assistant/">guia do Conexão Saúde para o Home Assistant</a> explica o mesmo pareamento com mais detalhes, além de como colocar um bloco no seu dashboard e do MQTT como alternativa.</p>
+
+<!-- IMG: Health tab (A1-health.png) -->
+
+<h2>O que você recebe</h2>
+
+<ul>
+  <li><strong>Sensores</strong> para os passos, a distância e as calorias de hoje, e os valores mais recentes de frequência cardíaca, duração do último sono, saturação de oxigênio, pressão arterial, glicose no sangue, peso, gordura corporal e VO2 máx. Com um celular chamado Galaxy S25, os passos de hoje são <code>sensor.galaxy_s25_steps_today</code>. Os sensores aparecem conforme os dados chegam, então um tipo que a Samsung não compartilha nunca aparece como um sensor vazio.</li>
+  <li><strong>Frequência cardíaca do Galaxy Watch.</strong> O sensor de frequência cardíaca guarda a leitura mais recente, com o horário em que foi medida. As estatísticas de longo prazo guardam uma média, um mínimo e um máximo por hora, então você pode montar o gráfico de um dia ou de um ano. O mínimo por hora não é a frequência cardíaca em repouso que o Samsung Health mostra.</li>
+  <li><strong>Fases do sono.</strong> Com a integração 1.1.0 ou mais recente, sono profundo, leve, REM, tempo acordado e tempo dormido por noite viram sensores e estatísticas, e o <a href="../sleep-stages-home-assistant/">Life Dashboard Sleep Card</a> desenha a noite como um hipnograma.</li>
+  <li><strong>Treinos.</strong> <code>last_workout</code> guarda o tipo do seu treino mais recente, como <code>running</code>, com início, fim e minutos. <code>exercise_today</code> e <code>exercise_yesterday</code> guardam os minutos de cada dia, com todas as sessões listadas.</li>
+  <li><strong>Histórico</strong> nas estatísticas de longo prazo: um valor por dia para passos, distância em km, calorias e tempo de sono e de exercício em horas, e uma média, um mínimo e um máximo por hora para frequência cardíaca, peso e as outras medições. Um backfill (o envio de todo o histórico de uma vez) preenche tudo até onde o Conexão Saúde tiver dados.</li>
+  <li><strong>Sem contagem em dobro.</strong> Passos, distância e calorias usam os totais diários do Conexão Saúde, então uma caminhada contada pelo celular e pelo Galaxy Watch conta uma vez só.</li>
+</ul>
+
+<!-- IMG: the example Health dashboard on a phone (H9-health-phone.png) -->
+
+<p><a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md">Sensores e estatísticas</a> traz todas as entidades e seus atributos.</p>
+
+<h2>De uma balança de volta para o Samsung Health</h2>
+
+<p>A sincronização também funciona no sentido contrário. Com <strong>Receber</strong> ativado no app, as medições de uma balança ou de um medidor de pressão arterial que só conversa com o Home Assistant entram no Conexão Saúde, e o Samsung Health lê o peso e a gordura corporal dali. O Samsung Health sincroniza com o Conexão Saúde nos dois sentidos, e peso e gordura corporal estão na lista de tipos sincronizados (<a href="https://developer.samsung.com/health/blog/en/accessing-samsung-health-data-through-health-connect">guia para desenvolvedores da Samsung</a>, fevereiro de 2025). A composição corporal e a pressão arterial vindas de outros apps nem sempre aparecem. <a href="../smart-scale-to-samsung-health/">Medições da balança inteligente no Samsung Health</a> traz a configuração.</p>
+
+<h2>Limites</h2>
+
+<ul>
+  <li>Os dados do Galaxy Watch chegam ao Conexão Saúde depois de chegarem ao celular: quando o relógio se reconecta, ou quando você abre a tela inicial do Samsung Health ou a puxa para baixo. A Samsung segura a frequência cardíaca contínua por um tempo para economizar bateria; uma frequência cardíaca que você mede manualmente chega na hora. A próxima sincronização do app então a recolhe, a cada 60 minutos por padrão e a cada 15 no mínimo.</li>
+  <li>A Samsung diz apenas que os dados novos ou atualizados vão para o Conexão Saúde depois que você conecta os dois. Se o seu histórico mais antigo do Samsung Health está lá, depende da Samsung; um backfill com <strong>Todo o histórico</strong> mostra até onde ele vai.</li>
+  <li>O Conexão Saúde faz parte do Android, então este caminho exige um celular Android.</li>
+  <li>Um endereço da rede de casa só sincroniza em casa. Um endereço HTTPS público ou o Home Assistant Cloud funciona em qualquer lugar.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>O Home Assistant precisa da minha conta Samsung?</summary>
+    <p>Não. Os dados vêm do Conexão Saúde no seu celular, e o app os envia direto para o Home Assistant. Nada faz login na nuvem da Samsung, e não há servidor do Life Dashboard no meio do caminho.</p>
+  </details>
+  <details>
+    <summary>Por que não há sensor de VFC, de frequência cardíaca em repouso ou de estresse?</summary>
+    <p>O Samsung Health não grava esses dados no Conexão Saúde, em outubro de 2026. O Conexão Saúde não tem nenhum tipo para estresse. Sem uma API da Samsung de onde buscá-los, eles ficam no Samsung Health. Se a Samsung os incluir na sincronização com o Conexão Saúde, o app os envia adiante e os sensores aparecem.</p>
+  </details>
+  <details>
+    <summary>Em quanto tempo a frequência cardíaca do Galaxy Watch aparece no Home Assistant?</summary>
+    <p>Não é em tempo real. A Samsung segura a frequência cardíaca contínua no relógio para economizar bateria, e o app sincroniza conforme uma agenda, a cada 15 minutos no mínimo. Conte com minutos a horas. Para automações que precisam de um valor em tempo real, esta não é a fonte certa.</p>
+  </details>
+  <details>
+    <summary>O app Companion do Home Assistant não faz isso?</summary>
+    <p>Ele também lê o Conexão Saúde e mostra o valor mais recente de cada tipo. Não tem backfill, não registra os valores no dia em que aconteceram, e também não contorna as lacunas da Samsung: os sensores de VFC e de frequência cardíaca em repouso dele não recebem nada do Samsung Health. Os dois rodam lado a lado. <a href="../companion-app-health-connect/">O app Companion e o Conexão Saúde</a> compara os dois.</p>
+  </details>
+  <details>
+    <summary>Posso enviar os dados do Samsung Health para outro lugar além do Home Assistant?</summary>
+    <p>Sim. Os mesmos dados podem ir para um broker MQTT ou para qualquer URL que aceite um POST com JSON. Veja <a href="../samsung-health-export/">Samsung Health para o seu próprio servidor</a>.</p>
+  </details>
+</section>

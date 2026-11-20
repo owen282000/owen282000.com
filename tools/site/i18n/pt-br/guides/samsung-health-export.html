@@ -1,0 +1,119 @@
+<!--
+slug: exportar-dados-samsung-health
+title: Exportar dados do Samsung Health em JSON | Life Dashboard
+description: O Life Dashboard Companion exporta os dados do Samsung Health e do Galaxy Watch pelo Health Connect para o seu servidor, n8n ou script, em JSON assinado.
+primary query: exportar dados samsung health
+secondary queries: samsung health exportar dados, samsung health api, exportar dados galaxy watch, samsung health banco de dados, samsung health json, samsung health postgres, samsung health webhook, galaxy watch api
+updated: 2026-11-20
+published: 2026-10-06
+-->
+
+<h1>Como exportar os dados do Samsung Health para o meu próprio servidor?</h1>
+
+<p>Ative a sincronização do Samsung Health com o Conexão Saúde (Health Connect) e deixe o Life Dashboard Companion, um app Android de código aberto, enviar os dados em JSON para uma URL que você escolher. Cada sincronização envia os registros novos do Samsung Health e do Galaxy Watch para o seu banco de dados, fluxo do n8n ou script, e um backfill (o envio de todo o histórico de uma vez) envia tudo o que está no Conexão Saúde.</p>
+
+<p class="flow-line"><span>Galaxy Watch</span><span>Samsung Health</span><span>Conexão Saúde</span><span>Life Dashboard Companion</span><span>Seu servidor</span></p>
+
+<h2>Por que passa pelo Conexão Saúde</h2>
+
+<p>O Samsung Health não tem uma API na nuvem à qual você possa se conectar, e o SDK de dados da própria Samsung é aberto só para <a href="https://developer.samsung.com/health/data/guide/app-verification.html">parceiros registrados</a>. Mas o Samsung Health sincroniza com o Conexão Saúde no celular, nos dois sentidos. O Conexão Saúde também não tem API web, então um app no celular lê os dados e os manda adiante. Mais sobre isso em <a href="../health-data-api/">uma API web para o Conexão Saúde ou o Apple Health</a>.</p>
+
+<h2>O que você precisa</h2>
+
+<ul>
+  <li>Um celular Android com Android 9 ou mais recente, o Conexão Saúde e o Samsung Health. Pareie o seu Galaxy Watch com o Samsung Health para ter os dados dele.</li>
+  <li>O <a href="../android/">Life Dashboard Companion para Android</a>. {{status:android}}</li>
+  <li>Um servidor que aceite um POST com JSON por HTTPS, com limite de corpo de pelo menos 10 MB. HTTP sem criptografia na sua própria rede exige <strong>Permitir webhooks com HTTP sem criptografia</strong> em <strong>Mais</strong> &gt; <strong>Avançado</strong>.</li>
+</ul>
+
+<h2>Envie o Samsung Health para um webhook</h2>
+
+<ol>
+  <li>No Samsung Health, vá em <strong>Configurações</strong> &gt; <strong>Conexão Saúde</strong>, toque em <strong>Get started</strong>, escolha os dados e toque em <strong>Permitir</strong>. A leitura e a gravação são permitidas separadamente.</li>
+  <li>No Life Dashboard Companion, na aba <strong>Saúde</strong>, toque em <strong>Adicionar destino</strong> (se ainda não houver nada configurado, <strong>Usar seu próprio servidor</strong>), informe a sua URL em <strong>URL do webhook</strong> e toque em <strong>Adicionar webhook</strong>.</li>
+  <li>Em <strong>Segredo de assinatura HMAC (opcional)</strong>, toque em <strong>Gerar</strong> e coloque o mesmo valor no seu servidor.</li>
+  <li>Toque em <strong>Salvar</strong> no topo, abra de novo a linha do endereço na aba e toque em <strong>Enviar teste</strong>.</li>
+  <li>Toque em <strong>Permitir</strong> e autorize os seus tipos de dados e a leitura em segundo plano. Ative os tipos que você quer em <strong>O que enviar</strong>.</li>
+  <li>Não deixe o Android interromper as sincronizações: <strong>Configurações</strong> &gt; <strong>Apps</strong> &gt; <strong>Life Dashboard</strong> &gt; <strong>Bateria</strong>, definido como <strong>Sem restrições</strong>, e adicione o <strong>Life Dashboard</strong> a <strong>Apps nunca em suspensão</strong> em <strong>Configurações</strong> &gt; <strong>Bateria</strong> &gt; <strong>Limites de uso em segundo plano</strong>.</li>
+  <li>Toque em <strong>Sincronizar agora</strong>. Para dados mais antigos, toque em <strong>Enviar histórico</strong> em <strong>O que enviar</strong> e escolha até onde voltar, de <strong>30 dias</strong> até <strong>Todo o histórico</strong>.</li>
+</ol>
+
+<!-- IMG: Webhook settings with HMAC (A6-webhook.png) -->
+
+<h2>O que você recebe</h2>
+
+<p>Da lista da Samsung do que ela sincroniza com o Conexão Saúde, estes são os tipos que o app repassa:</p>
+
+<table>
+  <thead>
+    <tr><th>Área</th><th>Tipos</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Atividade</td><td>Passos, sessões de exercício, calorias totais e distância dos exercícios, VO2 máx. dos exercícios</td></tr>
+    <tr><td>Sono</td><td>Sessões de sono com fases</td></tr>
+    <tr><td>Coração e sangue</td><td>Frequência cardíaca, pressão arterial, glicose no sangue, saturação de oxigênio</td></tr>
+    <tr><td>Corpo</td><td>Peso, gordura corporal, altura, taxa metabólica basal</td></tr>
+    <tr><td>Alimentação</td><td>Nutrição</td></tr>
+  </tbody>
+</table>
+
+<p>Cada requisição é um <code>POST</code> com um objeto JSON. Resumido, e sem o <code>uuid</code> e o <code>source</code> que todo registro traz:</p>
+
+<pre><code>{
+  "timestamp": "2026-10-04T07:15:02.481Z",
+  "app_version": "1.23.0",
+  "source": "health_connect",
+  "sequence": 1842,
+  "daily_totals": [
+    { "date": "2026-10-04", "steps": 1204, "distance_meters": 911.6 }
+  ],
+  "sleep": [
+    {
+      "session_end_time": "2026-10-04T06:30:00Z",
+      "duration_seconds": 28800,
+      "stages": [
+        { "stage": "deep", "start_time": "2026-10-03T23:00:00Z",
+          "end_time": "2026-10-04T01:00:00Z", "duration_seconds": 7200 }
+      ]
+    }
+  ]
+}</code></pre>
+
+<p>Grave os registros usando como chave o <code>uuid</code>, que continua o mesmo quando um registro é enviado de novo, e use <code>daily_totals</code> para passos, distância e calorias, para que uma caminhada contada pelo celular e pelo relógio conte uma vez só. A <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md">referência do payload</a> documenta todos os campos.</p>
+
+<h2>O que a Samsung guarda para si</h2>
+
+<p>Fora da lista da Samsung em outubro de 2026: estresse, ECG, Energy Score, variabilidade da frequência cardíaca, temperatura da pele, frequência respiratória, frequência cardíaca em repouso e acompanhamento do ciclo. O que o Samsung Health compartilha pode mudar a qualquer versão, então confira no seu próprio celular, nas permissões de app do Conexão Saúde para o Samsung Health.</p>
+
+<h2>Uma sincronização contínua, não um arquivo avulso</h2>
+
+<p>Isto não é um CSV com tudo o que o Samsung Health já guardou. A primeira sincronização envia os últimos 7 dias, e cada sincronização depois dela envia o que é novo ou mudou, a cada 60 minutos por padrão ou em horários fixos. Um backfill vai até onde o Conexão Saúde tem dados. O seu receptor decide o formato: linhas no Postgres, um arquivo CSV ou qualquer outra coisa.</p>
+
+<p>Se o seu histórico mais antigo do Samsung Health está no Conexão Saúde depende do Samsung Health, e a Samsung não diz. O <a href="https://developer.samsung.com/health/blog/en/accessing-samsung-health-data-through-health-connect">guia</a> dela só diz que, depois que você conecta os dois, os dados novos ou atualizados são compartilhados. Para ver o que o Conexão Saúde guarda, rode um backfill de <strong>Todo o histórico</strong> depois de <strong>Permitir acesso ao histórico</strong>: ele envia tudo o que o Conexão Saúde tem dos tipos que você ativou, então o dia mais antigo que chegar ao seu receptor mostra até onde os seus dados vão.</p>
+
+<p>Receptores que funcionam: <a href="../grafana/">a stack Life Dashboard</a> com Postgres e Grafana, um nó Webhook do n8n, o Node-RED ou um script curto. A <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md#receiver-in-python-flask">referência do payload</a> tem um receptor em Python e um em Node.js para servir de ponto de partida.</p>
+
+<!-- IMG: Logs tab (A7-logs.png) -->
+
+<h2>Limites</h2>
+
+<ul>
+  <li>Os dados do relógio chegam ao Conexão Saúde depois de chegarem ao celular: quando o relógio reconecta, ou quando você abre a tela inicial do Samsung Health ou a puxa para baixo. A Samsung segura a frequência cardíaca contínua por um tempo para economizar bateria.</li>
+  <li>Dados de mais de 30 dias antes de você dar acesso ao app pela primeira vez precisam da permissão de histórico do Conexão Saúde, que a página do backfill pede com <strong>Permitir acesso ao histórico</strong>.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Existe uma API do Samsung Health que eu possa chamar do meu servidor?</summary>
+    <p>Não para os seus próprios dados. A Samsung não tem uma API na nuvem à qual você possa se conectar, e o SDK de dados dela é para parceiros registrados. O Conexão Saúde no celular é o caminho aberto.</p>
+  </details>
+  <details>
+    <summary>Dá para obter um arquivo CSV?</summary>
+    <p>Sim. <strong>Mais</strong> &gt; <strong>Exportar dados</strong>, na aba <strong>Saúde</strong>, compartilha o que a próxima sincronização enviaria como CSV ou JSON. Para o seu servidor, os dados de saúde saem do app em JSON, e o seu receptor também pode gravar CSV se você quiser.</p>
+  </details>
+  <details>
+    <summary>Posso enviar também para o Home Assistant?</summary>
+    <p>Sim. Pareie a integração Life Dashboard, como em <a href="../samsung-health-home-assistant/">Samsung Health no Home Assistant</a>, e cada payload vai para os dois. Ele conta como entregue assim que um deles o aceita, então um destino que está fora do ar naquele momento fica sem ele.</p>
+  </details>
+</section>

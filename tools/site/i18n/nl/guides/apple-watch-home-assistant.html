@@ -1,0 +1,113 @@
+<!--
+title: Apple Watch koppelen aan Home Assistant | Life Dashboard
+description: Hartslag, HRV, slaapfasen en work-outs van je Apple Watch in Home Assistant, via Apple Health op je iPhone, met je hele geschiedenis en zonder horloge-app.
+primary query: apple watch home assistant
+secondary queries: apple watch home assistant integratie, apple watch koppelen home assistant, apple watch hartslag home assistant, slaapfasen apple watch home assistant, apple watch hrv home assistant, apple watch work-outs home assistant, apple watch gegevens naar home assistant
+updated: 2026-11-20
+published: 2026-10-21
+-->
+
+<h1>Hoe krijg ik data van mijn Apple Watch in Home Assistant?</h1>
+
+<p>Je Apple Watch schrijft wat hij meet al naar Apple Health (de app Gezondheid) op de iPhone waarmee hij is gekoppeld. Installeer Life Dashboard Companion op die iPhone en de Life Dashboard-integratie in Home Assistant, koppel de twee met een QR-code, en de hartslag, HRV, slaap, work-outs en VO2 max van het horloge komen binnen als sensoren, met je hele geschiedenis in de langetermijnstatistieken.</p>
+
+<p>Op het horloge hoef je niets te installeren, en Home Assistant heeft je Apple Account nooit nodig. De iPhone-app leest Apple Health en stuurt rechtstreeks naar jouw Home Assistant; er zit geen server van Life Dashboard tussen.</p>
+
+<p class="flow-line"><span>Apple Watch</span><span>Apple Health op de iPhone</span><span>Life Dashboard Companion</span><span>Home Assistant</span></p>
+
+<h2>Wat je nodig hebt</h2>
+
+<ul>
+  <li>Een Apple Watch die is gekoppeld met een iPhone met iOS 17 of nieuwer.</li>
+  <li>Home Assistant 2026.3 of nieuwer, en de <a href="../home-assistant/">Life Dashboard-integratie</a> 0.7.1 of nieuwer. Vanaf 2026.11 hoef je verder niets te installeren; oudere versies hebben <a href="https://hacs.xyz">HACS</a> nodig.</li>
+  <li><a href="../ios/">Life Dashboard Companion voor iPhone</a>. {{status:ios}}</li>
+</ul>
+
+<h2>Zo stel je het in</h2>
+
+<ol>
+  <li>Zoek onder <strong>Instellingen</strong> &gt; <strong>Marketplace</strong> (HACS vóór Home Assistant 2026.11) naar <strong>Life Dashboard</strong> en installeer de integratie. Met HACS download je de integratie en herstart je Home Assistant. Is het instellen niet vanzelf geopend, voeg de integratie dan toe onder <strong>Instellingen</strong> &gt; <strong>Apparaten &amp; diensten</strong>. Geef een naam op voor de iPhone, en de integratie toont een QR-code.</li>
+  <!-- IMG: the QR code in Home Assistant (H2-qr.png) -->
+  <li>Installeer Life Dashboard Companion op de iPhone, tik bij het instellen op <strong>Koppelcode scannen</strong>, scan de code en tik op <strong>Koppelen</strong>.</li>
+  <li>Zet onder <strong>Wat versturen</strong> de types aan die het horloge vastlegt, ze staan hieronder, en geef toegang tot Apple Health.</li>
+  <li>Tik op <strong>Nu synchroniseren</strong>, daarna onder <strong>Wat versturen</strong> op <strong>Geschiedenis versturen</strong>, en kies hoe ver terug, van 30 dagen tot <strong>Alles</strong>. Home Assistant zet elke dag op zijn eigen datum.</li>
+</ol>
+
+<p><a href="../apple-health-home-assistant/">Apple Health in Home Assistant</a> beschrijft elke stap in detail, met het adres dat je gebruikt en het syncschema.</p>
+
+<h2>Wat een Apple Watch vastlegt, en waar het terechtkomt</h2>
+
+<p>Welke van de 28 types van de app zich vullen, hangt af van je horlogemodel, de instellingen en waarvoor je het draagt. Deze tabel laat zien wat een horloge volgens de documentatie van Apple zelf vastlegt, onder welke payload-sleutel de app het verstuurt, en wat Home Assistant ervan maakt.</p>
+
+<table>
+  <thead>
+    <tr><th>Wat het horloge vastlegt</th><th>Payload-sleutel</th><th>In Home Assistant</th><th>Documentatie van Apple</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Stappen en afstand</td><td><code>steps</code>, <code>distance</code></td><td>Het totaal van vandaag, en een dagwaarde in de statistieken</td><td><a href="https://www.apple.com/health/pdf/Heart_Rate_Calorimetry_Activity_on_Apple_Watch_November_2024.pdf">Heart rate, calorimetry and activity</a></td></tr>
+    <tr><td>Actieve energie en energie in rust</td><td><code>active_calories</code>, <code>total_calories</code></td><td>Het totaal van vandaag, en een dagwaarde in de statistieken</td><td><a href="https://www.apple.com/health/pdf/Heart_Rate_Calorimetry_Activity_on_Apple_Watch_November_2024.pdf">Heart rate, calorimetry and activity</a></td></tr>
+    <tr><td>Hartslag</td><td><code>heart_rate</code></td><td>Laatste waarde, en een gemiddelde, minimum en maximum per uur</td><td><a href="https://support.apple.com/guide/watch/heart-rate-apda88aefe4c/watchos">Check your heart rate on Apple Watch</a></td></tr>
+    <tr><td>Hartslag in rust</td><td><code>resting_heart_rate</code></td><td>Laatste waarde, en per uur</td><td><a href="https://support.apple.com/guide/watch/heart-rate-apda88aefe4c/watchos">Check your heart rate on Apple Watch</a></td></tr>
+    <tr><td>Hartslagvariabiliteit (SDNN)</td><td><code>heart_rate_variability</code></td><td>Laatste waarde, en per uur</td><td><a href="https://www.apple.com/health/pdf/Heart_Rate_Calorimetry_Activity_on_Apple_Watch_November_2024.pdf">Heart rate, calorimetry and activity</a></td></tr>
+    <tr><td>Slaap, met de fasen REM, Kern en Diep en de tijd wakker</td><td><code>sleep</code></td><td>De duur van afgelopen nacht, de slaaptijd en de uren per fase, en per nacht in de statistieken</td><td><a href="https://support.apple.com/guide/watch/track-your-sleep-crpxel1lvun9/watchos">Track your sleep on Apple Watch</a></td></tr>
+    <tr><td>Ademfrequentie terwijl je slaapt</td><td><code>respiratory_rate</code></td><td>Laatste waarde, en per uur</td><td><a href="https://support.apple.com/en-us/120142">Track your vitals with Apple Watch</a></td></tr>
+    <tr><td>Zuurstofsaturatie, op modellen en in regio's die het hebben</td><td><code>oxygen_saturation</code></td><td>Laatste waarde, en per uur</td><td><a href="https://support.apple.com/en-us/120358">How to use the Blood Oxygen app</a></td></tr>
+    <tr><td>Work-outs uit de app Work-out</td><td><code>exercise</code></td><td>Laatste work-out, en de minuten van vandaag en gisteren</td><td><a href="https://support.apple.com/en-us/101171">Start a workout on Apple Watch</a></td></tr>
+    <tr><td>Cardioconditie (VO2 max)</td><td><code>vo2_max</code></td><td>Laatste waarde, en per uur</td><td><a href="https://support.apple.com/en-us/108790">Track your cardio fitness levels</a></td></tr>
+  </tbody>
+</table>
+
+<ul>
+  <li><strong>Stappen, afstand en calorieën</strong> komen uit de eigen dagtotalen van Apple Health, zoals de app Gezondheid ze telt. Een wandeling die zowel de iPhone als het horloge heeft vastgelegd, telt dus één keer. Een iPhone zonder horloge legt meestal geen energie in rust vast, dus totale calorieën krijg je vooral met een horloge.</li>
+  <li><strong>Hartslagvariabiliteit</strong> is SDNN, de maat die Apple Health bewaart. Een Android-telefoon stuurt RMSSD onder dezelfde sleutel; het is niet hetzelfde getal, dus vergelijk de twee niet.</li>
+  <li><strong>Slaap</strong> vraagt dat slaapregistratie op het horloge aanstaat en dat je het horloge 's nachts om je pols hebt. De app stuurt de fase Kern (Core) van Apple als <code>light</code>, en Diep, REM en wakker onder hun eigen naam, plus de <code>in_bed</code>-tijd van de iPhone eromheen. Met versie 1.1.0 of nieuwer van de integratie maakt Home Assistant van de fasen sensoren en statistieken, en de <a href="../sleep-stages-home-assistant/">Life Dashboard Sleep Card</a> tekent de nacht als hypnogram. De tijd in bed van de iPhone telt niet als fase. Een <a href="../apple-health-webhook/">webhook</a> of <a href="../grafana/">de stack</a> krijgt de fasen ook.</li>
+  <li><strong>Zuurstofsaturatie</strong> zit op de Apple Watch Series 6 en later en op elke Ultra, maar niet in elk land of elke regio, en de pagina van Apple beschrijft hoe het werkt op sommige modellen die in de VS zijn verkocht.</li>
+  <li><strong>VO2 max</strong> wordt volgens de pagina van Apple op de Apple Watch Series 3 en later geschat tijdens een work-out Outdoor Walk, Outdoor Run of Hiking in de app Work-out.</li>
+  <li><strong>Work-outs</strong> komen binnen met hun soort als naam, zoals <code>running</code> of <code>hiit</code>, en Home Assistant toont de laatste met het begin, het einde en de minuten.</li>
+</ul>
+
+<!-- IMG: the example Health dashboard on a phone (H9-health-phone.png) -->
+
+<h2>Wat niet meekomt</h2>
+
+<ul>
+  <li>Polstemperatuur. Apple Health bewaart de absolute temperatuur 's nachts, niet de afwijking ten opzichte van een basislijn die de gedeelde payload bevat, dus de app laat haar weg.</li>
+  <li>Alles buiten de 28 types van de app blijft in Apple Health.</li>
+  <li>Schermtijd: iOS laat een app die nergens naartoe sturen.</li>
+</ul>
+
+<h2>Andere horloges en ringen op een iPhone</h2>
+
+<p>Garmin Connect, Oura, Withings en andere apps kunnen ook naar Apple Health op de iPhone schrijven. Wat ze daar schrijven, komt op dezelfde manier binnen, elke meting met de naam van de app die haar schreef. Stappen, afstand en calorieën tellen over al die bronnen heen nog steeds één keer, in de volgorde van de gegevensbronnen die je in de app Gezondheid instelt.</p>
+
+<h2>Beperkingen</h2>
+
+<ul>
+  <li>Data komt op de iPhone wanneer het horloge ermee synchroniseert, en dat kan uren later zijn. De app verstuurt die bij de volgende sync, op de eigen datum.</li>
+  <li>iOS versleutelt Apple Health zolang de iPhone vergrendeld is, dus een sync wacht op het ontgrendelen. iOS bepaalt ook wanneer de app op de achtergrond draait; voor een exacte tijd voert een automatisering in Opdrachten <strong>Gezondheidsdata synchroniseren</strong> uit.</li>
+  <li>Details van work-outs en elke losse hartslagmeting gaan volledig naar een webhook of de stack. Home Assistant bewaart de laatste waarde, de statistieken en de fasen van de nieuwste nacht.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Heb ik een app op de Apple Watch nodig?</summary>
+    <p>Nee. Het horloge schrijft zelf naar Apple Health op de iPhone, en Life Dashboard Companion op de iPhone leest het daar.</p>
+  </details>
+  <details>
+    <summary>Waarom komt de data van mijn horloge laat in Home Assistant aan?</summary>
+    <p>Twee stappen kunnen op zich laten wachten: het horloge synchroniseert met de iPhone, en iOS bepaalt wanneer de app op de achtergrond draait. Open de app en tik op <strong>Nu synchroniseren</strong> om te versturen wat er nu is. Elke waarde komt nog steeds terecht op het tijdstip waar ze over gaat.</p>
+  </details>
+  <details>
+    <summary>Kan ik slaapfasen zien in Home Assistant?</summary>
+    <p>Ja, met versie 1.1.0 of nieuwer van de integratie. Diep, licht, REM, wakker en de slaaptijd worden sensoren en statistieken, één hoofdnacht per datum van wakker worden, en de <a href="../sleep-stages-home-assistant/">Life Dashboard Sleep Card</a> tekent de nacht. Een eigen webhook of de Life Dashboard-stack heeft ze ook per nacht.</p>
+  </details>
+  <details>
+    <summary>Waarom is er geen sensor voor zuurstofsaturatie?</summary>
+    <p>Zuurstofsaturatie zit niet op elk model en is er niet in elke regio, zoals de pagina van Apple uitlegt. Legt het horloge niets vast, dan heeft Apple Health niets om te versturen. Controleer ook of <strong>Saturatie</strong> aanstaat onder <strong>Wat versturen</strong>, bij <strong>Hart en vitale functies</strong>, en is toegestaan in Apple Health.</p>
+  </details>
+  <details>
+    <summary>Werkt een Garmin of Oura op een iPhone ook?</summary>
+    <p>Ja, voor wat de app ervan naar Apple Health schrijft. Elke meting draagt de naam van de app die haar schreef.</p>
+  </details>
+</section>

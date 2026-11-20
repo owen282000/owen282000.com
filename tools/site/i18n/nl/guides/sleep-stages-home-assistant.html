@@ -1,0 +1,157 @@
+<!--
+slug: slaapfasen-home-assistant
+title: Slaapfasen in Home Assistant als hypnogram | Life Dashboard
+description: Slaapfasen uit Health Connect of Apple Health in Home Assistant: diep, licht, REM en wakker per nacht als sensoren en statistieken, plus een hypnogramkaart.
+primary query: slaapfasen home assistant
+secondary queries: hypnogram home assistant, slaap kaart home assistant, slaapfasen grafiek home assistant, diepe slaap sensor home assistant, rem slaap home assistant, health connect slaapfasen home assistant, slaapfasen apple watch home assistant, hypnogram kaart
+updated: 2026-11-20
+published: 2026-11-09
+-->
+
+<h1>Hoe zie ik mijn slaapfasen in Home Assistant?</h1>
+
+<p>Met de Life Dashboard-integratie 1.1.0 of nieuwer worden de slaapfasen die je telefoon verstuurt sensoren en langetermijnstatistieken: diep, licht, REM, wakker en de tijd die je sliep voor elke nacht, met één hoofdnacht per datum waarop je wakker werd. De <a href="https://github.com/owen282000/life-dashboard-sleep-card">Life Dashboard Sleep Card</a> tekent de nieuwste nacht als hypnogram op je dashboard, met elke fase in een eigen baan langs de klok van de nacht.</p>
+
+<p>De kaart installeer je apart vanuit de Marketplace. Op Android werkt hij ook op zichzelf met de officiële Companion-app van Home Assistant, zonder Life Dashboard. De sensoren en statistieken hieronder komen van de integratie.</p>
+
+<!-- IMG: the card on a dark theme (S1-sleep-card.png) -->
+
+<h2>Wat je nodig hebt</h2>
+
+<ul>
+  <li>Home Assistant 2026.3 of nieuwer.</li>
+  <li>Voor de sensoren en statistieken: de <a href="../home-assistant/">Life Dashboard-integratie</a> 1.1.0 of nieuwer, en <a href="../android/">Life Dashboard Companion voor Android</a> of <a href="../ios/">voor iPhone</a> op de telefoon.</li>
+  <li>Voor de kaart: die integratie en app, of op Android de officiële Companion-app, zoals <a href="#with-only-the-official-companion-app-on-android">verderop</a> beschreven.</li>
+  <li>Een nacht met fasen om te versturen. <a href="../samsung-health-home-assistant/">Samsung Health</a>, <a href="../garmin-home-assistant/">Garmin Connect</a> en <a href="../fitbit-home-assistant/">Fitbit of Pixel Watch</a> schrijven ze naar Health Connect, en een <a href="../apple-watch-home-assistant/">Apple Watch</a> schrijft ze naar Apple Health.</li>
+</ul>
+
+<h2>Sensoren en statistieken voor elke nacht</h2>
+
+<p>Elke telefoon is één apparaat, en de sensoren beginnen met de naam ervan. Bij een telefoon met de naam Pixel 8 is de eerste hieronder <code>sensor.pixel_8_last_sleep_asleep</code>.</p>
+
+<table>
+  <thead>
+    <tr><th>Sensor</th><th>Status</th><th>Attributen</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>last_sleep_asleep</code></td><td>De uren die je echt sliep in de nieuwste hoofdnacht</td><td><code>night</code> (de datum waarop je wakker werd), <code>start</code>, <code>end</code>, <code>source</code>, de minuten van elke fase, <code>stages</code> en <code>measured_at</code></td></tr>
+    <tr><td><code>last_sleep_deep</code>, <code>last_sleep_light</code>, <code>last_sleep_rem</code>, <code>last_sleep_awake</code></td><td>De uren van die fase, <code>unknown</code> als de nacht er geen heeft</td><td><code>night</code>, <code>measured_at</code></td></tr>
+  </tbody>
+</table>
+
+<p>De vier fasesensoren staan eerst uitgeschakeld: schakel op de apparaatpagina in welke je wilt. Een sensor uit deze tabel verschijnt bij de eerste nacht die fasen heeft. <code>last_sleep_duration</code> blijft wat het was: de laatste sessie van welke soort ook, dutjes meegeteld.</p>
+
+<p>De statistieken <code>sleep_deep</code>, <code>sleep_light</code>, <code>sleep_rem</code>, <code>sleep_awake</code> en <code>sleep_asleep</code> bevatten de uren van de hoofdnacht van elke datum waarop je wakker werd, één rij per datum, opgeslagen als gemiddelde. Zet ze in een grafiek met <code>stat_types: mean</code>, per dag, week of maand. Dit is de grafiek uit het <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/dashboard.md">voorbeelddashboard</a> van de integratie:</p>
+
+<pre><code>type: statistics-graph
+title: Sleep stages per night
+chart_type: bar-stack
+period: day
+days_to_show: 30
+stat_types:
+  - mean
+entities:
+  - life_dashboard:&lt;entry&gt;_sleep_deep
+  - life_dashboard:&lt;entry&gt;_sleep_light
+  - life_dashboard:&lt;entry&gt;_sleep_rem
+  - life_dashboard:&lt;entry&gt;_sleep_awake</code></pre>
+
+<p>Vervang <code>&lt;entry&gt;</code> door de ID van je telefoon: <strong>Ontwikkelhulpmiddelen</strong> &gt; <strong>Statistieken</strong> toont die achter <code>life_dashboard:</code>. Van nachten van vóór de update zijn de fasen niet opgeslagen. <strong>Geschiedenis versturen</strong> in de app, onder <strong>Wat versturen</strong> op het tabblad <strong>Gezondheid</strong>, vult ze aan, elk op de eigen datum. Dezelfde periode nog een keer versturen verandert niets.</p>
+
+<h2>Wat als hoofdnacht telt</h2>
+
+<p>Een nacht hoort bij de datum waarop je wakker werd: de datum waarop de sessie eindigde, in de tijdzone van Home Assistant. Een datum krijgt één hoofdnacht: de sessie met de meeste slaaptijd, en bij gelijke stand de langste. Een dutje, of een tweede app die dezelfde nacht heeft weggeschreven, wordt er niet bij opgeteld.</p>
+
+<p>Daarom wijken deze getallen af van de statistiek <code>sleep_minutes</code>. Die telt elke sessie in haar geheel op de dag waarop ze eindigde, inclusief de tijd in bed en de tijd dat je wakker lag. Tijd in bed telt nooit als fase, en waar fasen overlappen gaat elk moment naar de meest specifieke, zodat niets dubbel telt. <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md#sleep-stages">Slaapfasen in de documentatie van de integratie</a> geeft elke regel.</p>
+
+<h2>De kaart installeren</h2>
+
+<p>De kaart staat in de Marketplace. Zoek in <strong>Instellingen &gt; Marketplace</strong> (HACS vóór Home Assistant 2026.11) naar <strong>Life Dashboard Sleep Card</strong> en download hem, of gebruik <a href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-sleep-card&amp;category=plugin">deze link</a>, die hem in je Home Assistant opent.</p>
+
+<p>Bij dashboards in opslagmodus wordt de resource voor je geregistreerd. Staan je dashboards in YAML-modus, voeg hem dan zelf toe:</p>
+
+<pre><code>lovelace:
+  resources:
+    - url: /hacsfiles/life-dashboard-sleep-card/life-dashboard-sleep-card.js
+      type: module</code></pre>
+
+<p>In de <a href="https://github.com/owen282000/life-dashboard-sleep-card#by-hand">README van de kaart</a> staat ook de installatie zonder de Marketplace, vanuit een bestand in je map <code>www</code>.</p>
+
+<h2>Aan een dashboard toevoegen</h2>
+
+<p>Voeg de kaart toe vanuit de kaartkiezer, die de sensoren aanbiedt die een nacht bevatten, of in YAML:</p>
+
+<pre><code>type: custom:life-dashboard-sleep-card
+entity: sensor.your_phone_last_sleep_asleep
+title: Last night</code></pre>
+
+<p><code>entity</code> is verplicht en <code>title</code>, de tekst boven de slaaptijd, is optioneel. Taal, tijdnotatie en tijdzone volgen je Home Assistant-profiel. De kleuren van de fasen zijn CSS-variabelen, zoals <code>--life-dashboard-sleep-deep</code>, zodat een thema ze kan instellen.</p>
+
+<p>Liever een andere stijl? De <a href="https://github.com/Lavve/lovelace-hypnogram-card">Hypnogram-kaart van Lavve</a>, ook in de Marketplace, leest vanaf versie 0.1.9 dezelfde lijst:</p>
+
+<pre><code>type: custom:hypnogram-card
+entity: sensor.your_phone_last_sleep_asleep
+stages_attribute: stages
+state_mapping:
+  deep_sleep: deep
+  light_sleep: light
+  rem: rem
+  awake: awake</code></pre>
+
+<h2>Wat de kaart toont</h2>
+
+<ul>
+  <li><strong>De vorm van de nacht.</strong> Eén baan per fase met verbindingslijnen ertussen, wakker bovenaan en diep onderaan, zodat je de cycli in één oogopslag ziet. Een kort moment blijft zichtbaar, ook bij een nacht met 60 fasen op de breedte van een telefoon.</li>
+  <li><strong>De getallen ernaast.</strong> De slaaptijd, het begin en einde van de nacht, en van elke fase de duur en het aandeel in de nacht.</li>
+  <li><strong>Elk segment als je erom vraagt.</strong> Beweeg over een blok of tik erop voor de fase, het begin, het einde en de duur. Zet op een toetsenbord de focus op de grafiek en gebruik de pijltjestoetsen, Home en End. Schermlezers krijgen een teksttabel van de hele nacht.</li>
+  <li><strong>Wat ontbreekt, gewoon gezegd.</strong> Een nacht die alleen slaap meldt, krijgt één baan voor slaap en de kaart zegt dat erbij. Een sensor zonder fasen toont een lege toestand in plaats van een kapotte grafiek.</li>
+</ul>
+
+<!-- IMG: the card at phone width (S2-sleep-card-phone.png) -->
+
+<h2>Met alleen de officiële Companion-app op Android</h2>
+
+<p>Op Android werkt de kaart op zichzelf met de officiële Companion-app van Home Assistant. Hij leest <code>sensor.your_phone_health_connect_sleep_duration</code> en heeft dit nodig:</p>
+
+<ul>
+  <li>De Companion-app voor Android 2026.11.1 of nieuwer, de versie waarin de fasen zijn toegevoegd.</li>
+  <li>De sensor <strong>Sleep duration</strong> ingeschakeld, onder <strong>Instellingen</strong>, <strong>Companion app</strong>, <strong>Manage sensors</strong>, met toegang tot Health Connect voor slaap. De fasen komen alleen met die sensor mee, niet met de losse sensoren voor de duur per fase.</li>
+</ul>
+
+<p>De status van de sensor is in minuten en de kaart gebruikt die niet: de slaaptijd komt uit de fasen. De Companion-app voor iOS heeft geen tijdlijn van fasen, dus daaruit kan de kaart geen nacht tekenen. Gebruik op een iPhone de app en integratie van Life Dashboard. Wat Life Dashboard op Android toevoegt is de geschiedenis rond de nacht, elke dag in de langetermijnstatistieken, en beide telefoons. <a href="../companion-app-health-connect/">De Companion-app en Health Connect</a> loopt de rest langs.</p>
+
+<h2>Beperkingen</h2>
+
+<ul>
+  <li>De kaart tekent één nacht, die in de sensor. Het attribuut <code>stages</code> kan lang zijn, dus de recorder bewaart het niet. Eerdere nachten leven voort in de statistieken als uren per fase, zonder hun tijdlijn.</li>
+  <li>Via MQTT publiceren de apps één slaapsensor, de duur van de sessie. De fasesensoren, de statistieken en het attribuut <code>stages</code> horen bij de integratie.</li>
+  <li>Een nacht komt op de telefoon aan wanneer de app van het horloge hem wegschrijft, vaak nadat je wakker bent geworden, en Home Assistant krijgt hem bij de volgende sync.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Heeft de kaart de Life Dashboard-integratie nodig?</summary>
+    <p>Op Android niet: hij leest vanaf versie 2026.11.1 ook de sensor Sleep duration van de officiële Companion-app. Op een iPhone wel, omdat de Companion-app voor iOS geen tijdlijn van fasen heeft.</p>
+  </details>
+  <details>
+    <summary>Waarom tellen de fasen niet op tot mijn slaapstatistiek?</summary>
+    <p>De fasestatistieken bevatten de hoofdnacht van elke datum waarop je wakker werd. <code>sleep_minutes</code> telt elke sessie in haar geheel op de dag waarop ze eindigde, inclusief dutjes, tijd in bed en tijd dat je wakker lag. De twee verschillen dus met opzet.</p>
+  </details>
+  <details>
+    <summary>Waarom kan ik last_sleep_deep niet vinden?</summary>
+    <p>Die sensoren staan eerst uitgeschakeld, en een sensor verschijnt bij de eerste nacht die fasen heeft. Open de apparaatpagina van de telefoon en toon de uitgeschakelde entiteiten om ze in te schakelen.</p>
+  </details>
+  <details>
+    <summary>Kan de kaart een eerdere nacht tonen?</summary>
+    <p>Hij tekent de nacht uit de sensor waar je hem op richt, en dat is de nieuwste hoofdnacht. Zet voor eerdere nachten de statistieken in een grafiek: die bewaren de uren per fase per nacht.</p>
+  </details>
+  <details>
+    <summary>Werkt de kaart met andere slaapsensoren?</summary>
+    <p>Hij leest de twee vormen op deze pagina. Voor een sensor met een echte statusgeschiedenis, zoals een slaap-app die live rapporteert, is de <a href="https://github.com/Lavve/lovelace-hypnogram-card">Hypnogram-kaart</a> van Lavve gemaakt. Deze kaart is voor nachten die achteraf binnenkomen, als een lijst met fasen.</p>
+  </details>
+  <details>
+    <summary>Stuurt de kaart mijn slaapdata ergens heen?</summary>
+    <p>Nee. Hij leest alleen de sensorstatus die Home Assistant al aan je browser geeft en doet zelf geen verzoeken. Er zit geen telemetrie of analytics in. De kaart is gratis en open source, onder de MIT-licentie.</p>
+  </details>
+</section>

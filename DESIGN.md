@@ -81,8 +81,30 @@ CSS height fits all. Live badges sit in one row, the coming ones in a row of the
   Phones and screenshots get a neutral drop shadow.
 - Labels in sentence case. No uppercase kickers over headings.
 - Icons are drawn by hand on a 24 grid with a 2 px round stroke, the line of the heartbeat mark.
-- Dark only: every brand asset and every screenshot is dark. The app ships light, dark and
-  system; a light site would start with tokens for both modes and screenshots that suit both.
+- Light and dark, from one set of tokens (November 2026; before that the site was dark only).
+  The page follows the reader's system setting, without a switch, because the site runs no
+  script. Light is a cool off-white `#F7F9F8` with white surfaces and a deep green-black ink
+  `#0E1A16`; dark is the brand background as before. The brand green `#30B77E` fills buttons
+  in both; as text it is `#0B6B45` on light and `#6FD7A6` on dark, so links keep 4.5:1.
+- Screenshots and code stay dark in both themes. Every capture (the app, Home Assistant,
+  Grafana) is dark, so it sits on the dark store-art stage either way, like a device on a
+  desk, instead of a light frame around a dark slab. Departure to confirm: the app ships a
+  light theme, so light screenshots for the light page are possible later.
+
+## Guides (decided in the November 2026 refactor)
+
+One template for every guide, in every language (`build_guide` in `tools/site/build.py`):
+
+- A header band, the only place on a guide with the grid: breadcrumb, the question as H1, the
+  answer as introduction, one line with the author, the date and the reading time, one button.
+- The article at a reading width (720 px, under 80 characters a line) with "On this page"
+  beside it, sticky on a desktop and a box above the text on a phone.
+- Components, each with one look: numbered steps joined by a line (an ordered list is a
+  sequence), callouts (`note` neutral, `tip` green, `warn` amber; the edge says which),
+  tables that scroll sideways with the first column in view, dark code blocks, the FAQ as
+  `<details>`, a closing panel with the store's own badge and price, three related guides.
+- No copy button on code: the site runs no script, and its Content-Security-Policy says so.
+- `/life-dashboard/guides/` lists every guide under the same five headings as the landing page.
 
 ## Dials
 

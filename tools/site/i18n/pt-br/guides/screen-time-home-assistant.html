@@ -1,0 +1,127 @@
+<!--
+slug: tempo-de-tela-home-assistant
+title: Tempo de tela do Android no Home Assistant | Life Dashboard
+description: O Life Dashboard Companion envia o tempo de tela do Android por app para o Home Assistant: minutos do dia, apps mais usados e um sensor por app para automações.
+primary query: tempo de tela home assistant
+secondary queries: tempo de tela android home assistant, tempo de tela por app home assistant, bem-estar digital home assistant, exportar bem-estar digital, tempo de uso de apps home assistant, limite de tempo de tela home assistant
+updated: 2026-11-20
+published: 2026-10-06
+-->
+
+<h1>Como levar o tempo de tela do Android, app por app, para o Home Assistant?</h1>
+
+<p>O Life Dashboard Companion, um app de código aberto para Android, lê as estatísticas de uso do Android, os mesmos números que o Bem-estar digital (Digital Wellbeing) mostra, e envia os minutos por app para o Home Assistant seguindo uma agenda. Com a integração Life Dashboard, você tem o tempo de tela de hoje e de ontem, o app mais usado, os cinco apps mais usados, um sensor por app se quiser, e todos os dias nas estatísticas de longo prazo. Por MQTT, você recebe os mesmos totais, sem os sensores por app. Depois, automações podem avisar quando você passa de um limite que você mesmo definiu.</p>
+
+<h2>O que você precisa</h2>
+
+<ul>
+  <li>Um celular ou tablet com Android 8.0 ou mais recente. O Conexão Saúde (Health Connect) não é necessário.</li>
+  <li>O <a href="../android/">Life Dashboard Companion para Android</a>, no <a href="{{play_url}}">Google Play</a> por €&nbsp;4,99 uma única vez, ou de graça pelo GitHub Releases, pelo Obtainium ou pelo F-Droid. As <a href="../android/#get">opções de instalação</a> listam todos os caminhos.</li>
+  <li>O Home Assistant com a <a href="../home-assistant/">integração Life Dashboard</a>, pareada como no <a href="../health-connect-home-assistant/">guia do Conexão Saúde</a>, ou um broker MQTT que o Home Assistant use. Os sensores por app exigem a integração 0.9.0 ou mais recente.</li>
+</ul>
+
+<h2>Como configurar</h2>
+
+<ol>
+  <li>Ao parear com o QR code, inclua <strong>Tempo de tela</strong> em <strong>Enviar de</strong>.</li>
+  <li>Abra a aba <strong>Tempo de tela</strong>. Ela diz <strong>Permita o acesso aos dados de uso.</strong> Toque em <strong>Abrir as configurações do Android</strong>, encontre <strong>Life Dashboard</strong> na lista do Android, ative o acesso e volte. A aba agora mostra o seu tempo de tela, e <strong>Mais</strong> nessa aba diz <strong>Acesso aos dados de uso concedido</strong>.</li>
+  <li>Abra <strong>O dia começa às</strong>. O padrão é 04:00, então o uso do celular depois da meia-noite conta para o dia anterior; para outro horário, toque em <strong>Salvar</strong> no topo dessa página. Desative <strong>Ativar virada do dia</strong> para contar de meia-noite a meia-noite.</li>
+  <li>Em <strong>Apps a enviar</strong>, escolha <strong>Todos</strong>, <strong>Todos menos</strong> ou <strong>Só</strong>. A lista mostra os apps que você usou nos últimos 30 dias.</li>
+  <li>Toque em <strong>Sincronizar agora</strong>.</li>
+</ol>
+
+<!-- IMG: Screen Time tab (A4-screen-time.png) -->
+
+<p>O tempo de tela tem o seu próprio <strong>Quando enviar</strong>, separado dos dados de saúde. O Home Assistant só vê um número novo depois de uma sincronização, então, para limites, escolha <strong>A cada X minutos</strong> com 15, o mínimo que o Android permite, e toque em <strong>Salvar</strong>.</p>
+
+<h2>O que você recebe</h2>
+
+<table>
+  <thead>
+    <tr><th>Sensor da integração</th><th>Por MQTT</th><th>O que ele guarda</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>sensor.&lt;phone&gt;_screen_time_today</code></td><td>Screen Time Today</td><td>O tempo de hoje, com os cinco apps mais usados e seus minutos em <code>top_apps</code> e, a partir da integração 1.2.0, todos os apps do dia em <code>apps</code></td></tr>
+    <tr><td><code>sensor.&lt;phone&gt;_screen_time_yesterday</code></td><td>Screen Time Yesterday</td><td>O total final de ontem</td></tr>
+    <tr><td><code>sensor.&lt;phone&gt;_most_used_app_today</code></td><td>Screen Time Top App Today</td><td>O app com mais minutos hoje</td></tr>
+    <tr><td><code>sensor.&lt;phone&gt;_&lt;app&gt;_screen_time</code></td><td>Não disponível</td><td>O tempo de um app hoje, com os minutos dele ao longo da semana em <code>week_minutes</code></td></tr>
+  </tbody>
+</table>
+
+<p>A integração informa o tempo em horas desde a versão 1.0.0, então 2 h 51 min aparece como <code>2.85</code> e um card Tile mostra 2h 51m. Por MQTT, e na integração antes da 1.0.0, o valor vem em minutos: <code>171</code>. Os atributos ficam em minutos nos dois caminhos.</p>
+
+<p>Regras dos sensores por app:</p>
+
+<ul>
+  <li>Eles são criados desativados. Abra o dispositivo do celular, mostre as entidades desativadas e ative os apps que interessam a você.</li>
+  <li>Um app ganha um sensor quando soma 5 minutos nos dias que a última sincronização trouxe. Um celular tem no máximo 50 sensores de app, contando os desativados, com os apps mais usados primeiro.</li>
+  <li>O sensor pertence ao pacote do app, então ele sobrevive a uma mudança de nome. Um sensor que você exclui continua excluído.</li>
+  <li>Um app que você não abriu hoje fica em 0, então um gatilho diário está pronto de novo no dia seguinte.</li>
+</ul>
+
+<p>O tempo de tela total por dia também entra nas estatísticas de longo prazo, em horas, assim como o tempo por dia de cada app cujo sensor você ativou. <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md#screen-time">Tempo de tela em detalhes</a> cobre todos os atributos.</p>
+
+<h2>Cards para o seu dashboard</h2>
+
+<p>O <a href="https://github.com/owen282000/life-dashboard-screen-time-card">Life Dashboard Screen Time</a> é uma instalação separada pelo Marketplace (HACS antes do Home Assistant 2026.11) com três cards, cada um comparado a um limite diário que você define:</p>
+
+<ul>
+  <li><strong>Hoje em um celular</strong>: um anel em relação ao limite, a diferença para ontem e para os últimos sete dias, e os apps com seus próprios ícones e minutos.</li>
+  <li><strong>A semana</strong>: uma barra por dia, com o limite como uma linha. Toque em um dia para ver os apps dele.</li>
+  <li><strong>A família</strong>: todo mundo em um só card, cada pessoa em relação ao próprio limite, com os três apps mais usados.</li>
+</ul>
+
+<p>Com a integração 1.2.0 ou mais recente, os cards mostram todos os apps do dia; antes disso, os cinco mais usados e os sensores de app que você ativou. Eles também leem o tempo de tela de uma criança no Google Family Link ou no Microsoft Family Safety, pelas integrações da comunidade HAFamilyLink e HAFamilySafety.</p>
+
+<h2>Limites e alertas</h2>
+
+<p>Uma notificação quando o dia de hoje passa de três horas, usando a ação notify do app Companion do Home Assistant:</p>
+
+<pre><code>triggers:
+  - trigger: numeric_state
+    entity_id: sensor.&lt;phone&gt;_screen_time_today
+    value_template: "{{ state.state | float(0) * (60 if state.attributes.unit_of_measurement == 'h' else 1) }}"
+    above: 180
+actions:
+  - action: notify.mobile_app_&lt;phone&gt;
+    data:
+      message: Three hours on the phone today.</code></pre>
+
+<p>A linha <code>value_template</code> transforma horas em minutos e deixa os minutos como estão, então <code>above: 180</code> significa três horas tanto com a integração quanto por MQTT. Troque por <code>sensor.&lt;phone&gt;_youtube_screen_time</code> e <code>above: 60</code> para limitar um app, com a mesma linha <code>value_template</code>. A <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/recipes/screen-time-limits.md">receita de limites de tempo de tela</a> traz também uma versão para MQTT e uma verificação de uso do celular tarde da noite.</p>
+
+<h2>Vários celulares em um só Home Assistant</h2>
+
+<p>Adicione a integração uma vez por celular e dê a cada um um nome claro. Os IDs das entidades seguem o nome, então um tablet chamado “Living room tablet” gera <code>sensor.living_room_tablet_youtube_screen_time</code> ao lado dos sensores do seu celular. Cada celular tem seu próprio dispositivo, seu segredo e suas estatísticas.</p>
+
+<p>Por MQTT, dê um nome a cada celular em <strong>Mais</strong> &gt; <strong>Avançado</strong> &gt; <strong>Nome do celular</strong>. Um celular com nome vira um dispositivo próprio, como Life Dashboard Companion (Pixel 8). Dois celulares sem nome publicam nos mesmos sensores.</p>
+
+<p>Qualquer pessoa com acesso ao Home Assistant e aos backups dele consegue ver quais apps foram usados e quando. Em cada celular, <strong>Apps a enviar</strong> decide o que sai dele: um app filtrado não é citado em nada do que é enviado, mas o tempo dele continua contando no total do dia.</p>
+
+<h2>O que ele mede</h2>
+
+<ul>
+  <li>O tempo em primeiro plano por app, em minutos inteiros. Música tocando em segundo plano não conta.</li>
+  <li>A interface do sistema e o launcher ficam de fora, assim como os apps usados por um minuto ou menos naquele dia.</li>
+  <li>Cada sincronização envia de novo os últimos 7 dias, então um dia ainda em andamento em uma sincronização é corrigido pela seguinte.</li>
+  <li>O app informa minutos. Ele não bloqueia apps nem define limites no próprio celular.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Por que o total não bate exatamente com o Bem-estar digital?</summary>
+    <p>O Bem-estar digital conta a partir da meia-noite, enquanto o dia do app começa às 04:00 por padrão. Além disso, apps usados por um minuto ou menos ficam de fora.</p>
+  </details>
+  <details>
+    <summary>Isso funciona no iPhone?</summary>
+    <p>Não. O iOS mantém os dados do Tempo de Uso dentro de uma sandbox que não consegue enviar nada para fora, então o app para iPhone não tem tempo de tela.</p>
+  </details>
+  <details>
+    <summary>Dá para manter alguns apps privados?</summary>
+    <p>Sim. Escolha esses apps em <strong>Todos menos</strong>, dentro de <strong>Apps a enviar</strong>. Os nomes deles não são enviados. O total do dia ainda inclui o tempo deles, então, com um só app de fora, os minutos dele podem ser deduzidos do total. Os sensores mostram os minutos dos apps que você envia, e <code>all_apps_minutes</code> guarda o total de todos os apps.</p>
+  </details>
+  <details>
+    <summary>Posso enviar o tempo de tela para o meu próprio servidor?</summary>
+    <p>Sim. A aba <strong>Tempo de tela</strong> tem a sua própria lista de webhooks, e o payload é um JSON com os minutos por app por dia. Veja o <a href="../health-connect-webhook/">guia de webhook</a>.</p>
+  </details>
+</section>

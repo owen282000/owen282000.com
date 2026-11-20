@@ -1,0 +1,223 @@
+<!--
+title: Apple Health-datatypes, app voor app | Life Dashboard
+description: De 28 Apple Health-types die de iPhone-app van Life Dashboard verstuurt: payload-sleutels, eenheden, wat Home Assistant ermee doet en wat een Apple Watch schrijft.
+primary query: apple health datatypes
+secondary queries: apple health datatypes lijst, healthkit datatypes, apple gezondheid gegevens exporteren velden, apple health json sleutels, apple watch datatypes, healthkit types home assistant, apple health eenheden
+updated: 2026-11-20
+published: 2026-10-21
+-->
+
+<h1>Welke Apple Health-datatypes verstuurt Life Dashboard?</h1>
+
+<p>De iPhone-app leest 28 Apple Health-types, en elk type staat uit tot je het aanzet onder <strong>Wat versturen</strong>, per categorie of met <strong>De basis</strong> of <strong>Alle types</strong>. Hij verstuurt ze onder de payload-sleutels van de Android-app, met dezelfde velden en eenheden: stappen, afstand en calorieën, work-outs, gewicht en lichaamssamenstelling, hartslag, hartslag in rust en HRV, bloeddruk, glucose, zuurstofsaturatie, ademfrequentie, VO2 max, slaap met fasen, water, voeding, mindfulness, lichaamstemperatuur en cyclusgegevens. Menstruatie gaat als twee sleutels de deur uit, dus een iPhone verstuurt 29 van de 34 sleutels van de Android-app.</p>
+
+<p>Elke meting heeft een <code>uuid</code>, die van de Apple Health-sample zelf, en een <code>source</code>: de naam die Apple Health geeft aan de app of het apparaat dat haar schreef. De app leest alleen; hij schrijft nooit naar Apple Health.</p>
+
+<h2>Alle types in één oogopslag</h2>
+
+<p>De kolom Apple Watch zegt waar de documentatie van Apple beschrijft dat het horloge het type vastlegt; <a href="../apple-watch-home-assistant/">Apple Watch in Home Assistant</a> linkt naar elke pagina. De andere types komen van de iPhone, van wat je zelf invoert, of van apps die naar Apple Health schrijven.</p>
+
+<table>
+  <thead>
+    <tr><th>Type</th><th>Payload-sleutel</th><th>Waarde en eenheid</th><th>Home Assistant</th><th>Apple Watch</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><a href="#steps">Stappen</a></td><td><code>steps</code></td><td><code>count</code></td><td>Het totaal van vandaag</td><td>Ja, en de iPhone</td></tr>
+    <tr><td><a href="#distance">Afstand</a></td><td><code>distance</code></td><td><code>meters</code></td><td>Het totaal van vandaag</td><td>Ja, en de iPhone</td></tr>
+    <tr><td><a href="#active_calories">Actieve energie</a></td><td><code>active_calories</code></td><td><code>calories</code>, kcal</td><td>Het totaal van vandaag</td><td>Ja</td></tr>
+    <tr><td><a href="#total_calories">Totale energie</a></td><td><code>total_calories</code></td><td><code>calories</code>, kcal</td><td>Het totaal van vandaag</td><td>Ja</td></tr>
+    <tr><td><a href="#exercise">Work-outs</a></td><td><code>exercise</code></td><td><code>type</code>, <code>duration_seconds</code></td><td>Laatste work-out, de minuten van vandaag en gisteren</td><td>Ja</td></tr>
+    <tr><td><a href="#weight">Gewicht</a></td><td><code>weight</code></td><td><code>kilograms</code></td><td>Laatste waarde</td><td>Nee</td></tr>
+    <tr><td><a href="#height">Lengte</a></td><td><code>height</code></td><td><code>meters</code></td><td>Laatste waarde</td><td>Nee</td></tr>
+    <tr><td><a href="#body_fat">Percentage lichaamsvet</a></td><td><code>body_fat</code></td><td><code>percentage</code></td><td>Laatste waarde</td><td>Nee</td></tr>
+    <tr><td><a href="#lean_body_mass">Vetvrije massa</a></td><td><code>lean_body_mass</code></td><td><code>kilograms</code></td><td>Laatste waarde</td><td>Nee</td></tr>
+    <tr><td><a href="#heart_rate">Hartslag</a></td><td><code>heart_rate</code></td><td><code>bpm</code></td><td>Laatste waarde</td><td>Ja</td></tr>
+    <tr><td><a href="#resting_heart_rate">Hartslag in rust</a></td><td><code>resting_heart_rate</code></td><td><code>bpm</code></td><td>Laatste waarde</td><td>Ja</td></tr>
+    <tr><td><a href="#heart_rate_variability">Hartritmevariabiliteit</a></td><td><code>heart_rate_variability</code></td><td><code>heart_rate_variability_millis</code>, ms (SDNN)</td><td>Laatste waarde</td><td>Ja</td></tr>
+    <tr><td><a href="#blood_pressure">Bloeddruk</a></td><td><code>blood_pressure</code></td><td><code>systolic</code>, <code>diastolic</code>, mmHg</td><td>Twee sensoren</td><td>Nee</td></tr>
+    <tr><td><a href="#oxygen_saturation">Saturatie</a></td><td><code>oxygen_saturation</code></td><td><code>percentage</code></td><td>Laatste waarde</td><td>Sommige modellen en regio's</td></tr>
+    <tr><td><a href="#respiratory_rate">Ademfrequentie</a></td><td><code>respiratory_rate</code></td><td><code>rate</code>, ademhalingen per minuut</td><td>Laatste waarde</td><td>Ja, terwijl je slaapt</td></tr>
+    <tr><td><a href="#body_temperature">Lichaamstemperatuur</a></td><td><code>body_temperature</code></td><td><code>celsius</code></td><td>Laatste waarde</td><td>Nee</td></tr>
+    <tr><td><a href="#basal_body_temperature">Basale lichaamstemperatuur</a></td><td><code>basal_body_temperature</code></td><td><code>celsius</code></td><td>Laatste waarde</td><td>Nee</td></tr>
+    <tr><td><a href="#blood_glucose">Bloedsuikerspiegel</a></td><td><code>blood_glucose</code></td><td><code>mmol_per_liter</code></td><td>Laatste waarde</td><td>Nee</td></tr>
+    <tr><td><a href="#vo2_max">VO2max</a></td><td><code>vo2_max</code></td><td><code>vo2_ml_per_min_per_kg</code></td><td>Laatste waarde</td><td>Ja, tijdens sommige work-outs</td></tr>
+    <tr><td><a href="#sleep">Slaap</a></td><td><code>sleep</code></td><td><code>duration_seconds</code>, <code>stages</code></td><td>De duur van de laatste slaap, de slaaptijd en de uren per fase</td><td>Ja, met fasen</td></tr>
+    <tr><td><a href="#mindfulness">Mindfulness</a></td><td><code>mindfulness</code></td><td><code>duration_seconds</code></td><td>Minuten per dag, in de statistieken</td><td>Onbekend</td></tr>
+    <tr><td><a href="#hydration">Water</a></td><td><code>hydration</code></td><td><code>liters</code></td><td>Laatste drankje</td><td>Nee</td></tr>
+    <tr><td><a href="#nutrition">Voeding</a></td><td><code>nutrition</code></td><td><code>calories</code>, grammen en 34 andere voedingsstoffen</td><td>De calorieën, eiwitten, koolhydraten en vetten die je vandaag hebt gegeten</td><td>Nee</td></tr>
+    <tr><td><a href="#menstruation">Menstruatie</a></td><td><code>menstruation_flow</code>, <code>menstruation_period</code></td><td><code>flow</code>; <code>start_time</code>, <code>end_time</code></td><td>Geen sensor</td><td>Nee</td></tr>
+    <tr><td><a href="#intermenstrual_bleeding">Spotting</a></td><td><code>intermenstrual_bleeding</code></td><td>Alleen het tijdstip</td><td>Geen sensor</td><td>Nee</td></tr>
+    <tr><td><a href="#ovulation_test">Uitslag ovulatietest</a></td><td><code>ovulation_test</code></td><td><code>result</code></td><td>Geen sensor</td><td>Nee</td></tr>
+    <tr><td><a href="#cervical_mucus">Kwaliteit van cervixslijm</a></td><td><code>cervical_mucus</code></td><td><code>appearance</code>, <code>sensation</code></td><td>Geen sensor</td><td>Nee</td></tr>
+    <tr><td><a href="#sexual_activity">Seksuele activiteit</a></td><td><code>sexual_activity</code></td><td><code>protection_used</code></td><td>Geen sensor</td><td>Nee</td></tr>
+  </tbody>
+</table>
+
+<p>"Nee" en "Onbekend" in de kolom Apple Watch betekenen dat de horlogedocumentatie van Apple, zoals die op deze site wordt aangehaald, niet beschrijft dat het horloge het type vastlegt, niet dat niets dat kan. Wil je zien wat een type op je eigen iPhone schrijft, open dan de app Gezondheid, zoek het type op en kijk onder <strong>Gegevensbronnen en toegang</strong>.</p>
+
+<h2>Welke bron welk type schrijft</h2>
+
+<ul>
+  <li><strong>Apple Watch</strong>: stappen, afstand, actieve energie en energie in rust, work-outs, hartslag, hartslag in rust, HRV, slaap met fasen, ademfrequentie terwijl je slaapt, VO2 max tijdens sommige work-outs buiten, en zuurstofsaturatie op modellen en in regio's die het hebben. <a href="../apple-watch-home-assistant/">Apple Watch in Home Assistant</a> heeft de details en de pagina's van Apple.</li>
+  <li><strong>iPhone</strong>: stappen en afstand. Een iPhone zonder horloge legt meestal geen energie in rust vast, dus <code>total_calories</code> krijg je vooral met een horloge.</li>
+  <li><strong>Andere apps en apparaten</strong>: de apps van andere horloges, ringen en weegschalen, zoals Garmin Connect, Oura en Withings, kunnen naar Apple Health schrijven, net als apps waarin je eten, water, je cyclus of meditatie bijhoudt. Wat ze schrijven hangt af van de app en je instellingen daar; elke meting noemt de app in <code>source</code>.</li>
+</ul>
+
+<p>Apple Health bewaart een wandeling die zowel de iPhone als het horloge heeft vastgelegd twee keer, één keer per apparaat. De <code>daily_totals</code> in elke payload tellen haar één keer, in de volgorde van de gegevensbronnen die je in de app Gezondheid instelt. Gebruik die dus voor dagtotalen.</p>
+
+<h2>Activiteit</h2>
+
+<h3 id="steps">Stappen</h3>
+<p>Sleutel <code>steps</code>: <code>count</code>, een geheel getal, over een interval van <code>start_time</code> tot <code>end_time</code>. Tot 1000 nieuwe metingen per sync.</p>
+
+<h3 id="distance">Afstand</h3>
+<p>Sleutel <code>distance</code>: <code>meters</code>, over een interval. Apple Health heeft een afstandstype per soort activiteit, en de app leest ze allemaal: wandelen en hardlopen, fietsen, zwemmen, rolstoel, wintersport bergafwaarts, en vanaf iOS 18 roeien, peddelen, langlaufen en schaatsen. Ze overlappen niet, dus als je ze optelt, tel je niets dubbel. Een meting zegt niet van welke activiteit ze komt.</p>
+
+<h3 id="active_calories">Actieve energie</h3>
+<p>Sleutel <code>active_calories</code>: <code>calories</code> in kcal, over een interval. De actieve energie van Apple Health.</p>
+
+<h3 id="total_calories">Totale energie</h3>
+<p>Sleutel <code>total_calories</code>: <code>calories</code> in kcal, over een interval. Apple Health heeft geen type voor totale energie, dus dit zijn de metingen van energie in rust en actieve energie samen. Eén sample van actieve energie zit daardoor zowel in <code>active_calories</code> als in <code>total_calories</code>. Tot 1000 nieuwe metingen per sync. In <code>daily_totals</code> wordt het alleen verstuurd op dagen met energie in rust.</p>
+
+<h3 id="exercise">Work-outs</h3>
+<p>Sleutel <code>exercise</code>: <code>type</code>, <code>start_time</code>, <code>end_time</code> en <code>duration_seconds</code>, uit de work-outs van Apple Health. <code>type</code> is de activiteit in snake_case, zoals <code>running</code>, <code>walking</code>, <code>downhill_skiing</code> of <code>hiit</code>; <code>other</code> is de eigen categorie Other van Apple, of een activiteit uit een iOS-versie die nieuwer is dan de app. <code>duration_seconds</code> telt pauzes mee, dus het kan langer zijn dan de work-outtijd die de app Gezondheid toont. Android stuurt hier in plaats daarvan een getal als string, zoals <code>"56"</code> voor hardlopen.</p>
+
+<h2>Lichaam</h2>
+
+<h3 id="weight">Gewicht</h3>
+<p>Sleutel <code>weight</code>: <code>kilograms</code>, op een moment (<code>time</code>), met maximaal 2 decimalen, zodat een gewicht dat in ponden is ingevoerd de omrekening doorstaat.</p>
+
+<h3 id="height">Lengte</h3>
+<p>Sleutel <code>height</code>: <code>meters</code>, op een moment.</p>
+
+<h3 id="body_fat">Percentage lichaamsvet</h3>
+<p>Sleutel <code>body_fat</code>: <code>percentage</code>, 0 tot 100, op een moment.</p>
+
+<h3 id="lean_body_mass">Vetvrije massa</h3>
+<p>Sleutel <code>lean_body_mass</code>: <code>kilograms</code>, op een moment.</p>
+
+<h2>Hart en vitale functies</h2>
+
+<h3 id="heart_rate">Hartslag</h3>
+<p>Sleutel <code>heart_rate</code>: <code>bpm</code>, een geheel getal, op een moment, één meting per sample. Tot 1000 nieuwe metingen per sync. Elke sample heeft zijn eigen <code>uuid</code>; de vorm <code>&lt;uuid&gt;#&lt;time&gt;</code> van Android geldt hier niet.</p>
+
+<h3 id="resting_heart_rate">Hartslag in rust</h3>
+<p>Sleutel <code>resting_heart_rate</code>: <code>bpm</code>, een geheel getal, op een moment.</p>
+
+<h3 id="heart_rate_variability">Hartritmevariabiliteit</h3>
+<p>Sleutel <code>heart_rate_variability</code>: <code>heart_rate_variability_millis</code>, op een moment. Dit is SDNN, de maat die Apple Health bewaart. Android stuurt onder dezelfde sleutel RMSSD, de maat die Health Connect bewaart; de twee zijn niet hetzelfde getal, dus houd ze uit elkaar. Tot 500 nieuwe metingen per sync.</p>
+
+<h3 id="blood_pressure">Bloeddruk</h3>
+<p>Sleutel <code>blood_pressure</code>: <code>systolic</code> en <code>diastolic</code> in mmHg, op een moment, per meting: de twee waarden die een app samen heeft bewaard. De zeldzame app die ze los bewaart, krijgt ze gekoppeld wanneer ze binnen een seconde van elkaar liggen. Een waarde zonder haar andere helft wordt niet verstuurd. <code>uuid</code> is die van de systolische sample.</p>
+
+<h3 id="body_temperature">Lichaamstemperatuur</h3>
+<p>Sleutel <code>body_temperature</code>: <code>celsius</code>, op een moment.</p>
+
+<h3 id="basal_body_temperature">Basale lichaamstemperatuur</h3>
+<p>Sleutel <code>basal_body_temperature</code>: <code>celsius</code>, op een moment.</p>
+
+<h3 id="blood_glucose">Bloedsuikerspiegel</h3>
+<p>Sleutel <code>blood_glucose</code>: <code>mmol_per_liter</code>, op een moment.</p>
+
+<h3 id="oxygen_saturation">Saturatie</h3>
+<p>Sleutel <code>oxygen_saturation</code>: <code>percentage</code>, 0 tot 100, op een moment.</p>
+
+<h3 id="respiratory_rate">Ademfrequentie</h3>
+<p>Sleutel <code>respiratory_rate</code>: <code>rate</code> in ademhalingen per minuut, op een moment. Tot 500 nieuwe metingen per sync.</p>
+
+<h3 id="vo2_max">VO2max</h3>
+<p>Sleutel <code>vo2_max</code>: <code>vo2_ml_per_min_per_kg</code>, op een moment.</p>
+
+<h2>Slaap en mindfulness</h2>
+
+<h3 id="sleep">Slaap</h3>
+<p>Sleutel <code>sleep</code>: <code>session_end_time</code>, <code>duration_seconds</code> en <code>stages</code>, elke fase met haar eigen <code>stage</code>, tijden, <code>uuid</code> en <code>source</code>. Apple Health kent geen slaapsessie, dus de app groepeert de samples van fasen tot nachten, en een gat van meer dan een uur begint een nieuwe nacht.</p>
+<ul>
+  <li>Fasen: <code>light</code> (Kern, Core bij Apple), <code>deep</code>, <code>rem</code>, <code>awake</code>, <code>sleeping</code> en <code>unknown</code>, die Android ook stuurt, en <code>in_bed</code>, die alleen een iPhone stuurt: de tijd in bed rond de fasen, zelf geen fase.</li>
+  <li>De <code>uuid</code> van een nacht komt van haar vroegste fase, dus die blijft gelijk terwijl de nacht groeit. Vervang de nacht wanneer ze langer terugkomt. Een fase die later wordt toegevoegd, verstuurt de hele nacht opnieuw.</li>
+  <li>De <code>source</code> van de nacht is de app of het apparaat dat de meeste fasen ervan heeft vastgelegd.</li>
+</ul>
+
+<h3 id="mindfulness">Mindfulness</h3>
+<p>Sleutel <code>mindfulness</code>: <code>start_time</code>, <code>end_time</code> en <code>duration_seconds</code>, van apps die mindfulness-sessies naar Apple Health schrijven. Geen <code>title</code>, die Android wel kan sturen.</p>
+
+<h2>Eten en drinken</h2>
+
+<h3 id="hydration">Water</h3>
+<p>Sleutel <code>hydration</code>: <code>liters</code>, over een interval. Het water van Apple Health.</p>
+
+<h3 id="nutrition">Voeding</h3>
+<p>Sleutel <code>nutrition</code>: <code>calories</code>, <code>protein_grams</code>, <code>carbs_grams</code>, <code>fat_grams</code>, <code>name</code> en 34 andere voedingsstoffen onder de sleutels van Android, zoals <code>dietary_fibre_g</code>, <code>sugars_g</code>, <code>sodium_mg</code> en <code>caffeine_mg</code>, over een interval. Elk veld is optioneel.</p>
+<ul>
+  <li>Een voedingsmiddel dat een app heeft vastgelegd, met elke voedingsstof erin, is één record, met de naam als de app die heeft meegegeven.</li>
+  <li>De 34 andere voedingsstoffen worden alleen gelezen van een voedingsmiddel dat ook energie, eiwitten, koolhydraten of vetten heeft. Een koffie die alleen met cafeïne is vastgelegd, wordt dus niet verstuurd.</li>
+  <li>Apple Health heeft geen type voor transvet, onverzadigd vet, energie uit vet, foliumzuur of <code>meal_type</code>, dus die komen nooit van een iPhone.</li>
+</ul>
+
+<h2>Cyclus bijhouden</h2>
+
+<h3 id="menstruation">Menstruatie</h3>
+<p>Eén schakelaar, twee sleutels. <code>menstruation_flow</code> heeft <code>flow</code> op een moment, met de waarden uit het gedeelde schema: <code>light</code>, <code>medium</code>, <code>heavy</code> of <code>unknown</code>. <code>menstruation_period</code> heeft alleen <code>start_time</code> en <code>end_time</code>: Apple Health kent geen record voor een periode, dus de app leidt periodes af uit opeenvolgende dagen met bloedverlies, en een gat tot 48 uur overbrugt één gemiste dag. De <code>uuid</code> van een periode komt van haar eerste dag met bloedverlies, dus vervang de periode wanneer ze langer terugkomt.</p>
+
+<h3 id="intermenstrual_bleeding">Spotting</h3>
+<p>Sleutel <code>intermenstrual_bleeding</code>: alleen de <code>time</code>.</p>
+
+<h3 id="ovulation_test">Uitslag ovulatietest</h3>
+<p>Sleutel <code>ovulation_test</code>: <code>result</code> op een moment: <code>positive</code> (LH-piek), <code>high</code> (oestrogeenpiek), <code>negative</code>, <code>inconclusive</code> of <code>unknown</code>.</p>
+
+<h3 id="cervical_mucus">Kwaliteit van cervixslijm</h3>
+<p>Sleutel <code>cervical_mucus</code>: <code>appearance</code> en <code>sensation</code> op een moment. Apple Health legt geen gevoel vast, dus <code>sensation</code> is altijd <code>unknown</code>.</p>
+
+<h3 id="sexual_activity">Seksuele activiteit</h3>
+<p>Sleutel <code>sexual_activity</code>: <code>protection_used</code> op een moment: <code>protected</code> of <code>unprotected</code> als de schrijvende app het heeft vastgelegd, anders <code>unknown</code>.</p>
+
+<p>Via MQTT worden de cyclusgegevens niet gepubliceerd, omdat een retained topic geen plek is voor gegevens over voortplanting; basale lichaamstemperatuur wel. De integratie van Home Assistant en een webhook krijgen ze allemaal.</p>
+
+<h2>De vijf Android-sleutels die een iPhone nooit verstuurt</h2>
+
+<table>
+  <thead>
+    <tr><th>Android-sleutel</th><th>Waarom niet</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>speed</code></td><td>De iPhone-app leest snelheid nog niet.</td></tr>
+    <tr><td><code>bone_mass</code></td><td>Apple Health heeft geen type voor botmassa.</td></tr>
+    <tr><td><code>body_water_mass</code></td><td>Apple Health heeft geen type voor lichaamswater.</td></tr>
+    <tr><td><code>skin_temperature</code></td><td>Apple Health bewaart de absolute polstemperatuur tijdens de slaap, niet de afwijking ten opzichte van een basislijn die deze sleutel bevat.</td></tr>
+    <tr><td><code>basal_metabolic_rate</code></td><td>Apple Health bewaart energie in rust per interval, niet als waarde per dag. Ze gaat mee als onderdeel van <code>total_calories</code>.</td></tr>
+  </tbody>
+</table>
+
+<h2>Getallen, limieten en resolutie</h2>
+
+<ul>
+  <li><strong>Decimalen.</strong> 3 voor meters en liters; 2 voor kilogrammen, calorieën, Celsius, mmol/L en de voedingsstoffen; 1 voor percentages, bloeddruk, ademfrequentie, HRV en VO2 max. Nullen aan het eind vallen weg, dus 97.0 komt aan als <code>97</code>. Aantallen, slagen per minuut en tijdsduren zijn gehele getallen.</li>
+  <li><strong>Per sync.</strong> Tot 1000 nieuwe metingen voor hartslag, stappen en totale calorieën, 500 voor HRV en ademfrequentie, en 200 voor elk ander type. De volgende sync gaat verder waar deze stopte.</li>
+  <li><strong>Dataresolutie.</strong> Onder <strong>Wat versturen</strong> kun je hartslag, HRV, zuurstofsaturatie en ademfrequentie laten versturen als één gemiddelde per 1, 5 of 15 minuten of per uur, met een minimum en maximum; stappen, afstand en beide calorieën als som. Elk type begint op elke meting.</li>
+</ul>
+
+<p>De <a href="https://github.com/owen282000/life-dashboard-companion-app-ios/blob/main/docs/webhook.md">payload-pagina voor iOS</a> heeft elk detail, en het <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook-schema.json">JSON Schema</a> van de Android-app dekt beide apps. Voor Android: zie <a href="../health-connect-data-types/">Health Connect-datatypes, app voor app</a>.</p>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Hoeveel Apple Health-types leest de iPhone-app?</summary>
+    <p>28, elk uit tot je het aanzet onder <strong>Wat versturen</strong>. Menstruatie verstuurt twee sleutels, bloedverlies en periodes, dus een iPhone verstuurt 29 payload-sleutels.</p>
+  </details>
+  <details>
+    <summary>Waarom verstuurt de iPhone geen botmassa of huidtemperatuur?</summary>
+    <p>Apple Health heeft geen type voor botmassa of lichaamswater, en het bewaart de absolute polstemperatuur tijdens de slaap in plaats van de afwijking ten opzichte van een basislijn die de gedeelde payload bevat. Het basaal metabolisme gaat mee in <code>total_calories</code>.</p>
+  </details>
+  <details>
+    <summary>Is HRV van een iPhone hetzelfde als van Android?</summary>
+    <p>Nee. Apple Health bewaart SDNN en Health Connect bewaart RMSSD. Beide komen binnen in <code>heart_rate_variability_millis</code>, maar het zijn verschillende maten, dus middel of vergelijk ze niet.</p>
+  </details>
+  <details>
+    <summary>Welke types worden sensoren in Home Assistant?</summary>
+    <p>20 van de 28, met bloeddruk als twee sensoren. Work-outs krijgen een sensor voor de laatste work-out en de minuten van vandaag en gisteren, en work-outs en mindfulness tellen mee in de dagstatistieken, in uren. Vanaf versie 1.2.0 van de integratie tellen je maaltijden op tot de calorieën, eiwitten, koolhydraten en vetten die je vandaag hebt gegeten. Losse maaltijden en cyclusgegevens krijgen geen sensor; een webhook krijgt ze volledig.</p>
+  </details>
+  <details>
+    <summary>Leest de app Schermtijd of het ecg?</summary>
+    <p>Nee. Schermtijd kan de iPhone niet verlaten: iOS toont het alleen binnen een sandbox die niets naar buiten kan sturen. Alles buiten de 28 types blijft in Apple Health.</p>
+  </details>
+</section>

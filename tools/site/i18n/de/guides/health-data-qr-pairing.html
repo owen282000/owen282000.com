@@ -1,0 +1,140 @@
+<!--
+title: Nutzer verbinden Gesundheitsdaten per QR-Code | Life Dashboard
+description: Erzeuge einen QR-Code, der Life Dashboard Companion mit deinem Dienst verbindet: Kopplungslink, Generator in Python und Node.js und der signierte Test-Ping.
+primary query: health connect qr code kopplung
+secondary queries: health connect webhook mehrere nutzer, gesundheitsdaten webhook onboarding, apple health webhook qr code, app mit server koppeln qr code, health connect daten sammeln dienst, hmac secret qr code
+updated: 2026-11-20
+published: 2026-10-29
+-->
+
+<h1>Wie lasse ich meine Nutzer ihre Gesundheitsdaten mit einem QR-Code verbinden?</h1>
+
+<p>Zeig jedem Nutzer einen QR-Code, in dem deine Webhook-Adresse und ein Schlüssel für diesen Nutzer stecken. Er scannt ihn mit Life Dashboard Companion, tippt auf <strong>Koppeln</strong>, und von da an sendet sein Telefon Health-Connect-Daten, oder von einem iPhone Apple-Health-Daten, als signiertes JSON an deinen Dienst. Niemand tippt eine URL ab oder kopiert einen Schlüssel, und du weißt, dass es geklappt hat, weil die App sofort einen signierten Test-Ping sendet. Die Life-Dashboard-Integration für Home Assistant funktioniert genau so, und das Format ist offen. Jeder Dienst kann also dasselbe tun.</p>
+
+<!-- IMG: how pairing works (p-pairing-flow.png) -->
+
+<h2>Was ein Code kann</h2>
+
+<ul>
+  <li><strong>Eine Adresse und ihren Schlüssel eintragen.</strong> In den Bereichen, die du zulässt: Gesundheit, Bildschirmzeit oder beide. Der Nutzer kann einen Bereich auf der Kopplungsseite trotzdem ausschalten.</li>
+  <li><strong>Nie Datentypen oder einen Zeitplan festlegen.</strong> Welche Daten gesendet werden und wie oft, bleibt die Entscheidung des Nutzers auf dem Telefon. Ein Code kann nicht heimlich die Herzfrequenz von jemandem irgendwohin senden lassen.</li>
+  <li><strong>Nie andere Empfänger anfassen.</strong> Jede andere Adresse behält ihren eigenen Schlüssel und ihre Header, und eine durch Koppeln hinzugefügte Adresse beginnt ohne eigene Header.</li>
+  <li><strong>Vor dem Koppeln nichts speichern.</strong> Die Kopplungsseite zeigt deinen Namen und den Host, an den die Daten gehen, entnommen aus der Adresse selbst.</li>
+</ul>
+
+<h2>Der Link</h2>
+
+<p>Ein Code ist ein https-Link, bei dem alles hinter dem <code>#</code> steht:</p>
+
+<pre><code>https://owen282000.github.io/life-dashboard-companion-app/pair#v=1&amp;url=&lt;address&gt;&amp;secret=&lt;secret&gt;&amp;name=&lt;name&gt;</code></pre>
+
+<table>
+  <thead><tr><th>Feld</th><th>Wert</th></tr></thead>
+  <tbody>
+    <tr><td><code>v</code></td><td><code>1</code>, die Version des Formats. Pflicht.</td></tr>
+    <tr><td><code>url</code></td><td>Deine Webhook-Adresse, höchstens 2048 Zeichen, keine Leerzeichen, kein Komma. Pflicht.</td></tr>
+    <tr><td><code>secret</code></td><td>Der HMAC-Signaturschlüssel für diesen Nutzer, höchstens 512 Zeichen, keine Leerzeichen. Pflicht.</td></tr>
+    <tr><td><code>name</code></td><td>Wie die Kopplungsseite deinen Dienst nennt, bis zu 64 Zeichen. Optional.</td></tr>
+    <tr><td><code>sources</code></td><td><code>health_connect</code>, <code>screen_time</code> oder beide, durch Komma getrennt. Lass es weg, um beide zuzulassen.</td></tr>
+  </tbody>
+</table>
+
+<p>Kodiere jeden Wert vollständig mit Prozentzeichen, ein Leerzeichen als <code>%20</code>. <code>quote(value, safe="")</code> in Python und <code>encodeURIComponent</code> in JavaScript machen das; die Formularkodierung, die ein Leerzeichen als <code>+</code> schreibt, macht es nicht. Der Schlüssel steht mit Absicht im Fragment: Ein Browser sendet den Teil hinter dem <code>#</code> nie an einen Server. Scannt jemand den Code, ohne die App installiert zu haben, lädt also die Landingpage, aber der Schlüssel bleibt auf seinem Telefon.</p>
+
+<h2>Einen Code in Python erzeugen</h2>
+
+<pre><code>import secrets
+from urllib.parse import quote, urlencode
+
+import segno
+
+PAIR_PAGE = "https://owen282000.github.io/life-dashboard-companion-app/pair"
+
+
+def pairing_link(webhook_url, secret, name=None, sources=None):
+    fields = {"v": "1", "url": webhook_url, "secret": secret}
+    if name:
+        fields["name"] = name
+    if sources:
+        fields["sources"] = ",".join(sources)
+    return PAIR_PAGE + "#" + urlencode(fields, quote_via=quote, safe="")
+
+
+secret = secrets.token_urlsafe(32)  # store this with the user
+link = pairing_link("https://health.example.com/webhook/u/42", secret, name="Example Health")
+segno.make(link, error="m").save("pairing.svg", scale=6, border=4)</code></pre>
+
+<h2>Einen Code in Node.js erzeugen</h2>
+
+<pre><code>import crypto from "node:crypto";
+import QRCode from "qrcode";
+
+const PAIR_PAGE = "https://owen282000.github.io/life-dashboard-companion-app/pair";
+
+function pairingLink(webhookUrl, secret, { name, sources } = {}) {
+  const fields = [["v", "1"], ["url", webhookUrl], ["secret", secret]];
+  if (name) fields.push(["name", name]);
+  if (sources) fields.push(["sources", sources.join(",")]);
+  return PAIR_PAGE + "#" + fields.map(([k, v]) =&gt; `${k}=${encodeURIComponent(v)}`).join("&amp;");
+}
+
+const secret = crypto.randomBytes(32).toString("base64url"); // store this with the user
+const link = pairingLink("https://health.example.com/webhook/u/42", secret, { name: "Example Health" });
+const dataUrl = await QRCode.toDataURL(link, { errorCorrectionLevel: "M", margin: 4 });</code></pre>
+
+<p>Beide ergeben exakt den bekannten Testvektor, den die eigenen Tests der App prüfen und der in der <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/pairing.md#known-good-test-vector">Kopplungsreferenz</a> steht. Nimm ihn als Unit-Test für deinen Generator.</p>
+
+<h2>Was der Nutzer sieht</h2>
+
+<p>Er scannt deinen Code in der App unter <strong>Kopplungscode scannen</strong> oder mit der Kamera des Telefons, die auf Android direkt die App öffnet. Eine Seite sagt „Example Health möchte deine Daten empfangen unter: health.example.com“, mit einem Schalter für jeden Bereich und den anderen Adressen, die ihren eigenen Schlüssel behalten. Nichts wird gespeichert, bis er auf <strong>Koppeln</strong> tippt.</p>
+
+<h2>Der Test-Ping nach dem Koppeln</h2>
+
+<p>Gleich nach <strong>Koppeln</strong> sendet die App einen Test-Ping an deine Adresse, signiert mit dem Schlüssel aus dem Code:</p>
+
+<pre><code>POST /webhook/u/42
+Content-Type: application/json; charset=utf-8
+X-Signature: sha256=&lt;hex of HMAC-SHA256(secret, raw body)&gt;
+
+{
+  "test": true,
+  "message": "Test ping from Life Dashboard Companion",
+  "timestamp": "2026-10-04T12:00:00Z",
+  "app_version": "1.29.0",
+  "source": "health_connect"
+}</code></pre>
+
+<p>Prüf die Signatur über den rohen Body, bevor du ihn parst, und antworte mit irgendeinem <code>2xx</code>. Der Nutzer sieht dann auf der Seite nach dem Koppeln „Verbunden.“ oder bei der Einrichtung der App eine kurze Meldung mit „Test-Ping zugestellt“. Antworte auf eine falsche Signatur mit <code>401</code>, wie bei jeder Anfrage danach. Ein Ping enthält keine Daten. Er ist also ein guter Moment, den Nutzer als verbunden zu markieren, und nichts, was du speichern musst. Jede Synchronisierung danach nutzt denselben Schlüssel und denselben Payload, beschrieben in der <a href="../health-connect-webhook/">Anleitung zum Webhook</a>.</p>
+
+<h2>iPhone</h2>
+
+<p>Life Dashboard Companion für iPhone liest dieselben Codes. Die App sendet nur Apple Health, ein Code muss also <code>health_connect</code> zulassen oder <code>sources</code> weglassen. Einfaches <code>http://</code> funktioniert dort nur zu einer Adresse im Heimnetz, nimm also https. Die Kamera des iPhones öffnet zuerst die Landingpage, die den Code über den Button <strong>Open in the app</strong> an die App übergibt.</p>
+
+<h2>So bleibt es sicher</h2>
+
+<ul>
+  <li><strong>Ein Schlüssel pro Nutzer</strong>, aus einem kryptografischen Zufallsgenerator, mindestens 32 Bytes.</li>
+  <li><strong>Zeig den Code nur diesem Nutzer</strong>, nachdem er sich angemeldet hat. Wer ihn sieht, kann Daten in seinem Namen signieren.</li>
+  <li><strong>Protokolliere den Link nie.</strong> Er enthält den Schlüssel.</li>
+  <li><strong>Lass Nutzer den Schlüssel wechseln.</strong> Ein neuer Schlüssel bedeutet einen neuen Code; wird er gescannt, ersetzt er den alten Schlüssel auf dem Telefon.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Brauchen meine Nutzer ein Konto bei Life Dashboard?</summary>
+    <p>Nein. Es gibt keinen Life-Dashboard-Server und kein Konto. Das Telefon sendet direkt an die Adresse in deinem Code.</p>
+  </details>
+  <details>
+    <summary>Kann ein Code bestimmen, welche Gesundheitsdaten mein Dienst bekommt?</summary>
+    <p>Nein. Ein Code trägt nur die Adresse und den Schlüssel ein. Der Nutzer wählt die Datentypen und den Zeitplan auf dem Telefon, die Einwilligung bleibt also bei ihm.</p>
+  </details>
+  <details>
+    <summary>Kann ich den Payload in meinem eigenen Format bekommen?</summary>
+    <p>Nein. Jeder Empfänger bekommt dasselbe signierte JSON, beschrieben durch ein JSON-Schema, und dein Dienst bildet es auf sein eigenes Modell ab. Erst ein einziges dokumentiertes Format sorgt dafür, dass jeder Empfänger ohne Plugin funktioniert.</p>
+  </details>
+  <details>
+    <summary>Was, wenn der Nutzer scannt, ohne die App installiert zu haben?</summary>
+    <p>Der Link öffnet eine Seite, die sagt, wo es die App gibt, für Android oder iPhone. Der Schlüssel im Link erreicht den Server dieser Seite nie.</p>
+  </details>
+</section>

@@ -40,16 +40,31 @@
 	@txt path *.txt
 	header @txt Content-Type "text/plain; charset=utf-8"
 
+	# The two German guides lived under /life-dashboard/de/ until the site got a folder per
+	# language. Their old addresses are in Google's index and in links, so each leads to its
+	# new one for good.
+	redir /life-dashboard/de/home-assistant-gesundheitsdaten /de/life-dashboard/home-assistant-gesundheitsdaten/ permanent
+	redir /life-dashboard/de/home-assistant-gesundheitsdaten/ /de/life-dashboard/home-assistant-gesundheitsdaten/ permanent
+	redir /life-dashboard/de/health-connect-daten-exportieren /de/life-dashboard/health-connect-daten-exportieren/ permanent
+	redir /life-dashboard/de/health-connect-daten-exportieren/ /de/life-dashboard/health-connect-daten-exportieren/ permanent
+
 	# Assistants and search results sometimes give a guide without its /life-dashboard/ folder.
 	# The file matcher sits in its own route so that it runs after the regexp has set the slug,
-	# and it keeps this to pages that exist.
+	# and it keeps this to pages that exist. A language folder (/de/) has no page of that name
+	# under /life-dashboard/, so it is served as it is.
 	@top path_regexp top ^/([a-z0-9-]+)/?$
 	route @top {
 		@guide file /life-dashboard/{re.top.1}/index.html
 		redir @guide /life-dashboard/{re.top.1}/ permanent
 	}
+	# The same for a translated guide without its folder: /de/<slug>/.
+	@toplang path_regexp toplang ^/(nl|de|fr|es|pt-br)/([a-z0-9-]+)/?$
+	route @toplang {
+		@lguide file /{re.toplang.1}/life-dashboard/{re.toplang.2}/index.html
+		redir @lguide /{re.toplang.1}/life-dashboard/{re.toplang.2}/ permanent
+	}
 	# A link copied out of Markdown or a sentence can bring the closing bracket or full stop.
-	@punctuated path_regexp punctuated ^(/life-dashboard/[a-z0-9/-]*/)[).,]+$
+	@punctuated path_regexp punctuated ^((?:/(?:nl|de|fr|es|pt-br))?/life-dashboard/[a-z0-9/-]*/)[).,]+$
 	redir @punctuated {re.punctuated.1} permanent
 	# The addresses people guess for a product's contact details, which are in the page's footer.
 	@guessed path_regexp guessed ^/life-dashboard/(android|ios)/(about|about-us|contact|contact-us|contactus|help|support)/?$

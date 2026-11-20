@@ -1,0 +1,213 @@
+<!--
+title: Health Connect y Apple Health a n8n | Life Dashboard
+description: Un workflow de n8n que funciona con datos de Health Connect y Apple Health: nodo Webhook, firma HMAC en un nodo Code y luego Postgres, Google Sheets o Telegram.
+primary query: health connect n8n
+secondary queries: samsung health n8n, apple health n8n, health connect webhook n8n, datos de salud en n8n, garmin n8n, n8n webhook firma hmac, n8n webhook raw body
+updated: 2026-11-20
+published: 2026-10-14
+-->
+
+<h1>¿Cómo llevo los datos de Health Connect a n8n?</h1>
+
+<p>Instala Life Dashboard Companion, una app de código abierto para Android, e introduce como webhook la URL de producción de un nodo Webhook de n8n. En n8n, activa la opción <strong>Raw Body</strong> del nodo Webhook, comprueba el HMAC de <code>X-Signature</code> en un nodo Code, responde 204 con un nodo <strong>Respond to Webhook</strong> y después guarda cada registro con su <code>type</code> y su <code>uuid</code> como clave. Los datos de Samsung Health, Garmin Connect, Google Health, Oura y Withings llegan así a n8n, porque esas apps los escriben en Health Connect en el teléfono.</p>
+
+<p>La app para iPhone envía los datos de Apple Health en el mismo formato, así que un solo workflow recibe los dos teléfonos. Esta página cubre la parte de n8n. El payload en sí, los reintentos y la cola de salida están en <a href="../health-connect-webhook/">Health Connect a un webhook</a>.</p>
+
+<p class="flow-line"><span>Reloj o anillo</span><span>Su app</span><span>Health Connect</span><span>Life Dashboard Companion</span><span>n8n</span></p>
+
+<h2>Qué necesitas</h2>
+
+<ul>
+  <li><a href="../android/">Life Dashboard Companion para Android</a> con Android 9 o posterior y Health Connect. {{status:android}}</li>
+  <li>O <a href="../ios/">la app para iPhone</a> con iOS 17 o posterior. {{status:ios}}</li>
+  <li>n8n, en n8n Cloud o autoalojado, accesible desde el teléfono. Usa HTTPS. Para HTTP sin cifrar en tu propia red hay que activar <strong>Permitir webhooks con HTTP sin cifrar</strong> en <strong>Más</strong> &gt; <strong>Avanzado</strong> en la app para Android; la app para iPhone solo permite HTTP sin cifrar hacia una dirección IP, un nombre <code>.local</code> o un nombre sin punto.</li>
+  <li>Margen para peticiones grandes. Permite al menos 10 MB por petición. n8n acepta hasta 16 MB de forma predeterminada, pero un proxy inverso delante de él también tiene que permitirlo: nginx permite 1 MB de forma predeterminada.</li>
+  <li>El módulo <code>crypto</code> en el nodo Code. n8n Cloud lo incluye. En n8n autoalojado, define <code>NODE_FUNCTION_ALLOW_BUILTIN=crypto</code>, en el task runner si usas uno.</li>
+</ul>
+
+<h2>El workflow de un vistazo</h2>
+
+<pre><code>Webhook (POST, Raw Body)
+  -> Code: check signature
+  -> If: valid is true
+       true  -> Respond to Webhook (204)
+                  -> Code: records    -> Postgres: upsert
+                  -> Code: deletions  -> Postgres: delete
+       false -> Respond to Webhook (401)</code></pre>
+
+<p>La respuesta sale antes del trabajo con la base de datos, porque la app espera una respuesta 10 segundos como máximo.</p>
+
+<h2>Configura el nodo Webhook</h2>
+
+<ol>
+  <li>Agrega un nodo <strong>Webhook</strong>. Pon <strong>HTTP Method</strong> en <code>POST</code> y elige un <strong>Path</strong>, por ejemplo <code>life-dashboard</code>.</li>
+  <li>Pon <strong>Respond</strong> en <strong>Using 'Respond to Webhook' Node</strong>. Con <strong>Immediately</strong>, n8n responde 200 antes de que se compruebe la firma, así que un payload con una firma incorrecta cuenta igualmente como entregado.</li>
+  <li>En <strong>Options</strong>, agrega <strong>Raw Body</strong> y actívalo. El nodo entrega entonces los bytes tal como llegaron en la propiedad binaria <code>data</code>, junto al JSON ya interpretado en <code>body</code> y los encabezados en <code>headers</code>.</li>
+  <li>Publica el workflow y copia la URL de producción. La URL de prueba solo escucha mientras el editor espera un evento de prueba, y la URL de producción solo funciona mientras el workflow está publicado. Una sincronización enviada en otro momento recibe un 404, y la app guarda ese payload y los siguientes hasta que la URL vuelve a responder.</li>
+</ol>
+
+<p>En la app, toca <strong>Agregar destino</strong> (si aún no hay nada configurado, <strong>Usar tu propio servidor</strong>) en la pestaña <strong>Salud</strong>, pega la URL de producción en <strong>URL del webhook</strong> y toca <strong>Agregar webhook</strong>. En la página que se abre, toca <strong>Generar</strong> en <strong>Secreto de firma HMAC (opcional)</strong>, copia el secreto con <strong>Copiar secreto</strong> para el paso siguiente y toca <strong>Guardar</strong>.</p>
+
+<!-- IMG: Webhook settings with HMAC (A6-webhook.png) -->
+
+<h2>Comprueba la firma en un nodo Code</h2>
+
+<p>Cada petición lleva <code>X-Signature: sha256=&lt;hex&gt;</code>, el HMAC-SHA256 del cuerpo en bruto con tu secreto como clave. Agrega un nodo <strong>Code</strong> en JavaScript, en el modo <strong>Run Once for All Items</strong>:</p>
+
+<pre><code>const crypto = require('crypto');
+
+// The secret as the app shows it. Use it as text: don't hex-decode it.
+const SECRET = 'paste-the-secret-from-the-app';
+
+const item = $input.first();
+const raw = await this.helpers.getBinaryDataBuffer(0, 'data');
+const expected = Buffer.from(
+  'sha256=' + crypto.createHmac('sha256', SECRET).update(raw).digest('hex')
+);
+const presented = Buffer.from(item.json.headers['x-signature'] || '');
+const valid = presented.length === expected.length &amp;&amp;
+  crypto.timingSafeEqual(presented, expected);
+
+return [{ json: { valid, payload: valid ? JSON.parse(raw.toString('utf8')) : null } }];</code></pre>
+
+<ul>
+  <li>El HMAC se calcula sobre <code>raw</code>, los bytes que firmó la app. Calcularlo sobre <code>body</code> serializado de nuevo da una cadena distinta, y la comprobación falla.</li>
+  <li>n8n entrega los nombres de los encabezados en minúsculas, así que el encabezado es <code>x-signature</code>.</li>
+  <li><code>timingSafeEqual</code> compara en tiempo constante y lanza un error con entradas de longitudes distintas, así que la comprobación de la longitud va primero.</li>
+  <li>Cualquiera que pueda abrir el workflow puede leer el secreto en el código. Si eso importa, la <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md#n8n-and-node-red">referencia del payload</a> muestra la misma comprobación con un nodo <strong>Crypto</strong>, que guarda el secreto en una credencial de n8n.</li>
+</ul>
+
+<p>Después agrega un nodo <strong>If</strong> con una sola condición: el booleano <code>{{ $json.valid }}</code> es verdadero.</p>
+
+<h2>Responde antes de la parte lenta</h2>
+
+<p>Termina cada rama del nodo If en su propio nodo <strong>Respond to Webhook</strong>, con <strong>Respond With</strong> en <strong>No Data</strong>. En <strong>Options</strong>, pon <strong>Response Code</strong> en 204 en la rama true y en 401 en la rama false.</p>
+
+<ul>
+  <li><strong>204.</strong> La app cuenta cualquier 2xx como entregado. Los nodos que van después del nodo Respond to Webhook se ejecutan igualmente, con el mismo elemento.</li>
+  <li><strong>401.</strong> La app no lo reintenta. Guarda el payload, y los siguientes, en su cola de salida y los entrega cuando los secretos coinciden.</li>
+  <li><strong>500.</strong> Si el workflow falla antes de que se ejecute un nodo Respond to Webhook, n8n responde 500. La app lo intenta 3 veces en total y después guarda el payload para la siguiente sincronización.</li>
+</ul>
+
+<h2>Convierte el payload en filas</h2>
+
+<p>Después del 204, un segundo nodo Code convierte el payload en un elemento por registro:</p>
+
+<pre><code>const p = $input.first().json.payload;
+if (!p || p.test) return [];
+
+const rows = [];
+for (const [type, value] of Object.entries(p)) {
+  if (type === 'deleted_records' || !Array.isArray(value)) continue;
+  for (const r of value) {
+    if (!r || !r.uuid) continue; // daily totals and buckets carry no uuid
+    rows.push({ json: {
+      type,
+      uuid: r.uuid,
+      source: r.source ?? null,
+      time: r.time ?? r.start_time ?? r.session_end_time ?? null,
+      data: r,
+    } });
+  }
+}
+return rows;</code></pre>
+
+<p>Un <strong>Enviar prueba</strong> desde la app no da ninguna fila, así que no se ejecuta nada después de este nodo. Las series que pones a 1, 5 o 15 minutos o por hora en <strong>Resolución de datos</strong> llegan como intervalos sin <code>uuid</code> y aquí se omiten: para este workflow, deja Resolución de datos en cada registro, o guarda los intervalos en una tabla propia con la serie y <code>bucket_start</code> como clave.</p>
+
+<h2>Guárdalo en Postgres, sin duplicados gracias al uuid</h2>
+
+<p>El mismo registro puede llegar más de una vez: después de un reintento, cuando su fuente lo edita y en cada backfill, el envío de todo tu historial anterior. Usa como clave de la tabla <code>type</code> y <code>uuid</code>, ambos como <code>text</code>:</p>
+
+<pre><code>CREATE TABLE health_records (
+  type   text NOT NULL,
+  uuid   text NOT NULL,
+  source text,
+  time   timestamptz,
+  data   jsonb NOT NULL,
+  PRIMARY KEY (type, uuid)
+);</code></pre>
+
+<p>Agrega un nodo <strong>Postgres</strong> con la operación <strong>Execute Query</strong>:</p>
+
+<pre><code>INSERT INTO health_records (type, uuid, source, time, data)
+VALUES ($1, $2, $3, $4::timestamptz, $5::jsonb)
+ON CONFLICT (type, uuid) DO UPDATE
+SET source = EXCLUDED.source, time = EXCLUDED.time, data = EXCLUDED.data;</code></pre>
+
+<p>En <strong>Options</strong>, agrega <strong>Query Parameters</strong> con esta expresión:</p>
+
+<pre><code>{{ [ $json.type, $json.uuid, $json.source, $json.time, JSON.stringify($json.data) ] }}</code></pre>
+
+<ul>
+  <li>Pasa los valores como Query Parameters, nunca como <code>{{ }}</code> dentro del SQL. n8n pega una expresión en el SQL como texto sin más, así que una comilla en un valor rompe la consulta.</li>
+  <li>La clave es <code>type</code> más <code>uuid</code>, no <code>uuid</code> solo. Las muestras de frecuencia cardíaca y de temperatura de la piel tienen un <code>uuid</code> como <code>&lt;record id&gt;#&lt;epoch ms&gt;</code>, y un iPhone envía una misma muestra de energía activa tanto en <code>active_calories</code> como en <code>total_calories</code>.</li>
+  <li>Desde Android, un registro editado llega con el mismo <code>uuid</code> y valores nuevos, y el upsert sustituye la fila antigua. Apple Health no edita en el sitio: una edición llega como un borrado y un registro nuevo.</li>
+</ul>
+
+<h2>Aplica deleted_records</h2>
+
+<p>Un registro borrado en Health Connect o en Apple Health aparece en el <code>deleted_records</code> de un payload posterior, con su <code>type</code> y su <code>uuid</code>. Un tercer nodo Code, también después del 204:</p>
+
+<pre><code>const p = $input.first().json.payload;
+return (p?.deleted_records ?? []).map(d =&gt; ({ json: { type: d.type, uuid: d.uuid } }));</code></pre>
+
+<p>Después, un nodo Postgres con <strong>Execute Query</strong> y los Query Parameters <code>{{ [ $json.type, $json.uuid ] }}</code>:</p>
+
+<pre><code>DELETE FROM health_records
+WHERE type = $1 AND (uuid = $2 OR starts_with(uuid, $2 || '#'));</code></pre>
+
+<p>La segunda mitad borra las muestras de un registro de frecuencia cardíaca o de temperatura de la piel de Android. Desde un iPhone, un borrado de sueño nombra una fase de la noche, no la noche, así que esta consulta deja la noche donde está. De un tipo que aparece en <code>deletions_unavailable</code> no se puede responder en esa sincronización: lanza un backfill desde la app para conciliarlo.</p>
+
+<p>Una vez que los registros están en Postgres, un modelo puede leerlos mediante un rol de solo lectura y un servidor MCP: <a href="../health-data-own-ai/">Health Connect y Apple Health por MCP</a> explica esa ruta. Si prefieres no montar el almacenamiento tú mismo, el receptor de <a href="../grafana/">el stack Life Dashboard</a> elimina duplicados y borra de la misma manera, con dashboards, una API de solo lectura y un servidor MCP encima.</p>
+
+<h2>Google Sheets o Telegram como alternativa</h2>
+
+<p><strong>Una fila por día en Google Sheets.</strong> Un nodo Code después del 204 toma los totales diarios, que cuentan un paseo una sola vez aunque lo hayan registrado tanto el teléfono como el reloj:</p>
+
+<pre><code>const p = $input.first().json.payload;
+return (p?.daily_totals ?? []).map(d =&gt; ({ json: d }));</code></pre>
+
+<p>Después, un nodo <strong>Google Sheets</strong> con <strong>Append or Update Row</strong>, una hoja con las columnas <code>date</code>, <code>steps</code>, <code>distance_meters</code>, <code>active_calories</code> y <code>total_calories</code>, y <code>date</code> como la columna de coincidencia. La fila de hoy es un total acumulado y se actualiza con cada sincronización. En un día sin datos de un tipo, su campo no aparece.</p>
+
+<p><strong>Un mensaje de Telegram por cada peso nuevo.</strong> Después del nodo de registros, un nodo <strong>Filter</strong> conserva los elementos en los que <code>{{ $json.type }}</code> es <code>weight</code>. Un nodo <strong>Remove Duplicates</strong> con <strong>Remove Items Processed in Previous Executions</strong>, <strong>Keep Items Where</strong> en <strong>Value Is New</strong> y <code>{{ $json.uuid }}</code> como el valor con el que detectar duplicados evita un segundo mensaje cuando el mismo pesaje vuelve a llegar en un backfill. Después, un nodo <strong>Telegram</strong> con <strong>Send Message</strong> y el texto <code>Weight: {{ $json.data.kilograms }} kg</code>.</p>
+
+<h2>Samsung Health, Garmin y Apple Health en un solo workflow</h2>
+
+<ul>
+  <li>El <code>source</code> de cada registro es el nombre de paquete de la app que lo escribió, como <code>com.sec.android.app.shealth</code> para Samsung Health, <code>com.garmin.android.apps.connectmobile</code> para Garmin Connect o <code>com.fitbit.FitbitMobile</code> para Google Health. Filtra por él para encaminar una sola marca.</li>
+  <li>El <code>source</code> de nivel superior es <code>health_connect</code> desde Android y <code>healthkit_ios</code> desde un iPhone. En un iPhone, el <code>source</code> de un registro es el nombre que Apple Health da a la app o al dispositivo.</li>
+  <li>La variabilidad de la frecuencia cardíaca (HRV) es RMSSD desde Android y SDNN desde un iPhone, bajo la misma clave. Si los dos teléfonos envían a este workflow, guarda el <code>source</code> de nivel superior con cada registro para que las dos queden separadas.</li>
+  <li>Qué tipos escribe cada app, y cuáles se guarda, está en <a href="../health-connect-data-types/">Tipos de datos de Health Connect, app por app</a>.</li>
+</ul>
+
+<h2>Limitaciones</h2>
+
+<ul>
+  <li>n8n no puede pedirle al teléfono un intervalo de fechas. Inicia un backfill en el teléfono, desde 30 días hasta <strong>Todo el historial</strong>, con <strong>Enviar historial</strong>, en <strong>Qué enviar</strong> dentro de la pestaña <strong>Salud</strong>.</li>
+  <li>Como el 204 sale primero, dos payloads pueden guardarse al mismo tiempo. Los payloads llevan además un <code>sequence</code> que solo aumenta: <a href="../health-connect-webhook/#retries-outbox-and-deletions">Health Connect a un webhook</a> explica cómo usarlo cuando el orden importa, por ejemplo para <code>daily_totals</code>.</li>
+  <li>El tiempo de pantalla llega como un payload propio con <code>"source": "screen_time"</code>, desde las URL de la pestaña <strong>Tiempo de pantalla</strong>. No tiene <code>uuid</code> de registro, así que el nodo de registros de arriba lo omite.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>¿Funciona esto en n8n Cloud?</summary>
+    <p>Sí. La URL de producción de un workflow publicado es HTTPS pública, y n8n Cloud ofrece el módulo <code>crypto</code> al nodo Code. n8n autoalojado necesita <code>NODE_FUNCTION_ALLOW_BUILTIN=crypto</code> para el mismo código.</p>
+  </details>
+  <details>
+    <summary>¿Por qué falla la comprobación de la firma en cada petición?</summary>
+    <p>Normalmente por una de tres cosas: <strong>Raw Body</strong> está desactivado, así que no hay ningún <code>data</code> binario sobre el que calcular el hash; el HMAC se calcula sobre el <code>body</code> interpretado en lugar de sobre los bytes en bruto; o el secreto de n8n es distinto del de la app. Copia el secreto otra vez y úsalo como texto sin más.</p>
+  </details>
+  <details>
+    <summary>¿Puedo prescindir de la firma?</summary>
+    <p>Sí. Sin un secreto, la app no envía ningún <code>X-Signature</code>. Protege la URL de otra forma, por ejemplo con <strong>Header Auth</strong> en el nodo Webhook y el mismo encabezado en <strong>Encabezados</strong>, en la página de esa dirección dentro de la app.</p>
+  </details>
+  <details>
+    <summary>¿Llegan a n8n los datos de Samsung Health?</summary>
+    <p>Sí, una vez que Samsung Health los comparte con Health Connect: pasos, ejercicio, sueño con sus fases, frecuencia cardíaca, presión arterial, peso y más. Samsung Health no comparte con Health Connect la variabilidad de la frecuencia cardíaca ni la frecuencia cardíaca en reposo, así que esas no llegan.</p>
+  </details>
+  <details>
+    <summary>¿Puedo ver un payload antes de construir el workflow?</summary>
+    <p>Sí. <strong>Vista previa del payload</strong>, en <strong>Qué enviar</strong> dentro de la pestaña <strong>Salud</strong> de la app, muestra lo que enviaría la siguiente sincronización. En n8n, la URL de prueba con <strong>Listen for Test Event</strong> muestra una petición real en el editor.</p>
+  </details>
+</section>

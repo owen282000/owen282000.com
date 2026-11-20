@@ -7,12 +7,28 @@
 <title>Android screen time in Home Assistant | Life Dashboard</title>
 <meta name="description" content="Life Dashboard Companion sends Android screen time per app to Home Assistant: daily minutes, top apps and a sensor per app for automations.">
 <link rel="canonical" href="https://owen282000.com/life-dashboard/screen-time-home-assistant/">
+<link rel="alternate" hreflang="en" href="https://owen282000.com/life-dashboard/screen-time-home-assistant/">
+<link rel="alternate" hreflang="nl" href="https://owen282000.com/nl/life-dashboard/schermtijd-home-assistant/">
+<link rel="alternate" hreflang="de" href="https://owen282000.com/de/life-dashboard/bildschirmzeit-home-assistant/">
+<link rel="alternate" hreflang="fr" href="https://owen282000.com/fr/life-dashboard/temps-ecran-home-assistant/">
+<link rel="alternate" hreflang="es" href="https://owen282000.com/es/life-dashboard/tiempo-de-pantalla-home-assistant/">
+<link rel="alternate" hreflang="pt-BR" href="https://owen282000.com/pt-br/life-dashboard/tempo-de-tela-home-assistant/">
+<link rel="alternate" hreflang="pt" href="https://owen282000.com/pt-br/life-dashboard/tempo-de-tela-home-assistant/">
+<link rel="alternate" hreflang="x-default" href="https://owen282000.com/life-dashboard/screen-time-home-assistant/">
 <meta name="robots" content="max-image-preview:large">
-<meta name="theme-color" content="#101418">
-<link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png?v=355467f5">
-<link rel="apple-touch-icon" href="../img/icon-180.png?v=e1842852">
-<link rel="stylesheet" href="../site.css?v=0724c4a5">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F7F9F8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#101418" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/png" sizes="32x32" href="/life-dashboard/img/icon-32.png?v=355467f5">
+<link rel="apple-touch-icon" href="/life-dashboard/img/icon-180.png?v=e1842852">
+<link rel="stylesheet" href="/life-dashboard/site.css?v=d92ee376">
 <meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="nl_NL">
+<meta property="og:locale:alternate" content="de_DE">
+<meta property="og:locale:alternate" content="fr_FR">
+<meta property="og:locale:alternate" content="es_ES">
+<meta property="og:locale:alternate" content="pt_BR">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="How do I get Android screen time per app into Home Assistant?">
 <meta property="og:description" content="Life Dashboard Companion sends Android screen time per app to Home Assistant: daily minutes, top apps and a sensor per app for automations.">
@@ -22,18 +38,27 @@
 <meta property="og:image:height" content="640">
 <meta property="og:image:alt" content="Life Dashboard Companion: your health data, your server. No cloud.">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How do I get Android screen time per app into Home Assistant?">
+<meta name="twitter:description" content="Life Dashboard Companion sends Android screen time per app to Home Assistant: daily minutes, top apps and a sensor per app for automations.">
+<meta name="twitter:image" content="https://owen282000.com/life-dashboard/img/social.png">
+<meta name="twitter:image:alt" content="Life Dashboard Companion: your health data, your server. No cloud.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@graph": [
     {
       "@type": "TechArticle",
+      "@id": "https://owen282000.com/life-dashboard/screen-time-home-assistant/#article",
       "headline": "How do I get Android screen time per app into Home Assistant?",
       "description": "Life Dashboard Companion sends Android screen time per app to Home Assistant: daily minutes, top apps and a sensor per app for automations.",
       "url": "https://owen282000.com/life-dashboard/screen-time-home-assistant/",
+      "mainEntityOfPage": "https://owen282000.com/life-dashboard/screen-time-home-assistant/",
       "inLanguage": "en",
       "author": {
         "@id": "https://owen282000.com/life-dashboard/#owen"
+      },
+      "publisher": {
+        "@id": "https://owen282000.com/#org"
       },
       "about": [
         {
@@ -50,6 +75,7 @@
       "datePublished": "2026-10-06",
       "dateModified": "2026-11-20",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
+      "timeRequired": "PT5M",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
       }
@@ -60,12 +86,24 @@
         {
           "@type": "ListItem",
           "position": 1,
+          "name": "Owen Vogelaar",
+          "item": "https://owen282000.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
           "name": "Life Dashboard",
           "item": "https://owen282000.com/life-dashboard/"
         },
         {
           "@type": "ListItem",
-          "position": 2,
+          "position": 3,
+          "name": "Guides",
+          "item": "https://owen282000.com/life-dashboard/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
           "name": "Screen time in Home Assistant",
           "item": "https://owen282000.com/life-dashboard/screen-time-home-assistant/"
         }
@@ -78,6 +116,23 @@
       "url": "https://owen282000.com/",
       "sameAs": [
         "https://github.com/owen282000"
+      ],
+      "worksFor": {
+        "@id": "https://owen282000.com/#org"
+      }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://owen282000.com/#org",
+      "name": "oVog Enterprise",
+      "url": "https://owen282000.com/",
+      "logo": "https://owen282000.com/img/ov-180.png",
+      "email": "owen282000@hotmail.com",
+      "founder": {
+        "@id": "https://owen282000.com/life-dashboard/#owen"
+      },
+      "sameAs": [
+        "https://github.com/owen282000"
       ]
     },
     {
@@ -85,7 +140,17 @@
       "@id": "https://owen282000.com/life-dashboard/#website",
       "url": "https://owen282000.com/life-dashboard/",
       "name": "Life Dashboard",
-      "inLanguage": "en"
+      "inLanguage": [
+        "en",
+        "nl",
+        "de",
+        "fr",
+        "es",
+        "pt-BR"
+      ],
+      "publisher": {
+        "@id": "https://owen282000.com/#org"
+      }
     },
     {
       "@type": "FAQPage",
@@ -133,45 +198,63 @@
 
 <header class="nav">
   <div class="wrap">
-    <a class="brand" href="../" aria-label="Life Dashboard home">
-      <img class="mark" src="../img/icon-96.webp?v=1f5b3657" alt="" width="34" height="34">
+    <a class="brand" href="/life-dashboard/" aria-label="Life Dashboard home">
+      <img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="34" height="34">
       Life Dashboard
     </a>
     <nav class="nav-links" aria-label="Main">
-      <a href="../android/">Android</a>
-      <a href="../ios/">iPhone</a>
-      <a href="../home-assistant/">Home Assistant</a>
-      <a href="../grafana/">Grafana</a>
-      <a href="../#guides">Guides</a>
-      <a href="../#faq">FAQ</a>
+      <a href="/life-dashboard/android/">Android</a>
+      <a href="/life-dashboard/ios/">iPhone</a>
+      <a href="/life-dashboard/home-assistant/">Home Assistant</a>
+      <a href="/life-dashboard/grafana/">Grafana</a>
+      <a href="/life-dashboard/guides/" aria-current="page">Guides</a>
+      <a href="/life-dashboard/#faq">FAQ</a>
     </nav>
     <div class="nav-cta">
-      <a class="btn btn-ghost btn-sm" href="https://github.com/owen282000/life-dashboard-companion-app">
+      <details class="lang-menu"><summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><ellipse cx="12" cy="12" rx="4" ry="9"/></svg><span class="sr-only">Language: English</span><span>EN</span></summary><ul><li><a href="/life-dashboard/screen-time-home-assistant/" lang="en" hreflang="en" aria-current="true">English</a></li><li><a href="/nl/life-dashboard/schermtijd-home-assistant/" lang="nl" hreflang="nl">Nederlands</a></li><li><a href="/de/life-dashboard/bildschirmzeit-home-assistant/" lang="de" hreflang="de">Deutsch</a></li><li><a href="/fr/life-dashboard/temps-ecran-home-assistant/" lang="fr" hreflang="fr">Français</a></li><li><a href="/es/life-dashboard/tiempo-de-pantalla-home-assistant/" lang="es" hreflang="es">Español</a></li><li><a href="/pt-br/life-dashboard/tempo-de-tela-home-assistant/" lang="pt-BR" hreflang="pt-BR">Português (Brasil)</a></li></ul></details>
+      <a class="btn btn-ghost btn-sm nav-gh" href="https://github.com/owen282000/life-dashboard-companion-app">
         <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
         GitHub
       </a>
-      <a class="btn btn-primary btn-sm" href="../#get">Install options</a>
+      <a class="btn btn-primary btn-sm" href="/life-dashboard/#get">Install options</a>
     </div>
   </div>
 </header>
 
-<main id="main">
-  <div class="guide-hero"><div class="grid-bg"></div></div>
-  <div class="wrap guide-layout">
-    <article class="prose">
-      <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Screen time in Home Assistant</span></nav>
-<h1>How do I get Android screen time per app into Home Assistant?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 20, 2026.</p>
-
+<main id="main" class="guide">
+  <header class="guide-head">
+    <div class="grid-bg"></div>
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/life-dashboard/">Life Dashboard</a><span aria-hidden="true">/</span><a href="/life-dashboard/guides/">Guides</a><span aria-hidden="true">/</span><span aria-current="page">Screen time in Home Assistant</span></nav>
+      <h1>How do I get Android screen time per app into Home Assistant?</h1>
+      <div class="guide-intro">
 <p>Life Dashboard Companion, an open-source Android app, reads Android's usage statistics, the same numbers Digital Wellbeing shows, and sends the minutes per app to Home Assistant on a schedule. With the Life Dashboard integration you get today's and yesterday's screen time, the most used app, the top five apps, a sensor per app if you want one, and every day in long-term statistics. Over MQTT you get the same totals without the sensors per app. Automations can then warn you when you pass a limit you set yourself.</p>
-<p class="guide-cta"><a class="btn btn-primary btn-store" href="../android/#get">Get the Android app</a></p>
-
+      </div>
+      <p class="guide-meta"><span>By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard</span> <span><time datetime="2026-11-20">Updated November 20, 2026</time></span> <span>5 min read</span></p>
+      <p class="guide-cta"><a class="btn btn-primary btn-store" href="/life-dashboard/android/#get">Get the Android app</a></p>
+    </div>
+  </header>
+  <div class="wrap guide-grid">
+    <nav class="toc" aria-labelledby="toc-title">
+      <h2 id="toc-title">On this page</h2>
+      <ol>
+        <li><a href="#what-you-need">What you need</a></li>
+        <li><a href="#set-it-up">Set it up</a></li>
+        <li><a href="#what-you-get">What you get</a></li>
+        <li><a href="#cards-for-your-dashboard">Cards for your dashboard</a></li>
+        <li><a href="#limits-and-alerts">Limits and alerts</a></li>
+        <li><a href="#several-phones-in-one-home-assistant">Several phones in one Home Assistant</a></li>
+        <li><a href="#what-it-measures">What it measures</a></li>
+        <li><a href="#faq">Common questions</a></li>
+      </ol>
+    </nav>
+    <article class="prose">
 <h2 id="what-you-need">What you need</h2>
 
 <ul>
   <li>An Android phone or tablet with Android 8.0 or newer. Health Connect isn't needed.</li>
-  <li><a href="../android/">Life Dashboard Companion for Android</a>, from <a href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-guide-screen-time-home-assistant%26utm_medium%3Dwebsite">Google Play</a> for €4.99 once, or free from GitHub Releases, Obtainium or F-Droid. The <a href="../android/#get">install options</a> list every route.</li>
-  <li>Home Assistant with the <a href="../home-assistant/">Life Dashboard integration</a>, paired as in the <a href="../health-connect-home-assistant/">Health Connect guide</a>, or an MQTT broker that Home Assistant uses. The sensors per app need integration 0.9.0 or newer.</li>
+  <li><a href="/life-dashboard/android/">Life Dashboard Companion for Android</a>, from <a href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-guide-screen-time-home-assistant%26utm_medium%3Dwebsite">Google Play</a> for €4.99 once, or free from GitHub Releases, Obtainium or F&#8209;Droid. The <a href="/life-dashboard/android/#get">install options</a> list every route.</li>
+  <li>Home Assistant with the <a href="/life-dashboard/home-assistant/">Life Dashboard integration</a>, paired as in the <a href="/life-dashboard/health-connect-home-assistant/">Health Connect guide</a>, or an MQTT broker that Home Assistant uses. The sensors per app need integration 0.9.0 or newer.</li>
 </ul>
 
 <h2 id="set-it-up">Set it up</h2>
@@ -184,7 +267,7 @@
   <li>Tap <strong>Sync Now</strong>.</li>
 </ol>
 
-<figure class="shot purple"><a class="shot-link" href="../img/A4-screen-time.webp?v=2e6fead9" aria-label="The Screen Time tab of the Android app, full size"><div class="phone " style="aspect-ratio: 720 / 1600"><img src="../img/A4-screen-time.webp?v=2e6fead9" alt="The Screen Time tab of the Android app" width="720" height="1600" loading="lazy"></div></a></figure>
+<figure class="shot purple"><a class="shot-link" href="/life-dashboard/img/A4-screen-time.webp?v=2e6fead9" aria-label="The Screen Time tab of the Android app, full size"><div class="phone " style="aspect-ratio: 720 / 1600"><img src="/life-dashboard/img/A4-screen-time.webp?v=2e6fead9" alt="The Screen Time tab of the Android app" width="720" height="1600" loading="lazy"></div></a></figure>
 
 <p>Screen time has its own <strong>When to send</strong>, separate from health data. Home Assistant only sees a new number after a sync, so for limits pick <strong>Every X minutes</strong> at 15, the shortest Android allows, and tap <strong>Save</strong>.</p>
 
@@ -260,11 +343,20 @@ actions:
   <li>The app reports minutes. It doesn't block apps or set limits on the phone itself.</li>
 </ul>
 
-<div class="next">
-  <p>Screen time doesn't need Health Connect. Any phone or tablet with Android 8.0 or newer works.</p>
-  <a class="btn btn-primary btn-store" href="../android/#get">Get the Android app</a>
-  <a class="btn btn-ghost" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open the integration in the Marketplace</a>
-</div>
+<section class="get-panel" aria-labelledby="get-the-app">
+      <h2 id="get-the-app">Life Dashboard Companion</h2>
+      <p>Screen time doesn't need Health Connect. Any phone or tablet with Android 8.0 or newer works.</p>
+      <div class="stores">
+        <div class="panel-store"><a class="badge-link" href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-guide-screen-time-home-assistant%26utm_medium%3Dwebsite"><img class="badge-img" src="/life-dashboard/img/badges/google-play.png?v=a13294f3" alt="Get it on Google Play" width="564" height="168" loading="lazy"></a>
+        <p class="aside-alt">€4.99 once on Google Play: the easy way, with automatic updates, and it supports development.</p>
+        <p class="aside-alt">Or free, the same app with the same signing key: <a class="nowrap" href="https://github.com/owen282000/life-dashboard-companion-app/releases/latest/download/app-release.apk">APK on GitHub</a> · <a class="nowrap" href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/owen282000/life-dashboard-companion-app">Obtainium</a> · <a class="nowrap" href="https://f-droid.org/packages/com.owen282000.lifedashboard/">F&#8209;Droid</a></p></div>
+      </div>
+      <p class="panel-btns">
+      <a class="btn btn-primary btn-store" href="/life-dashboard/android/#get">Get the Android app</a>
+      <a class="btn btn-ghost" href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-ha&amp;category=integration">Open the integration in the Marketplace</a>
+      </p>
+      <p class="panel-note">The open-source Android app this guide uses. No account and no cloud. <a href="/life-dashboard/android/">More about the app</a>.</p>
+    </section>
 
 <section class="faq">
   <h2 id="faq">Common questions</h2>
@@ -282,98 +374,68 @@ actions:
   </details>
   <details>
     <summary>Can I send screen time to my own server instead?</summary>
-    <p>Yes. The <strong>Screen Time</strong> tab has its own webhook list, and the payload is JSON with minutes per app per day. See the <a href="../health-connect-webhook/">webhook guide</a>.</p>
+    <p>Yes. The <strong>Screen Time</strong> tab has its own webhook list, and the payload is JSON with minutes per app per day. See the <a href="/life-dashboard/health-connect-webhook/">webhook guide</a>.</p>
   </details>
 </section>
     </article>
-    <aside class="aside">
-      <div class="box cta">
-        <h2>Life Dashboard Companion</h2>
-        <p>The open-source Android app this guide uses. No account and no cloud. <a href="../android/">More about the app</a>.</p>
-        <a class="badge-link" href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-guide-screen-time-home-assistant%26utm_medium%3Dwebsite"><img class="badge-img" src="../img/badges/google-play.png?v=a13294f3" alt="Get it on Google Play" width="564" height="168" loading="lazy"></a>
-        <p class="aside-alt">€4.99 once on Google Play: the easy way, with automatic updates, and it supports development.</p>
-        <p class="aside-alt">Or free, the same app with the same signing key: <a class="nowrap" href="https://github.com/owen282000/life-dashboard-companion-app/releases/latest/download/app-release.apk">APK on GitHub</a> · <a class="nowrap" href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/owen282000/life-dashboard-companion-app">Obtainium</a> · <a class="nowrap" href="https://f-droid.org/packages/com.owen282000.lifedashboard/">F-Droid</a></p>
-      </div>
-      <nav class="box" aria-label="Guides">
-        <h2>Guides</h2>
-        <ul>
-          <li><a href="../health-connect-home-assistant/">Health Connect in Home Assistant</a></li>
-          <li><a href="../samsung-health-home-assistant/">Samsung Health and Galaxy Watch in Home Assistant</a></li>
-          <li><a href="../companion-app-health-connect/">The companion app and Health Connect</a></li>
-          <li><a href="../health-connect-webhook/">Health Connect to a webhook</a></li>
-          <li><a href="../screen-time-home-assistant/" aria-current="page">Screen time in Home Assistant</a></li>
-          <li><a href="../sleep-stages-home-assistant/">Sleep stages in Home Assistant</a></li>
-          <li><a href="../smart-scale-to-samsung-health/">Smart scale to Samsung Health</a></li>
-          <li><a href="../health-connect-n8n/">Health Connect to n8n</a></li>
-          <li><a href="../health-connect-data-types/">Health Connect data types, app by app</a></li>
-          <li><a href="../health-data-api/">A web API for Health Connect or Apple Health</a></li>
-          <li><a href="../samsung-health-export/">Samsung Health to your own server</a></li>
-          <li><a href="../fitbit-home-assistant/">Fitbit and Pixel Watch in Home Assistant</a></li>
-          <li><a href="../garmin-home-assistant/">Garmin in Home Assistant</a></li>
-          <li><a href="../health-data-own-ai/">Health Connect and Apple Health over MCP</a></li>
-          <li><a href="../health-data-qr-pairing/">Let your users connect with one QR code</a></li>
-          <li><a href="../health-connect-steps-home-assistant/">Health Connect steps that look wrong in Home Assistant</a></li>
-          <li><a href="../troubleshooting/">Troubleshooting: syncs, sensors and pairing</a></li>
-          <li><a href="../apple-health-home-assistant/">Apple Health in Home Assistant</a></li>
-          <li><a href="../apple-watch-home-assistant/">Apple Watch in Home Assistant</a></li>
-          <li><a href="../apple-health-webhook/">Apple Health to a webhook</a></li>
-          <li><a href="../apple-health-n8n/">Apple Health to n8n</a></li>
-          <li><a href="../apple-health-data-types/">Apple Health data types, app by app</a></li>
-        </ul>
-      </nav>
-      <div class="box">
-        <h2>Products</h2>
-        <ul>
-          <li><a href="../android/">Android app</a></li><li><a href="../ios/">iPhone app</a></li><li><a href="../home-assistant/">Home Assistant integration</a></li><li><a href="../grafana/">Grafana stack</a></li>
-        </ul>
-      </div>
-    </aside>
   </div>
+  <section class="section tight related band" aria-labelledby="related">
+  <div class="wrap">
+    <div class="section-head split"><h2 id="related">Related guides</h2><a class="link-arrow" href="/life-dashboard/guides/">All guides</a></div>
+    <div class="family three">
+      <a class="part" href="/life-dashboard/health-connect-home-assistant/"><h3>Health Connect in Home Assistant</h3><p>Samsung Health, Garmin, Fitbit, Oura and Withings data as sensors, with all your history.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="/life-dashboard/companion-app-health-connect/"><h3>The companion app and Health Connect</h3><p>When its 36 sensors are enough, and what history, backfill and 34 types add.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="/life-dashboard/sleep-stages-home-assistant/"><h3>Sleep stages in Home Assistant</h3><p>Deep, light, REM and awake per night as sensors and statistics, and a card that draws the night.</p><span class="go">Read the guide</span></a>
+    </div>
+  </div>
+</section>
 </main>
 
 <footer class="footer">
   <div class="wrap">
     <div class="cols">
       <div class="about">
-        <a class="brand" href="../"><img class="mark" src="../img/icon-96.webp?v=1f5b3657" alt="" width="34" height="34"> Life Dashboard</a>
+        <a class="brand" href="/life-dashboard/"><img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="34" height="34"> Life Dashboard</a>
         <p>Life Dashboard is an open-source project by <a href="https://github.com/owen282000">Owen Vogelaar</a>, in four parts: the Life Dashboard Companion apps for Android and iPhone, a Home Assistant integration and a Grafana stack. It isn't related to other apps or templates called Life Dashboard. Questions go to <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
         <p>This site sets no cookies, runs no analytics and loads nothing from anyone else. <a href="/privacy/">Site privacy</a>.</p>
-        <p class="imprint">Owen Vogelaar, trading as oVog Enterprise · KvK 81085583 · <a href="mailto:owen282000@hotmail.com">owen282000@hotmail.com</a></p>
+        <p class="imprint">Owen Vogelaar, trading as oVog Enterprise · Dutch Chamber of Commerce (KvK) 81085583 · <a href="mailto:owen282000@hotmail.com">owen282000@hotmail.com</a></p>
+        <p class="lang-row"><span>Language:</span> <a href="/life-dashboard/screen-time-home-assistant/" lang="en" hreflang="en" aria-current="true">English</a> <a href="/nl/life-dashboard/schermtijd-home-assistant/" lang="nl" hreflang="nl">Nederlands</a> <a href="/de/life-dashboard/bildschirmzeit-home-assistant/" lang="de" hreflang="de">Deutsch</a> <a href="/fr/life-dashboard/temps-ecran-home-assistant/" lang="fr" hreflang="fr">Français</a> <a href="/es/life-dashboard/tiempo-de-pantalla-home-assistant/" lang="es" hreflang="es">Español</a> <a href="/pt-br/life-dashboard/tempo-de-tela-home-assistant/" lang="pt-BR" hreflang="pt-BR">Português (Brasil)</a></p>
       </div>
       <div>
         <h2 class="foot-h">Products</h2>
         <ul>
-          <li><a href="../android/">Android app</a></li>
-          <li><a href="../ios/">iPhone app</a></li>
-          <li><a href="../home-assistant/">Home Assistant integration</a></li>
-          <li><a href="../grafana/">Grafana stack</a></li>
+          <li><a href="/life-dashboard/android/">Android app</a></li>
+          <li><a href="/life-dashboard/ios/">iPhone app</a></li>
+          <li><a href="/life-dashboard/home-assistant/">Home Assistant integration</a></li>
+          <li><a href="/life-dashboard/grafana/">Grafana stack</a></li>
         </ul>
       </div>
       <div>
-        <h2 class="foot-h">Guides</h2>
+        <h2 class="foot-h"><a href="/life-dashboard/guides/">Guides</a></h2>
         <ul>
-          <li><a href="../health-connect-home-assistant/">Health Connect in Home Assistant</a></li>
-          <li><a href="../samsung-health-home-assistant/">Samsung Health and Galaxy Watch in Home Assistant</a></li>
-          <li><a href="../companion-app-health-connect/">The companion app and Health Connect</a></li>
-          <li><a href="../health-connect-webhook/">Health Connect to a webhook</a></li>
-          <li><a href="../screen-time-home-assistant/">Screen time in Home Assistant</a></li>
-          <li><a href="../sleep-stages-home-assistant/">Sleep stages in Home Assistant</a></li>
-          <li><a href="../smart-scale-to-samsung-health/">Smart scale to Samsung Health</a></li>
-          <li><a href="../health-connect-n8n/">Health Connect to n8n</a></li>
-          <li><a href="../health-connect-data-types/">Health Connect data types, app by app</a></li>
-          <li><a href="../health-data-api/">A web API for Health Connect or Apple Health</a></li>
-          <li><a href="../samsung-health-export/">Samsung Health to your own server</a></li>
-          <li><a href="../fitbit-home-assistant/">Fitbit and Pixel Watch in Home Assistant</a></li>
-          <li><a href="../garmin-home-assistant/">Garmin in Home Assistant</a></li>
-          <li><a href="../health-data-own-ai/">Health Connect and Apple Health over MCP</a></li>
-          <li><a href="../health-data-qr-pairing/">Let your users connect with one QR code</a></li>
-          <li><a href="../health-connect-steps-home-assistant/">Health Connect steps that look wrong in Home Assistant</a></li>
-          <li><a href="../troubleshooting/">Troubleshooting: syncs, sensors and pairing</a></li>
-          <li><a href="../apple-health-home-assistant/">Apple Health in Home Assistant</a></li>
-          <li><a href="../apple-watch-home-assistant/">Apple Watch in Home Assistant</a></li>
-          <li><a href="../apple-health-webhook/">Apple Health to a webhook</a></li>
-          <li><a href="../apple-health-n8n/">Apple Health to n8n</a></li>
-          <li><a href="../apple-health-data-types/">Apple Health data types, app by app</a></li>
+          <li><a href="/life-dashboard/health-connect-home-assistant/">Health Connect in Home Assistant</a></li>
+          <li><a href="/life-dashboard/samsung-health-home-assistant/">Samsung Health and Galaxy Watch in Home Assistant</a></li>
+          <li><a href="/life-dashboard/companion-app-health-connect/">The companion app and Health Connect</a></li>
+          <li><a href="/life-dashboard/health-connect-webhook/">Health Connect to a webhook</a></li>
+          <li><a href="/life-dashboard/screen-time-home-assistant/">Screen time in Home Assistant</a></li>
+          <li><a href="/life-dashboard/sleep-stages-home-assistant/">Sleep stages in Home Assistant</a></li>
+          <li><a href="/life-dashboard/smart-scale-to-samsung-health/">Smart scale to Samsung Health</a></li>
+          <li><a href="/life-dashboard/health-connect-n8n/">Health Connect to n8n</a></li>
+          <li><a href="/life-dashboard/health-connect-data-types/">Health Connect data types, app by app</a></li>
+          <li><a href="/life-dashboard/health-data-api/">A web API for Health Connect or Apple Health</a></li>
+          <li><a href="/life-dashboard/samsung-health-export/">Samsung Health to your own server</a></li>
+          <li><a href="/life-dashboard/fitbit-home-assistant/">Fitbit and Pixel Watch in Home Assistant</a></li>
+          <li><a href="/life-dashboard/garmin-home-assistant/">Garmin in Home Assistant</a></li>
+          <li><a href="/life-dashboard/health-data-own-ai/">Health Connect and Apple Health over MCP</a></li>
+          <li><a href="/life-dashboard/health-data-qr-pairing/">Let your users connect with one QR code</a></li>
+          <li><a href="/life-dashboard/health-connect-steps-home-assistant/">Health Connect steps that look wrong in Home Assistant</a></li>
+          <li><a href="/life-dashboard/troubleshooting/">Troubleshooting: syncs, sensors and pairing</a></li>
+          <li><a href="/life-dashboard/apple-health-home-assistant/">Apple Health in Home Assistant</a></li>
+          <li><a href="/life-dashboard/apple-health-home-assistant-apps/">Apple Health in Home Assistant: four apps compared</a></li>
+          <li><a href="/life-dashboard/apple-watch-home-assistant/">Apple Watch in Home Assistant</a></li>
+          <li><a href="/life-dashboard/apple-health-webhook/">Apple Health to a webhook</a></li>
+          <li><a href="/life-dashboard/apple-health-n8n/">Apple Health to n8n</a></li>
+          <li><a href="/life-dashboard/apple-health-data-types/">Apple Health data types, app by app</a></li>
         </ul>
       </div>
       <div>
@@ -384,9 +446,9 @@ actions:
           <li><a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md">Integration: sensors and statistics</a></li>
           <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md">Payload reference</a></li>
           <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/brands/README.md">Brand guides</a></li>
-          <li><a href="../feedback/">Feedback board</a></li>
+          <li><a href="/life-dashboard/feedback/">Feedback board</a></li>
           <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/PRIVACY.md">Privacy policy for Android</a></li>
-          <li><a href="../ios/privacy/">Privacy policy for iPhone</a></li>
+          <li><a href="/life-dashboard/ios/privacy/">Privacy policy for iPhone</a></li>
           <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/AI_POLICY.md">AI policy</a></li>
           <li><a href="https://github.com/owen282000?tab=repositories&amp;q=life-dashboard">All repositories</a></li>
         </ul>
