@@ -7,15 +7,28 @@
 <title>Life Dashboard Companion: Health Connect and Apple Health to your own server</title>
 <meta name="description" content="Open-source apps for Android and iPhone that send Health Connect or Apple Health data to Home Assistant, Grafana, MQTT or your own webhook. No cloud.">
 <link rel="canonical" href="https://owen282000.com/life-dashboard/">
+<link rel="alternate" hreflang="en" href="https://owen282000.com/life-dashboard/">
+<link rel="alternate" hreflang="nl" href="https://owen282000.com/nl/life-dashboard/">
+<link rel="alternate" hreflang="de" href="https://owen282000.com/de/life-dashboard/">
+<link rel="alternate" hreflang="fr" href="https://owen282000.com/fr/life-dashboard/">
+<link rel="alternate" hreflang="es" href="https://owen282000.com/es/life-dashboard/">
+<link rel="alternate" hreflang="pt-BR" href="https://owen282000.com/pt-br/life-dashboard/">
+<link rel="alternate" hreflang="pt" href="https://owen282000.com/pt-br/life-dashboard/">
+<link rel="alternate" hreflang="x-default" href="https://owen282000.com/life-dashboard/">
 <meta name="robots" content="max-image-preview:large">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#F7F9F8" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#101418" media="(prefers-color-scheme: dark)">
 <link rel="icon" type="image/png" sizes="32x32" href="/life-dashboard/img/icon-32.png?v=355467f5">
 <link rel="apple-touch-icon" href="/life-dashboard/img/icon-180.png?v=e1842852">
-<link rel="stylesheet" href="/life-dashboard/site.css?v=f9587ceb">
+<link rel="stylesheet" href="/life-dashboard/site.css?v=d92ee376">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="nl_NL">
+<meta property="og:locale:alternate" content="de_DE">
+<meta property="og:locale:alternate" content="fr_FR">
+<meta property="og:locale:alternate" content="es_ES">
+<meta property="og:locale:alternate" content="pt_BR">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="Life Dashboard: your phone&#x27;s health data, on your own server">
 <meta property="og:description" content="Open-source apps for Android and iPhone that send Health Connect and Apple Health data to Home Assistant, Grafana, MQTT or a webhook. No cloud, no account.">
@@ -331,7 +344,7 @@
           "name": "Why a separate app instead of the Home Assistant companion app?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Keep the companion app for presence, notifications and device sensors; the two run side by side. Its 26 Health Connect sensors show the latest value or a daily total, with history from the day you enable them. Life Dashboard Companion reads 33 types, keeps every day in long-term statistics, adds screen time per app, and also sends to MQTT and webhooks. The comparison lists the differences."
+            "text": "Keep the companion app for presence, notifications and device sensors; the two run side by side. Its 36 Health Connect sensors show the latest value or a daily total, with history from the day you enable them. Life Dashboard Companion reads 34 types, keeps every day in long-term statistics, adds screen time per app, and also sends to MQTT and webhooks. The comparison lists the differences."
           }
         },
         {
@@ -423,7 +436,7 @@
       <a href="#faq">FAQ</a>
     </nav>
     <div class="nav-cta">
-      
+      <details class="lang-menu"><summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><ellipse cx="12" cy="12" rx="4" ry="9"/></svg><span class="sr-only">Language: English</span><span>EN</span></summary><ul><li><a href="/life-dashboard/" lang="en" hreflang="en" aria-current="true">English</a></li><li><a href="/nl/life-dashboard/" lang="nl" hreflang="nl">Nederlands</a></li><li><a href="/de/life-dashboard/" lang="de" hreflang="de">Deutsch</a></li><li><a href="/fr/life-dashboard/" lang="fr" hreflang="fr">Français</a></li><li><a href="/es/life-dashboard/" lang="es" hreflang="es">Español</a></li><li><a href="/pt-br/life-dashboard/" lang="pt-BR" hreflang="pt-BR">Português (Brasil)</a></li></ul></details>
       <a class="btn btn-ghost btn-sm nav-gh" href="https://github.com/owen282000/life-dashboard-companion-app">
         <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
         GitHub
@@ -464,7 +477,7 @@
         <a class="badge-link" href="https://apps.apple.com/app/life-dashboard-companion/id6824075761"><img class="badge-img" src="/life-dashboard/img/badges/app-store.svg?v=a26fc5b3" alt="Download on the App Store" width="120" height="40" loading="lazy"></a>
         <a class="badge-link" href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-landing%26utm_medium%3Dwebsite"><img class="badge-img" src="/life-dashboard/img/badges/google-play.png?v=a13294f3" alt="Get it on Google Play" width="564" height="168" loading="lazy"></a>
       </div>
-      <ul class="install-paths"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg><span><b>Android</b> €4.99 once on Google Play: the easy way, with automatic updates, and it supports development. Or free, the same app with the same signing key: <a href="/life-dashboard/android/#get">the APK on GitHub, Obtainium or F&#8209;Droid</a>.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg><span><b>iPhone</b> On the App Store, €6.99 once. Or <a href="/life-dashboard/ios/#building">build it with Xcode</a> on a Mac with an Apple Developer Program membership.</span></li></ul>
+      <ul class="install-paths"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg><span><b>Android</b> €4.99 once on Google Play: the easy way, with automatic updates, and it supports development. Or free, the same app with the same signing key: <a href="/life-dashboard/android/#get">the APK on GitHub, Obtainium or F&#8209;Droid</a>.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg><span><b>iPhone</b> €6.99 once on the App Store, no subscription. Or <a href="/life-dashboard/ios/#building">build it with Xcode</a> on a Mac with an Apple Developer Program membership.</span></li></ul>
 <!-- /BUILD:hero-stores -->
       </div>
     </div>
@@ -476,7 +489,7 @@
         <path d="M222 300 C 255 300, 250 330, 288 330" />
         <path d="M222 300 C 255 300, 250 505, 288 505" />
       </svg>
-      <div class="phone src" style="aspect-ratio: 720 / 1476"><img src="/life-dashboard/img/A1-health.webp?v=48b0e4d1" alt="The Health tab of the Android app, with 33 data types selected" width="720" height="1476" fetchpriority="high"></div>
+      <div class="phone src" style="aspect-ratio: 720 / 1476"><img src="/life-dashboard/img/A1-health.webp?v=48b0e4d1" alt="The Health tab of the Android app, with a row per destination and today's figures" width="720" height="1476" fetchpriority="high"></div>
       <figure class="dcard d-ha">
         <figcaption><span class="dk">Home Assistant</span></figcaption>
         <img src="/life-dashboard/img/H9-health-phone.webp?v=43ebb81f" alt="The example Health dashboard in Home Assistant with demo data: steps, distance, calories, workouts and heart rate" width="720" height="1559">
@@ -655,7 +668,7 @@
           <h2>One payload, from Android and iPhone</h2>
         <p>Both apps send the same JSON, so an Android phone and an iPhone can share one Home Assistant or one stack.</p>
         <div class="apps-duo">
-          <a href="/life-dashboard/android/"><b>Android</b><span>33 Health Connect types, screen time per app, and scale readings back into Samsung Health.</span></a>
+          <a href="/life-dashboard/android/"><b>Android</b><span>34 Health Connect types, screen time per app, and scale readings back into Samsung Health.</span></a>
           <a href="/life-dashboard/ios/"><b>iPhone</b><span>28 Apple Health types, with a widget and Shortcuts. On the App Store for €6.99 once, no subscription. Building it yourself with Xcode stays free.</span></a>
         </div>
       </div>
@@ -733,6 +746,7 @@
       <article class="get-card compact" id="get-ios">
         <header><span class="part-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg></span><div><h3><a href="/life-dashboard/ios/">Life Dashboard Companion for iPhone</a></h3><p>iOS 17 or newer. On the App Store, or build it yourself on a Mac.</p></div></header>
         <div class="badges"><a class="badge-link" href="https://apps.apple.com/app/life-dashboard-companion/id6824075761"><img class="badge-img" src="/life-dashboard/img/badges/app-store.svg?v=a26fc5b3" alt="Download on the App Store" width="120" height="40" loading="lazy"></a></div>
+        <p class="get-alt">€6.99 once on the App Store, no subscription.</p>
         <p class="get-alt"><a class="nowrap" href="https://github.com/owen282000/life-dashboard-companion-app-ios#build-and-install">Build with Xcode</a></p>
       </article>
       <article class="get-card compact" id="get-home-assistant">
@@ -785,7 +799,7 @@
       </details>
       <details>
         <summary>Why a separate app instead of the Home Assistant companion app?</summary>
-        <p>Keep the companion app for presence, notifications and device sensors; the two run side by side. Its 26 Health Connect sensors show the latest value or a daily total, with history from the day you enable them. Life Dashboard Companion reads 33 types, keeps every day in long-term statistics, adds screen time per app, and also sends to MQTT and webhooks. The <a href="/life-dashboard/home-assistant/#compare">comparison</a> lists the differences.</p>
+        <p>Keep the companion app for presence, notifications and device sensors; the two run side by side. Its 36 Health Connect sensors show the latest value or a daily total, with history from the day you enable them. Life Dashboard Companion reads 34 types, keeps every day in long-term statistics, adds screen time per app, and also sends to MQTT and webhooks. The <a href="/life-dashboard/home-assistant/#compare">comparison</a> lists the differences.</p>
       </details>
       <details>
         <summary>Which watches, rings and scales work?</summary>
@@ -793,7 +807,7 @@
       </details>
       <details>
         <summary>What does it cost?</summary>
-        <p>The code of all four parts is MIT licensed and free. On Android, <a href="#get-android">Google Play</a> is the easy way: €4.99 once (US$4.99), no subscription, with automatic updates, and buying it supports development. The free routes stay free: the signed APK on GitHub, Obtainium, which installs that same APK, and F-Droid. All of them are the same app, built from the same source and signed with the same key. The iPhone app works the same way: building it yourself with Xcode is free, and the App Store version is the paid convenience, €6.99 once (US$5.99), with no subscription.</p>
+        <p>The code of all four parts is MIT licensed and free. On Android, <a href="#get-android">Google Play</a> is the easy way: €4.99 once (US$4.99), no subscription, with automatic updates, and buying it supports development. The free routes stay free: the signed APK on GitHub, Obtainium, which installs that same APK, and F&#8209;Droid. All of them are the same app, built from the same source and signed with the same key. The iPhone app works the same way: building it yourself with Xcode is free, and the App Store version is the paid convenience, €6.99 once (US$5.99), with no subscription.</p>
       </details>
       <details>
         <summary>What do these words mean?</summary>
@@ -833,7 +847,7 @@
         <a class="badge-link" href="https://apps.apple.com/app/life-dashboard-companion/id6824075761"><img class="badge-img" src="/life-dashboard/img/badges/app-store.svg?v=a26fc5b3" alt="Download on the App Store" width="120" height="40" loading="lazy"></a>
         <a class="badge-link" href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-landing%26utm_medium%3Dwebsite"><img class="badge-img" src="/life-dashboard/img/badges/google-play.png?v=a13294f3" alt="Get it on Google Play" width="564" height="168" loading="lazy"></a>
       </div>
-      <ul class="install-paths"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg><span><b>Android</b> €4.99 once on Google Play: the easy way, with automatic updates, and it supports development. Or free, the same app with the same signing key: <a href="/life-dashboard/android/#get">the APK on GitHub, Obtainium or F&#8209;Droid</a>.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg><span><b>iPhone</b> On the App Store, €6.99 once. Or <a href="/life-dashboard/ios/#building">build it with Xcode</a> on a Mac with an Apple Developer Program membership.</span></li></ul>
+      <ul class="install-paths"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg><span><b>Android</b> €4.99 once on Google Play: the easy way, with automatic updates, and it supports development. Or free, the same app with the same signing key: <a href="/life-dashboard/android/#get">the APK on GitHub, Obtainium or F&#8209;Droid</a>.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5h4"/></svg><span><b>iPhone</b> €6.99 once on the App Store, no subscription. Or <a href="/life-dashboard/ios/#building">build it with Xcode</a> on a Mac with an Apple Developer Program membership.</span></li></ul>
 <!-- /BUILD:hero-stores -->
     </div>
     <p class="fineprint">Source, issues and <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">discussions</a> on <a href="https://github.com/owen282000/life-dashboard-companion-app">GitHub</a>. New versions in the <a href="https://github.com/owen282000/life-dashboard-companion-app/releases.atom">release feed</a>.</p>
@@ -848,8 +862,8 @@
         <a class="brand" href="/life-dashboard/"><img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="34" height="34"> Life Dashboard</a>
         <p>Life Dashboard is an open-source project by <a href="https://github.com/owen282000">Owen Vogelaar</a>, in four parts: the Life Dashboard Companion apps for Android and iPhone, a Home Assistant integration and a Grafana stack. It isn't related to other apps or templates called Life Dashboard. Questions go to <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
         <p>This site sets no cookies, runs no analytics and loads nothing from anyone else. <a href="/privacy/">Site privacy</a>.</p>
-        <p class="imprint">Owen Vogelaar, trading as oVog Enterprise · KvK 81085583 · <a href="mailto:owen282000@hotmail.com">owen282000@hotmail.com</a></p>
-        
+        <p class="imprint">Owen Vogelaar, trading as oVog Enterprise · Dutch Chamber of Commerce (KvK) 81085583 · <a href="mailto:owen282000@hotmail.com">owen282000@hotmail.com</a></p>
+        <p class="lang-row"><span>Language:</span> <a href="/life-dashboard/" lang="en" hreflang="en" aria-current="true">English</a> <a href="/nl/life-dashboard/" lang="nl" hreflang="nl">Nederlands</a> <a href="/de/life-dashboard/" lang="de" hreflang="de">Deutsch</a> <a href="/fr/life-dashboard/" lang="fr" hreflang="fr">Français</a> <a href="/es/life-dashboard/" lang="es" hreflang="es">Español</a> <a href="/pt-br/life-dashboard/" lang="pt-BR" hreflang="pt-BR">Português (Brasil)</a></p>
       </div>
       <div>
         <h2 class="foot-h">Products</h2>

@@ -4,11 +4,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Health-Connect-Daten auf den eigenen Server exportieren | Life Dashboard</title>
+<title>Health-Connect-Daten exportieren per Webhook | Life Dashboard</title>
 <meta name="description" content="Life Dashboard Companion sendet Health-Connect-Daten von Samsung Health, Garmin und Fitbit als signiertes JSON an deinen eigenen Server. Ohne Konto, ohne Cloud.">
 <link rel="canonical" href="https://owen282000.com/de/life-dashboard/health-connect-daten-exportieren/">
 <link rel="alternate" hreflang="en" href="https://owen282000.com/life-dashboard/health-connect-webhook/">
+<link rel="alternate" hreflang="nl" href="https://owen282000.com/nl/life-dashboard/health-connect-webhook/">
 <link rel="alternate" hreflang="de" href="https://owen282000.com/de/life-dashboard/health-connect-daten-exportieren/">
+<link rel="alternate" hreflang="fr" href="https://owen282000.com/fr/life-dashboard/health-connect-webhook/">
+<link rel="alternate" hreflang="es" href="https://owen282000.com/es/life-dashboard/health-connect-webhook/">
+<link rel="alternate" hreflang="pt-BR" href="https://owen282000.com/pt-br/life-dashboard/health-connect-webhook/">
+<link rel="alternate" hreflang="pt" href="https://owen282000.com/pt-br/life-dashboard/health-connect-webhook/">
 <link rel="alternate" hreflang="x-default" href="https://owen282000.com/life-dashboard/health-connect-webhook/">
 <meta name="robots" content="max-image-preview:large">
 <meta name="color-scheme" content="light dark">
@@ -16,10 +21,14 @@
 <meta name="theme-color" content="#101418" media="(prefers-color-scheme: dark)">
 <link rel="icon" type="image/png" sizes="32x32" href="/life-dashboard/img/icon-32.png?v=355467f5">
 <link rel="apple-touch-icon" href="/life-dashboard/img/icon-180.png?v=e1842852">
-<link rel="stylesheet" href="/life-dashboard/site.css?v=f9587ceb">
+<link rel="stylesheet" href="/life-dashboard/site.css?v=d92ee376">
 <meta property="og:type" content="article">
 <meta property="og:locale" content="de_DE">
 <meta property="og:locale:alternate" content="en_US">
+<meta property="og:locale:alternate" content="nl_NL">
+<meta property="og:locale:alternate" content="fr_FR">
+<meta property="og:locale:alternate" content="es_ES">
+<meta property="og:locale:alternate" content="pt_BR">
 <meta property="og:site_name" content="Life Dashboard">
 <meta property="og:title" content="Wie exportiere ich Health-Connect-Daten auf meinen eigenen Server?">
 <meta property="og:description" content="Life Dashboard Companion sendet Health-Connect-Daten von Samsung Health, Garmin und Fitbit als signiertes JSON an deinen eigenen Server. Ohne Konto, ohne Cloud.">
@@ -27,12 +36,12 @@
 <meta property="og:image" content="https://owen282000.com/life-dashboard/img/social.png">
 <meta property="og:image:width" content="1280">
 <meta property="og:image:height" content="640">
-<meta property="og:image:alt" content="Life Dashboard Companion: your health data, your server. No cloud.">
+<meta property="og:image:alt" content="Life Dashboard Companion: deine Gesundheitsdaten, dein Server. Keine Cloud.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Wie exportiere ich Health-Connect-Daten auf meinen eigenen Server?">
 <meta name="twitter:description" content="Life Dashboard Companion sendet Health-Connect-Daten von Samsung Health, Garmin und Fitbit als signiertes JSON an deinen eigenen Server. Ohne Konto, ohne Cloud.">
 <meta name="twitter:image" content="https://owen282000.com/life-dashboard/img/social.png">
-<meta name="twitter:image:alt" content="Life Dashboard Companion: your health data, your server. No cloud.">
+<meta name="twitter:image:alt" content="Life Dashboard Companion: deine Gesundheitsdaten, dein Server. Keine Cloud.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -66,7 +75,7 @@
       "datePublished": "2026-11-20",
       "dateModified": "2026-11-20",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
-      "timeRequired": "PT5M",
+      "timeRequired": "PT6M",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
       }
@@ -89,8 +98,8 @@
         {
           "@type": "ListItem",
           "position": 3,
-          "name": "Guides",
-          "item": "https://owen282000.com/life-dashboard/guides/"
+          "name": "Anleitungen",
+          "item": "https://owen282000.com/de/life-dashboard/guides/"
         },
         {
           "@type": "ListItem",
@@ -205,25 +214,25 @@
 
 <header class="nav">
   <div class="wrap">
-    <a class="brand" href="/life-dashboard/" hreflang="en" aria-label="Life Dashboard home">
+    <a class="brand" href="/de/life-dashboard/" aria-label="Life Dashboard Startseite">
       <img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="34" height="34">
       Life Dashboard
     </a>
-    <nav class="nav-links" aria-label="Main">
-      <a href="/life-dashboard/android/" hreflang="en">Android</a>
-      <a href="/life-dashboard/ios/" hreflang="en">iPhone</a>
-      <a href="/life-dashboard/home-assistant/" hreflang="en">Home Assistant</a>
-      <a href="/life-dashboard/grafana/" hreflang="en">Grafana</a>
-      <a href="/life-dashboard/guides/" hreflang="en" aria-current="page">Guides</a>
-      <a href="/life-dashboard/#faq" hreflang="en">FAQ</a>
+    <nav class="nav-links" aria-label="Hauptnavigation">
+      <a href="/de/life-dashboard/android/">Android</a>
+      <a href="/de/life-dashboard/ios/">iPhone</a>
+      <a href="/de/life-dashboard/home-assistant/">Home Assistant</a>
+      <a href="/de/life-dashboard/grafana/">Grafana</a>
+      <a href="/de/life-dashboard/guides/" aria-current="page">Anleitungen</a>
+      <a href="/de/life-dashboard/#faq">FAQ</a>
     </nav>
     <div class="nav-cta">
-      <details class="lang-menu"><summary aria-label="Language: Deutsch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><ellipse cx="12" cy="12" rx="4" ry="9"/></svg><span>DE</span></summary><ul><li><a href="/life-dashboard/health-connect-webhook/" lang="en" hreflang="en">English</a></li><li><a href="/de/life-dashboard/health-connect-daten-exportieren/" lang="de" hreflang="de" aria-current="true">Deutsch</a></li></ul></details>
+      <details class="lang-menu"><summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><ellipse cx="12" cy="12" rx="4" ry="9"/></svg><span class="sr-only">Sprache: Deutsch</span><span>DE</span></summary><ul><li><a href="/life-dashboard/health-connect-webhook/" lang="en" hreflang="en">English</a></li><li><a href="/nl/life-dashboard/health-connect-webhook/" lang="nl" hreflang="nl">Nederlands</a></li><li><a href="/de/life-dashboard/health-connect-daten-exportieren/" lang="de" hreflang="de" aria-current="true">Deutsch</a></li><li><a href="/fr/life-dashboard/health-connect-webhook/" lang="fr" hreflang="fr">Français</a></li><li><a href="/es/life-dashboard/health-connect-webhook/" lang="es" hreflang="es">Español</a></li><li><a href="/pt-br/life-dashboard/health-connect-webhook/" lang="pt-BR" hreflang="pt-BR">Português (Brasil)</a></li></ul></details>
       <a class="btn btn-ghost btn-sm nav-gh" href="https://github.com/owen282000/life-dashboard-companion-app">
         <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
         GitHub
       </a>
-      <a class="btn btn-primary btn-sm" href="/life-dashboard/#get" hreflang="en">Install options</a>
+      <a class="btn btn-primary btn-sm" href="/de/life-dashboard/#get">Installieren</a>
     </div>
   </div>
 </header>
@@ -232,7 +241,7 @@
   <header class="guide-head">
     <div class="grid-bg"></div>
     <div class="wrap">
-      <nav class="crumbs" aria-label="Breadcrumb"><a href="/life-dashboard/" hreflang="en">Life Dashboard</a><span aria-hidden="true">/</span><a href="/life-dashboard/guides/" hreflang="en">Guides</a><span aria-hidden="true">/</span><span aria-current="page">Health-Connect-Daten exportieren</span></nav>
+      <nav class="crumbs" aria-label="Brotkrumen-Navigation"><a href="/de/life-dashboard/">Life Dashboard</a><span aria-hidden="true">/</span><a href="/de/life-dashboard/guides/">Anleitungen</a><span aria-hidden="true">/</span><span aria-current="page">Health-Connect-Daten exportieren</span></nav>
       <h1>Wie exportiere ich Health-Connect-Daten auf meinen eigenen Server?</h1>
       <div class="guide-intro">
 <p>Life Dashboard Companion, eine Open-Source-App für Android, liest Health Connect nach einem Zeitplan und sendet jeden neuen Datensatz an die Adressen, die du einträgst: als HTTPS-POST mit JSON. Jede Sendung enthält die Datensätze der Typen, die du eingeschaltet hast (34 insgesamt, von Schritten und Schlafphasen bis Herzfrequenz, Gewicht und Blutdruck), jeden mit einer festen <code>uuid</code> und der App, die ihn geschrieben hat. Dazu kommen Tagessummen, die einen Spaziergang nur einmal zählen.</p>
@@ -241,21 +250,22 @@
 
 <p class="flow-line"><span>Uhr, Ring oder Waage</span><span>Health Connect</span><span>Life Dashboard Companion</span><span>Dein Server</span></p>
       </div>
-      <p class="guide-meta"><span>Von <a href="/" hreflang="en">Owen Vogelaar</a>, der Life Dashboard entwickelt</span> <span><time datetime="2026-11-20">Aktualisiert am 20. November 2026</time></span> <span>5 min read</span></p>
-      <p class="guide-cta"><a class="btn btn-primary btn-store" href="/life-dashboard/android/#get" hreflang="en">Android-App</a></p>
+      <p class="guide-meta"><span>Von <a href="/de/">Owen Vogelaar</a>, der Life Dashboard entwickelt</span> <span><time datetime="2026-11-20">Aktualisiert am 20. November 2026</time></span> <span>6 Min. Lesezeit</span></p>
+      <p class="guide-cta"><a class="btn btn-primary btn-store" href="/de/life-dashboard/android/#get">Android-App</a></p>
     </div>
   </header>
   <div class="wrap guide-grid">
     <nav class="toc" aria-labelledby="toc-title">
-      <h2 id="toc-title">On this page</h2>
+      <h2 id="toc-title">Auf dieser Seite</h2>
       <ol>
         <li><a href="#warum-es-eine-app-auf-dem-telefon-braucht">Warum es eine App auf dem Telefon braucht</a></li>
         <li><a href="#was-du-brauchst">Was du brauchst</a></li>
         <li><a href="#health-connect-an-deinen-server-senden">Health Connect an deinen Server senden</a></li>
         <li><a href="#so-sieht-eine-sendung-aus">So sieht eine Sendung aus</a></li>
         <li><a href="#die-signatur-pruefen">Die Signatur prüfen</a></li>
-        <li><a href="#wiederholungen-warteschlange-und-loeschungen">Wiederholungen, Warteschlange und Löschungen</a></li>
+        <li><a href="#retries-outbox-and-deletions">Wiederholungen, Warteschlange und Löschungen</a></li>
         <li><a href="#empfaenger-die-funktionieren">Empfänger, die funktionieren</a></li>
+        <li><a href="#store-it-in-postgres">In Postgres speichern</a></li>
         <li><a href="#grenzen">Grenzen</a></li>
         <li><a href="#faq">Häufige Fragen</a></li>
       </ol>
@@ -269,7 +279,7 @@
 
 <ul>
   <li>Android 9 oder neuer mit Health Connect und eine App, die dort hineinschreibt, etwa Samsung Health, Garmin Connect oder Google Health. Health Connect ist ab Android 14 eingebaut, unter Android 9 bis 13 kommt es aus Google Play.</li>
-  <li><a href="/life-dashboard/android/" hreflang="en">Life Dashboard Companion für Android</a>, bei <a href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-de-guide-health-connect-webhook%26utm_medium%3Dwebsite">Google Play</a> für 4,99&nbsp;€ einmalig. Oder kostenlos über GitHub, Obtainium oder F-Droid: dieselbe App mit demselben Signaturschlüssel. Die App ist auf Deutsch.</li>
+  <li><a href="/de/life-dashboard/android/">Life Dashboard Companion für Android</a>, bei <a href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-de-guide-health-connect-webhook%26utm_medium%3Dwebsite">Google Play</a> für 4,99&nbsp;€ einmalig. Oder kostenlos über GitHub, Obtainium oder F&#8209;Droid: dieselbe App mit demselben Signaturschlüssel. Die App ist auf Deutsch.</li>
   <li>Einen Server, der einen JSON-POST über HTTPS annimmt, mit einem Limit von mindestens 10 MB pro Anfrage. Für einfaches HTTP im eigenen Netz schaltest du unter <strong>Mehr</strong> &gt; <strong>Erweitert</strong> die Option <strong>Einfache HTTP-Webhooks erlauben</strong> ein.</li>
 </ul>
 
@@ -334,7 +344,7 @@
 <pre tabindex="0" role="region" aria-label="Code: Die Signatur prüfen"><code>expected = "sha256=" + hmac.new(SECRET, body, hashlib.sha256).hexdigest()
 valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
 
-<h2 id="wiederholungen-warteschlange-und-loeschungen">Wiederholungen, Warteschlange und Löschungen</h2>
+<h2 id="retries-outbox-and-deletions">Wiederholungen, Warteschlange und Löschungen</h2>
 
 <ul>
   <li><strong>Wiederholungen.</strong> Jede 2xx-Antwort gilt als zugestellt. Ein Timeout, ein Netzwerkfehler, 408, 429 oder 5xx bekommt 3 Versuche. Die App wartet höchstens 10 Sekunden: Antworte also zuerst und speichere danach.</li>
@@ -346,11 +356,23 @@ valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
 <h2 id="empfaenger-die-funktionieren">Empfänger, die funktionieren</h2>
 
 <ul>
-  <li><strong>Der Life-Dashboard-Stack.</strong> Fertige Images für einen Empfänger, der die Signatur prüft, Postgres und Grafana mit sechs Dashboards, aus einer Compose-Datei oder per Helm-Chart. Mehr dazu: <a href="/life-dashboard/grafana/" hreflang="en">der Life-Dashboard-Stack (Englisch)</a>.</li>
-  <li><strong>n8n.</strong> Ein Webhook-Node mit <strong>Raw Body</strong>, eine Signaturprüfung und ein Node <strong>Respond to Webhook</strong>. Der ganze Workflow steht in <a href="/life-dashboard/health-connect-n8n/" hreflang="en">Health Connect to n8n (Englisch)</a>.</li>
+  <li><strong>Der Life-Dashboard-Stack.</strong> Fertige Images für einen Empfänger, der die Signatur prüft, Postgres und Grafana mit sechs Dashboards, aus einer Compose-Datei oder per Helm-Chart. Mehr dazu: <a href="/de/life-dashboard/grafana/">der Life-Dashboard-Stack</a>.</li>
+  <li><strong>n8n.</strong> Ein Webhook-Node mit <strong>Raw Body</strong>, eine Signaturprüfung und ein Node <strong>Respond to Webhook</strong>. Der ganze Workflow steht in <a href="/de/life-dashboard/health-connect-n8n/">Health Connect mit n8n</a>.</li>
   <li><strong>Node-RED oder ein eigenes Skript.</strong> Die Payload-Referenz hat einen Empfänger in <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md#receiver-in-python-flask" hreflang="en">Python</a> und in <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md#receiver-in-nodejs-express" hreflang="en">Node.js</a> als Ausgangspunkt.</li>
-  <li><strong>Home Assistant.</strong> Die Life-Dashboard-Integration macht aus den Daten Sensoren und Langzeitstatistiken: <a href="/life-dashboard/home-assistant-gesundheitsdaten/">Gesundheitsdaten in Home Assistant</a>.</li>
+  <li><strong>Home Assistant.</strong> Die Life-Dashboard-Integration macht aus den Daten Sensoren und Langzeitstatistiken: <a href="/de/life-dashboard/home-assistant-gesundheitsdaten/">Gesundheitsdaten in Home Assistant</a>.</li>
 </ul>
+
+<h2 id="store-it-in-postgres">In Postgres speichern</h2>
+
+<p>Egal, was den POST annimmt, n8n oder ein Skript: Das Muster zum Speichern ist dasselbe.</p>
+
+<ul>
+  <li>Schreib jeden Datensatz per Upsert auf seinen Payload-Schlüssel und seine <code>uuid</code>, in einer Spalte vom Typ <code>text</code>. Messwerte von Herzfrequenz und Hauttemperatur tragen hinter der ID des Datensatzes ein <code>#</code> und eine Zeit, es ist also keine <code>uuid</code> im Sinne von Postgres.</li>
+  <li>Halte <code>daily_totals</code> als eine Zeile pro Datum, ersetzt nur durch eine Sendung mit höherer <code>sequence</code>: Die Summe von heute läuft noch.</li>
+  <li>Lösch, was <code>deleted_records</code> nennt, nach <code>type</code> und <code>uuid</code>. Bei einem Datensatz für Herzfrequenz oder Hauttemperatur löschst du jeden Messwert, dessen <code>uuid</code> mit dieser <code>uuid</code> und einem <code>#</code> beginnt.</li>
+</ul>
+
+<p>Der Empfänger des <a href="/de/life-dashboard/grafana/">Life-Dashboard-Stacks</a> erledigt alle drei Punkte, falls du das nicht selbst bauen willst, und gibt das Ergebnis über eine API nur zum Lesen wieder aus. Liegen die Daten erst in Postgres, kann ein Modell deiner Wahl sie über einen MCP-Server lesen, der nur liest: <a href="/de/life-dashboard/gesundheitsdaten-ki-mcp/">Health Connect und Apple Health über MCP</a> beschreibt den Server des Stacks und einen für dein eigenes Postgres.</p>
 
 <h2 id="grenzen">Grenzen</h2>
 
@@ -364,16 +386,17 @@ valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
       <h2 id="get-the-app">Life Dashboard Companion</h2>
       <p>Installiere die App, trag deine Adresse ein und tippe auf <strong>Test senden</strong>. Die Payload-Referenz beschreibt jedes Feld und hat einen Empfänger in Python und Node.js.</p>
       <div class="stores">
-        <div class="panel-store"><a class="badge-link" href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-de-guide-health-connect-webhook%26utm_medium%3Dwebsite"><img class="badge-img" src="/life-dashboard/img/badges/google-play.png?v=a13294f3" alt="Get it on Google Play" width="564" height="168" loading="lazy"></a>
+        <div class="panel-store"><a class="badge-link" href="https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&amp;referrer=utm_source%3Dsite-de-guide-health-connect-webhook%26utm_medium%3Dwebsite"><img class="badge-img" src="/life-dashboard/img/badges/google-play.png?v=a13294f3" alt="Jetzt bei Google Play" width="564" height="168" loading="lazy"></a>
         <p class="aside-alt">4,99&nbsp;€ einmalig bei Google Play, mit automatischen Updates.</p>
-        <p class="aside-alt">Oder kostenlos, dieselbe App mit demselben Signaturschlüssel: <a class="nowrap" href="https://github.com/owen282000/life-dashboard-companion-app/releases/latest/download/app-release.apk">APK auf GitHub</a> · <a class="nowrap" href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/owen282000/life-dashboard-companion-app">Obtainium</a> · <a class="nowrap" href="https://f-droid.org/packages/com.owen282000.lifedashboard/">F-Droid</a></p></div><div class="panel-store"><a class="badge-link" href="https://apps.apple.com/app/life-dashboard-companion/id6824075761"><img class="badge-img" src="/life-dashboard/img/badges/app-store.svg?v=a26fc5b3" alt="Download on the App Store" width="120" height="40" loading="lazy"></a>
-        <p class="aside-alt"><a class="nowrap" href="https://github.com/owen282000/life-dashboard-companion-app-ios#build-and-install">Build with Xcode</a></p></div>
+        <p class="aside-alt">Oder kostenlos, dieselbe App mit demselben Signaturschlüssel: <a class="nowrap" href="https://github.com/owen282000/life-dashboard-companion-app/releases/latest/download/app-release.apk">APK auf GitHub</a> · <a class="nowrap" href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/owen282000/life-dashboard-companion-app">Obtainium</a> · <a class="nowrap" href="https://f-droid.org/packages/com.owen282000.lifedashboard/">F&#8209;Droid</a></p></div><div class="panel-store"><a class="badge-link" href="https://apps.apple.com/app/life-dashboard-companion/id6824075761"><img class="badge-img" src="/life-dashboard/img/badges/app-store.svg?v=a26fc5b3" alt="Laden im App Store" width="120" height="40" loading="lazy"></a>
+        <p class="aside-alt">6,99&nbsp;€ einmalig im App Store, ohne Abo.</p>
+        <p class="aside-alt"><a class="nowrap" href="https://github.com/owen282000/life-dashboard-companion-app-ios#build-and-install">Mit Xcode bauen</a></p></div>
       </div>
       <p class="panel-btns">
-      <a class="btn btn-primary btn-store" href="/life-dashboard/android/#get" hreflang="en">Android-App</a>
+      <a class="btn btn-primary btn-store" href="/de/life-dashboard/android/#get">Android-App</a>
       <a class="btn btn-ghost" href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md">Payload-Referenz (Englisch)</a>
       </p>
-      <p class="panel-note">The open-source apps this guide uses, for Android and iPhone. No account and no cloud. More about <a href="/life-dashboard/android/" hreflang="en">Android</a> and <a href="/life-dashboard/ios/" hreflang="en">iPhone</a>.</p>
+      <p class="panel-note">Die Open-Source-Apps, die diese Anleitung verwendet, für Android und iPhone. Kein Konto, keine Cloud. Mehr zu <a href="/de/life-dashboard/android/">Android</a> und <a href="/de/life-dashboard/ios/">iPhone</a>.</p>
     </section>
 
 <section class="faq">
@@ -396,22 +419,22 @@ valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
   </details>
   <details>
     <summary>Was kostet das?</summary>
-    <p>Die App kostet bei Google Play 4,99&nbsp;€ einmalig, mit automatischen Updates. Kostenlos bekommst du dieselbe App über GitHub, Obtainium oder F-Droid. Ein Abo gibt es nicht.</p>
+    <p>Die App kostet bei Google Play 4,99&nbsp;€ einmalig, mit automatischen Updates. Kostenlos bekommst du dieselbe App über GitHub, Obtainium oder F&#8209;Droid. Ein Abo gibt es nicht.</p>
   </details>
   <details>
     <summary>Geht das auch mit dem iPhone?</summary>
-    <p>Ja. <a href="/life-dashboard/ios/" hreflang="en">Life Dashboard Companion für iPhone</a> sendet Apple Health mit denselben Schlüsseln, Einheiten und derselben Signatur, sodass ein Empfänger beide Telefone annimmt.</p>
+    <p>Ja. <a href="/de/life-dashboard/ios/">Life Dashboard Companion für iPhone</a> sendet Apple Health mit denselben Schlüsseln, Einheiten und derselben Signatur, sodass ein Empfänger beide Telefone annimmt.</p>
   </details>
 </section>
     </article>
   </div>
   <section class="section tight related band" aria-labelledby="related">
   <div class="wrap">
-    <div class="section-head split"><h2 id="related">Related guides</h2><a class="link-arrow" href="/life-dashboard/guides/" hreflang="en">All guides</a></div>
+    <div class="section-head split"><h2 id="related">Verwandte Anleitungen</h2><a class="link-arrow" href="/de/life-dashboard/guides/">Alle Anleitungen</a></div>
     <div class="family three">
-      <a class="part" href="/life-dashboard/health-connect-n8n/" hreflang="en"><h3>Health Connect to n8n</h3><p>A Webhook node, an HMAC check in a Code node, then Postgres, Sheets or Telegram.</p><span class="go">Read the guide</span></a>
-      <a class="part" href="/life-dashboard/health-data-api/" hreflang="en"><h3>A web API for Health Connect or Apple Health</h3><p>Why neither has one, and how to get the data onto your server anyway.</p><span class="go">Read the guide</span></a>
-      <a class="part" href="/life-dashboard/health-data-own-ai/" hreflang="en"><h3>Health Connect and Apple Health over MCP</h3><p>The stack's read-only MCP server lets a local model or Claude read your history. Works in Europe too.</p><span class="go">Read the guide</span></a>
+      <a class="part" href="/de/life-dashboard/health-connect-n8n/"><h3>Health Connect mit n8n</h3><p>Ein Webhook-Node, eine HMAC-Prüfung im Code-Node, dann Postgres, Sheets oder Telegram.</p><span class="go">Zur Anleitung</span></a>
+      <a class="part" href="/de/life-dashboard/health-data-api/"><h3>Eine Web-API für Health Connect oder Apple Health</h3><p>Warum es keine gibt und wie die Daten trotzdem auf deinen Server kommen.</p><span class="go">Zur Anleitung</span></a>
+      <a class="part" href="/de/life-dashboard/gesundheitsdaten-ki-mcp/"><h3>Health Connect und Apple Health über MCP</h3><p>Über den MCP-Server des Stacks liest ein lokales Modell oder Claude deinen Verlauf, nur lesend. Funktioniert auch in Europa.</p><span class="go">Zur Anleitung</span></a>
     </div>
   </div>
 </section>
@@ -421,67 +444,67 @@ valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
   <div class="wrap">
     <div class="cols">
       <div class="about">
-        <a class="brand" href="/life-dashboard/" hreflang="en"><img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="34" height="34"> Life Dashboard</a>
-        <p>Life Dashboard is an open-source project by <a href="https://github.com/owen282000">Owen Vogelaar</a>, in four parts: the Life Dashboard Companion apps for Android and iPhone, a Home Assistant integration and a Grafana stack. It isn't related to other apps or templates called Life Dashboard. Questions go to <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a>.</p>
-        <p>This site sets no cookies, runs no analytics and loads nothing from anyone else. <a href="/privacy/" hreflang="en">Site privacy</a>.</p>
-        <p class="imprint">Owen Vogelaar, trading as oVog Enterprise · KvK 81085583 · <a href="mailto:owen282000@hotmail.com">owen282000@hotmail.com</a></p>
-        <p class="lang-row"><span>Language:</span> <a href="/life-dashboard/health-connect-webhook/" lang="en" hreflang="en">English</a> <a href="/de/life-dashboard/health-connect-daten-exportieren/" lang="de" hreflang="de" aria-current="true">Deutsch</a></p>
+        <a class="brand" href="/de/life-dashboard/"><img class="mark" src="/life-dashboard/img/icon-96.webp?v=1f5b3657" alt="" width="34" height="34"> Life Dashboard</a>
+        <p>Life Dashboard ist ein Open-Source-Projekt von <a href="https://github.com/owen282000">Owen Vogelaar</a> und besteht aus vier Teilen: den Apps Life Dashboard Companion für Android und iPhone, einer Home-Assistant-Integration und einem Grafana-Stack. Mit anderen Apps oder Vorlagen namens Life Dashboard hat es nichts zu tun. Fragen kannst du in den <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a> stellen.</p>
+        <p>Diese Website setzt keine Cookies, nutzt keine Analyse-Tools und lädt nichts von Dritten. <a href="/de/privacy/">Datenschutz dieser Website</a>.</p>
+        <p class="imprint">Owen Vogelaar, handelnd unter dem Namen oVog Enterprise · Handelsregister der Niederlande (KvK) 81085583 · <a href="mailto:owen282000@hotmail.com">owen282000@hotmail.com</a></p>
+        <p class="lang-row"><span>Sprache:</span> <a href="/life-dashboard/health-connect-webhook/" lang="en" hreflang="en">English</a> <a href="/nl/life-dashboard/health-connect-webhook/" lang="nl" hreflang="nl">Nederlands</a> <a href="/de/life-dashboard/health-connect-daten-exportieren/" lang="de" hreflang="de" aria-current="true">Deutsch</a> <a href="/fr/life-dashboard/health-connect-webhook/" lang="fr" hreflang="fr">Français</a> <a href="/es/life-dashboard/health-connect-webhook/" lang="es" hreflang="es">Español</a> <a href="/pt-br/life-dashboard/health-connect-webhook/" lang="pt-BR" hreflang="pt-BR">Português (Brasil)</a></p>
       </div>
       <div>
         <h2 class="foot-h">Produkte</h2>
         <ul>
-          <li><a href="/life-dashboard/android/" hreflang="en">Android-App</a></li>
-          <li><a href="/life-dashboard/ios/" hreflang="en">iPhone-App</a></li>
-          <li><a href="/life-dashboard/home-assistant/" hreflang="en">Home-Assistant-Integration</a></li>
-          <li><a href="/life-dashboard/grafana/" hreflang="en">Grafana-Stack</a></li>
+          <li><a href="/de/life-dashboard/android/">Android-App</a></li>
+          <li><a href="/de/life-dashboard/ios/">iPhone-App</a></li>
+          <li><a href="/de/life-dashboard/home-assistant/">Home-Assistant-Integration</a></li>
+          <li><a href="/de/life-dashboard/grafana/">Grafana-Stack</a></li>
         </ul>
       </div>
       <div>
-        <h2 class="foot-h"><a href="/life-dashboard/guides/" hreflang="en">Guides</a></h2>
+        <h2 class="foot-h"><a href="/de/life-dashboard/guides/">Anleitungen</a></h2>
         <ul>
           <li><a href="/de/life-dashboard/home-assistant-gesundheitsdaten/">Gesundheitsdaten in Home Assistant</a></li>
-          <li><a href="/life-dashboard/samsung-health-home-assistant/" hreflang="en">Samsung Health and Galaxy Watch in Home Assistant</a></li>
-          <li><a href="/life-dashboard/companion-app-health-connect/" hreflang="en">The companion app and Health Connect</a></li>
+          <li><a href="/de/life-dashboard/samsung-health-home-assistant/">Samsung Health und Galaxy Watch in Home Assistant</a></li>
+          <li><a href="/de/life-dashboard/companion-app-health-connect/">Die Companion-App und Health Connect</a></li>
           <li><a href="/de/life-dashboard/health-connect-daten-exportieren/">Health-Connect-Daten exportieren</a></li>
-          <li><a href="/life-dashboard/screen-time-home-assistant/" hreflang="en">Screen time in Home Assistant</a></li>
-          <li><a href="/life-dashboard/sleep-stages-home-assistant/" hreflang="en">Sleep stages in Home Assistant</a></li>
-          <li><a href="/life-dashboard/smart-scale-to-samsung-health/" hreflang="en">Smart scale to Samsung Health</a></li>
-          <li><a href="/life-dashboard/health-connect-n8n/" hreflang="en">Health Connect to n8n</a></li>
-          <li><a href="/life-dashboard/health-connect-data-types/" hreflang="en">Health Connect data types, app by app</a></li>
-          <li><a href="/life-dashboard/health-data-api/" hreflang="en">A web API for Health Connect or Apple Health</a></li>
-          <li><a href="/life-dashboard/samsung-health-export/" hreflang="en">Samsung Health to your own server</a></li>
-          <li><a href="/life-dashboard/fitbit-home-assistant/" hreflang="en">Fitbit and Pixel Watch in Home Assistant</a></li>
-          <li><a href="/life-dashboard/garmin-home-assistant/" hreflang="en">Garmin in Home Assistant</a></li>
-          <li><a href="/life-dashboard/health-data-own-ai/" hreflang="en">Health Connect and Apple Health over MCP</a></li>
-          <li><a href="/life-dashboard/health-data-qr-pairing/" hreflang="en">Let your users connect with one QR code</a></li>
-          <li><a href="/life-dashboard/health-connect-steps-home-assistant/" hreflang="en">Health Connect steps that look wrong in Home Assistant</a></li>
-          <li><a href="/life-dashboard/troubleshooting/" hreflang="en">Troubleshooting: syncs, sensors and pairing</a></li>
-          <li><a href="/life-dashboard/apple-health-home-assistant/" hreflang="en">Apple Health in Home Assistant</a></li>
-          <li><a href="/life-dashboard/apple-health-home-assistant-apps/" hreflang="en">Apple Health in Home Assistant: four apps compared</a></li>
-          <li><a href="/life-dashboard/apple-watch-home-assistant/" hreflang="en">Apple Watch in Home Assistant</a></li>
-          <li><a href="/life-dashboard/apple-health-webhook/" hreflang="en">Apple Health to a webhook</a></li>
-          <li><a href="/life-dashboard/apple-health-n8n/" hreflang="en">Apple Health to n8n</a></li>
-          <li><a href="/life-dashboard/apple-health-data-types/" hreflang="en">Apple Health data types, app by app</a></li>
+          <li><a href="/de/life-dashboard/bildschirmzeit-home-assistant/">Bildschirmzeit in Home Assistant</a></li>
+          <li><a href="/de/life-dashboard/schlafphasen-home-assistant/">Schlafphasen in Home Assistant</a></li>
+          <li><a href="/de/life-dashboard/smarte-waage-samsung-health/">Smarte Waage mit Samsung Health verbinden</a></li>
+          <li><a href="/de/life-dashboard/health-connect-n8n/">Health Connect mit n8n</a></li>
+          <li><a href="/de/life-dashboard/health-connect-datentypen/">Health-Connect-Datentypen, App für App</a></li>
+          <li><a href="/de/life-dashboard/health-data-api/">Eine Web-API für Health Connect oder Apple Health</a></li>
+          <li><a href="/de/life-dashboard/samsung-health-daten-exportieren/">Samsung-Health-Daten auf den eigenen Server exportieren</a></li>
+          <li><a href="/de/life-dashboard/fitbit-home-assistant/">Fitbit und Pixel Watch in Home Assistant</a></li>
+          <li><a href="/de/life-dashboard/garmin-home-assistant/">Garmin in Home Assistant</a></li>
+          <li><a href="/de/life-dashboard/gesundheitsdaten-ki-mcp/">Health Connect und Apple Health über MCP</a></li>
+          <li><a href="/de/life-dashboard/health-data-qr-pairing/">Nutzer mit einem QR-Code verbinden</a></li>
+          <li><a href="/de/life-dashboard/health-connect-schritte-home-assistant/">Health-Connect-Schritte, die in Home Assistant falsch aussehen</a></li>
+          <li><a href="/de/life-dashboard/fehlerbehebung/">Fehlerbehebung: Synchronisierung, Sensoren und Kopplung</a></li>
+          <li><a href="/de/life-dashboard/apple-health-home-assistant/">Apple Health in Home Assistant</a></li>
+          <li><a href="/de/life-dashboard/apple-health-home-assistant-apps/">Apple Health in Home Assistant: vier Apps im Vergleich</a></li>
+          <li><a href="/de/life-dashboard/apple-watch-home-assistant/">Apple Watch in Home Assistant</a></li>
+          <li><a href="/de/life-dashboard/apple-health-webhook/">Apple-Health-Daten per Webhook exportieren</a></li>
+          <li><a href="/de/life-dashboard/apple-health-n8n/">Apple Health mit n8n</a></li>
+          <li><a href="/de/life-dashboard/apple-health-datentypen/">Apple-Health-Datentypen, App für App</a></li>
         </ul>
       </div>
       <div>
-        <h2 class="foot-h">Docs and source</h2>
+        <h2 class="foot-h">Doku und Quellcode</h2>
         <ul>
-          <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/usage.md">Android setup guide</a></li>
-          <li><a href="https://github.com/owen282000/life-dashboard-companion-app-ios/blob/main/docs/usage.md">iPhone setup guide</a></li>
-          <li><a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md">Integration: sensors and statistics</a></li>
-          <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md">Payload reference</a></li>
-          <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/brands/README.md">Brand guides</a></li>
-          <li><a href="/life-dashboard/feedback/">Feedback board</a></li>
-          <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/PRIVACY.md">Privacy policy for Android</a></li>
-          <li><a href="/life-dashboard/ios/privacy/" hreflang="en">Privacy policy for iPhone</a></li>
-          <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/AI_POLICY.md">AI policy</a></li>
-          <li><a href="https://github.com/owen282000?tab=repositories&amp;q=life-dashboard">All repositories</a></li>
+          <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/usage.md">Einrichtungsanleitung für Android</a></li>
+          <li><a href="https://github.com/owen282000/life-dashboard-companion-app-ios/blob/main/docs/usage.md">Einrichtungsanleitung für das iPhone</a></li>
+          <li><a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md">Integration: Sensoren und Statistiken</a></li>
+          <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md">Payload-Referenz</a></li>
+          <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/brands/README.md">Anleitungen nach Hersteller</a></li>
+          <li><a href="/life-dashboard/feedback/">Feedback-Board</a></li>
+          <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/PRIVACY.md">Datenschutzerklärung für Android</a></li>
+          <li><a href="/de/life-dashboard/ios/privacy/">Datenschutzerklärung für das iPhone</a></li>
+          <li><a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/AI_POLICY.md">KI-Richtlinie</a></li>
+          <li><a href="https://github.com/owen282000?tab=repositories&amp;q=life-dashboard">Alle Repositorys</a></li>
         </ul>
       </div>
     </div>
-    <p class="legal">Home Assistant is a trademark of the Open Home Foundation. Health Connect, Google Play, Google Health, Fitbit and Pixel Watch are trademarks of Google LLC. Apple, Apple Health, Apple Watch, iPhone, Xcode and TestFlight are trademarks of Apple Inc. App Store is a service mark of Apple Inc. Grafana is a trademark of Grafana Labs. Samsung Health, Garmin Connect, Oura and Withings belong to their owners. Life Dashboard is an independent project and is not affiliated with or endorsed by any of them. Screenshots show made-up data.</p>
-    <p class="legal credits">Badges: Google Play and App Store as published by Google and Apple; "Get it on F&#8209;Droid" by the <a href="https://gitlab.com/fdroid/artwork">F&#8209;Droid project</a> and "Get it on GitHub" by <a href="https://github.com/Kunzisoft/Github-badge">Kunzisoft</a>, both <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>; Obtainium from the <a href="https://github.com/ImranR98/Obtainium">Obtainium project</a>; the HACS, Artifact Hub and Docker Compose badges are drawn for this site in Roboto (SIL OFL), around the icons of the <a href="https://github.com/hacs/integration">HACS project</a> (MIT) and the <a href="https://github.com/artifacthub/hub">Artifact Hub project</a> (Apache 2.0) and Docker's logo from its media kit; the AlternativeTo badge is their compact badge on a black panel. GitHub is a trademark of GitHub, Inc. Docker, Docker Compose and the Docker logo are trademarks of Docker, Inc. Helm is a trademark of The Linux Foundation.</p>
+    <p class="legal">Home Assistant ist eine Marke der Open Home Foundation. Health Connect, Google Play, Google Health, Fitbit und Pixel Watch sind Marken von Google LLC. Apple, Apple Health, Apple Watch, iPhone, Xcode und TestFlight sind Marken von Apple Inc. App Store ist eine Dienstleistungsmarke von Apple Inc. Grafana ist eine Marke von Grafana Labs. Samsung Health, Garmin Connect, Oura und Withings gehören ihren jeweiligen Inhabern. Life Dashboard ist ein unabhängiges Projekt und steht mit keinem dieser Unternehmen in Verbindung und wird von keinem unterstützt. Die Screenshots zeigen erfundene Daten.</p>
+    <p class="legal credits">Badges: Google Play und App Store, wie von Google und Apple veröffentlicht; „Get it on F&#8209;Droid“ vom <a href="https://gitlab.com/fdroid/artwork">F&#8209;Droid-Projekt</a> und „Get it on GitHub“ von <a href="https://github.com/Kunzisoft/Github-badge">Kunzisoft</a>, beide <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>; Obtainium vom <a href="https://github.com/ImranR98/Obtainium">Obtainium-Projekt</a>; die Badges für HACS, Artifact Hub und Docker Compose sind für diese Website in Roboto (SIL OFL) gezeichnet, um die Icons des <a href="https://github.com/hacs/integration">HACS-Projekts</a> (MIT) und des <a href="https://github.com/artifacthub/hub">Artifact-Hub-Projekts</a> (Apache 2.0) sowie das Docker-Logo aus dessen Media Kit; das AlternativeTo-Badge ist deren kompaktes Badge auf schwarzem Grund. GitHub ist eine Marke von GitHub, Inc. Docker, Docker Compose und das Docker-Logo sind Marken von Docker, Inc. Helm ist eine Marke der Linux Foundation.</p>
   </div>
 </footer>
 </body>
