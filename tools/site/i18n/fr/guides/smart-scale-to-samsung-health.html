@@ -1,0 +1,107 @@
+<!--
+title: Balance connectée vers Samsung Health via Home Assistant
+description: Xiaomi, Renpho, Eufy ou Withings : si Home Assistant lit votre balance, le poids et la masse grasse arrivent dans Samsung Health et Google Health via Santé Connect.
+primary query: balance connectée samsung health
+secondary queries: balance connectée home assistant, home assistant poids vers santé connect, home assistant balance samsung health, home assistant tension artérielle santé connect, balance xiaomi samsung health, renpho home assistant health connect, home assistant vers google health poids
+slug: balance-connectee-samsung-health
+updated: 2026-11-09
+published: 2026-11-20
+-->
+
+<h1>Comment envoyer les mesures d’une balance connectée de Home Assistant vers Samsung Health&nbsp;?</h1>
+
+<p class="signpost">Vous voulez plutôt les données Samsung Health de votre montre dans Home Assistant&nbsp;? Voir <a href="../samsung-health-home-assistant/">Samsung Health et Galaxy Watch dans Home Assistant</a>.</p>
+
+<p>Associez les entités de la balance dans l’intégration Life Dashboard et activez <strong>Recevoir</strong> dans Life Dashboard Companion, l’application Android open source qui s’y associe. À la synchronisation suivante, l’intégration transmet chaque nouvelle mesure à l’application, et celle-ci l’écrit dans Health Connect (Santé Connect en français) avec l’heure à laquelle elle a été prise. Samsung Health et Google Health lisent le poids et la masse grasse dans Santé Connect&nbsp;: le poids et la masse grasse d’une balance qui ne communique qu’avec Home Assistant se retrouvent donc dans ces applications. Cela vaut aussi pour un tensiomètre, mais l’affichage de cette mesure dépend de chaque application.</p>
+
+<h2>Ce qu’il vous faut</h2>
+
+<ul>
+  <li>Un téléphone Android avec Santé Connect et Life Dashboard Companion, associé à l’<a href="../home-assistant/">intégration Life Dashboard</a> 0.7.0 ou plus récente. Le <a href="../health-connect-home-assistant/">guide Santé Connect</a> décrit l’association. L’application iPhone ne reçoit pas de mesures, et MQTT ne peut pas les transporter.</li>
+  <li>Les mesures de la balance sous forme de capteurs dans Home Assistant. Une balance Bluetooth demande du Bluetooth à quelques mètres&nbsp;: un adaptateur sur la machine Home Assistant, ou un proxy Bluetooth ESPHome près de la salle de bains.</li>
+</ul>
+
+<p>Les voies courantes vers Home Assistant sont Xiaomi BLE avec bodymiscale pour les balances Xiaomi, ble-scale-sync pour Renpho, Eufy, Yunmai et d’autres, et l’intégration Withings. La <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/recipes/scale-to-health-connect.md">recette de la balance</a> indique quelle entité associer pour chacune, et fournit les templates dont certaines voies ont besoin.</p>
+
+<p>Une balance qui ne se synchronise qu’avec le cloud de son fabricant, comme la Xiaomi S400 EU dans Xiaomi Home, ou une balance dans Zepp Life, Mi Fitness, My TANITA ou Picooc, peut atteindre Home Assistant grâce à <a href="https://github.com/AlexxIT/SmartScaleConnect">SmartScaleConnect</a>. Il se connecte à ce cloud avec votre compte et envoie chaque nouvelle pesée à un webhook Home Assistant, où une automatisation la transforme en capteurs, ceux que vous associez ci-dessous.</p>
+
+<h2>La mise en place</h2>
+
+<ol>
+  <li>Dans Home Assistant, ouvrez Paramètres &gt; Appareils et services &gt; Life Dashboard et choisissez <strong>Configurer</strong> pour le téléphone. Sélectionnez une entité par type. Chaque type a un emplacement facultatif <strong>Measured at</strong> pour un capteur d’horodatage qui contient le moment de la pesée.</li>
+  <li>Dans l’application, dans l’onglet <strong>Santé</strong>, ouvrez <strong>Recevoir</strong> et activez <strong>Recevoir les mesures</strong>.</li>
+  <li>Activez chaque type que vous avez associé. Chacun demande à Santé Connect l’autorisation d’écrire ce type. Si vous refusez, l’interrupteur reste désactivé.</li>
+  <li>Montez sur la balance, puis touchez <strong>Synchroniser maintenant</strong> ou attendez la synchronisation suivante. L’onglet <strong>Journaux</strong> affiche une ligne venant de Home Assistant&nbsp;; touchez-la pour voir chaque mesure et savoir si elle a été écrite.</li>
+</ol>
+
+<!-- IMG: Receive settings (A5-receive.png) -->
+
+<h2>Ce que l’application écrit</h2>
+
+<table>
+  <thead>
+    <tr><th>Type</th><th>Plage acceptée</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Poids</td><td>1 à 500 kg</td></tr>
+    <tr><td>Masse grasse</td><td>1 à 80&nbsp;%</td></tr>
+    <tr><td>Masse maigre</td><td>1 à 300 kg</td></tr>
+    <tr><td>Masse osseuse</td><td>0,1 à 30 kg</td></tr>
+    <tr><td>Masse hydrique corporelle</td><td>1 à 300 kg</td></tr>
+    <tr><td>Taille</td><td>0,3 à 2,8 m</td></tr>
+    <tr><td>Tension artérielle</td><td>Systolique de 30 à 300, diastolique de 10 à 250 mmHg</td></tr>
+  </tbody>
+</table>
+
+<p>Les unités sont converties&nbsp;: les livres et les stones fonctionnent donc aussi. L’IMC, la masse musculaire, la graisse viscérale et l’âge métabolique n’ont pas d’enregistrement dans Santé Connect et restent dans Home Assistant. La plupart des balances donnent l’eau corporelle en pourcentage&nbsp;; la recette propose un template qui la convertit en kilogrammes.</p>
+
+<h2>Le traitement des mesures</h2>
+
+<ul>
+  <li><strong>L’heure est celle de la pesée.</strong> Une pesée à 07:00 synchronisée à 09:00 apparaît à 07:00 dans Santé Connect.</li>
+  <li><strong>Une pesée, une mesure.</strong> La même valeur dans un intervalle de dix minutes compte comme la même mesure, et une valeur différente pour le même instant remplace l’enregistrement précédent.</li>
+  <li><strong>Signé dans les deux sens.</strong> Les mesures reviennent dans la réponse signée de l’intégration à la requête que l’application envoie déjà. Il n’y a ni second canal ni second secret.</li>
+  <li><strong>Aucun écho.</strong> Ce que l’application écrit est exclu de ce qu’elle envoie&nbsp;: votre poids ne revient donc pas dans Home Assistant sous forme de second capteur.</li>
+  <li><strong>Un avertissement sur les doublons.</strong> Si l’application de la balance écrit déjà le même type dans Santé Connect, l’application vous avertit au moment où vous l’activez. Gardez une seule source, sinon chaque pesée arrive deux fois.</li>
+</ul>
+
+<h2>Ce qu’affichent Samsung Health et Google Health</h2>
+
+<p>L’application peut seulement garantir qu’une mesure arrive dans Santé Connect. Le reste dépend de chaque application.</p>
+
+<table>
+  <thead>
+    <tr><th>Application</th><th>Ce qu’elle récupère dans Santé Connect</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Samsung Health</td><td>Le poids et la masse grasse. La masse maigre, la masse osseuse et l’eau corporelle n’apparaissent généralement pas, et la tension artérielle venue d’autres applications n’est pas vérifiée.</td></tr>
+    <tr><td>Google Health</td><td>Le poids et la masse grasse. Il ne lit pas la tension artérielle.</td></tr>
+    <tr><td>Garmin Connect</td><td>Aucun poids depuis Santé Connect.</td></tr>
+  </tbody>
+</table>
+
+<p>Une mesure marquée <strong>Écrit</strong> dans l’onglet <strong>Journaux</strong> se trouve dans Santé Connect, sous son type, avec Life Dashboard comme source.</p>
+
+<h2>Les mesures plus anciennes</h2>
+
+<p>Les mesures de plus de 30 jours sont refusées, sauf si <strong>Accepter les mesures plus anciennes</strong> est activé dans l’application. Le bouton <strong>Send history to phone</strong> de l’intégration met en file jusqu’à 30 jours, aussi loin que le recorder de Home Assistant conserve les états (10 jours par défaut). L’action <code>life_dashboard.queue_history</code> remonte jusqu’à 90 jours. Une mesure refusée par le téléphone n’est pas proposée à nouveau&nbsp;: activez donc <strong>Accepter les mesures plus anciennes</strong> avant d’envoyer l’historique.</p>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Pourquoi mon poids apparaît-il deux fois dans Samsung Health&nbsp;?</summary>
+    <p>L’application de la balance, comme Zepp, Mi Fitness ou Withings, écrit elle aussi dans Santé Connect. Désactivez le type sous <strong>Recevoir</strong>, ou empêchez l’autre application d’écrire le poids dans ses propres réglages.</p>
+  </details>
+  <details>
+    <summary>Est-ce que cela fonctionne avec un iPhone et Apple Health&nbsp;?</summary>
+    <p>Non. L’application iPhone ne fait que lire Apple Santé et n’y écrit aucune mesure.</p>
+  </details>
+  <details>
+    <summary>Au bout de combien de temps une pesée apparaît-elle&nbsp;?</summary>
+    <p>À la synchronisation suivante du téléphone, toutes les 60 minutes par défaut et 15 au plus court. <strong>Synchroniser maintenant</strong> la récupère tout de suite.</p>
+  </details>
+  <details>
+    <summary>Les mesures passent-elles par un service cloud&nbsp;?</summary>
+    <p>Pas du côté de Life Dashboard&nbsp;: elles vont de Home Assistant au téléphone dans la réponse à sa propre requête. Une intégration de balance cloud dans Home Assistant va toujours chercher les données dans le cloud du fabricant et, sans capteur d’horodatage, ses mesures reçoivent l’heure à laquelle Home Assistant les a récupérées.</p>
+  </details>
+</section>

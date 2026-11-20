@@ -1,0 +1,91 @@
+<!--
+title: Pas Health Connect faux dans Home Assistant ? | Life Dashboard
+description: Pourquoi un capteur de pas ou de calories Health Connect dans Home Assistant diffère de votre montre, et comment des totaux remplacés chaque jour restent justes.
+primary query: pas health connect faux home assistant
+secondary queries: home assistant santé connect pas ne se mettent pas à jour, santé connect pas comptés en double, capteur de pas home assistant faux, calories actives health connect home assistant, total_increasing not strictly increasing health connect, pas d'hier santé connect home assistant
+updated: 2026-11-20
+published: 2026-11-20
+-->
+
+<h1>Pourquoi mes pas Health Connect sont-ils faux dans Home Assistant&nbsp;?</h1>
+
+<p>Le plus souvent pour l’une de ces quatre raisons&nbsp;: le capteur n’a pas encore rattrapé son retard, des pas sont arrivés tard pour une journée déjà terminée, un chiffre a été corrigé à la baisse, ou le capteur affiche un seul enregistrement et non la journée. Aucune ne signifie que votre montre se trompe. Cette page les passe en revue, pour les capteurs Health Connect (Santé Connect en français) de l’application Companion de Home Assistant comme pour Life Dashboard, et montre comment savoir laquelle vous concerne.</p>
+
+<h2>Vérifiez d’abord Santé Connect</h2>
+
+<p>Ouvrez Santé Connect sur le téléphone (<strong>Paramètres</strong> &gt; <strong>Santé Connect</strong>, ou l’application Santé Connect sur Android 9 à 13) et cherchez les pas du jour dans ses données d’activité. C’est le chiffre que toute application du téléphone peut lire.</p>
+
+<ul>
+  <li><strong>Santé Connect correspond à l’application de votre montre, mais pas Home Assistant.</strong> L’écart vient de la façon dont la valeur arrive dans Home Assistant. Lisez la suite.</li>
+  <li><strong>Santé Connect est déjà faux.</strong> Alors l’application de la montre l’a écrit ainsi, ou elle ne s’est pas encore synchronisée. Ouvrez l’application de la montre pour qu’elle se synchronise, et regardez <strong>Sources de données et priorité</strong> dans Santé Connect&nbsp;: quand deux applications couvrent les mêmes minutes, c’est celle qui est la plus haute dans cette liste qui compte.</li>
+</ul>
+
+<h2>Le capteur est en retard</h2>
+
+<p>Une montre transmet ses pas à son application quand les deux se synchronisent, et l’application les écrit ensuite dans Santé Connect, souvent avec un délai. Garmin Connect et Zepp écrivent des heures plus tard. Home Assistant reçoit alors la valeur à la mise à jour suivante&nbsp;: toutes les 15 minutes pour l’application Companion, sauf si vous modifiez <strong>Sensor Update Frequency</strong> (la fréquence de mise à jour des capteurs), et toutes les 60 minutes par défaut pour Life Dashboard, 15 au plus court.</p>
+
+<p>Un chiffre en retard de quelques centaines de pas dans l’après-midi est donc normal. S’il reste en retard pendant des heures, ouvrez d’abord l’application de la montre. Un signalement concernant l’application Companion décrit un capteur <strong>Daily steps</strong> qui a cessé de suivre Santé Connect en cours de journée (<a href="https://github.com/home-assistant/android/issues/7510">ticket #7510</a>, ouvert en novembre 2026).</p>
+
+<h2>Des pas qui arrivent après minuit</h2>
+
+<p>Un capteur qui donne le total du jour compte à partir de minuit. Quand votre montre se synchronise à 00:20 et livre la dernière marche de la soirée, ces pas appartiennent à la veille, mais un capteur qui ne connaît qu’aujourd’hui ne peut pas les y ranger. Le chiffre d’hier dans Home Assistant reste alors plus bas que dans l’application de votre montre, définitivement.</p>
+
+<p>Il en va de même pour l’historique en général&nbsp;: Home Assistant enregistre la valeur d’un capteur au moment où elle change, pas à l’heure où les pas ont été faits.</p>
+
+<h2>Un total qui baisse</h2>
+
+<p>Santé Connect peut abaisser après coup le total d’une journée, par exemple quand l’application de la montre se synchronise à nouveau et remplace une estimation. Un capteur que Home Assistant considère comme uniquement croissant ne l’accepte pas en silence&nbsp;: le journal indique que l’état «&nbsp;is not strictly increasing&nbsp;». C’est signalé pour les capteurs de distance quotidienne et de calories totales de l’application Companion dans le <a href="https://github.com/home-assistant/android/issues/7629">ticket #7629</a>, ouvert en novembre 2026.</p>
+
+<h2>Des calories actives qui n’affichent qu’un enregistrement</h2>
+
+<p>Le capteur <strong>Active calories burned</strong> de l’application Companion contient l’enregistrement le plus récent, pas le total du jour. Un entraînement de 331 kcal en disparaît dès que le téléphone écrit un enregistrement plus récent de 1 kcal. C’est le fonctionnement voulu du capteur, comme le disent ses développeurs dans le <a href="https://github.com/home-assistant/android/issues/7803">ticket #7803</a> : ses capteurs de pas, de distance et de calories totales sont des totaux quotidiens, celui-ci est la dernière mesure. Pour les calories actives par jour, il vous faut quelque chose qui additionne la journée.</p>
+
+<h2>Additionner les enregistrements compte une marche deux fois</h2>
+
+<p>Si vous construisez votre propre total à partir des enregistrements de pas, dans un template, dans Node-RED ou dans une base de données, une marche enregistrée à la fois par le téléphone et par la montre compte deux fois. Santé Connect contient les deux copies. Son propre total quotidien ne compte chaque minute qu’une fois&nbsp;: utilisez donc ce total et non la somme des enregistrements.</p>
+
+<h2>Comment Life Dashboard garde des journées justes</h2>
+
+<p><a href="../android/">Life Dashboard Companion</a>, avec l’<a href="../home-assistant/">intégration Life Dashboard</a>, ne tient pas de compteur cumulatif. Il travaille par jour&nbsp;:</p>
+
+<ul>
+  <li><strong>Les totaux quotidiens de Santé Connect.</strong> Pour les pas, la distance, les calories actives et les calories totales, l’application demande à Santé Connect le total de chaque jour, le chiffre que montre l’application Santé Connect, où une marche enregistrée par le téléphone et la montre n’est comptée qu’une fois.</li>
+  <li><strong>Chaque synchronisation envoie aujourd’hui et les deux jours précédents.</strong> Les pas arrivés à 00:20 figurent dans le total d’hier à la synchronisation suivante.</li>
+  <li><strong>Un jour est remplacé, pas complété.</strong> L’intégration garde un seul chiffre par jour et met le plus récent à sa place, même s’il est plus bas. Rien n’est compté deux fois quand une synchronisation se répète.</li>
+  <li><strong>Chaque jour à sa propre date.</strong> Les jours entrent dans les statistiques à long terme à la date à laquelle ils appartiennent&nbsp;: la carte <strong>Graphique de statistiques</strong> montre donc les mêmes journées que l’application de votre montre. Un backfill (le rattrapage de l’historique) fait de même pour votre passé.</li>
+</ul>
+
+<p>Le <a href="../health-connect-home-assistant/">guide Santé Connect pour Home Assistant</a> décrit la mise en place, et <a href="../companion-app-health-connect/">L’application Companion et Santé Connect</a> compare les deux côte à côte. Elles fonctionnent l’une à côté de l’autre&nbsp;: vous pouvez donc garder l’application Companion pour tout le reste.</p>
+
+<h2>Les limites</h2>
+
+<ul>
+  <li>Life Dashboard ne peut pas être plus juste que Santé Connect. Si le total est faux dans Santé Connect, il l’est aussi dans Home Assistant.</li>
+  <li>Un jour plus ancien que les deux jours précédant aujourd’hui n’est corrigé que par un backfill de cette période.</li>
+  <li>Le total du jour est aussi frais que la dernière synchronisation&nbsp;: 15 minutes au plus court.</li>
+  <li>Les capteurs contiennent la valeur la plus récente. Pour le passé, utilisez les statistiques, pas l’historique du capteur.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Pourquoi mes pas sont-ils plus bas dans Home Assistant que sur ma montre&nbsp;?</summary>
+    <p>En général, l’application de la montre n’a pas encore écrit ses derniers pas dans Santé Connect, ou Home Assistant n’a pas reçu de mise à jour depuis. Ouvrez l’application de la montre pour qu’elle se synchronise, puis comparez avec le total dans Santé Connect lui-même.</p>
+  </details>
+  <details>
+    <summary>Pourquoi les pas d’hier sont-ils trop bas&nbsp;?</summary>
+    <p>Les pas qui arrivent dans Santé Connect après minuit appartiennent à la veille. Un capteur qui compte à partir de minuit ne peut pas les ajouter à hier. Life Dashboard envoie à chaque synchronisation les totaux des deux jours précédant aujourd’hui&nbsp;: hier est donc corrigé.</p>
+  </details>
+  <details>
+    <summary>Mes pas sont-ils comptés deux fois quand mon téléphone et ma montre comptent tous les deux&nbsp;?</summary>
+    <p>Pas dans le total quotidien de Santé Connect, qui ne compte chaque minute qu’une fois. Ils sont comptés deux fois si vous additionnez vous-même les enregistrements. Life Dashboard utilise le total quotidien pour ses capteurs et ses statistiques.</p>
+  </details>
+  <details>
+    <summary>Que signifie «&nbsp;state is not strictly increasing&nbsp;» pour un capteur Santé Connect&nbsp;?</summary>
+    <p>Home Assistant attendait un total uniquement croissant, et Santé Connect a corrigé la journée à la baisse. La valeur elle-même est la plus récente, celle qui a été corrigée. Life Dashboard enregistre un seul chiffre par jour et le remplace&nbsp;: une correction ne déclenche donc aucun avertissement.</p>
+  </details>
+  <details>
+    <summary>Puis-je voir les calories actives par jour dans Home Assistant&nbsp;?</summary>
+    <p>Oui, avec Life Dashboard&nbsp;: <code>active_calories_today</code> est le total du jour issu de Santé Connect, et chaque jour figure dans les statistiques à long terme. Le capteur de calories actives de l’application Companion affiche l’enregistrement le plus récent.</p>
+  </details>
+</section>
