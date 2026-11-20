@@ -1,0 +1,159 @@
+<!--
+title: Apple Health no Home Assistant: qual app usar | Life Dashboard
+description: Quatro apps de iPhone que enviam o Apple Health para o Home Assistant, lado a lado: preço, assinatura, o que vira sensor, histórico, treinos e código aberto.
+primary query: apple health home assistant app
+secondary queries: melhor app apple health home assistant, healthsync vs health assistant link, alternativa healthsync home assistant, alternativa health assistant link, app companion home assistant sensores apple health, apple health home assistant sem assinatura, apple health home assistant histórico
+updated: 2026-11-20
+published: 2026-11-20
+-->
+
+<h1>Qual app leva o Apple Health para o Home Assistant?</h1>
+
+<p>O Apple Health (o app Saúde do iPhone) não tem API web, então é um app no iPhone que precisa enviar os dados. Em novembro de 2026 há quatro feitos para o Home Assistant: o próprio app Companion do Home Assistant, o HealthSync for Home Assistant, o Health Assistant Link e o Life Dashboard Companion. Eles diferem no preço, em até onde voltam no tempo e no que chega ao Home Assistant. Esta página coloca os quatro lado a lado, com base na página da App Store, no site e no repositório de cada um. O último é meu, então confira as fontes no que for importante para você.</p>
+
+<p class="flow-line"><span>iPhone ou Apple Watch</span><span>Apple Health</span><span>Um app no iPhone</span><span>Home Assistant</span></p>
+
+<h2>A versão curta</h2>
+
+<ul>
+  <li><strong>Os valores de hoje, de graça.</strong> O app Companion do Home Assistant já traz sensores do Apple Health. Nada mais para instalar.</li>
+  <li><strong>Sincronizações manuais gratuitas, ou automáticas com uma compra única.</strong> O HealthSync for Home Assistant, com uma integração própria pelo HACS.</li>
+  <li><strong>O maior número de métricas, um app para Apple Watch e valores gravados de volta no Apple Health.</strong> O Health Assistant Link, com sincronizações automáticas por assinatura.</li>
+  <li><strong>Todo o seu histórico nas datas certas, um celular Android na mesma integração, e MQTT ou um webhook ao lado do Home Assistant.</strong> O Life Dashboard Companion, pago uma única vez, na compra.</li>
+</ul>
+
+<h2>O app Companion do Home Assistant</h2>
+
+<p>O app Companion para iOS lê o Apple Health desde 2026. A <a href="https://companion.home-assistant.io/docs/core/sensors#apple-health-sensors">documentação</a> dele lista 33 sensores do Apple Health em novembro de 2026, quatro deles marcados como beta: passos, distância, energia ativa e em repouso, lances de escada, tempo de exercício, VO2 máx., as metas dos círculos de atividade, frequência cardíaca, frequência cardíaca em repouso, VFC, pressão arterial, peso, gordura corporal, sono com os minutos por fase da última noite, oxigênio no sangue, glicose no sangue, água e mais.</p>
+
+<ul>
+  <li>Todo sensor fica desativado até você ativá-lo, em <strong>Configurações</strong> &gt; <strong>Companion app</strong> &gt; <strong>Sensors</strong> &gt; <strong>Apple Health Sensors</strong>.</li>
+  <li>Cada um guarda um total desde a meia-noite, a medição mais nova ou o sono da última noite.</li>
+  <li>O iOS acorda o app quando o Apple Health registra dados novos, e ele envia uma atualização no máximo uma vez a cada 30 segundos.</li>
+  <li>A documentação não descreve nenhuma importação de dados antigos, então o histórico de um sensor no Home Assistant começa quando você o ativa. Os treinos não estão na lista, e da nutrição só a água está.</li>
+</ul>
+
+<p>É gratuito, é de código aberto, e você provavelmente já tem. Se o que você quer são os passos de hoje ou o último peso em um cartão Tile, pode parar por aqui.</p>
+
+<h2>HealthSync for Home Assistant</h2>
+
+<p>Um app de iPhone de Jamie Hill com uma integração própria, a <a href="https://github.com/mannotfood/healthsync">HealthSync</a>, que está nos repositórios padrão do HACS. A <a href="https://apps.apple.com/app/healthsync-for-home-assistant/id6794884113">página da App Store</a> cita 27 métricas, entre elas passos, frequência cardíaca, VFC, sono com fases, treinos, pressão arterial, peso e VO2 máx.</p>
+
+<ul>
+  <li><strong>Preço.</strong> Gratuito para baixar. A sincronização manual de todas as métricas continua gratuita. A sincronização automática em segundo plano é uma compra única dentro do app de US$&nbsp;7,99 (€&nbsp;9,99), não uma assinatura.</li>
+  <li><strong>Histórico.</strong> <strong>Sync History</strong> traz meses ou anos de dados antigos. A integração guarda frequência cardíaca, VFC, VO2 máx. e peso nas estatísticas de longo prazo por hora, na hora em que foram medidos, e mantém todas as medições em um banco de dados próprio, que a ação <code>healthsync.get_readings</code> devolve.</li>
+  <li><strong>Treinos.</strong> O último treino e uma entidade para cada um dos seus dez mais recentes.</li>
+  <li><strong>Sono.</strong> Horas dormidas na última noite, com os minutos por fase como atributos, e quando você adormeceu e acordou.</li>
+  <li><strong>Privacidade.</strong> Sem conta e sem servidor do desenvolvedor: os dados vão para o endereço de webhook do seu Home Assistant. O rótulo de privacidade na App Store diz que nenhum dado é coletado.</li>
+  <li><strong>Código aberto.</strong> A integração tem licença MIT.</li>
+</ul>
+
+<h2>Health Assistant Link</h2>
+
+<p>Um app para iPhone e Apple Watch de Greg Thomas, com a integração <a href="https://github.com/gregt1993/Health_Bridge">Health Bridge</a>, que você adiciona ao HACS pelo link do repositório. A <a href="https://apps.apple.com/app/health-assistant-link/id6745420767">página da App Store</a> fala em mais de 80 métricas, e <a href="https://healthassistantlink.com/compare/">o site dele</a> em mais de 90.</p>
+
+<ul>
+  <li><strong>Preço.</strong> Gratuito para baixar, com sincronizações manuais. A sincronização automática é uma assinatura de US$&nbsp;1,99 por mês ou US$&nbsp;19,99 por ano (€&nbsp;1,99 ou €&nbsp;22,99), com 7 dias de teste grátis.</li>
+  <li><strong>Histórico.</strong> Segundo o site, as medições chegam com o horário em que foram feitas, e um backfill (o envio do histórico de uma vez) recupera até 14 dias.</li>
+  <li><strong>Apple Watch.</strong> Com o app do Watch, a sincronização continua enquanto o iPhone está bloqueado.</li>
+  <li><strong>Para dentro do Apple Health.</strong> Ele consegue gravar um valor do Home Assistant, como o peso de uma balança inteligente, de volta no Apple Health.</li>
+  <li><strong>Mais tipos.</strong> Treinos, uma linha do tempo das fases do sono e horários de medicamentos.</li>
+  <li><strong>Privacidade.</strong> Sem conta e sem servidor de terceiros: o iPhone fala direto com o seu Home Assistant. O rótulo de privacidade na App Store diz que nenhum dado é coletado.</li>
+  <li><strong>Código aberto.</strong> A integração está no GitHub, e o README dela cita a licença MIT.</li>
+</ul>
+
+<p>O mesmo desenvolvedor faz o Phone Assistant Link, que leva o Tempo de Uso da Apple para o Home Assistant pela mesma integração, com números de uso que são aproximados por natureza.</p>
+
+<h2>Life Dashboard Companion</h2>
+
+<p>O <a href="../ios/">Life Dashboard Companion</a> é o app para iPhone deste projeto, com a <a href="../home-assistant/">integração Life Dashboard</a> do Marketplace (HACS antes do Home Assistant 2026.11). Você pareia os dois com um QR code.</p>
+
+<ul>
+  <li><strong>Preço.</strong> €&nbsp;6,99 uma única vez (US$&nbsp;5,99) na <a href="https://apps.apple.com/app/apple-store/id6824075761?pt=128699800&amp;ct=site-guide-apple-health-apps&amp;mt=8">App Store</a>, sem assinatura e sem nada para comprar dentro do app. Não há versão gratuita na loja. Compilar a partir do código-fonte não custa nada a mais se você já tem uma assinatura do Apple Developer Program.</li>
+  <li><strong>O que chega.</strong> O app lê 28 tipos de dados. 20 deles viram sensores, mais as fases do sono por noite, três sensores de treino e o que você comeu hoje. <a href="../apple-health-data-types/">Tipos de dados do Apple Health, app por app</a> lista cada um.</li>
+  <li><strong>Histórico.</strong> <strong>Enviar histórico</strong> envia de 30 dias até tudo o que o Apple Health guarda. A integração coloca isso nas estatísticas de longo prazo: um valor por dia para passos, distância, calorias e sono, e uma média, um mínimo e um máximo por hora para medições como frequência cardíaca e peso, cada uma na sua própria data.</li>
+  <li><strong>Totais diários.</strong> Passos, distância e calorias vêm das estatísticas do próprio Apple Health, então uma caminhada registrada pelo iPhone e pelo Watch conta uma vez só. Cada sincronização envia hoje e os dois dias anteriores, e um dia é substituído, não somado.</li>
+  <li><strong>Outros destinos.</strong> Os mesmos dados podem ir para um broker MQTT ou para qualquer URL que aceite um POST com JSON, ao lado do Home Assistant ou sem ele.</li>
+  <li><strong>Android também.</strong> Um celular Android com <a href="../android/">o app para Android</a> usa a mesma integração, então uma casa com os dois acaba nos mesmos sensores e gráficos.</li>
+  <li><strong>Privacidade.</strong> Sem conta e sem servidor do Life Dashboard: o iPhone envia direto para o seu Home Assistant.</li>
+  <li><strong>Código aberto.</strong> O app e a integração têm licença MIT.</li>
+</ul>
+
+<p>O que ele não faz: nunca grava no Apple Health, não tem app para Apple Watch, não lê medicamentos e não consegue sincronizar com o iPhone bloqueado. <a href="../apple-health-home-assistant/">Apple Health no Home Assistant</a> traz a configuração, passo a passo.</p>
+
+<h2>Lado a lado</h2>
+
+<table>
+  <thead>
+    <tr><th></th><th>App Companion do Home Assistant</th><th>HealthSync for Home Assistant</th><th>Health Assistant Link</th><th>Life Dashboard Companion</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Preço</td><td>Gratuito</td><td>Gratuito; sincronização automática por US$&nbsp;7,99 uma única vez</td><td>Gratuito; sincronização automática por US$&nbsp;1,99 por mês ou US$&nbsp;19,99 por ano</td><td>€&nbsp;6,99 uma única vez (US$&nbsp;5,99)</td></tr>
+    <tr><td>Assinatura</td><td>Não</td><td>Não</td><td>Para a sincronização automática</td><td>Não</td></tr>
+    <tr><td>O que é gratuito</td><td>Tudo</td><td>Sincronização manual de todas as métricas</td><td>Sincronização manual</td><td>Compilar a partir do código-fonte, com uma assinatura do Apple Developer Program</td></tr>
+    <tr><td>Conta ou nuvem do desenvolvedor</td><td>Nenhuma</td><td>Nenhuma</td><td>Nenhuma</td><td>Nenhuma</td></tr>
+    <tr><td>Dados do Apple Health</td><td>33 sensores, quatro em beta</td><td>27 métricas</td><td>Mais de 80 métricas</td><td>28 tipos, 20 como sensores</td></tr>
+    <tr><td>Treinos</td><td>Não estão entre os sensores</td><td>O último e os dez mais recentes</td><td>Sim</td><td>O último e os minutos de hoje e de ontem</td></tr>
+    <tr><td>Fases do sono</td><td>Última noite, minutos por fase</td><td>Última noite, minutos por fase como atributos</td><td>Totais por fase e uma linha do tempo fase a fase</td><td>Todas as noites nas estatísticas de longo prazo, e a última noite com a linha do tempo</td></tr>
+    <tr><td>Dados antigos</td><td>Nenhuma importação descrita</td><td>Meses ou anos, com o Sync History</td><td>Backfill de até 14 dias</td><td>Backfill de 30 dias até todo o histórico</td></tr>
+    <tr><td>Onde o histórico fica</td><td>No histórico do sensor, a partir do dia em que você o ativa</td><td>Por hora nas estatísticas de longo prazo para frequência cardíaca, VFC, VO2 máx. e peso; todas as medições em um banco de dados próprio</td><td>No horário em que cada medição foi feita</td><td>Nas estatísticas de longo prazo, por dia para os totais e por hora para as medições, nas datas certas</td></tr>
+    <tr><td>Grava no Apple Health</td><td>Não descrito</td><td>Não descrito</td><td>Sim</td><td>Não</td></tr>
+    <tr><td>App no Apple Watch para sincronizar</td><td>Não descrito</td><td>Não descrito</td><td>Sim</td><td>Não</td></tr>
+    <tr><td>Destinos</td><td>Home Assistant</td><td>Home Assistant</td><td>Home Assistant</td><td>Home Assistant, MQTT, qualquer webhook</td></tr>
+    <tr><td>Integração para instalar</td><td>Nenhuma, já vem no app</td><td>HealthSync, na lista padrão do HACS</td><td>Health Bridge, adicionada ao HACS pelo link do repositório</td><td>Life Dashboard, pelo Marketplace ou pelo HACS</td></tr>
+    <tr><td>Código aberto</td><td>O app (Apache 2.0)</td><td>A integração (MIT)</td><td>A integração (MIT, segundo o README)</td><td>O app e a integração (MIT)</td></tr>
+    <tr><td>Idiomas do app</td><td>Inglês e mais 30</td><td>Inglês</td><td>Inglês, alemão, chinês simplificado</td><td>Onze</td></tr>
+    <tr><td>iOS</td><td>16.4 ou mais recente</td><td>17 ou mais recente</td><td>17.6 ou mais recente</td><td>17 ou mais recente</td></tr>
+  </tbody>
+</table>
+
+<p>Conferido em 20 de novembro de 2026 com a página da App Store de cada app, a <a href="https://companion.home-assistant.io/docs/core/sensors#apple-health-sensors">documentação dos sensores</a> do app Companion, os repositórios <a href="https://github.com/mannotfood/healthsync">HealthSync</a> e <a href="https://github.com/gregt1993/Health_Bridge">Health Bridge</a> e o site <a href="https://healthassistantlink.com/apple-health-home-assistant/">healthassistantlink.com</a>. Os preços em dólar são da loja dos EUA, e os em euro, da loja holandesa. "Não descrito" quer dizer que não encontrei isso nessas fontes, não que seja impossível. Esses apps mudam com frequência: se alguma linha aqui estiver desatualizada, <a href="../feedback/">me avise</a> e eu corrijo.</p>
+
+<h2>O que nenhum deles consegue mudar</h2>
+
+<ul>
+  <li><strong>Um iPhone bloqueado não pode ser lido.</strong> O iOS criptografa o Apple Health enquanto o iPhone está bloqueado, então um app no iPhone espera o desbloqueio. O app do Watch do Health Assistant Link é a saída dele para isso.</li>
+  <li><strong>É o iOS que decide quando um app roda em segundo plano.</strong> Nenhum app consegue prometer uma sincronização em um minuto fixo. A Atualização em 2º Plano precisa estar ativada, e o Modo de Pouca Energia a pausa.</li>
+  <li><strong>O Apple Watch sincroniza primeiro com o iPhone.</strong> O que o relógio mediu chega ao Apple Health do iPhone quando os dois sincronizam, e só então qualquer um desses apps consegue enviar.</li>
+</ul>
+
+<h2>Como escolher</h2>
+
+<ul>
+  <li>Você quer um cartão com os passos de hoje ou o último peso: o app Companion basta.</li>
+  <li>Você quer testar sem pagar nada antes: o app Companion, ou as sincronizações manuais do HealthSync ou do Health Assistant Link.</li>
+  <li>Você quer o peso de uma balança inteligente do Home Assistant no Apple Health, medicamentos, ou sincronizações durante a noite pelo Watch: o Health Assistant Link.</li>
+  <li>Você prefere pagar uma vez a assinar: o HealthSync ou o Life Dashboard Companion.</li>
+  <li>Você quer anos de histórico nas estatísticas de longo prazo, por dia para totais como passos e sono e por hora para medições como a frequência cardíaca: o Life Dashboard Companion.</li>
+  <li>Alguém em casa tem um celular Android, ou os dados também devem ir para MQTT, para o n8n ou para um banco de dados seu: o Life Dashboard Companion.</li>
+</ul>
+
+<p>Um não exclui o outro. Cada app pede o seu próprio acesso ao Apple Health e traz as suas próprias entidades, e o app Companion continua sendo o de presença, notificações e sensores do aparelho.</p>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>O app do Home Assistant tem sensores do Apple Health?</summary>
+    <p>Sim. O app Companion para iOS tem sensores do Apple Health, 33 na documentação em novembro de 2026, cada um desativado até você ativá-lo. Eles guardam o total de hoje, a medição mais nova ou o sono da última noite.</p>
+  </details>
+  <details>
+    <summary>Dá para levar o Apple Health para o Home Assistant sem assinatura?</summary>
+    <p>Sim. O app Companion é gratuito. O HealthSync for Home Assistant libera as sincronizações automáticas com uma compra única, e o Life Dashboard Companion é uma compra única logo de início. O Health Assistant Link sincroniza manualmente de graça e automaticamente com uma assinatura.</p>
+  </details>
+  <details>
+    <summary>Qual app leva meus dados antigos do Apple Health para o Home Assistant?</summary>
+    <p>O HealthSync for Home Assistant traz meses ou anos com o Sync History, o Health Assistant Link faz um backfill de até 14 dias, e o Life Dashboard Companion envia de 30 dias até todo o histórico para as estatísticas de longo prazo. A documentação do app Companion não descreve nenhuma importação de dados antigos.</p>
+  </details>
+  <details>
+    <summary>O Home Assistant consegue gravar um valor no Apple Health?</summary>
+    <p>Com o Health Assistant Link, sim: você associa uma entidade numérica do Home Assistant, como o peso de uma balança inteligente, a uma métrica do Apple Health. O Life Dashboard Companion só lê o Apple Health.</p>
+  </details>
+  <details>
+    <summary>Meus dados de saúde passam pelo servidor de alguém?</summary>
+    <p>Com nenhum desses quatro, segundo as descrições deles: cada um envia do iPhone para o seu Home Assistant. Se você acessa o Home Assistant pelo Home Assistant Cloud, os dados passam pelos servidores dele no caminho.</p>
+  </details>
+  <details>
+    <summary>Posso rodar dois desses apps ao mesmo tempo?</summary>
+    <p>Sim. Cada um tem a sua própria permissão do Apple Health e as suas próprias entidades no Home Assistant. Você vai ver o mesmo valor duas vezes, então desative os que não usa.</p>
+  </details>
+</section>

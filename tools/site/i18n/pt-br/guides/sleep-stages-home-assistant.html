@@ -1,0 +1,157 @@
+<!--
+slug: fases-do-sono-home-assistant
+title: Fases do sono no Home Assistant: hipnograma | Life Dashboard
+description: Fases do sono no Home Assistant pelo Health Connect ou Apple Health: sono profundo, leve, REM e tempo acordado por noite como sensores, e um card com hipnograma.
+primary query: fases do sono home assistant
+secondary queries: hipnograma home assistant, card de sono home assistant, gráfico de fases do sono home assistant, sensor de sono profundo home assistant, sono rem home assistant, health connect fases do sono home assistant, apple watch fases do sono home assistant, sleep card home assistant
+updated: 2026-11-11
+published: 2026-11-20
+-->
+
+<h1>Como ver as fases do sono no Home Assistant?</h1>
+
+<p>Com a integração Life Dashboard 1.1.0 ou mais recente, as fases do sono que o seu celular envia viram sensores e estatísticas de longo prazo: sono profundo, leve, REM, tempo acordado e tempo dormindo em cada noite, com uma noite principal por data de despertar. O <a href="https://github.com/owen282000/life-dashboard-sleep-card">Life Dashboard Sleep Card</a> desenha a noite mais recente no seu dashboard como um hipnograma, com cada fase em sua própria faixa ao longo do relógio da noite.</p>
+
+<p>O card é uma instalação separada pelo Marketplace. No Android, ele também funciona sozinho com o app Companion oficial do Home Assistant, sem o Life Dashboard. Os sensores e as estatísticas abaixo vêm da integração.</p>
+
+<!-- IMG: the card on a dark theme (S1-sleep-card.png) -->
+
+<h2>O que você precisa</h2>
+
+<ul>
+  <li>Home Assistant 2026.3 ou mais recente.</li>
+  <li>Para os sensores e as estatísticas: a <a href="../home-assistant/">integração Life Dashboard</a> 1.1.0 ou mais recente, e o <a href="../android/">Life Dashboard Companion para Android</a> ou <a href="../ios/">para iPhone</a> no celular.</li>
+  <li>Para o card: essa integração e esse app, ou, no Android, o app Companion oficial, como descrito <a href="#with-only-the-official-companion-app-on-android">mais abaixo</a>.</li>
+  <li>Uma noite com fases para enviar. O <a href="../samsung-health-home-assistant/">Samsung Health</a>, o <a href="../garmin-home-assistant/">Garmin Connect</a> e o <a href="../fitbit-home-assistant/">Fitbit ou o Pixel Watch</a> gravam as fases no Conexão Saúde (Health Connect), e um <a href="../apple-watch-home-assistant/">Apple Watch</a> grava no Apple Health (o app Saúde do iPhone).</li>
+</ul>
+
+<h2>Sensores e estatísticas para todas as noites</h2>
+
+<p>Cada celular é um dispositivo, e os sensores começam com o nome dele. Com um celular chamado Pixel 8, o primeiro da lista abaixo é <code>sensor.pixel_8_last_sleep_asleep</code>.</p>
+
+<table>
+  <thead>
+    <tr><th>Sensor</th><th>Estado</th><th>Atributos</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>last_sleep_asleep</code></td><td>Horas realmente dormidas na noite principal mais recente</td><td><code>night</code> (data de despertar), <code>start</code>, <code>end</code>, <code>source</code>, os minutos de cada fase, <code>stages</code> e <code>measured_at</code></td></tr>
+    <tr><td><code>last_sleep_deep</code>, <code>last_sleep_light</code>, <code>last_sleep_rem</code>, <code>last_sleep_awake</code></td><td>Horas dessa fase, <code>unknown</code> quando a noite não tem nenhuma para informar</td><td><code>night</code>, <code>measured_at</code></td></tr>
+  </tbody>
+</table>
+
+<p>Os quatro sensores de fase começam desativados: ative os que você quiser na página do dispositivo. Um sensor desta tabela aparece com a primeira noite que tem fases. O <code>last_sleep_duration</code> continua como era, a sessão mais recente de qualquer tipo, incluindo cochilos.</p>
+
+<p>As estatísticas <code>sleep_deep</code>, <code>sleep_light</code>, <code>sleep_rem</code>, <code>sleep_awake</code> e <code>sleep_asleep</code> guardam as horas da noite principal de cada data de despertar, uma linha por data, armazenadas como média. Coloque em um gráfico com <code>stat_types: mean</code>, por dia, semana ou mês. Este é o gráfico do <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/dashboard.md">dashboard de exemplo</a> da integração:</p>
+
+<pre><code>type: statistics-graph
+title: Sleep stages per night
+chart_type: bar-stack
+period: day
+days_to_show: 30
+stat_types:
+  - mean
+entities:
+  - life_dashboard:&lt;entry&gt;_sleep_deep
+  - life_dashboard:&lt;entry&gt;_sleep_light
+  - life_dashboard:&lt;entry&gt;_sleep_rem
+  - life_dashboard:&lt;entry&gt;_sleep_awake</code></pre>
+
+<p>Troque <code>&lt;entry&gt;</code> pelo ID do seu celular: <strong>Ferramentas de desenvolvedor</strong> &gt; <strong>Estatísticas</strong> mostra esse ID depois de <code>life_dashboard:</code>. As noites anteriores à atualização não têm as fases armazenadas. <strong>Enviar histórico</strong> no app, em <strong>O que enviar</strong> na aba <strong>Saúde</strong>, preenche essas noites, cada uma na sua data, e enviar o mesmo período de novo não muda nada.</p>
+
+<h2>O que conta como a noite principal</h2>
+
+<p>Uma noite pertence à sua data de despertar, a data em que a sessão terminou no fuso horário do Home Assistant. Cada data tem uma noite principal: a sessão com mais tempo dormindo e, em caso de empate, a mais longa. Um cochilo ou um segundo app que gravou a mesma noite não é somado a ela.</p>
+
+<p>É por isso que esses números diferem da estatística <code>sleep_minutes</code>, que conta cada sessão inteira no dia em que ela terminou, incluindo o tempo na cama e o tempo acordado. O tempo na cama nunca conta como fase e, onde as fases se sobrepõem, cada momento vai para a mais específica, então nada é contado duas vezes. <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md#sleep-stages">Fases do sono na documentação da integração</a> traz todas as regras.</p>
+
+<h2>Instale o card</h2>
+
+<p>O card está no Marketplace. Em <strong>Configurações &gt; Marketplace</strong> (HACS antes do Home Assistant 2026.11), procure por <strong>Life Dashboard Sleep Card</strong> e baixe, ou use <a href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&amp;repository=life-dashboard-sleep-card&amp;category=plugin">este link</a>, que abre o card no seu Home Assistant.</p>
+
+<p>Em dashboards no modo de armazenamento, o recurso é registrado para você. Se os seus dashboards estão no modo YAML, adicione o recurso você mesmo:</p>
+
+<pre><code>lovelace:
+  resources:
+    - url: /hacsfiles/life-dashboard-sleep-card/life-dashboard-sleep-card.js
+      type: module</code></pre>
+
+<p>O <a href="https://github.com/owen282000/life-dashboard-sleep-card#by-hand">README do card</a> também explica a instalação sem o Marketplace, a partir de um arquivo na sua pasta <code>www</code>.</p>
+
+<h2>Adicione o card a um dashboard</h2>
+
+<p>Adicione o card pelo seletor de cards, que oferece os sensores que trazem uma noite, ou em YAML:</p>
+
+<pre><code>type: custom:life-dashboard-sleep-card
+entity: sensor.your_phone_last_sleep_asleep
+title: Last night</code></pre>
+
+<p><code>entity</code> é obrigatório e <code>title</code>, o texto acima do tempo dormindo, é opcional. O idioma, o formato de hora e o fuso horário seguem o seu perfil no Home Assistant. As cores das fases são variáveis CSS, como <code>--life-dashboard-sleep-deep</code>, então um tema pode defini-las.</p>
+
+<p>Prefere outro visual? O <a href="https://github.com/Lavve/lovelace-hypnogram-card">Hypnogram card do Lavve</a>, também no Marketplace, lê a mesma lista a partir da versão 0.1.9:</p>
+
+<pre><code>type: custom:hypnogram-card
+entity: sensor.your_phone_last_sleep_asleep
+stages_attribute: stages
+state_mapping:
+  deep_sleep: deep
+  light_sleep: light
+  rem: rem
+  awake: awake</code></pre>
+
+<h2>O que o card mostra</h2>
+
+<ul>
+  <li><strong>O formato da noite.</strong> Uma faixa por fase, com conectores entre elas, acordado no topo e profundo embaixo, para que os ciclos apareçam de relance. Um trecho curto continua visível, mesmo em uma noite com 60 fases na largura de um celular.</li>
+  <li><strong>Os números ao lado.</strong> O tempo dormindo, o início e o fim da noite, e a duração de cada fase e a parte dela na noite.</li>
+  <li><strong>Cada segmento quando você quiser.</strong> Passe o mouse ou toque em um bloco para ver a fase, o início, o fim e a duração. No teclado, coloque o foco no gráfico e use as setas, Home e End. Leitores de tela recebem uma tabela em texto da noite inteira.</li>
+  <li><strong>O que falta, dito com clareza.</strong> Uma noite que só informa sono desenha uma faixa de sono e avisa isso, e um sensor sem fases mostra um estado vazio em vez de um gráfico quebrado.</li>
+</ul>
+
+<!-- IMG: the card at phone width (S2-sleep-card-phone.png) -->
+
+<h2>Só com o app Companion oficial no Android</h2>
+
+<p>No Android, o card funciona sozinho com o app Companion oficial do Home Assistant. Ele lê <code>sensor.your_phone_health_connect_sleep_duration</code> e precisa de:</p>
+
+<ul>
+  <li>O app Companion para Android 2026.11.1 ou mais recente, a versão que acrescentou as fases.</li>
+  <li>O sensor <strong>Sleep duration</strong> ativado, em <strong>Configurações</strong>, <strong>Companion app</strong>, <strong>Manage sensors</strong>, com acesso ao Conexão Saúde para o sono. As fases só vêm com esse sensor, não com os sensores separados de duração por fase.</li>
+</ul>
+
+<p>O estado do sensor está em minutos e o card não o usa: o tempo dormindo vem das fases. O app Companion para iOS não tem uma linha do tempo das fases, então o card não consegue desenhar uma noite a partir dele. No iPhone, use o app e a integração Life Dashboard. O que o Life Dashboard acrescenta no Android é o histórico em volta da noite, todos os dias nas estatísticas de longo prazo e os dois tipos de celular; <a href="../companion-app-health-connect/">O app Companion e o Conexão Saúde</a> explica o resto.</p>
+
+<h2>Limites</h2>
+
+<ul>
+  <li>O card desenha uma noite, a que está no sensor. O atributo <code>stages</code> pode ser longo, então o recorder não o guarda. As noites anteriores continuam nas estatísticas como horas por fase, sem a linha do tempo.</li>
+  <li>Por MQTT, os apps publicam um único sensor de sono, a duração da sessão. Os sensores de fase, as estatísticas e o atributo <code>stages</code> são da integração.</li>
+  <li>Uma noite chega ao celular quando o app do relógio a grava, muitas vezes depois que você acorda, e o Home Assistant a recebe na sincronização seguinte.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>O card precisa da integração Life Dashboard?</summary>
+    <p>No Android, não: ele também lê o sensor Sleep duration do app Companion oficial a partir da versão 2026.11.1. No iPhone, sim, porque o app Companion para iOS não tem uma linha do tempo das fases.</p>
+  </details>
+  <details>
+    <summary>Por que a soma das fases não bate com a minha estatística de sono?</summary>
+    <p>As estatísticas de fase guardam a noite principal de cada data de despertar. <code>sleep_minutes</code> conta cada sessão inteira no dia em que ela terminou, incluindo cochilos, tempo na cama e tempo acordado, então as duas diferem de propósito.</p>
+  </details>
+  <details>
+    <summary>Por que não encontro o last_sleep_deep?</summary>
+    <p>Esses sensores começam desativados, e um sensor aparece com a primeira noite que tem fases. Abra a página do dispositivo do celular e mostre as entidades desativadas para ativá-los.</p>
+  </details>
+  <details>
+    <summary>O card consegue mostrar uma noite anterior?</summary>
+    <p>Ele desenha a noite do sensor que você indicar, que é a noite principal mais recente. Para noites anteriores, faça um gráfico com as estatísticas, que guardam as horas por fase em cada noite.</p>
+  </details>
+  <details>
+    <summary>O card funciona com outros sensores de sono?</summary>
+    <p>Ele lê os dois formatos desta página. Um sensor com histórico de estados de verdade, como um app de monitoramento do sono que informa ao vivo, é o caso para o qual o <a href="https://github.com/Lavve/lovelace-hypnogram-card">Hypnogram card</a> do Lavve foi feito. Este card é para noites que chegam depois, como uma lista de fases.</p>
+  </details>
+  <details>
+    <summary>O card envia meus dados de sono para algum lugar?</summary>
+    <p>Não. Ele só lê o estado do sensor que o Home Assistant já entrega ao seu navegador e não faz nenhuma requisição própria. Não tem telemetria nem analytics. O card é gratuito e de código aberto, sob a licença MIT.</p>
+  </details>
+</section>

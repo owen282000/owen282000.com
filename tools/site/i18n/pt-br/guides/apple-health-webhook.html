@@ -1,0 +1,191 @@
+<!--
+title: Apple Health para webhook, automaticamente | Life Dashboard
+description: O Life Dashboard Companion envia os dados do Apple Health do iPhone para o seu webhook como JSON assinado, em segundo plano, com novas tentativas e exclusões.
+primary query: apple health webhook
+secondary queries: exportar dados apple health automaticamente, apple health json, exportar dados do app saúde do iphone, apple health api, healthkit webhook, apple health node-red, apple health postgres, enviar dados do apple health para servidor
+updated: 2026-11-04
+published: 2026-11-20
+-->
+
+<h1>Como enviar os dados do Apple Health para um webhook automaticamente?</h1>
+
+<p>Instale o Life Dashboard Companion no iPhone, adicione sua URL com <strong>Adicionar destino</strong> na aba <strong>Saúde</strong> e escolha os tipos do Apple Health (o app Saúde do iPhone) a enviar em <strong>O que enviar</strong>. A partir daí, o app lê o Apple Health em segundo plano, na agenda que você definir, e envia cada registro novo para a sua URL como JSON: passos, sono com fases, frequência cardíaca, VFC, peso, pressão arterial, treinos e mais, 28 tipos ao todo, cada registro com um <code>uuid</code> estável e o app ou aparelho que o gravou.</p>
+
+<p>Com um segredo definido, cada requisição é assinada com HMAC-SHA256 em um cabeçalho <code>X-Signature</code>. Um payload que não pôde ser entregue espera em uma fila no iPhone, e um registro que você apaga no Apple Health é citado no payload seguinte. O payload é o mesmo do app para Android, então um único receptor atende um iPhone e um celular Android.</p>
+
+<p class="flow-line"><span>iPhone ou Apple Watch</span><span>Apple Health</span><span>Life Dashboard Companion</span><span>Sua URL</span></p>
+
+<h2>Por que é preciso um app no iPhone</h2>
+
+<p>O Apple Health não tem API web. Ele fica no iPhone, e os apps o leem pelo HealthKit da Apple, então alguma coisa no iPhone precisa ler os dados e mandá-los adiante. O Life Dashboard Companion faz isso e envia direto para as URLs que você informar. Não há conta nem servidor do Life Dashboard no caminho, e o app não tem análise de uso, relatórios de falhas nem anúncios. <a href="../health-data-api/">Uma API web para o Conexão Saúde (Health Connect) ou o Apple Health</a> explica mais.</p>
+
+<h2>O que você precisa</h2>
+
+<ul>
+  <li>Um iPhone com iOS 17 ou mais recente e o <a href="../ios/">Life Dashboard Companion para iPhone</a>. {{status:ios}}</li>
+  <li>Um servidor que aceite um POST com JSON. Use <code>https://</code>. O iOS só permite <code>http://</code> sem criptografia para um endereço IP, um nome <code>.local</code> ou um nome sem ponto, pensados para a sua própria rede.</li>
+</ul>
+
+<h2>Como configurar</h2>
+
+<ol>
+  <li>Na configuração inicial do app, informe sua URL em <strong>URL do webhook</strong>. Depois disso, toque em <strong>Adicionar destino</strong> na aba <strong>Saúde</strong>, informe a URL e toque em <strong>Adicionar webhook</strong>. Você pode adicionar várias; uma sincronização conta como entregue quando uma delas aceita.</li>
+  <li>Opcional: toque no destino na aba <strong>Saúde</strong>. Em <strong>Cabeçalhos personalizados</strong>, toque em <strong>Adicionar um cabeçalho</strong> para um cabeçalho <code>Authorization</code> ou uma chave de API. Informe um <strong>Segredo de assinatura HMAC</strong> que o seu servidor também conheça, ou toque em <strong>Gerar</strong> e em <strong>Copiar segredo</strong>. Depois toque em <strong>Salvar</strong>. Cada endereço tem seu próprio segredo e seus próprios cabeçalhos.</li>
+  <li>Toque em <strong>Ping de teste</strong> na configuração inicial, ou em <strong>Enviar teste</strong> na tela do destino. Ele envia um payload pequeno com <code>"test": true</code> e sem registros, usando o que está salvo. Se o seu servidor fica em casa, permita <strong>Rede Local</strong> quando o iOS perguntar.</li>
+  <li>Em <strong>O que enviar</strong>, ative seus tipos e permita o acesso ao Apple Health. Ali, <strong>Prévia do payload</strong> mostra os últimos 7 dias do jeito que o payload ficaria, e <strong>Sincronizar agora</strong> na aba <strong>Saúde</strong> envia o que há de novo. A primeira sincronização de um tipo envia os últimos 7 dias dele.</li>
+  <li>Para dados mais antigos, toque em <strong>Enviar histórico</strong> em <strong>O que enviar</strong> e escolha até onde voltar, de 30 dias até <strong>Todo o histórico</strong>.</li>
+</ol>
+
+<!-- IMG: A webhook destination (ios-webhook.png) -->
+
+<h2>Como é o POST</h2>
+
+<p>Cada requisição é um POST com JSON. Um payload resumido, da <a href="https://github.com/owen282000/life-dashboard-companion-app-ios/blob/main/docs/webhook.md">página do payload do iOS</a>:</p>
+
+<pre><code>{
+  "timestamp": "2026-02-05T12:00:00Z",
+  "timezone": "Europe/Amsterdam",
+  "app_version": "1.9.0",
+  "source": "healthkit_ios",
+  "sequence": 42,
+  "steps": [
+    {
+      "count": 1234,
+      "start_time": "2026-02-05T08:00:00Z",
+      "end_time": "2026-02-05T09:00:00Z",
+      "uuid": "5B7A0C2E-8F3D-4B1A-9C6E-2D4F8A1B3C5D",
+      "source": "Alex's iPhone"
+    }
+  ],
+  "daily_totals": [
+    { "date": "2026-02-05", "steps": 8421, "distance_meters": 6210.4 }
+  ]
+}</code></pre>
+
+<ul>
+  <li><code>source</code> no nível superior é <code>healthkit_ios</code>, onde o app para Android diz <code>health_connect</code>.</li>
+  <li><code>timezone</code> é o fuso horário do iPhone no momento em que o payload foi montado. Todo horário no payload está em UTC, e este é o fuso em que <code>daily_totals</code> divide os dias, então o receptor sabe qual é o dia local depois de uma mudança de horário de verão ou de uma viagem. Todo payload traz esse campo desde a versão 1.9.0.</li>
+  <li><code>sequence</code> aumenta em um a cada payload que o iPhone monta, e uma nova tentativa mantém o número com que o payload foi montado.</li>
+  <li>Cada registro tem um <code>uuid</code>, o da própria amostra do Apple Health, que continua o mesmo por toda a vida do registro, e um <code>source</code>: o nome que o Apple Health dá ao app ou aparelho que o gravou. Para dados que o próprio iPhone ou Watch registra, é o nome do aparelho, que muitas vezes inclui o nome do dono.</li>
+  <li><code>daily_totals</code> traz passos, distância e calorias por dia local, de hoje e dos dois dias anteriores, calculados com as estatísticas do próprio Apple Health. Uma caminhada registrada pelo iPhone e pelo Watch conta uma vez ali; somar os registros brutos conta duas.</li>
+</ul>
+
+<p>As chaves, os campos e as unidades são os do app para Android. A <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md">referência do payload</a> do app para Android documenta cada tipo, e o <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook-schema.json">JSON Schema</a> dele vale para os dois apps. <a href="../apple-health-data-types/">Tipos de dados do Apple Health</a> lista o que um iPhone envia, chave por chave.</p>
+
+<h2>Verifique a assinatura</h2>
+
+<p>Com um segredo definido, cada POST traz <code>X-Signature: sha256=&lt;hex&gt;</code>, o HMAC-SHA256 do corpo bruto da requisição com o seu segredo como chave. É o mesmo esquema do app para Android, então uma verificação só cobre os dois celulares. Calcule sobre os bytes como chegaram, antes de interpretá-los, compare em tempo constante e responda 401 quando não bater. Em Node.js:</p>
+
+<pre><code>const crypto = require('crypto');
+
+function verifySignature(req, secret) {
+  const expected = 'sha256=' + crypto
+    .createHmac('sha256', secret)
+    .update(req.rawBody) // the exact raw request body bytes
+    .digest('hex');
+  const actual = req.get('X-Signature') || '';
+  return actual.length === expected.length &amp;&amp;
+    crypto.timingSafeEqual(Buffer.from(actual), Buffer.from(expected));
+}</code></pre>
+
+<p>Em Python:</p>
+
+<pre><code>expected = "sha256=" + hmac.new(SECRET, body, hashlib.sha256).hexdigest()
+valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
+
+<p>Para um servidor atrás de um proxy reverso que exige certificado do cliente, importe o certificado como arquivo <code>.p12</code> em <strong>Mais</strong> &gt; <strong>Avançado</strong>. Ele fica nas Chaves do iPhone, e todo webhook cujo servidor pede um certificado o recebe, também em segundo plano.</p>
+
+<h2>Novas tentativas e a fila</h2>
+
+<ul>
+  <li><strong>Novas tentativas.</strong> Qualquer 2xx conta como entregue. Um erro de rede, um tempo esgotado, 408, 429 ou 5xx é tentado até 3 vezes ao todo, com 1 e depois 2 segundos de intervalo. Outros erros, como 401 ou 404, falham na hora. Uma tentativa desiste quando a conexão fica parada por 10 segundos, então responda primeiro e grave depois.</li>
+  <li><strong>A fila.</strong> Todo payload entra na fila do iPhone antes de ser enviado, então uma sincronização que o iOS interrompe no meio não perde nada. Um payload que não foi entregue sai de novo quando a rede volta, na sincronização seguinte ou com <strong>Tentar agora</strong>, do mais antigo para o mais novo, para as URLs e com os cabeçalhos configurados naquele momento. A fila para no primeiro payload que falha, então o resto mantém a ordem.</li>
+  <li><strong>Payloads recusados.</strong> Um payload que o seu servidor recusa com 400, 413 ou 422 não segura os que vêm depois. Ele continua na fila e é oferecido de novo uma vez por dia. Os payloads que entraram na fila depois dele podem então chegar antes: use <code>sequence</code> para definir a ordem.</li>
+  <li><strong>Payloads antigos e descartados.</strong> Um payload com mais de 7 dias é descartado quando o seu servidor responde com erro à entrega seguinte dele, nunca enquanto o iPhone está offline. A fila guarda até 700 payloads; passando disso, o mais antigo sai. Cada payload descartado ganha uma linha na aba <strong>Logs</strong> e uma notificação.</li>
+  <li><strong>Redirecionamentos</strong> só são seguidos no mesmo host. Um redirecionamento para outro host, como uma página de login na frente do seu servidor, conta como entrega com falha, e o log cita o host para onde ele apontava.</li>
+</ul>
+
+<!-- IMG: Sync history (ios-logs.png) -->
+
+<h2>Registros apagados</h2>
+
+<p>Um registro apagado no Apple Health não deixa nada para uma sincronização ler, então o app acompanha o registro de exclusões do próprio Apple Health e cita o que sumiu no payload seguinte, com a chave sob a qual o registro chegou e o <code>uuid</code> com que foi entregue:</p>
+
+<pre><code>"deleted_records": [
+  { "type": "nutrition", "uuid": "84E37E8A-1C2D-4E5F-8A9B-0C1D2E3F4A5B" }
+]</code></pre>
+
+<ul>
+  <li>Quando uma exclusão é a única mudança, a sincronização envia um payload com <code>deleted_records</code> e sem registros.</li>
+  <li>O Apple Health nunca edita um registro no lugar. Um app que edita um registro o apaga e salva um novo com um novo <code>uuid</code>, então uma edição chega como uma exclusão mais um registro novo.</li>
+  <li>Uma exclusão de sono cita uma fase, não a noite. Remova essa fase, ou substitua as noites que um payload mais novo cobre.</li>
+  <li><code>deletions_unavailable</code> lista as chaves pelas quais um payload não pode responder, por exemplo quando o Apple Health não respondeu a tempo ou um tipo ficou mais de 7 dias sem ser lido. Acerte essas chaves com um backfill (o envio de todo o histórico de uma vez).</li>
+</ul>
+
+<h2>Quando ele envia</h2>
+
+<p>Em <strong>Quando enviar</strong>, defina um intervalo de 15 minutos ou mais, 60 por padrão, ou horários fixos do dia, nos dias que você escolher, com horário de silêncio. O iOS decide quando um app roda em segundo plano, então um horário fixo significa "não antes disso". O Apple Health também acorda o app quando um tipo ativado tem dados novos, no máximo com a frequência que a Apple permite para aquele tipo. A Atualização em 2º Plano precisa estar ativada para o app; o Modo de Pouca Energia a desativa.</p>
+
+<p>Para uma sincronização em um minuto exato, crie uma automação no app Atalhos que execute <strong>Sincronizar dados de saúde</strong> naquele horário. A mesma ação funciona ao chegar em casa, por voz com a Siri, pelo widget da tela de Início e por um controle da Central de Controle no iOS 18 e mais recentes. Ela envia o que está na fila e o que há de novo.</p>
+
+<p>O iOS criptografa o Apple Health enquanto o iPhone está bloqueado, então uma sincronização que começa nessa hora espera o desbloqueio.</p>
+
+<!-- IMG: Sync schedule (ios-schedule.png) -->
+
+<h2>Backfill</h2>
+
+<p><strong>Enviar histórico</strong> em <strong>O que enviar</strong> envia o período que você escolher, de 30 dias até todo o histórico, em janelas de 3 dias, da mais antiga para a mais nova, com os campos <code>backfill</code>, <code>window_start</code>, <code>window_end</code> e <code>window_complete</code>. Os registros são os mesmos que uma sincronização envia, com o <code>uuid</code>, então a sobreposição é eliminada como duplicata. <code>window_complete</code> é sempre <code>false</code> em um iPhone, porque o Apple Health não diz a um app quais tipos ele não pode ler. Os payloads de backfill vão só para webhooks, nunca para o MQTT nem para a fila.</p>
+
+<h2>Receptores que funcionam</h2>
+
+<ul>
+  <li><strong>A stack Life Dashboard.</strong> Um receptor que verifica o <code>X-Signature</code>, Postgres e dashboards do Grafana, a partir de um único arquivo compose. Escaneie o QR code de pareamento dela no app. Veja <a href="../grafana/">a stack Life Dashboard</a>.</li>
+  <li><strong>n8n.</strong> Um nó Webhook com <strong>Raw Body</strong> ativado, uma verificação de assinatura em um nó Code e um 204. <a href="../apple-health-n8n/">Apple Health para o n8n</a> traz o workflow.</li>
+  <li><strong>Node-RED.</strong> Um nó <strong>http in</strong> com <strong>Do not parse request body</strong> ativado (Node-RED 4.1 ou mais recente) entrega os bytes brutos para o HMAC.</li>
+  <li><strong>Home Assistant.</strong> A <a href="../apple-health-home-assistant/">integração Life Dashboard</a> transforma o payload em sensores e estatísticas de longo prazo.</li>
+  <li><strong>Um script seu.</strong> A referência do payload do Android tem <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md#example-backend-integrations">exemplos de receptores</a> em Python e Node.js.</li>
+</ul>
+
+<h2>Como armazenar</h2>
+
+<ul>
+  <li>Faça upsert de cada registro pela chave do payload e pelo <code>uuid</code>. Um registro pode chegar duas vezes: um backfill envia o período dele de novo, e uma entrega que o iOS interrompeu é reenviada a partir da fila. Uma mesma amostra de energia ativa conta tanto para <code>active_calories</code> quanto para <code>total_calories</code>, então use as duas como chave.</li>
+  <li>Guarde <code>daily_totals</code> como uma linha por data, a partir do payload com o maior <code>sequence</code> que trouxe aquela data.</li>
+  <li>O <code>uuid</code> de uma noite de sono vem da fase mais antiga dela, então continua o mesmo enquanto a noite cresce: substitua a noite quando ela voltar mais longa.</li>
+  <li>Apague o que <code>deleted_records</code> cita, por <code>type</code> e <code>uuid</code>, e ignore um <code>uuid</code> que você não tem.</li>
+</ul>
+
+<h2>Onde o payload de um iPhone difere do Android</h2>
+
+<ul>
+  <li>A variabilidade da frequência cardíaca é SDNN, a medida que o Apple Health guarda. O Android envia RMSSD na mesma chave; não são o mesmo número.</li>
+  <li>O <code>type</code> de um treino é um nome como <code>running</code> ou <code>hiit</code>; o Android envia um número como string.</li>
+  <li>As fases do sono incluem <code>in_bed</code>, o tempo na cama em volta das fases, que só um iPhone envia.</li>
+  <li>Não há payload de tempo de tela nem bloco <code>_diagnostics</code>.</li>
+</ul>
+
+<p>Um receptor escrito para o Android funciona sem alteração, desde que trate esses itens como opcionais. A <a href="https://github.com/owen282000/life-dashboard-companion-app-ios/blob/main/docs/webhook.md">página do payload do iOS</a> lista todas as diferenças.</p>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Dá para exportar os dados do Apple Health automaticamente, sem abrir o app?</summary>
+    <p>Sim. Depois de configurado, o app sincroniza em segundo plano na sua agenda, e o Apple Health o acorda quando há dados novos. O iPhone precisa estar desbloqueado para uma sincronização ler o Apple Health, e o iOS escolhe o momento exato. Para um minuto fixo, use uma automação do Atalhos com <strong>Sincronizar dados de saúde</strong>.</p>
+  </details>
+  <details>
+    <summary>Dá para ver o JSON antes de escrever um receptor?</summary>
+    <p>Sim. <strong>Prévia do payload</strong> em <strong>O que enviar</strong> mostra os últimos 7 dias como um payload, <strong>Copiar JSON</strong> coloca o conteúdo na área de transferência, e <strong>Compartilhar</strong> o entrega como arquivo .json. <strong>Exportar dados</strong> em <strong>Mais</strong> salva a mesma coisa com <strong>Exportar JSON</strong>, ou com <strong>Exportar CSV</strong> como uma linha por registro.</p>
+  </details>
+  <details>
+    <summary>Como evitar contar os passos duas vezes?</summary>
+    <p>Use <code>daily_totals</code> para passos, distância e calorias. Eles são contados do jeito que o app Saúde conta, então um iPhone e um Watch que registraram a mesma caminhada a contam uma vez.</p>
+  </details>
+  <details>
+    <summary>O mesmo receptor funciona para um celular Android?</summary>
+    <p>Sim. Os dois apps enviam as mesmas chaves, unidades e assinatura. Diferencie os dois pelo <code>source</code> do nível superior: <code>healthkit_ios</code> ou <code>health_connect</code>. <a href="../health-connect-webhook/">Conexão Saúde para um webhook</a> cobre o lado do Android.</p>
+  </details>
+  <details>
+    <summary>O app envia alguma coisa para o desenvolvedor?</summary>
+    <p>Não. O app não tem análise de uso, relatórios de falhas nem anúncios, e não existe servidor do Life Dashboard. Os dados vão só para as URLs, o broker ou o Home Assistant que você definir.</p>
+  </details>
+</section>

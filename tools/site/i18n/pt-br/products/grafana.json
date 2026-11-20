@@ -1,0 +1,273 @@
+{
+  "slug": "grafana",
+  "nav_name": "Stack do Grafana",
+  "title": "Dashboard Grafana de dados de saúde com MCP | Life Dashboard",
+  "description": "Postgres, seis dashboards do Grafana, uma API e um servidor MCP para os dados do Health Connect e do Apple Health, no seu servidor, com Docker Compose ou Helm.",
+  "kicker": "Stack auto-hospedada",
+  "h1": "Seus dados de saúde no seu próprio Postgres e Grafana",
+  "lead": "A stack Life Dashboard é um backend de código aberto para os dois apps: um receptor que confere as assinaturas, o Postgres e seis dashboards do Grafana. Um único comando faz a instalação, cada celular é pareado por QR code, e uma API somente leitura e um servidor MCP devolvem os dados para os seus scripts e para uma IA que você escolhe.",
+  "hero_image": "g-overview",
+  "highlights": [
+    {
+      "title": "Um comando para instalar",
+      "text": "O instalador baixa o docker-compose.yml da versão, grava o .env com um segredo e senhas aleatórios e inicia a stack. As imagens são publicadas para amd64 e arm64, então nada é clonado nem compilado."
+    },
+    {
+      "title": "Pareamento por QR code",
+      "text": "Como na integração do Home Assistant: o receptor mostra um código, o app o escaneia, e você não digita nem o endereço nem o segredo."
+    },
+    {
+      "title": "Seis dashboards",
+      "text": "Overview, Activity, Sleep, Heart and body, Screen time e Data and sync, em uma pasta Life Dashboard, cada um com um seletor Phone."
+    },
+    {
+      "title": "Todos os registros no Postgres",
+      "text": "O receptor confere o HMAC do X-Signature, aplica uma só vez um payload repetido e remove o que o celular informa como apagado."
+    },
+    {
+      "title": "Seus dados de volta",
+      "text": "Uma API JSON somente leitura com um token próprio, para um script, um widget ou uma planilha: dias, noites, treinos, tempo de tela e tendências."
+    },
+    {
+      "title": "Pergunte à sua própria IA",
+      "text": "Um servidor MCP opcional com oito ferramentas somente leitura, para um modelo local ou o Claude. Nenhuma ferramenta grava, e nenhuma aceita SQL."
+    }
+  ],
+  "sections": [
+    {
+      "kicker": "Dashboards",
+      "h2": "Sono, atividade, coração e tempo de tela no Grafana",
+      "text": "Todo dashboard tem um seletor <strong>Phone</strong> e links para os outros cinco que mantêm o intervalo de tempo. Cada painel tem um ícone de informação que diz de onde vem o número.",
+      "bullets": [
+        {
+          "main": "Life Dashboard overview",
+          "sub": "Como foram o dia de hoje e a última noite, e esta semana contra as quatro anteriores."
+        },
+        {
+          "main": "Activity e Sleep",
+          "sub": "Passos por hora, minutos de treino contra a recomendação de 150 da OMS, um hipnograma, a hora de dormir e a de acordar."
+        },
+        {
+          "main": "Heart and body",
+          "sub": "Frequência cardíaca por hora, frequência cardíaca em repouso, VFC, SpO2, frequência respiratória e peso com a média de 7 dias."
+        },
+        {
+          "main": "Screen time, Data and sync",
+          "sub": "Minutos por app e por dia, o último uso antes de dormir, e quando cada celular enviou dados pela última vez."
+        }
+      ],
+      "image": "g-sleep",
+      "link": {
+        "href": "https://github.com/owen282000/life-dashboard-stack#dashboards",
+        "text": "Os seis dashboards"
+      }
+    },
+    {
+      "kicker": "Instalação e pareamento",
+      "h2": "Um comando, e um QR code para cada celular",
+      "text": "O instalador coloca o <code>docker-compose.yml</code> da versão em uma pasta própria, grava o <code>.env</code> com um segredo e senhas aleatórios, inicia a stack e mostra o código de pareamento. O receptor, o Postgres e o Grafana vêm como imagens publicadas, então nada é compilado.",
+      "bullets": [
+        {
+          "main": "Em um servidor doméstico ou em um Raspberry Pi",
+          "sub": "Qualquer máquina com Docker e Compose que o seu celular alcance. As imagens são publicadas para amd64 e arm64, então um Raspberry Pi com sistema de 64 bits consegue rodá-las; 32 bits não é suportado."
+        },
+        {
+          "main": "Pareamento como no Home Assistant",
+          "sub": "Com <code>PUBLIC_URL</code> definido, o receptor imprime um QR code no log, e <code>/pair</code> o mostra como uma página, só para a sua própria rede."
+        },
+        {
+          "main": "Um rótulo por celular",
+          "sub": "Cada celular ganha o seu próprio código e o seu próprio <strong>Phone</strong> nos dashboards, então um celular Android e um iPhone ficam lado a lado."
+        },
+        {
+          "main": "Atualizações que continuam funcionando",
+          "sub": "Defina <code>LIFEDASH_VERSION</code> com a nova versão, depois baixe as imagens e inicie de novo. Dentro de uma versão principal, as suas consultas, os seus painéis e o seu <code>.env</code> continuam funcionando."
+        }
+      ],
+      "code": {
+        "title": "Instalar",
+        "code": "GH=https://github.com/owen282000/life-dashboard-stack\ncurl -fsSL $GH/releases/latest/download/install.sh | sh\n# files in ./life-dashboard, then the pairing code\n\n# something wrong? the same line, ending in\n#   | sh -s -- doctor"
+      },
+      "link": {
+        "href": "https://github.com/owen282000/life-dashboard-stack#quick-start",
+        "text": "O início rápido"
+      }
+    },
+    {
+      "kicker": "Como ela conta",
+      "h2": "Sem pontuações, e uma lacuna onde faltam dados",
+      "text": "Nada é colorido como bom ou ruim. As metas são linhas tracejadas que você pode mudar no topo de um dashboard.",
+      "bullets": [
+        {
+          "main": "Passos contados uma vez só",
+          "sub": "Passos, distância e calorias vêm dos totais diários do celular, então uma caminhada registrada pelo celular e pelo relógio conta uma vez só."
+        },
+        {
+          "main": "Dias locais no seu fuso horário",
+          "sub": "Uma noite pertence à manhã em que você acorda. O dia de hoje é marcado como “so far” (até agora) e fica fora das médias."
+        },
+        {
+          "main": "VFC mantida separada",
+          "sub": "A RMSSD de um relógio Android e a SDNN de um Apple Watch são medidas diferentes, então nunca são misturadas."
+        },
+        {
+          "main": "Lacunas, não zeros",
+          "sub": "Um dia sem dados aparece como uma lacuna. O único vermelho é um celular que não enviou nada por 24 horas."
+        }
+      ],
+      "image": "g-activity"
+    },
+    {
+      "kicker": "SQL e API",
+      "h2": "Seus dados de volta, em SQL ou em JSON",
+      "text": "As views <code>dash</code> têm uma linha por dia, noite, hora ou app, com os dias locais já calculados. Consulte-as com o <code>psql</code>, em um painel do Grafana feito por você ou pela API somente leitura. <a href=\"https://github.com/owen282000/life-dashboard-stack/blob/main/docs/views.md\">Cada view, coluna e unidade</a> está documentada.",
+      "bullets": [
+        {
+          "main": "<code>dash.activity_days</code> e <code>dash.sleep_nights</code>",
+          "sub": "Passos por dia, contados uma vez só, e horas dormindo, de sono profundo e de REM por noite, por celular."
+        },
+        {
+          "main": "Uma API JSON somente leitura",
+          "sub": "Com <code>API_TOKEN</code> definido, <code>/api/</code> responde com dias, noites, treinos, tempo de tela, uma métrica como série ou uma tendência contra o período anterior."
+        },
+        {
+          "main": "Usuários somente leitura",
+          "sub": "O Grafana lê como <code>grafana_ro</code>, a API e o servidor MCP como <code>dash_ro</code>. Nenhum dos dois consegue gravar, e as consultas deles param depois de 30 e de 15 segundos."
+        },
+        {
+          "main": "Desligada até você querer",
+          "sub": "Sem um token, todo caminho abaixo de <code>/api/</code> responde 404. Atrás de um proxy reverso, encaminhe só <code>/webhook</code> se você não precisa da API do lado de fora."
+        }
+      ],
+      "image": "g-data",
+      "link": {
+        "href": "https://github.com/owen282000/life-dashboard-stack/blob/main/docs/api.md",
+        "text": "Todos os endpoints da API"
+      }
+    },
+    {
+      "kicker": "Sua própria IA",
+      "h2": "Pergunte à sua própria IA, por um servidor MCP somente leitura",
+      "text": "Uma quarta imagem, opcional, dá a um modelo que você escolhe oito ferramentas somente leitura: <code>list_phones</code>, <code>data_catalog</code>, <code>sync_status</code>, <code>daily_summary</code>, <code>sleep_nights</code>, <code>workouts</code>, <code>trend</code> e <code>screen_time</code>. Ela fala Streamable HTTP com um bearer token, para o Open WebUI, o LM Studio ou qualquer cliente MCP, e stdio para o Claude Desktop na mesma máquina.",
+      "bullets": [
+        {
+          "main": "Somente leitura de ponta a ponta",
+          "sub": "As ferramentas leem as views <code>dash</code> como <code>dash_ro</code>. Não há ferramenta que grave nem ferramenta que aceite SQL, então um modelo não consegue mudar nem apagar nada."
+        },
+        {
+          "main": "Um modelo local mantém tudo em casa",
+          "sub": "Com o Ollama e um cliente de chat que fale MCP, as perguntas, os dados e as respostas ficam no seu hardware."
+        },
+        {
+          "main": "Um modelo na nuvem vê o que ele pede",
+          "sub": "Com o Claude ou o ChatGPT, incluindo o Claude Desktop, as suas perguntas e todos os resultados das ferramentas vão para esse provedor."
+        },
+        {
+          "main": "Nada por conta própria",
+          "sub": "A stack não envia nada a nenhuma IA. O servidor só responde a um cliente que você conecta com o seu <code>MCP_TOKEN</code>."
+        }
+      ],
+      "code": {
+        "title": "Iniciar o servidor MCP",
+        "code": "echo \"MCP_TOKEN=$(openssl rand -hex 32)\" >> .env\ndocker compose --profile mcp up -d\n\n# then, in your MCP client:\n# URL     http://<this machine>:8090/mcp\n# Header  Authorization: Bearer <MCP_TOKEN>"
+      },
+      "link": {
+        "href": "../health-data-own-ai/",
+        "text": "Conecte um modelo, passo a passo"
+      }
+    },
+    {
+      "kicker": "Kubernetes",
+      "h2": "Um Helm chart para o seu próprio cluster",
+      "text": "O chart roda as mesmas imagens. Por padrão, o Postgres vem do <a href=\"https://cloudnative-pg.io\">CloudNativePG</a>, com réplicas, failover e backups em armazenamento de objetos. Sem o operador, um StatefulSet incluído ou um Postgres que você já roda também funcionam.",
+      "bullets": [
+        {
+          "main": "Segredos criados uma vez",
+          "sub": "Gerados na primeira instalação e mantidos em cada atualização, ou lidos de um Secret seu, vindo por exemplo do Sealed Secrets, do External Secrets ou do SOPS."
+        },
+        {
+          "main": "Pod Security <code>restricted</code>",
+          "sub": "Pods sem root, com sistema de arquivos raiz somente leitura e sem token de conta de serviço. As NetworkPolicies estão lá para quando você as ativar."
+        },
+        {
+          "main": "Backups em armazenamento de objetos",
+          "sub": "Pelo plugin Barman Cloud do CloudNativePG: um backup base em uma agenda e o WAL entre um e outro, então uma restauração pode voltar a um momento específico."
+        },
+        {
+          "main": "Só <code>/webhook</code> do lado de fora",
+          "sub": "Por padrão, o Ingress ou a rota da Gateway API abre apenas <code>/webhook</code>. O <code>helm test</code> confere o receptor, os dashboards, a API e o servidor MCP."
+        }
+      ],
+      "code": {
+        "title": "Instalar com o Helm",
+        "code": "# CloudNativePG first, once per cluster\nhelm install lifedash \\\n  oci://ghcr.io/owen282000/charts/life-dashboard \\\n  -n life-dashboard --create-namespace \\\n  -f my-values.yaml --wait --timeout 10m\nhelm test lifedash -n life-dashboard --logs"
+      },
+      "link": {
+        "href": "https://github.com/owen282000/life-dashboard-stack/blob/main/docs/kubernetes.md",
+        "text": "O chart, do CloudNativePG à desinstalação"
+      }
+    }
+  ],
+  "requirements": "Docker com Compose, em uma máquina que o seu celular alcance na mesma rede ou por uma VPN: um servidor doméstico, um NAS ou um Raspberry Pi com sistema de 64 bits, já que as imagens são publicadas só para amd64 e arm64. Ou um cluster Kubernetes com Helm 3 ou 4, com o CloudNativePG para o Postgres padrão. Em cada celular, o Life Dashboard Companion para Android ou para iPhone, pareado por QR code ou apontado para a URL de webhook do receptor na porta 8080, com um rótulo para aquele celular e o mesmo segredo de <code>WEBHOOK_SECRET</code>. Defina esse segredo: sem ele o receptor aceita payloads sem assinatura e não mostra nenhum código de pareamento. Para alcançar o receptor de fora, coloque um proxy reverso com TLS na frente dele. A stack é oferecida como um ponto de partida que você pode modificar, não como um produto acabado.",
+  "faq": [
+    {
+      "q": "Posso testar antes de conectar um celular?",
+      "a": "Sim, se você consegue rodar o Docker. O perfil demo do mesmo arquivo compose inicia a stack com 60 dias de dados fictícios de dois celulares, com nome e portas próprios. Os comandos estão em <a href=\"#get\">Rodar a stack</a>. Sem o Docker, as capturas de tela desta página mostram os mesmos dashboards."
+    },
+    {
+      "q": "Preciso clonar o repositório?",
+      "a": "Não. O instalador baixa o <code>docker-compose.yml</code> da versão e grava o <code>.env</code>, e o receptor, o Postgres, o Grafana e o servidor MCP são imagens publicadas para amd64 e arm64. Um clone só serve para mudar o próprio receptor, as views ou os dashboards: um segundo arquivo compose compila então as imagens a partir dele."
+    },
+    {
+      "q": "Os meus dados são enviados para algum lugar?",
+      "a": "Não. Não existe servidor do Life Dashboard nem conta: os celulares enviam para o seu receptor, e os dados ficam no seu Postgres. Os relatórios de uso e as verificações de atualização do Grafana estão desligados. Os dados só saem quando você mesmo conecta alguma coisa, como um modelo na nuvem via MCP, um script com o token da API ou um proxy reverso que você abre para a internet."
+    },
+    {
+      "q": "A minha IA consegue ler os dados?",
+      "a": "Só se você deixar. Inicie o servidor MCP opcional com um <code>MCP_TOKEN</code>, e um modelo que você conecta ganha oito ferramentas somente leitura para os celulares, o que eles têm armazenado, quando sincronizaram pela última vez, dias, noites, treinos, tendências e tempo de tela. Ele lê como <code>dash_ro</code>, então não consegue gravar, apagar nem rodar SQL próprio. Com um modelo local pelo Ollama, tudo fica no seu hardware; com um modelo na nuvem, incluindo o Claude Desktop, as suas perguntas e todos os resultados das ferramentas vão para esse provedor. <a href=\"../health-data-own-ai/\">Conexão Saúde e Apple Health via MCP</a> traz a configuração."
+    },
+    {
+      "q": "Ela roda no Kubernetes?",
+      "a": "Sim, com um Helm chart para o Helm 3 ou 4. Por padrão o Postgres roda como um cluster do CloudNativePG, com réplicas se você quiser e backups em armazenamento de objetos pelo plugin Barman Cloud. Sem o CloudNativePG, o chart roda o Postgres como um único pod incluído ou usa um Postgres que você já roda. Os pods atendem ao Pod Security Standard <code>restricted</code>, e as NetworkPolicies, um Ingress e as rotas da Gateway API são opcionais. <a href=\"https://github.com/owen282000/life-dashboard-stack/blob/main/docs/kubernetes.md\">docs/kubernetes.md</a> traz os passos."
+    },
+    {
+      "q": "Posso colocá-la na internet?",
+      "a": "Coloque um proxy reverso com TLS na frente do receptor, encaminhe só <code>/webhook</code> e permita corpos de requisição de 32 MB. A API divide a porta com o receptor, e <code>/pair</code> mostra o segredo de assinatura: o receptor só responde a <code>/pair</code> para a sua própria rede e nunca por um proxy, mas um proxy que não adiciona nenhum cabeçalho de encaminhamento, ou o redirecionamento de portas do Docker Desktop, pode fazer uma requisição de fora parecer local, então bloqueie o caminho ali ou defina <code>PAIRING_PAGE=0</code>. Mantenha o Grafana e o servidor MCP na sua própria rede ou atrás de uma VPN: qualquer pessoa que consiga ver um dashboard consegue ler todos os registros de saúde. Antes da primeira inicialização, troque <code>GRAFANA_PASSWORD</code>, <code>GRAFANA_DB_PASSWORD</code> e <code>DASH_DB_PASSWORD</code> no <code>.env</code>. O Postgres não publica nenhuma porta, então só os serviços da própria stack chegam até ele."
+    },
+    {
+      "q": "Posso usá-la ao lado do Home Assistant?",
+      "a": "Sim, como uma segunda casa para os dados. Cada endereço no app tem o seu próprio segredo de assinatura (Android a partir da 1.28.0, iPhone a partir da 1.10.0), e o pareamento só define o segredo para o endereço que ele adiciona, então pareie com o Home Assistant e com a stack e cada um mantém o seu. Um ponto para saber: um payload conta como entregue assim que um destino o aceita, então, se a stack estiver fora do ar naquele momento, ela fica sem esse payload."
+    },
+    {
+      "q": "Como eu atualizo?",
+      "a": "Defina <code>LIFEDASH_VERSION</code> no <code>.env</code> com a nova versão, depois rode <code>docker compose pull &amp;&amp; docker compose up -d</code>. Defina só a versão principal, e cada pull acompanha as versões que mantêm a compatibilidade. Dentro de uma versão principal, os payloads, o banco de dados, as views <code>dash</code>, os usuários somente leitura, as configurações e as portas continuam iguais, como lista o <a href=\"https://github.com/owen282000/life-dashboard-stack/blob/main/docs/compatibility.md\">docs/compatibility.md</a>. Uma instalação mais antiga feita a partir de um clone migra os dados uma única vez com um script que deixa o volume antigo intacto; o <a href=\"https://github.com/owen282000/life-dashboard-stack#upgrading\">README</a> traz os passos."
+    },
+    {
+      "q": "Como eu faço o backup?",
+      "a": "Com o Docker Compose, uma linha de <code>pg_dump</code> grava um dump, e uma linha de <code>pg_restore</code> o coloca em uma stack nova. Reinicie o receptor em seguida para ele recriar as views e as permissões dos usuários somente leitura. No Kubernetes com o CloudNativePG, os backups vão para o armazenamento de objetos em uma agenda, e uma restauração inicia um novo cluster a partir deles."
+    },
+    {
+      "q": "Posso mudar os dashboards?",
+      "a": "Sim. Eles vêm dentro da imagem do Grafana, então o Grafana não salva mudanças por cima deles, e uma atualização traz as novas versões. Use <strong>Save as</strong> para ter uma cópia sua, que uma atualização não toca. Para mudar os originais, edite o JSON em um clone e compile as imagens a partir dele. Guarde as suas próprias views no schema <code>public</code>, porque o receptor recria <code>dash</code> a cada inicialização."
+    },
+    {
+      "q": "Já rodo o Grafana. Posso usar o meu?",
+      "a": "Sim. Rode o receptor e o Postgres da stack, e no seu próprio Grafana adicione uma fonte de dados PostgreSQL para o banco de dados da stack, com o usuário somente leitura <code>grafana_ro</code> e a sua <code>GRAFANA_DB_PASSWORD</code>. Depois importe os seis arquivos de dashboard de <a href=\"https://github.com/owen282000/life-dashboard-stack/tree/main/grafana/dashboards/life-dashboard\"><code>grafana/dashboards/life-dashboard/</code></a> e escolha essa fonte de dados. O <code>grafana_ro</code> consegue ler os registros, os buckets e as views <code>dash</code>, e mais nada."
+    },
+    {
+      "q": "O que ela ainda não faz?",
+      "a": "As séries enviadas por janela de tempo são armazenadas, mas só os painéis de frequência cardíaca as leem, então deixe <strong>Resolução dos dados</strong> em <strong>Todos os registros</strong>. Os dias seguem o único fuso horário da stack, e um backfill (o envio de todo o histórico de uma vez) não remove registros que o celular não tem mais. A API e o servidor MCP respondem por dia, noite e treino, não com registros brutos. As <a href=\"https://github.com/owen282000/life-dashboard-stack#known-gaps\">lacunas conhecidas</a> listam o resto."
+    }
+  ],
+  "updated": "2026-11-05",
+  "guides": [
+    "health-data-own-ai",
+    "health-connect-webhook",
+    "health-data-api"
+  ],
+  "commands": {
+    "title": "Teste com dados de demonstração",
+    "code": "mkdir lifedash-demo && cd lifedash-demo\nGH=https://github.com/owen282000/life-dashboard-stack\ncurl -fsSLO $GH/releases/latest/download/docker-compose.yml\nRECEIVER_PORT=18080 GRAFANA_PORT=13000 \\\n  docker compose -p lifedash-demo \\\n  --profile demo up -d",
+    "after": "Espere um minuto, depois abra <code>http://localhost:13000</code> e entre como <code>admin</code> com a senha de demonstração <code>lifedash</code>. <code>docker compose -p lifedash-demo --profile demo down -v</code> remove tudo. Para os seus próprios dados, o <a href=\"https://github.com/owen282000/life-dashboard-stack#quick-start\">início rápido</a> traz o instalador de uma linha."
+  }
+}
