@@ -1,0 +1,223 @@
+<!--
+slug: apple-health-datentypen
+title: Apple-Health-Datentypen, App für App | Life Dashboard
+description: Alle 28 Apple-Health-Typen, die die iPhone-App von Life Dashboard sendet, mit Schlüsseln und Einheiten, und was Home Assistant und die Apple Watch daraus machen.
+primary query: apple health datentypen
+secondary queries: apple health datentypen liste, healthkit datentypen, apple health export felder, apple health json schlüssel, apple watch datentypen, healthkit typen home assistant, apple health einheiten
+updated: 2026-11-20
+published: 2026-11-20
+-->
+
+<h1>Welche Apple-Health-Datentypen sendet Life Dashboard?</h1>
+
+<p>Die iPhone-App liest 28 Apple-Health-Typen, und jeder ist aus, bis du ihn unter <strong>Was senden</strong> einschaltest, pro Kategorie oder mit <strong>Das Wesentliche</strong> oder <strong>Alle Typen</strong>. Sie sendet sie unter den Payload-Schlüsseln der Android-App, mit denselben Feldern und Einheiten: Schritte, Distanz und Kalorien, Trainings, Gewicht und Körperzusammensetzung, Herzfrequenz, Ruheherzfrequenz und HRV, Blutdruck, Blutzucker, Blutsauerstoff, Atemfrequenz, VO2max, Schlaf mit Phasen, Wasser, Ernährung, Achtsamkeit, Körpertemperatur und Zyklusprotokoll. Die Menstruation geht als zwei Schlüssel raus, ein iPhone sendet also 29 der 34 Schlüssel der Android-App.</p>
+
+<p>Jeder Datensatz trägt eine <code>uuid</code>, die des Messwerts in Apple Health selbst, und ein <code>source</code>: den Namen, den Apple Health der App oder dem Gerät gibt, das ihn geschrieben hat. Die App liest nur; sie schreibt nie in Apple Health.</p>
+
+<h2>Alle Typen im Überblick</h2>
+
+<p>Die Spalte Apple Watch sagt, wo Apples Dokumentation beschreibt, dass die Uhr den Typ aufzeichnet; <a href="../apple-watch-home-assistant/">Apple Watch in Home Assistant</a> verlinkt jede dieser Seiten. Die anderen Typen kommen vom iPhone, aus dem, was du selbst einträgst, oder aus Apps, die in Apple Health schreiben.</p>
+
+<table>
+  <thead>
+    <tr><th>Typ</th><th>Payload-Schlüssel</th><th>Wert und Einheit</th><th>Home Assistant</th><th>Apple Watch</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><a href="#steps">Schritte</a></td><td><code>steps</code></td><td><code>count</code></td><td>Summe von heute</td><td>Ja, und das iPhone</td></tr>
+    <tr><td><a href="#distance">Distanz</a></td><td><code>distance</code></td><td><code>meters</code></td><td>Summe von heute</td><td>Ja, und das iPhone</td></tr>
+    <tr><td><a href="#active_calories">Aktivitätsenergie</a></td><td><code>active_calories</code></td><td><code>calories</code>, kcal</td><td>Summe von heute</td><td>Ja</td></tr>
+    <tr><td><a href="#total_calories">Gesamtenergie</a></td><td><code>total_calories</code></td><td><code>calories</code>, kcal</td><td>Summe von heute</td><td>Ja</td></tr>
+    <tr><td><a href="#exercise">Trainings</a></td><td><code>exercise</code></td><td><code>type</code>, <code>duration_seconds</code></td><td>Letztes Training, Minuten von heute und gestern</td><td>Ja</td></tr>
+    <tr><td><a href="#weight">Gewicht</a></td><td><code>weight</code></td><td><code>kilograms</code></td><td>Letzter Wert</td><td>Nein</td></tr>
+    <tr><td><a href="#height">Größe</a></td><td><code>height</code></td><td><code>meters</code></td><td>Letzter Wert</td><td>Nein</td></tr>
+    <tr><td><a href="#body_fat">Körperfettanteil</a></td><td><code>body_fat</code></td><td><code>percentage</code></td><td>Letzter Wert</td><td>Nein</td></tr>
+    <tr><td><a href="#lean_body_mass">Magere Körpermasse</a></td><td><code>lean_body_mass</code></td><td><code>kilograms</code></td><td>Letzter Wert</td><td>Nein</td></tr>
+    <tr><td><a href="#heart_rate">Herzfrequenz</a></td><td><code>heart_rate</code></td><td><code>bpm</code></td><td>Letzter Wert</td><td>Ja</td></tr>
+    <tr><td><a href="#resting_heart_rate">Ruheherzfrequenz</a></td><td><code>resting_heart_rate</code></td><td><code>bpm</code></td><td>Letzter Wert</td><td>Ja</td></tr>
+    <tr><td><a href="#heart_rate_variability">Herzfrequenzvariabilität</a></td><td><code>heart_rate_variability</code></td><td><code>heart_rate_variability_millis</code>, ms (SDNN)</td><td>Letzter Wert</td><td>Ja</td></tr>
+    <tr><td><a href="#blood_pressure">Blutdruck</a></td><td><code>blood_pressure</code></td><td><code>systolic</code>, <code>diastolic</code>, mmHg</td><td>Zwei Sensoren</td><td>Nein</td></tr>
+    <tr><td><a href="#oxygen_saturation">Blutsauerstoff</a></td><td><code>oxygen_saturation</code></td><td><code>percentage</code></td><td>Letzter Wert</td><td>Manche Modelle und Regionen</td></tr>
+    <tr><td><a href="#respiratory_rate">Atemfrequenz</a></td><td><code>respiratory_rate</code></td><td><code>rate</code>, Atemzüge pro Minute</td><td>Letzter Wert</td><td>Ja, im Schlaf</td></tr>
+    <tr><td><a href="#body_temperature">Körpertemperatur</a></td><td><code>body_temperature</code></td><td><code>celsius</code></td><td>Letzter Wert</td><td>Nein</td></tr>
+    <tr><td><a href="#basal_body_temperature">Basaltemperatur</a></td><td><code>basal_body_temperature</code></td><td><code>celsius</code></td><td>Letzter Wert</td><td>Nein</td></tr>
+    <tr><td><a href="#blood_glucose">Blutzucker</a></td><td><code>blood_glucose</code></td><td><code>mmol_per_liter</code></td><td>Letzter Wert</td><td>Nein</td></tr>
+    <tr><td><a href="#vo2_max">VO2max</a></td><td><code>vo2_max</code></td><td><code>vo2_ml_per_min_per_kg</code></td><td>Letzter Wert</td><td>Ja, bei manchen Trainings</td></tr>
+    <tr><td><a href="#sleep">Schlaf</a></td><td><code>sleep</code></td><td><code>duration_seconds</code>, <code>stages</code></td><td>Dauer des letzten Schlafs, Schlafzeit und Stunden pro Phase</td><td>Ja, mit Phasen</td></tr>
+    <tr><td><a href="#mindfulness">Achtsamkeit</a></td><td><code>mindfulness</code></td><td><code>duration_seconds</code></td><td>Minuten pro Tag, in den Statistiken</td><td>Unbekannt</td></tr>
+    <tr><td><a href="#hydration">Wasser</a></td><td><code>hydration</code></td><td><code>liters</code></td><td>Letztes Getränk</td><td>Nein</td></tr>
+    <tr><td><a href="#nutrition">Ernährung</a></td><td><code>nutrition</code></td><td><code>calories</code>, Gramm und 34 weitere Nährstoffe</td><td>Kalorien, Eiweiß, Kohlenhydrate und Fett, die du heute gegessen hast</td><td>Nein</td></tr>
+    <tr><td><a href="#menstruation">Menstruation</a></td><td><code>menstruation_flow</code>, <code>menstruation_period</code></td><td><code>flow</code>; <code>start_time</code>, <code>end_time</code></td><td>Kein Sensor</td><td>Nein</td></tr>
+    <tr><td><a href="#intermenstrual_bleeding">Schmierblutung</a></td><td><code>intermenstrual_bleeding</code></td><td>Nur die Zeit</td><td>Kein Sensor</td><td>Nein</td></tr>
+    <tr><td><a href="#ovulation_test">Ovulationstestergebnis</a></td><td><code>ovulation_test</code></td><td><code>result</code></td><td>Kein Sensor</td><td>Nein</td></tr>
+    <tr><td><a href="#cervical_mucus">Zervixschleim</a></td><td><code>cervical_mucus</code></td><td><code>appearance</code>, <code>sensation</code></td><td>Kein Sensor</td><td>Nein</td></tr>
+    <tr><td><a href="#sexual_activity">Sexuelle Aktivität</a></td><td><code>sexual_activity</code></td><td><code>protection_used</code></td><td>Kein Sensor</td><td>Nein</td></tr>
+  </tbody>
+</table>
+
+<p>„Nein“ und „Unbekannt“ in der Spalte Apple Watch heißen, dass Apples Dokumentation zur Uhr, wie sie auf dieser Website zitiert wird, nicht beschreibt, dass die Uhr den Typ aufzeichnet, nicht, dass es nichts gibt, was das kann. Um zu sehen, was auf deinem eigenen iPhone einen Typ schreibt, öffnest du die Health-App, suchst den Typ und siehst unter <strong>Datenquellen &amp; Zugriff</strong> nach.</p>
+
+<h2>Welche Quelle welchen Typ schreibt</h2>
+
+<ul>
+  <li><strong>Apple Watch</strong>: Schritte, Distanz, Aktivitäts- und Ruheenergie, Trainings, Herzfrequenz, Ruheherzfrequenz, HRV, Schlaf mit Phasen, Atemfrequenz im Schlaf, VO2max bei manchen Outdoor-Trainings und Blutsauerstoff auf Modellen und in Regionen, die ihn haben. <a href="../apple-watch-home-assistant/">Apple Watch in Home Assistant</a> hat die Details und Apples Seiten.</li>
+  <li><strong>iPhone</strong>: Schritte und Distanz. Ein iPhone ohne Uhr zeichnet meist keine Ruheenergie auf, <code>total_calories</code> gibt es deshalb meist nur mit einer Uhr.</li>
+  <li><strong>Andere Apps und Geräte</strong>: Die Apps anderer Uhren, Ringe und Waagen, etwa Garmin Connect, Oura und Withings, können in Apple Health schreiben, ebenso Apps, in denen du Essen, Wasser, deinen Zyklus oder Meditation erfasst. Was sie schreiben, hängt von der App und deinen Einstellungen dort ab; jeder Datensatz nennt die App in <code>source</code>.</li>
+</ul>
+
+<p>Apple Health behält einen Spaziergang, den iPhone und Uhr beide aufgezeichnet haben, doppelt, einmal pro Gerät. Die <code>daily_totals</code> in jedem Payload zählen ihn einmal, in der Reihenfolge der Datenquellen, die du in der Health-App festlegst. Nimm also sie für Tagessummen.</p>
+
+<h2>Aktivität</h2>
+
+<h3 id="steps">Schritte</h3>
+<p>Schlüssel <code>steps</code>: <code>count</code>, eine ganze Zahl, über einen Zeitraum von <code>start_time</code> bis <code>end_time</code>. Bis zu 1000 neue Datensätze pro Synchronisierung.</p>
+
+<h3 id="distance">Distanz</h3>
+<p>Schlüssel <code>distance</code>: <code>meters</code>, über einen Zeitraum. Apple Health führt einen Distanztyp pro Art von Aktivität, und die App liest sie alle: Gehen und Laufen, Radfahren, Schwimmen, Rollstuhl, alpiner Schneesport und ab iOS 18 Rudern, Paddeln, Skilanglauf und Skaten. Sie überschneiden sich nicht, beim Addieren zählt also nichts doppelt. Ein Datensatz sagt nicht, aus welcher Aktivität er stammt.</p>
+
+<h3 id="active_calories">Aktivitätsenergie</h3>
+<p>Schlüssel <code>active_calories</code>: <code>calories</code> in kcal, über einen Zeitraum. Die Aktivitätsenergie von Apple Health.</p>
+
+<h3 id="total_calories">Gesamtenergie</h3>
+<p>Schlüssel <code>total_calories</code>: <code>calories</code> in kcal, über einen Zeitraum. Apple Health hat keinen Typ für die Gesamtenergie, das hier sind also seine Datensätze für Ruhe- und Aktivitätsenergie zusammen. Ein Messwert der Aktivitätsenergie ist deshalb Teil von <code>active_calories</code> und von <code>total_calories</code>. Bis zu 1000 neue Datensätze pro Synchronisierung. In <code>daily_totals</code> wird der Wert nur an Tagen mit Ruheenergie gesendet.</p>
+
+<h3 id="exercise">Trainings</h3>
+<p>Schlüssel <code>exercise</code>: <code>type</code>, <code>start_time</code>, <code>end_time</code> und <code>duration_seconds</code>, aus den Trainings von Apple Health. <code>type</code> ist die Aktivität in snake_case, etwa <code>running</code>, <code>walking</code>, <code>downhill_skiing</code> oder <code>hiit</code>; <code>other</code> ist Apples eigenes „Sonstiges“ oder eine Aktivität aus einem iOS, das neuer ist als die App. <code>duration_seconds</code> enthält Pausen und kann deshalb länger sein als die Trainingszeit, die die Health-App zeigt. Android sendet hier stattdessen eine Nummer als Zeichenkette, etwa <code>"56"</code> für Laufen.</p>
+
+<h2>Körper</h2>
+
+<h3 id="weight">Gewicht</h3>
+<p>Schlüssel <code>weight</code>: <code>kilograms</code>, zu einem Zeitpunkt (<code>time</code>), mit bis zu 2 Nachkommastellen, damit ein in Pfund eingetragenes Gewicht die Umrechnung übersteht.</p>
+
+<h3 id="height">Größe</h3>
+<p>Schlüssel <code>height</code>: <code>meters</code>, zu einem Zeitpunkt.</p>
+
+<h3 id="body_fat">Körperfettanteil</h3>
+<p>Schlüssel <code>body_fat</code>: <code>percentage</code>, 0 bis 100, zu einem Zeitpunkt.</p>
+
+<h3 id="lean_body_mass">Magere Körpermasse</h3>
+<p>Schlüssel <code>lean_body_mass</code>: <code>kilograms</code>, zu einem Zeitpunkt.</p>
+
+<h2>Herz und Vitalparameter</h2>
+
+<h3 id="heart_rate">Herzfrequenz</h3>
+<p>Schlüssel <code>heart_rate</code>: <code>bpm</code>, eine ganze Zahl, zu einem Zeitpunkt, ein Datensatz pro Messwert. Bis zu 1000 neue Datensätze pro Synchronisierung. Jeder Messwert hat seine eigene <code>uuid</code>; die Form <code>&lt;uuid&gt;#&lt;time&gt;</code> von Android gilt hier nicht.</p>
+
+<h3 id="resting_heart_rate">Ruheherzfrequenz</h3>
+<p>Schlüssel <code>resting_heart_rate</code>: <code>bpm</code>, eine ganze Zahl, zu einem Zeitpunkt.</p>
+
+<h3 id="heart_rate_variability">Herzfrequenzvariabilität</h3>
+<p>Schlüssel <code>heart_rate_variability</code>: <code>heart_rate_variability_millis</code>, zu einem Zeitpunkt. Das ist SDNN, der Wert, den Apple Health speichert. Android sendet unter demselben Schlüssel RMSSD, den Wert, den Health Connect speichert; die beiden sind nicht dieselbe Zahl, halte sie also getrennt. Bis zu 500 neue Datensätze pro Synchronisierung.</p>
+
+<h3 id="blood_pressure">Blutdruck</h3>
+<p>Schlüssel <code>blood_pressure</code>: <code>systolic</code> und <code>diastolic</code> in mmHg, zu einem Zeitpunkt, pro Messung: die zwei Werte, die eine App zusammen gespeichert hat. Bei der seltenen App, die sie getrennt speichert, werden sie gepaart, wenn sie innerhalb einer Sekunde aufeinanderfolgen. Ein Wert ohne seine andere Hälfte wird nicht gesendet. Die <code>uuid</code> ist die des systolischen Messwerts.</p>
+
+<h3 id="body_temperature">Körpertemperatur</h3>
+<p>Schlüssel <code>body_temperature</code>: <code>celsius</code>, zu einem Zeitpunkt.</p>
+
+<h3 id="basal_body_temperature">Basaltemperatur</h3>
+<p>Schlüssel <code>basal_body_temperature</code>: <code>celsius</code>, zu einem Zeitpunkt.</p>
+
+<h3 id="blood_glucose">Blutzucker</h3>
+<p>Schlüssel <code>blood_glucose</code>: <code>mmol_per_liter</code>, zu einem Zeitpunkt.</p>
+
+<h3 id="oxygen_saturation">Blutsauerstoff</h3>
+<p>Schlüssel <code>oxygen_saturation</code>: <code>percentage</code>, 0 bis 100, zu einem Zeitpunkt.</p>
+
+<h3 id="respiratory_rate">Atemfrequenz</h3>
+<p>Schlüssel <code>respiratory_rate</code>: <code>rate</code> in Atemzügen pro Minute, zu einem Zeitpunkt. Bis zu 500 neue Datensätze pro Synchronisierung.</p>
+
+<h3 id="vo2_max">VO2max</h3>
+<p>Schlüssel <code>vo2_max</code>: <code>vo2_ml_per_min_per_kg</code>, zu einem Zeitpunkt.</p>
+
+<h2>Schlaf und Achtsamkeit</h2>
+
+<h3 id="sleep">Schlaf</h3>
+<p>Schlüssel <code>sleep</code>: <code>session_end_time</code>, <code>duration_seconds</code> und <code>stages</code>, jede Phase mit eigenem <code>stage</code>, eigenen Zeiten, eigener <code>uuid</code> und eigenem <code>source</code>. Apple Health kennt keine Schlafeinheit. Die App fasst die Messwerte der Phasen deshalb zu Nächten zusammen, und eine Lücke von mehr als einer Stunde beginnt eine neue.</p>
+<ul>
+  <li>Phasen: <code>light</code> (Apples Kernschlaf), <code>deep</code>, <code>rem</code>, <code>awake</code>, <code>sleeping</code> und <code>unknown</code>, die auch Android sendet, und <code>in_bed</code>, das nur ein iPhone sendet: die Zeit im Bett rund um die Phasen, selbst keine Phase.</li>
+  <li>Die <code>uuid</code> einer Nacht stammt von ihrer frühesten Phase, sie bleibt also gleich, während die Nacht wächst. Ersetze die Nacht, wenn sie länger zurückkommt. Kommt später eine Phase dazu, wird die ganze Nacht noch einmal gesendet.</li>
+  <li>Das <code>source</code> der Nacht ist die App oder das Gerät, das die meisten ihrer Phasen aufgezeichnet hat.</li>
+</ul>
+
+<h3 id="mindfulness">Achtsamkeit</h3>
+<p>Schlüssel <code>mindfulness</code>: <code>start_time</code>, <code>end_time</code> und <code>duration_seconds</code>, aus Apps, die Achtsamkeitseinheiten in Apple Health schreiben. Kein <code>title</code>, den Android senden kann.</p>
+
+<h2>Essen und Trinken</h2>
+
+<h3 id="hydration">Wasser</h3>
+<p>Schlüssel <code>hydration</code>: <code>liters</code>, über einen Zeitraum. Das Wasser von Apple Health.</p>
+
+<h3 id="nutrition">Ernährung</h3>
+<p>Schlüssel <code>nutrition</code>: <code>calories</code>, <code>protein_grams</code>, <code>carbs_grams</code>, <code>fat_grams</code>, <code>name</code> und 34 weitere Nährstoffe unter den Schlüsseln von Android, etwa <code>dietary_fibre_g</code>, <code>sugars_g</code>, <code>sodium_mg</code> und <code>caffeine_mg</code>, über einen Zeitraum. Jedes Feld ist optional.</p>
+<ul>
+  <li>Ein Lebensmittel, das eine App erfasst hat, ist mit allen Nährstoffen darin ein Datensatz, mit seinem Namen, wenn die App einen angegeben hat.</li>
+  <li>Die 34 weiteren Nährstoffe werden nur aus einem Lebensmittel gelesen, das auch Energie, Eiweiß, Kohlenhydrate oder Fett hat. Ein Kaffee, der nur mit Koffein erfasst wurde, wird also nicht gesendet.</li>
+  <li>Für Transfett, ungesättigtes Fett, Energie aus Fett, Folsäure und <code>meal_type</code> hat Apple Health keinen Typ, sie kommen also nie von einem iPhone.</li>
+</ul>
+
+<h2>Zyklusprotokoll</h2>
+
+<h3 id="menstruation">Menstruation</h3>
+<p>Ein Schalter, zwei Schlüssel. <code>menstruation_flow</code> hat <code>flow</code> zu einem Zeitpunkt, mit den Werten des gemeinsamen Schemas <code>light</code>, <code>medium</code>, <code>heavy</code> oder <code>unknown</code>. <code>menstruation_period</code> hat nur <code>start_time</code> und <code>end_time</code>: Apple Health hat keinen Datensatz für die Periode. Die App leitet Perioden deshalb aus aufeinanderfolgenden Tagen mit Blutung ab, und eine Lücke von bis zu 48 Stunden überbrückt einen ausgelassenen Tag. Die <code>uuid</code> einer Periode stammt von ihrem ersten Tag mit Blutung. Ersetze die Periode also, wenn sie länger zurückkommt.</p>
+
+<h3 id="intermenstrual_bleeding">Schmierblutung</h3>
+<p>Schlüssel <code>intermenstrual_bleeding</code>: nur die Zeit in <code>time</code>.</p>
+
+<h3 id="ovulation_test">Ovulationstestergebnis</h3>
+<p>Schlüssel <code>ovulation_test</code>: <code>result</code> zu einem Zeitpunkt: <code>positive</code> (LH-Anstieg), <code>high</code> (Östrogen-Anstieg), <code>negative</code>, <code>inconclusive</code> oder <code>unknown</code>.</p>
+
+<h3 id="cervical_mucus">Zervixschleim</h3>
+<p>Schlüssel <code>cervical_mucus</code>: <code>appearance</code> und <code>sensation</code> zu einem Zeitpunkt. Apple Health zeichnet kein Empfinden auf, <code>sensation</code> ist also immer <code>unknown</code>.</p>
+
+<h3 id="sexual_activity">Sexuelle Aktivität</h3>
+<p>Schlüssel <code>sexual_activity</code>: <code>protection_used</code> zu einem Zeitpunkt: <code>protected</code> oder <code>unprotected</code>, wenn die schreibende App es festgehalten hat, sonst <code>unknown</code>.</p>
+
+<p>Über MQTT werden die Einträge des Zyklusprotokolls nicht veröffentlicht, denn ein Topic mit Retain-Flag ist kein Ort für Daten zur Fortpflanzung; die Basaltemperatur wird veröffentlicht. Die Integration von Home Assistant und ein Webhook bekommen alle.</p>
+
+<h2>Die vier Android-Schlüssel, die ein iPhone nie sendet</h2>
+
+<table>
+  <thead>
+    <tr><th>Android-Schlüssel</th><th>Warum nicht</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>bone_mass</code></td><td>Apple Health hat keinen Typ für die Knochenmasse.</td></tr>
+    <tr><td><code>body_water_mass</code></td><td>Apple Health hat keinen Typ für das Körperwasser.</td></tr>
+    <tr><td><code>skin_temperature</code></td><td>Apple Health speichert die absolute Temperatur am Handgelenk im Schlaf, nicht die Abweichung von einem Basiswert, die dieser Schlüssel vorsieht.</td></tr>
+    <tr><td><code>basal_metabolic_rate</code></td><td>Apple Health speichert die Ruheenergie pro Zeitraum, keine Rate pro Tag. Sie geht als Teil von <code>total_calories</code> raus.</td></tr>
+  </tbody>
+</table>
+
+<h2>Zahlen, Grenzen und Auflösung</h2>
+
+<ul>
+  <li><strong>Nachkommastellen.</strong> 3 für Meter und Liter; 2 für Kilogramm, Kalorien, Celsius, mmol/L und die Nährstoffe; 1 für Prozentwerte, Blutdruck, Atemfrequenz, HRV und VO2max. Nullen am Ende fallen weg, 97.0 kommt also als <code>97</code> an. Anzahlen, Schläge pro Minute und Dauern sind ganze Zahlen.</li>
+  <li><strong>Pro Synchronisierung.</strong> Bis zu 1000 neue Datensätze für Herzfrequenz, Schritte und Gesamtkalorien, 500 für HRV und Atemfrequenz und 200 für jeden anderen Typ. Die nächste Synchronisierung macht dort weiter, wo diese aufgehört hat.</li>
+  <li><strong>Datenauflösung.</strong> Unter <strong>Was senden</strong> können Herzfrequenz, HRV, Blutsauerstoff und Atemfrequenz als ein Mittelwert pro 1, 5 oder 15 Minuten oder pro Stunde gesendet werden, mit Minimum und Maximum; Schritte, Distanz und beide Kalorienwerte als Summe. Jeder Typ beginnt bei jedem Datensatz.</li>
+</ul>
+
+<p>Die <a href="https://github.com/owen282000/life-dashboard-companion-app-ios/blob/main/docs/webhook.md">iOS-Payload-Seite</a> hat jedes Detail, und das <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook-schema.json">JSON-Schema</a> der Android-App gilt für beide Apps. Für Android siehe <a href="../health-connect-data-types/">Health-Connect-Datentypen, App für App</a>.</p>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Wie viele Apple-Health-Typen liest die iPhone-App?</summary>
+    <p>28, jeder aus, bis du ihn unter <strong>Was senden</strong> einschaltest. Die Menstruation sendet zwei Schlüssel, Blutung und Perioden, ein iPhone sendet also 29 Payload-Schlüssel.</p>
+  </details>
+  <details>
+    <summary>Warum sendet das iPhone keine Knochenmasse und keine Hauttemperatur?</summary>
+    <p>Apple Health hat keinen Typ für Knochenmasse oder Körperwasser, und es speichert die absolute Temperatur am Handgelenk im Schlaf statt der Abweichung von einem Basiswert, die der gemeinsame Payload vorsieht. Der Grundumsatz geht innerhalb von <code>total_calories</code> raus.</p>
+  </details>
+  <details>
+    <summary>Ist die HRV von einem iPhone dieselbe wie von Android?</summary>
+    <p>Nein. Apple Health speichert SDNN und Health Connect speichert RMSSD. Beide kommen in <code>heart_rate_variability_millis</code> an, sind aber verschiedene Messgrößen. Bilde also keinen Mittelwert aus ihnen und vergleich sie nicht.</p>
+  </details>
+  <details>
+    <summary>Welche Typen werden zu Sensoren in Home Assistant?</summary>
+    <p>20 der 28, der Blutdruck als zwei Sensoren. Trainings bekommen einen Sensor für das letzte Training und die Minuten von heute und gestern, und Trainings und Achtsamkeit zählen in den Tagesstatistiken mit, in Stunden. Ab Version 1.2.0 der Integration summieren sich deine Mahlzeiten zu den Kalorien, dem Eiweiß, den Kohlenhydraten und dem Fett, die du heute gegessen hast. Einzelne Mahlzeiten und das Zyklusprotokoll bekommen keinen Sensor; ein Webhook bekommt sie vollständig.</p>
+  </details>
+  <details>
+    <summary>Liest die App die Bildschirmzeit oder das EKG?</summary>
+    <p>Nein. Die Bildschirmzeit kann das iPhone nicht verlassen: iOS zeigt sie nur in einer Sandbox, die nichts nach außen senden kann. Alles außerhalb der 28 Typen bleibt in Apple Health.</p>
+  </details>
+</section>

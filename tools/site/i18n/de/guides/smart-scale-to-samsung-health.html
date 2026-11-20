@@ -1,0 +1,107 @@
+<!--
+slug: smarte-waage-samsung-health
+title: Smarte Waage mit Samsung Health verbinden über Home Assistant
+description: Xiaomi, Renpho, Eufy oder Withings: Kann Home Assistant deine Waage lesen, kommen Gewicht und Körperfett über Health Connect in Samsung Health und Google Health.
+primary query: waage mit samsung health verbinden
+secondary queries: smarte waage samsung health, körperfettwaage samsung health, smarte waage home assistant, home assistant gewicht health connect, home assistant waage samsung health, home assistant blutdruck health connect, xiaomi waage samsung health, renpho home assistant health connect
+updated: 2026-11-09
+published: 2026-11-20
+-->
+
+<h1>Wie bekomme ich die Messwerte einer smarten Waage aus Home Assistant in Samsung Health?</h1>
+
+<p class="signpost">Du willst stattdessen die Samsung-Health-Daten deiner Uhr in Home Assistant? Siehe <a href="../samsung-health-home-assistant/">Samsung Health und Galaxy Watch in Home Assistant</a>.</p>
+
+<p>Ordne die Entitäten der Waage in der Life-Dashboard-Integration zu und schalte <strong>Empfangen</strong> in Life Dashboard Companion ein, der Open-Source-App für Android, die mit ihr gekoppelt wird. Bei der nächsten Synchronisierung übergibt die Integration jeden neuen Messwert an die App, und die App schreibt ihn mit dem Zeitpunkt der Messung in Health Connect. Samsung Health und Google Health lesen Gewicht und Körperfett aus Health Connect. Gewicht und Körperfett einer Waage, die nur mit Home Assistant spricht, landen so in diesen Apps. Dasselbe geht mit einem Blutdruckmessgerät, wobei jede App selbst entscheidet, ob sie diesen Messwert anzeigt.</p>
+
+<h2>Was du brauchst</h2>
+
+<ul>
+  <li>Ein Android-Telefon mit Health Connect und Life Dashboard Companion, gekoppelt mit der <a href="../home-assistant/">Life-Dashboard-Integration</a> 0.7.0 oder neuer. Die <a href="../health-connect-home-assistant/">Anleitung Gesundheitsdaten in Home Assistant</a> beschreibt das Koppeln. Die iPhone-App empfängt keine Messwerte, und über MQTT lassen sie sich nicht übertragen.</li>
+  <li>Die Messwerte der Waage als Sensoren in Home Assistant. Eine Bluetooth-Waage braucht Bluetooth im Umkreis weniger Meter: einen Adapter am Rechner mit Home Assistant oder einen ESPHome-Bluetooth-Proxy in der Nähe des Badezimmers.</li>
+</ul>
+
+<p>Übliche Wege in Home Assistant sind Xiaomi BLE mit bodymiscale für Waagen von Xiaomi, ble-scale-sync für Renpho, Eufy, Yunmai und andere sowie die Withings-Integration. Das <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/recipes/scale-to-health-connect.md">Rezept für Waagen</a> sagt für jeden Weg, welche Entität du zuordnest, und enthält die Templates, die manche Wege brauchen.</p>
+
+<p>Eine Waage, die nur mit der Cloud ihres Herstellers synchronisiert, etwa die Xiaomi S400 EU in Xiaomi Home, oder eine Waage in Zepp Life, Mi Fitness, My TANITA oder Picooc, erreicht Home Assistant über <a href="https://github.com/AlexxIT/SmartScaleConnect">SmartScaleConnect</a>. Es meldet sich mit deinem Konto bei dieser Cloud an und sendet jede neue Wägung an einen Webhook in Home Assistant, wo eine Automation daraus die Sensoren macht, die du unten zuordnest.</p>
+
+<h2>So richtest du es ein</h2>
+
+<ol>
+  <li>Öffne in Home Assistant Einstellungen &gt; Geräte &amp; Dienste &gt; Life Dashboard und wähle für das Telefon <strong>Konfigurieren</strong>. Wähle eine Entität pro Typ. Jeder Typ hat ein optionales Feld <strong>Messzeitpunkt</strong> für einen Zeitstempel-Sensor, der festhält, wann gewogen wurde.</li>
+  <li>Öffne in der App auf dem Tab <strong>Gesundheit</strong> den Punkt <strong>Empfangen</strong> und schalte <strong>Messwerte empfangen</strong> ein.</li>
+  <li>Schalte jeden Typ ein, den du zugeordnet hast. Jeder fragt Health Connect nach der Berechtigung, diesen Typ zu schreiben. Lehnst du ab, bleibt der Schalter aus.</li>
+  <li>Stell dich auf die Waage und tippe dann auf <strong>Jetzt synchronisieren</strong> oder warte auf die nächste Synchronisierung. Der Tab <strong>Logs</strong> zeigt eine Zeile von Home Assistant; tippe sie an, um jeden Messwert zu sehen und ob er geschrieben wurde.</li>
+</ol>
+
+<!-- IMG: Receive settings (A5-receive.png) -->
+
+<h2>Was geschrieben wird</h2>
+
+<table>
+  <thead>
+    <tr><th>Typ</th><th>Zulässiger Bereich</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Gewicht</td><td>1 bis 500 kg</td></tr>
+    <tr><td>Körperfettanteil</td><td>1 bis 80 %</td></tr>
+    <tr><td>Magere Körpermasse</td><td>1 bis 300 kg</td></tr>
+    <tr><td>Knochenmasse</td><td>0,1 bis 30 kg</td></tr>
+    <tr><td>Körperwasser</td><td>1 bis 300 kg</td></tr>
+    <tr><td>Größe</td><td>0,3 bis 2,8 m</td></tr>
+    <tr><td>Blutdruck</td><td>Systolisch 30 bis 300, diastolisch 10 bis 250 mmHg</td></tr>
+  </tbody>
+</table>
+
+<p>Einheiten werden umgerechnet, Pfund und Stone funktionieren also. Für BMI, Muskelmasse, viszerales Fett und Stoffwechselalter hat Health Connect keinen Datensatz, sie bleiben in Home Assistant. Die meisten Waagen geben das Körperwasser in Prozent an; das Rezept hat ein Template, das daraus Kilogramm macht.</p>
+
+<h2>Wie mit Messwerten umgegangen wird</h2>
+
+<ul>
+  <li><strong>Die Zeit ist die Zeit der Wägung.</strong> Wiegst du dich um 07:00 und die Synchronisierung läuft um 09:00, steht in Health Connect 07:00.</li>
+  <li><strong>Eine Wägung ist ein Messwert.</strong> Derselbe Wert innerhalb von zehn Minuten gilt als dieselbe Messung, und ein anderer Wert für denselben Moment ersetzt den früheren Datensatz.</li>
+  <li><strong>In beide Richtungen signiert.</strong> Die Messwerte kommen in der signierten Antwort der Integration auf die Anfrage zurück, die die App ohnehin stellt. Einen zweiten Kanal oder einen zweiten Schlüssel gibt es nicht.</li>
+  <li><strong>Kein Echo.</strong> Was die App schreibt, lässt sie beim Senden aus. Dein Gewicht kommt also nicht als zweiter Sensor zu Home Assistant zurück.</li>
+  <li><strong>Eine Warnung vor Dubletten.</strong> Schreibt die eigene App der Waage denselben Typ schon in Health Connect, warnt dich die App beim Einschalten. Behalte eine Quelle, sonst landet jede Wägung doppelt.</li>
+</ul>
+
+<h2>Was Samsung Health und Google Health anzeigen</h2>
+
+<p>Die App kann nur zusagen, dass ein Messwert Health Connect erreicht. Der Rest liegt bei der jeweiligen App.</p>
+
+<table>
+  <thead>
+    <tr><th>App</th><th>Was sie aus Health Connect übernimmt</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Samsung Health</td><td>Gewicht und Körperfett. Magere Körpermasse, Knochenmasse und Körperwasser erscheinen meist nicht, und der Blutdruck aus anderen Apps ist nicht bestätigt.</td></tr>
+    <tr><td>Google Health</td><td>Gewicht und Körperfett. Den Blutdruck liest es nicht.</td></tr>
+    <tr><td>Garmin Connect</td><td>Kein Gewicht aus Health Connect.</td></tr>
+  </tbody>
+</table>
+
+<p>Ein Messwert mit <strong>Geschrieben</strong> auf dem Tab <strong>Logs</strong> liegt in Health Connect, aufgeführt unter seinem Typ mit Life Dashboard als Quelle.</p>
+
+<h2>Ältere Messwerte</h2>
+
+<p>Messwerte, die älter als 30 Tage sind, werden abgelehnt, solange <strong>Ältere Messwerte annehmen</strong> in der App nicht eingeschaltet ist. Der Button <strong>Verlauf an Telefon senden</strong> der Integration stellt bis zu 30 Tage bereit, so weit zurück, wie der Recorder von Home Assistant Zustände aufbewahrt (standardmäßig 10 Tage). Die Aktion <code>life_dashboard.queue_history</code> reicht bis zu 90 Tage zurück. Ein Messwert, den das Telefon abgelehnt hat, wird nicht noch einmal angeboten. Schalte <strong>Ältere Messwerte annehmen</strong> also ein, bevor du den Verlauf sendest.</p>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>Warum erscheint mein Gewicht doppelt in Samsung Health?</summary>
+    <p>Die eigene App der Waage, etwa Zepp, Mi Fitness oder Withings, schreibt ebenfalls in Health Connect. Schalte den Typ unter <strong>Empfangen</strong> aus oder verbiete der anderen App in ihren Einstellungen, das Gewicht zu schreiben.</p>
+  </details>
+  <details>
+    <summary>Funktioniert das mit einem iPhone und Apple Health?</summary>
+    <p>Nein. Die iPhone-App liest Apple Health nur und schreibt keine Messwerte zurück.</p>
+  </details>
+  <details>
+    <summary>Wie lange dauert es, bis eine Wägung erscheint?</summary>
+    <p>Bis zur nächsten Synchronisierung des Telefons, standardmäßig alle 60 Minuten und frühestens alle 15. <strong>Jetzt synchronisieren</strong> holt sie sofort.</p>
+  </details>
+  <details>
+    <summary>Laufen die Messwerte über einen Cloud-Dienst?</summary>
+    <p>Auf der Seite von Life Dashboard nicht: Sie gehen von Home Assistant an das Telefon, in der Antwort auf dessen eigene Anfrage. Eine Cloud-Integration für die Waage in Home Assistant holt die Werte trotzdem aus der Cloud des Herstellers, und ohne Zeitstempel-Sensor bekommen ihre Messwerte die Zeit, zu der Home Assistant sie abgeholt hat.</p>
+  </details>
+</section>

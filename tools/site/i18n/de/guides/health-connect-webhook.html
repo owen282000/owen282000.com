@@ -90,7 +90,7 @@ published: 2026-11-20
 <pre><code>expected = "sha256=" + hmac.new(SECRET, body, hashlib.sha256).hexdigest()
 valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
 
-<h2>Wiederholungen, Warteschlange und Löschungen</h2>
+<h2 id="retries-outbox-and-deletions">Wiederholungen, Warteschlange und Löschungen</h2>
 
 <ul>
   <li><strong>Wiederholungen.</strong> Jede 2xx-Antwort gilt als zugestellt. Ein Timeout, ein Netzwerkfehler, 408, 429 oder 5xx bekommt 3 Versuche. Die App wartet höchstens 10 Sekunden: Antworte also zuerst und speichere danach.</li>
@@ -102,11 +102,23 @@ valid = hmac.compare_digest(expected.encode(), presented.encode())</code></pre>
 <h2>Empfänger, die funktionieren</h2>
 
 <ul>
-  <li><strong>Der Life-Dashboard-Stack.</strong> Fertige Images für einen Empfänger, der die Signatur prüft, Postgres und Grafana mit sechs Dashboards, aus einer Compose-Datei oder per Helm-Chart. Mehr dazu: <a href="../grafana/">der Life-Dashboard-Stack (Englisch)</a>.</li>
-  <li><strong>n8n.</strong> Ein Webhook-Node mit <strong>Raw Body</strong>, eine Signaturprüfung und ein Node <strong>Respond to Webhook</strong>. Der ganze Workflow steht in <a href="../health-connect-n8n/">Health Connect to n8n (Englisch)</a>.</li>
+  <li><strong>Der Life-Dashboard-Stack.</strong> Fertige Images für einen Empfänger, der die Signatur prüft, Postgres und Grafana mit sechs Dashboards, aus einer Compose-Datei oder per Helm-Chart. Mehr dazu: <a href="../grafana/">der Life-Dashboard-Stack</a>.</li>
+  <li><strong>n8n.</strong> Ein Webhook-Node mit <strong>Raw Body</strong>, eine Signaturprüfung und ein Node <strong>Respond to Webhook</strong>. Der ganze Workflow steht in <a href="../health-connect-n8n/">Health Connect mit n8n</a>.</li>
   <li><strong>Node-RED oder ein eigenes Skript.</strong> Die Payload-Referenz hat einen Empfänger in <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md#receiver-in-python-flask" hreflang="en">Python</a> und in <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/webhook.md#receiver-in-nodejs-express" hreflang="en">Node.js</a> als Ausgangspunkt.</li>
-  <li><strong>Home Assistant.</strong> Die Life-Dashboard-Integration macht aus den Daten Sensoren und Langzeitstatistiken: <a href="../home-assistant-gesundheitsdaten/">Gesundheitsdaten in Home Assistant</a>.</li>
+  <li><strong>Home Assistant.</strong> Die Life-Dashboard-Integration macht aus den Daten Sensoren und Langzeitstatistiken: <a href="../health-connect-home-assistant/">Gesundheitsdaten in Home Assistant</a>.</li>
 </ul>
+
+<h2 id="store-it-in-postgres">In Postgres speichern</h2>
+
+<p>Egal, was den POST annimmt, n8n oder ein Skript: Das Muster zum Speichern ist dasselbe.</p>
+
+<ul>
+  <li>Schreib jeden Datensatz per Upsert auf seinen Payload-Schlüssel und seine <code>uuid</code>, in einer Spalte vom Typ <code>text</code>. Messwerte von Herzfrequenz und Hauttemperatur tragen hinter der ID des Datensatzes ein <code>#</code> und eine Zeit, es ist also keine <code>uuid</code> im Sinne von Postgres.</li>
+  <li>Halte <code>daily_totals</code> als eine Zeile pro Datum, ersetzt nur durch eine Sendung mit höherer <code>sequence</code>: Die Summe von heute läuft noch.</li>
+  <li>Lösch, was <code>deleted_records</code> nennt, nach <code>type</code> und <code>uuid</code>. Bei einem Datensatz für Herzfrequenz oder Hauttemperatur löschst du jeden Messwert, dessen <code>uuid</code> mit dieser <code>uuid</code> und einem <code>#</code> beginnt.</li>
+</ul>
+
+<p>Der Empfänger des <a href="../grafana/">Life-Dashboard-Stacks</a> erledigt alle drei Punkte, falls du das nicht selbst bauen willst, und gibt das Ergebnis über eine API nur zum Lesen wieder aus. Liegen die Daten erst in Postgres, kann ein Modell deiner Wahl sie über einen MCP-Server lesen, der nur liest: <a href="../health-data-own-ai/">Health Connect und Apple Health über MCP</a> beschreibt den Server des Stacks und einen für dein eigenes Postgres.</p>
 
 <h2>Grenzen</h2>
 
