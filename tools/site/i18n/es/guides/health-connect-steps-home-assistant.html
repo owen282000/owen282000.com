@@ -1,0 +1,92 @@
+<!--
+slug: health-connect-pasos-home-assistant
+title: Health Connect: pasos mal en Home Assistant | Life Dashboard
+description: Por qué un sensor de pasos o calorías de Health Connect en Home Assistant puede diferir de tu reloj, y cómo lo evitan los totales diarios que se reemplazan.
+primary query: pasos health connect home assistant
+secondary queries: home assistant health connect pasos no se actualizan, health connect pasos diarios contados dos veces, sensor de pasos home assistant incorrecto, health connect calorías activas home assistant, total_increasing not strictly increasing health connect, health connect pasos de ayer home assistant
+updated: 2026-11-20
+published: 2026-11-20
+-->
+
+<h1>¿Por qué mis pasos de Health Connect salen mal en Home Assistant?</h1>
+
+<p>Casi siempre por una de estas cuatro razones: el sensor todavía no se ha puesto al día, llegaron pasos tarde para un día que ya había terminado, una cifra se corrigió a la baja, o el sensor muestra un registro y no el día. Ninguna significa que tu reloj se equivoque. Esta página repasa cada una, para los sensores de Health Connect de la app Companion de Home Assistant y para Life Dashboard, y muestra cómo comprobar cuál es tu caso.</p>
+
+<h2>Comprueba primero Health Connect</h2>
+
+<p>Abre Health Connect en el teléfono (<strong>Ajustes</strong> &gt; <strong>Health Connect</strong>, o la app Health Connect en Android 9 a 13) y busca los pasos de hoy en sus datos de actividad. Esa es la cifra que puede leer cualquier app del teléfono.</p>
+
+<ul>
+  <li><strong>Health Connect coincide con la app de tu reloj, Home Assistant no.</strong> La diferencia está en cómo llega el valor a Home Assistant. Sigue leyendo.</li>
+  <li><strong>Health Connect ya está mal.</strong> Entonces la app del reloj lo escribió así, o todavía no ha sincronizado. Abre la app del reloj para que sincronice y mira <strong>Fuentes de datos y prioridad</strong> en Health Connect: cuando dos apps cubren los mismos minutos, cuenta la que está más arriba en esa lista.</li>
+</ul>
+
+<h2>El sensor va con retraso</h2>
+
+<p>Un reloj entrega sus pasos a su app cuando los dos se sincronizan, y la app los escribe después en Health Connect, a menudo con retraso. Garmin Connect y Zepp escriben horas más tarde. Home Assistant recibe entonces el valor en la siguiente actualización: cada 15 minutos con la app Companion, salvo que cambies <strong>Sensor Update Frequency</strong>, y cada 60 minutos de forma predeterminada con Life Dashboard, 15 como mínimo.</p>
+
+<p>Así que una cifra que por la tarde va unos cientos de pasos por detrás es normal. Si sigue atrasada durante horas, abre primero la app del reloj. Un informe sobre la app Companion describe un sensor <strong>Daily steps</strong> que dejó de seguir a Health Connect durante el día (<a href="https://github.com/home-assistant/android/issues/7510">issue #7510</a>, abierto a noviembre de 2026).</p>
+
+<h2>Pasos que llegan después de medianoche</h2>
+
+<p>Un sensor con el total de hoy cuenta desde medianoche. Cuando tu reloj sincroniza a las 00:20 y entrega el último paseo de la tarde, esos pasos son de ayer, pero un sensor que solo conoce el día de hoy no puede ponerlos ahí. La cifra de ayer en Home Assistant se queda entonces más baja que en la app de tu reloj, para siempre.</p>
+
+<p>Lo mismo le pasa al historial en general: Home Assistant registra el valor de un sensor en el momento en que cambia, no a la hora en que se dieron los pasos.</p>
+
+<h2>Un total que baja</h2>
+
+<p>Health Connect puede rebajar después el total de un día, por ejemplo cuando la app del reloj vuelve a sincronizar y reemplaza una estimación. Un sensor que Home Assistant trata como si solo pudiera subir no lo acepta sin más: el registro dice que el estado "is not strictly increasing". Está notificado para los sensores de distancia diaria y de calorías totales de la app Companion en el <a href="https://github.com/home-assistant/android/issues/7629">issue #7629</a>, abierto a noviembre de 2026.</p>
+
+<h2>Calorías activas que muestran un solo registro</h2>
+
+<p>El sensor <strong>Active calories burned</strong> de la app Companion guarda el registro más reciente, no el total del día. Un entrenamiento de 331 kcal desaparece de él en cuanto el teléfono escribe un registro más nuevo de 1 kcal. Así es como debe funcionar el sensor, según dicen sus desarrolladores en el <a href="https://github.com/home-assistant/android/issues/7803">issue #7803</a>: sus sensores de pasos, distancia y calorías totales son totales del día, este es la última lectura. Para las calorías activas por día necesitas algo que sume el día.</p>
+
+<h2>Sumar registros cuenta un paseo dos veces</h2>
+
+<p>Si construyes tu propio total a partir de registros de pasos sueltos, en una plantilla, en Node-RED o en una base de datos, un paseo que registraron tanto el teléfono como el reloj cuenta dos veces. Health Connect guarda las dos copias. Su propio total diario cuenta cada minuto una sola vez, así que usa ese total y no la suma de los registros.</p>
+
+<h2>Cómo mantiene Life Dashboard los días correctos</h2>
+
+<p><a href="../android/">Life Dashboard Companion</a> con la <a href="../home-assistant/">integración Life Dashboard</a> no lleva un contador acumulado. Trabaja por día:</p>
+
+<ul>
+  <li><strong>Los totales diarios del propio Health Connect.</strong> Para los pasos, la distancia, las calorías activas y las calorías totales, la app pide a Health Connect el total de cada día, la cifra que muestra la app Health Connect, con un paseo registrado por el teléfono y el reloj contado una sola vez.</li>
+  <li><strong>Cada sincronización envía hoy y los dos días anteriores.</strong> Los pasos que llegaron a las 00:20 están en el total de ayer en la siguiente sincronización.</li>
+  <li><strong>Un día se reemplaza, no se le suma.</strong> La integración guarda una cifra por día y pone la más nueva en su lugar, también cuando es más baja. Nada se cuenta dos veces cuando una sincronización se repite.</li>
+  <li><strong>Cada día en su fecha.</strong> Los días entran en las estadísticas a largo plazo en la fecha a la que pertenecen, así que la tarjeta <strong>Gráfico de estadísticas</strong> muestra los mismos días que la app de tu reloj. Un backfill, el envío de todo tu historial anterior, hace lo mismo con tu historial.</li>
+</ul>
+
+<p>La <a href="../health-connect-home-assistant/">guía de Health Connect para Home Assistant</a> explica la configuración, y <a href="../companion-app-health-connect/">La app Companion y Health Connect</a> compara las dos. Funcionan a la vez, así que puedes conservar la app Companion para todo lo demás.</p>
+
+<h2>Limitaciones</h2>
+
+<ul>
+  <li>Life Dashboard no puede acertar más que Health Connect. Si el total está mal en Health Connect, también lo está en Home Assistant.</li>
+  <li>Un día anterior a los dos previos a hoy solo se corrige con un backfill de ese periodo.</li>
+  <li>El total de hoy es tan reciente como la última sincronización: 15 minutos como mínimo.</li>
+  <li>Los sensores guardan el valor más reciente. Para el pasado, usa las estadísticas, no el historial del propio sensor.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>¿Por qué mis pasos en Home Assistant son menos que en mi reloj?</summary>
+    <p>Lo habitual es que la app del reloj todavía no haya escrito sus últimos pasos en Health Connect, o que Home Assistant no haya recibido ninguna actualización desde entonces. Abre la app del reloj para que sincronice y compara después con el total del propio Health Connect.</p>
+  </details>
+  <details>
+    <summary>¿Por qué los pasos de ayer salen demasiado bajos?</summary>
+    <p>Los pasos que llegan a Health Connect después de medianoche son del día anterior. Un sensor que cuenta desde medianoche no puede sumarlos a ayer. Life Dashboard envía con cada sincronización los totales de los dos días anteriores a hoy, así que ayer queda corregido.</p>
+  </details>
+  <details>
+    <summary>¿Se cuentan dos veces mis pasos cuando cuentan tanto el teléfono como el reloj?</summary>
+    <p>No en el total diario del propio Health Connect, que cuenta cada minuto una sola vez. Sí se cuentan dos veces si sumas tú los registros sueltos. Life Dashboard usa el total diario para sus sensores y estadísticas.</p>
+  </details>
+  <details>
+    <summary>¿Qué significa "state is not strictly increasing" en un sensor de Health Connect?</summary>
+    <p>Home Assistant esperaba un total que solo sube, y Health Connect corrigió el día a la baja. El valor en sí es el más nuevo, el corregido. Life Dashboard guarda una cifra por día y la reemplaza, así que una corrección no necesita ningún aviso.</p>
+  </details>
+  <details>
+    <summary>¿Puedo ver las calorías activas por día en Home Assistant?</summary>
+    <p>Sí, con Life Dashboard: <code>active_calories_today</code> es el total del día según Health Connect, y cada día está en las estadísticas a largo plazo. El sensor de calorías activas de la app Companion muestra el registro más reciente.</p>
+  </details>
+</section>

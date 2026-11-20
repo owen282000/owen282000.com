@@ -1,0 +1,107 @@
+<!--
+slug: solucion-de-problemas
+title: Health Connect no sincroniza: soluciones | Life Dashboard
+description: Sincronizaciones que se detienen en segundo plano, datos de Health Connect que faltan, sensores ausentes en Home Assistant y fallos de vinculación, paso a paso.
+primary query: health connect no sincroniza
+secondary queries: health connect no funciona, health connect no sincroniza en segundo plano, samsung cierra apps en segundo plano, sensores de salud no aparecen en home assistant, permisos de health connect, life dashboard solución de problemas
+updated: 2026-11-20
+published: 2026-11-20
+-->
+
+<h1>¿Por qué no llegan mis datos de salud?</h1>
+
+<p>La mayoría de los problemas con Life Dashboard Companion se reducen a cuatro cosas: el teléfono detiene la app en segundo plano, la app del reloj no escribe en Health Connect, falta un permiso o el teléfono no alcanza la dirección a la que envía. Esta página los repasa en el orden en que conviene comprobarlos. El primer sitio donde mirar es siempre la pestaña <strong>Logs</strong> de la app: muestra cada sincronización y cada entrega con la respuesta del servidor, y al tocar una fila ves los detalles.</p>
+
+<h2>Las sincronizaciones se detienen cuando la app está cerrada</h2>
+
+<p>Si la app solo sincroniza cuando la abres, el teléfono está deteniendo sus tareas en segundo plano para ahorrar batería. Samsung, Xiaomi, OnePlus, Huawei y otras marcas lo hacen, a menudo sin avisarte. Cambia estos ajustes una vez, justo después de instalar:</p>
+
+<ul>
+  <li><strong>Samsung:</strong> Ajustes &gt; Aplicaciones &gt; Life Dashboard &gt; Batería, y elige <strong>Sin restricciones</strong>. Después, Ajustes &gt; Batería (en algunas versiones dentro de Mantenimiento del dispositivo) &gt; Límites de uso en segundo plano &gt; <strong>Never sleeping apps</strong>, y añade Life Dashboard.</li>
+  <li><strong>Xiaomi, Redmi y POCO:</strong> activa el inicio automático para Life Dashboard (en las versiones más recientes, <strong>Background autostart</strong> en los permisos de la app) y pon su ahorro de batería en <strong>Sin restricciones</strong>. Bloquear la app en la pantalla de apps recientes, con una pulsación larga y el candado, evita además que se cierre.</li>
+  <li><strong>Pixel y otros teléfonos con un Android casi sin modificar:</strong> Ajustes &gt; Aplicaciones &gt; Life Dashboard &gt; Uso de batería de la aplicación, y elige <strong>Sin restricciones</strong>.</li>
+  <li><strong>OnePlus, Oppo, Huawei y otras marcas:</strong> pon el uso de batería de la app en <strong>Sin restricciones</strong> (o <strong>No restrictions</strong>, según la marca) en Ajustes &gt; Aplicaciones &gt; Life Dashboard, y busca un gestor de inicio automático aparte. Los menús cambian de una versión a otra; <a href="https://dontkillmyapp.com">dontkillmyapp.com</a> mantiene los pasos actuales de cada marca.</li>
+</ul>
+
+<p>Después comprueba que la lectura en segundo plano siga permitida en Health Connect (consulta la sección siguiente): sin ella, solo funciona <strong>Sincronizar ahora</strong>. Incluso con todos los ajustes bien, Android ejecuta una tarea en segundo plano cada 15 minutos como mucho, y puede esperar más cuando el teléfono está en reposo. La pestaña <strong>Logs</strong> muestra cuándo se ejecutaron de verdad las sincronizaciones.</p>
+
+<h2>Health Connect está vacío o la app no puede leerlo</h2>
+
+<ol>
+  <li><strong>Health Connect está instalado.</strong> En Android 14 y posterior forma parte de los ajustes del sistema; busca "Health Connect" en los ajustes (en Samsung está en Seguridad y privacidad). En Android 9 a 13, la pestaña <strong>Salud</strong> de la app ofrece instalarlo o actualizarlo. Android 8 no lo admite; ahí el tiempo de pantalla sigue funcionando.</li>
+  <li><strong>La app de tu reloj escribe en él.</strong> Es un ajuste de la otra app. En Samsung Health está en Ajustes &gt; Health Connect; en Garmin Connect, en Settings &gt; Connected Apps &gt; Health Connect, con Android 14 o posterior. Las guías de <a href="../samsung-health-home-assistant/">Samsung</a>, <a href="../garmin-home-assistant/">Garmin</a> y <a href="../fitbit-home-assistant/">Fitbit</a> tienen los detalles. <strong>Abrir app</strong>, en la fila <strong>Acceso a Health Connect</strong> de <strong>Qué enviar</strong> en la pestaña Salud, abre Health Connect, así puedes ver si los datos están ahí.</li>
+  <li><strong>La app puede leerlo.</strong> Toca <strong>Conceder</strong> en la fila <strong>Acceso a Health Connect</strong> de <strong>Qué enviar</strong> en la pestaña Salud. Health Connect pide el acceso de lectura por tipo de datos y también la <strong>lectura en segundo plano</strong>; las sincronizaciones programadas necesitan la segunda. Un tipo con un candado en <strong>Qué enviar</strong> todavía no tiene permiso: desactívalo y actívalo para que lo pida otra vez.</li>
+  <li><strong>El historial más antiguo necesita un permiso más.</strong> Health Connect solo deja que una app lea datos de hasta 30 días antes de recibir acceso por primera vez. Para ir más atrás, la página del backfill, el envío de todo tu historial anterior, pide el acceso al historial.</li>
+</ol>
+
+<h2>Sincronizar ahora dice "No hay datos nuevos"</h2>
+
+<p>Cada sincronización envía solo lo que es nuevo desde la anterior, y la primera de todas lee los últimos 7 días. <strong>Vista previa del payload</strong>, en <strong>Qué enviar</strong> en la pestaña Salud, muestra lo que enviaría la siguiente sincronización. Para datos más antiguos, lanza un backfill. Comprueba también que el reloj se haya sincronizado con el teléfono: Garmin Connect escribe en Health Connect después de que el reloj sincroniza, y Samsung Health cuando el reloj se conecta o cuando abres Samsung Health.</p>
+
+<p>Los valores nocturnos, como la HRV, la frecuencia respiratoria y el sueño, suelen llegar horas después de que te despiertas. Las apps de los relojes escriben la noche en Health Connect solo cuando sincronizan por la mañana. La app la envía con la primera sincronización posterior; no se pierde nada.</p>
+
+<h2>No hay sensores en Home Assistant</h2>
+
+<ul>
+  <li><strong>Con la integración:</strong> Ajustes &gt; Dispositivos y servicios &gt; Life Dashboard, y después el dispositivo del teléfono. Un sensor aparece cuando el teléfono ha enviado ese tipo. Los ID de entidad empiezan por el nombre del teléfono, como <code>sensor.owens_pixel_steps_today</code>. Los sensores de tiempo de pantalla por app se crean desactivados: muestra las entidades desactivadas del dispositivo y activa las apps que quieras.</li>
+  <li><strong>El historial</strong> no está en los sensores, sino en las estadísticas a largo plazo. Añade una tarjeta <strong>Gráfico de estadísticas</strong> y elige en la lista las estadísticas del teléfono.</li>
+  <li><strong>Con MQTT:</strong> Ajustes &gt; Dispositivos y servicios &gt; MQTT, dispositivo <strong>Life Dashboard Companion</strong>.</li>
+  <li><strong>Nada de nada:</strong> revisa la pestaña <strong>Logs</strong>. Una entrega fallida significa que el teléfono no pudo alcanzar Home Assistant; consulta la sección siguiente.</li>
+</ul>
+
+<h2>El teléfono no alcanza Home Assistant</h2>
+
+<p>El teléfono envía a la dirección que va en el código de vinculación, así que esa dirección tiene que funcionar desde el teléfono.</p>
+
+<ul>
+  <li><strong><code>homeassistant.local</code> falla a menudo en Android,</strong> que no resuelve de forma fiable los nombres <code>.local</code>. Usa en su lugar la dirección IP de Home Assistant, como <code>http://192.168.1.10:8123</code>; está en Ajustes &gt; Sistema &gt; Red.</li>
+  <li><strong>Una dirección de la red doméstica</strong> solo funciona en el wifi de tu casa. Fuera de casa las sincronizaciones fallan, el teléfono guarda los datos y la primera sincronización de vuelta en casa los envía. Una notificación sobre sincronizaciones fallidas mientras estás fuera es esto.</li>
+  <li><strong>Una dirección pública,</strong> como una URL de Home Assistant Cloud o tu propio dominio <code>https://</code>, funciona en cualquier lugar.</li>
+  <li><strong>"Plain HTTP is blocked":</strong> la dirección empieza por <code>http://</code>. Activa <strong>Permitir webhooks con HTTP sin cifrar</strong> en <strong>Más</strong> &gt; <strong>Avanzado</strong> para un servidor de tu propia red o VPN; los datos viajan entonces sin cifrar por esa red.</li>
+  <li><strong>Un error de certificado con <code>https://</code>:</strong> tu servidor usa un certificado de tu propia CA, o uno autofirmado. En <strong>Más &gt; Avanzado &gt; Certificados del servidor</strong> (app 1.27.0 y posterior), confía para ese host en los certificados de CA instalados en el teléfono, o lee el certificado del servidor, comprueba su huella y confía exactamente en ese. No hay ninguna opción que ignore los errores de certificado.</li>
+</ul>
+
+<p>Para cambiar la dirección más adelante, abre <strong>Reconfigurar</strong> en la integración en Home Assistant, cámbiala ahí y escanea el código nuevo.</p>
+
+<h2>La vinculación no funciona</h2>
+
+<ul>
+  <li><strong>Al escanear se abre una página web en lugar de la app.</strong> Android comprueba el enlace de vinculación con la firma de la app cuando se instala. La página tiene un botón <strong>Open in the app</strong> que funciona siempre, y escanear desde dentro de la app, con <strong>Escanear un código de vinculación</strong>, nunca depende de esa comprobación.</li>
+  <li><strong>"Este código lo creó una versión más reciente".</strong> La integración es más reciente que la app. Actualiza la app y vuelve a escanear.</li>
+  <li><strong>La vinculación funciona pero no llega nada.</strong> La dirección del código no es alcanzable desde el teléfono: consulta la sección anterior.</li>
+</ul>
+
+<h2>Números que parecen incorrectos</h2>
+
+<ul>
+  <li><strong>¿Pasos contados dos veces?</strong> En Home Assistant, no. Cuando Samsung Health y Garmin escriben el mismo paseo, Health Connect guarda las dos copias, pero también calcula un total diario que cuenta el solapamiento una sola vez, y la integración usa ese total. Deja activado <strong>Totales diarios en el payload</strong> en <strong>Más</strong> &gt; <strong>Avanzado</strong>. <a href="../health-connect-steps-home-assistant/">Pasos de Health Connect que no cuadran en Home Assistant</a> repasa las demás causas.</li>
+  <li><strong>El tiempo de pantalla difiere del de Bienestar digital.</strong> El día de la app empieza a las 04:00 de forma predeterminada, las apps usadas un minuto o menos se dejan fuera y solo cuenta el tiempo en pantalla.</li>
+  <li><strong>Falta un campo,</strong> como un nutriente. La app envía todos los campos que tiene Health Connect, pero solo cuando la app que escribió el registro lo rellenó.</li>
+</ul>
+
+<h2>En un iPhone</h2>
+
+<ul>
+  <li><strong>Un iPhone bloqueado no puede leer Apple Health.</strong> iOS mantiene cifrados los datos de Salud mientras el teléfono está bloqueado, así que una sincronización en ese momento no lee nada; la siguiente sincronización con el teléfono desbloqueado se pone al día.</li>
+  <li><strong>Falta un tipo.</strong> Comprueba que esté activado en <strong>Qué enviar</strong>. Cuando iOS todavía no ha preguntado por un tipo, la fila <strong>Acceso a la app Salud</strong> muestra ahí <strong>Conceder</strong>. iOS nunca le dice a una app si permitiste la lectura, así que un tipo que rechazaste simplemente no envía nada; cámbialo en la app Salud, en tu perfil, <strong>Apps</strong>, <strong>Life Dashboard</strong>.</li>
+  <li><strong>No llega nada a tu servidor.</strong> Toca el destino en la pestaña <strong>Salud</strong> y después <strong>Enviar prueba</strong>. La pestaña <strong>Logs</strong> muestra el error que dio el servidor o iOS. Para un servidor en casa, permite <strong>Red local</strong> para Life Dashboard en Ajustes &gt; Privacidad y seguridad.</li>
+  <li><strong>Las sincronizaciones llegan tarde.</strong> iOS decide cuándo se ejecuta una app en segundo plano. La actualización en segundo plano tiene que estar activada para la app, y el modo de bajo consumo la desactiva; la pestaña <strong>Salud</strong> lo indica cuando alguna de las dos cosas retrasa las sincronizaciones. Para una hora exacta, <strong>¿Necesitas una hora exacta?</strong>, en <strong>Cuándo enviar</strong>, explica la automatización de Atajos.</li>
+  <li><strong>Hay payloads en espera.</strong> La pestaña <strong>Salud</strong> muestra cuántos están pendientes, y <strong>Reintentar ahora</strong> los envía enseguida.</li>
+  <li><strong>"No hay datos para sincronizar".</strong> Cada sincronización envía solo lo que es nuevo desde la anterior. <strong>Vista previa del payload</strong>, en <strong>Qué enviar</strong>, muestra los últimos 7 días como un payload. Para datos más antiguos, toca ahí <strong>Enviar historial</strong>.</li>
+</ul>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>¿La app gasta mucha batería?</summary>
+    <p>Muy poca. Entre sincronizaciones no hace nada: no hay ningún servicio en ejecución ni ninguna conexión abierta. Cada sincronización es una tarea corta que Android inicia según tu horario, una vez por hora de forma predeterminada. Un backfill gasta más mientras está en marcha.</p>
+  </details>
+  <details>
+    <summary>¿Se pierden datos cuando falla una sincronización?</summary>
+    <p>Rara vez. Un payload que no se entregó se queda en el teléfono y sale con la siguiente sincronización que alcanza tu servidor, el más antiguo primero. La pestaña <strong>Logs</strong> muestra cada intento. Los datos se pierden en dos casos. El teléfono guarda hasta 700 payloads, alrededor de una semana de sincronizaciones cada 15 minutos; pasado ese número, se va el más antiguo, con una fila en <strong>Logs</strong> y una notificación. Y un payload que tu servidor rechaza con 400, 413 o 422 se ofrece otra vez en cada sincronización durante una semana y después se descarta, con una fila en <strong>Logs</strong>. Mientras tu servidor no sea alcanzable en absoluto, nada se descarta por antigüedad.</p>
+  </details>
+  <details>
+    <summary>¿Dónde pregunto si esta página no me ayuda?</summary>
+    <p>En <a href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Discussions</a> en GitHub, o abre un issue con la fila de la pestaña <strong>Logs</strong>. La lista completa de solución de problemas está en la <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/usage.md#troubleshooting">guía de configuración</a>.</p>
+  </details>
+</section>

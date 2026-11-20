@@ -1,0 +1,107 @@
+<!--
+slug: bascula-inteligente-samsung-health
+title: Báscula inteligente a Samsung Health con Home Assistant
+description: Xiaomi, Renpho, Eufy o Withings: si Home Assistant lee tu báscula, el peso y la grasa corporal llegan a Samsung Health y Google Health mediante Health Connect.
+primary query: báscula inteligente samsung health
+secondary queries: báscula inteligente home assistant, peso de home assistant a health connect, báscula home assistant samsung health, presión arterial home assistant health connect, báscula xiaomi samsung health, renpho home assistant health connect, peso de home assistant a google health
+updated: 2026-11-09
+published: 2026-11-20
+-->
+
+<h1>¿Cómo llevo las mediciones de una báscula inteligente de Home Assistant a Samsung Health?</h1>
+
+<p class="signpost">¿Quieres al revés, los datos de Samsung Health de tu reloj en Home Assistant? Consulta <a href="../samsung-health-home-assistant/">Samsung Health y Galaxy Watch en Home Assistant</a>.</p>
+
+<p>Asigna las entidades de la báscula en la integración Life Dashboard y activa <strong>Recibir</strong> en Life Dashboard Companion, la app de código abierto para Android que se vincula con ella. En la siguiente sincronización, la integración entrega cada medición nueva a la app, y la app la escribe en Health Connect con la hora en que se midió. Samsung Health y Google Health leen el peso y la grasa corporal de Health Connect, así que el peso y la grasa corporal de una báscula que solo se comunica con Home Assistant acaban en esas apps. Lo mismo funciona con un tensiómetro, aunque que una app muestre esa medición depende de la app.</p>
+
+<h2>Qué necesitas</h2>
+
+<ul>
+  <li>Un teléfono Android con Health Connect y Life Dashboard Companion, vinculado con la <a href="../home-assistant/">integración Life Dashboard</a> 0.7.0 o posterior. La <a href="../health-connect-home-assistant/">guía de Health Connect</a> explica la vinculación. La app para iPhone no recibe mediciones, y MQTT no puede transportarlas.</li>
+  <li>Las mediciones de la báscula como sensores en Home Assistant. Una báscula Bluetooth necesita Bluetooth a pocos metros: un adaptador en el equipo de Home Assistant o un proxy Bluetooth de ESPHome cerca del baño.</li>
+</ul>
+
+<p>Las vías habituales hacia Home Assistant son Xiaomi BLE con bodymiscale para las básculas Xiaomi, ble-scale-sync para Renpho, Eufy, Yunmai y otras, y la integración de Withings. La <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/recipes/scale-to-health-connect.md">receta de la báscula</a> indica qué entidad asignar en cada caso y trae las plantillas que algunas vías necesitan.</p>
+
+<p>Una báscula que solo sincroniza con la nube de su fabricante, como la Xiaomi S400 EU en Xiaomi Home, o una báscula en Zepp Life, Mi Fitness, My TANITA o Picooc, puede llegar a Home Assistant mediante <a href="https://github.com/AlexxIT/SmartScaleConnect">SmartScaleConnect</a>. Inicia sesión en esa nube con tu cuenta y envía cada pesaje nuevo a un webhook de Home Assistant, donde una automatización lo convierte en los sensores que asignas más abajo.</p>
+
+<h2>Configuración paso a paso</h2>
+
+<ol>
+  <li>En Home Assistant, abre Ajustes &gt; Dispositivos y servicios &gt; Life Dashboard y elige <strong>Configurar</strong> para el teléfono. Elige una entidad por tipo. Cada tipo tiene un campo opcional <strong>Measured at</strong> para un sensor de marca de tiempo que guarda cuándo se hizo el pesaje.</li>
+  <li>En la app, en la pestaña <strong>Salud</strong>, abre <strong>Recibir</strong> y activa <strong>Recibir mediciones</strong>.</li>
+  <li>Activa cada tipo que asignaste. Cada uno pide a Health Connect permiso para escribir ese tipo. Si lo rechazas, el interruptor se queda desactivado.</li>
+  <li>Súbete a la báscula y después toca <strong>Sincronizar ahora</strong> o espera a la siguiente sincronización. La pestaña <strong>Logs</strong> muestra una fila de Home Assistant; tócala para ver cada medición y si se escribió.</li>
+</ol>
+
+<!-- IMG: Receive settings (A5-receive.png) -->
+
+<h2>Qué escribe</h2>
+
+<table>
+  <thead>
+    <tr><th>Tipo</th><th>Rango aceptado</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Peso</td><td>1 a 500 kg</td></tr>
+    <tr><td>Grasa corporal</td><td>1 a 80 %</td></tr>
+    <tr><td>Masa corporal magra</td><td>1 a 300 kg</td></tr>
+    <tr><td>Masa ósea</td><td>0,1 a 30 kg</td></tr>
+    <tr><td>Masa de agua corporal</td><td>1 a 300 kg</td></tr>
+    <tr><td>Altura</td><td>0,3 a 2,8 m</td></tr>
+    <tr><td>Presión arterial</td><td>Sistólica de 30 a 300, diastólica de 10 a 250 mmHg</td></tr>
+  </tbody>
+</table>
+
+<p>Las unidades se convierten, así que las libras y los stones funcionan. El IMC, la masa muscular, la grasa visceral y la edad metabólica no tienen registro en Health Connect, así que se quedan en Home Assistant. La mayoría de las básculas dan el agua corporal como porcentaje; la receta trae una plantilla que lo convierte en kilogramos.</p>
+
+<h2>Cómo se tratan las mediciones</h2>
+
+<ul>
+  <li><strong>La hora es la del pesaje.</strong> Un pesaje a las 07:00 que se sincroniza a las 09:00 aparece como 07:00 en Health Connect.</li>
+  <li><strong>Un pesaje es una medición.</strong> El mismo valor dentro de diez minutos cuenta como la misma medición, y un valor distinto para el mismo momento sustituye al registro anterior.</li>
+  <li><strong>Firmado en los dos sentidos.</strong> Las mediciones vuelven en la respuesta firmada de la integración a la petición que la app ya hace. No hay un segundo canal ni un segundo secreto.</li>
+  <li><strong>Nada rebota.</strong> Lo que la app escribe queda fuera de lo que envía, así que tu peso no vuelve a Home Assistant como un segundo sensor.</li>
+  <li><strong>Un aviso sobre duplicados.</strong> Si la app propia de la báscula ya escribe el mismo tipo en Health Connect, la app te avisa al activarlo. Quédate con una sola fuente, o cada pesaje quedará dos veces.</li>
+</ul>
+
+<h2>Qué muestran Samsung Health y Google Health</h2>
+
+<p>La app solo puede garantizar que una medición llega a Health Connect. El resto depende de cada app.</p>
+
+<table>
+  <thead>
+    <tr><th>App</th><th>Qué recoge de Health Connect</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Samsung Health</td><td>Peso y grasa corporal. La masa corporal magra, la masa ósea y el agua corporal no suelen aparecer, y la presión arterial de otras apps no está verificada.</td></tr>
+    <tr><td>Google Health</td><td>Peso y grasa corporal. No lee la presión arterial.</td></tr>
+    <tr><td>Garmin Connect</td><td>No lee el peso de Health Connect.</td></tr>
+  </tbody>
+</table>
+
+<p>Una medición con <strong>Escritos</strong> en la pestaña <strong>Logs</strong> está en Health Connect, bajo su tipo y con Life Dashboard como fuente.</p>
+
+<h2>Mediciones antiguas</h2>
+
+<p>Las mediciones de más de 30 días se rechazan salvo que <strong>Aceptar mediciones antiguas</strong> esté activado en la app. El botón <strong>Send history to phone</strong> de la integración pone en cola hasta 30 días, hasta donde el recorder de Home Assistant conserve estados (10 días de forma predeterminada). La acción <code>life_dashboard.queue_history</code> llega hasta 90 días atrás. Una medición que el teléfono rechazó no se ofrece otra vez, así que activa <strong>Aceptar mediciones antiguas</strong> antes de enviar el historial.</p>
+
+<section class="faq">
+  <h2>FAQ</h2>
+  <details>
+    <summary>¿Por qué mi peso aparece dos veces en Samsung Health?</summary>
+    <p>La app propia de la báscula, como Zepp, Mi Fitness o Withings, también escribe en Health Connect. Desactiva el tipo en <strong>Recibir</strong>, o impide en los ajustes de la otra app que escriba el peso.</p>
+  </details>
+  <details>
+    <summary>¿Funciona con un iPhone y Apple Health?</summary>
+    <p>No. La app para iPhone solo lee Apple Health y no escribe mediciones de vuelta.</p>
+  </details>
+  <details>
+    <summary>¿Cuánto tarda en aparecer un pesaje?</summary>
+    <p>Hasta la siguiente sincronización del teléfono, cada 60 minutos de forma predeterminada y cada 15 como mínimo. <strong>Sincronizar ahora</strong> lo recoge enseguida.</p>
+  </details>
+  <details>
+    <summary>¿Pasan las mediciones por un servicio en la nube?</summary>
+    <p>Por el lado de Life Dashboard, no: van de Home Assistant al teléfono en la respuesta a su propia petición. Una integración de báscula en la nube en Home Assistant sigue leyendo de la nube del fabricante, y sin un sensor de marca de tiempo sus mediciones reciben la hora en que Home Assistant las obtuvo.</p>
+  </details>
+</section>
