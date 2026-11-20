@@ -148,7 +148,7 @@ REPO = "https://github.com/owen282000/life-dashboard-companion-app"
 REPO_IOS = "https://github.com/owen282000/life-dashboard-companion-app-ios"
 REPO_HA = "https://github.com/owen282000/life-dashboard-ha"
 REPO_STACK = "https://github.com/owen282000/life-dashboard-stack"
-APP_STORE = "https://apps.apple.com/app/life-dashboard-companion/id6824075761"
+APP_STORE = "https://apps.apple.com/app/health-data-for-home-assistant/id6824075761"
 APK = f"{REPO}/releases/latest/download/app-release.apk"
 PLAY = "https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard"
 # Every link to the Play listing carries a campaign referrer naming the page it sits on, so the
@@ -390,7 +390,7 @@ ENTITY_ID = {"android": "#android", "ios": "#ios", "home-assistant": "#integrati
 ENTITY_BASE = {
     "android": {
         "@type": "SoftwareApplication", "@id": f"{BASE}#android", "name": "Life Dashboard Companion",
-        "alternateName": ["Life Dashboard", "Life Dashboard Companion for Android"],
+        "alternateName": ["Life Dashboard", "Life Dashboard Companion for Android", "Health Data for Home Assistant"],
         "identifier": "com.owen282000.lifedashboard",
         "applicationCategory": "HealthApplication",
         "inLanguage": ["en", "nl", "de", "fr", "es", "it", "pt-BR", "ja", "ar", "hi", "zh-Hans"], "url": f"{BASE}android/",
@@ -399,7 +399,7 @@ ENTITY_BASE = {
         "sameAs": [REPO], "screenshot": f"{BASE}img/A1-health.webp"},
     "ios": {
         "@type": "SoftwareApplication", "@id": f"{BASE}#ios", "name": "Life Dashboard Companion for iPhone",
-        "alternateName": "Life Dashboard Companion for iOS", "applicationCategory": "HealthApplication",
+        "alternateName": ["Life Dashboard Companion for iOS", "Health Data for Home Assistant"], "applicationCategory": "HealthApplication",
         "inLanguage": ["en", "nl", "de", "fr", "es", "it", "pt-BR", "ja", "ar", "hi", "zh-Hans"], "url": f"{BASE}ios/", "license": "https://opensource.org/licenses/MIT",
         "isPartOf": {"@id": f"{BASE}#project"}, "author": {"@id": f"{BASE}#owen"},
         "sameAs": [REPO_IOS], "screenshot": f"{BASE}img/ios-health.webp"},
