@@ -48,7 +48,7 @@
         }
       ],
       "datePublished": "2026-10-14",
-      "dateModified": "2026-11-05",
+      "dateModified": "2026-11-20",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -169,7 +169,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Health Connect data types, app by app</span></nav>
 <h1>Which Health Connect data types can I get, and which apps write them?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 5, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 20, 2026.</p>
 
 <p>Life Dashboard Companion, an open-source Android app, reads 34 Health Connect data types and sends each under its own key as JSON, from steps, sleep stages and heart rate to blood pressure, nutrition and cycle tracking. What actually arrives depends on what your watch's app writes to Health Connect: Samsung Health doesn't write heart rate variability or resting heart rate, and Garmin Connect writes neither of those nor oxygen saturation.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="../android/#get">Get the Android app</a></p>
@@ -271,6 +271,8 @@
 <p>* Not in Google's list, but Fitbit's nightly SpO2 was seen arriving through Health Connect in September 2026, as <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/DATA_SOURCES.md#fitbit-comfitbitfitbitmobile">DATA_SOURCES.md</a> records.</p>
 
 <p>Each app can change what it shares with any update, so look on your own phone under Health Connect &gt; App permissions &gt; the app. Types none of these six apps lists, such as ovulation tests or mindfulness sessions, come from other apps: cycle trackers, food loggers or meditation apps that write to Health Connect.</p>
+
+<p>Coros writes to Health Connect too, with one catch seen in October 2026: its total calories hold the active energy only, so the day's total comes out several hundred kcal too low. The <a href="https://github.com/owen282000/life-dashboard-companion-app/blob/main/docs/brands/coros.md">Coros page</a> has a Home Assistant template that adds the resting part.</p>
 
 <h2 id="what-each-app-keeps-to-itself">What each app keeps to itself</h2>
 
@@ -515,6 +517,7 @@
           <li><a href="../garmin-home-assistant/">Garmin in Home Assistant</a></li>
           <li><a href="../health-data-own-ai/">Health Connect and Apple Health over MCP</a></li>
           <li><a href="../health-data-qr-pairing/">Let your users connect with one QR code</a></li>
+          <li><a href="../health-connect-steps-home-assistant/">Health Connect steps that look wrong in Home Assistant</a></li>
           <li><a href="../troubleshooting/">Troubleshooting: syncs, sensors and pairing</a></li>
           <li><a href="../apple-health-home-assistant/">Apple Health in Home Assistant</a></li>
           <li><a href="../apple-watch-home-assistant/">Apple Watch in Home Assistant</a></li>
@@ -569,6 +572,7 @@
           <li><a href="../garmin-home-assistant/">Garmin in Home Assistant</a></li>
           <li><a href="../health-data-own-ai/">Health Connect and Apple Health over MCP</a></li>
           <li><a href="../health-data-qr-pairing/">Let your users connect with one QR code</a></li>
+          <li><a href="../health-connect-steps-home-assistant/">Health Connect steps that look wrong in Home Assistant</a></li>
           <li><a href="../troubleshooting/">Troubleshooting: syncs, sensors and pairing</a></li>
           <li><a href="../apple-health-home-assistant/">Apple Health in Home Assistant</a></li>
           <li><a href="../apple-watch-home-assistant/">Apple Watch in Home Assistant</a></li>

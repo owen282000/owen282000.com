@@ -3,7 +3,7 @@ title: Android screen time in Home Assistant | Life Dashboard
 description: Life Dashboard Companion sends Android screen time per app to Home Assistant: daily minutes, top apps and a sensor per app for automations.
 primary query: home assistant screen time android
 secondary queries: screen time per app home assistant, digital wellbeing export, digital wellbeing home assistant, android app usage home assistant, screen time limit home assistant
-updated: 2026-11-06
+updated: 2026-11-20
 -->
 
 <h1>How do I get Android screen time per app into Home Assistant?</h1>
@@ -39,7 +39,7 @@ updated: 2026-11-06
     <tr><th>Integration sensor</th><th>Over MQTT</th><th>What it holds</th></tr>
   </thead>
   <tbody>
-    <tr><td><code>sensor.&lt;phone&gt;_screen_time_today</code></td><td>Screen Time Today</td><td>Time today, with the top five apps and their minutes in <code>top_apps</code></td></tr>
+    <tr><td><code>sensor.&lt;phone&gt;_screen_time_today</code></td><td>Screen Time Today</td><td>Time today, with the top five apps and their minutes in <code>top_apps</code>, and from integration 1.2.0 every app of the day in <code>apps</code></td></tr>
     <tr><td><code>sensor.&lt;phone&gt;_screen_time_yesterday</code></td><td>Screen Time Yesterday</td><td>Yesterday's final total</td></tr>
     <tr><td><code>sensor.&lt;phone&gt;_most_used_app_today</code></td><td>Screen Time Top App Today</td><td>The app with the most minutes today</td></tr>
     <tr><td><code>sensor.&lt;phone&gt;_&lt;app&gt;_screen_time</code></td><td>Not available</td><td>One app's time today, with its minutes over the week in <code>week_minutes</code></td></tr>
@@ -58,6 +58,18 @@ updated: 2026-11-06
 </ul>
 
 <p>Total screen time per day also goes into long-term statistics, in hours, and so does the time per day of each app whose sensor you enabled. <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md#screen-time">Screen time in detail</a> covers all attributes.</p>
+
+<h2>Cards for your dashboard</h2>
+
+<p><a href="https://github.com/owen282000/life-dashboard-screen-time-card">Life Dashboard Screen Time</a> is a separate install from the Marketplace (HACS before Home Assistant 2026.11) with three cards, each against a daily limit you set:</p>
+
+<ul>
+  <li><strong>Today on one phone</strong>: a ring against the limit, the difference with yesterday and with the last seven days, and the apps with their own icons and minutes.</li>
+  <li><strong>The week</strong>: a bar per day with the limit as a line. Tap a day to see its apps.</li>
+  <li><strong>The family</strong>: everyone in one card, each against their own limit, with their three biggest apps.</li>
+</ul>
+
+<p>With integration 1.2.0 or newer the cards show every app of the day; before that, the top five and the app sensors you enabled. They also read a child's screen time from Google Family Link or Microsoft Family Safety, through the community integrations HAFamilyLink and HAFamilySafety.</p>
 
 <h2>Limits and alerts</h2>
 

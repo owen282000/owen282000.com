@@ -85,7 +85,7 @@
         "inLanguage": "en"
       },
       "inLanguage": "en",
-      "dateModified": "2026-11-09"
+      "dateModified": "2026-11-20"
     },
     {
       "@type": "FAQPage",
@@ -119,7 +119,7 @@
           "name": "Which data gets no sensor?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Eight of the 34 Health Connect types are events: meals, mindfulness sessions, sexual activity and the five cycle tracking types. Workouts get a last workout sensor and the minutes of today and yesterday, and mindfulness counts as time per day, in hours, in the statistics. For the raw records, add a second webhook in the app that points at your own backend."
+            "text": "Seven of the 34 Health Connect types: mindfulness sessions, sexual activity and the five cycle tracking types. They are events, and a single value can't show them. Single meals get no sensor either, but from version 1.2.0 the calories, protein, carbs and fat you ate today do. Workouts get a last workout sensor and the minutes of today and yesterday, and mindfulness counts as time per day, in hours, in the statistics. For the raw records, add a second webhook in the app that points at your own backend."
           }
         },
         {
@@ -253,6 +253,7 @@
         <ul class="ticks">
           <li>Day totals <span>Steps, distance, active and total calories, from Health Connect's or HealthKit's deduplicated figures.</span></li>
           <li>Latest readings <span>Heart rate, resting heart rate, HRV, last sleep, weight, blood pressure, glucose, SpO2, VO2 max, the last workout and more, with measured_at and source.</span></li>
+          <li>What you ate today <span>Calories, protein, carbs and fat of today's meals, from the app you log your food in, from version 1.2.0. Every day is a statistic too.</span></li>
           <li>One value per day <span>Steps, distance in km, calories, sleep, exercise and mindfulness time in hours, hydration and screen time.</span></li>
           <li>Mean, minimum and maximum per hour <span>Heart rate, weight, blood pressure and the other measurements.</span></li>
           <li>A new phone carries on <span>Adding a phone offers to take over the statistics of one you removed, so its graphs and running totals carry on instead of starting again.</span></li>
@@ -301,9 +302,9 @@
       <div class="stack-text">
         <div><p class="label purple">Screen time</p>
         <h2>Screen time per app, with its history</h2></div>
-        <div><p>On Android, the app sends screen time from the same usage statistics Digital Wellbeing reads. The example dashboard has a view of its own for it.</p>
+        <div><p>On Android, the app sends screen time from the same usage statistics Digital Wellbeing reads. The example dashboard has a view of its own for it, and the <a href="https://github.com/owen282000/life-dashboard-screen-time-card">Life Dashboard Screen Time cards</a>, a separate install from the Marketplace, show today, the week and the whole family, each against a daily limit you set.</p>
         <ul class="ticks purple-ticks">
-          <li>Today and yesterday <span>Screen time in hours, the most used app, and the top five with their minutes.</span></li>
+          <li>Today and yesterday <span>Screen time in hours, the most used app, and from version 1.2.0 every app of the day with its minutes.</span></li>
           <li>A sensor per app <span>Created disabled, up to 50 per phone, for automations such as a time limit on one game.</span></li>
           <li>History per app <span>Every app whose sensor you enable gets a statistic with its time per day, so a graph shows it over weeks or a year.</span></li>
         </ul>
@@ -317,8 +318,8 @@
 <section class="section tight" id="compare">
   <div class="wrap">
     <div class="section-head"><h2>Next to the Home Assistant companion app</h2><p>Keep the companion app for presence, notifications and device sensors. The two run side by side; this is what the integration adds for health data.</p></div>
-    <div class="table-wrap compare-wrap" tabindex="0" role="region" aria-label="Next to the Home Assistant companion app"><table class="compare"><thead><tr><th scope="col">Feature</th><th scope="col">Home Assistant companion app</th><th scope="col">Life Dashboard</th></tr></thead><tbody><tr><th scope="row">Health Connect</th><td>26 sensors</td><td>34 types; 26 become sensors, and a webhook gets every record</td></tr><tr><th scope="row">History</th><td>From the day you enable a sensor, with today's value filed at sync time</td><td>A backfill of all your history, every value filed on the date it happened</td></tr><tr><th scope="row">Screen time</th><td>Last used app</td><td>Time per app with its history, and a day boundary you choose</td></tr><tr><th scope="row">Into Health Connect</th><td>No</td><td>Scale and blood pressure readings from Home Assistant</td></tr><tr><th scope="row">Other destinations</th><td>Home Assistant</td><td>Also MQTT, any webhook and <a href="../grafana/">the Grafana stack</a></td></tr></tbody></table></div>
-    <p class="fineprint">From the companion app's <a href="https://companion.home-assistant.io/docs/core/sensors">sensor documentation</a> and its code, as of release 2026.8.4. <a href="../companion-app-health-connect/">The companion app and Health Connect</a> goes row by row.</p>
+    <div class="table-wrap compare-wrap" tabindex="0" role="region" aria-label="Next to the Home Assistant companion app"><table class="compare"><thead><tr><th scope="col">Feature</th><th scope="col">Home Assistant companion app</th><th scope="col">Life Dashboard</th></tr></thead><tbody><tr><th scope="row">Health Connect</th><td>36 sensors</td><td>34 types; 27 become sensors, and a webhook gets every record</td></tr><tr><th scope="row">History</th><td>From the day you enable a sensor, with today's value filed at sync time</td><td>A backfill of all your history, every value filed on the date it happened</td></tr><tr><th scope="row">Screen time</th><td>Last used app</td><td>Time per app with its history, and a day boundary you choose</td></tr><tr><th scope="row">Into Health Connect</th><td>No</td><td>Scale and blood pressure readings from Home Assistant</td></tr><tr><th scope="row">Other destinations</th><td>Home Assistant</td><td>Also MQTT, any webhook and <a href="../grafana/">the Grafana stack</a></td></tr></tbody></table></div>
+    <p class="fineprint">From the companion app's <a href="https://companion.home-assistant.io/docs/core/sensors">sensor documentation</a> and its code, as of release 2026.11.1. <a href="../companion-app-health-connect/">The companion app and Health Connect</a> goes row by row.</p>
   </div>
 </section>
 
@@ -368,7 +369,7 @@
       </details>
       <details>
         <summary>Which data gets no sensor?</summary>
-        <p>Eight of the 34 Health Connect types are events: meals, mindfulness sessions, sexual activity and the five cycle tracking types. Workouts get a last workout sensor and the minutes of today and yesterday, and mindfulness counts as time per day, in hours, in the statistics. For the raw records, add a second webhook in the app that points at <a href="../health-connect-webhook/">your own backend</a>.</p>
+        <p>Seven of the 34 Health Connect types: mindfulness sessions, sexual activity and the five cycle tracking types. They are events, and a single value can't show them. Single meals get no sensor either, but from version 1.2.0 the calories, protein, carbs and fat you ate today do. Workouts get a last workout sensor and the minutes of today and yesterday, and mindfulness counts as time per day, in hours, in the statistics. For the raw records, add a second webhook in the app that points at <a href="../health-connect-webhook/">your own backend</a>.</p>
       </details>
       <details>
         <summary>Can Home Assistant send a scale reading to the phone?</summary>
@@ -458,6 +459,7 @@
           <li><a href="../garmin-home-assistant/">Garmin in Home Assistant</a></li>
           <li><a href="../health-data-own-ai/">Health Connect and Apple Health over MCP</a></li>
           <li><a href="../health-data-qr-pairing/">Let your users connect with one QR code</a></li>
+          <li><a href="../health-connect-steps-home-assistant/">Health Connect steps that look wrong in Home Assistant</a></li>
           <li><a href="../troubleshooting/">Troubleshooting: syncs, sensors and pairing</a></li>
           <li><a href="../apple-health-home-assistant/">Apple Health in Home Assistant</a></li>
           <li><a href="../apple-watch-home-assistant/">Apple Watch in Home Assistant</a></li>

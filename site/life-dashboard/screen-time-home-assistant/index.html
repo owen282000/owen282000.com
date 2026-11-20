@@ -48,7 +48,7 @@
         }
       ],
       "datePublished": "2026-10-06",
-      "dateModified": "2026-11-06",
+      "dateModified": "2026-11-20",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -161,7 +161,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Screen time in Home Assistant</span></nav>
 <h1>How do I get Android screen time per app into Home Assistant?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 6, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 20, 2026.</p>
 
 <p>Life Dashboard Companion, an open-source Android app, reads Android's usage statistics, the same numbers Digital Wellbeing shows, and sends the minutes per app to Home Assistant on a schedule. With the Life Dashboard integration you get today's and yesterday's screen time, the most used app, the top five apps, a sensor per app if you want one, and every day in long-term statistics. Over MQTT you get the same totals without the sensors per app. Automations can then warn you when you pass a limit you set yourself.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="../android/#get">Get the Android app</a></p>
@@ -195,7 +195,7 @@
     <tr><th scope="col">Integration sensor</th><th scope="col">Over MQTT</th><th scope="col">What it holds</th></tr>
   </thead>
   <tbody>
-    <tr><th scope="row"><code>sensor.&lt;phone&gt;_screen_time_today</code></th><td>Screen Time Today</td><td>Time today, with the top five apps and their minutes in <code>top_apps</code></td></tr>
+    <tr><th scope="row"><code>sensor.&lt;phone&gt;_screen_time_today</code></th><td>Screen Time Today</td><td>Time today, with the top five apps and their minutes in <code>top_apps</code>, and from integration 1.2.0 every app of the day in <code>apps</code></td></tr>
     <tr><th scope="row"><code>sensor.&lt;phone&gt;_screen_time_yesterday</code></th><td>Screen Time Yesterday</td><td>Yesterday's final total</td></tr>
     <tr><th scope="row"><code>sensor.&lt;phone&gt;_most_used_app_today</code></th><td>Screen Time Top App Today</td><td>The app with the most minutes today</td></tr>
     <tr><th scope="row"><code>sensor.&lt;phone&gt;_&lt;app&gt;_screen_time</code></th><td>Not available</td><td>One app's time today, with its minutes over the week in <code>week_minutes</code></td></tr>
@@ -214,6 +214,18 @@
 </ul>
 
 <p>Total screen time per day also goes into long-term statistics, in hours, and so does the time per day of each app whose sensor you enabled. <a href="https://github.com/owen282000/life-dashboard-ha/blob/main/docs/entities.md#screen-time">Screen time in detail</a> covers all attributes.</p>
+
+<h2 id="cards-for-your-dashboard">Cards for your dashboard</h2>
+
+<p><a href="https://github.com/owen282000/life-dashboard-screen-time-card">Life Dashboard Screen Time</a> is a separate install from the Marketplace (HACS before Home Assistant 2026.11) with three cards, each against a daily limit you set:</p>
+
+<ul>
+  <li><strong>Today on one phone</strong>: a ring against the limit, the difference with yesterday and with the last seven days, and the apps with their own icons and minutes.</li>
+  <li><strong>The week</strong>: a bar per day with the limit as a line. Tap a day to see its apps.</li>
+  <li><strong>The family</strong>: everyone in one card, each against their own limit, with their three biggest apps.</li>
+</ul>
+
+<p>With integration 1.2.0 or newer the cards show every app of the day; before that, the top five and the app sensors you enabled. They also read a child's screen time from Google Family Link or Microsoft Family Safety, through the community integrations HAFamilyLink and HAFamilySafety.</p>
 
 <h2 id="limits-and-alerts">Limits and alerts</h2>
 
@@ -300,6 +312,7 @@ actions:
           <li><a href="../garmin-home-assistant/">Garmin in Home Assistant</a></li>
           <li><a href="../health-data-own-ai/">Health Connect and Apple Health over MCP</a></li>
           <li><a href="../health-data-qr-pairing/">Let your users connect with one QR code</a></li>
+          <li><a href="../health-connect-steps-home-assistant/">Health Connect steps that look wrong in Home Assistant</a></li>
           <li><a href="../troubleshooting/">Troubleshooting: syncs, sensors and pairing</a></li>
           <li><a href="../apple-health-home-assistant/">Apple Health in Home Assistant</a></li>
           <li><a href="../apple-watch-home-assistant/">Apple Watch in Home Assistant</a></li>
@@ -354,6 +367,7 @@ actions:
           <li><a href="../garmin-home-assistant/">Garmin in Home Assistant</a></li>
           <li><a href="../health-data-own-ai/">Health Connect and Apple Health over MCP</a></li>
           <li><a href="../health-data-qr-pairing/">Let your users connect with one QR code</a></li>
+          <li><a href="../health-connect-steps-home-assistant/">Health Connect steps that look wrong in Home Assistant</a></li>
           <li><a href="../troubleshooting/">Troubleshooting: syncs, sensors and pairing</a></li>
           <li><a href="../apple-health-home-assistant/">Apple Health in Home Assistant</a></li>
           <li><a href="../apple-watch-home-assistant/">Apple Watch in Home Assistant</a></li>

@@ -53,7 +53,7 @@
         }
       ],
       "datePublished": "2026-10-19",
-      "dateModified": "2026-11-05",
+      "dateModified": "2026-11-20",
       "image": "https://owen282000.com/life-dashboard/img/social.png",
       "isPartOf": {
         "@id": "https://owen282000.com/life-dashboard/#website"
@@ -158,7 +158,7 @@
     <article class="prose">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Life Dashboard</a> / <span aria-current="page">Troubleshooting: syncs, sensors and pairing</span></nav>
 <h1>Why isn't my health data arriving?</h1>
-<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 5, 2026.</p>
+<p class="byline">By <a href="/">Owen Vogelaar</a>, who maintains Life Dashboard. Updated November 20, 2026.</p>
 
 <p>Most problems with Life Dashboard Companion come down to four things: the phone stops the app in the background, the watch app doesn't write into Health Connect, a permission is missing, or the phone can't reach the address it sends to. This page goes through them in the order worth checking. The first place to look is always the app's <strong>Logs</strong> tab: it shows every sync and delivery with the server's answer, and a tap on a row gives the details.</p>
 <p class="guide-cta"><a class="btn btn-primary btn-store" href="https://github.com/owen282000/life-dashboard-companion-app/discussions">Ask in Discussions</a></p>
@@ -225,7 +225,7 @@
 <h2 id="numbers-that-look-wrong">Numbers that look wrong</h2>
 
 <ul>
-  <li><strong>Steps counted twice?</strong> Not in Home Assistant. When Samsung Health and Garmin both write a walk, Health Connect keeps both copies but also calculates a daily total that counts the overlap once, and the integration uses that total. Keep <strong>Daily totals in payload</strong> switched on under <strong>More</strong> &gt; <strong>Advanced</strong>.</li>
+  <li><strong>Steps counted twice?</strong> Not in Home Assistant. When Samsung Health and Garmin both write a walk, Health Connect keeps both copies but also calculates a daily total that counts the overlap once, and the integration uses that total. Keep <strong>Daily totals in payload</strong> switched on under <strong>More</strong> &gt; <strong>Advanced</strong>. <a href="../health-connect-steps-home-assistant/">Health Connect steps that look wrong</a> goes through the other causes.</li>
   <li><strong>Screen time differs from Digital Wellbeing.</strong> The app's day starts at 04:00 by default, apps used for a minute or less are left out, and only time on screen counts.</li>
   <li><strong>A field is missing,</strong> such as a nutrient. The app sends every field Health Connect has, but only when the app that wrote the record filled it in.</li>
 </ul>
@@ -292,6 +292,7 @@
           <li><a href="../garmin-home-assistant/">Garmin in Home Assistant</a></li>
           <li><a href="../health-data-own-ai/">Health Connect and Apple Health over MCP</a></li>
           <li><a href="../health-data-qr-pairing/">Let your users connect with one QR code</a></li>
+          <li><a href="../health-connect-steps-home-assistant/">Health Connect steps that look wrong in Home Assistant</a></li>
           <li><a href="../troubleshooting/" aria-current="page">Troubleshooting: syncs, sensors and pairing</a></li>
           <li><a href="../apple-health-home-assistant/">Apple Health in Home Assistant</a></li>
           <li><a href="../apple-watch-home-assistant/">Apple Watch in Home Assistant</a></li>
@@ -346,6 +347,7 @@
           <li><a href="../garmin-home-assistant/">Garmin in Home Assistant</a></li>
           <li><a href="../health-data-own-ai/">Health Connect and Apple Health over MCP</a></li>
           <li><a href="../health-data-qr-pairing/">Let your users connect with one QR code</a></li>
+          <li><a href="../health-connect-steps-home-assistant/">Health Connect steps that look wrong in Home Assistant</a></li>
           <li><a href="../troubleshooting/">Troubleshooting: syncs, sensors and pairing</a></li>
           <li><a href="../apple-health-home-assistant/">Apple Health in Home Assistant</a></li>
           <li><a href="../apple-watch-home-assistant/">Apple Watch in Home Assistant</a></li>
