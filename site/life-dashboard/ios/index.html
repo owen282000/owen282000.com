@@ -349,7 +349,7 @@
     <h2 class="sr-only">What it does</h2>
     <div class="highlights">
         <div class="hl-lead"><h3>28 Apple Health types</h3><p>Steps, sleep stages, heart rate, HRV, weight, blood pressure, glucose, VO2 max, workouts, nutrition and cycle tracking. Each starts off.</p></div>
-        <ul class="hl-list"><li><h3>Every record, plus daily totals</h3><p>Each record names the app or device that wrote it. Daily totals count a walk recorded by iPhone and Watch once.</p></li><li><h3>All your history</h3><p>Backfill from 30 days up to 5 years, or everything Apple Health has. A record you delete in Apple Health is reported to your server at the next sync.</p></li><li><h3>Same payload as Android</h3><p>The Android app&#x27;s keys, units and signing, so one Home Assistant or one receiver takes both phones.</p></li><li><h3>Syncs in the background</h3><p>An interval or fixed times, with quiet hours. iOS picks the moment; a Shortcuts automation gives you an exact time.</p></li><li><h3>Widget, Control Center, Siri</h3><p>See the last sync on your home screen, and sync from there, from Control Center on iOS 18, or with Siri.</p></li></ul>
+        <ul class="hl-list"><li><h3>Every record, plus daily totals</h3><p>Each record names the app or device that wrote it. Daily totals count a walk recorded by iPhone and Watch once.</p></li><li><h3>All your history</h3><p>Backfill from 30 days up to 5 years, or everything Apple Health has. A record you delete in Apple Health is reported to your server at the next sync.</p></li><li><h3>Same payload as Android</h3><p>The Android app&#x27;s keys, units and signing, so one Home Assistant or one receiver takes both phones.</p></li><li><h3>Syncs in the background</h3><p>An interval or fixed times, with quiet hours. Most syncs come when you unlock the iPhone; a Shortcuts automation gives you an exact time.</p></li><li><h3>Widget, Control Center, Siri</h3><p>See the last sync on your home screen, and sync from there, from Control Center on iOS 18, or with Siri.</p></li></ul>
     </div>
   </div>
 </section>
@@ -385,7 +385,7 @@
       <div class="show-media stage"><div class="phone"><img src="/life-dashboard/img/ios-schedule.webp?v=e903fe4e" alt="When to send in the iPhone app, at fixed times with quiet hours" width="720" height="1464" loading="lazy"></div></div>
       <div>
         <h2>Runs in the background, within what iOS allows</h2>
-        <p>HealthKit wakes the app when an enabled type has new data, and iOS runs background tasks when it sees fit. A fixed time means “not before”. For an exact minute, a Shortcuts automation runs <strong>Sync Health Data</strong>.</p>
+        <p>HealthKit wakes the app for new data once the iPhone is unlocked, so most syncs come when you unlock it or open the app. A schedule is the earliest a sync may come, not a clock: an interval of an hour means at least an hour apart. For an exact minute, a Shortcuts automation runs <strong>Sync Health Data</strong>.</p>
         <ul class="ticks">
           <li>An interval or fixed times <span>At least 15 minutes, 60 by default, on the weekdays you pick.</span></li>
           <li>Quiet hours <span>No sync between two times. Queued payloads wait too.</span></li>
