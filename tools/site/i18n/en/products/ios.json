@@ -26,7 +26,7 @@
     },
     {
       "title": "Syncs in the background",
-      "text": "An interval or fixed times, with quiet hours. iOS picks the moment; a Shortcuts automation gives you an exact time."
+      "text": "An interval or fixed times, with quiet hours. Most syncs come when you unlock the iPhone; a Shortcuts automation gives you an exact time."
     },
     {
       "title": "Widget, Control Center, Siri",
@@ -89,7 +89,7 @@
     {
       "kicker": "Background sync",
       "h2": "Runs in the background, within what iOS allows",
-      "text": "HealthKit wakes the app when an enabled type has new data, and iOS runs background tasks when it sees fit. A fixed time means “not before”. For an exact minute, a Shortcuts automation runs <strong>Sync Health Data</strong>.",
+      "text": "HealthKit wakes the app for new data once the iPhone is unlocked, so most syncs come when you unlock it or open the app. A schedule is the earliest a sync may come, not a clock: an interval of an hour means at least an hour apart. For an exact minute, a Shortcuts automation runs <strong>Sync Health Data</strong>.",
       "bullets": [
         {
           "main": "An interval or fixed times",
