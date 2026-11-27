@@ -191,7 +191,7 @@
           "name": "Können sich ein iPhone und ein Android-Telefon ein Home Assistant teilen?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Ja. Jedes Telefon bekommt in der Integration sein eigenes Gerät, und über MQTT nutzt das iPhone sein eigenes Basis-Topic. Auch eine Sicherung der Einstellungen lässt sich zwischen den beiden Apps übertragen."
+            "text": "Ja. Jedes Telefon bekommt in der Integration sein eigenes Gerät, und über MQTT nutzt das iPhone sein eigenes Basis-Topic. Auch eine Sicherung der Einstellungen lässt sich zwischen den beiden Apps übertragen. Das gilt auch für deinen eigenen Webhook oder MQTT-Broker: Beide Apps senden dieselben Keys, Einheiten und dieselbe Signatur, ein Empfänger nimmt also beide Telefone an."
           }
         },
         {
@@ -207,7 +207,7 @@
           "name": "Gibt es die App im App Store?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Ja: Health Data for Home Assistant im App Store, 6,99 € einmalig (5,99 US$), ohne Abo. Es ist dieselbe App, aus demselben Quellcode gebaut, für alle, die sie nicht selbst bauen möchten und das Projekt auf diesem Weg unterstützen wollen. Selbst bauen kostet nichts zusätzlich, wenn du schon Mitglied im Apple Developer Program bist: Hol dir den aktuellen Stand des Repositorys und starte die App erneut, um zu aktualisieren; deine Einstellungen bleiben. Die Releases auf GitHub listen auf, was sich geändert hat."
+            "text": "Ja: Health Data for Home Assistant im App Store, 6,99 € einmalig (5,99 US$), ohne Abo. Es ist dieselbe App, aus demselben Quellcode unter MIT-Lizenz gebaut, für alle, die sie nicht selbst bauen möchten und das Projekt auf diesem Weg unterstützen wollen. Selbst bauen kostet nichts zusätzlich, wenn du schon Mitglied im Apple Developer Program bist: Hol dir den aktuellen Stand des Repositorys und starte die App erneut, um zu aktualisieren; deine Einstellungen bleiben. Die Releases auf GitHub listen auf, was sich geändert hat."
           }
         },
         {
@@ -332,7 +332,7 @@
     <div class="hero-copy">
       <nav class="crumbs" aria-label="Brotkrumen-Navigation"><a href="/de/life-dashboard/">Life Dashboard</a><span aria-hidden="true">/</span><span aria-current="page">iPhone-App</span></nav>
       <h1>Apple Health, von deinem iPhone an deinen eigenen Server gesendet</h1>
-      <p class="lead">Life Dashboard für iPhone ist eine Open-Source-App, die 28 Apple-Health-Typen liest und sie an Home Assistant, einen MQTT-Broker oder deinen eigenen Webhook sendet. Sie sendet denselben Payload wie die Android-App, beide Telefone können sich also einen Server teilen.</p>
+      <p class="lead">Life Dashboard für iPhone ist eine Open-Source-App (MIT-Lizenz), die 28 Apple-Health-Typen liest und sie an Home Assistant, einen MQTT-Broker oder deinen eigenen Webhook sendet. Sie sendet denselben Payload wie die Android-App, beide Telefone können sich also einen Server teilen.</p>
       <div class="badges"><a class="badge-link" href="https://apps.apple.com/app/apple-store/id6824075761?pt=128699800&amp;ct=site-de-ios&amp;mt=8"><img class="badge-img" src="/life-dashboard/img/badges/app-store.svg?v=a26fc5b3" alt="Laden im App Store" width="120" height="40" loading="lazy"></a></div>
       <p class="fineprint">6,99&nbsp;€ einmalig im App Store, ohne Abo.</p>
       <p class="fineprint"><a class="nowrap" href="https://github.com/owen282000/life-dashboard-companion-app-ios#build-and-install">Mit Xcode bauen</a></p>
@@ -457,7 +457,7 @@
       </details>
       <details>
         <summary>Können sich ein iPhone und ein Android-Telefon ein Home Assistant teilen?</summary>
-        <p>Ja. Jedes Telefon bekommt in der Integration sein eigenes Gerät, und über MQTT nutzt das iPhone sein eigenes Basis-Topic. Auch eine Sicherung der Einstellungen lässt sich zwischen den beiden Apps übertragen.</p>
+        <p>Ja. Jedes Telefon bekommt in der Integration sein eigenes Gerät, und über MQTT nutzt das iPhone sein eigenes Basis-Topic. Auch eine Sicherung der Einstellungen lässt sich zwischen den beiden Apps übertragen. Das gilt auch für deinen eigenen Webhook oder MQTT-Broker: Beide Apps senden dieselben Keys, Einheiten und dieselbe Signatur, ein Empfänger nimmt also beide Telefone an.</p>
       </details>
       <details>
         <summary>Kann die App gleichzeitig an Home Assistant und einen Webhook senden?</summary>
@@ -465,7 +465,7 @@
       </details>
       <details>
         <summary>Gibt es die App im App Store?</summary>
-        <p>Ja: <a href="https://apps.apple.com/app/apple-store/id6824075761?pt=128699800&amp;ct=site-de-ios&amp;mt=8">Health Data for Home Assistant im App Store</a>, 6,99&nbsp;€ einmalig (5,99&nbsp;US$), ohne Abo. Es ist dieselbe App, aus demselben Quellcode gebaut, für alle, die sie nicht selbst bauen möchten und das Projekt auf diesem Weg unterstützen wollen. Selbst bauen kostet nichts zusätzlich, wenn du schon Mitglied im Apple Developer Program bist: Hol dir den aktuellen Stand des Repositorys und starte die App erneut, um zu aktualisieren; deine Einstellungen bleiben. Die <a href="https://github.com/owen282000/life-dashboard-companion-app-ios/releases">Releases auf GitHub</a> listen auf, was sich geändert hat.</p>
+        <p>Ja: <a href="https://apps.apple.com/app/apple-store/id6824075761?pt=128699800&amp;ct=site-de-ios&amp;mt=8">Health Data for Home Assistant im App Store</a>, 6,99&nbsp;€ einmalig (5,99&nbsp;US$), ohne Abo. Es ist dieselbe App, aus demselben Quellcode unter MIT-Lizenz gebaut, für alle, die sie nicht selbst bauen möchten und das Projekt auf diesem Weg unterstützen wollen. Selbst bauen kostet nichts zusätzlich, wenn du schon Mitglied im Apple Developer Program bist: Hol dir den aktuellen Stand des Repositorys und starte die App erneut, um zu aktualisieren; deine Einstellungen bleiben. Die <a href="https://github.com/owen282000/life-dashboard-companion-app-ios/releases">Releases auf GitHub</a> listen auf, was sich geändert hat.</p>
       </details>
       <details>
         <summary>Ich habe keinen Mac. Kann ich die App trotzdem nutzen?</summary>

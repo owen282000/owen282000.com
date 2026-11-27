@@ -191,7 +191,7 @@
           "name": "Kunnen een iPhone en een Android-telefoon dezelfde Home Assistant delen?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Ja. Elke telefoon krijgt een eigen apparaat in de integratie, en op MQTT gebruikt de iPhone een eigen basistopic. Ook een back-up van je instellingen kun je tussen de twee apps overzetten."
+            "text": "Ja. Elke telefoon krijgt een eigen apparaat in de integratie, en op MQTT gebruikt de iPhone een eigen basistopic. Ook een back-up van je instellingen kun je tussen de twee apps overzetten. Dat geldt ook voor je eigen webhook of MQTT-broker: beide apps sturen dezelfde keys, eenheden en handtekening, dus één ontvanger werkt voor beide telefoons."
           }
         },
         {
@@ -207,7 +207,7 @@
           "name": "Staat de app in de App Store?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Ja: Health Data for Home Assistant in de App Store, € 6,99 eenmalig (US$ 5,99), zonder abonnement. Het is dezelfde app, gebouwd uit dezelfde broncode, voor wie hem liever niet zelf bouwt en het project op die manier wil steunen. Zelf bouwen kost niets extra als je al lid bent van het Apple Developer Program: haal de repository opnieuw binnen en start de app opnieuw om bij te werken; je instellingen blijven staan. Bij de releases op GitHub staat wat er is veranderd."
+            "text": "Ja: Health Data for Home Assistant in de App Store, € 6,99 eenmalig (US$ 5,99), zonder abonnement. Het is dezelfde app, gebouwd uit dezelfde broncode onder de MIT-licentie, voor wie hem liever niet zelf bouwt en het project op die manier wil steunen. Zelf bouwen kost niets extra als je al lid bent van het Apple Developer Program: haal de repository opnieuw binnen en start de app opnieuw om bij te werken; je instellingen blijven staan. Bij de releases op GitHub staat wat er is veranderd."
           }
         },
         {
@@ -332,7 +332,7 @@
     <div class="hero-copy">
       <nav class="crumbs" aria-label="Kruimelpad"><a href="/nl/life-dashboard/">Life Dashboard</a><span aria-hidden="true">/</span><span aria-current="page">iPhone-app</span></nav>
       <h1>Apple Health, van je iPhone naar je eigen server</h1>
-      <p class="lead">Life Dashboard voor iPhone is een open-source app die 28 Apple Health-types leest en naar Home Assistant, een MQTT-broker of je eigen webhook stuurt. De payload is dezelfde als die van de Android-app, dus beide telefoons kunnen dezelfde server delen.</p>
+      <p class="lead">Life Dashboard voor iPhone is een open-source app (MIT-licentie) die 28 Apple Health-types leest en naar Home Assistant, een MQTT-broker of je eigen webhook stuurt. De payload is dezelfde als die van de Android-app, dus beide telefoons kunnen dezelfde server delen.</p>
       <div class="badges"><a class="badge-link" href="https://apps.apple.com/app/apple-store/id6824075761?pt=128699800&amp;ct=site-nl-ios&amp;mt=8"><img class="badge-img" src="/life-dashboard/img/badges/app-store.svg?v=a26fc5b3" alt="Download in de App Store" width="120" height="40" loading="lazy"></a></div>
       <p class="fineprint">€&nbsp;6,99 eenmalig in de App Store, geen abonnement.</p>
       <p class="fineprint"><a class="nowrap" href="https://github.com/owen282000/life-dashboard-companion-app-ios#build-and-install">Zelf bouwen met Xcode</a></p>
@@ -457,7 +457,7 @@
       </details>
       <details>
         <summary>Kunnen een iPhone en een Android-telefoon dezelfde Home Assistant delen?</summary>
-        <p>Ja. Elke telefoon krijgt een eigen apparaat in de integratie, en op MQTT gebruikt de iPhone een eigen basistopic. Ook een back-up van je instellingen kun je tussen de twee apps overzetten.</p>
+        <p>Ja. Elke telefoon krijgt een eigen apparaat in de integratie, en op MQTT gebruikt de iPhone een eigen basistopic. Ook een back-up van je instellingen kun je tussen de twee apps overzetten. Dat geldt ook voor je eigen webhook of MQTT-broker: beide apps sturen dezelfde keys, eenheden en handtekening, dus één ontvanger werkt voor beide telefoons.</p>
       </details>
       <details>
         <summary>Kan de app tegelijk naar Home Assistant en een webhook sturen?</summary>
@@ -465,7 +465,7 @@
       </details>
       <details>
         <summary>Staat de app in de App Store?</summary>
-        <p>Ja: <a href="https://apps.apple.com/app/apple-store/id6824075761?pt=128699800&amp;ct=site-nl-ios&amp;mt=8">Health Data for Home Assistant in de App Store</a>, €&nbsp;6,99 eenmalig (US$&nbsp;5,99), zonder abonnement. Het is dezelfde app, gebouwd uit dezelfde broncode, voor wie hem liever niet zelf bouwt en het project op die manier wil steunen. Zelf bouwen kost niets extra als je al lid bent van het Apple Developer Program: haal de repository opnieuw binnen en start de app opnieuw om bij te werken; je instellingen blijven staan. Bij de <a href="https://github.com/owen282000/life-dashboard-companion-app-ios/releases">releases op GitHub</a> staat wat er is veranderd.</p>
+        <p>Ja: <a href="https://apps.apple.com/app/apple-store/id6824075761?pt=128699800&amp;ct=site-nl-ios&amp;mt=8">Health Data for Home Assistant in de App Store</a>, €&nbsp;6,99 eenmalig (US$&nbsp;5,99), zonder abonnement. Het is dezelfde app, gebouwd uit dezelfde broncode onder de MIT-licentie, voor wie hem liever niet zelf bouwt en het project op die manier wil steunen. Zelf bouwen kost niets extra als je al lid bent van het Apple Developer Program: haal de repository opnieuw binnen en start de app opnieuw om bij te werken; je instellingen blijven staan. Bij de <a href="https://github.com/owen282000/life-dashboard-companion-app-ios/releases">releases op GitHub</a> staat wat er is veranderd.</p>
       </details>
       <details>
         <summary>Ik heb geen Mac. Kan ik de app toch gebruiken?</summary>

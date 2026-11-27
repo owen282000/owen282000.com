@@ -191,7 +191,7 @@
           "name": "Um iPhone e um celular Android podem dividir o mesmo Home Assistant?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Sim. Cada celular ganha o seu próprio dispositivo na integração, e no MQTT o iPhone usa o seu próprio tópico base. Um backup das configurações também passa de um app para o outro."
+            "text": "Sim. Cada celular ganha o seu próprio dispositivo na integração, e no MQTT o iPhone usa o seu próprio tópico base. Um backup das configurações também passa de um app para o outro. O mesmo vale para o seu próprio webhook ou broker MQTT: os dois apps enviam as mesmas chaves, unidades e assinatura, então um único receptor atende os dois celulares."
           }
         },
         {
@@ -207,7 +207,7 @@
           "name": "Ele está na App Store?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Sim: Health Data for Home Assistant na App Store, € 6,99 uma única vez (US$ 5,99), sem assinatura. É o mesmo app, compilado a partir do mesmo código-fonte, para quem prefere não compilar e quer apoiar o projeto assim. Compilar você mesmo não custa nada a mais se você já tem uma assinatura do Apple Developer Program: baixe as mudanças do repositório e rode de novo para atualizar; as suas configurações continuam lá. As versões no GitHub listam o que mudou."
+            "text": "Sim: Health Data for Home Assistant na App Store, € 6,99 uma única vez (US$ 5,99), sem assinatura. É o mesmo app, compilado a partir do mesmo código-fonte, sob licença MIT,, para quem prefere não compilar e quer apoiar o projeto assim. Compilar você mesmo não custa nada a mais se você já tem uma assinatura do Apple Developer Program: baixe as mudanças do repositório e rode de novo para atualizar; as suas configurações continuam lá. As versões no GitHub listam o que mudou."
           }
         },
         {
@@ -332,7 +332,7 @@
     <div class="hero-copy">
       <nav class="crumbs" aria-label="Trilha de navegação"><a href="/pt-br/life-dashboard/">Life Dashboard</a><span aria-hidden="true">/</span><span aria-current="page">App para iPhone</span></nav>
       <h1>Apple Health, enviado do seu iPhone para o seu próprio servidor</h1>
-      <p class="lead">O Life Dashboard para iPhone é um app de código aberto que lê 28 tipos do Apple Health (o app Saúde do iPhone) e os envia para o Home Assistant, para um broker MQTT ou para o seu próprio webhook. Ele envia o mesmo payload do app para Android, então os dois celulares podem dividir um só servidor.</p>
+      <p class="lead">O Life Dashboard para iPhone é um app de código aberto (licença MIT) que lê 28 tipos do Apple Health (o app Saúde do iPhone) e os envia para o Home Assistant, para um broker MQTT ou para o seu próprio webhook. Ele envia o mesmo payload do app para Android, então os dois celulares podem dividir um só servidor.</p>
       <div class="badges"><a class="badge-link" href="https://apps.apple.com/app/apple-store/id6824075761?pt=128699800&amp;ct=site-pt-br-ios&amp;mt=8"><img class="badge-img" src="/life-dashboard/img/badges/app-store.svg?v=a26fc5b3" alt="Baixar na App Store" width="120" height="40" loading="lazy"></a></div>
       <p class="fineprint">€&nbsp;6,99 uma única vez na App Store, sem assinatura.</p>
       <p class="fineprint"><a class="nowrap" href="https://github.com/owen282000/life-dashboard-companion-app-ios#build-and-install">Compilar com o Xcode</a></p>
@@ -457,7 +457,7 @@
       </details>
       <details>
         <summary>Um iPhone e um celular Android podem dividir o mesmo Home Assistant?</summary>
-        <p>Sim. Cada celular ganha o seu próprio dispositivo na integração, e no MQTT o iPhone usa o seu próprio tópico base. Um backup das configurações também passa de um app para o outro.</p>
+        <p>Sim. Cada celular ganha o seu próprio dispositivo na integração, e no MQTT o iPhone usa o seu próprio tópico base. Um backup das configurações também passa de um app para o outro. O mesmo vale para o seu próprio webhook ou broker MQTT: os dois apps enviam as mesmas chaves, unidades e assinatura, então um único receptor atende os dois celulares.</p>
       </details>
       <details>
         <summary>Ele consegue enviar para o Home Assistant e para um webhook ao mesmo tempo?</summary>
@@ -465,7 +465,7 @@
       </details>
       <details>
         <summary>Ele está na App Store?</summary>
-        <p>Sim: <a href="https://apps.apple.com/app/apple-store/id6824075761?pt=128699800&amp;ct=site-pt-br-ios&amp;mt=8">Health Data for Home Assistant na App Store</a>, €&nbsp;6,99 uma única vez (US$&nbsp;5,99), sem assinatura. É o mesmo app, compilado a partir do mesmo código-fonte, para quem prefere não compilar e quer apoiar o projeto assim. Compilar você mesmo não custa nada a mais se você já tem uma assinatura do Apple Developer Program: baixe as mudanças do repositório e rode de novo para atualizar; as suas configurações continuam lá. As <a href="https://github.com/owen282000/life-dashboard-companion-app-ios/releases">versões no GitHub</a> listam o que mudou.</p>
+        <p>Sim: <a href="https://apps.apple.com/app/apple-store/id6824075761?pt=128699800&amp;ct=site-pt-br-ios&amp;mt=8">Health Data for Home Assistant na App Store</a>, €&nbsp;6,99 uma única vez (US$&nbsp;5,99), sem assinatura. É o mesmo app, compilado a partir do mesmo código-fonte, sob licença MIT,, para quem prefere não compilar e quer apoiar o projeto assim. Compilar você mesmo não custa nada a mais se você já tem uma assinatura do Apple Developer Program: baixe as mudanças do repositório e rode de novo para atualizar; as suas configurações continuam lá. As <a href="https://github.com/owen282000/life-dashboard-companion-app-ios/releases">versões no GitHub</a> listam o que mudou.</p>
       </details>
       <details>
         <summary>Não tenho um Mac. Ainda posso usar o app?</summary>
