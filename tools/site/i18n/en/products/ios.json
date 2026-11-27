@@ -5,7 +5,7 @@
   "description": "Life Dashboard for iPhone sends Apple Health data to Home Assistant, MQTT or your own webhook as signed JSON. Open source, no cloud and no account.",
   "kicker": "iPhone app",
   "h1": "Apple Health, sent from your iPhone to your own server",
-  "lead": "Life Dashboard for iPhone is an open-source app that reads 28 Apple Health types and sends them to Home Assistant, an MQTT broker or your own webhook. It sends the same payload as the Android app, so both phones can share one server.",
+  "lead": "Life Dashboard for iPhone is an open-source app (MIT license) that reads 28 Apple Health types and sends them to Home Assistant, an MQTT broker or your own webhook. It sends the same payload as the Android app, so both phones can share one server.",
   "hero_image": "ios-health",
   "highlights": [
     {
@@ -145,7 +145,7 @@
     },
     {
       "q": "Can an iPhone and an Android phone share one Home Assistant?",
-      "a": "Yes. Each phone gets its own device in the integration, and on MQTT the iPhone uses its own base topic. A settings backup moves between the two apps too."
+      "a": "Yes. Each phone gets its own device in the integration, and on MQTT the iPhone uses its own base topic. A settings backup moves between the two apps too. The same goes for your own webhook or MQTT broker: both apps send the same keys, units and signature, so one receiver takes both phones."
     },
     {
       "q": "Can it send to Home Assistant and a webhook at the same time?",
@@ -153,7 +153,7 @@
     },
     {
       "q": "Is it on the App Store?",
-      "a": "Yes: <a href=\"{{app_store_url}}\">Health Data for Home Assistant on the App Store</a>, €6.99 once (US$5.99), with no subscription. It's the same app, built from the same source, for people who'd rather not build it and want to support the project that way. Building it yourself costs nothing extra if you already have an Apple Developer Program membership: pull the repository and run it again to update; your settings stay. The <a href=\"https://github.com/owen282000/life-dashboard-companion-app-ios/releases\">releases on GitHub</a> list what changed."
+      "a": "Yes: <a href=\"{{app_store_url}}\">Health Data for Home Assistant on the App Store</a>, €6.99 once (US$5.99), with no subscription. It's the same app, built from the same MIT-licensed source, for people who'd rather not build it and want to support the project that way. Building it yourself costs nothing extra if you already have an Apple Developer Program membership: pull the repository and run it again to update; your settings stay. The <a href=\"https://github.com/owen282000/life-dashboard-companion-app-ios/releases\">releases on GitHub</a> list what changed."
     },
     {
       "q": "I don't have a Mac. Can I still use it?",

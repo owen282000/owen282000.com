@@ -5,7 +5,7 @@
   "description": "Life Dashboard para iPhone envía los datos de Apple Health a Home Assistant, MQTT o tu propio webhook como JSON firmado. Código abierto y sin nube.",
   "kicker": "App para iPhone",
   "h1": "Apple Health, enviado desde tu iPhone a tu propio servidor",
-  "lead": "Life Dashboard para iPhone es una app de código abierto que lee 28 tipos de Apple Health (la app Salud) y los envía a Home Assistant, a un broker MQTT o a tu propio webhook. Envía el mismo payload que la app para Android, así que los dos teléfonos pueden compartir un mismo servidor.",
+  "lead": "Life Dashboard para iPhone es una app de código abierto (licencia MIT) que lee 28 tipos de Apple Health (la app Salud) y los envía a Home Assistant, a un broker MQTT o a tu propio webhook. Envía el mismo payload que la app para Android, así que los dos teléfonos pueden compartir un mismo servidor.",
   "hero_image": "ios-health",
   "highlights": [
     {
@@ -145,7 +145,7 @@
     },
     {
       "q": "¿Pueden un iPhone y un teléfono Android compartir un mismo Home Assistant?",
-      "a": "Sí. Cada teléfono tiene su propio dispositivo en la integración, y en MQTT el iPhone usa su propio topic base. Una copia de seguridad de la configuración también se puede pasar de una app a la otra."
+      "a": "Sí. Cada teléfono tiene su propio dispositivo en la integración, y en MQTT el iPhone usa su propio topic base. Una copia de seguridad de la configuración también se puede pasar de una app a la otra. Lo mismo vale para tu propio webhook o broker MQTT: las dos apps envían las mismas claves, unidades y firma, así que un solo receptor acepta los dos teléfonos."
     },
     {
       "q": "¿Puede enviar a Home Assistant y a un webhook al mismo tiempo?",
@@ -153,7 +153,7 @@
     },
     {
       "q": "¿Está en App Store?",
-      "a": "Sí: <a href=\"{{app_store_url}}\">Health Data for Home Assistant en App Store</a>, por 6,99&nbsp;€ (5,99&nbsp;USD), pago único, sin suscripción. Es la misma app, compilada a partir del mismo código, para quien prefiere no compilarla y quiere apoyar el proyecto de esa forma. Compilarla tú mismo no cuesta nada más si ya tienes una suscripción al Apple Developer Program: descarga los cambios del repositorio y vuelve a ejecutarla para actualizarla; tu configuración se conserva. Las <a href=\"https://github.com/owen282000/life-dashboard-companion-app-ios/releases\">versiones en GitHub</a> indican qué ha cambiado."
+      "a": "Sí: <a href=\"{{app_store_url}}\">Health Data for Home Assistant en App Store</a>, por 6,99&nbsp;€ (5,99&nbsp;USD), pago único, sin suscripción. Es la misma app, compilada a partir del mismo código con licencia MIT, para quien prefiere no compilarla y quiere apoyar el proyecto de esa forma. Compilarla tú mismo no cuesta nada más si ya tienes una suscripción al Apple Developer Program: descarga los cambios del repositorio y vuelve a ejecutarla para actualizarla; tu configuración se conserva. Las <a href=\"https://github.com/owen282000/life-dashboard-companion-app-ios/releases\">versiones en GitHub</a> indican qué ha cambiado."
     },
     {
       "q": "No tengo un Mac. ¿Puedo usarla igualmente?",

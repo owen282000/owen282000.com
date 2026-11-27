@@ -11,7 +11,7 @@ published: 2026-10-21
 
 <p>Installeer de Life Dashboard-app op je iPhone, voeg je URL toe met <strong>Bestemming toevoegen</strong> op het tabblad <strong>Gezondheid</strong> en kies onder <strong>Wat versturen</strong> welke Apple Health-types je wilt versturen. Vanaf dan leest de app Apple Health (de app Gezondheid op je iPhone) op de achtergrond, volgens het schema dat je instelt, en post hij elk nieuw record als JSON naar je URL: stappen, slaap met slaapfasen, hartslag, HRV, gewicht, bloeddruk, work-outs en meer, 28 types in totaal, elk record met een vaste <code>uuid</code> en de app of het apparaat dat het schreef.</p>
 
-<p>Stel je een geheim in, dan is elk verzoek ondertekend met HMAC-SHA256 in een <code>X-Signature</code>-header. Een payload die niet kan worden afgeleverd, wacht in een wachtrij op de iPhone, en een record dat je in Apple Health verwijdert, wordt in de volgende payload genoemd. De payload is die van de Android-app, dus één ontvanger werkt voor een iPhone en een Android-telefoon.</p>
+<p>Stel je een geheim in, dan is elk verzoek ondertekend met HMAC-SHA256 in een <code>X-Signature</code>-header. Een payload die niet kan worden afgeleverd, wacht in een wachtrij op de iPhone, en een record dat je in Apple Health verwijdert, wordt in de volgende payload genoemd. De payload is die van de Android-app, dus één ontvanger werkt voor een iPhone en een Android-telefoon. De app is open source (MIT-licentie) en kost €&nbsp;6,99 eenmalig in de App Store, zonder abonnement.</p>
 
 <p class="flow-line"><span>iPhone of Apple Watch</span><span>Apple Health</span><span>Life Dashboard-app</span><span>Je URL</span></p>
 

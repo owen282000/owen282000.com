@@ -11,7 +11,7 @@ published: 2026-10-21
 
 <p>Install the Life Dashboard app on your iPhone, add your URL with <strong>Add destination</strong> on the <strong>Health</strong> tab, and pick the Apple Health types to send under <strong>What to send</strong>. From then on the app reads Apple Health in the background on the schedule you set and posts every new record to your URL as JSON: steps, sleep with stages, heart rate, HRV, weight, blood pressure, workouts and more, 28 types in all, each record with a stable <code>uuid</code> and the app or device that wrote it.</p>
 
-<p>With a secret set, every request is signed with HMAC-SHA256 in an <code>X-Signature</code> header. A payload that can't be delivered waits in a queue on the iPhone, and a record you delete in Apple Health is named in the next payload. The payload is the Android app's, so one receiver takes an iPhone and an Android phone alike.</p>
+<p>With a secret set, every request is signed with HMAC-SHA256 in an <code>X-Signature</code> header. A payload that can't be delivered waits in a queue on the iPhone, and a record you delete in Apple Health is named in the next payload. The payload is the Android app's, so one receiver takes an iPhone and an Android phone alike. The app is open source (MIT license) and costs €6.99 once on the App Store, with no subscription.</p>
 
 <p class="flow-line"><span>iPhone or Apple Watch</span><span>Apple Health</span><span>Life Dashboard app</span><span>Your URL</span></p>
 

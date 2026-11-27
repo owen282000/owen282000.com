@@ -191,7 +191,7 @@
           "name": "Can an iPhone and an Android phone share one Home Assistant?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. Each phone gets its own device in the integration, and on MQTT the iPhone uses its own base topic. A settings backup moves between the two apps too."
+            "text": "Yes. Each phone gets its own device in the integration, and on MQTT the iPhone uses its own base topic. A settings backup moves between the two apps too. The same goes for your own webhook or MQTT broker: both apps send the same keys, units and signature, so one receiver takes both phones."
           }
         },
         {
@@ -207,7 +207,7 @@
           "name": "Is it on the App Store?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes: Health Data for Home Assistant on the App Store, €6.99 once (US$5.99), with no subscription. It's the same app, built from the same source, for people who'd rather not build it and want to support the project that way. Building it yourself costs nothing extra if you already have an Apple Developer Program membership: pull the repository and run it again to update; your settings stay. The releases on GitHub list what changed."
+            "text": "Yes: Health Data for Home Assistant on the App Store, €6.99 once (US$5.99), with no subscription. It's the same app, built from the same MIT-licensed source, for people who'd rather not build it and want to support the project that way. Building it yourself costs nothing extra if you already have an Apple Developer Program membership: pull the repository and run it again to update; your settings stay. The releases on GitHub list what changed."
           }
         },
         {
@@ -332,7 +332,7 @@
     <div class="hero-copy">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="/life-dashboard/">Life Dashboard</a><span aria-hidden="true">/</span><span aria-current="page">iPhone app</span></nav>
       <h1>Apple Health, sent from your iPhone to your own server</h1>
-      <p class="lead">Life Dashboard for iPhone is an open-source app that reads 28 Apple Health types and sends them to Home Assistant, an MQTT broker or your own webhook. It sends the same payload as the Android app, so both phones can share one server.</p>
+      <p class="lead">Life Dashboard for iPhone is an open-source app (MIT license) that reads 28 Apple Health types and sends them to Home Assistant, an MQTT broker or your own webhook. It sends the same payload as the Android app, so both phones can share one server.</p>
       <div class="badges"><a class="badge-link" href="https://apps.apple.com/app/apple-store/id6824075761?pt=128699800&amp;ct=site-ios&amp;mt=8"><img class="badge-img" src="/life-dashboard/img/badges/app-store.svg?v=a26fc5b3" alt="Download on the App Store" width="120" height="40" loading="lazy"></a></div>
       <p class="fineprint">€6.99 once on the App Store, no subscription.</p>
       <p class="fineprint"><a class="nowrap" href="https://github.com/owen282000/life-dashboard-companion-app-ios#build-and-install">Build with Xcode</a></p>
@@ -457,7 +457,7 @@
       </details>
       <details>
         <summary>Can an iPhone and an Android phone share one Home Assistant?</summary>
-        <p>Yes. Each phone gets its own device in the integration, and on MQTT the iPhone uses its own base topic. A settings backup moves between the two apps too.</p>
+        <p>Yes. Each phone gets its own device in the integration, and on MQTT the iPhone uses its own base topic. A settings backup moves between the two apps too. The same goes for your own webhook or MQTT broker: both apps send the same keys, units and signature, so one receiver takes both phones.</p>
       </details>
       <details>
         <summary>Can it send to Home Assistant and a webhook at the same time?</summary>
@@ -465,7 +465,7 @@
       </details>
       <details>
         <summary>Is it on the App Store?</summary>
-        <p>Yes: <a href="https://apps.apple.com/app/apple-store/id6824075761?pt=128699800&amp;ct=site-ios&amp;mt=8">Health Data for Home Assistant on the App Store</a>, €6.99 once (US$5.99), with no subscription. It's the same app, built from the same source, for people who'd rather not build it and want to support the project that way. Building it yourself costs nothing extra if you already have an Apple Developer Program membership: pull the repository and run it again to update; your settings stay. The <a href="https://github.com/owen282000/life-dashboard-companion-app-ios/releases">releases on GitHub</a> list what changed.</p>
+        <p>Yes: <a href="https://apps.apple.com/app/apple-store/id6824075761?pt=128699800&amp;ct=site-ios&amp;mt=8">Health Data for Home Assistant on the App Store</a>, €6.99 once (US$5.99), with no subscription. It's the same app, built from the same MIT-licensed source, for people who'd rather not build it and want to support the project that way. Building it yourself costs nothing extra if you already have an Apple Developer Program membership: pull the repository and run it again to update; your settings stay. The <a href="https://github.com/owen282000/life-dashboard-companion-app-ios/releases">releases on GitHub</a> list what changed.</p>
       </details>
       <details>
         <summary>I don&#x27;t have a Mac. Can I still use it?</summary>

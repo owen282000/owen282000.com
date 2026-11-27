@@ -191,7 +191,7 @@
           "name": "Un iPhone et un téléphone Android peuvent-ils partager un même Home Assistant ?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Oui. Chaque téléphone a son propre appareil dans l’intégration, et avec MQTT l’iPhone utilise son propre topic de base. Une sauvegarde des réglages passe aussi d’une application à l’autre."
+            "text": "Oui. Chaque téléphone a son propre appareil dans l’intégration, et avec MQTT l’iPhone utilise son propre topic de base. Une sauvegarde des réglages passe aussi d’une application à l’autre. C’est pareil pour votre propre webhook ou broker MQTT : les deux applications envoient les mêmes clés, unités et signature, un seul récepteur accepte donc les deux téléphones."
           }
         },
         {
@@ -207,7 +207,7 @@
           "name": "Est-elle sur l’App Store ?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Oui : Health Data for Home Assistant sur l’App Store, 6,99 € en achat unique (5,99 $US), sans abonnement. C’est la même application, compilée à partir du même code source, pour ceux qui préfèrent ne pas la compiler et veulent soutenir le projet de cette façon. La compiler vous-même ne coûte rien de plus si vous avez déjà une adhésion à l’Apple Developer Program : récupérez le dépôt et relancez-la pour la mettre à jour ; vos réglages sont conservés. Les versions sur GitHub indiquent ce qui a changé."
+            "text": "Oui : Health Data for Home Assistant sur l’App Store, 6,99 € en achat unique (5,99 $US), sans abonnement. C’est la même application, compilée à partir du même code source sous licence MIT, pour ceux qui préfèrent ne pas la compiler et veulent soutenir le projet de cette façon. La compiler vous-même ne coûte rien de plus si vous avez déjà une adhésion à l’Apple Developer Program : récupérez le dépôt et relancez-la pour la mettre à jour ; vos réglages sont conservés. Les versions sur GitHub indiquent ce qui a changé."
           }
         },
         {
@@ -332,7 +332,7 @@
     <div class="hero-copy">
       <nav class="crumbs" aria-label="Fil d’Ariane"><a href="/fr/life-dashboard/">Life Dashboard</a><span aria-hidden="true">/</span><span aria-current="page">Application iPhone</span></nav>
       <h1>Apple Santé, envoyé de votre iPhone vers votre propre serveur</h1>
-      <p class="lead">Life Dashboard pour iPhone est une application open source qui lit 28 types d’Apple Health (l’app Santé de l’iPhone) et les envoie vers Home Assistant, un broker MQTT ou votre propre webhook. Elle envoie le même payload que l’application Android : les deux téléphones peuvent donc partager un même serveur.</p>
+      <p class="lead">Life Dashboard pour iPhone est une application open source (licence MIT) qui lit 28 types d’Apple Health (l’app Santé de l’iPhone) et les envoie vers Home Assistant, un broker MQTT ou votre propre webhook. Elle envoie le même payload que l’application Android : les deux téléphones peuvent donc partager un même serveur.</p>
       <div class="badges"><a class="badge-link" href="https://apps.apple.com/app/apple-store/id6824075761?pt=128699800&amp;ct=site-fr-ios&amp;mt=8"><img class="badge-img" src="/life-dashboard/img/badges/app-store.svg?v=a26fc5b3" alt="Télécharger dans l’App Store" width="120" height="40" loading="lazy"></a></div>
       <p class="fineprint">6,99 € en achat unique sur l’App Store, sans abonnement.</p>
       <p class="fineprint"><a class="nowrap" href="https://github.com/owen282000/life-dashboard-companion-app-ios#build-and-install">Compiler avec Xcode</a></p>
@@ -457,7 +457,7 @@
       </details>
       <details>
         <summary>Un iPhone et un téléphone Android peuvent-ils partager un même Home Assistant ?</summary>
-        <p>Oui. Chaque téléphone a son propre appareil dans l’intégration, et avec MQTT l’iPhone utilise son propre topic de base. Une sauvegarde des réglages passe aussi d’une application à l’autre.</p>
+        <p>Oui. Chaque téléphone a son propre appareil dans l’intégration, et avec MQTT l’iPhone utilise son propre topic de base. Une sauvegarde des réglages passe aussi d’une application à l’autre. C’est pareil pour votre propre webhook ou broker MQTT : les deux applications envoient les mêmes clés, unités et signature, un seul récepteur accepte donc les deux téléphones.</p>
       </details>
       <details>
         <summary>Peut-elle envoyer vers Home Assistant et un webhook en même temps ?</summary>
@@ -465,7 +465,7 @@
       </details>
       <details>
         <summary>Est-elle sur l’App Store ?</summary>
-        <p>Oui : <a href="https://apps.apple.com/app/apple-store/id6824075761?pt=128699800&amp;ct=site-fr-ios&amp;mt=8">Health Data for Home Assistant sur l’App Store</a>, 6,99 € en achat unique (5,99 $US), sans abonnement. C’est la même application, compilée à partir du même code source, pour ceux qui préfèrent ne pas la compiler et veulent soutenir le projet de cette façon. La compiler vous-même ne coûte rien de plus si vous avez déjà une adhésion à l’Apple Developer Program : récupérez le dépôt et relancez-la pour la mettre à jour ; vos réglages sont conservés. Les <a href="https://github.com/owen282000/life-dashboard-companion-app-ios/releases">versions sur GitHub</a> indiquent ce qui a changé.</p>
+        <p>Oui : <a href="https://apps.apple.com/app/apple-store/id6824075761?pt=128699800&amp;ct=site-fr-ios&amp;mt=8">Health Data for Home Assistant sur l’App Store</a>, 6,99 € en achat unique (5,99 $US), sans abonnement. C’est la même application, compilée à partir du même code source sous licence MIT, pour ceux qui préfèrent ne pas la compiler et veulent soutenir le projet de cette façon. La compiler vous-même ne coûte rien de plus si vous avez déjà une adhésion à l’Apple Developer Program : récupérez le dépôt et relancez-la pour la mettre à jour ; vos réglages sont conservés. Les <a href="https://github.com/owen282000/life-dashboard-companion-app-ios/releases">versions sur GitHub</a> indiquent ce qui a changé.</p>
       </details>
       <details>
         <summary>Je n’ai pas de Mac. Puis-je quand même l’utiliser ?</summary>

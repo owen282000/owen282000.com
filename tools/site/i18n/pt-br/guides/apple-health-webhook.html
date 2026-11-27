@@ -11,7 +11,7 @@ published: 2026-10-21
 
 <p>Instale o app Life Dashboard no iPhone, adicione sua URL com <strong>Adicionar destino</strong> na aba <strong>Saúde</strong> e escolha os tipos do Apple Health (o app Saúde do iPhone) a enviar em <strong>O que enviar</strong>. A partir daí, o app lê o Apple Health em segundo plano, na agenda que você definir, e envia cada registro novo para a sua URL como JSON: passos, sono com fases, frequência cardíaca, VFC, peso, pressão arterial, treinos e mais, 28 tipos ao todo, cada registro com um <code>uuid</code> estável e o app ou aparelho que o gravou.</p>
 
-<p>Com um segredo definido, cada requisição é assinada com HMAC-SHA256 em um cabeçalho <code>X-Signature</code>. Um payload que não pôde ser entregue espera em uma fila no iPhone, e um registro que você apaga no Apple Health é citado no payload seguinte. O payload é o mesmo do app para Android, então um único receptor atende um iPhone e um celular Android.</p>
+<p>Com um segredo definido, cada requisição é assinada com HMAC-SHA256 em um cabeçalho <code>X-Signature</code>. Um payload que não pôde ser entregue espera em uma fila no iPhone, e um registro que você apaga no Apple Health é citado no payload seguinte. O payload é o mesmo do app para Android, então um único receptor atende um iPhone e um celular Android. O app é de código aberto (licença MIT) e custa €&nbsp;6,99 uma única vez na App Store, sem assinatura.</p>
 
 <p class="flow-line"><span>iPhone ou Apple Watch</span><span>Apple Health</span><span>App Life Dashboard</span><span>Sua URL</span></p>
 
