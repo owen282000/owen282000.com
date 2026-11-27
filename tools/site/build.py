@@ -478,7 +478,8 @@ ENTITY_NAME = {ENTITY_ID[k]: e["name"] for k, e in ENTITY_BASE.items()}
 FREE = {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}
 for _e in ENTITY_BASE.values():
     _e["offers"] = FREE
-ENTITY_BASE["ios"]["offers"] = [FREE, {"@type": "Offer", "price": "6.99", "priceCurrency": "EUR", "url": APP_STORE}]
+# Not FREE: building the iPhone app yourself needs a paid Apple Developer Program membership.
+ENTITY_BASE["ios"]["offers"] = [{"@type": "Offer", "price": "6.99", "priceCurrency": "EUR", "url": APP_STORE}]
 ENTITY_BASE["ios"]["sameAs"] = [REPO_IOS, APP_STORE]
 ENTITY_BASE["android"]["offers"] = [FREE, {"@type": "Offer", "price": "4.99", "priceCurrency": "EUR", "url": PLAY}]
 ENTITY_BASE["android"]["sameAs"] = [REPO, PLAY]
@@ -794,8 +795,8 @@ def get_card_compact(slug, prefix):
     # same download never appears twice side by side; heroes keep the plain primary button.
     top = badge_row([lead] + rest, prefix) if has_badge(lead) else lead_button(lead, prefix) + "\n        " + badge_row(rest, prefix)
     if free_follows(slug, lead):
-        top = (f'<div class="badges">{badge(lead, prefix)}</div>\n        <p class="get-alt">{lead["pitch"]} {p["free_line"]}</p>'
-               f'\n        {badge_row(rest, prefix)}')
+        top = (f'<div class="badges">{badge(lead, prefix)}</div>\n        <p class="get-alt">{lead["pitch"]}</p>'
+               f'\n        <p class="get-alt">{p["free_line"]} {alt_links(rest, prefix)}</p>')
     elif lead.get("pitch"):
         # The App Store: its price under the badge, as under the Play badge.
         top += f'\n        <p class="get-alt">{lead["pitch"]}</p>'
@@ -1315,6 +1316,16 @@ def store_block(app):
     return f'<div class="panel-store">{lead_button(lead, LD)}\n        {alt}</div>'
 
 
+def store_row(apps, prefix):
+    """The store badges of the apps a page needs, with one line of price, near the top of a
+    guide or of a part that needs the app. The page's campaign fills in their links."""
+    badges = "".join(badge(store_of(a), prefix) for a in apps if store_of(a) and store_of(a)["status"] == "live")
+    if not badges:
+        return ""
+    key = "guide.get_both" if len(apps) == 2 else "guide.get_" + apps[0]
+    return f'<div class="store-row"><div class="badges">{badges}</div><p>{t(key)}</p></div>'
+
+
 def related_guides(pid):
     """Up to three guides from the same group, as cards, and a link to all of them."""
     group = next(slugs for _, slugs in GROUPS if pid in slugs)
@@ -1399,6 +1410,7 @@ def build_guide(pid):
 {intro}
       </div>
       <p class="guide-meta"><span>{t("guide.byline")}</span> <span><time datetime="{updated}">{t("guide.updated", date=date_text(updated))}</time></span> <span>{t("guide.read_time", n=minutes)}</span></p>
+      {store_row(apps, LD)}
       <p class="guide-cta"><a class="btn btn-primary" href="{first[1]}">{first[2]}</a></p>
     </div>
   </header>
@@ -1613,6 +1625,9 @@ def build_product(slug):
     if lead.get("pitch") and not free_follows(slug, lead):
         # The App Store: its price under the badge, then the other route.
         hero_alt = f'<p class="fineprint">{lead["pitch"]}</p>\n      {hero_alt}'
+    if slug in ("home-assistant", "grafana"):
+        # These parts need the app on the phone, so their hero shows where to get it.
+        hero_alt = f'{hero_alt}\n      {store_row(["android", "ios"], prefix)}'
     # A badge-led part (HACS, Docker Compose) shows its badges in one row; the apps keep their
     # plain primary button with the store badges under it.
     hero_top = (badge_row([lead] + rest, prefix) if lead.get("kind") == "store" and has_badge(lead) else
@@ -1620,7 +1635,8 @@ def build_product(slug):
     if free_follows(slug, lead):
         # Android: Google Play leads, its price and why under it, then the free routes.
         hero_top = (f'<div class="cta-row stores">\n        {badge(lead, prefix)}\n      </div>\n      '
-                    f'<p class="fineprint">{lead["pitch"]} {p["free_line"]}</p>\n      {badge_row(rest, prefix)}')
+                    f'<p class="fineprint">{lead["pitch"]}</p>\n      '
+                    f'<p class="fineprint">{p["free_line"]} {alt_links(rest, prefix)}</p>')
     main = f"""{nav(prefix, slug, slug)}
 
 <main id="main">
